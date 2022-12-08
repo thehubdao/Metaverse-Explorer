@@ -87,7 +87,8 @@ module.exports = {
         subtleWhite: '0 1px 7px 0px rgba(250, 250, 250, 0.2)',
       },
       fontFamily: {
-        'plus': ['PlusJakartaSans', 'sans-serif']
+        'plus': ['PlusJakartaSans', 'sans-serif'],
+        'icons': ['iconSet1']
       },
       colors: {
         grey: {
