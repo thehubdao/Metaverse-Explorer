@@ -13,10 +13,10 @@ interface Isidebar {
   list: ListProps[]
 }
 
-function Button ({url, label, icon, active}: any) {
+function Button({ url, label, icon, active }: any) {
   return (
     <Link href={url}>
-      <div className= {`flex items-center justify-center w-12 h-12 ${active?'bg-green-500':'bg-red-500'}`}>
+      <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium'} bg-white bg-opacity-60`}>
         <div className="font-icons text-3xl">{icon}</div>
         <div className="hidden text-sm">{label}</div>
       </div>
@@ -24,20 +24,20 @@ function Button ({url, label, icon, active}: any) {
   )
 }
 
-function createMenu (list: ListProps[], router: string) {
+function createMenu(list: ListProps[], router: string) {
   return (
     list.map((item: any) => {
       return (
         <div>
-          <Button url={item.url} label={item.label} icon={item.icon} active={router == item.url}/>
+          <Button url={item.url} label={item.label} icon={item.icon} active={router == item.url} />
         </div>
-       
+
       )
     })
   )
 }
 
-export default function Sidebar ({list}: Isidebar) {
+export default function Sidebar({ list }: Isidebar) {
   const router = useRouter();
   return (
     <div className="bg-grey-sidebar">
