@@ -1,26 +1,37 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+
+interface ListProps {
+  url: string,
+  label: string,
+  icon: string
+}
+
 interface Isidebar {
-  list: [object]
+  list: ListProps[]
 }
 
 function Button ({url, label, icon, active}: any) {
   return (
     <Link href={url}>
-      <div className={active?'bg-green-500':'bg-red-500'}>
-        <div>{icon}</div>
-        <div>{label}</div>
+      <div className= {`flex items-center justify-center w-12 h-12 ${active?'bg-green-500':'bg-red-500'}`}>
+        <div className="font-icons text-3xl">{icon}</div>
+        <div className="hidden text-sm">{label}</div>
       </div>
     </Link>
   )
 }
 
-function createMenu (list: [object], router: string) {
+function createMenu (list: ListProps[], router: string) {
   return (
     list.map((item: any) => {
       return (
-        <Button url={item.url} label={item.label} icon={item.icon} active={router == item.url}/>
+        <div>
+          <Button url={item.url} label={item.label} icon={item.icon} active={router == item.url}/>
+        </div>
+       
       )
     })
   )
@@ -29,11 +40,25 @@ function createMenu (list: [object], router: string) {
 export default function Sidebar ({list}: Isidebar) {
   const router = useRouter();
   return (
-    <div>
-      <div>logo</div>
-      <div>
-        {createMenu(list, router.pathname)}
+    <div className="bg-grey-sidebar">
+      <Link href={"/"}>
+        <div className="flex justify-center items-center h-[20vh]">
+          <Image
+            src="/images/mgh_logo.svg"
+            width={64}
+            height={64}
+            loading='lazy'
+            objectFit='cover'
+          />
+        </div>
+      </Link>
+      <div className="h-[80vh] overflow-y-scroll hidescroll pt-6 pb-10">
+        <div className="flex flex-col space-y-4 items-center">
+          {createMenu(list, router.pathname)}
+        </div>
       </div>
+      <div className="w-full h-6 absolute top-[20vh] left-0 bg-gradient-to-b from-grey-sidebar pointer-events-none"></div>
+      <div className="w-full h-6 absolute bottom-0 left-0 bg-gradient-to-t from-grey-sidebar pointer-events-none"></div>
     </div>
   )
 }
