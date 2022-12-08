@@ -4,7 +4,7 @@ import { useState } from "react";
 import useConnectWeb3 from "../backend/connectWeb3";
 import { useAppSelector } from "../state/hooks";
 
-import NavItem from "./NavItem";
+import NavItem from "./NavItem deprecated";
 import WalletButton from "./WalletButton";
 import SmallScreenToolbar from "./SmallScreenToolbar";
 import WalletModal from "./WalletModal";
