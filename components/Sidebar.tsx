@@ -9,7 +9,7 @@ interface ListProps {
   icon: string
 }
 
-interface Isidebar {
+interface SidebarProps {
   list: ListProps[]
 }
 
@@ -37,7 +37,7 @@ function createMenu(list: ListProps[], router: string) {
   )
 }
 
-export default function Sidebar({ list }: Isidebar) {
+export default function Sidebar({ list }: SidebarProps) {
   const router = useRouter();
   return (
     <div className="bg-grey-sidebar">
