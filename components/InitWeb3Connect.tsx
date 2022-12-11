@@ -26,6 +26,7 @@ export default function InitWeb3Connect() {
         // it will add/update  the metamask adapter in to web3auth class
         web3auth.configureAdapter(metamaskAdapter);
         await web3auth.initModal();
+        setWeb3auth(web3auth);
         if (web3auth.provider) {
           setProvider(web3auth.provider);
         }
