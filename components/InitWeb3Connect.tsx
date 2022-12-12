@@ -6,7 +6,7 @@ import { FaWallet } from "react-icons/fa";
 
 // Adapters
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
-import WhiteOvalButton from "./General/Buttons/WhiteOvalButton";
+import OvalButton from "./General/Buttons/OvalButton";
 
 export default function InitWeb3Connect() {
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
@@ -84,7 +84,7 @@ export default function InitWeb3Connect() {
           ? (
             <button onClick={() => logout()}>User Disconnect</button>
           ) : (
-            <WhiteOvalButton
+            <OvalButton
               buttonFunction={login}
               label={'User Connect'}
               icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
