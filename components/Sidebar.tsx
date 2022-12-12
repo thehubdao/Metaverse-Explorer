@@ -2,6 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+interface ButtonProps {
+  url: string
+  label: string
+  icon: string
+  active: boolean
+}
 
 interface ListProps {
   url: string,
@@ -13,10 +19,10 @@ interface Isidebar {
   list: ListProps[]
 }
 
-function Button({ url, label, icon, active }: any) {
+function Button({ url, label, icon, active }: ButtonProps) {
   return (
     <Link href={url}>
-      <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium'} bg-white bg-opacity-60`}>
+      <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium'} bg-white bg-opacity-60 cursor-pointer`}>
         <div className="font-icons text-3xl">{icon}</div>
         <div className="hidden text-sm">{label}</div>
       </div>
@@ -26,12 +32,11 @@ function Button({ url, label, icon, active }: any) {
 
 function createMenu(list: ListProps[], router: string) {
   return (
-    list.map((item: any) => {
+    list.map((item: ListProps, index: number) => {
       return (
-        <div>
+        <div key={index}>
           <Button url={item.url} label={item.label} icon={item.icon} active={router == item.url} />
         </div>
-
       )
     })
   )
