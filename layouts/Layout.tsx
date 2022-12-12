@@ -60,7 +60,7 @@ export default function Layout({ children }: LayoutProps) {
 	return (
 		<div className="font-plus text-grey-content w-screen">
 			{/* Page wrapper */}
-			<main className="w-full min-h-screen pl-24">{children}</main>
+			<main className="w-full min-h-screen pt-20 pl-24">{children}</main>
 			{/* Wallet connection wrapper */}
 			<div className="absolute top-0 right-0">
 				<InitWeb3Connect />
