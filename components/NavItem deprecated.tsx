@@ -29,7 +29,7 @@ const NavItem = ({ text, link }: any) => {
 			case "/swap":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe906;
+						&#xe907;
 					</span>
 				);
 			case "/liquidity":
@@ -43,7 +43,7 @@ const NavItem = ({ text, link }: any) => {
 			case "stake-polygon":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe905;
+						&#xe906;
 					</span>
 				);
 			case "https://snapshot.org/#/metagamehub.eth" || "/pools":
@@ -67,13 +67,13 @@ const NavItem = ({ text, link }: any) => {
 			case 'https://eth-india-hackaton-git-pushnotifications-dap-frontend.vercel.app/':
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe904;
+						&#xe908;
 					</span>
 				)
 			case 'https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland':
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe904;
+						&#xe905;
 					</span>
 				)
 		}
