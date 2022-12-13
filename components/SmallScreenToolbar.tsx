@@ -3,7 +3,7 @@ import { useState } from "react";
 import { HiMenuAlt4 } from "react-icons/hi"
 import { MdClose } from "react-icons/md"
 
-import NavItem from './NavItem deprecated';
+import NavItem from './NavItem';
 import NetworkButton from "./NetworkButton"
 import WalletButton from "./WalletButton"
 

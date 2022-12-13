@@ -4,7 +4,7 @@ import { useState } from "react";
 import useConnectWeb3 from "../backend/connectWeb3";
 import { useAppSelector } from "../state/hooks";
 
-import NavItem from "./NavItem deprecated";
+import NavItem from "./NavItem";
 import WalletButton from "./WalletButton";
 import SmallScreenToolbar from "./SmallScreenToolbar";
 import WalletModal from "./WalletModal";
@@ -34,7 +34,7 @@ const Layout = ({ children }: any) => {
         />
 
         {/* Menu */}
-        <div className="hidden xl:flex min-h-[10vh] bg-green-400">
+        <div className="hidden xl:flex min-h-[10vh] bg-grey-sidebar">
           <div className="hidden lg:flex xl:flex  max-w-md min-w-max flex-col items-center pt-9 px-8">
             <a
               href="/"
@@ -84,9 +84,7 @@ const Layout = ({ children }: any) => {
               disconnectWallet={disconnectWallet}
             />
           </div>
-              <div className="bg-red-500">
-                hola
-              </div>
+
           <main className="z-10 w-full pt-1 sm:pt-2 md:pt-3 xl:pt-5 p-2 xs:p-3 sm:p-5 flex items-start justify-center flex-grow overflow-auto animate-none xl:animate__animated animate__slideInRight self-end bg-[#FFF] scrollbar">
             {children}
           </main>
