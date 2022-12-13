@@ -293,7 +293,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											{formatter.format(globalData.stats?.market_cap)}
 										</p>
 										<p className={styleContent}>
-											{formatter.format(globalData.stats?.num_owners)}
+											{globalData.stats?.num_owners}
 										</p>
 									</div>
 								</div>
