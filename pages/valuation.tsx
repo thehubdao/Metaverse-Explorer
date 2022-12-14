@@ -160,7 +160,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		lands?: ValuationTile | any,
 		x?: number,
 		y?: number,
-		tokenId?: string
+		tokenId?: string,
+		isntFullScreen?: boolean
 	) => {
 		setCardData(undefined);
 		setMapState("loadingQuery");
@@ -210,10 +211,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			);
 			x = lands.coords ? lands.coords.x : lands.center.x;
 			y = lands.coords ? lands.coords.y : lands.center.y;
-			setSelected({
-				x,
-				y,
-			});
+			if (!isntFullScreen)
+				setSelected({ x, y });
 			setMapState("loadedQuery");
 			setCardData(landData as CardData);
 		} catch (e) {
@@ -424,7 +423,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
-												handleMapSelection(land, x, y);
+												const isntFullScreen = document.fullscreenElement ? false : true
+												handleMapSelection(land, x, y, undefined, isntFullScreen);
 											}
 										}}
 										metaverse={metaverse}
@@ -454,7 +454,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
-												handleMapSelection(land, x, y);
+												const isntFullScreen = document.fullscreenElement ? false : true
+												handleMapSelection(land, x, y, undefined, isntFullScreen);
 											}
 										}}
 										metaverse={metaverse}
