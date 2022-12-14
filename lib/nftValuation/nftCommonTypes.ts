@@ -4,14 +4,14 @@
 //First Filter
 export type Status =
 
-| 'Gold Jacket'
-| 'Holographic Jacket'
+| 'buy_now'
+| 'on_auction'
 
 type Currency =
 
-| 'ETH'
-| 'USD'
-| 'SOL'
+| 'eth'
+| 'usd'
+| 'sol'
 
 //Second Filter
 export type Price = {
@@ -23,34 +23,34 @@ export type Price = {
 //Third Filter
 export type Quantity =
 
-| 'All items'
-| 'Single items'
-| 'Bundles'
+| 'all_items'
+| 'single_items'
+| 'bundles'
 
 //Fourth Filter
 export type Currencies =
-| 'ETH'
-| 'WETH'
-| 'DAI'
-| 'USDC'
+| 'eth'
+| 'weth'
+| 'dai'
+| 'usdc'
 
 //Last Filter
 export type TraitFilter =
 
-  | 'Background'
-  | 'Dance'
-  | 'Music'
-  | 'Expression'
-  | 'Ears'
-  | 'Nose'
-  | 'Mouth'
-  | 'Head'
-  | 'Neck'
-  | 'Top'
-  | 'Eyewear'
-  | 'Eyes'
-  | 'Fur'
-  | 'Sex'
+  | 'background'
+  | 'dance'
+  | 'music'
+  | 'expression'
+  | 'ears'
+  | 'nose'
+  | 'mouth'
+  | 'head'
+  | 'neck'
+  | 'top'
+  | 'eyewear'
+  | 'eyes'
+  | 'fur'
+  | 'sex'
 
 export type Background =
 
