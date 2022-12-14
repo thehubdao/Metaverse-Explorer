@@ -281,12 +281,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								<div className="flex border-t border-l border-white/10 shadow-blck rounded-xl p-3 bg-[#D4D7DD] bg-opacity-30 w-1/4  justify-between pt-5 pb-5">
 									<div className="flex flex-col ">
 										<p className={styleContent}>
-											FLOOR :
-										</p>
-										<p className={styleContent}>
-											TRADING VOLUME :
-										</p>
-										<p className={styleContent}>
 											MCAP :
 										</p>
 										<p className={styleContent}>
@@ -295,16 +289,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 									<div className="items-end">
 										<p className={styleContent}>
-											{formatter.format(globalData.stats?.floor_price)}
-										</p>
-										<p className={styleContent}>
-											{formatter.format(globalData.stats?.total_volume)}
-										</p>
-										<p className={styleContent}>
 											{formatter.format(globalData.stats?.market_cap)}
 										</p>
 										<p className={styleContent}>
-											{formatter.format(globalData.stats?.num_owners)}
+											{globalData.stats?.num_owners}
 										</p>
 									</div>
 								</div>

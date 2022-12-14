@@ -5,6 +5,9 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 
 import { FiSearch } from "react-icons/fi";
+import CollectionsChoise from "../components/General/Choicer/CollectionsChoise";
+import GeneralSection from "../components/GeneralSection";
+import InitChoice from "../components/InitChoice";
 import { GiFluffySwirl } from "react-icons/gi";
 import { IoClose, IoFilter } from "react-icons/io5";
 import FilterTraits from "../components/nftValuation/FilterTraits";
@@ -18,6 +21,7 @@ const Home: NextPage = () => {
 	const [nftFlufGlobal, setnftFlufGlobal] = useState<AnyObject>({});
 	const [searchId, setSearchById] = useState(nftFlufObject);
 	const [nftId, setnftId] = useState("");
+	const [collection, setCollection] = useState(null)
 
 	const [filterBy, setFilterBy] = useState<TraitFilter>("background");
 	const [loading, setLoading] = useState(true);
@@ -28,6 +32,48 @@ const Home: NextPage = () => {
 
 	const styleContent =
 		"text-xxs xs:text-xxs xl:text-xs font-plus font-bold text-grey-content pt-0 sm:pt-5 flex justify-between";
+
+	const headerList = [
+		{
+			name: 'Portfolio',
+			route: 'portfolio'
+		},
+		{
+			name: 'Watchlist',
+			route: 'watchlist'
+		},
+		{
+			name: 'Analytics',
+			route: 'analytics'
+		},
+	]
+
+	const chooserList2 = [
+		{
+			name: 'Collection Name 1',
+			logo: 'https://fluf-compressed.s3.eu-west-1.amazonaws.com/QmWfgnTiMDxjJJpYV2APPvZnPxGSNEdUXuZUX2T6qVVzoV_432_432.png',
+			creator: 'Collection Creator',
+			nItems: 999
+		},
+		{
+			name: 'Collection Name 2',
+			logo: 'https://fluf-compressed.s3.eu-west-1.amazonaws.com/QmZgbe7Cej9k86j3AQ2Ent7wMN9fwn4RkKGakbzG8nu9pz_432_432.png',
+			creator: 'Collection 2 Creator',
+			nItems: 999
+		},
+		{
+			name: 'Collection Name 3',
+			logo: 'https://fluf-compressed.s3.eu-west-1.amazonaws.com/QmUnyFufR3JJ85tUcyHQrYBWdiAdkYyevKCERoFw8s2eFm_432_432.png',
+			creator: 'Collection 3 Creator',
+			nItems: 999
+		},
+		{
+			name: 'Collection Name 4',
+			logo: 'https://fluf-compressed.s3.eu-west-1.amazonaws.com/QmUnyFufR3JJ85tUcyHQrYBWdiAdkYyevKCERoFw8s2eFm_432_432.png',
+			creator: 'Collection 4 Creator',
+			nItems: 999
+		},
+	]
 
 	const formatter = new Intl.NumberFormat("en-US", {
 		minimumFractionDigits: 2,
@@ -110,6 +156,7 @@ const Home: NextPage = () => {
 		}
 		return flufs;
 	};
+
 	return (
 		<>
 			<Head>
@@ -163,9 +210,9 @@ const Home: NextPage = () => {
 					</div>
 					<div className="grid grid-cols-4 space-x-12  w-full">
 						<div className="flex items-center justify-between w-full relative shadowDiv rounded-full px-5 py-5 ">
-							<div 
-							onClick={() => setOpened(!opened)} 
-							
+							<div
+								onClick={() => setOpened(!opened)}
+
 							>
 								<IoFilter />
 							</div>
@@ -205,7 +252,7 @@ const Home: NextPage = () => {
 								<FilterTraits filterBy={filterBy} setFilterBy={setFilterBy} />
 							</div>
 						)}
-						<div className={`${opened ? "col-span-3":"col-span-full"} `}>
+						<div className={`${opened ? "col-span-3" : "col-span-full"} `}>
 							{searchId && searchId.length > 0 ? (
 								<div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5 xs:gap-2 sm:gap-5 w-full">
 									{searchId.map((fluf: any, key: number) => {
