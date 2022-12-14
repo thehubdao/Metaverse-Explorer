@@ -23,19 +23,19 @@ const NavItem = ({ text, link }: any) => {
 			case "/":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe901;
+						&#x65;
 					</span>
 				);
 			case "/swap":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe906;
+						&#x68;
 					</span>
 				);
 			case "/liquidity":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe903;
+						&#x66;
 					</span>
 				);
 			case "/stake":
@@ -43,37 +43,37 @@ const NavItem = ({ text, link }: any) => {
 			case "stake-polygon":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe905;
+						&#x64;
 					</span>
 				);
 			case "https://snapshot.org/#/metagamehub.eth" || "/pools":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe900;
+						&#x61;
 					</span>
 				);
 			case "/valuation":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe902;
+						&#x62;
 					</span>
 				);
 			case "/nftValuation":
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe904;
+						&#x63;
 					</span>
 				);
 			case 'https://eth-india-hackaton-git-pushnotifications-dap-frontend.vercel.app/':
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe904;
+						&#x69;
 					</span>
 				)
 			case 'https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland':
 				return (
 					<span className={styleItem} aria-hidden="true">
-						&#xe904;
+						&#x67;
 					</span>
 				)
 		}
