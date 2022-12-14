@@ -96,8 +96,8 @@ const MaptalksCanva = ({
         }).drag().pinch().wheel().clampZoom({
             minWidth: TILE_SIZE * 8,
             minHeight: TILE_SIZE * 8,
-            maxWidth: TILE_SIZE * 300,
-            maxHeight: TILE_SIZE * 300,
+            maxWidth: TILE_SIZE * 800,
+            maxHeight: TILE_SIZE * 800,
         }).zoom(TILE_SIZE * 200)
         /* .clamp({
             direction: 'all',
