@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -12,7 +16,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
@@ -20,7 +25,10 @@
     "**/*.ts",
     "**/*.tsx",
     "lib/heatmap/*.d.ts",
-    "lib/heatmap/fakeImpetus.js"
-, "backend/services/topSellingLands.ts"  ],
-  "exclude": ["node_modules"]
+    "lib/heatmap/fakeImpetus.js",
+    "backend/services/topSellingLands.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
