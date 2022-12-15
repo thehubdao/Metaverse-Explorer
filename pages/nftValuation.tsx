@@ -6,14 +6,14 @@ import CollectionsChoise from "../components/General/Choicer/CollectionsChoise";
 import GeneralSection from "../components/GeneralSection";
 import InitChoice from "../components/InitChoice";
 import DescriptionContent from "../components/DescriptionContent";
-import SearcherBar from "../components/nftValuation/SearcherBar";
-import TraitsButton from "../components/nftValuation/TraitsButton";
-import FilterTraits from "../components/nftValuation/FilterTraits";
+import {
+  Content, FilterTraits, SearcherBar, TraitsButton,
+  
+} from '../components/nftValuation/index'
 
 // Services
 import { getNftCollection, getNftGlobalData } from "../backend/services/nftCollectionInfo";
 import { TraitFilter } from "../lib/nftValuation/nftCommonTypes";
-import Content from "../components/nftValuation/Content";
 
 interface nftCollectionProps {
   num_owners: number
