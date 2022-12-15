@@ -6,6 +6,7 @@ interface OptionProps {
   creator: string
   nItems: number
   logo: string
+  collection: string
 }
 
 interface CollectionsChoiseProps {
@@ -19,7 +20,7 @@ function cardList(options: OptionProps[], setCollection: Function) {
       return (
         <div
           key={option.name}
-          onClick={() => { setCollection('fluf') }}
+          onClick={() => { setCollection(option.collection) }}
           className={`grid grid-rows-3 rounded-xl cursor-pointer w-[240px] h-[360px] focus:outline-none nm-flat-hard  hover:nm-flat-soft transition duration-300 ease-in-out`}
         >
           <div className="w-full h-full relative row-span-2">
