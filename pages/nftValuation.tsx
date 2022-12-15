@@ -113,7 +113,6 @@ export default function NftValuation() {
         setLoadingCollection(true)
         response = await getNftCollection(collectionName)
         setnftObject(response)
-        console.log(response)
         setPageLenght(Math.trunc(response.length / 10));
         setControlPageIndex(0);
         setLoadingCollection(false)
