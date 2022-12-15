@@ -65,6 +65,7 @@ const MaptalksCanva = ({
     const [viewport, setViewport] = useState<any>()
     const [mapData, setMapData] = useState<any>({})
     const [chunks, setChunks] = useState<any>({})
+    const [metaverseData, setMetaverseData] = useState<any>()
     const CHUNK_SIZE = 32
     const TILE_SIZE = 64
     const BORDE_SIZE = 14
@@ -113,6 +114,14 @@ const MaptalksCanva = ({
         document.getElementById('map')?.appendChild(map.view)
         setMap(map)
         setViewport(viewport)
+        const getMetaverseData = async () => {
+            let dataCall: any = await fetch(
+                process.env.SOCKET_SERVICE + `/limits?metaverse=${metaverse}`
+            )
+            dataCall = await dataCall.json()
+            setMetaverseData(dataCall)
+        }
+        getMetaverseData()
         return () => {
             document.getElementById('map')?.removeChild(map.view)
             map.destroy()
@@ -196,8 +205,7 @@ const MaptalksCanva = ({
         let lands: any = mapData || {}
         let localChunks: any = chunks || {}
         let localCheckpoint: number = 0
-        const renderTile = (land: any) => {
-            //console.log(land)
+        const renderTile = async (land: any) => {
             if (!localCheckpoint) localCheckpoint = checkpoint
             let name = ''
             land.coords.y *= -1
@@ -207,6 +215,7 @@ const MaptalksCanva = ({
             }
             lands[name] = land!
             lands[name].land_id = land.tokenId
+            land = await setLandColour(land,filter,metaverseData)
             setMapData(lands)
             let value = land
             let tile: any
@@ -216,7 +225,7 @@ const MaptalksCanva = ({
                 globalFilter,
                 globalPercentFilter,
                 globalLegendFilter,
-                lands[land.name] ? lands[land.name] : land
+                land
             )
             let { color } = tile
 
@@ -254,7 +263,7 @@ const MaptalksCanva = ({
             viewport.addChild(chunkContainer)
         }
         socket.on('render', renderTile)
-    }, [viewport])
+    }, [viewport && metaverseData])
 
     useEffect(() => {
         if (map?.renderer) map?.renderer.resize(width || 0, height || 0)
@@ -269,7 +278,7 @@ const MaptalksCanva = ({
     useEffect(() => {
         if (!chunks || !mapData) return
         const filterUpdate = async () => {
-            let lands = await setColours(mapData, globalFilter, metaverse)
+            let lands = await setColours(mapData, globalFilter, metaverseData)
             for (const key in chunks) {
                 for (const child of chunks[key].children) {
                     let tile: any = filteredLayer(
@@ -287,8 +296,8 @@ const MaptalksCanva = ({
                 }
             }
         }
-        filterUpdate()
-    }, [filter, percentFilter, legendFilter, x, y])
+        if (metaverseData) filterUpdate()
+    }, [filter, percentFilter, legendFilter, x, y,metaverseData])
 
     useEffect(() => {
         if (!x || !y) return

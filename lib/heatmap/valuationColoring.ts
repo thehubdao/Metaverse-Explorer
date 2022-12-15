@@ -84,7 +84,7 @@ const CalculateMaxPriceOnHistoryDependGivenDays = (
 export const setLandColour = async (
     land: any,
     element: MapFilter,
-    metaverse: Metaverse
+    wholeData:any
 ) => {
     const getLandDependingOnGivenNumberOfDays = (
         land: any,
@@ -100,13 +100,9 @@ export const setLandColour = async (
         return counter
     }
     const MAX_DIFF = 400
-    let dataCall = await fetch(
-        process.env.SOCKET_SERVICE +
-            `/limits?metaverse=${metaverse}&filter=${element}`
-    )
-    console.log(dataCall)
-    let max = 0,
-        limits = { minimum: 0, maximum: 1 }
+    
+    let max = wholeData[element].max,
+    limits = wholeData[element].limits
 
     // GENERATE PERCENTAGE FOR TILE.
     const priceDiffPercentage = getPercentage(
@@ -161,7 +157,7 @@ export const setLandColour = async (
 export const setColours = async (
     valuationAtlas: Record<string, any>,
     element: MapFilter,
-    metaverse: Metaverse
+    wholeData:any
 ) => {
     const getLandDependingOnGivenNumberOfDays = (
         land: any,
@@ -177,14 +173,10 @@ export const setColours = async (
         return counter
     }
     const MAX_DIFF = 400
-    let dataCall: any = await fetch(
-        process.env.SOCKET_SERVICE +
-            `/limits?metaverse=${metaverse}&filter=${element}`
-    )
-    dataCall = await dataCall.json()
-    console.log(dataCall)
-    let max = dataCall.max,
-        limits = dataCall.limits
+
+    console.log(wholeData,element)
+    let max = wholeData[element].max,
+        limits = wholeData[element].limits
     // Adding Percent to each land depending on the max number from previous iteration.
 
     console.log(max, ' max ', limits, ' limits', element, ' filter')
