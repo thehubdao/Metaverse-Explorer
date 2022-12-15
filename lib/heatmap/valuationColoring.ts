@@ -93,6 +93,7 @@ export const setLandColour = (
 * To keep the price_difference filter consistent, we will consider
 that have a price difference of less than the number below
 */
+
   const MAX_DIFF = 400
   // GENERATE MAX
   const elementOptions: any = {
