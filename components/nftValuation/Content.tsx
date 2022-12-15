@@ -72,7 +72,7 @@ export default function Content({
         ) : (
           <>
             {searchById && searchById.length > 0 ? (
-              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5 xs:gap-2 sm:gap-5 w-full">
+              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5 w-full justify-items-center">
                 {searchById.map((fluf: nftObject, key: number) => {
                   return (
                     <NftCard
@@ -87,7 +87,7 @@ export default function Content({
                 })}
               </div>
             ) : (
-              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5 xs:gap-2 sm:gap-5 w-full">
+              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5 w-full justify-items-center">
                 {dataFluf()}
               </div>
             )}
