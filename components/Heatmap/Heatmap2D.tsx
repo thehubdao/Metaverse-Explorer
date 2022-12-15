@@ -93,12 +93,17 @@ const MaptalksCanva = ({
         const viewport: any = new Viewport({
             interaction: map.renderer.plugins.interaction,
             passiveWheel: false,
-        }).drag().pinch().wheel().clampZoom({
-            minWidth: TILE_SIZE * 8,
-            minHeight: TILE_SIZE * 8,
-            maxWidth: TILE_SIZE * 300,
-            maxHeight: TILE_SIZE * 300,
-        }).zoom(TILE_SIZE * 200)
+        })
+            .drag()
+            .pinch()
+            .wheel()
+            .clampZoom({
+                minWidth: TILE_SIZE * 8,
+                minHeight: TILE_SIZE * 8,
+                maxWidth: TILE_SIZE * 300,
+                maxHeight: TILE_SIZE * 300,
+            })
+            .zoom(TILE_SIZE * 200)
         /* .clamp({
             direction: 'all',
             underflow: 'center'
@@ -175,12 +180,11 @@ const MaptalksCanva = ({
             if (currentSprite && !isDragging) {
                 const x = currentSprite.landX,
                     y = currentSprite.landY
-                currentTint = 4 * 0xFF9990
+                currentTint = 4 * 0xff9990
                 onClick(undefined, x, y * -1)
             }
         })
     }, [viewport])
-
 
     useEffect(() => {
         if (!viewport) return
@@ -257,30 +261,33 @@ const MaptalksCanva = ({
     }, [width, height])
 
     useEffect(() => {
-        ; (globalFilter = filter),
+        ;(globalFilter = filter),
             (globalPercentFilter = percentFilter),
             (globalLegendFilter = legendFilter)
     }, [filter, percentFilter, legendFilter])
 
     useEffect(() => {
         if (!chunks || !mapData) return
-        let lands = setColours(mapData, globalFilter)
-        for (const key in chunks) {
-            for (const child of chunks[key].children) {
-                let tile: any = filteredLayer(
-                    child.landX,
-                    child.landY,
-                    filter,
-                    percentFilter,
-                    legendFilter,
-                    lands[child.name]
-                )
-                let { color } = tile
-                child.tint = color.includes('rgb')
-                    ? rgbToHex(color.split('(')[1].split(')')[0])
-                    : '0x' + color.split('#')[1]
+        const filterUpdate = async () => {
+            let lands = await setColours(mapData, globalFilter, metaverse)
+            for (const key in chunks) {
+                for (const child of chunks[key].children) {
+                    let tile: any = filteredLayer(
+                        child.landX,
+                        child.landY,
+                        filter,
+                        percentFilter,
+                        legendFilter,
+                        lands[child.name]
+                    )
+                    let { color } = tile
+                    child.tint = color.includes('rgb')
+                        ? rgbToHex(color.split('(')[1].split(')')[0])
+                        : '0x' + color.split('#')[1]
+                }
             }
         }
+        filterUpdate()
     }, [filter, percentFilter, legendFilter, x, y])
 
     useEffect(() => {
@@ -308,15 +315,21 @@ const MaptalksCanva = ({
         const prevColor = child.tint
         const prevWidth = child.width
 
-        child.tint = 4 * 0xFF9990
-        child.width = child.height = TILE_SIZE - (BORDE_SIZE / 3)
-        return (() => {
+        child.tint = 4 * 0xff9990
+        child.width = child.height = TILE_SIZE - BORDE_SIZE / 3
+        return () => {
             child.tint = prevColor
             child.width = child.height = prevWidth
-        })
+        }
     }, [x, y])
 
-    return <div id="map" className='bg-white rounded-lg shadowDiv' style={{ width, height }} />
+    return (
+        <div
+            id="map"
+            className="bg-white rounded-lg shadowDiv"
+            style={{ width, height }}
+        />
+    )
 }
 
 export default MaptalksCanva
