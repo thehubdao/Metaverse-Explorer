@@ -63,7 +63,7 @@ export default function Layout({ children }: LayoutProps) {
 	];
 
 	return (
-		<div className="font-plus text-grey-content w-screen">
+		<div className="font-plus text-grey-content w-full">
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-24">{children}</main>
 			{/* Wallet connection wrapper */}

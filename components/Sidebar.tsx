@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import ScrollBar from "./ScrollBar";
 
 interface ButtonProps {
   url: string
@@ -57,7 +58,8 @@ export default function Sidebar({ list }: Isidebar) {
           />
         </div>
       </Link>
-      <div className="h-[80vh] overflow-y-scroll hidescroll pt-6 pb-10">
+      <div className="h-[80vh] overflow-y-scroll hidescroll pt-6 pb-10 scroll-parent">
+        <ScrollBar />
         <div className="flex flex-col space-y-4 items-center">
           {createMenu(list, router.pathname)}
         </div>

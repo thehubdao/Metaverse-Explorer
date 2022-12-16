@@ -7,6 +7,18 @@
 /* Z - index */
 /* MobileControl 99 */
 
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+
 @layer base {
   @font-face {
     font-family: 'iconSet1';
@@ -24,6 +36,19 @@
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
+  }
+
+  /*  */
+  .scroll-parent {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    transform: none;
   }
 
   /* Neomorphism Box Shadows */
