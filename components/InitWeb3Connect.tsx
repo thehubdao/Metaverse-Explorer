@@ -3,9 +3,13 @@ import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
 import { FaWallet } from "react-icons/fa";
+import { Chains } from "../lib/chains";
 
-// Adapters
+// WEB 3 AUTH imports
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
+import { authenticateUser, connectWeb3Auth, disconnectWeb3Auth, getUserInfo } from "../backend/ConnecWeb3Auth";
+
+// Components
 import OvalButton from "./General/Buttons/OvalButton";
 
 export default function InitWeb3Connect() {
@@ -20,7 +24,7 @@ export default function InitWeb3Connect() {
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
             chainId: "0x1",
-            rpcTarget: "https://rpc.ankr.com/eth", // This is the public RPC we have added, please pass on your own endpoint while creating an app
+            rpcTarget: Chains.ETHEREUM_MAINNET.rpcUrl, // This is the public RPC we have added, please pass on your own endpoint while creating an app
           },
         });
         // adding metamask adapter
@@ -40,52 +44,26 @@ export default function InitWeb3Connect() {
     init();
   }, []);
 
-  const login = async () => {
-    if (!web3auth) {
-      console.log("web3auth not initialized yet");
-      return;
-    }
-    const web3authProvider = await web3auth.connect();
-    setProvider(web3authProvider);
-    console.log("Logged in Successfully!");
-  };
-
-  const authenticateUser = async () => {
-    if (!web3auth) {
-      console.log("web3auth not initialized yet");
-      return;
-    }
-    const idToken = await web3auth.authenticateUser();
-    console.log(idToken);
-  };
-
-  const getUserInfo = async () => {
-    if (!web3auth) {
-      console.log("web3auth not initialized yet");
-      return;
-    }
-    const user = await web3auth.getUserInfo();
-    console.log(user);
-  };
-
-  const logout = async () => {
-    if (!web3auth) {
-      console.log("web3auth not initialized yet");
-      return;
-    }
-    await web3auth.logout();
-    setProvider(null);
-  };
-
   return (
     <>
       {
         provider
           ? (
-            <button onClick={() => logout()}>User Disconnect</button>
+            <>
+              <OvalButton
+                buttonFunction={() => authenticateUser (web3auth)}
+                label={'Get info'}
+                icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
+              />
+              <OvalButton
+                buttonFunction={() => disconnectWeb3Auth(web3auth, setProvider)}
+                label={'User Disconnect'}
+                icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
+              />
+            </>
           ) : (
             <OvalButton
-              buttonFunction={login}
+              buttonFunction={() => connectWeb3Auth(web3auth, setProvider)}
               label={'User Connect'}
               icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
             />
