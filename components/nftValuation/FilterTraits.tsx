@@ -1,59 +1,118 @@
-import { useState } from "react"
-import { TraitFilter } from "../../lib/nftValuation/nftCommonTypes"
-
-
+import { useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { TraitFilter } from "../../lib/nftValuation/nftCommonTypes";
+import { Fade } from 'react-awesome-reveal'
+import { typedKeys } from '../../lib/utilities'
 interface Props {
-    filterBy: TraitFilter
-    setFilterBy: React.Dispatch<React.SetStateAction<TraitFilter>>
-    traits: {
-        atributo: number
-    }
-  }
+	filterBy: TraitFilter;
+	setFilterBy: React.Dispatch<React.SetStateAction<TraitFilter>>;
+}
 
-const FilterTraits = ({ filterBy, setFilterBy, traits }: Props) => {
-    const [opened, setOpened] = useState(false)
+export default function FilterTraits ({ filterBy, setFilterBy }: Props){
+	const [opened, setOpened] = useState(false);
 
-    const filterOptions = {
-        background: {
-            value: 
-                'Backalley' ,
+	const filterOptions = {
+		background: {
+			name: "Background",
+			description: "",
+		},
+		dance: {
+			name: "Dance",
+			description: "",
+		},
+		music: {
+			name: "Music",
+			description: "",
+		},
+		expression: {
+			name: "Expression",
+			description: "",
+		},
+		ears: {
+			name: "Ears",
+			description: "",
+		},
+		nose: {
+			name: "Nose",
+			description: "",
+		},
+		mouth: {
+			name: "Mouth",
+			description: "",
+		},
+		head: {
+			name: "Head",
+			description: "",
+		},
+		neck: {
+			name: "Neck",
+			description: "",
+		},
+		top: {
+			name: "Top",
+			description: "",
+		},
+		eyewear: {
+			name: "Eyewear",
+			description: "",
+		},
+		eyes: {
+			name: "Eyes",
+			description: "",
+		},
+		fur: {
+			name: "Fur",
+			description: "",
+		},
+		sex: {
+			name: "Sex",
+			description: "",
+		},
+	};
 
-        },
-
-    }
-
-
-    return (
+	return (
+    <div className="flex flex-col">
     <button
-        onClick={() => setOpened(!opened)}
-        className='h-16 gray-box bg-grey-bone mb-2 items-center w-96 tracking-wider font-plus font-medium text-grey-content hover:text-[#7c7b7b] flex justify-between cursor-pointer transition-all'
-      >
-
-    {/*         
-        {/* Icon 
-        <span className='hidden sm:block text-lg'>
-          {filterOptions[filterBy].value}
-          
-        </span>
-
-        {/* Name 
+			onClick={() => setOpened(!opened)}
+			className=" items-center tracking-wider font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all"
+		>   
+        {/* Name  */}
         <p className='hidden sm:block'>
-          {filterOptions[filterBy].shortName ?? filterOptions[filterBy].name}
+          {filterOptions[filterBy].name}
         </p>
-        {/* Mobile Name 
-        <p className='block sm:hidden'>Stats</p>
-        {/* Down/Up Arrow 
+        {/* Down/Up Arrow */}
         <IoIosArrowDown
           className={
-            (isPremium ? '' : 'opacity-0 ') +
             (opened ? 'rotate-180 ' : '') +
             'transition-all duration-500 relative bottom-[1px]'
           } 
-        />*/}
-    </button>
-    )
-    
+        />
+		</button>
+    <div
+        className={(opened && 'mb-1 md:mb-0') + 'md:absolute flex flex-col gap-2'}
+      >
+        {opened &&
+          typedKeys(filterOptions).map(
+            (filter) =>
+              filter !== filterBy && (
+                <Fade duration={500} key={filter} direction='down'>
+                  <button
+                    className=' flex gap-4 bg-opacity-100 items-center font-plus font-medium text-grey-content w-96 text-sm md:text-base'
+                    onClick={() => {
+                      setFilterBy(filter)
+                      setOpened(false)
+                    }} 
 
-}
-
-export default FilterTraits
+                  >
+                    <div>
+                      {filterOptions[filter].name}
+                    </div>
+                  </button>
+                </Fade>
+              )
+          )}
+      </div>
+    </div>
+		
+	);
+};

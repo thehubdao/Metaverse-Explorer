@@ -4,6 +4,11 @@ module.exports = {
 	async redirects() {
 		return [
 			{
+				source: '/',
+				destination: '/valuation',
+				permanent: true,
+			},
+			{
 				source: "/docs/mghdao_engl_whitepaper.pdf",
 				destination: "/docs/mgh_whitepaper_v3.pdf",
 				permanent: true,
@@ -24,6 +29,7 @@ module.exports = {
 			"cdn.axieinfinity.com",
 			"i.seadn.io",
 			"fluf-compressed.s3.eu-west-1.amazonaws.com",
+			"openseauserdata.com"
 		],
 	},
 	env: {
