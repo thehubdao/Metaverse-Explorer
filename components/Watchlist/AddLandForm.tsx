@@ -30,7 +30,7 @@ const AddLandForm = ({ state, addToWatchList, ids, landKeys }: Props) => {
     X: '',
     Y: '',
   })
-  const [metaverse, setMetaverse] = useState<Metaverse>('sandbox')
+  const [metaverse, setMetaverse] = useState<any>('sandbox')
   const [openModal, setOpenModal] = useState(false)
   const { disconnectWallet } = useConnectWeb3()
 
@@ -91,7 +91,7 @@ const AddLandForm = ({ state, addToWatchList, ids, landKeys }: Props) => {
               } border border-gray-400 focus:border-opacity-100 transition duration-300 ease-in-out`}
             >
               <OptimizedImage
-                src={mvOptions[landKey].logo}
+                src={mvOptions[landKey as keyof typeof mvOptions].logo}
                 height={60}
                 width={60}
                 objectFit='contain'
