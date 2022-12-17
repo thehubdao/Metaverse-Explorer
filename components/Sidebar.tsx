@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -45,6 +46,15 @@ function createMenu(list: ListProps[], router: string) {
 
 export default function Sidebar({ list }: Isidebar) {
   const router = useRouter();
+
+  // Scrollbar Controller
+  const parentRef = useRef<HTMLDivElement>(null)
+  const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    setParentDom(parentRef.current)
+  }, [parentRef.current])
+
   return (
     <div className="bg-grey-sidebar">
       <Link href={"/"}>
@@ -58,8 +68,8 @@ export default function Sidebar({ list }: Isidebar) {
           />
         </div>
       </Link>
-      <div className="h-[80vh] overflow-y-scroll hidescroll pt-6 pb-10 scroll-parent">
-        <ScrollBar />
+      <div className="h-[80vh] overflow-y-scroll hidescroll pt-6 pb-10 relative" ref={parentRef}>
+        {parentDom && <ScrollBar parentDom={parentDom} />}
         <div className="flex flex-col space-y-4 items-center">
           {createMenu(list, router.pathname)}
         </div>

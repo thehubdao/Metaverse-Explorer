@@ -38,19 +38,6 @@ html {
     /* Firefox */
   }
 
-  /*  */
-  .scroll-parent {
-    -webkit-transform: translateZ(0);
-    -moz-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-
-    -webkit-transform: none;
-    -moz-transform: none;
-    -ms-transform: none;
-    transform: none;
-  }
-
   /* Neomorphism Box Shadows */
 
   .nm-flat-soft {
