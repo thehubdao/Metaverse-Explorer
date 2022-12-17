@@ -94,17 +94,12 @@ const MaptalksCanva = ({
         const viewport: any = new Viewport({
             interaction: map.renderer.plugins.interaction,
             passiveWheel: false,
-        })
-            .drag()
-            .pinch()
-            .wheel()
-            .clampZoom({
-                minWidth: TILE_SIZE * 8,
-                minHeight: TILE_SIZE * 8,
-                maxWidth: TILE_SIZE * 300,
-                maxHeight: TILE_SIZE * 300,
-            })
-            .zoom(TILE_SIZE * 200)
+        }).drag().pinch().wheel().clampZoom({
+            minWidth: TILE_SIZE * 8,
+            minHeight: TILE_SIZE * 8,
+            maxWidth: TILE_SIZE * 800,
+            maxHeight: TILE_SIZE * 800,
+        }).zoom(TILE_SIZE * 300)
         /* .clamp({
             direction: 'all',
             underflow: 'center'

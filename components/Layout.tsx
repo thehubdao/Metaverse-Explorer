@@ -6,7 +6,7 @@ import { useAppSelector } from "../state/hooks";
 
 import NavItem from "./NavItem";
 import WalletButton from "./WalletButton";
-import SmallScreenToolbar from "./SmallScreenToolbar";
+import SmallScreenToolbar from "./SmallScreenToolbar deprecated";
 import WalletModal from "./WalletModal";
 import NetworkButton from "./NetworkButton";
 import { OptimizedImage } from "./General";

@@ -24,6 +24,7 @@ module.exports = {
 			"cdn.axieinfinity.com",
 			"i.seadn.io",
 			"fluf-compressed.s3.eu-west-1.amazonaws.com",
+			"openseauserdata.com"
 		],
 	},
 	env: {

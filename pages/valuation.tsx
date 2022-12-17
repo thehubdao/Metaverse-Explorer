@@ -160,7 +160,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		lands?: ValuationTile | any,
 		x?: number,
 		y?: number,
-		tokenId?: string
+		tokenId?: string,
+		isntFullScreen?: boolean
 	) => {
 		setCardData(undefined);
 		setMapState("loadingQuery");
@@ -210,10 +211,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			);
 			x = lands.coords ? lands.coords.x : lands.center.x;
 			y = lands.coords ? lands.coords.y : lands.center.y;
-			setSelected({
-				x,
-				y,
-			});
+			if (!isntFullScreen)
+				setSelected({ x, y });
 			setMapState("loadedQuery");
 			setCardData(landData as CardData);
 		} catch (e) {
@@ -282,12 +281,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								<div className="flex border-t border-l border-white/10 shadow-blck rounded-xl p-3 bg-[#D4D7DD] bg-opacity-30 w-1/4  justify-between pt-5 pb-5">
 									<div className="flex flex-col ">
 										<p className={styleContent}>
-											FLOOR :
-										</p>
-										<p className={styleContent}>
-											TRADING VOLUME :
-										</p>
-										<p className={styleContent}>
 											MCAP :
 										</p>
 										<p className={styleContent}>
@@ -296,16 +289,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 									<div className="items-end">
 										<p className={styleContent}>
-											{formatter.format(globalData.stats?.floor_price)}
-										</p>
-										<p className={styleContent}>
-											{formatter.format(globalData.stats?.total_volume)}
-										</p>
-										<p className={styleContent}>
 											{formatter.format(globalData.stats?.market_cap)}
 										</p>
 										<p className={styleContent}>
-											{formatter.format(globalData.stats?.num_owners)}
+											{globalData.stats?.num_owners}
 										</p>
 									</div>
 								</div>
@@ -436,7 +423,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
-												handleMapSelection(land, x, y);
+												const isntFullScreen = document.fullscreenElement ? false : true
+												handleMapSelection(land, x, y, undefined, isntFullScreen);
 											}
 										}}
 										metaverse={metaverse}
@@ -466,7 +454,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
-												handleMapSelection(land, x, y);
+												const isntFullScreen = document.fullscreenElement ? false : true
+												handleMapSelection(land, x, y, undefined, isntFullScreen);
 											}
 										}}
 										metaverse={metaverse}
