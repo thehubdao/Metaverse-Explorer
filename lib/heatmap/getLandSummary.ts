@@ -17,7 +17,7 @@ export const getLandSummary = (
   }
   const owner =
    /*  metaverse === 'axie-infinity' */ false
-      ? handleLongLandName(atlas.ITRM[land].owner || 'None', 10)
+      ? handleLongLandName(atlas.ITRM[land as any].owner || 'None', 10)
       : metaverse === 'decentraland'
       ? handleTokenID(atlas.decentraland?.[land].owner || 'None')
       : handleTokenID(atlas.ITRM[land].owner || 'None')
