@@ -37,7 +37,7 @@ const AddLandForm = ({ state, addToWatchList, ids, landKeys }: Props) => {
   const mvOptions = {
     sandbox: { logo: '/images/the-sandbox-sand-logo.png' },
     decentraland: { logo: '/images/decentraland-mana-logo.png' },
-    'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' },
+/*     'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' }, */
     'somnium-space': { logo: '/images/somnium-space-cube-logo.webp' }
   }
 
@@ -83,7 +83,6 @@ const AddLandForm = ({ state, addToWatchList, ids, landKeys }: Props) => {
               disabled={limitReached}
               key={landKey}
               onClick={() => {
-                console.log(metaverse)
                 setMetaverse(landKey)}}
               className={`flex flex-col items-center justify-center space-y-2 rounded-xl cursor-pointer p-2 px-3 pt-4 md:w-30 md:h-[9.7rem] w-24 h-24 group focus:outline-none ${
                 metaverse === landKey

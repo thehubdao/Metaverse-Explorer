@@ -2,9 +2,9 @@ import { Contracts } from '../../lib/contracts'
 import { Metaverse } from '../../lib/metaverse'
 
 async function getCollectionStats(collectionName: string) {
-  if (collectionName === 'axie-infinity') {
+/*   if (collectionName === 'axie-infinity') {
     collectionName = 'axie'
-  }
+  } */
   const data = await fetch(
     `https://api.opensea.io/api/v1/collection/${collectionName}`
   )
