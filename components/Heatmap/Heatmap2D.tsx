@@ -196,7 +196,7 @@ const MaptalksCanva = ({
     }, [viewport])
 
     useEffect(() => {
-        if (!viewport) return
+        if (!metaverseData) return
         socket = io(process.env.SOCKET_SERVICE!, {
             path: '/heatmap-backend',
             transports: ['websocket'],
@@ -215,7 +215,9 @@ const MaptalksCanva = ({
             }
             lands[name] = land!
             lands[name].land_id = land.tokenId
-            land = await setLandColour(land,filter,metaverseData)
+            globalFilter == 'basic'
+                ? null
+                : (land = await setLandColour(land, globalFilter, metaverseData))
             setMapData(lands)
             let value = land
             let tile: any
@@ -263,7 +265,7 @@ const MaptalksCanva = ({
             viewport.addChild(chunkContainer)
         }
         socket.on('render', renderTile)
-    }, [viewport && metaverseData])
+    }, [metaverseData && viewport])
 
     useEffect(() => {
         if (map?.renderer) map?.renderer.resize(width || 0, height || 0)
@@ -297,7 +299,7 @@ const MaptalksCanva = ({
             }
         }
         if (metaverseData) filterUpdate()
-    }, [filter, percentFilter, legendFilter, x, y,metaverseData])
+    }, [filter, percentFilter, legendFilter, x, y])
 
     useEffect(() => {
         if (!x || !y) return

@@ -11,11 +11,15 @@ import { filteredLayer } from '../../lib/heatmap/heatmapLayers'
 import { io } from 'socket.io-client'
 import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
-import { setColours } from '../../lib/heatmap/valuationColoring'
+import { setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
 const socket = io(process.env.SOCKET_SERVICE!, {
     path: '/heatmap-backend',
     transports: ['websocket'],
 })
+
+let globalFilter: MapFilter,
+    globalPercentFilter: PercentFilter,
+    globalLegendFilter: LegendFilter
 
 interface IMaptalksCanva {
     width: number | string | undefined
@@ -53,6 +57,8 @@ const MaptalksCanva = ({
         getMetaverseData()
     }, [])
     useEffect(() => {
+        console.log(metaverseData)
+        if (!metaverseData) return
         let map: any
         var imageLayer = new maptalks.ImageLayer('images', [
             {
@@ -85,7 +91,7 @@ const MaptalksCanva = ({
         let lands: any = {}
         let polygons: any = []
         socket.emit('render', 'somnium-space', 0)
-        socket.on('render', (land) => {
+        socket.on('render', async (land) => {
             let name = ''
             if (land.coords) {
                 name = land?.coords.x + ',' + land?.coords.y
@@ -97,7 +103,13 @@ const MaptalksCanva = ({
             let value = land
             let tile: any
             if (!value.center) return
-
+            globalFilter == 'basic'
+                ? null
+                : (land = await setLandColour(
+                      land,
+                      globalFilter,
+                      metaverseData
+                  ))
             tile = filteredLayer(
                 value.center.x,
                 value.center.y,
@@ -167,14 +179,15 @@ const MaptalksCanva = ({
 
     useEffect(() => {
         if (!map) return
-        const filterUpdate = async ()=>{let lands: any = []
+        const filterUpdate = async () => {
+            let lands: any = []
             map.removeLayer('vector')
             let coloredAtlas = await setColours(mapData!, filter, metaverseData)
             if (map && x && y) {
                 map.setCenter(new maptalks.Coordinate(x, y))
             }
             console.log(coloredAtlas)
-    
+
             Object.values(coloredAtlas!).forEach((value: any) => {
                 let tile: any
                 tile = filteredLayer(
@@ -185,18 +198,18 @@ const MaptalksCanva = ({
                     legendFilter,
                     value
                 )
-    
+
                 let { color } = tile
                 let borderColor = '#000'
                 let borderSize = 0
-    
+
                 //set color if the land is selected
                 if (value.center.x == x && value.center.y == y) {
                     color = '#ff9990'
                     borderColor = '#ff0044'
                     borderSize = 3
                 }
-    
+
                 let polygon = new maptalks.Polygon(
                     [
                         [
@@ -246,10 +259,16 @@ const MaptalksCanva = ({
                 forceRenderOnMoving: true,
                 forceRenderOnRotating: true,
                 forceRenderOnZooming: true,
-            }).addTo(map)}
-            filterUpdate()
-        
+            }).addTo(map)
+        }
+        filterUpdate()
     }, [filter, percentFilter, legendFilter, x, y])
+
+    useEffect(() => {
+        ;(globalFilter = filter),
+            (globalPercentFilter = percentFilter),
+            (globalLegendFilter = legendFilter)
+    }, [filter, percentFilter, legendFilter])
 
     return (
         <canvas

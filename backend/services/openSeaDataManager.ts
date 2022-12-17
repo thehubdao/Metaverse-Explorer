@@ -68,7 +68,7 @@ export async function getEstimateAccuracy(collectionName:string) {
 }
 
 export const createOpenSeaLink = (metaverse: Metaverse, landId: string) => {
-  if (metaverse === 'axie-infinity') return
+/*   if (metaverse === 'axie-infinity') return */
   const contracts = {
     decentraland: Contracts.PARCEL.ETHEREUM_MAINNET.address,
     sandbox: Contracts.LAND.ETHEREUM_MAINNET.newAddress,

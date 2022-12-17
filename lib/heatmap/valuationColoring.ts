@@ -83,7 +83,7 @@ const CalculateMaxPriceOnHistoryDependGivenDays = (
 
 export const setLandColour = async (
     land: any,
-    element: MapFilter,
+    filter: MapFilter,
     wholeData:any
 ) => {
     const getLandDependingOnGivenNumberOfDays = (
@@ -101,13 +101,13 @@ export const setLandColour = async (
     }
     const MAX_DIFF = 400
     
-    let max = wholeData[element].max,
-    limits = wholeData[element].limits
+    let max = wholeData[filter].max,
+    limits = wholeData[filter].limits
 
     // GENERATE PERCENTAGE FOR TILE.
     const priceDiffPercentage = getPercentage(
-        land?.current_price_eth,
-        land?.eth_predicted_price,
+        land.current_price_eth,
+        land.eth_predicted_price,
         limits
     )
 
@@ -137,11 +137,11 @@ export const setLandColour = async (
     }
 
     let percent = NaN
-    if (Object.keys(valuationOptions).includes(element)) {
-        percent = valuationOptions[element]
+    if (Object.keys(valuationOptions).includes(filter)) {
+        percent = valuationOptions[filter]
     } else {
         percent = getPercentage(
-            land[element as keyof ValueOf<typeof land> & MapFilter],
+            land[filter as keyof ValueOf<typeof land> & MapFilter],
             max,
             limits
         )
@@ -156,7 +156,7 @@ export const setLandColour = async (
 // Calculating Percentages depending on the current chosen filter.
 export const setColours = async (
     valuationAtlas: Record<string, any>,
-    element: MapFilter,
+    filter: MapFilter,
     wholeData:any
 ) => {
     const getLandDependingOnGivenNumberOfDays = (
@@ -174,12 +174,9 @@ export const setColours = async (
     }
     const MAX_DIFF = 400
 
-    console.log(wholeData,element)
-    let max = wholeData[element].max,
-        limits = wholeData[element].limits
-    // Adding Percent to each land depending on the max number from previous iteration.
-
-    console.log(max, ' max ', limits, ' limits', element, ' filter')
+    console.log(wholeData,filter)
+    let max = wholeData[filter].max,
+        limits = wholeData[filter].limits
 
     // GENERATE PERCENTAGE FOR EACH TILE.
     typedKeys(valuationAtlas).map((valuation) => {
@@ -226,12 +223,12 @@ export const setColours = async (
         }
 
         let percent = NaN
-        if (Object.keys(valuationOptions).includes(element)) {
-            percent = valuationOptions[element as keyof typeof valuationOptions]
+        if (Object.keys(valuationOptions).includes(filter)) {
+            percent = valuationOptions[filter as keyof typeof valuationOptions]
         } else {
             percent = getPercentage(
                 valuationAtlas[valuation][
-                    element as keyof ValueOf<typeof valuationAtlas> & MapFilter
+                    filter as keyof ValueOf<typeof valuationAtlas> & MapFilter
                 ],
                 max,
                 limits
