@@ -5,10 +5,6 @@ import useConnectWeb3 from "../backend/connectWeb3";
 import { useAppSelector } from "../state/hooks";
 
 import Sidebar from "../components/Sidebar";
-import WalletButton from "../components/WalletButton";
-import WalletModal from "../components/WalletModal";
-import NetworkButton from "../components/NetworkButton";
-import { OptimizedImage } from "../components/General";
 import ScrollBar from "../components/ScrollBar";
 
 interface LayoutProps {
@@ -74,8 +70,10 @@ export default function Layout({ children }: LayoutProps) {
 	return (
 		<div className="font-plus text-grey-content w-full">
 			{/* Page wrapper */}
-			<main className="w-full min-h-screen pl-24" ref={parentRef}>{children}</main>
-			{parentDom && <ScrollBar parentDom={parentDom} />}
+			<main className="w-full min-h-screen pl-24" ref={parentRef}>
+				{children}
+				{parentDom && <ScrollBar parentDom={parentDom} />}
+			</main>
 			{/* Wallet connection wrapper */}
 			<div className="absolute top-0 right-0">wallet connection</div>
 			{/* Sidebar wrapper */}
