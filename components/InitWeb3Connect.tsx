@@ -1,13 +1,21 @@
 import { useEffect, useState } from "react";
 import { Web3Auth } from "@web3auth/modal";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
-const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
 import { FaWallet } from "react-icons/fa";
+
 import { Chains } from "../lib/chains";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { disconnect, setAddress, setChain, setRole } from '../state/account'
 
 // WEB 3 AUTH imports
+const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
-import { authenticateUser, connectWeb3Auth, disconnectWeb3Auth, getUserInfo } from "../backend/ConnecWeb3Auth";
+import {
+  authenticateUser,
+  connectWeb3Auth,
+  disconnectWeb3Auth,
+  getUserInfo
+} from "../backend/ConnecWeb3Auth";
 
 // Components
 import OvalButton from "./General/Buttons/OvalButton";
@@ -17,6 +25,9 @@ export default function InitWeb3Connect() {
   const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
 
   useEffect(() => {
+    /* const dispatch = useAppDispatch()
+    const { address: addressFromRedux } = useAppSelector((state) => state.account) */
+
     const init = async () => {
       try {
         const web3auth = new Web3Auth({
@@ -51,7 +62,7 @@ export default function InitWeb3Connect() {
           ? (
             <>
               <OvalButton
-                buttonFunction={() => authenticateUser (web3auth)}
+                buttonFunction={() => authenticateUser(web3auth)}
                 label={'Get info'}
                 icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
               />

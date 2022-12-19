@@ -1,13 +1,8 @@
 import "animate.css";
-import { useState } from "react";
 import dynamic from "next/dynamic";
-
-import useConnectWeb3 from "../backend/connectWeb3";
-import { useAppSelector } from "../state/hooks";
+const InitWeb3Connect = dynamic(() => import('../components/InitWeb3Connect'), { ssr: false })
 
 import Sidebar from "../components/Sidebar";
-import NetworkButton from "../components/NetworkButton";
-const InitWeb3Connect = dynamic(() => import('../components/InitWeb3Connect'), { ssr: false })
 
 interface LayoutProps {
 	children: React.ReactNode;
