@@ -11,18 +11,25 @@ import { disconnect, setAddress, setChain, setRole } from '../state/account'
 const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
 import { MetamaskAdapter } from "@web3auth/metamask-adapter";
 import {
-  authenticateUser,
   connectWeb3Auth,
   disconnectWeb3Auth,
-  getUserInfo
 } from "../backend/ConnecWeb3Auth";
 
 // Components
 import OvalButton from "./General/Buttons/OvalButton";
 
+// Interfaces
+interface ILogin {
+  chainId: any
+  addressFromJwt: string
+  roles: undefined[] | string[]
+}
+
 export default function InitWeb3Connect() {
   const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
   const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
+  const dispatch = useAppDispatch()
+  const { address: addressFromRedux } = useAppSelector((state) => state.account)
 
   useEffect(() => {
     /* const dispatch = useAppDispatch()
@@ -55,26 +62,28 @@ export default function InitWeb3Connect() {
     init();
   }, []);
 
+  const login = async () => {
+    let { chainId, addressFromJwt, roles }: ILogin = await connectWeb3Auth(web3auth, setProvider, addressFromRedux)
+    if (chainId) dispatch(setChain(chainId))
+    if (addressFromJwt) dispatch(setAddress(addressFromJwt))
+    if (roles[0]) dispatch(setRole(roles[0]))
+  }
+
   return (
     <>
       {
         provider
           ? (
-            <>
-              <OvalButton
-                buttonFunction={() => authenticateUser(web3auth)}
-                label={'Get info'}
-                icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
-              />
-              <OvalButton
-                buttonFunction={() => disconnectWeb3Auth(web3auth, setProvider)}
-                label={'User Disconnect'}
-                icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
-              />
-            </>
+            <OvalButton
+              buttonFunction={() => {
+                disconnectWeb3Auth(web3auth, setProvider)
+                dispatch(disconnect())
+              }}
+              label={`${addressFromRedux}`}
+            />
           ) : (
             <OvalButton
-              buttonFunction={() => connectWeb3Auth(web3auth, setProvider)}
+              buttonFunction={() => login()}
               label={'User Connect'}
               icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
             />

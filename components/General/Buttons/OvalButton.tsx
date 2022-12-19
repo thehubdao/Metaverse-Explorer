@@ -3,13 +3,14 @@ import { ReactNode } from "react"
 interface OvalButtonProps {
   buttonFunction: Function
   label: string
-  icon: ReactNode
+  icon?: ReactNode
+  backgroundColorClass?: string
 }
 
-export default function OvalButton({ buttonFunction, label, icon }: OvalButtonProps) {
+export default function OvalButton({ buttonFunction, label, icon, backgroundColorClass }: OvalButtonProps) {
   return (
     <div
-      className="flex flex-row my-6 mx-8 px-12 py-3 rounded-2xl nm-flat-medium gap-2 cursor-pointer"
+      className={`${backgroundColorClass} flex flex-row my-6 mx-8 px-12 py-3 rounded-2xl nm-flat-medium gap-2 cursor-pointer`}
       onClick={() => buttonFunction()}
     >
       {icon && icon}
