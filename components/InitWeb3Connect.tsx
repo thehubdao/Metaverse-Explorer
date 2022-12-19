@@ -79,13 +79,15 @@ export default function InitWeb3Connect() {
                 disconnectWeb3Auth(web3auth, setProvider)
                 dispatch(disconnect())
               }}
-              label={`${addressFromRedux}`}
+              label={`${addressFromRedux ? addressFromRedux : 'Loading ...'}`}
+              backgroundColorClass={'bg-white'}
             />
           ) : (
             <OvalButton
               buttonFunction={() => login()}
               label={'User Connect'}
               icon={<FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />}
+              backgroundColorClass={'bg-white'}
             />
           )
       }

@@ -47,15 +47,13 @@ export const connectWeb3Auth = async (
     return { chainId: '', addressFromJwt: '', roles: [] };
   }
   const web3authProvider = await web3auth.connect();
-  setProvider(web3authProvider);
-  console.log("Logged in Successfully!");
   const chainId = await getChainId(web3authProvider)
-  /* dispatch(setChain(chainId)) */
   const address = await getAccounts(web3authProvider)
 
   if (address === addressFromRedux) return { chainId: '', addressFromJwt: '', roles: [] }
 
   try {
+    setProvider(web3authProvider);
     // First Nonce Request to API
     const { nonce } = await fetchNonce(address)
     // Create Msg
@@ -72,8 +70,7 @@ export const connectWeb3Auth = async (
     const { token } = await sendSignedNonce(signedNonce, signedAddress)
     // Decode JWT and set Global State
     const { address: addressFromJwt, roles } = jwtDecode<{ address: string; roles: undefined[] | string[] }>(token)
-    /* dispatch(setAddress(addressFromJwt))
-    dispatch(setRole(roles[0])) */
+    console.log("Logged in Successfully!");
     return { chainId, addressFromJwt, roles }
   } catch (e) {
     console.log(e)
