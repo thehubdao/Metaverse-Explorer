@@ -5,10 +5,11 @@ import NProgress from 'nprogress' //nprogress module
 import { Provider } from 'react-redux'
 
 import store from '../state/store'
-import Layout from '../components/Layout'
+import Layout from '../layouts/Layout'
 
 import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
+import MobileControl from '../components/MobileControl'
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => {
@@ -17,11 +18,17 @@ Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
+
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <div className='hidden lg:block'>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </div>
+      <div className="lg:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
+        <MobileControl/>
+      </div>
     </Provider>
   )
 }

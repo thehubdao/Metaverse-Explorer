@@ -1,8 +1,5 @@
 module.exports = {
-  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
-  mode: 'jit',
-  darkMode: 'class', // or 'media' or 'class'
-  important: true,
+  content: ['./layouts/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       keyframes: {
@@ -90,24 +87,8 @@ module.exports = {
         subtleWhite: '0 1px 7px 0px rgba(250, 250, 250, 0.2)',
       },
       fontFamily: {
-        // 'sans': ['Quicksand', 'sans-serif'],
-        'mont': ['Montserrat', 'sans-serif'],
         'plus': ['PlusJakartaSans', 'sans-serif'],
-        'sans': ['Alterwave', 'sans-serif'],
-        'prompt': ['Prompt', 'sans-serif'],
-        'lighters': ['Lighters', 'sans-serif']
-      },
-      fontSize: {
-        'xxs': '0.5rem'
-      },
-      transitionDuration: {
-        '2000': '2000ms',
-      },
-      padding: {
-        full: '100%'
-      },
-      backgroundImage: {
-        'hero-pattern': "url('/public/images/pool_punk.png')",
+        'icons': ['iconSet1']
       },
       colors: {
         grey: {
