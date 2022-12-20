@@ -30,7 +30,7 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
     }
     setData()
   }, [metaverse])
-  return !values || metaverse =="axie-infinity" ? (
+  return !values /* || metaverse =="axie-infinity" */ ? (
     <>
       <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel'>
         <p className={`text-lg xl:text-xl font-medium text-grey-content`}>

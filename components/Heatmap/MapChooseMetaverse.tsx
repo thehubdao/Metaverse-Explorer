@@ -15,7 +15,7 @@ const MapChooseMetaverse = ({ metaverse, setMetaverse }: Props) => {
   const mvOptions = {
     sandbox: { src: '/images/the-sandbox-sand-logo.png' },
     decentraland: { src: '/images/decentraland-mana-logo.png' },
-    'axie-infinity': { src: '/images/axie-infinity-axs-logo.png' },
+/*     'axie-infinity': { src: '/images/axie-infinity-axs-logo.png' }, */
     'somnium-space': { src: '/images/somnium-space-cube-logo.webp'}
   }
 

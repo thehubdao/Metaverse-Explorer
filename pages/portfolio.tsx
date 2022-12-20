@@ -112,7 +112,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
                 await Promise.all(
                     typedKeys(metaverseObject).map(async (metaverse) => {
                         let rawIds: string[] | undefined
-                        if (metaverse === 'axie-infinity') {
+                        if (/* metaverse === 'axie-infinity' */ false) {
                             rawIds = await getAxieLands(
                                 formatAddress(
                                     (externalWallet as string) ?? address

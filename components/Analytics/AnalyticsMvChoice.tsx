@@ -12,7 +12,7 @@ const AnalyticsMvChoice = ({ metaverse, setMetaverse }: Props) => {
   const mvOptions = {
     sandbox: { logo: '/images/the-sandbox-sand-logo.png' },
     decentraland: { logo: '/images/decentraland-mana-logo.png' },
-    'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' },
+    /* 'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' }, */
     'somnium-space': { logo: '/images/somnium-space-cube-logo.webp'}
   }
   return (

@@ -1,7 +1,7 @@
 export const metaverseObject = {
   sandbox: 'sandbox',
   decentraland: 'decentraland',
-  'axie-infinity': 'axie-infinity',
+/*   'axie-infinity': 'axie-infinity', */
   'somnium-space' : 'somnium-space'
 }
 

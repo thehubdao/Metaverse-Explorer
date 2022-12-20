@@ -21,11 +21,11 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
       setLoading(true)
       // Fetch Data from OpenSea
       const stats = await getCollectionData(metaverse)
-      if (metaverse === 'axie-infinity') {
+/*       if (metaverse === 'axie-infinity') {
         // Fetch from Axie Market
         const dailyVolume = Number(await getAxieDailyTradeVolume())
         stats.one_day_volume = dailyVolume
-      }
+      } */
 
       const formattedMetaverse =
         metaverse === 'sandbox'
