@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fade } from 'react-awesome-reveal'
+import { Fade, FadeProps } from 'react-awesome-reveal'
 import { BiTargetLock, BiTransferAlt, BiBullseye } from 'react-icons/bi'
 import { FiMap } from 'react-icons/fi'
 import { IoIosArrowDown } from 'react-icons/io'
@@ -119,8 +119,8 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
           typedKeys(filterOptions).map(
             (filter) =>
               filter !== filterBy && (
-                <Fade duration={500} key={filter} direction='down'>
-                  <>
+                <div key={filter}>
+                  <Fade duration={500} direction='down'>
                     <button
                       className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] w-96 text-sm md:text-base'
                       onClick={() => {
@@ -134,8 +134,8 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
                         {filterOptions[filter].name}
                       </span>
                     </button>
-                  </>
-                </Fade>
+                  </Fade>
+                </div>
               )
           )}
       </div>
