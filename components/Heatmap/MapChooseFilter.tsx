@@ -84,7 +84,7 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
   return (
     <div>
       {/* Filter Button + Name */}
-      
+
       <button
         onClick={() => setOpened(!opened)}
         className='h-16 gray-box bg-grey-bone mb-2 items-center w-96 tracking-wider font-plus font-medium text-grey-content hover:text-[#7c7b7b] flex justify-between cursor-pointer transition-all'
@@ -120,21 +120,21 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
             (filter) =>
               filter !== filterBy && (
                 <Fade duration={500} key={filter} direction='down'>
-                  <button
-                    className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] w-96 text-sm md:text-base'
-                    onClick={() => {
-                      setFilterBy(filter)
-                      setOpened(false)
-                    }} 
+                  <>
+                    <button
+                      className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] w-96 text-sm md:text-base'
+                      onClick={() => {
+                        setFilterBy(filter)
+                        setOpened(false)
+                      }}
 
-                  >
-                    {filterOptions[filter].icon}
-                    <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
-                      {filterOptions[filter].name}
-                    </span>
-
-                    
-                  </button>
+                    >
+                      {filterOptions[filter].icon}
+                      <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
+                        {filterOptions[filter].name}
+                      </span>
+                    </button>
+                  </>
                 </Fade>
               )
           )}
