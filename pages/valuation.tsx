@@ -132,7 +132,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		try {
 			let data;
 			const response = await fetch(
-				`${process.env.ITRM_SERVICE}${metaverse == "somnium-space" || metaverse == "axie-infinity"
+				`${process.env.ITRM_SERVICE}${metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
 					? ""
 					: "/test"
 				}/${metaverse}/globalData`,
@@ -173,10 +173,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				const parameters =
 					x && y ? `x=${x}&y=${y}` : tokenId ? `tokenId=${tokenId}` : null;
 				const response = await fetch(
-					`${process.env.ITRM_SERVICE}${metaverse == "somnium-space" || metaverse == "axie-infinity"
+					`${process.env.ITRM_SERVICE}${metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
 						? ""
 						: "/test"
-					}/${metaverse}/${metaverse == "axie-infinity" ? "predict" : "map"
+					}/${metaverse}/${/* metaverse == "axie-infinity" */false ? "predict" : "map"
 					}?${parameters}`,
 					{
 						method: "GET",
@@ -184,12 +184,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					}
 				);
 				lands = await response.json();
-				if (metaverse !== "axie-infinity") {
+/* 				if (metaverse !== "axie-infinity") {
 					Object.entries(lands).forEach(([key, value]) => {
 						lands = value;
 						lands.land_id = key;
 					});
-				}
+				} */
 			} catch (e) {
 				console.log("error");
 				setMapState("errorQuery");

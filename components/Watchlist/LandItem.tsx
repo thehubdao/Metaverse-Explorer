@@ -54,7 +54,7 @@ const LandItem = ({
     window.innerWidth < 640 ? setExpanded(true) : setExpanded(!expanded)
   }
   const notListed = typeof land.current_price !== 'number'
-  const isAxie = metaverse === 'axie-infinity'
+/*   const isAxie = metaverse === 'axie-infinity' */
 
   useEffect(() => {
     // Changing the ammount of prices shown depending of expanded state
