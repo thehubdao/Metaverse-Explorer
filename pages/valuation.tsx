@@ -240,7 +240,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				/>
 			</Head>
 			<section className="w-full h-full relative">
-				<div className="bg-grey-lightest rounded-xl p-8">
+				<div className="bg-grey-lightest rounded-xl p-8 pt-24">
 					{/* Main Header */}
 					<div className="border-t border-l border-white/10 rounded-xl p-5 w-full bg-opacity-30; flex flex-col lg:flex-row justify-between items-center mb-8 bg-grey-dark">
 						<h1 className="text-grey-content font-plus font-normal rounded-2xl lg:text-3xl text-3xl  mb-0 sm:mb-2">
