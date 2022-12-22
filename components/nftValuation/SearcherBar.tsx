@@ -14,12 +14,12 @@ interface nftObject {
 
 interface SearcherBarProps {
   nftObject: nftObject[]
-  setSearchById: Function
-  nftId: number | undefined,
-  setNftId: Function
+  setfilteredItem: Function
+  checked: number | undefined,
+  setChecked: Function
 }
 
-export default function SearcherBar({ nftObject, setSearchById, nftId, setNftId }: SearcherBarProps) {
+export default function SearcherBar({ nftObject, setfilteredItem, checked, setChecked }: SearcherBarProps) {
 
 
   const filtered = (e: any) => {
@@ -27,8 +27,8 @@ export default function SearcherBar({ nftObject, setSearchById, nftId, setNftId 
     const results = nftObject.filter((fluf: nftObject) => {
       return fluf.tokenId == keyWord;
     });
-    setSearchById(results);
-    setNftId(keyWord);
+    setfilteredItem(results);
+    setChecked(keyWord);
   };
 
   return (
@@ -36,9 +36,9 @@ export default function SearcherBar({ nftObject, setSearchById, nftId, setNftId 
       <input
         type="number"
         onChange={filtered}
-        value={nftId}
+        value={checked}
         placeholder="Search by ID"
-        className="font-normal font-plus justify-center text-grey-content nm-inset-hard appearance-none focus:outline-none placeholder-gray-300 p-3 rounded-full w-full"
+        className="font-normal font-plus justify-center text-grey-content nm-inset-soft focus:outline-none placeholder-gray-300 p-4 rounded-full w-full"
       />
       <button
         type="submit"
