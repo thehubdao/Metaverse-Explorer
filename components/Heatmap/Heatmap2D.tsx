@@ -93,12 +93,17 @@ const MaptalksCanva = ({
         const viewport: any = new Viewport({
             interaction: map.renderer.plugins.interaction,
             passiveWheel: false,
-        }).drag().pinch().wheel().clampZoom({
-            minWidth: TILE_SIZE * 8,
-            minHeight: TILE_SIZE * 8,
-            maxWidth: TILE_SIZE * 300,
-            maxHeight: TILE_SIZE * 300,
-        }).zoom(TILE_SIZE * 200)
+        })
+            .drag()
+            .pinch()
+            .wheel()
+            .clampZoom({
+                minWidth: TILE_SIZE * 8,
+                minHeight: TILE_SIZE * 8,
+                maxWidth: TILE_SIZE * 300,
+                maxHeight: TILE_SIZE * 300,
+            })
+            .zoom(TILE_SIZE * 200)
         /* .clamp({
             direction: 'all',
             underflow: 'center'
@@ -175,12 +180,11 @@ const MaptalksCanva = ({
             if (currentSprite && !isDragging) {
                 const x = currentSprite.landX,
                     y = currentSprite.landY
-                currentTint = 4 * 0xFF9990
-                onClick(undefined, x, y * -1)
+                currentTint = 4 * 0xff9990
+                onClick(mapData[x + ',' + y], x, y * -1)
             }
         })
     }, [viewport])
-
 
     useEffect(() => {
         if (!viewport) return
@@ -257,7 +261,7 @@ const MaptalksCanva = ({
     }, [width, height])
 
     useEffect(() => {
-        ; (globalFilter = filter),
+        ;(globalFilter = filter),
             (globalPercentFilter = percentFilter),
             (globalLegendFilter = legendFilter)
     }, [filter, percentFilter, legendFilter])
@@ -285,8 +289,6 @@ const MaptalksCanva = ({
 
     useEffect(() => {
         if (!x || !y) return
-        y = -y
-
         try {
             viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
         } catch (e) {
@@ -304,19 +306,24 @@ const MaptalksCanva = ({
         const child = chunkContainer?.children.find(
             (child: any) => child.x === x && child.y === y
         )
-
         const prevColor = child.tint
         const prevWidth = child.width
 
-        child.tint = 4 * 0xFF9990
-        child.width = child.height = TILE_SIZE - (BORDE_SIZE / 3)
-        return (() => {
+        child.tint = 4 * 0xff9990
+        child.width = child.height = TILE_SIZE - BORDE_SIZE / 3
+        return () => {
             child.tint = prevColor
             child.width = child.height = prevWidth
-        })
+        }
     }, [x, y])
 
-    return <div id="map" className='bg-white rounded-lg shadowDiv' style={{ width, height }} />
+    return (
+        <div
+            id="map"
+            className="bg-white rounded-lg shadowDiv"
+            style={{ width, height }}
+        />
+    )
 }
 
 export default MaptalksCanva
