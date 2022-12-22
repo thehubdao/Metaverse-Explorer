@@ -15,6 +15,12 @@ interface CollectionsChoiseProps {
 }
 
 function cardList(options: OptionProps[], setCollection: Function) {
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+
   return (
     options.map(option => {
       return (
@@ -36,7 +42,7 @@ function cardList(options: OptionProps[], setCollection: Function) {
               <p className='font-bold text-base leading-none'>{option.name}</p>
               <p className='font-light text-base'>by {option.creator}</p>
             </div>
-            <p className='font-light text-sm text-grey-icon'>{option.nItems} Items</p>
+            <p className='font-light text-sm text-grey-icon'>{formatter.format(option.nItems)} Items</p>
           </div>
         </div>
       )
