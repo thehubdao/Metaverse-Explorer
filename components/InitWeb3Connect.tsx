@@ -68,20 +68,25 @@ export default function InitWeb3Connect() {
     if (addressFromJwt) dispatch(setAddress(addressFromJwt))
     if (roles[0]) dispatch(setRole(roles[0]))
   }
-
+  
   return (
     <>
       {
         provider
           ? (
-            <OvalButton
-              buttonFunction={() => {
-                disconnectWeb3Auth(web3auth, setProvider)
-                dispatch(disconnect())
-              }}
-              label={`${addressFromRedux ? addressFromRedux : 'Loading ...'}`}
-              backgroundColorClass={'bg-white'}
-            />
+            <div className="flex flex-row">
+              <div>
+                ChainId
+              </div>
+              <OvalButton
+                buttonFunction={() => {
+                  disconnectWeb3Auth(web3auth, setProvider)
+                  dispatch(disconnect())
+                }}
+                label={`${addressFromRedux ? addressFromRedux : 'Loading ...'}`}
+                backgroundColorClass={'bg-white'}
+              />
+            </div>
           ) : (
             <OvalButton
               buttonFunction={() => login()}
