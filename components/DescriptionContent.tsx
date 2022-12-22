@@ -35,7 +35,7 @@ function SmallContainer({ value, condition, currency = '' }: SmallContainerProps
 export default function DescriptionContent({ title, description, boxInfo, isLoading }: DescriptionContentProps) {
 
   return (
-    <div className="flex border-t border-l border-white/10 rounded-3xl shadowDiv p-5 bg-opacity-30 justify-between">
+    <div className="flex border-t border-l border-white/10 rounded-3xl shadowDiv py-10 px-5 bg-opacity-30 justify-between">
       <div className="w-4/6">
         <h2 className="text-grey-content font-plus font-medium rounded-2xl text-xl mb-0 sm:mb-2">
           {title}
