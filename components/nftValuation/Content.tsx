@@ -15,8 +15,8 @@ interface nftObject {
 }
 
 interface ContentProps {
-  searchById: nftObject[]
-  nftId: number | undefined
+  filteredItem: nftObject[]
+  checked: number | undefined
   nftObject: nftObject[]
   controlPageIndex: number
   pageLenght: number
@@ -30,8 +30,8 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function Content({
-  searchById,
-  nftId,
+  filteredItem,
+  checked,
   nftObject,
   controlPageIndex,
   pageLenght,
@@ -59,39 +59,50 @@ export default function Content({
       );
     }
     return flufs;
-  };
+  }
+
+  const datafiltered = () => {
+    const flufs: React.ReactElement[] = [];
+    for (
+      let index: number = controlPageIndex * 10;
+      index < controlPageIndex * 10 + 20;
+      index++
+    ) {
+      if (!filteredItem[index]) return flufs;
+      flufs.push(
+        <NftCard
+          image={filteredItem[index]["images"]["image_small"]}
+          text="Estimated Price: "
+          value={formatter.format(
+            filteredItem[index]["floor_adjusted_predicted_price"]
+          )}
+          key={index}
+        />
+      );
+    }
+    return flufs;
+  }
 
   return (
     <>
       {
         isLoading ? (
-          <div className="w-full">
+          <div className="w-full pt-16">
             <Loader />
-            <p className="w-full text-center">Loading ...</p>
+            <p className="w-full text-center p-5">Loading ...</p>
           </div>
         ) : (
           <>
-            {searchById && searchById.length > 0 ? (
-              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5 w-full justify-items-center">
-                {searchById.map((fluf: nftObject, key: number) => {
-                  return (
-                    <NftCard
-                      key={key}
-                      image={fluf.images.image_small}
-                      text="Estimated Price: "
-                      value={formatter.format(
-                        fluf.floor_adjusted_predicted_price
-                      )}
-                    />
-                  );
-                })}
+            {filteredItem && checked && filteredItem.length > 0 ? (
+              <div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-5 w-full justify-items-center">
+                {datafiltered()}
               </div>
             ) : (
-              <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5 w-full justify-items-center">
+              <div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-5 justify-items-center">
                 {dataFluf()}
               </div>
             )}
-            {!nftId && (
+            { (
               <Pagination
                 pageLenght={pageLenght}
                 controlPageIndex={controlPageIndex + 1}
