@@ -6,6 +6,7 @@ interface OptionProps {
   creator: string
   nItems: number
   logo: string
+  collection: string
 }
 
 interface CollectionsChoiseProps {
@@ -14,12 +15,18 @@ interface CollectionsChoiseProps {
 }
 
 function cardList(options: OptionProps[], setCollection: Function) {
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+
   return (
     options.map(option => {
       return (
         <div
           key={option.name}
-          onClick={() => { setCollection('fluf') }}
+          onClick={() => { setCollection(option.collection) }}
           className={`grid grid-rows-3 rounded-xl cursor-pointer w-[240px] h-[360px] focus:outline-none nm-flat-hard  hover:nm-flat-soft transition duration-300 ease-in-out`}
         >
           <div className="w-full h-full relative row-span-2">
@@ -35,7 +42,7 @@ function cardList(options: OptionProps[], setCollection: Function) {
               <p className='font-bold text-base leading-none'>{option.name}</p>
               <p className='font-light text-base'>by {option.creator}</p>
             </div>
-            <p className='font-light text-sm text-grey-icon'>{option.nItems} Items</p>
+            <p className='font-light text-sm text-grey-icon'>{formatter.format(option.nItems)} Items</p>
           </div>
         </div>
       )
