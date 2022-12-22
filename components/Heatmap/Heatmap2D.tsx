@@ -185,7 +185,7 @@ const MaptalksCanva = ({
                 const x = currentSprite.landX,
                     y = currentSprite.landY
                 currentTint = 4 * 0xff9990
-                onClick(undefined, x, y * -1)
+                onClick(mapData[x + ',' + y], x, y * -1)
             }
         })
     }, [viewport])
@@ -298,8 +298,6 @@ const MaptalksCanva = ({
 
     useEffect(() => {
         if (!x || !y) return
-        y = -y
-
         try {
             viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
         } catch (e) {
@@ -317,7 +315,6 @@ const MaptalksCanva = ({
         const child = chunkContainer?.children.find(
             (child: any) => child.x === x && child.y === y
         )
-
         const prevColor = child.tint
         const prevWidth = child.width
 
