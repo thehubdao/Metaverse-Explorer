@@ -10,7 +10,7 @@ import GeneralSection from "../components/GeneralSection";
 import InitChoice from "../components/InitChoice";
 import { GiFluffySwirl } from "react-icons/gi";
 import { IoClose, IoFilter } from "react-icons/io5";
-import FilterTraits from "../components/nftValuation/FilterTraits";
+import FilterTraits from "../components/nftValuation/FiltersColumn";
 
 import NftCard from "../components/nftValuation/NftCard";
 import Pagination from "../components/Pagination";
