@@ -86,3 +86,10 @@
 :root {
   --font-iconSet1: 'iconSet1';
 }
+
+/*Remove inner & outer spin-button for input number*/
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

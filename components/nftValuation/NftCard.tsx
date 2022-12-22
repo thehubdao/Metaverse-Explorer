@@ -1,20 +1,24 @@
-import Link from "next/link";
-
+import Image from "next/image";
 
 const NftCard = ({ image, value, text }: any) => {
 
     return (
-        <>
-
-            <div>
-                <a className="flex flex-col space-y-3 transition ease-in-out duration-500 lg:hover:scale-105 shadowDiv w-full bg-opacity-30 text-left p-3">
-                    <img src={image} className="rounded-t-xl" />
-                    <p className="text-grey-content font-plus font-normal leading-tight px-3 xs:text-xs sm:text-sm">{text}</p>
-                    <p className="text-grey-content font-plus font-bold leading-tight px-3 xs:text-xs sm:text-sm">{value} ETH</p>
-                </a>
+        <div
+            className={`grid grid-rows-3 rounded-xl cursor-pointer lg:w-[200px] lg:h-[300px] 2xl:w-[240px] 2xl:h-[360px] focus:outline-none nm-flat-hard  hover:nm-flat-soft transition duration-300 ease-in-out`}
+        >
+            <div className="relative row-span-2">
+                <Image
+                    src={image}
+                    loading='lazy'
+                    layout="fill"
+                    className="rounded-xl"
+                />
             </div>
-
-        </>
+            <div className="w-full h-full flex flex-col items-center justify-center text-center">
+                <p className='font-bold text-base leading-none'>{text}</p>
+                <p className='font-light text-base'>{value} ETH</p>
+            </div>
+        </div>
     )
 };
 

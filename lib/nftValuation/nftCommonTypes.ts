@@ -1,430 +1,453 @@
 // For nftValuation
 
+//Filters
+export const TraitFilter = [
+	{
+		name: "Background",
+		description: "background",
+	},
+	{
+		name: "Dance",
+		description: "dance",
+	},
+	{
+		name: "Music",
+		description: "music",
+	},
+	{
+		name: "Expression",
+		description: "expression",
+	},
+	{
+		name: "Ears",
+		description: "ears",
+	},
+	{
+		name: "Nose",
+		description: "nose",
+	},
+	{
+		name: "Mouth",
+		description: "mouth",
+	},
+	{
+		name: "Head",
+		description: "head",
+	},
+	{
+		name: "Neck",
+		description: "neck",
+	},
+	{
+		name: "Top",
+		description: "top",
+	},
+	{
+		name: "Eyewear",
+		description: "eyewear",
+	},
+	{
+		name: "Eyes",
+		description: "eyes",
+	},
+	{
+		name: "Fur",
+		description: "fur",
+	},
+	{
+		name: "Sex",
+		description: "sex",
+	},
+];
 
 //First Filter
-export type Status =
+export const Status = [
+	{
+		name: "Listed",
+		description: "listed",
+	},
+	{
+		name: "Not Listed",
+		description: "not_listed",
+	},
+];
 
-| 'buy_now'
-| 'on_auction'
-
-type Currency =
+export type Currencies = 
 
 | 'eth'
 | 'usd'
 | 'sol'
 
+
 //Second Filter
-export type Price = {
-  minPrice: number
-  maxPrice: number
-  currency: Currency
-}
-
-//Third Filter
-export type Quantity =
-
-| 'all_items'
-| 'single_items'
-| 'bundles'
-
-//Fourth Filter
-export type Currencies =
-| 'eth'
-| 'weth'
-| 'dai'
-| 'usdc'
+// export type Price = {
+// 	minPrice: number;
+// 	maxPrice: number;
+// 	currency: Currencies;
+// };
 
 //Last Filter
-export type TraitFilter =
-
-  | 'background'
-  | 'dance'
-  | 'music'
-  | 'expression'
-  | 'ears'
-  | 'nose'
-  | 'mouth'
-  | 'head'
-  | 'neck'
-  | 'top'
-  | 'eyewear'
-  | 'eyes'
-  | 'fur'
-  | 'sex'
-
-export type Background =
-
-  | 'Mansion'
-  | 'Heaven'
-  | 'Lambo'
-  | 'Beach'
-  | 'Backalley'
-  | 'Tiki'
-  | 'Gallery'
-  | 'Dunes'
-  | 'Spaceship'
-  | 'Swamp'
-  | 'Garden'
-  | 'Markets'
-  | 'Pass'
-  | 'FTW (F*ck The War)'
-  | 'Mystic Valley'
-  | 'Thank You For Having Us'
-  | 'The Front'
-  | 'Dancing in the Shroomlight'
-  | 'FLUF Haus Miami 2021'
-  | 'Star Explorer'
-  | 'ASTO Discovery Portal'
-  | 'After Party'
-  | 'Fluf Haus LA 2022'
-  | 'The Wall'
-  | 'Pre-Game'
-  | 'Forest'
-  | 'Studio'
-  | 'Art Gallery'
-  | 'Desert'
-  | 'Space Hangar'
-  | 'Apocalypse'
-  | 'Igloo'
-  | 'Playa'
-  | 'Party House'
-  | 'Pj Runway'
-  | 'Zen Den'
-  | 'High School'
-  | 'Club'
-  | 'Temple'
-
-export type Dance =
-  | 'Groove'
-  | 'Bob'
-  | 'Side To Side'
-  | 'Subtle Nod'
-  | 'Round'
-  | 'Big Nod'
-  | 'Side Nod'
-  | 'Turn'
-
-export type Ears =
-
-| 'Steel Rings'
-| 'Steel Studs'
-| 'Steel Rings & Studs'
-| 'Gold Rings'
-| 'FLUF Tag'
-| 'Gold Bows'
-| 'Gold Rings & Studs'
-| 'Red Ribbon'
-| 'Bandaged'
-| 'Diamond Studs'
-| 'Bit Ear'
-| 'Diamond Cross Earring'
-| 'Santa Hat'
-
-export type Expression =
-
-| 'Mouth Open (Right)'
-| 'Blank'
-| 'Anger'
-| 'Mouth Open (Middle)'
-| 'Mouth Open (Right) + Wink'
-| 'Mouth Open (Left)'
-| 'Smile'
-| 'Smile + Wink'
-| 'Sad'
-| 'Grin'
-| 'Blank + Wink'
-| 'Mouth Open (Middle) + Wink'
-| 'Mouth Open (Left) + Wink'
-| 'Wonder'
-| 'Grin + Wink'
-
-export type Eyes =
-
-| 'Green'
-| 'Brown'
-| 'Blue'
-| 'Yellow'
-| 'Green (Dilated)'
-| 'Cat (Blue)'
-| 'Cat (Brown)'
-| 'Purple'
-| 'Red'
-| 'Fire'
-| 'Heart (Blue)'
-| 'Red (Dilated)'
-| 'Thirties'
-| 'Heart (Red)'
-| 'Scribble'
-| 'Dollars'
-| 'Xs'
-| 'Reptile (Yellow)'
-| 'Reptile (White)'
-| 'Reptile (Cream)'
-| 'Glowing Red'
-| 'Demon'
-| 'Blast'
-| 'Glowing White'
-| 'Portal'
-| 'Dead'
-| 'Hypnotic'
-| 'Mandala'
-| 'Purple Rings'
-| 'Inverted'
-| 'Inverted (Purple)'
-| 'Zombie'
-| 'Zombie (Inverted)'
-| 'Gold'
-| 'Silver'
-
-export type Eyewear =
-
-| 'Sunglasses'
-| 'Shutter Glasses'
-| 'Aviator'
-| 'Star Glasses'
-| 'Designer Glasses'
-| 'Round Glasses'
-| 'Bug Eye Glasses'
-| 'Neon Glasses'
-| 'Heart Glasses'
-| 'Fake Eyelashes'
-| 'Speed Glasses'
-| 'Dive Goggles'
-| 'Eye Patch'
-| 'Safety Glasses'
-| 'Cyberpunk Glasses'
-| 'Deal With It Glasses'
-| '3D Glasses'
-| 'Steampunk Goggles'
-
-export type Fur =
-
-| 'Grey'
-| 'Winter'
-| 'Brown'
-| 'Black & White'
-| 'Sandy'
-| 'Darkness'
-| 'Peppermint'
-| 'Orange'
-| 'Red'
-| 'Sky'
-| 'Camo'
-| 'Zebra'
-| 'Tiger'
-| 'Cow'
-| 'Cheetah'
-| 'Moody Blue'
-| 'Marshmellow'
-| 'Ice Cream'
-| 'Raspberry Ripple'
-| 'Smoothie'
-| 'Honeycomb'
-| 'Candy Floss'
-| 'Parrot'
-| 'Bully'
-| 'Tie Dye'
-| 'Highlighter'
-| 'Hawk'
-| 'Retro'
-| 'Guernica'
-| 'Blue Blood'
-| 'Pheonix'
-| 'Zombie (Black)'
-| 'Zombie (Grey)'
-| 'Zombie (Green)'
-| 'Zombie (Red)'
-| 'Barney'
-| 'Grinch'
-| 'Kandinsky'
-| 'Hirst'
-| 'Kanagawa'
-| 'Blossom'
-| 'Starry Night'
-| 'Avatar'
-| 'Holographic'
-| 'Silver'
-| 'Gold'
-
-export type Head =
-
-| 'Beanie'
-| 'Flower Crown'
-| 'Bandana'
-| 'Birthday Hat'
-| 'Conical Hat'
-| 'Cowboy Hat'
-| 'Pirate Hat'
-| 'Tuft (Base)'
-| 'Mohawk (Base)'
-| 'Afro (Base)'
-| 'Army Helmet'
-| 'FLUF Cap'
-| 'Mullet (Base)'
-| 'Sombrero'
-| 'Propeller Hat'
-| 'Tennis Hat'
-| 'Sun Visor'
-| 'Tuft (Black)'
-| 'Tuft (Blonde)'
-| 'Devil Horns'
-| 'Mohawak (Red)'
-| 'Mullet (Black)'
-| 'Mohawak (Black)'
-| 'Afro (Ginger)'
-| 'Halo'
-| 'Mullet (Orange)'
-| 'Afro (Black)'
-| 'Glod Cap'
-| 'Beer Hat'
-| 'Holographic Cap'
-| 'Crown'
-
-export type Mouth =
-
-| 'Lollipop'
-| 'Joint'
-| 'Cigarette'
-| 'Carrot'
-| 'Pipe'
-| 'Party Horn'
-| 'Whistle'
-| 'Lip Piercings'
-| 'Cigar'
-| 'Pacifier'
-| 'Lipstick'
-| 'Medical Mask'
-| 'Tongue Out'
-| 'Mooncrust Pizza'
-| 'Demon Mask'
-
-export type Music =
-
-| 'Follow You'
-| 'Run Rabbit'
-| 'Coffee and Carrots'
-| 'Ear Wobbler'
-| 'Reggae Rabbits'
-| 'Disco Rabbit'
-| 'Electric Carrots'
-| 'Desert Digging'
-| 'Rabbiton'
-| 'Space Fluffle'
-| 'Floating or Flying'
-| 'Hop On By'
-| 'Back in the Burrow'
-| 'Eating Carrots in the Dark'
-| 'Dubhop'
-| 'FLUF You Up'
-| 'What the FLUF'
-| 'I Like to Party'
-| 'Beyond the Gates'
-| 'Hop With Me'
-| 'NFT (Instrumental)'
-| 'I Love FLUF'
-| 'Messiah'
-| 'Let The Story Begin'
-| 'FLUF Ocean'
-| 'L.O.V.E.'
-| 'Stardust'
-| 'Lucky Foot'
-| 'Higher'
-| 'Latin Fiesta'
-| 'All I Need'
-| 'Shadows'
-| "Wouldn't It Be"
-| 'Eating Carrots_in_the_Dark'
-| 'How Could You'
-| 'Let It Go'
-| 'I Like_to_Party'
-| 'Hop On_By'
-| 'Beyond the_Gates'
-| 'FLUF You_Up'
-| 'What the_FLUF'
-| 'Back in_the_Burrow'
-| 'How You Feel'
-| 'Floting or_Flying'
-| 'Hop With_Me'
-| 'Daft Bear'
-| 'Tulum Bear'
-| 'Altered Bear'
-| 'Bear Marley'
-| 'Bear Friends'
-| 'Robobear'
-| 'Show Bear Love'
-| 'Tropical Bear'
-| 'Bear Bass'
-| 'Bear Bot'
-| 'Bear Beach'
-| 'Beartron'
-| 'Ibiza Bear'
-| 'Rufus Du Bear'
-| 'Termabear'
-| 'Rasta Bear'
-
-export type Neck =
-
-| 'Bowtie (Red)'
-| 'Bowtie (Gold)'
-| 'Bowtie (Black)'
-| 'Collar (Black)'
-| 'Collar (Pink)'
-| 'Dog Tags'
-| 'VIP lanyard'
-| 'FLUF Logo Chain'
-| 'Bone Necklace'
-| 'Glowstick Necklace'
-| 'Gold Chain'
-| 'Lei'
-| 'Peace Necklace'
-| 'Tie'
-| 'Clock Necklace'
-| 'Headphones'
-| 'Greenstone'
-| 'Gold Dollar Chain'
-| 'POTA Lanyard'
-
-export type Nose =
-
-| 'Bull Ring'
-| 'Steel Stud'
-| 'Steel Ring'
-| 'Bone'
-| 'Gold Ring'
-| 'Gold Stud'
-| 'Clown Nose'
-| 'Diamond Stud'
-| 'Bloody'
-| 'Glowing Red'
-| 'Glowing White'
-| 'Gold'
-| 'Silver'
-
-export type Sex =
-
-| 'Male'
-| 'Female'
-
-export type Top =
-
-| 'High Vis Vest'
-| 'Boob Tube'
-| 'Leather Vest'
-| 'Flannel Jacket'
-| 'Kimono'
-| 'Digital Camo Singlet'
-| 'Camo Jacket'
-| 'FLUF Jacket'
-| 'Pink Jacket'
-| 'Sing My Carrot Singlet'
-| 'Voxel Rabbit Singlet'
-| 'Yellow Rabbit Singlet'
-| 'Tie Dye Singlet'
-| 'Puffer Vest'
-| 'White Singlet'
-| 'Black FLUF Singlet'
-| 'Dress'
-| 'Red Balloon Singlet'
-| 'Puffer Jacket'
-| 'Gold Jacket'
-| 'Holographic Jacket'
+export const Background = [
+	{ name: "Mansion", description: "" },
+	{ name: "Heaven", description: "" },
+	{ name: "Lambo", description: "" },
+	{ name: "Beach", description: "" },
+	{ name: "Backalley", description: "" },
+	{ name: "Tiki", description: "" },
+	{ name: "Gallery", description: "" },
+	{ name: "Dunes", description: "" },
+	{ name: "Spaceship", description: "" },
+	{ name: "Swamp", description: "" },
+	{ name: "Garden", description: "" },
+	{ name: "Markets", description: "" },
+	{ name: "Pass", description: "" },
+	{ name: "FTW (F*ck The War)", description: "" },
+	{ name: "Mystic Valley", description: "" },
+	{ name: "Thank You For Having Us", description: "" },
+	{ name: "The Front", description: "" },
+	{ name: "Dancing in the Shroomlight", description: "" },
+	{ name: "FLUF Haus Miami 2021", description: "" },
+	{ name: "Star Explorer", description: "" },
+	{ name: "ASTO Discovery Portal", description: "" },
+	{ name: "After Party", description: "" },
+	{ name: "Fluf Haus LA 2022", description: "" },
+	{ name: "The Wall", description: "" },
+	{ name: "Pre-Game", description: "" },
+	{ name: "Forest", description: "" },
+	{ name: "Studio", description: "" },
+	{ name: "Art Gallery", description: "" },
+	{ name: "Desert", description: "" },
+	{ name: "Space Hangar", description: "" },
+	{ name: "Apocalypse", description: "" },
+	{ name: "Igloo", description: "" },
+	{ name: "Playa", description: "" },
+	{ name: "Party House", description: "" },
+	{ name: "Pj Runway", description: "" },
+	{ name: "Zen Den", description: "" },
+	{ name: "High School", description: "" },
+	{ name: "Club", description: "" },
+	{ name: "Temple", description: "" },
+];
+export const Dance = [
+	{ name: "Groove", description: "" },
+	{ name: "Bob", description: "" },
+	{ name: "Side To Side", description: "" },
+	{ name: "Subtle Nod", description: "" },
+	{ name: "Round", description: "" },
+	{ name: "Big Nod", description: "" },
+	{ name: "Side Nod", description: "" },
+	{ name: "Turn", description: "" },
+];
+export const Ears = [
+	{ name: "Steel Rings", description: "" },
+	{ name: "Steel Studs", description: "" },
+	{ name: "Steel Rings & Studs", description: "" },
+	{ name: "Gold Rings", description: "" },
+	{ name: "FLUF Tag", description: "" },
+	{ name: "Gold Bows", description: "" },
+	{ name: "Gold Rings & Studs", description: "" },
+	{ name: "Red Ribbon", description: "" },
+	{ name: "Bandaged", description: "" },
+	{ name: "Diamond Studs", description: "" },
+	{ name: "Bit Ear", description: "" },
+	{ name: "Diamond Cross Earring", description: "" },
+	{ name: "Santa Hat", description: "" },
+];
+export const Expression = [
+	{ name: "Mouth Open (Right)", description: "" },
+	{ name: "Blank", description: "" },
+	{ name: "Anger", description: "" },
+	{ name: "Mouth Open (Middle)", description: "" },
+	{ name: "Mouth Open (Right) + Wink", description: "" },
+	{ name: "Mouth Open (Left)", description: "" },
+	{ name: "Smile", description: "" },
+	{ name: "Smile + Wink", description: "" },
+	{ name: "Sad", description: "" },
+	{ name: "Grin", description: "" },
+	{ name: "Blank + Wink", description: "" },
+	{ name: "Mouth Open (Middle) + Wink", description: "" },
+	{ name: "Mouth Open (Left) + Wink", description: "" },
+	{ name: "Wonder", description: "" },
+	{ name: "Grin + Wink", description: "" },
+];
+export const Eyes = [
+	{ name: "Green", description: "" },
+	{ name: "Brown", description: "" },
+	{ name: "Blue", description: "" },
+	{ name: "Yellow", description: "" },
+	{ name: "Green (Dilated)", description: "" },
+	{ name: "Cat (Blue)", description: "" },
+	{ name: "Cat (Brown)", description: "" },
+	{ name: "Purple", description: "" },
+	{ name: "Red", description: "" },
+	{ name: "Fire", description: "" },
+	{ name: "Heart (Blue)", description: "" },
+	{ name: "Red (Dilated)", description: "" },
+	{ name: "Thirties", description: "" },
+	{ name: "Heart (Red)", description: "" },
+	{ name: "Scribble", description: "" },
+	{ name: "Dollars", description: "" },
+	{ name: "Xs", description: "" },
+	{ name: "Reptile (Yellow)", description: "" },
+	{ name: "Reptile (White)", description: "" },
+	{ name: "Reptile (Cream)", description: "" },
+	{ name: "Glowing Red", description: "" },
+	{ name: "Demon", description: "" },
+	{ name: "Blast", description: "" },
+	{ name: "Glowing White", description: "" },
+	{ name: "Portal", description: "" },
+	{ name: "Dead", description: "" },
+	{ name: "Hypnotic", description: "" },
+	{ name: "Mandala", description: "" },
+	{ name: "Purple Rings", description: "" },
+	{ name: "Inverted", description: "" },
+	{ name: "Inverted (Purple)", description: "" },
+	{ name: "Zombie", description: "" },
+	{ name: "Zombie (Inverted)", description: "" },
+	{ name: "Gold", description: "" },
+	{ name: "Silver", description: "" },
+];
+export const Eyewear = [
+	{ name: "Sunglasses", description: "" },
+	{ name: "Shutter Glasses", description: "" },
+	{ name: "Aviator", description: "" },
+	{ name: "Star Glasses", description: "" },
+	{ name: "Designer Glasses", description: "" },
+	{ name: "Round Glasses", description: "" },
+	{ name: "Bug Eye Glasses", description: "" },
+	{ name: "Neon Glasses", description: "" },
+	{ name: "Heart Glasses", description: "" },
+	{ name: "Fake Eyelashes", description: "" },
+	{ name: "Speed Glasses", description: "" },
+	{ name: "Dive Goggles", description: "" },
+	{ name: "Eye Patch", description: "" },
+	{ name: "Safety Glasses", description: "" },
+	{ name: "Cyberpunk Glasses", description: "" },
+	{ name: "Deal With It Glasses", description: "" },
+	{ name: "3D Glasses", description: "" },
+	{ name: "Steampunk Goggles", description: "" },
+];
+export const Fur = [
+	{ name: "Grey", description: "" },
+	{ name: "Winter", description: "" },
+	{ name: "Brown", description: "" },
+	{ name: "Black & White", description: "" },
+	{ name: "Sandy", description: "" },
+	{ name: "Darkness", description: "" },
+	{ name: "Peppermint", description: "" },
+	{ name: "Orange", description: "" },
+	{ name: "Red", description: "" },
+	{ name: "Sky", description: "" },
+	{ name: "Camo", description: "" },
+	{ name: "Zebra", description: "" },
+	{ name: "Tiger", description: "" },
+	{ name: "Cow", description: "" },
+	{ name: "Cheetah", description: "" },
+	{ name: "Moody Blue", description: "" },
+	{ name: "Marshmellow", description: "" },
+	{ name: "Ice Cream", description: "" },
+	{ name: "Raspberry Ripple", description: "" },
+	{ name: "Smoothie", description: "" },
+	{ name: "Honeycomb", description: "" },
+	{ name: "Candy Floss", description: "" },
+	{ name: "Parrot", description: "" },
+	{ name: "Bully", description: "" },
+	{ name: "Tie Dye", description: "" },
+	{ name: "Highlighter", description: "" },
+	{ name: "Hawk", description: "" },
+	{ name: "Retro", description: "" },
+	{ name: "Guernica", description: "" },
+	{ name: "Blue Blood", description: "" },
+	{ name: "Pheonix", description: "" },
+	{ name: "Zombie (Black)", description: "" },
+	{ name: "Zombie (Grey)", description: "" },
+	{ name: "Zombie (Green)", description: "" },
+	{ name: "Zombie (Red)", description: "" },
+	{ name: "Barney", description: "" },
+	{ name: "Grinch", description: "" },
+	{ name: "Kandinsky", description: "" },
+	{ name: "Hirst", description: "" },
+	{ name: "Kanagawa", description: "" },
+	{ name: "Blossom", description: "" },
+	{ name: "Starry Night", description: "" },
+	{ name: "Avatar", description: "" },
+	{ name: "Holographic", description: "" },
+	{ name: "Silver", description: "" },
+	{ name: "Gold", description: "" },
+];
+export const Head = [
+	{ name: "Beanie", description: "" },
+	{ name: "Flower Crown", description: "" },
+	{ name: "Bandana", description: "" },
+	{ name: "Birthday Hat", description: "" },
+	{ name: "Conical Hat", description: "" },
+	{ name: "Cowboy Hat", description: "" },
+	{ name: "Pirate Hat", description: "" },
+	{ name: "Tuft (Base)", description: "" },
+	{ name: "Mohawk (Base)", description: "" },
+	{ name: "Afro (Base)", description: "" },
+	{ name: "Army Helmet", description: "" },
+	{ name: "FLUF Cap", description: "" },
+	{ name: "Mullet (Base)", description: "" },
+	{ name: "Sombrero", description: "" },
+	{ name: "Propeller Hat", description: "" },
+	{ name: "Tennis Hat", description: "" },
+	{ name: "Sun Visor", description: "" },
+	{ name: "Tuft (Black)", description: "" },
+	{ name: "Tuft (Blonde)", description: "" },
+	{ name: "Devil Horns", description: "" },
+	{ name: "Mohawak (Red)", description: "" },
+	{ name: "Mullet (Black)", description: "" },
+	{ name: "Mohawak (Black)", description: "" },
+	{ name: "Afro (Ginger)", description: "" },
+	{ name: "Halo", description: "" },
+	{ name: "Mullet (Orange)", description: "" },
+	{ name: "Afro (Black)", description: "" },
+	{ name: "Gold Cap", description: "" },
+	{ name: "Beer Hat", description: "" },
+	{ name: "Holographic Cap", description: "" },
+	{ name: "Crown", description: "" },
+];
+export const Mouth = [
+	{ name: "Lollipop", description: "" },
+	{ name: "Joint", description: "" },
+	{ name: "Cigarette", description: "" },
+	{ name: "Carrot", description: "" },
+	{ name: "Pipe", description: "" },
+	{ name: "Party Horn", description: "" },
+	{ name: "Whistle", description: "" },
+	{ name: "Lip Piercings", description: "" },
+	{ name: "Cigar", description: "" },
+	{ name: "Pacifier", description: "" },
+	{ name: "Lipstick", description: "" },
+	{ name: "Medical Mask", description: "" },
+	{ name: "Tongue Out", description: "" },
+	{ name: "Mooncrust Pizza", description: "" },
+	{ name: "Demon Mask", description: "" },
+];
+export const Music = [
+	{ name: "Follow You", description: "" },
+	{ name: "Run Rabbit", description: "" },
+	{ name: "Coffee and Carrots", description: "" },
+	{ name: "Ear Wobbler", description: "" },
+	{ name: "Reggae Rabbits", description: "" },
+	{ name: "Disco Rabbit", description: "" },
+	{ name: "Electric Carrots", description: "" },
+	{ name: "Desert Digging", description: "" },
+	{ name: "Rabbiton", description: "" },
+	{ name: "Space Fluffle", description: "" },
+	{ name: "Floating or Flying", description: "" },
+	{ name: "Hop On By", description: "" },
+	{ name: "Back in the Burrow", description: "" },
+	{ name: "Eating Carrots in the Dark", description: "" },
+	{ name: "Dubhop", description: "" },
+	{ name: "FLUF You Up", description: "" },
+	{ name: "What the FLUF", description: "" },
+	{ name: "I Like to Party", description: "" },
+	{ name: "Beyond the Gates", description: "" },
+	{ name: "Hop With Me", description: "" },
+	{ name: "NFT (Instrumental)", description: "" },
+	{ name: "I Love FLUF", description: "" },
+	{ name: "Messiah", description: "" },
+	{ name: "Let The Story Begin", description: "" },
+	{ name: "FLUF Ocean", description: "" },
+	{ name: "L.O.V.E.", description: "" },
+	{ name: "Stardust", description: "" },
+	{ name: "Lucky Foot", description: "" },
+	{ name: "Higher", description: "" },
+	{ name: "Latin Fiesta", description: "" },
+	{ name: "All I Need", description: "" },
+	{ name: "Shadows", description: "" },
+	{ name: "Wouldn't It Be", description: "" },
+	{ name: "Eating Carrots_in_the_Dark", description: "" },
+	{ name: "How Could You", description: "" },
+	{ name: "Let It Go", description: "" },
+	{ name: "I Like_to_Party", description: "" },
+	{ name: "Hop On_By", description: "" },
+	{ name: "Beyond the_Gates", description: "" },
+	{ name: "FLUF You_Up", description: "" },
+	{ name: "What the_FLUF", description: "" },
+	{ name: "Back in_the_Burrow", description: "" },
+	{ name: "How You Feel", description: "" },
+	{ name: "Floting or_Flying", description: "" },
+	{ name: "Hop With_Me", description: "" },
+	{ name: "Daft Bear", description: "" },
+	{ name: "Tulum Bear", description: "" },
+	{ name: "Altered Bear", description: "" },
+	{ name: "Bear Marley", description: "" },
+	{ name: "Bear Friends", description: "" },
+	{ name: "Robobear", description: "" },
+	{ name: "Show Bear Love", description: "" },
+	{ name: "Tropical Bear", description: "" },
+	{ name: "Bear Bass", description: "" },
+	{ name: "Bear Bot", description: "" },
+	{ name: "Bear Beach", description: "" },
+	{ name: "Beartron", description: "" },
+	{ name: "Ibiza Bear", description: "" },
+	{ name: "Rufus Du Bear", description: "" },
+	{ name: "Termabear", description: "" },
+	{ name: "Rasta Bear", description: "" },
+];
+export const Neck = [
+	{ name: "Bowtie (Red)", description: "" },
+	{ name: "Bowtie (Gold)", description: "" },
+	{ name: "Bowtie (Black)", description: "" },
+	{ name: "Collar (Black)", description: "" },
+	{ name: "Collar (Pink)", description: "" },
+	{ name: "Dog Tags", description: "" },
+	{ name: "VIP lanyard", description: "" },
+	{ name: "FLUF Logo Chain", description: "" },
+	{ name: "Bone Necklace", description: "" },
+	{ name: "Glowstick Necklace", description: "" },
+	{ name: "Gold Chain", description: "" },
+	{ name: "Lei", description: "" },
+	{ name: "Peace Necklace", description: "" },
+	{ name: "Tie", description: "" },
+	{ name: "Clock Necklace", description: "" },
+	{ name: "Headphones", description: "" },
+	{ name: "Greenstone", description: "" },
+	{ name: "Gold Dollar Chain", description: "" },
+	{ name: "POTA Lanyard", description: "" },
+];
+export const Nose = [
+	{ name: "Bull Ring", description: "" },
+	{ name: "Steel Stud", description: "" },
+	{ name: "Steel Ring", description: "" },
+	{ name: "Bone", description: "" },
+	{ name: "Gold Ring", description: "" },
+	{ name: "Gold Stud", description: "" },
+	{ name: "Clown Nose", description: "" },
+	{ name: "Diamond Stud", description: "" },
+	{ name: "Bloody", description: "" },
+	{ name: "Glowing Red", description: "" },
+	{ name: "Glowing White", description: "" },
+	{ name: "Gold", description: "" },
+	{ name: "Silver", description: "" },
+];
+export const Sex = [
+	{ name: "Male", description: "" },
+	{ name: "Female", description: "" },
+];
+export const Top = [
+	{ name: "High Vis Vest", description: "" },
+	{ name: "Boob Tube", description: "" },
+	{ name: "Leather Vest", description: "" },
+	{ name: "Flannel Jacket", description: "" },
+	{ name: "Kimono", description: "" },
+	{ name: "Digital Camo Singlet", description: "" },
+	{ name: "Camo Jacket", description: "" },
+	{ name: "FLUF Jacket", description: "" },
+	{ name: "Pink Jacket", description: "" },
+	{ name: "Sing My Carrot Singlet", description: "" },
+	{ name: "Voxel Rabbit Singlet", description: "" },
+	{ name: "Yellow Rabbit Singlet", description: "" },
+	{ name: "Tie Dye Singlet", description: "" },
+	{ name: "Puffer Vest", description: "" },
+	{ name: "White Singlet", description: "" },
+	{ name: "Black FLUF Singlet", description: "" },
+	{ name: "Dress", description: "" },
+	{ name: "Red Balloon Singlet", description: "" },
+	{ name: "Puffer Jacket", description: "" },
+	{ name: "Gold Jacket", description: "" },
+	{ name: "Holographic Jacket", description: "" },
+];
