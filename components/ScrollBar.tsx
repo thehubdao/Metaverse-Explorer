@@ -20,6 +20,10 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
     setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
   }, [parentDom])
 
+  useEffect(() => {
+    console.log(parentDom.scrollHeight)
+  }, [parentDom.scrollHeight])
+
   return (
     <div
       className={`w-1 fixed`}

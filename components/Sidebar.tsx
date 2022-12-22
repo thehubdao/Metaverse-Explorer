@@ -53,7 +53,8 @@ export default function Sidebar({ list }: Isidebar) {
 
   useEffect(() => {
     setParentDom(parentRef.current)
-  }, [parentRef.current])
+    console.log(parentRef.current?.offsetHeight)
+  }, [parentRef.current, parentRef.current?.offsetHeight])
 
   return (
     <div className="bg-grey-sidebar">
