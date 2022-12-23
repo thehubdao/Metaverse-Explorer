@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
-import { Currencies } from "../../lib/nftValuation/nftCommonTypes";
-import { typedKeys } from "../../lib/utilities";
+import { Currencies } from "../../../lib/nftValuation/nftCommonTypes";
+import { typedKeys } from "../../../lib/utilities";
 
 interface Props {
-    currency: Currencies
-    setCurrency: React.Dispatch<React.SetStateAction<Currencies>>;
+	currency: Currencies;
+	setCurrency: React.Dispatch<React.SetStateAction<Currencies>>;
 }
 
-export default function FilterPrice({currency, setCurrency} : Props) {
+export default function FilterPrice({ currency, setCurrency }: Props) {
 	const [opened, setOpened] = useState(false);
 
 	const filterOptions = {
@@ -47,15 +47,14 @@ export default function FilterPrice({currency, setCurrency} : Props) {
 					>
 						{opened && (
 							<div>
-								{typedKeys(filterOptions).map((filter, index:number) => (
-									<Fade duration={500} direction="down">
+								{typedKeys(filterOptions).map((filter, index: number) => (
+									<Fade duration={500} direction="down" key={index}>
 										<div
-											key={index}
 											onClick={() => {
 												setCurrency(filter);
 												setOpened(false);
 											}}
-                                            className="px-4 py-2"
+											className="px-4 py-2"
 										>
 											<label>{filterOptions[filter].name}</label>
 										</div>
@@ -65,7 +64,9 @@ export default function FilterPrice({currency, setCurrency} : Props) {
 						)}
 					</div>
 				</div>
-				<div className="nm-flat-soft rounded-full px-4 py-2 w-2/3 h-1/2 text-center">APPLY</div>
+				<div className="nm-flat-soft rounded-full px-4 py-2 w-2/3 h-1/2 text-center">
+					APPLY
+				</div>
 			</div>
 		</div>
 	);
