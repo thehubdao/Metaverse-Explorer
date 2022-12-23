@@ -8,9 +8,9 @@ import InitChoice from "../components/InitChoice";
 import DescriptionContent from "../components/DescriptionContent";
 import {
 	Content,
+	FilterColumn,
 	SearcherBar,
 	TraitsButton,
-  	FiltersColumn
 } from "../components/nftValuation/index";
 
 // Services
@@ -22,8 +22,8 @@ import {
 // Filters
 import { typedKeys } from "../lib/utilities";
 interface nftCollectionProps {
-	num_owners: number
-	market_cap: number
+	num_owners: number;
+	market_cap: number;
 }
 
 interface nftObject {
@@ -32,10 +32,10 @@ interface nftObject {
 	traits: {
 		traitType: string;
 		value: string;
-	}[]
+	}[];
 	images: {
 		image_small: string;
-	}
+	};
 }
 
 const headerList = [
@@ -51,22 +51,8 @@ const headerList = [
 		name: "Analytics",
 		route: "analytics",
 	},
-]
+];
 
-const filterOptions = {
-	Status: {
-		name: "Status",
-		description: "",
-	},
-	Price: {
-		name: "Price Estimation",
-		description: "",
-	},
-	TraitFilter: {
-		name: "TraitFilter",
-		description: "",
-	},
-}
 const collectionsList = [
 	{
 		name: "FLUF World",
@@ -74,7 +60,7 @@ const collectionsList = [
 		creator: "FLUF_World",
 		nItems: 10000,
 		collection: "fluf",
-	}
+	},
 ];
 
 export default function NftValuation() {
@@ -86,15 +72,11 @@ export default function NftValuation() {
 	// Control Flags
 	const [openedTraits, setOpenedTraits] = useState<boolean>(false);
 	//const [filterBy, setFilterBy] = useState<TraitFilter>('traits')
-	const [filteredItem, setfilteredItem] = useState(nftObject);
+	const [filteredItem, setfilteredItem] = useState<nftObject[]>(nftObject);
 	//const [filterElement, setFilteredElement] = useState(nftObject);
-	const [checked, setChecked] = useState();
+	const [checked, setChecked] = useState<boolean>(false);
 	const [loadingGlobalData, setLoadingGlobalData] = useState<boolean>(true);
 	const [loadingCollection, setLoadingCollection] = useState<boolean>(true);
-
-	// Pagination Controller
-	const [pageLenght, setPageLenght] = useState(0);
-	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
 
 	useEffect(() => {
 		const getNftData = async () => {
@@ -107,20 +89,18 @@ export default function NftValuation() {
 		getNftData();
 	}, []);
 
-  useEffect(() => {
-    const getDataCollection = async () => {
-      let response
-      if (collectionName) {
-        setLoadingCollection(true)
-        response = await getNftCollection(collectionName)
-        setnftObject(response)
-        setPageLenght(Math.trunc(response.length / 10));
-        setControlPageIndex(0);
-        setLoadingCollection(false)
-      }
-    }
-    getDataCollection()
-  }, [collectionName])
+	useEffect(() => {
+		const getDataCollection = async () => {
+			let response;
+			if (collectionName) {
+				setLoadingCollection(true);
+				response = await getNftCollection(collectionName);
+				setnftObject(response);
+				setLoadingCollection(false);
+			}
+		};
+		getDataCollection();
+	}, [collectionName]);
 
 	return (
 		<>
@@ -172,15 +152,11 @@ export default function NftValuation() {
 							</div>
 							{/* Traits Filter Column */}
 							{openedTraits && (
-								<div className="flex flex-col p-2 nm-flat-medium rounded-3xl">
-									{typedKeys(filterOptions).map((filter) => (
-										<FiltersColumn 
-										title={filterOptions[filter].name} 
-										key={filter} filterObject={nftObject} 
-										setfilteredItem={setfilteredItem} 
-										setChecked={setChecked}/>
-									))}
-								</div>
+								<FilterColumn
+									nftObject={nftObject}
+									setfilteredItem={setfilteredItem}
+									setChecked={setChecked}
+								/>
 							)}
 							{/* NFT Collection List */}
 							<div
@@ -190,9 +166,6 @@ export default function NftValuation() {
 									filteredItem={filteredItem}
 									checked={checked}
 									nftObject={nftObject}
-									controlPageIndex={controlPageIndex}
-									pageLenght={pageLenght}
-									setControlPageIndex={setControlPageIndex}
 									isLoading={loadingCollection}
 								/>
 							</div>
