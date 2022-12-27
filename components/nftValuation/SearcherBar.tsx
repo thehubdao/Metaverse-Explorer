@@ -15,15 +15,14 @@ interface nftObject {
 
 interface SearcherBarProps {
 	nftObject: nftObject[];
-	setfilteredItem: Function;
+	setfilteredItems: Function;
 	checked: boolean;
 	setChecked: Function;
 }
 
 export default function SearcherBar({
 	nftObject,
-	setfilteredItem,
-	checked,
+	setfilteredItems,
 	setChecked,
 }: SearcherBarProps) {
 	const [inputValue, setInputValue] = useState();
@@ -32,7 +31,7 @@ export default function SearcherBar({
 		const results = nftObject.filter((fluf: nftObject) => {
 			return fluf.tokenId == keyWord;
 		});
-		setfilteredItem(results);
+		setfilteredItems(results);
 		setChecked(keyWord ? true : false);
 		setInputValue(keyWord);
 	};

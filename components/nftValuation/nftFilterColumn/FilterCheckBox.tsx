@@ -18,14 +18,14 @@ interface optionList {
 }
 interface FilterCheckBoxProps {
 	filterObject: nftObject[];
-	setfilteredItem: Function;
+	setfilteredItems: Function;
 	setChecked: Function;
 	optionslist: optionList[];
 }
 
 export default function FilterCheckBox({
 	filterObject,
-	setfilteredItem,
+	setfilteredItems,
 	setChecked,
 	optionslist,
 }: FilterCheckBoxProps) {
@@ -44,10 +44,10 @@ export default function FilterCheckBox({
 			console.log(e);
 			console.log(results);
 			console.groupEnd();
-			setfilteredItem(results);
+			setfilteredItems(results);
 			setChecked(true);
 		} else {
-			setfilteredItem(null);
+			setfilteredItems(null);
 			setChecked(false);
 			return filterObject;
 		}

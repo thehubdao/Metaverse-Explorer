@@ -1,21 +1,9 @@
-import { useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { Fade } from "react-awesome-reveal";
 
 // libraries
 import { Filters } from "../../../lib/nftValuation/nftCommonTypes";
-
-interface nftObject {
-	tokenId: string;
-	floor_adjusted_predicted_price: number;
-	traits: {
-		traitType: string;
-		value: string;
-	}[];
-	images: {
-		image_small: string;
-	};
-}
 
 interface optionList {
 	name: string;
@@ -23,67 +11,46 @@ interface optionList {
 }
 
 interface FilterCheckBoxProps {
-	filterObject: nftObject[];
-	setfilteredItem: Function;
-	setChecked: Function;
 	optionslist: optionList[];
+	selectedFilters: []
+	filteredFunction: ChangeEventHandler,
 }
 
 interface FilterSelectorTraitsProps {
 	title:
-		| "Background"
-		| "Dance"
-		| "Ears"
-		| "Expression"
-		| "Eyes"
-		| "Eyewear"
-		| "Fur"
-		| "Head"
-		| "Mouth"
-		| "Music"
-		| "Neck"
-		| "Nose"
-		| "Sex"
-		| "Top";
-	filterObject: any;
-	setfilteredItem: Function;
+	| "Background"
+	| "Dance"
+	| "Ears"
+	| "Expression"
+	| "Eyes"
+	| "Eyewear"
+	| "Fur"
+	| "Head"
+	| "Mouth"
+	| "Music"
+	| "Neck"
+	| "Nose"
+	| "Sex"
+	| "Top";
 	setChecked: Function;
+	selectedFilters: any
+	setSelectedFilters: Function
+	nFiltersSelected: number
+	setNFiltersSelected: Function
 }
 
 function FilterCheckBox({
-	filterObject,
-	setfilteredItem,
-	setChecked,
 	optionslist,
+	selectedFilters,
+	filteredFunction
 }: FilterCheckBoxProps) {
-	const filtered = (e: any) => {
-		const keyWord = e.target.value;
-		if (e.target.checked) {
-			const results = filterObject.filter((fluf: any) => {
-				return (
-					fluf.traits.filter((trait: any) => trait.value == keyWord).length > 0
-				);
-			});
-			console.group("Results");
-			console.log(e);
-			console.log(results);
-			console.groupEnd();
-			setfilteredItem(results);
-			setChecked(true);
-		} else {
-			setfilteredItem([]);
-			setChecked(false);
-			return filterObject;
-		}
-	};
-
 	return (
 		<div className="flex flex-col">
 			{optionslist.map((filter, index: number) => (
 				<Fade duration={500} direction="down" key={index}>
 					<div className="flex justify-between font-plus px-5 font-medium text-grey-content cursor-pointer transition-all">
 						<label>{filter.name}</label>
-						<input type="checkbox" value={filter.name} onChange={filtered} />
+						<input type="checkbox" value={filter.name} onChange={filteredFunction} checked={selectedFilters.indexOf(filter.name) >= 0} />
 					</div>
 				</Fade>
 			))}
@@ -93,11 +60,32 @@ function FilterCheckBox({
 
 export default function FilterSelectorTraits({
 	title,
-	filterObject,
-	setfilteredItem,
 	setChecked,
+	selectedFilters,
+	setSelectedFilters,
+	nFiltersSelected,
+	setNFiltersSelected
 }: FilterSelectorTraitsProps) {
 	const [opened, setOpened] = useState(false);
+
+	const filtered = (e: any) => {
+		const keyWord = e.target.value;
+		const auxSelectedFilters: any = selectedFilters
+		let auxNoFilters = nFiltersSelected
+		if (e.target.checked) {
+			auxSelectedFilters[title].push(keyWord)
+			setSelectedFilters(auxSelectedFilters)
+			setNFiltersSelected(auxNoFilters + 1)
+			setChecked(true);
+		} else {
+			auxSelectedFilters[title] = auxSelectedFilters[title].filter((item: any) => item != keyWord)
+			setSelectedFilters(auxSelectedFilters)
+			setNFiltersSelected(auxNoFilters - 1)
+			if (auxNoFilters - 1 <= 0)
+				setChecked(false);
+		}
+	};
+
 	return (
 		<div className="flex flex-col">
 			<div
@@ -120,9 +108,8 @@ export default function FilterSelectorTraits({
 				{opened && (
 					<FilterCheckBox
 						optionslist={Filters[title]}
-						filterObject={filterObject}
-						setfilteredItem={setfilteredItem}
-						setChecked={setChecked}
+						selectedFilters={selectedFilters[title]}
+						filteredFunction={filtered}
 					/>
 				)}
 			</div>

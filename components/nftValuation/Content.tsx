@@ -16,7 +16,7 @@ interface nftObject {
 }
 
 interface ContentProps {
-	filteredItem: nftObject[];
+	filteredItems: nftObject[];
 	checked: boolean;
 	nftObject: nftObject[];
 	isLoading: boolean;
@@ -28,7 +28,7 @@ const formatter = new Intl.NumberFormat("en-US", {
 });
 
 export default function Content({
-	filteredItem,
+	filteredItems,
 	checked,
 	nftObject,
 	isLoading,
@@ -38,14 +38,14 @@ export default function Content({
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
 
 	useEffect(() => {
-		if (filteredItem.length > 0) {
-			setPageLenght(Math.trunc(filteredItem.length / 10));
+		if (filteredItems.length > 0) {
+			setPageLenght(Math.trunc(filteredItems.length / 10));
 			setControlPageIndex(0);
 		} else {
 			setPageLenght(Math.trunc(nftObject?.length / 10));
 			setControlPageIndex(0);
 		}
-	}, [filteredItem, nftObject]);
+	}, [filteredItems, nftObject]);
 
 	const dataFluf = () => {
 		const flufs: React.ReactElement[] = [];
@@ -76,13 +76,13 @@ export default function Content({
 			index < controlPageIndex * 10 + 20;
 			index++
 		) {
-			if (!filteredItem[index]) return flufs;
+			if (!filteredItems[index]) return flufs;
 			flufs.push(
 				<NftCard
-					image={filteredItem[index]["images"]["image_small"]}
+					image={filteredItems[index]["images"]["image_small"]}
 					text="Estimated Price: "
 					value={formatter.format(
-						filteredItem[index]["floor_adjusted_predicted_price"]
+						filteredItems[index]["floor_adjusted_predicted_price"]
 					)}
 					key={index}
 				/>
@@ -100,7 +100,7 @@ export default function Content({
 				</div>
 			) : (
 				<>
-					{filteredItem && checked && filteredItem.length > 0 ? (
+					{filteredItems && checked ? (
 						<div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-5 w-full justify-items-center">
 							{datafiltered()}
 						</div>
