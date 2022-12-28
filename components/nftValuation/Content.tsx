@@ -96,16 +96,16 @@ export default function Content({
 			{isLoading ? (
 				<div className="w-full pt-16">
 					<Loader />
-					<p className="w-full text-center p-5">Loading ...</p>
+
 				</div>
 			) : (
 				<>
 					{filteredItem && checked && filteredItem.length > 0 ? (
-						<div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-5 w-full justify-items-center">
+						<div className="flex flex-wrap justify-center gap-5">
 							{datafiltered()}
 						</div>
 					) : (
-						<div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-5 justify-items-center">
+						<div className="flex flex-wrap justify-center gap-10">
 							{dataFluf()}
 						</div>
 					)}
