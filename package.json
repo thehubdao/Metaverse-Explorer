@@ -48,7 +48,8 @@
     "socket.io-client": "^4.5.2",
     "touch-pinch": "^1.0.1",
     "touch-position": "^2.0.0",
-    "tsparticles": "^2.5.3"
+    "tsparticles": "^2.5.3",
+    "use-resize-observer": "^9.1.0"
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^9.0.0",

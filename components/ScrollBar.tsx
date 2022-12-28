@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import useResizeObserver from "use-resize-observer"; //if we dont use, uninstall
 
 interface ScrollBarProps {
   parentDom: HTMLDivElement
@@ -12,17 +13,14 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
   const ScrollHandler = (event: Event) => {
     const calcOffset = parentDom.scrollTop / (parentDom.scrollHeight - parentDom.getBoundingClientRect().height)
     setOffsetScroll(calcOffset)
+    setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
+    console.log('scrolled')
   }
 
   useEffect(() => {
     parentDom?.addEventListener('scroll', ScrollHandler)
     /* return (parentDom?.removeEventListener('scroll', ScrollHandler)) */
-    setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
   }, [parentDom])
-
-  useEffect(() => {
-    console.log(parentDom.scrollHeight)
-  }, [parentDom.scrollHeight])
 
   return (
     <div
