@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import { Pagination } from "@mui/material";
 
 // Components
 import CollectionsChoise from "../components/General/Choicer/CollectionsChoise";
@@ -78,6 +79,20 @@ export default function NftValuation() {
 	const [loadingGlobalData, setLoadingGlobalData] = useState<boolean>(true);
 	const [loadingCollection, setLoadingCollection] = useState<boolean>(true);
 	const [nFiltersSelected, setNFiltersSelected] = useState<number>(0) // number of filters checked
+
+	// Pagination Controller
+	const [pageLenght, setPageLenght] = useState<number>(0);
+	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
+
+	useEffect(() => {
+		if (filteredItems.length > 0) {
+			setPageLenght(Math.trunc(filteredItems.length / 10));
+			setControlPageIndex(0);
+		} else {
+			setPageLenght(Math.trunc(nftObject?.length / 10));
+			setControlPageIndex(0);
+		}
+	}, [filteredItems, nftObject]);
 
 	useEffect(() => {
 		const getNftData = async () => {
@@ -180,7 +195,20 @@ export default function NftValuation() {
 									checked={checked}
 									nftObject={nftObject}
 									isLoading={loadingCollection}
+									controlPageIndex={controlPageIndex}
 								/>
+							</div>
+							<div className="col-span-full flex justify-center p-10">
+								{pageLenght > 1 ? (
+									<Pagination
+										count={pageLenght}
+										defaultPage={controlPageIndex + 1}
+										siblingCount={3} boundaryCount={2}
+										shape="rounded"
+										size="large"
+										onChange={(e, page) => { setControlPageIndex(page - 1) }}
+									/>
+								) : (<></>)}
 							</div>
 						</div>
 						{/* Footer */}

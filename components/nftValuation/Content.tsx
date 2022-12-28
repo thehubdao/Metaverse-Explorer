@@ -20,6 +20,7 @@ interface ContentProps {
 	checked: boolean;
 	nftObject: nftObject[];
 	isLoading: boolean;
+	controlPageIndex: number
 }
 
 const formatter = new Intl.NumberFormat("en-US", {
@@ -32,20 +33,9 @@ export default function Content({
 	checked,
 	nftObject,
 	isLoading,
+	controlPageIndex
 }: ContentProps) {
-	// Pagination Controller
-	const [pageLenght, setPageLenght] = useState(0);
-	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
 
-	useEffect(() => {
-		if (filteredItems.length > 0) {
-			setPageLenght(Math.trunc(filteredItems.length / 10));
-			setControlPageIndex(0);
-		} else {
-			setPageLenght(Math.trunc(nftObject?.length / 10));
-			setControlPageIndex(0);
-		}
-	}, [filteredItems, nftObject]);
 
 	const dataFluf = () => {
 		const flufs: React.ReactElement[] = [];
@@ -108,15 +98,6 @@ export default function Content({
 						<div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-5 justify-items-center">
 							{dataFluf()}
 						</div>
-					)}
-					{pageLenght > 1 ? (
-						<Pagination
-							pageLenght={pageLenght}
-							controlPageIndex={controlPageIndex + 1}
-							setControlPageIndex={setControlPageIndex}
-						/>
-					) : (
-						<></>
 					)}
 				</>
 			)}
