@@ -5,20 +5,9 @@ export const Status = [
 		name: "Listed",
 		description: "listed",
 	},
-	{
-		name: "Not Listed",
-		description: "not_listed",
-	},
 ];
 
-export type Currencies = "eth" | "usd" | "sol";
-
-//Second Filter
-// export type Price = {
-// 	minPrice: number;
-// 	maxPrice: number;
-// 	currency: Currencies;
-// };
+export type Currencies = "eth" | "usdc" | "weth";
 
 //Filters
 export const Filters = {

@@ -15,6 +15,7 @@ import {
 
 // Services
 import {
+	getDataTraits,
 	getNftCollection,
 	getNftGlobalData,
 } from "../backend/services/nftCollectionInfo";
@@ -22,6 +23,7 @@ import {
 // Filters
 import { typedKeys } from "../lib/utilities";
 import { Filters } from "../lib/nftValuation/nftCommonTypes";
+
 interface nftCollectionProps {
 	num_owners: number;
 	market_cap: number;
@@ -68,6 +70,7 @@ export default function NftValuation() {
 	// Data
 	const [collectionName, setCollectionName] = useState<string>("");
 	const [nftGlobal, setnftGlobal] = useState<nftCollectionProps | null>(null);
+	const [nftTraits, setnftTraits] = useState<any[]>([]);
 	const [nftObject, setnftObject] = useState<any[]>([]);
 	const [selectedFilters, setSelectedFilters] = useState({}) // array of filters selected
 
@@ -82,11 +85,10 @@ export default function NftValuation() {
 	useEffect(() => {
 		const getNftData = async () => {
 			setLoadingGlobalData(true);
-			const globalResponse = await getNftGlobalData();
+			const globalResponse = await getNftGlobalData(collectionName);
 			setnftGlobal(globalResponse.stats);
 			setLoadingGlobalData(false);
 		};
-		//setFilterBy("traits");
 		getNftData();
 	}, []);
 
@@ -100,10 +102,14 @@ export default function NftValuation() {
 
 	useEffect(() => {
 		const getDataCollection = async () => {
-			let response;
+			let response
+			let traits
 			if (collectionName) {
 				setLoadingCollection(true);
 				response = await getNftCollection(collectionName);
+				traits = await getDataTraits(collectionName)
+				console.log(traits)
+				//setnftTraits(traits);
 				setnftObject(response);
 				setLoadingCollection(false);
 			}
