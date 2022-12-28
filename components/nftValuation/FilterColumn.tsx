@@ -60,7 +60,13 @@ export default function FilterColumn({
 			description: "",
 			children: (
 				<Fade duration={500} direction="down">
-					<FilterPrice currency={currency} setCurrency={setCurrency} />
+					<FilterPrice 
+						currency={currency} 
+						setCurrency={setCurrency} 
+						nftObject={nftObject}
+						setfilteredItem={setfilteredItem}
+						setChecked={setChecked}
+					/>
 				</Fade>
 			),
 		},
