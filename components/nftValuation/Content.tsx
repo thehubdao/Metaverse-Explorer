@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import Loader from "../Loader";
-import Pagination from "../Pagination";
 import NftCard from "./NftCard";
 
 interface nftObject {
@@ -89,17 +87,13 @@ export default function Content({
 
 				</div>
 			) : (
-				<>
-					{filteredItem && checked && filteredItem.length > 0 ? (
-						<div className="flex flex-wrap justify-center gap-5">
-							{datafiltered()}
-						</div>
+				<div className="flex flex-wrap justify-center gap-10">
+					{filteredItems && checked && filteredItems.length > 0 ? (
+						<>{datafiltered()}</>
 					) : (
-						<div className="flex flex-wrap justify-center gap-10">
-							{dataFluf()}
-						</div>
+						<>{dataFluf()}</>
 					)}
-				</>
+				</div>
 			)}
 		</>
 	);

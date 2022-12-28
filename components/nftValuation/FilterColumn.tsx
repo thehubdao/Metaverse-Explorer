@@ -89,7 +89,7 @@ export default function FilterColumn({
 						currency={currency} 
 						setCurrency={setCurrency} 
 						nftObject={nftObject}
-						setfilteredItem={setfilteredItem}
+						setfilteredItem={setfilteredItems}
 						setChecked={setChecked}
 					/>
 				</Fade>
