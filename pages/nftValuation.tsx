@@ -20,6 +20,10 @@ import {
 	getNftGlobalData,
 } from "../backend/services/nftCollectionInfo";
 
+// Filters
+import { typedKeys } from "../lib/utilities";
+import { Filters } from "../lib/nftValuation/nftCommonTypes";
+
 interface nftCollectionProps {
 	num_owners: number;
 	market_cap: number;
@@ -66,17 +70,17 @@ export default function NftValuation() {
 	// Data
 	const [collectionName, setCollectionName] = useState<string>("");
 	const [nftGlobal, setnftGlobal] = useState<nftCollectionProps | null>(null);
-	const [nftObject, setnftObject] = useState<nftObject[]>([]);
 	const [nftTraits, setnftTraits] = useState<any[]>([]);
+	const [nftObject, setnftObject] = useState<any[]>([]);
+	const [selectedFilters, setSelectedFilters] = useState({}) // array of filters selected
 
 	// Control Flags
 	const [openedTraits, setOpenedTraits] = useState<boolean>(false);
-	//const [filterBy, setFilterBy] = useState<TraitFilter>('traits')
-	const [filteredItem, setfilteredItem] = useState<nftObject[]>(nftObject);
-	//const [filterElement, setFilteredElement] = useState(nftObject);
+	const [filteredItems, setfilteredItems] = useState<nftObject[]>(nftObject);
 	const [checked, setChecked] = useState<boolean>(false);
 	const [loadingGlobalData, setLoadingGlobalData] = useState<boolean>(true);
 	const [loadingCollection, setLoadingCollection] = useState<boolean>(true);
+	const [nFiltersSelected, setNFiltersSelected] = useState<number>(0) // number of filters checked
 
 	useEffect(() => {
 		const getNftData = async () => {
@@ -87,6 +91,14 @@ export default function NftValuation() {
 		};
 		getNftData();
 	}, []);
+
+	useEffect(() => {
+		typedKeys(Filters).map((filter) => {
+			const auxSelectedFilters: any = selectedFilters
+			auxSelectedFilters[filter] = []
+			setSelectedFilters(auxSelectedFilters)
+		})
+	}, [])
 
 	useEffect(() => {
 		const getDataCollection = async () => {
@@ -148,7 +160,7 @@ export default function NftValuation() {
 							<div className="col-span-3 ">
 								<SearcherBar
 									nftObject={nftObject}
-									setfilteredItem={setfilteredItem}
+									setfilteredItems={setfilteredItems}
 									checked={checked}
 									setChecked={setChecked}
 								/>
@@ -157,8 +169,12 @@ export default function NftValuation() {
 							{openedTraits && (
 								<FilterColumn
 									nftObject={nftObject}
-									setfilteredItem={setfilteredItem}
+									setfilteredItems={setfilteredItems}
 									setChecked={setChecked}
+									selectedFilters={selectedFilters}
+									setSelectedFilters={setSelectedFilters}
+									nFiltersSelected={nFiltersSelected}
+									setNFiltersSelected={setNFiltersSelected}
 								/>
 							)}
 							{/* NFT Collection List */}
@@ -166,7 +182,7 @@ export default function NftValuation() {
 								className={`${openedTraits ? "col-span-3" : "col-span-full"} `}
 							>
 								<Content
-									filteredItem={filteredItem}
+									filteredItems={filteredItems}
 									checked={checked}
 									nftObject={nftObject}
 									isLoading={loadingCollection}

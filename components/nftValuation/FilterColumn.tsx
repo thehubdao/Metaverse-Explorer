@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 
 // Components
@@ -29,16 +29,41 @@ interface nftObject {
 
 interface IFilterColumn {
 	nftObject: nftObject[];
-	setfilteredItem: Function;
+	setfilteredItems: Function;
 	setChecked: Function;
+	selectedFilters: any
+	setSelectedFilters: Function
+	nFiltersSelected: number
+	setNFiltersSelected: Function
 }
 
 export default function FilterColumn({
 	nftObject,
-	setfilteredItem,
+	setfilteredItems,
 	setChecked,
+	selectedFilters,
+	setSelectedFilters,
+	nFiltersSelected,
+	setNFiltersSelected,
 }: IFilterColumn) {
 	const [currency, setCurrency] = useState<Currencies>("eth");
+
+	useEffect(() => {
+		if (nFiltersSelected === 0) {
+			setfilteredItems(nftObject);
+		} else {
+			const results = nftObject.filter((fluf: any) => {
+				let isReturnItem = false
+				Object.entries(selectedFilters).forEach(([key, value]: any) => {
+					value.map((item: any) => {
+						if (fluf.traits[key] == item) isReturnItem = true
+					})
+				});
+				return isReturnItem
+			});
+			setfilteredItems(results)
+		}
+	}, [nFiltersSelected])
 
 	const filterOptions = {
 		Status: {
@@ -49,7 +74,7 @@ export default function FilterColumn({
 					<FilterCheckBox
 						optionslist={Status}
 						filterObject={nftObject}
-						setfilteredItem={setfilteredItem}
+						setfilteredItems={setfilteredItems}
 						setChecked={setChecked}
 					/>
 				</Fade>
@@ -80,9 +105,11 @@ export default function FilterColumn({
 							<Fade duration={500} direction="down" key={filter}>
 								<FilterSelectorTraits
 									title={filter}
-									setfilteredItem={setfilteredItem}
 									setChecked={setChecked}
-									filterObject={nftObject}
+									selectedFilters={selectedFilters}
+									setSelectedFilters={setSelectedFilters}
+									nFiltersSelected={nFiltersSelected}
+									setNFiltersSelected={setNFiltersSelected}
 								/>
 							</Fade>
 						);
