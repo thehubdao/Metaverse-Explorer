@@ -51,6 +51,10 @@ export default function Sidebar({ list }: Isidebar) {
   const parentRef = useRef<HTMLDivElement>(null)
   const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
 
+  useEffect(() => {
+    setParentDom(parentRef.current)
+  }, [parentRef.current])
+
   return (
     <div className="bg-grey-sidebar">
       <Link href={"/"}>

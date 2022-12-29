@@ -14,12 +14,17 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
     const calcOffset = parentDom.scrollTop / (parentDom.scrollHeight - parentDom.getBoundingClientRect().height)
     setOffsetScroll(calcOffset)
     setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
-    console.log('scrolled')
+  }
+
+  const ResizeHandler = (event: Event) => {
+    setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
   }
 
   useEffect(() => {
     parentDom?.addEventListener('scroll', ScrollHandler)
+    window?.addEventListener('resize', ResizeHandler)
     /* return (parentDom?.removeEventListener('scroll', ScrollHandler)) */
+    setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
   }, [parentDom])
 
   return (
@@ -33,7 +38,7 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
       ref={scrollBarDom}
     >
       {
-        (heightBar / parentDom.getBoundingClientRect().height <= 1) &&
+        (heightBar < parentDom.getBoundingClientRect().height) &&
         <div
           className={`bg-grey-content w-full absolute rounded-full opacity-60`}
           style={{

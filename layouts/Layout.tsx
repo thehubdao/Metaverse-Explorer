@@ -49,17 +49,22 @@ const list = [
 		label: "EDIT AVATAR",
 		icon: "g",
 	},
+	
 ];
 
 export default function Layout({ children }: LayoutProps) {
 	// Scrollbar Controller
-  const parentRef = useRef<HTMLDivElement>(null)
-  const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
+	const parentRef = useRef<HTMLDivElement>(null)
+	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
 
-  useEffect(() => {
-    setParentDom(parentRef.current)
-    //console.log(parentRef)
-  }, [parentRef.current])
+	useEffect(() => {
+		setParentDom(parentRef.current)
+		//console.log(parentRef)
+	}, [parentRef.current])
+
+	useEffect(() => {
+		console.log(children)
+	}, [])
 
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
@@ -67,7 +72,7 @@ export default function Layout({ children }: LayoutProps) {
 			<main className="w-full min-h-screen pl-24">
 				{children}
 			</main>
-			
+
 			{/* Wallet connection wrapper */}
 			<div className="absolute top-0 right-0">wallet connection</div>
 			{/* Sidebar wrapper */}
