@@ -4,10 +4,7 @@ import { FiSearch } from "react-icons/fi";
 interface nftObject {
 	tokenId: string;
 	floor_adjusted_predicted_price: number;
-	traits: {
-		traitType: string;
-		value: string;
-	}[];
+	traits: {};
 	images: {
 		image_small: string;
 	};
@@ -25,22 +22,23 @@ export default function SearcherBar({
 	setfilteredItems,
 	setChecked,
 }: SearcherBarProps) {
-	const [inputValue, setInputValue] = useState();
-	const filtered = (e: any) => {
+	const [inputValue, setInputValue] = useState<number | undefined>(undefined);
+	const handleFilter = (e: any) => {
+		e.preventDefault();
 		const keyWord = e.target.value;
 		const results = nftObject.filter((fluf: nftObject) => {
 			return fluf.tokenId == keyWord;
 		});
 		setfilteredItems(results);
 		setChecked(keyWord ? true : false);
-		setInputValue(keyWord);
+		keyWord > 0 ? setInputValue(keyWord) : setInputValue(undefined)
 	};
 
 	return (
 		<div className="relative rounded-full col-span-3 flex">
 			<input
 				type="number"
-				onChange={filtered}
+				onChange={handleFilter}
 				value={inputValue}
 				placeholder="Search by ID"
 				className="font-normal font-plus justify-center text-grey-content nm-inset-soft focus:outline-none placeholder-gray-300 p-4 rounded-full w-full"

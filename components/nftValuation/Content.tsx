@@ -4,10 +4,7 @@ import NftCard from "./NftCard";
 interface nftObject {
 	tokenId: string;
 	floor_adjusted_predicted_price: number;
-	traits: {
-		traitType: string;
-		value: string;
-	}[];
+	traits: {};
 	images: {
 		image_small: string;
 	};
@@ -19,6 +16,7 @@ interface ContentProps {
 	nftObject: nftObject[];
 	isLoading: boolean;
 	controlPageIndex: number
+	pageLenght: number
 }
 
 const formatter = new Intl.NumberFormat("en-US", {
@@ -31,46 +29,25 @@ export default function Content({
 	checked,
 	nftObject,
 	isLoading,
-	controlPageIndex
+	controlPageIndex,
+	pageLenght
 }: ContentProps) {
-
-
-	const dataFluf = () => {
+	const dataFluf = (isFiltered: boolean) => {
 		const flufs: React.ReactElement[] = [];
+		const dataObject = isFiltered ? filteredItems : nftObject
+
 		for (
-			let index: number = controlPageIndex * 10;
-			index < controlPageIndex * 10 + 20;
+			let index: number = controlPageIndex * pageLenght;
+			index < pageLenght * (controlPageIndex + 1);
 			index++
 		) {
-			if (!nftObject[index]) return flufs;
+			if (!dataObject[index]) return flufs;
 			flufs.push(
 				<NftCard
-					image={nftObject[index]["images"]["image_small"]}
+					image={dataObject[index]["images"]["image_small"]}
 					text="Estimated Price: "
 					value={formatter.format(
-						nftObject[index]["floor_adjusted_predicted_price"]
-					)}
-					key={index}
-				/>
-			);
-		}
-		return flufs;
-	};
-
-	const datafiltered = () => {
-		const flufs: React.ReactElement[] = [];
-		for (
-			let index: number = controlPageIndex * 10;
-			index < controlPageIndex * 10 + 20;
-			index++
-		) {
-			if (!filteredItems[index]) return flufs;
-			flufs.push(
-				<NftCard
-					image={filteredItems[index]["images"]["image_small"]}
-					text="Estimated Price: "
-					value={formatter.format(
-						filteredItems[index]["floor_adjusted_predicted_price"]
+						dataObject[index]["floor_adjusted_predicted_price"]
 					)}
 					key={index}
 				/>
@@ -84,14 +61,13 @@ export default function Content({
 			{isLoading ? (
 				<div className="w-full pt-16">
 					<Loader />
-
 				</div>
 			) : (
 				<div className="flex flex-wrap justify-center gap-10">
 					{filteredItems && checked && filteredItems.length > 0 ? (
-						<>{datafiltered()}</>
+						<>{dataFluf(true)}</>
 					) : (
-						<>{dataFluf()}</>
+						<>{dataFluf(false)}</>
 					)}
 				</div>
 			)}

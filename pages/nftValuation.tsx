@@ -23,7 +23,6 @@ import {
 
 // Filters
 import { typedKeys } from "../lib/utilities";
-import { Filters } from "../lib/nftValuation/nftCommonTypes";
 
 interface nftCollectionProps {
 	num_owners: number;
@@ -33,10 +32,7 @@ interface nftCollectionProps {
 interface nftObject {
 	tokenId: string;
 	floor_adjusted_predicted_price: number;
-	traits: {
-		traitType: string;
-		value: string;
-	}[];
+	traits: {};
 	images: {
 		image_small: string;
 	};
@@ -71,7 +67,7 @@ export default function NftValuation() {
 	// Data
 	const [collectionName, setCollectionName] = useState<string>("");
 	const [nftGlobal, setnftGlobal] = useState<nftCollectionProps | null>(null);
-	const [nftTraits, setnftTraits] = useState<any[]>([]);
+	const [nftTraitsFilters, setnftTraitsFilters] = useState<any[]>([]);
 	const [nftObject, setnftObject] = useState<any[]>([]);
 	const [selectedFilters, setSelectedFilters] = useState({}) // array of filters selected
 
@@ -84,15 +80,16 @@ export default function NftValuation() {
 	const [nFiltersSelected, setNFiltersSelected] = useState<number>(0) // number of filters checked
 
 	// Pagination Controller
-	const [pageLenght, setPageLenght] = useState<number>(0);
+	const [numberOfPages, setNumberOfPages] = useState<number>(0)
+	const [pageLenght, setPageLenght] = useState<number>(20);
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
 
 	useEffect(() => {
 		if (filteredItems.length > 0) {
-			setPageLenght(Math.trunc(filteredItems.length / 10));
+			setNumberOfPages(Math.trunc(filteredItems.length / pageLenght));
 			setControlPageIndex(0);
 		} else {
-			setPageLenght(Math.trunc(nftObject?.length / 10));
+			setNumberOfPages(Math.trunc(nftObject?.length / pageLenght));
 			setControlPageIndex(0);
 		}
 	}, [filteredItems, nftObject]);
@@ -100,32 +97,31 @@ export default function NftValuation() {
 	useEffect(() => {
 		const getNftData = async () => {
 			setLoadingGlobalData(true);
-			const globalResponse = await getNftGlobalData(collectionName);
-			setnftGlobal(globalResponse.stats);
 			setLoadingGlobalData(false);
 		};
 		getNftData();
 	}, []);
 
 	useEffect(() => {
-		typedKeys(Filters).map((filter) => {
+		if (!nftTraitsFilters) return
+		typedKeys(nftTraitsFilters).map((filter) => {
 			const auxSelectedFilters: any = selectedFilters
 			auxSelectedFilters[filter] = []
 			setSelectedFilters(auxSelectedFilters)
 		})
-	}, [])
+	}, [nftTraitsFilters]);
 
 	useEffect(() => {
 		const getDataCollection = async () => {
-			let response
-			let traits
+			let response, traits, globalResponse
 			if (collectionName) {
 				setLoadingCollection(true);
 				response = await getNftCollection(collectionName);
 				traits = await getDataTraits(collectionName)
-				console.log(traits)
-				//setnftTraits(traits);
+				globalResponse = await getNftGlobalData(collectionName);
 				setnftObject(response);
+				setnftTraitsFilters(traits);
+				setnftGlobal(globalResponse.stats);
 				setLoadingCollection(false);
 			}
 		};
@@ -202,12 +198,13 @@ export default function NftValuation() {
 									nftObject={nftObject}
 									isLoading={loadingCollection}
 									controlPageIndex={controlPageIndex}
+									pageLenght={pageLenght}
 								/>
 							</div>
 							<div className="col-span-full flex justify-center p-10">
-								{pageLenght > 1 ? (
+								{numberOfPages > 1 ? (
 									<Pagination
-										count={pageLenght}
+										count={numberOfPages}
 										defaultPage={controlPageIndex + 1}
 										siblingCount={3} boundaryCount={2}
 										shape="rounded"
