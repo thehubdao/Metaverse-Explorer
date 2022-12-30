@@ -51,7 +51,7 @@ export interface IAPIData {
   coords: { x: number; y: number }
   metaverse: Metaverse
   name?: string
-  opensea_link?: string
+  market_links: { opensea: string; looksrare: string; X2Y2: string }
   external_link: string
   images: {
     image_url: string
