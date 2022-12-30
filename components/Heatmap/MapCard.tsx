@@ -119,8 +119,8 @@ const MapCard = ({
                 )}
                 {/* External Links */}
                 <nav className='flex flex-col md:gap-4 gap-[1.40rem] text-grey-content'>
-                  {apiData.opensea_link && (
-                    <ExternalLink href={apiData.opensea_link} text='OpenSea' />
+                  {apiData.market_links.opensea && (
+                    <ExternalLink href={apiData.market_links.opensea } text='OpenSea' />
                   )}
                   <ExternalLink
                     href={getExternalLink(metaverse, apiData)}
