@@ -54,11 +54,7 @@ export const findHeatmapLand = (
     'somnium-space': { contract: Contracts.CUBES.ETHEREUM_MAINNET.address }
   }
 
-  const setOpenSeaLink = () => {
-    if (apiData && metaverse !== 'axie-infinity') {
-      apiData.market_links.opensea = `https://opensea.io/assets/${landOptions[metaverse].contract}/${land.land_id}`
-    }
-  }
+
 
   if (!land) return
   let apiData: IAPIData
@@ -71,7 +67,6 @@ export const findHeatmapLand = (
 
   const name = land.name ? land.name : undefined
   const landCoords = { x:  coords.x , y: coords.y }
-  setOpenSeaLink()
 
   const predictions = convertETHPrediction(
     prices,
