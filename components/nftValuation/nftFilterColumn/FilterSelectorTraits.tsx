@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { Fade } from "react-awesome-reveal";
 
@@ -7,10 +7,10 @@ interface optionList {
 	description: string;
 }
 
-interface FilterCheckBoxProps {
-	optionslist: optionList[];
-	selectedFilters: []
-	filteredFunction: ChangeEventHandler,
+interface CheckBoxProps {
+	filter: optionList;
+	selectedFilters: string[]
+	handleFilter: Function,
 }
 
 interface FilterSelectorTraitsProps {
@@ -23,22 +23,31 @@ interface FilterSelectorTraitsProps {
 	nftTraitsFilters: any
 }
 
-function FilterCheckBox({
-	optionslist,
+function CheckBox({
+	filter,
 	selectedFilters,
-	filteredFunction
-}: FilterCheckBoxProps) {
+	handleFilter
+}: CheckBoxProps) {
+	const [isChecked, setIsChecked] = useState<boolean>(false)
+
+	useEffect(() => {
+		const checkCondition = selectedFilters.indexOf(filter.name) >= 0
+		setIsChecked(checkCondition)
+	}, [])
+
 	return (
-		<div className="flex flex-col">
-			{optionslist.map((filter, index: number) => (
-				<Fade duration={500} direction="down" key={index}>
-					<div className="flex justify-between font-plus px-5 font-medium text-grey-content cursor-pointer transition-all">
-						<label>{filter.name}</label>
-						<input type="checkbox" value={filter.name} onChange={filteredFunction} checked={selectedFilters.indexOf(filter.name) >= 0} />
-					</div>
-				</Fade>
-			))}
-		</div>
+		<Fade duration={500} direction="down">
+			<div className="flex justify-between font-plus px-5 font-medium text-grey-content transition-all">
+				<label>{filter.name}</label>
+				<div
+					className={`w-5 h-5 border-grey-sidebar border-2 rounded cursor-pointer  ${isChecked ? 'bg-grey-icon hover:scale-110' : 'hover:scale-90'}`}
+					onClick={() => {
+						setIsChecked(!isChecked)
+						handleFilter(filter.name, !isChecked)
+					}}
+				/>
+			</div>
+		</Fade>
 	);
 }
 
@@ -53,17 +62,16 @@ export default function FilterSelectorTraits({
 }: FilterSelectorTraitsProps) {
 	const [opened, setOpened] = useState(false);
 
-	const filtered = (e: any) => {
-		const keyWord = e.target.value;
+	const handleFilter = (keyword: string, isntChecked: boolean) => {
 		const auxSelectedFilters: any = selectedFilters
 		let auxNoFilters = nFiltersSelected
-		if (e.target.checked) {
-			auxSelectedFilters[title].push(keyWord)
+		if (isntChecked) {
+			auxSelectedFilters[title].push(keyword)
 			setSelectedFilters(auxSelectedFilters)
 			setNFiltersSelected(auxNoFilters + 1)
 			setChecked(true);
 		} else {
-			auxSelectedFilters[title] = auxSelectedFilters[title].filter((item: any) => item != keyWord)
+			auxSelectedFilters[title] = auxSelectedFilters[title].filter((item: any) => item != keyword)
 			setSelectedFilters(auxSelectedFilters)
 			setNFiltersSelected(auxNoFilters - 1)
 			if (auxNoFilters - 1 <= 0)
@@ -85,17 +93,18 @@ export default function FilterSelectorTraits({
 					}
 				/>
 			</div>
-			<div
-				className={
-					(opened && "mb-1 md:mb-0") + "md:absolute flex flex-col gap-2"
-				}
-			>
+			<div className={(opened && "mb-1 md:mb-0") + "md:absolute flex flex-col gap-2"}>
 				{opened && (
-					<FilterCheckBox
-						optionslist={nftTraitsFilters[title]}
-						selectedFilters={selectedFilters[title]}
-						filteredFunction={filtered}
-					/>
+					<div className="flex flex-col">
+						{nftTraitsFilters[title].map((filter: optionList, index: number) => (
+							<CheckBox
+								filter={filter}
+								selectedFilters={selectedFilters[title]}
+								handleFilter={handleFilter}
+								key={index}
+							/>
+						))}
+					</div>
 				)}
 			</div>
 		</div>
