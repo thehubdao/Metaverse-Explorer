@@ -11,17 +11,13 @@ import FilterPrice from "./nftFilterColumn/FilterPrice";
 import {
 	Status,
 	Currencies,
-	Filters,
 } from "../../lib/nftValuation/nftCommonTypes";
 import { typedKeys } from "../../lib/utilities";
 
 interface nftObject {
 	tokenId: string;
 	floor_adjusted_predicted_price: number;
-	traits: {
-		traitType: string;
-		value: string;
-	}[];
+	traits: {};
 	images: {
 		image_small: string;
 	};
@@ -35,6 +31,7 @@ interface IFilterColumn {
 	setSelectedFilters: Function
 	nFiltersSelected: number
 	setNFiltersSelected: Function
+	nftTraitsFilters: {}
 }
 
 export default function FilterColumn({
@@ -45,6 +42,7 @@ export default function FilterColumn({
 	setSelectedFilters,
 	nFiltersSelected,
 	setNFiltersSelected,
+	nftTraitsFilters
 }: IFilterColumn) {
 	const [currency, setCurrency] = useState<Currencies>("eth");
 
@@ -85,9 +83,9 @@ export default function FilterColumn({
 			description: "",
 			children: (
 				<Fade duration={500} direction="down">
-					<FilterPrice 
-						currency={currency} 
-						setCurrency={setCurrency} 
+					<FilterPrice
+						currency={currency}
+						setCurrency={setCurrency}
 						nftObject={nftObject}
 						setfilteredItem={setfilteredItems}
 						setChecked={setChecked}
@@ -100,7 +98,7 @@ export default function FilterColumn({
 			description: "",
 			children: (
 				<div className="flex flex-col p-1 rounded-3xl">
-					{typedKeys(Filters).map((filter) => {
+					{typedKeys(nftTraitsFilters).map((filter) => {
 						return (
 							<Fade duration={500} direction="down" key={filter}>
 								<FilterSelectorTraits
@@ -110,6 +108,7 @@ export default function FilterColumn({
 									setSelectedFilters={setSelectedFilters}
 									nFiltersSelected={nFiltersSelected}
 									setNFiltersSelected={setNFiltersSelected}
+									nftTraitsFilters={nftTraitsFilters}
 								/>
 							</Fade>
 						);

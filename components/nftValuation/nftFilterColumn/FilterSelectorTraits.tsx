@@ -2,9 +2,6 @@ import { ChangeEventHandler, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { Fade } from "react-awesome-reveal";
 
-// libraries
-import { Filters } from "../../../lib/nftValuation/nftCommonTypes";
-
 interface optionList {
 	name: string;
 	description: string;
@@ -17,26 +14,13 @@ interface FilterCheckBoxProps {
 }
 
 interface FilterSelectorTraitsProps {
-	title:
-	| "Background"
-	| "Dance"
-	| "Ears"
-	| "Expression"
-	| "Eyes"
-	| "Eyewear"
-	| "Fur"
-	| "Head"
-	| "Mouth"
-	| "Music"
-	| "Neck"
-	| "Nose"
-	| "Sex"
-	| "Top";
+	title: string;
 	setChecked: Function;
 	selectedFilters: any
 	setSelectedFilters: Function
 	nFiltersSelected: number
 	setNFiltersSelected: Function
+	nftTraitsFilters: any
 }
 
 function FilterCheckBox({
@@ -64,7 +48,8 @@ export default function FilterSelectorTraits({
 	selectedFilters,
 	setSelectedFilters,
 	nFiltersSelected,
-	setNFiltersSelected
+	setNFiltersSelected,
+	nftTraitsFilters
 }: FilterSelectorTraitsProps) {
 	const [opened, setOpened] = useState(false);
 
@@ -107,7 +92,7 @@ export default function FilterSelectorTraits({
 			>
 				{opened && (
 					<FilterCheckBox
-						optionslist={Filters[title]}
+						optionslist={nftTraitsFilters[title]}
 						selectedFilters={selectedFilters[title]}
 						filteredFunction={filtered}
 					/>

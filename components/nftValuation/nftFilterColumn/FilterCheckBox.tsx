@@ -3,10 +3,7 @@ import { Fade } from "react-awesome-reveal";
 interface nftObject {
 	tokenId: string;
 	floor_adjusted_predicted_price: number;
-	traits: {
-		traitType: string;
-		value: string;
-	}[];
+	traits: {};
 	images: {
 		image_small: string;
 	};

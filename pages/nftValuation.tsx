@@ -186,6 +186,8 @@ export default function NftValuation() {
 									setSelectedFilters={setSelectedFilters}
 									nFiltersSelected={nFiltersSelected}
 									setNFiltersSelected={setNFiltersSelected}
+									nftTraitsFilters= {nftTraitsFilters}
+									
 								/>
 							)}
 							{/* NFT Collection List */}
