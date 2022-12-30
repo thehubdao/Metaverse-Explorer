@@ -56,7 +56,7 @@ export const findHeatmapLand = (
 
   const setOpenSeaLink = () => {
     if (apiData && metaverse !== 'axie-infinity') {
-      apiData.opensea_link = `https://opensea.io/assets/${landOptions[metaverse].contract}/${land.land_id}`
+      apiData.market_links.opensea = `https://opensea.io/assets/${landOptions[metaverse].contract}/${land.land_id}`
     }
   }
 

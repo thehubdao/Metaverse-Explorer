@@ -66,6 +66,7 @@ export type ValuationTile = {
   land_id?: string
   watchlist?: boolean
   portfolio?: boolean
+  market_links: { opensea: string; looksrare: string; X2Y2: string }
   images: { image_url: string }
   owner?: string
   external_link: string,
