@@ -3,7 +3,6 @@ import { Fade } from "react-awesome-reveal";
 
 // Components
 import ColumnOptionButton from "./nftFilterColumn/ColumnOptionButton";
-import FilterCheckBox from "./nftFilterColumn/FilterCheckBox";
 import FilterSelectorTraits from "./nftFilterColumn/FilterSelectorTraits";
 import FilterPrice from "./nftFilterColumn/FilterPrice";
 
@@ -13,6 +12,7 @@ import {
 	Currencies,
 } from "../../lib/nftValuation/nftCommonTypes";
 import { typedKeys } from "../../lib/utilities";
+import { CheckBox } from "./nftFilterColumn/Checkbox";
 
 interface nftObject {
 	tokenId: string;
@@ -69,11 +69,10 @@ export default function FilterColumn({
 			description: "",
 			children: (
 				<Fade duration={500} direction="down">
-					<FilterCheckBox
-						optionslist={Status}
-						filterObject={nftObject}
-						setfilteredItems={setfilteredItems}
-						setChecked={setChecked}
+					<CheckBox
+						filter={{ name: 'listed', description: '' }}
+						selectedFilters={['']}
+						handleFilter={() => { console.log('hi') }}
 					/>
 				</Fade>
 			),

@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { Fade } from "react-awesome-reveal";
+import { CheckBox } from "./Checkbox";
 
 interface optionList {
 	name: string;
 	description: string;
-}
-
-interface CheckBoxProps {
-	filter: optionList;
-	selectedFilters: string[]
-	handleFilter: Function,
 }
 
 interface FilterSelectorTraitsProps {
@@ -23,33 +17,7 @@ interface FilterSelectorTraitsProps {
 	nftTraitsFilters: any
 }
 
-function CheckBox({
-	filter,
-	selectedFilters,
-	handleFilter
-}: CheckBoxProps) {
-	const [isChecked, setIsChecked] = useState<boolean>(false)
 
-	useEffect(() => {
-		const checkCondition = selectedFilters.indexOf(filter.name) >= 0
-		setIsChecked(checkCondition)
-	}, [])
-
-	return (
-		<Fade duration={500} direction="down">
-			<div className="flex justify-between font-plus px-5 font-medium text-grey-content transition-all">
-				<label>{filter.name}</label>
-				<div
-					className={`w-5 h-5 border-grey-sidebar border-2 rounded cursor-pointer  ${isChecked ? 'bg-grey-icon hover:scale-110' : 'hover:scale-90'}`}
-					onClick={() => {
-						setIsChecked(!isChecked)
-						handleFilter(filter.name, !isChecked)
-					}}
-				/>
-			</div>
-		</Fade>
-	);
-}
 
 export default function FilterSelectorTraits({
 	title,
