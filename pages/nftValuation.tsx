@@ -136,9 +136,7 @@ export default function NftValuation() {
 			</Head>
 
 			{/* Top Padding or Image */}
-			<div
-				className={`relative ${collectionName ? "p-0 mb-8 w-full" : "pt-24"}`}
-			>
+			<div className={`relative ${collectionName ? "p-0 mb-8 w-full" : "pt-24"}`}>
 				<img
 					src="/images/nft_valuation_header.svg"
 					alt="nft_valuation_header"
@@ -163,37 +161,39 @@ export default function NftValuation() {
 							/>
 						)}
 						<div className="grid grid-cols-4 gap-5 w-full">
-							{/* Searcher Bar */}
-							<TraitsButton
-								openedTraits={openedTraits}
-								setOpenedTraits={setOpenedTraits}
-							/>
-							<div className="col-span-3 ">
-								<SearcherBar
-									nftObject={nftObject}
-									setfilteredItems={setfilteredItems}
-									checked={checked}
-									setChecked={setChecked}
-								/>
-							</div>
-							{/* Traits Filter Column */}
-							{openedTraits && (
-								<FilterColumn
-									nftObject={nftObject}
-									setfilteredItems={setfilteredItems}
-									setChecked={setChecked}
-									selectedFilters={selectedFilters}
-									setSelectedFilters={setSelectedFilters}
-									nFiltersSelected={nFiltersSelected}
-									setNFiltersSelected={setNFiltersSelected}
-									nftTraitsFilters= {nftTraitsFilters}
-									
-								/>
-							)}
+							{
+								!loadingCollection && <>
+									{/* Searcher Bar */}
+									<TraitsButton
+										openedTraits={openedTraits}
+										setOpenedTraits={setOpenedTraits}
+									/>
+									<div className="col-span-3 ">
+										<SearcherBar
+											nftObject={nftObject}
+											setfilteredItems={setfilteredItems}
+											checked={checked}
+											setChecked={setChecked}
+										/>
+									</div>
+									{/* Traits Filter Column */}
+									{openedTraits && (
+										<FilterColumn
+											nftObject={nftObject}
+											setfilteredItems={setfilteredItems}
+											setChecked={setChecked}
+											selectedFilters={selectedFilters}
+											setSelectedFilters={setSelectedFilters}
+											nFiltersSelected={nFiltersSelected}
+											setNFiltersSelected={setNFiltersSelected}
+											nftTraitsFilters={nftTraitsFilters}
+
+										/>
+									)}
+								</>
+							}
 							{/* NFT Collection List */}
-							<div
-								className={`${openedTraits ? "col-span-3" : "col-span-full"} `}
-							>
+							<div className={`${openedTraits ? "col-span-3" : "col-span-full"} `}>
 								<Content
 									filteredItems={filteredItems}
 									checked={checked}
@@ -203,6 +203,7 @@ export default function NftValuation() {
 									pageLenght={pageLenght}
 								/>
 							</div>
+							{/* Pagination of collection list content */}
 							<div className="col-span-full flex justify-center p-10">
 								{numberOfPages > 1 ? (
 									<Pagination
@@ -217,7 +218,7 @@ export default function NftValuation() {
 							</div>
 						</div>
 						{/* Footer */}
-						<p className="text-grey-icon text-xs p-20">
+						<p className="text-grey-icon text-center text-xs p-20">
 							The MGH DAO does not provide, personalized investment
 							recommendations or advisory services. Any information provided
 							through the land evaluation tool and others is not, and should not
