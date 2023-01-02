@@ -28,6 +28,11 @@
 
   /* Neomorphism Box Shadows */
 
+  .nm-none {
+    box-shadow: 0px 0px 0px #cdcfd8,
+      0px 0px 0px #ffffff;
+  }
+
   .nm-flat-soft {
     box-shadow: 2px 2px 4px #cdcfd8,
       -2px -2px 4px #ffffff;
