@@ -27,7 +27,7 @@
     "lib/heatmap/*.d.ts",
     "lib/heatmap/fakeImpetus.js",
     "backend/services/topSellingLands.ts"
-  ],
+, "lib/chatbot/MessageParser.js", "lib/chatbot/ActionProvider.js", "lib/chatbot/MessageParser.js"  ],
   "exclude": [
     "node_modules"
   ]

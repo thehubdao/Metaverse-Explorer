@@ -1,0 +1,19 @@
+.react-chatbot-kit-chat-header {
+  display: none;
+}
+
+.react-chatbot-kit-chat-bot-avatar {
+  display: none;
+}
+
+.react-chatbot-kit-chat-input-container {
+  display: none;
+}
+
+.react-chatbot-kit-chat-bot-message-arrow {
+  background-color: aqua;
+}
+
+.react-chatbot-kit-user-avatar-icon {
+  display: none;
+}
