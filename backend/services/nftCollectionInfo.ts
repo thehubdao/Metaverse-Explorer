@@ -1,10 +1,10 @@
-export async function getNftGlobalData() { //Should be collection
+export async function getNftGlobalData(collection: string) { //Should be collection
   try {
-    const data = await fetch(`https://services.itrmachines.com/fluf/globalData`)
+    const data = await fetch(`${process.env.ITRM_SERVICE}/${collection}/globalData`)
     const collectionData = await data.json()
     return collectionData
   } catch (error) {
-    console.log('problem getting exchange rate for eth', error)
+    console.log('problem getting global data', error)
     return {
       stats: {
         num_owners: 0,
@@ -30,6 +30,21 @@ export async function getNftCollection(collection: string) {
     } while (Object.keys(collectionArray).length > 0);
     return dataArray;
   } catch (error) {
-
+    console.log('problem getting collection data', error)
+  }
+}
+export async function getDataTraits(collection: string) { 
+  try {
+    const response = await fetch(`${process.env.ITRM_SERVICE}/${collection}/traits`)
+    const traits = await response.json()
+    return traits
+  } catch (error) {
+    console.log('problem getting traits', error)
+    return {
+      traits: {
+        name: 0,
+        description: 0
+      }
+    }
   }
 }

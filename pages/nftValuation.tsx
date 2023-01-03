@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
+import { Pagination } from "@mui/material";
 
 // Components
 import CollectionsChoise from "../components/General/Choicer/CollectionsChoise";
@@ -8,34 +9,33 @@ import InitChoice from "../components/InitChoice";
 import DescriptionContent from "../components/DescriptionContent";
 import {
 	Content,
+	FilterColumn,
 	SearcherBar,
 	TraitsButton,
-  	FiltersColumn
 } from "../components/nftValuation/index";
 
 // Services
 import {
+	getDataTraits,
 	getNftCollection,
 	getNftGlobalData,
 } from "../backend/services/nftCollectionInfo";
 
 // Filters
 import { typedKeys } from "../lib/utilities";
+
 interface nftCollectionProps {
-	num_owners: number
-	market_cap: number
+	num_owners: number;
+	market_cap: number;
 }
 
 interface nftObject {
 	tokenId: string;
 	floor_adjusted_predicted_price: number;
-	traits: {
-		traitType: string;
-		value: string;
-	}[]
+	traits: {};
 	images: {
 		image_small: string;
-	}
+	};
 }
 
 const headerList = [
@@ -51,22 +51,8 @@ const headerList = [
 		name: "Analytics",
 		route: "analytics",
 	},
-]
+];
 
-const filterOptions = {
-	Status: {
-		name: "Status",
-		description: "",
-	},
-	Price: {
-		name: "Price Estimation",
-		description: "",
-	},
-	TraitFilter: {
-		name: "TraitFilter",
-		description: "",
-	},
-}
 const collectionsList = [
 	{
 		name: "FLUF World",
@@ -74,53 +60,73 @@ const collectionsList = [
 		creator: "FLUF_World",
 		nItems: 10000,
 		collection: "fluf",
-	}
+	},
 ];
 
 export default function NftValuation() {
 	// Data
 	const [collectionName, setCollectionName] = useState<string>("");
 	const [nftGlobal, setnftGlobal] = useState<nftCollectionProps | null>(null);
-	const [nftObject, setnftObject] = useState<nftObject[]>([]);
+	const [nftTraitsFilters, setnftTraitsFilters] = useState<any[]>([]);
+	const [nftObject, setnftObject] = useState<any[]>([]);
+	const [selectedFilters, setSelectedFilters] = useState({}) // array of filters selected
 
 	// Control Flags
 	const [openedTraits, setOpenedTraits] = useState<boolean>(false);
-	//const [filterBy, setFilterBy] = useState<TraitFilter>('traits')
-	const [filteredItem, setfilteredItem] = useState(nftObject);
-	//const [filterElement, setFilteredElement] = useState(nftObject);
-	const [checked, setChecked] = useState();
+	const [filteredItems, setfilteredItems] = useState<nftObject[]>(nftObject);
+	const [checked, setChecked] = useState<boolean>(false);
 	const [loadingGlobalData, setLoadingGlobalData] = useState<boolean>(true);
 	const [loadingCollection, setLoadingCollection] = useState<boolean>(true);
+	const [nFiltersSelected, setNFiltersSelected] = useState<number>(0) // number of filters checked
 
 	// Pagination Controller
-	const [pageLenght, setPageLenght] = useState(0);
+	const [numberOfPages, setNumberOfPages] = useState<number>(0)
+	const [pageLenght, setPageLenght] = useState<number>(20);
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
+
+	useEffect(() => {
+		if (filteredItems.length > 0) {
+			setNumberOfPages(Math.trunc(filteredItems.length / pageLenght));
+			setControlPageIndex(0);
+		} else {
+			setNumberOfPages(Math.trunc(nftObject?.length / pageLenght));
+			setControlPageIndex(0);
+		}
+	}, [filteredItems, nftObject]);
 
 	useEffect(() => {
 		const getNftData = async () => {
 			setLoadingGlobalData(true);
-			const globalResponse = await getNftGlobalData();
-			setnftGlobal(globalResponse.stats);
 			setLoadingGlobalData(false);
 		};
-		//setFilterBy("traits");
 		getNftData();
 	}, []);
 
-  useEffect(() => {
-    const getDataCollection = async () => {
-      let response
-      if (collectionName) {
-        setLoadingCollection(true)
-        response = await getNftCollection(collectionName)
-        setnftObject(response)
-        setPageLenght(Math.trunc(response.length / 10));
-        setControlPageIndex(0);
-        setLoadingCollection(false)
-      }
-    }
-    getDataCollection()
-  }, [collectionName])
+	useEffect(() => {
+		if (!nftTraitsFilters) return
+		typedKeys(nftTraitsFilters).map((filter) => {
+			const auxSelectedFilters: any = selectedFilters
+			auxSelectedFilters[filter] = []
+			setSelectedFilters(auxSelectedFilters)
+		})
+	}, [nftTraitsFilters]);
+
+	useEffect(() => {
+		const getDataCollection = async () => {
+			let response, traits, globalResponse
+			if (collectionName) {
+				setLoadingCollection(true);
+				response = await getNftCollection(collectionName);
+				traits = await getDataTraits(collectionName)
+				globalResponse = await getNftGlobalData(collectionName);
+				setnftObject(response);
+				setnftTraitsFilters(traits);
+				setnftGlobal(globalResponse.stats);
+				setLoadingCollection(false);
+			}
+		};
+		getDataCollection();
+	}, [collectionName]);
 
 	return (
 		<>
@@ -130,9 +136,7 @@ export default function NftValuation() {
 			</Head>
 
 			{/* Top Padding or Image */}
-			<div
-				className={`relative ${collectionName ? "p-0 mb-8 w-full" : "pt-24"}`}
-			>
+			<div className={`relative ${collectionName ? "p-0 mb-8 w-full" : "pt-24"}`}>
 				<img
 					src="/images/nft_valuation_header.svg"
 					alt="nft_valuation_header"
@@ -157,48 +161,64 @@ export default function NftValuation() {
 							/>
 						)}
 						<div className="grid grid-cols-4 gap-5 w-full">
-							{/* Searcher Bar */}
-							<TraitsButton
-								openedTraits={openedTraits}
-								setOpenedTraits={setOpenedTraits}
-							/>
-							<div className="col-span-3 ">
-								<SearcherBar
-									nftObject={nftObject}
-									setfilteredItem={setfilteredItem}
-									checked={checked}
-									setChecked={setChecked}
-								/>
-							</div>
-							{/* Traits Filter Column */}
-							{openedTraits && (
-								<div className="flex flex-col p-2 nm-flat-medium rounded-3xl">
-									{typedKeys(filterOptions).map((filter) => (
-										<FiltersColumn 
-										title={filterOptions[filter].name} 
-										key={filter} filterObject={nftObject} 
-										setfilteredItem={setfilteredItem} 
-										setChecked={setChecked}/>
-									))}
-								</div>
-							)}
+							{
+								!loadingCollection && <>
+									{/* Searcher Bar */}
+									<TraitsButton
+										openedTraits={openedTraits}
+										setOpenedTraits={setOpenedTraits}
+									/>
+									<div className="col-span-3 ">
+										<SearcherBar
+											nftObject={nftObject}
+											setfilteredItems={setfilteredItems}
+											checked={checked}
+											setChecked={setChecked}
+										/>
+									</div>
+									{/* Traits Filter Column */}
+									{openedTraits && (
+										<FilterColumn
+											nftObject={nftObject}
+											setfilteredItems={setfilteredItems}
+											setChecked={setChecked}
+											selectedFilters={selectedFilters}
+											setSelectedFilters={setSelectedFilters}
+											nFiltersSelected={nFiltersSelected}
+											setNFiltersSelected={setNFiltersSelected}
+											nftTraitsFilters={nftTraitsFilters}
+
+										/>
+									)}
+								</>
+							}
 							{/* NFT Collection List */}
-							<div
-								className={`${openedTraits ? "col-span-3" : "col-span-full"} `}
-							>
+							<div className={`${openedTraits ? "col-span-3" : "col-span-full"} `}>
 								<Content
-									filteredItem={filteredItem}
+									filteredItems={filteredItems}
 									checked={checked}
 									nftObject={nftObject}
+									isLoading={loadingCollection}
 									controlPageIndex={controlPageIndex}
 									pageLenght={pageLenght}
-									setControlPageIndex={setControlPageIndex}
-									isLoading={loadingCollection}
 								/>
+							</div>
+							{/* Pagination of collection list content */}
+							<div className="col-span-full flex justify-center p-10">
+								{numberOfPages > 1 ? (
+									<Pagination
+										count={numberOfPages}
+										defaultPage={controlPageIndex + 1}
+										siblingCount={3} boundaryCount={2}
+										shape="rounded"
+										size="large"
+										onChange={(e, page) => { setControlPageIndex(page - 1) }}
+									/>
+								) : (<></>)}
 							</div>
 						</div>
 						{/* Footer */}
-						<p className="text-grey-icon text-xs p-20">
+						<p className="text-grey-icon text-center text-xs p-20">
 							The MGH DAO does not provide, personalized investment
 							recommendations or advisory services. Any information provided
 							through the land evaluation tool and others is not, and should not
