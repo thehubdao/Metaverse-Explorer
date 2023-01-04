@@ -8,6 +8,7 @@ interface nftObject {
 	images: {
 		image_small: string;
 	};
+
 }
 
 interface ContentProps {
@@ -17,12 +18,10 @@ interface ContentProps {
 	isLoading: boolean;
 	controlPageIndex: number
 	pageLenght: number
+	collectionName: string
 }
 
-const formatter = new Intl.NumberFormat("en-US", {
-	minimumFractionDigits: 2,
-	maximumFractionDigits: 4,
-});
+
 
 export default function Content({
 	filteredItems,
@@ -30,7 +29,8 @@ export default function Content({
 	nftObject,
 	isLoading,
 	controlPageIndex,
-	pageLenght
+	pageLenght,
+	collectionName
 }: ContentProps) {
 	const dataFluf = (isFiltered: boolean) => {
 		const flufs: React.ReactElement[] = [];
@@ -45,10 +45,10 @@ export default function Content({
 			flufs.push(
 				<NftCard
 					image={dataObject[index]["images"]["image_small"]}
-					text="Estimated Price: "
-					value={formatter.format(
-						dataObject[index]["floor_adjusted_predicted_price"]
-					)}
+					predictedPrice={dataObject[index]["floor_adjusted_predicted_price"]}
+					listedPrice={0}
+					collectionName={collectionName}
+					tokenId={dataObject[index]['tokenId']}
 					key={index}
 				/>
 			);
