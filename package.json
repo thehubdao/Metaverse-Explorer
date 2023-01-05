@@ -28,6 +28,7 @@
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.1",
     "fortmatic": "^2.2.1",
+    "gsap": "^3.11.4",
     "impetus": "^0.8.8",
     "jwt-decode": "^3.1.2",
     "lightweight-charts": "^3.8.0",

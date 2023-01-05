@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import useResizeObserver from "use-resize-observer"; //if we dont use, uninstall
+import { gsap } from "gsap"
 
 interface ScrollBarProps {
   parentDom: HTMLDivElement
@@ -14,6 +14,17 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
     const calcOffset = parentDom.scrollTop / (parentDom.scrollHeight - parentDom.getBoundingClientRect().height)
     setOffsetScroll(calcOffset)
     setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
+    gsap.killTweensOf(scrollBarDom.current)
+    const scrollTl = gsap.timeline({ paused: true }) // Timeline
+    scrollTl.to(scrollBarDom.current, {
+      opacity: 1,
+      duration: 0.3
+    }).to(scrollBarDom.current, {
+      opacity: 0,
+      duration: 1,
+      delay: 1
+    })
+    scrollTl.play()
   }
 
   const ResizeHandler = (event: Event) => {
@@ -23,8 +34,6 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
   useEffect(() => {
     parentDom?.addEventListener('scroll', ScrollHandler)
     window?.addEventListener('resize', ResizeHandler)
-    /* return (parentDom?.removeEventListener('scroll', ScrollHandler)) */
-    setHeightBar((parentDom.getBoundingClientRect().height / parentDom.scrollHeight) * (parentDom.getBoundingClientRect().height))
   }, [parentDom])
 
   return (
@@ -33,7 +42,8 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
       style={{
         top: parentDom.getBoundingClientRect().top,
         left: parentDom.getBoundingClientRect().right - 4,
-        height: parentDom.getBoundingClientRect().height
+        height: parentDom.getBoundingClientRect().height,
+        opacity: 0
       }}
       ref={scrollBarDom}
     >
