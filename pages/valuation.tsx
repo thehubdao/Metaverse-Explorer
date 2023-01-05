@@ -132,7 +132,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		try {
 			let data;
 			const response = await fetch(
-				`${process.env.ITRM_SERVICE}${metaverse == "somnium-space" || metaverse == "axie-infinity"
+				`${process.env.ITRM_SERVICE}${metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
 					? ""
 					: "/test"
 				}/${metaverse}/globalData`,
@@ -173,10 +173,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				const parameters =
 					x && y ? `x=${x}&y=${y}` : tokenId ? `tokenId=${tokenId}` : null;
 				const response = await fetch(
-					`${process.env.ITRM_SERVICE}${metaverse == "somnium-space" || metaverse == "axie-infinity"
+					`${process.env.ITRM_SERVICE}${metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
 						? ""
 						: "/test"
-					}/${metaverse}/${metaverse == "axie-infinity" ? "predict" : "map"
+					}/${metaverse}/${/* metaverse == "axie-infinity" */false ? "predict" : "map"
 					}?${parameters}`,
 					{
 						method: "GET",
@@ -184,12 +184,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					}
 				);
 				lands = await response.json();
-				if (metaverse !== "axie-infinity") {
+/* 				if (metaverse !== "axie-infinity") {
 					Object.entries(lands).forEach(([key, value]) => {
 						lands = value;
 						lands.land_id = key;
 					});
-				}
+				} */
 			} catch (e) {
 				console.log("error");
 				setMapState("errorQuery");
@@ -240,7 +240,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				/>
 			</Head>
 			<section className="w-full h-full relative">
-				<div className="bg-grey-lightest rounded-xl p-8">
+				<div className="bg-grey-lightest rounded-xl p-8 pt-24">
 					{/* Main Header */}
 					<div className="border-t border-l border-white/10 rounded-xl p-5 w-full bg-opacity-30; flex flex-col lg:flex-row justify-between items-center mb-8 bg-grey-dark">
 						<h1 className="text-grey-content font-plus font-normal rounded-2xl lg:text-3xl text-3xl  mb-0 sm:mb-2">

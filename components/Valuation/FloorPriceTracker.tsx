@@ -25,13 +25,13 @@ const FloorPriceTracker = ({ coinPrices, metaverse }: Props) => {
       setLoading(true)
       // Fetch Data from OpenSea
       const stats = await getCollectionData(metaverse)
-      if (metaverse === 'axie-infinity') {
+/*       if (metaverse === 'axie-infinity') {
         // Fetch Data from Axie Market
         try {
           const floorPrice = Number(await getAxieFloorPrice())
           stats.floor_price = floorPrice
         } catch (error) { }
-      }
+      } */
 
       if (metaverse === 'somnium-space') {
         // Fetch Data from Somnium Space floor price ITRM service

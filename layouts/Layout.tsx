@@ -1,8 +1,11 @@
 import "animate.css";
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 
-import Sidebar from "../components/Sidebar";
+// Components
+const InitWeb3Connect = dynamic(() => import('../components/InitWeb3Connect'), { ssr: false })
 import ScrollBar from "../components/ScrollBar";
+import Sidebar from "../components/Sidebar";
 
 interface LayoutProps {
 	children: React.ReactNode;
@@ -74,7 +77,9 @@ export default function Layout({ children }: LayoutProps) {
 			</main>
 
 			{/* Wallet connection wrapper */}
-			<div className="absolute top-0 right-0">wallet connection</div>
+			<div className="absolute top-0 right-0">
+				<InitWeb3Connect />
+			</div>
 			{/* Sidebar wrapper */}
 			<div className="fixed inset-0 w-24 overflow-hidden">
 				<Sidebar list={list} />

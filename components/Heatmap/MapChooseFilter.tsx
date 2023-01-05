@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fade } from 'react-awesome-reveal'
+import { Fade, FadeProps } from 'react-awesome-reveal'
 import { BiTargetLock, BiTransferAlt, BiBullseye } from 'react-icons/bi'
 import { FiMap } from 'react-icons/fi'
 import { IoIosArrowDown } from 'react-icons/io'
@@ -84,7 +84,7 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
   return (
     <div>
       {/* Filter Button + Name */}
-      
+
       <button
         onClick={() => setOpened(!opened)}
         className='h-16 gray-box bg-grey-bone mb-2 items-center w-96 tracking-wider font-plus font-medium text-grey-content hover:text-[#7c7b7b] flex justify-between cursor-pointer transition-all'
@@ -119,23 +119,23 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
           typedKeys(filterOptions).map(
             (filter) =>
               filter !== filterBy && (
-                <Fade duration={500} key={filter} direction='down'>
-                  <button
-                    className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] w-96 text-sm md:text-base'
-                    onClick={() => {
-                      setFilterBy(filter)
-                      setOpened(false)
-                    }} 
+                <div key={filter}>
+                  <Fade duration={500} direction='down'>
+                    <button
+                      className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] w-96 text-sm md:text-base'
+                      onClick={() => {
+                        setFilterBy(filter)
+                        setOpened(false)
+                      }}
 
-                  >
-                    {filterOptions[filter].icon}
-                    <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
-                      {filterOptions[filter].name}
-                    </span>
-
-                    
-                  </button>
-                </Fade>
+                    >
+                      {filterOptions[filter].icon}
+                      <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
+                        {filterOptions[filter].name}
+                      </span>
+                    </button>
+                  </Fade>
+                </div>
               )
           )}
       </div>

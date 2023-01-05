@@ -65,6 +65,7 @@ const MaptalksCanva = ({
     const [viewport, setViewport] = useState<any>()
     const [mapData, setMapData] = useState<any>({})
     const [chunks, setChunks] = useState<any>({})
+    const [metaverseData, setMetaverseData] = useState<any>()
     const CHUNK_SIZE = 32
     const TILE_SIZE = 64
     const BORDE_SIZE = 14
@@ -108,6 +109,14 @@ const MaptalksCanva = ({
         document.getElementById('map')?.appendChild(map.view)
         setMap(map)
         setViewport(viewport)
+        const getMetaverseData = async () => {
+            let dataCall: any = await fetch(
+                process.env.SOCKET_SERVICE + `/limits?metaverse=${metaverse}`
+            )
+            dataCall = await dataCall.json()
+            setMetaverseData(dataCall)
+        }
+        getMetaverseData()
         return () => {
             document.getElementById('map')?.removeChild(map.view)
             map.destroy()
@@ -175,15 +184,14 @@ const MaptalksCanva = ({
             if (currentSprite && !isDragging) {
                 const x = currentSprite.landX,
                     y = currentSprite.landY
-                currentTint = 4 * 0xFF9990
-                onClick(undefined, x, y * -1)
+                currentTint = 4 * 0xff9990
+                onClick(mapData[x + ',' + y], x, y * -1)
             }
         })
     }, [viewport])
 
-
     useEffect(() => {
-        if (!viewport) return
+        if (!metaverseData) return
         socket = io(process.env.SOCKET_SERVICE!, {
             path: '/heatmap-backend',
             transports: ['websocket'],
@@ -192,8 +200,7 @@ const MaptalksCanva = ({
         let lands: any = mapData || {}
         let localChunks: any = chunks || {}
         let localCheckpoint: number = 0
-        const renderTile = (land: any) => {
-            //console.log(land)
+        const renderTile = async (land: any) => {
             if (!localCheckpoint) localCheckpoint = checkpoint
             let name = ''
             land.coords.y *= -1
@@ -203,6 +210,9 @@ const MaptalksCanva = ({
             }
             lands[name] = land!
             lands[name].land_id = land.tokenId
+            globalFilter == 'basic'
+                ? null
+                : (land = await setLandColour(land, globalFilter, metaverseData))
             setMapData(lands)
             let value = land
             let tile: any
@@ -212,7 +222,7 @@ const MaptalksCanva = ({
                 globalFilter,
                 globalPercentFilter,
                 globalLegendFilter,
-                lands[land.name] ? lands[land.name] : land
+                land
             )
             let { color } = tile
 
@@ -250,43 +260,44 @@ const MaptalksCanva = ({
             viewport.addChild(chunkContainer)
         }
         socket.on('render', renderTile)
-    }, [viewport])
+    }, [metaverseData && viewport])
 
     useEffect(() => {
         if (map?.renderer) map?.renderer.resize(width || 0, height || 0)
     }, [width, height])
 
     useEffect(() => {
-        ; (globalFilter = filter),
+        ;(globalFilter = filter),
             (globalPercentFilter = percentFilter),
             (globalLegendFilter = legendFilter)
     }, [filter, percentFilter, legendFilter])
 
     useEffect(() => {
         if (!chunks || !mapData) return
-        let lands = setColours(mapData, globalFilter)
-        for (const key in chunks) {
-            for (const child of chunks[key].children) {
-                let tile: any = filteredLayer(
-                    child.landX,
-                    child.landY,
-                    filter,
-                    percentFilter,
-                    legendFilter,
-                    lands[child.name]
-                )
-                let { color } = tile
-                child.tint = color.includes('rgb')
-                    ? rgbToHex(color.split('(')[1].split(')')[0])
-                    : '0x' + color.split('#')[1]
+        const filterUpdate = async () => {
+            let lands = await setColours(mapData, globalFilter, metaverseData)
+            for (const key in chunks) {
+                for (const child of chunks[key].children) {
+                    let tile: any = filteredLayer(
+                        child.landX,
+                        child.landY,
+                        filter,
+                        percentFilter,
+                        legendFilter,
+                        lands[child.name]
+                    )
+                    let { color } = tile
+                    child.tint = color.includes('rgb')
+                        ? rgbToHex(color.split('(')[1].split(')')[0])
+                        : '0x' + color.split('#')[1]
+                }
             }
         }
+        if (metaverseData) filterUpdate()
     }, [filter, percentFilter, legendFilter, x, y])
 
     useEffect(() => {
         if (!x || !y) return
-        y = -y
-
         try {
             viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
         } catch (e) {
@@ -304,19 +315,24 @@ const MaptalksCanva = ({
         const child = chunkContainer?.children.find(
             (child: any) => child.x === x && child.y === y
         )
-
         const prevColor = child.tint
         const prevWidth = child.width
 
-        child.tint = 4 * 0xFF9990
-        child.width = child.height = TILE_SIZE - (BORDE_SIZE / 3)
-        return (() => {
+        child.tint = 4 * 0xff9990
+        child.width = child.height = TILE_SIZE - BORDE_SIZE / 3
+        return () => {
             child.tint = prevColor
             child.width = child.height = prevWidth
-        })
+        }
     }, [x, y])
 
-    return <div id="map" className='bg-white rounded-lg shadowDiv' style={{ width, height }} />
+    return (
+        <div
+            id="map"
+            className="bg-white rounded-lg shadowDiv"
+            style={{ width, height }}
+        />
+    )
 }
 
 export default MaptalksCanva

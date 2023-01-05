@@ -22,7 +22,7 @@ html {
 @layer base {
   @font-face {
     font-family: 'iconSet1';
-    src: url('./fonts/fonts-icons/iconSet01.ttf');
+    src: url('/fonts/fonts-icons/iconSet01.ttf');
   }
 
   /* Hide scrollbar for Chrome, Safari and Opera */
@@ -39,6 +39,11 @@ html {
   }
 
   /* Neomorphism Box Shadows */
+
+  .nm-none {
+    box-shadow: 0px 0px 0px #cdcfd8,
+      0px 0px 0px #ffffff;
+  }
 
   .nm-flat-soft {
     box-shadow: 2px 2px 4px #cdcfd8,
@@ -98,3 +103,21 @@ html {
 :root {
   --font-iconSet1: 'iconSet1';
 }
+
+/*Remove inner & outer spin-button for input number*/
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 
+input[type=checkbox]{
+  width: 20px;
+  height: 20px;
+  border-radius: 9px;
+}
+
+input[type=checkbox]:checked {
+  background: green;
+} */

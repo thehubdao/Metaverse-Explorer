@@ -1,20 +1,50 @@
-import Link from "next/link";
+import Image from "next/image";
 
+interface INftCard {
+    image: string
+    predictedPrice: number
+    collectionName: string
+    tokenId: string
+    listedPrice: number
+}
 
-const NftCard = ({ image, value, text }: any) => {
+const formatter = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 3,
+});
+
+const BoxPrice = ({ text, price }: any) => {
+    return (
+        <div className="w-full h-full flex flex-col items-center justify-end text-center">
+            <p className='text-xs leading-none text-grey-icon'>{text}</p>
+            <p className='font-bold text-base'>{price} ETH</p>
+        </div>
+    )
+}
+
+const NftCard = ({ image, predictedPrice, listedPrice, collectionName, tokenId }: INftCard) => {
 
     return (
-        <>
-
-            <div>
-                <a className="flex flex-col space-y-3 transition ease-in-out duration-500 lg:hover:scale-105 shadowDiv w-full bg-opacity-30 text-left p-3">
-                    <img src={image} className="rounded-t-xl" />
-                    <p className="text-grey-content font-plus font-normal leading-tight px-3 xs:text-xs sm:text-sm">{text}</p>
-                    <p className="text-grey-content font-plus font-bold leading-tight px-3 xs:text-xs sm:text-sm">{value} ETH</p>
-                </a>
+        <div className={`grid grid-rows-3 rounded-xl cursor-pointer lg:w-[200px] lg:h-[300px] 2xl:w-[240px] 2xl:h-[360px] focus:outline-none nm-flat-hard  hover:nm-flat-soft transition duration-300 ease-in-out`}>
+            <div className="relative row-span-2">
+                <Image
+                    src={image}
+                    loading='lazy'
+                    layout="fill"
+                    className="rounded-xl"
+                />
             </div>
-
-        </>
+            <div className="flex flex-col justify-around py-1">
+                <p className="text-center font-bold">{`${collectionName.toUpperCase()} #${tokenId}`}</p>
+                <div>
+                    <div className="flex w-full flex-row">
+                        <BoxPrice text='Listed Price' price={formatter.format(listedPrice)} />
+                        <BoxPrice text='Price Estimation' price={formatter.format(predictedPrice)} />
+                    </div>
+                    {listedPrice > predictedPrice && <p className='text-red-500 w-full text-center text-xs pt-1'>Overvalue</p>}
+                </div>
+            </div>
+        </div>
     )
 };
 
