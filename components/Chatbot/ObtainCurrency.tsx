@@ -9,13 +9,13 @@ const ObtainCurrency = () => {
   }
 
   const handleBuy = () => {
-    confirm('Sure?') ? router.push("/stake") : ''
+    window.open('https://widget.wert.io/default/redirect', '_blank')
   }
 
   return (
     <div className="flex w-full justify-center gap-2 mt-4">
-      <Button label="Buy USDY with credit card" onClick={handleSwap} />
-      <Button label="Swap other currencies to get USDY" onClick={handleBuy} />
+      <Button label="Buy USDY with credit card" onClick={handleBuy} />
+      <Button label="Swap other currencies to get USDY" onClick={handleSwap} />
     </div>
   )
 }

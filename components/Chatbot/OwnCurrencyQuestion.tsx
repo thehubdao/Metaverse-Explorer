@@ -1,12 +1,12 @@
 import Button from "./Button"
 
-const OwnCurrencyQuestion = () => {
+const OwnCurrencyQuestion = (props: any) => {
   const handleYes = () => {
-
+    props.actionProvider.PositiveAnswerOwnCurrency()
   }
 
   const handleNot = () => {
-
+    props.actionProvider.NegativeAnswerOwnCurrency()
   }
 
   return (
