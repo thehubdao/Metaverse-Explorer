@@ -61,6 +61,34 @@ const collectionsList = [
 		nItems: 10000,
 		collection: "fluf",
 	},
+	{
+		name: "FLUF World",
+		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
+		creator: "FLUF_World",
+		nItems: 10000,
+		collection: "fluf",
+	},
+	{
+		name: "FLUF World",
+		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
+		creator: "FLUF_World",
+		nItems: 10000,
+		collection: "fluf",
+	},
+	{
+		name: "FLUF World",
+		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
+		creator: "FLUF_World",
+		nItems: 10000,
+		collection: "fluf",
+	},
+	{
+		name: "FLUF World",
+		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
+		creator: "FLUF_World",
+		nItems: 10000,
+		collection: "fluf",
+	},
 ];
 
 export default function NftValuation() {
@@ -201,6 +229,7 @@ export default function NftValuation() {
 									isLoading={loadingCollection}
 									controlPageIndex={controlPageIndex}
 									pageLenght={pageLenght}
+									collectionName={collectionName}
 								/>
 							</div>
 							{/* Pagination of collection list content */}
