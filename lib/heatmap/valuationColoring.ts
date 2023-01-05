@@ -241,14 +241,8 @@ export const setColours = (
           'undefined'
         )
           return
-        const landPercentage = getPercentage(
-          valuationAtlas[valuation].current_price_eth,
-          valuationAtlas[valuation].eth_predicted_price,
-          limits
-        )
-        if (landPercentage < MAX_DIFF) {
-          return landPercentage
-        }
+          const diff = (valuationAtlas[valuation].current_price_eth / valuationAtlas[valuation].eth_predicted_price) -1
+          return diff
       }),
     },
     listed_lands: {
@@ -297,43 +291,48 @@ export const setColours = (
 
   // GENERATE PERCENTAGE FOR EACH TILE.
   typedKeys(valuationAtlas).map((valuation) => {
-    const priceDiffPercentage = getPercentage(
-      valuationAtlas[valuation].current_price_eth,
-      valuationAtlas[valuation].eth_predicted_price,
-      limits
-    )
-    const valuationOptions = {
-      transfers: getPercentage(
+    const diff =
+    valuationAtlas[valuation].current_price_eth /
+        valuationAtlas[valuation].eth_predicted_price -
+    1
+const priceDiffPercentage = getPercentage(
+    diff,
+    valuationAtlas[valuation].eth_predicted_price,
+    limits
+)
+const valuationOptions = {
+    transfers: getPercentage(
         valuationAtlas[valuation].history?.length,
-        max, limits
-      ),
-      price_difference:
+        max,
+        limits
+    ),
+    price_difference:
         typeof valuationAtlas[valuation].current_price_eth !== 'number'
-          ? 0
-          : priceDiffPercentage < MAX_DIFF
+            ? 0
+            : priceDiffPercentage < MAX_DIFF
             ? getPercentage(priceDiffPercentage, max, limits)
             : 101, // If land's price difference is higher than MAX_DIFF make their percentage 101, this will show them as dark red.
-      basic: 20,
-      listed_lands: valuationAtlas[valuation].current_price_eth
+    basic: 20,
+    listed_lands: valuationAtlas[valuation].current_price_eth
         ? getPercentage(
-          valuationAtlas[valuation].eth_predicted_price,
-          max, limits
-        )
+              valuationAtlas[valuation].eth_predicted_price,
+              max,
+              limits
+          )
         : NaN,
-      floor_adjusted_predicted_price: getPercentage(
+    floor_adjusted_predicted_price: getPercentage(
         valuationAtlas[valuation]?.floor_adjusted_predicted_price,
-        max, limits
-      ),
-      last_month_sells: getLandDependingOnGivenNumberOfDays(valuation, 30)
-        ? getPercentage(
-          CalculateMaxPriceOnHistoryDependGivenDays(
-            valuationAtlas[valuation],
-            30
-          ),
-          max, limits
-        )
-        : NaN,
-    }
+        max,
+        limits
+    ),
+last_month_sells: getLandDependingOnGivenNumberOfDays(valuation, 30)
+    ? getPercentage(
+          CalculateMaxPriceOnHistoryDependGivenDays(valuationAtlas[valuation], 30),
+          max,
+          { minimum: 0, maximum: 3 }
+      )
+    : NaN,
+}
 
     let percent = NaN
     if (Object.keys(valuationOptions).includes(element)) {
