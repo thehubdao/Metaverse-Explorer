@@ -17,8 +17,8 @@ const Test: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="h-screen w-full flex justify-center items-center">
-        <div className="grid grid-cols-2 max-w-7xl min-h-[700px]">
+      <div className="h-screen w-full flex justify-center items-center pt-24">
+        <div className="grid grid-cols-2 max-w-7xl min-h-[650px]">
           <div className="relative w-full h-full">
             <Image
               src='/images/cyberspace-3.svg'
@@ -28,7 +28,7 @@ const Test: NextPage = () => {
           </div>
           <div className="h-full w-full flex flex-col justify-center items-center text-black">
             <h2 className="text-4xl text-center font-bold">Metaverse Analytics API powered by the MGH DAO AI</h2>
-            <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl">
+            <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl mb-10">
               <p>Suscription Status:
                 <span className="font-bold"> Active until xx.xx.xxxx</span>
               </p>
