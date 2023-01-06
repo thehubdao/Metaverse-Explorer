@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Button from "./Button"
 
 const InputCurrency = (props: any) => {
   const [inputValue, setInputValue] = useState()
+  const element: any = useRef<any>(null)
 
   const handleSubmitCurrency = (amount: number) => {
     props.actionProvider.handleLastMessage(`$${amount}`)
@@ -12,8 +13,12 @@ const InputCurrency = (props: any) => {
     setInputValue(event.target.value);
   }
 
+  useEffect(() => {
+    element.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+  }, [element])
+
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col" ref={element}>
       <div className="w-full grid grid-cols-4 mt-11 gap-2">
         <input
           className={`bg-grey-sidebar rounded-xl p-3 focus:outline-none text-center ${inputValue ? 'col-span-3' : 'col-span-full'}`}
