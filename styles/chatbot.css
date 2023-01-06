@@ -10,10 +10,6 @@
   display: none;
 }
 
-.react-chatbot-kit-chat-bot-message-arrow {
-  background-color: aqua;
-}
-
 .react-chatbot-kit-user-avatar-icon {
   display: none;
 }
@@ -33,6 +29,25 @@
   display: none;
 }
 
-.react-chatbot-kit-custom-white-space {
-  height: 500px;
+.react-chatbot-kit-user-chat-message-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.react-chatbot-kit-user-chat-message {
+  box-shadow: 2px 2px 4px #eff0f3,
+    -2px -2px 4px #ffffff;
+  width: fit-content;
+  padding: 10px 25px;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.react-chatbot-kit-chat-bot-message {
+  width: fit-content;
+  padding: 15px;
+  border: 1px solid gainsboro;
+  border-radius: 20px;
+  margin-bottom: 10px;
 }

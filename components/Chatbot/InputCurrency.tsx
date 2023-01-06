@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import Button from "./Button"
 
 const InputCurrency = (props: any) => {
@@ -6,6 +6,10 @@ const InputCurrency = (props: any) => {
 
   const handleSubmitCurrency = (amount: number) => {
     props.actionProvider.handleLastMessage(`$${amount}`)
+  }
+
+  const handleChange = (event: any) => {
+    setInputValue(event.target.value);
   }
 
   return (
@@ -16,7 +20,7 @@ const InputCurrency = (props: any) => {
           type='number'
           placeholder="Enter Amount USDC or select below"
           value={inputValue}
-          onChange={(e: any) => setInputValue(e.target.value)}
+          onChange={handleChange}
         />
         {inputValue && <Button label="Submit" onClick={() => { handleSubmitCurrency(inputValue) }} />}
       </div>
