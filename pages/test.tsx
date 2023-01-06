@@ -33,7 +33,11 @@ const Test: NextPage = () => {
                 <span className="font-bold"> Active until xx.xx.xxxx</span>
               </p>
             </div>
-            <Chatbot actionProvider={ActionProvider} messageParser={MessageParser} config={config as any} />
+            <Chatbot
+              actionProvider={ActionProvider}
+              messageParser={MessageParser}
+              config={config as any}
+            />
           </div>
         </div>
       </div>

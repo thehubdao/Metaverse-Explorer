@@ -16,7 +16,7 @@ const Greeting = (props: any) => {
   }
 
   return (
-    <div className="text-center">
+    <div className="text-center mt-4">
       <p className="font-bold text-2xl">Welcome to the MGH DAO valuation services API</p>
       <p className="text-sm">This API allows you to access all the endpoints related to our valuation services</p>
       <p className="text-sm py-3 mt-40 rounded-xl border border-grey-content">To continue please connect your web3 wallet</p>

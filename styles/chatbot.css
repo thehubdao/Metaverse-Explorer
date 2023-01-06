@@ -17,3 +17,22 @@
 .react-chatbot-kit-user-avatar-icon {
   display: none;
 }
+
+.react-chatbot-kit-chat-container {
+  max-height: 400px;
+  overflow: scroll;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.react-chatbot-kit-chat-container::-webkit-scrollbar {
+  display: none;
+}
+
+.react-chatbot-kit-custom-white-space {
+  height: 500px;
+}
