@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Fade } from "react-awesome-reveal";
 
 // Components
@@ -63,39 +63,40 @@ export default function FilterColumn({
 		}
 	}, [nFiltersSelected])
 
-	const filterOptions = {
-		Status: {
-			name: "Status",
-			description: "",
-			children: (
-				<Fade duration={500} direction="down">
-					<CheckBox
-						filter={{ name: 'listed', description: '' }}
-						selectedFilters={['']}
-						handleFilter={() => { console.log('hi') }}
-					/>
-				</Fade>
-			),
-		},
-		Price: {
-			name: "Price Estimation",
-			description: "",
-			children: (
-				<Fade duration={500} direction="down">
-					<FilterPrice
-						currency={currency}
-						setCurrency={setCurrency}
-						nftObject={nftObject}
-						setfilteredItem={setfilteredItems}
-						setChecked={setChecked}
-					/>
-				</Fade>
-			),
-		},
-		TraitFilter: {
-			name: "TraitFilter",
-			description: "",
-			children: (
+	const OpenFilterSection = ({ title, children }: any) => {
+		return (
+			<div className="flex flex-col">
+				<div className="items-center tracking-wider p-5 font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all">
+					<p className="font-bold text-lg">{title}</p>
+				</div>
+				<div className='mb-1 md:mb-0 flex flex-col gap-2'>
+					<div>{children}</div>
+				</div>
+			</div>
+		)
+	}
+
+	return (
+		<div className="flex flex-col p-2 nm-flat-medium rounded-3xl gap-5">
+			<OpenFilterSection title={'Status'}>
+				<CheckBox
+					filter={{ name: 'listed', description: '' }}
+					selectedFilters={['']}
+					handleFilter={() => { console.log('hi') }}
+				/>
+			</OpenFilterSection>
+
+			<OpenFilterSection title={'Price Estimation'}>
+				<FilterPrice
+					currency={currency}
+					setCurrency={setCurrency}
+					nftObject={nftObject}
+					setfilteredItem={setfilteredItems}
+					setChecked={setChecked}
+				/>
+			</OpenFilterSection>
+
+			<ColumnOptionButton title="Trait Filter">
 				<div className="flex flex-col p-1 rounded-3xl">
 					{typedKeys(nftTraitsFilters).map((filter) => {
 						return (
@@ -113,17 +114,7 @@ export default function FilterColumn({
 						);
 					})}
 				</div>
-			),
-		},
-	};
-
-	return (
-		<div className="flex flex-col p-2 nm-flat-medium rounded-3xl">
-			{typedKeys(filterOptions).map((filter) => (
-				<ColumnOptionButton title={filterOptions[filter].name} key={filter}>
-					{filterOptions[filter].children}
-				</ColumnOptionButton>
-			))}
+			</ColumnOptionButton>
 		</div>
 	);
 }
