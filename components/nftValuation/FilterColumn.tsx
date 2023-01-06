@@ -21,6 +21,8 @@ interface nftObject {
 	images: {
 		image_small: string;
 	};
+	name: string | null
+	listed_eth_price: number | undefined | null
 }
 
 interface IFilterColumn {
@@ -82,7 +84,7 @@ export default function FilterColumn({
 				<CheckBox
 					filter={{ name: 'listed', description: '' }}
 					selectedFilters={['']}
-					handleFilter={() => { console.log('hi') }}
+					handleFilter={() => { console.log('listeds') }}
 				/>
 			</OpenFilterSection>
 

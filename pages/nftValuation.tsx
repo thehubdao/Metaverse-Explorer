@@ -36,6 +36,8 @@ interface nftObject {
 	images: {
 		image_small: string;
 	};
+	name: string | null
+	listed_eth_price: number | undefined | null
 }
 
 const headerList = [

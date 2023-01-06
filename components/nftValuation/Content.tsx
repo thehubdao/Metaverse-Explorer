@@ -8,7 +8,8 @@ interface nftObject {
 	images: {
 		image_small: string;
 	};
-
+	name: string | null
+	listed_eth_price: number | undefined | null
 }
 
 interface ContentProps {
@@ -20,8 +21,6 @@ interface ContentProps {
 	pageLenght: number
 	collectionName: string
 }
-
-
 
 export default function Content({
 	filteredItems,
@@ -46,7 +45,8 @@ export default function Content({
 				<NftCard
 					image={dataObject[index]["images"]["image_small"]}
 					predictedPrice={dataObject[index]["floor_adjusted_predicted_price"]}
-					listedPrice={0}
+					name={dataObject[index]['name']}
+					listedPrice={dataObject[index]['listed_eth_price']}
 					collectionName={collectionName}
 					tokenId={dataObject[index]['tokenId']}
 					key={index}
