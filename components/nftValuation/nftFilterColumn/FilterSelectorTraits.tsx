@@ -17,8 +17,6 @@ interface FilterSelectorTraitsProps {
 	nftTraitsFilters: any
 }
 
-
-
 export default function FilterSelectorTraits({
 	title,
 	setChecked,
