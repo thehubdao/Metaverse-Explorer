@@ -1,45 +1,33 @@
-import { arrayify } from "ethers/lib/utils";
 import { useState } from "react";
 import { Fade } from "react-awesome-reveal";
 import { Currencies } from "../../../lib/nftValuation/nftCommonTypes";
 import { typedKeys } from "../../../lib/utilities";
-interface Props {
+interface FilterPriceProps {
 	currency: Currencies;
 	setCurrency: React.Dispatch<React.SetStateAction<Currencies>>;
-	nftObject: any;
-	setfilteredItem: Function;
-	setChecked: Function;
+	inputValueMin: number
+	inputValueMax: number
+	setInputValueMin: Function
+	setInputValueMax: Function
+	handleApply: Function
 }
 
 export default function FilterPrice({
 	currency,
 	setCurrency,
-	nftObject,
-	setfilteredItem,
-	setChecked,
-}: Props) {
+	inputValueMin,
+	inputValueMax,
+	setInputValueMin,
+	setInputValueMax,
+	handleApply
+}: FilterPriceProps) {
 	const [opened, setOpened] = useState(false);
-	const [inputValuemin, setInputValuemin] = useState<number>(0);
-	const [inputValuemax, setInputValuemax] = useState<number>(Number.MAX_VALUE);
+
 
 	const filterOptions = {
 		eth: { name: "ETH", description: "" },
 		usdc: { name: "USDC", description: "" },
 		weth: { name: "WETH", description: "" },
-	};
-
-	const handleApply = () => {
-		const results = nftObject.filter((fluf: any) => {
-			return (
-				fluf.floor_adjusted_predicted_price >= inputValuemin &&
-				fluf.floor_adjusted_predicted_price <= inputValuemax
-			);
-		});
-		setChecked(
-			inputValuemin !== 0 || inputValuemax !== Number.MAX_VALUE ? true : false
-		);
-		setfilteredItem(results);
-
 	};
 
 	return (
@@ -50,23 +38,25 @@ export default function FilterPrice({
 					placeholder="MIN"
 					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
 						const input = event.currentTarget.value;
-						if (input) setInputValuemin(parseFloat(input));
-						else setInputValuemin(0);
+						if (input) setInputValueMin(parseFloat(input));
+						else setInputValueMin(0);
 					}}
-					value={inputValuemin === 0 ? "" : inputValuemin}
+					value={inputValueMin === 0 ? "" : inputValueMin}
 					className="nm-inset-soft text-sm text-center py-3 px-5 focus:outline-none placeholder-gray-300 rounded-full w-full"
+					min={0}
 				/>
 				<label>to</label>
 				<input
 					type="number"
 					onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
 						const input = event.currentTarget.value;
-						if (input) setInputValuemax(parseFloat(input));
-						else setInputValuemax(Number.MAX_VALUE);
+						if (input) setInputValueMax(parseFloat(input));
+						else setInputValueMax(Number.MAX_VALUE);
 					}}
-					value={inputValuemax === Number.MAX_VALUE ? "" : inputValuemax}
+					value={inputValueMax === Number.MAX_VALUE ? "" : inputValueMax}
 					placeholder="MAX"
 					className="nm-inset-soft text-sm text-center py-3 px-5 focus:outline-none placeholder-gray-300 rounded-full w-full"
+					min={0}
 				/>
 			</div>
 			<div className="flex justify-between pt-5">
@@ -103,9 +93,7 @@ export default function FilterPrice({
 				</div>
 				<div
 					className="nm-flat-soft rounded-full px-4 py-2 w-2/3 h-1/2 text-center cursor-pointer"
-					onClick={() => {
-						handleApply();
-					}}
+					onClick={() => { handleApply() }}
 				>
 					APPLY
 				</div>

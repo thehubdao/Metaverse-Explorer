@@ -8,12 +8,12 @@ interface nftObject {
 	images: {
 		image_small: string;
 	};
-
+	name: string | null
+	listed_eth_price: number | undefined | null
 }
 
 interface ContentProps {
 	filteredItems: nftObject[];
-	checked: boolean;
 	nftObject: nftObject[];
 	isLoading: boolean;
 	controlPageIndex: number
@@ -21,11 +21,8 @@ interface ContentProps {
 	collectionName: string
 }
 
-
-
 export default function Content({
 	filteredItems,
-	checked,
 	nftObject,
 	isLoading,
 	controlPageIndex,
@@ -46,7 +43,8 @@ export default function Content({
 				<NftCard
 					image={dataObject[index]["images"]["image_small"]}
 					predictedPrice={dataObject[index]["floor_adjusted_predicted_price"]}
-					listedPrice={0}
+					name={dataObject[index]['name']}
+					listedPrice={dataObject[index]['listed_eth_price']}
 					collectionName={collectionName}
 					tokenId={dataObject[index]['tokenId']}
 					key={index}
@@ -64,7 +62,7 @@ export default function Content({
 				</div>
 			) : (
 				<div className="flex flex-wrap justify-center gap-10">
-					{filteredItems && checked && filteredItems.length > 0 ? (
+					{filteredItems && filteredItems.length > 0 ? (
 						<>{dataFluf(true)}</>
 					) : (
 						<>{dataFluf(false)}</>
