@@ -22,6 +22,20 @@ interface IFilterColumn {
 	setInputValueMax: Function
 	handleApply: Function
 	handleTraitFilter: Function
+	setIsFilteredByListed: Function
+}
+
+const OpenFilterSection = ({ title, children }: any) => {
+	return (
+		<div className="flex flex-col">
+			<div className="items-center tracking-wider p-5 font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all">
+				<p className="font-bold text-lg">{title}</p>
+			</div>
+			<div className='mb-1 md:mb-0 flex flex-col gap-2'>
+				<div>{children}</div>
+			</div>
+		</div>
+	)
 }
 
 export default function FilterColumn({
@@ -32,21 +46,20 @@ export default function FilterColumn({
 	setInputValueMax,
 	setInputValueMin,
 	handleApply,
-	handleTraitFilter
+	handleTraitFilter,
+	setIsFilteredByListed
 }: IFilterColumn) {
 	const [currency, setCurrency] = useState<Currencies>("eth");
+	const [selectedFilter, setSelectedFilter] = useState([''])
 
-	const OpenFilterSection = ({ title, children }: any) => {
-		return (
-			<div className="flex flex-col">
-				<div className="items-center tracking-wider p-5 font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all">
-					<p className="font-bold text-lg">{title}</p>
-				</div>
-				<div className='mb-1 md:mb-0 flex flex-col gap-2'>
-					<div>{children}</div>
-				</div>
-			</div>
-		)
+	const handleListed = (keyword: string, isntChecked: boolean) => {
+		if (isntChecked) {
+			setSelectedFilter([keyword])
+			setIsFilteredByListed(true)
+		} else {
+			setSelectedFilter([''])
+			setIsFilteredByListed(false)
+		}
 	}
 
 	return (
@@ -54,8 +67,8 @@ export default function FilterColumn({
 			<OpenFilterSection title={'Status'}>
 				<CheckBox
 					filter={{ name: 'listed', description: '' }}
-					selectedFilters={['']}
-					handleFilter={() => { console.log('listeds') }}
+					selectedFilters={selectedFilter}
+					handleFilter={handleListed}
 				/>
 			</OpenFilterSection>
 

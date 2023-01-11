@@ -119,6 +119,7 @@ export default function NftValuation() {
 	const [inputValueMax, setInputValueMax] = useState<number>(Number.MAX_VALUE);
 	const [isFilteredByPrice, setIsFilteredByPrice] = useState<boolean>(false); // flag if is filter by price
 	const [ejectSelectFilter, setEjectSelectFilter] = useState<boolean>(false); // flag if is filter by traits
+	const [isFilteredByListed, setIsFilteredByListed] = useState<boolean>(false);
 
 	const handleApply = () => {
 		setIsFilteredByPrice(inputValueMax !== Number.MAX_VALUE || inputValueMin !== 0)
@@ -171,8 +172,9 @@ export default function NftValuation() {
 				return nft.tokenId == inputValue;
 			});
 			setfilteredItems(results);
-		} else if (nFiltersSelected > 0 || isFilteredByPrice) {
+		} else if (nFiltersSelected > 0 || isFilteredByPrice || isFilteredByListed) {
 			const results = nftObject.filter((nft: any) => {
+				// Traits Filter
 				let isReturnItemByTrait = !(nFiltersSelected > 0)
 				let noItemsByTraits = 0 // its a counter of filters on the object.
 				Object.entries(selectedFilters).forEach(([key, value]: any) => {
@@ -181,17 +183,21 @@ export default function NftValuation() {
 					})
 				});
 				if (noItemsByTraits === nFiltersSelected) { isReturnItemByTrait = true }
+				// Price filter
 				let isReturnItemByPrice = true
 				if (inputValueMin !== 0 || inputValueMax !== Number.MAX_VALUE) {
 					isReturnItemByPrice = isFilteredByPrice
 						&& nft.floor_adjusted_predicted_price >= inputValueMin
 						&& nft.floor_adjusted_predicted_price <= inputValueMax
 				}
-				return (isReturnItemByTrait && isReturnItemByPrice)
+				// Listed Filter
+				let isReturnItemByListed = !isFilteredByListed
+				if (isFilteredByListed) { isReturnItemByListed = nft.listed_eth_price ? true : false }
+				return (isReturnItemByTrait && isReturnItemByPrice && isReturnItemByListed)
 			});
 			setfilteredItems(results)
 		} else { setfilteredItems(nftObject) }
-	}, [inputValue, ejectSelectFilter, isFilteredByPrice])
+	}, [inputValue, ejectSelectFilter, isFilteredByPrice, isFilteredByListed])
 
 	return (
 		<>
@@ -250,6 +256,7 @@ export default function NftValuation() {
 											setInputValueMin={setInputValueMin}
 											handleApply={handleApply}
 											handleTraitFilter={handleTraitFilter}
+											setIsFilteredByListed={setIsFilteredByListed}
 										/>
 									)}
 								</>
