@@ -14,7 +14,6 @@ interface nftObject {
 
 interface ContentProps {
 	filteredItems: nftObject[];
-	checked: boolean;
 	nftObject: nftObject[];
 	isLoading: boolean;
 	controlPageIndex: number
@@ -24,7 +23,6 @@ interface ContentProps {
 
 export default function Content({
 	filteredItems,
-	checked,
 	nftObject,
 	isLoading,
 	controlPageIndex,
@@ -64,7 +62,7 @@ export default function Content({
 				</div>
 			) : (
 				<div className="flex flex-wrap justify-center gap-10">
-					{filteredItems && checked && filteredItems.length > 0 ? (
+					{filteredItems && filteredItems.length > 0 ? (
 						<>{dataFluf(true)}</>
 					) : (
 						<>{dataFluf(false)}</>
