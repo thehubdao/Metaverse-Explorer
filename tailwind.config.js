@@ -88,7 +88,24 @@ module.exports = {
       },
       fontFamily: {
         'plus': ['PlusJakartaSans', 'sans-serif'],
-        'icons': ['iconSet1']
+        'icons': ['iconSet1'],
+        title: ["Anton", "sans-serif"],
+        anton: ["anton", "sans-serif"],
+        sans: ["Alterwave", "sans-serif"],
+        prompt: ["Prompt", "sans-serif"],
+        lighters: ["Lighters", "sans-serif"],
+        inter: ["Inter", "sans-serif"],
+        thin: ["Alterwave", "sans-serif"],
+        fire: ["FiraSans", "sans-serif"]
+      },
+      fontSize: {
+        's': '0.5rem',
+        'sm': '0.8rem',
+        'base': '1rem',
+        'xl': '1.5rem',
+        '2xl': '2.25rem',
+        '3xl': '3rem',
+        '4xl': '6rem',
       },
       colors: {
         grey: {
@@ -97,9 +114,13 @@ module.exports = {
           icon: '#9B9B9B',
           dark: '#ECEEF8',
           bone: '#F9FAFB',
-          panel:'#E9ECF6',
+          panel: '#E9ECF6',
           lightest: '#F8F9FD'
-        }
+        },
+        'background': '#111111',
+        'grey': '#292929',
+        'white': '#ffffff',
+        'tahiti': '#3ab7bf',
       },
     },
     screens: {

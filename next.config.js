@@ -36,6 +36,11 @@ module.exports = {
 		ITRM_SERVICE: process.env.ITRM_SERVICE,
 		SOCKET_SERVICE: process.env.SOCKET_SERVICE,
 		WEB3AUTH_CLIENT_ID: process.env.WEB3AUTH_CLIENT_ID,
+		REACT_APP_WALLETCONNECT_PROJECT_ID: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID,
+		REACT_APP_WALLETCONNECT_BACKEND_URL: process.env.REACT_APP_WALLETCONNECT_BACKEND_URL,
+		REACT_APP_MLP_CONTRACT_ADDRESS: process.env.REACT_APP_MLP_CONTRACT_ADDRESS,
+		REACT_APP_BADGES_CONTRACT_ADDRESS: process.env.REACT_APP_BADGES_CONTRACT_ADDRESS,
+		REACT_APP_WEB3AUTH_CLIENT_ID: process.env.REACT_APP_WEB3AUTH_CLIENT_ID,
 	},
 	typescript: {
 		// !! WARN !!
@@ -43,5 +48,5 @@ module.exports = {
 		// your project has type errors.
 		// !! WARN !!
 		ignoreBuildErrors: true,
-	  },
+	},
 };
