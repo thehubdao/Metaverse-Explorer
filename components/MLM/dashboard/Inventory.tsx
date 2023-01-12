@@ -19,7 +19,7 @@ export const Inventory = () => {
       setWearables(
         (
           await axios.get(
-            process.env.REACT_APP_WALLETCONNECT_BACKEND_URL +
+            process.env.MLM_BACKEND_URL +
               "/wearables?address=" +
               account.address
           )

@@ -47,14 +47,14 @@ export const Badges = () => {
         const getBadges = async () => {
             const badges = (
                     await axios.get(
-                        process.env.REACT_APP_WALLETCONNECT_BACKEND_URL +
+                        process.env.MLM_BACKEND_URL +
                             '/ipfs/getPins'
                     )
                 ).data,
                 userBadges = await getBalance(account.address, provider)
             const availableBadges = (
                 await axios.get(
-                    process.env.REACT_APP_WALLETCONNECT_BACKEND_URL +
+                    process.env.MLM_BACKEND_URL +
                         '/db/getAvailableBadges?walletAddress=' +
                         account.address
                 )

@@ -49,7 +49,7 @@ export const LevelProgress = () => {
             !mounted.current &&
                 (await axios
                     .post(
-                        process.env.REACT_APP_WALLETCONNECT_BACKEND_URL +
+                        process.env.MLM_BACKEND_URL +
                             '/db/claimTokens?walletAddress=' +
                             account.address
                     )

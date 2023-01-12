@@ -1,6 +1,6 @@
 import { Contract } from 'ethers'
 
-const badges_contract_address = process.env.REACT_APP_BADGES_CONTRACT_ADDRESS!
+const badges_contract_address = process.env.BADGES_CONTRACT_ADDRESS!
 
 const abi_badges = [
     'function balanceOfBatch(address[] accounts, uint256[] ids) view returns(uint256[])',

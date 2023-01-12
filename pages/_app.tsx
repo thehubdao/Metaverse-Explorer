@@ -26,7 +26,7 @@ const chains = [polygon];
 
 const { provider } = configureChains(chains, [
   walletConnectProvider({
-    projectId: process.env.REACT_APP_WALLETCONNECT_PROJECT_ID!,
+    projectId: process.env.WALLETCONNECT_PROJECT_ID!,
   }),
 ]);
 
@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Provider>
       </WagmiConfig>
       <Web3Modal
-        projectId={process.env.REACT_APP_WALLETCONNECT_PROJECT_ID}
+        projectId={process.env.WALLETCONNECT_PROJECT_ID}
         ethereumClient={ethereumClient}
       />
     </>

@@ -1,6 +1,6 @@
 import { Contract } from 'ethers'
 
-const mlb_contract_address = process.env.REACT_APP_MLP_CONTRACT_ADDRESS!
+const mlb_contract_address = process.env.MLM_CONTRACT_ADDRESS!
 
 const abi_mlp = [
     "function addPoints(address who, uint256 amount, bytes signature)",

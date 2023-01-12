@@ -12,7 +12,7 @@ const Badge = ({ claim, src, badgeNotification, index }: any) => {
     const body = { walletAddress: account.address, eventType: claim.id };
     axios
       .post(
-        process.env.REACT_APP_WALLETCONNECT_BACKEND_URL +
+        process.env.MLM_BACKEND_URL +
           "/db/claimIndividualBadges",
         body
       )
@@ -57,7 +57,7 @@ const Badge = ({ claim, src, badgeNotification, index }: any) => {
         {src != "/images/BadgeBlocked.svg" && (
           <a
             className="h-[4.5rem] w-full absolute z-50"
-            href={`http://opensea.io/es/assets/matic/${process.env.REACT_APP_BADGES_CONTRACT_ADDRESS}/${index}`}
+            href={`http://opensea.io/es/assets/matic/${process.env.BADGES_CONTRACT_ADDRESS}/${index}`}
             target="_blank"
           ></a>
         )}

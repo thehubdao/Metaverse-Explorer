@@ -12,7 +12,7 @@ export const Leaderboard = () => {
       setLeaderboards(
         (
           await axios.get(
-            process.env.REACT_APP_WALLETCONNECT_BACKEND_URL + "/db/read-top"
+            process.env.MLM_BACKEND_URL + "/db/read-top"
           )
         ).data
       );
