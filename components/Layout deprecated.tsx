@@ -59,7 +59,7 @@ const Layout = ({ children }: any) => {
               />
               <NavItem
                 text="MLM"
-                link="https://eth-india-hackaton-git-pushnotifications-dap-frontend.vercel.app/"
+                link="/mlm"
               />
               <NavItem
                 text="Avatar"
