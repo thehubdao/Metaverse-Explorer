@@ -166,7 +166,7 @@ export const Badges = () => {
                       image =
                         "https://ipfs.io/ipfs/" +
                         badge.image.split("ipfs://")[1];
-                    else image = "/BadgeBlocked.svg";
+                    else image = "/images/BadgeBlocked.svg";
                   } catch (error) {}
                   return (
                     <>

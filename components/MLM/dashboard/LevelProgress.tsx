@@ -157,7 +157,7 @@ export const LevelProgress = () => {
                       <div className="flex items-center">
                         <img
                           className="h-[4.5rem] w-14"
-                          src="/information.svg"
+                          src="/images/icons/information.svg"
                         ></img>
                         <div className="ml-3 flex-1">
                           <p className="mt-1 text-sm pb-3">

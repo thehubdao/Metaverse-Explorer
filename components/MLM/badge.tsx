@@ -61,7 +61,7 @@ const Badge = ({ claim, src, badgeNotification, index }: any) => {
         className="flex flex-col w-14 h-[5rem] mx-[0.45rem] my-2 text-center"
         key={src}
       >
-        {src != "/BadgeBlocked.svg" && (
+        {src != "/images/BadgeBlocked.svg" && (
           <a
             className="h-[4.5rem] w-full absolute z-50"
             href={`http://opensea.io/es/assets/matic/${process.env.REACT_APP_BADGES_CONTRACT_ADDRESS}/${index}`}
@@ -74,7 +74,7 @@ const Badge = ({ claim, src, badgeNotification, index }: any) => {
           alt="badge"
         />
         <div className="mt-2 h-7">
-          {src === "/BadgeBlocked.svg" && claim?.toClaim == true && (
+          {src === "/images/BadgeBlocked.svg" && claim?.toClaim == true && (
             <button
               className="z-10 border-solid border-2 w-full h-full text-[12px] rounded-xl border-white hover:border-tahiti hover:text-tahiti"
               onClick={() => {
