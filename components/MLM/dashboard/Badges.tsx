@@ -94,6 +94,9 @@ export const Badges = () => {
           toClaim: false,
         },
       }));
+      setBadges({
+        undefined
+      });
   };
 
   // tippy("#infoButton", {
@@ -138,7 +141,7 @@ export const Badges = () => {
                 </svg>
                 Loading...
               </div>
-              <p className="w-full text-center text-white">
+              <p className="p-mlm w-full text-center text-white">
                 This may take a few seconds.
               </p>
             </div>

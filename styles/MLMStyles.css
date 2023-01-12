@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@300;400;700&display=swap");
 
-h1 {
+.h1-mlm {
   -webkit-text-stroke-color: white;
   -webkit-text-stroke-width: 1px;
   padding-right: 2.25rem;
@@ -10,12 +10,12 @@ h1 {
   @apply font-title text-background text-4xl max-h-[6.5rem];
 }
 
-h2 {
+.h2-mlm {
   white-space: nowrap;
   @apply font-title text-3xl;
 }
 
-p {
+.p-mlm {
   @apply font-fire;
   @layer text-md;
 }

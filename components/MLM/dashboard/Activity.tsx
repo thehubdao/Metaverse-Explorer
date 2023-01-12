@@ -70,7 +70,7 @@ export const Activity = () => {
               </svg>
               Loading...
             </div>
-            <p className="w-full text-center text-white truncate">
+            <p className="p-mlm w-full text-center text-white truncate">
               This may take a few seconds.
             </p>
           </div>
@@ -99,7 +99,7 @@ export const Activity = () => {
                           +{activity.points_earned}
                         </h2>
                       </div>
-                      <p className="font-fire text-md py-2 truncate">
+                      <p className="p-mlm font-fire text-md py-2 truncate">
                         {activity.metadata.eventType}
                       </p>
                       <div className="flex px-3 py-2">
@@ -114,7 +114,7 @@ export const Activity = () => {
             {(!activities || activities?.length === 0) && (
               <>
                 <div className="flex h-10 bg-grey rounded-[15px] space-x-0 justify-between">
-                  <p className="font-fire text-md py-2 pl-4 truncate">
+                  <p className="p-mlm font-fire text-md py-2 pl-4 truncate">
                     Your activity is empty
                   </p>
                 </div>

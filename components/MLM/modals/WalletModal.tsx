@@ -16,7 +16,7 @@ export const WalletModal = ({ onDismiss }: any) => {
   useEffect(() => {
     !account.isConnecting &&
       !account.isConnected &&
-      navigate("/", { replace: true });
+      navigate("/mlm", { replace: true });
   }, [account]);
 
   return (
@@ -28,7 +28,7 @@ export const WalletModal = ({ onDismiss }: any) => {
         />
         <div className="z-10 w-[25rem] transform scale-85 sm:scale-100 flex flex-col items-stretch shadow-dark pb-6 px-10 space-y-7 rounded-xl border border-white border-opacity-20 bg-grey-darkest bg-opacity-20 backdrop-filter backdrop-blur-xl">
           <h2 className="truncate max-h-[3.9rem] mx-4 mt-6">Wallet config.</h2>
-          <p className="truncate">{account?.address}</p>
+          <p className="p-mlm truncate">{account?.address}</p>
           <div className="flex flex-row">
             <button
               className="py-2 mr-2 w-full border-solid border-2 rounded-xl border-white hover:border-tahiti hover:text-tahiti"

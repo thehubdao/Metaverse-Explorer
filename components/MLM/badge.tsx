@@ -28,8 +28,8 @@ const Badge = ({ claim, src, badgeNotification, index }: any) => {
               <div className="flex items-center">
                 <img className="h-[4.5rem] w-14" src={src} alt="badge" />
                 <div className="ml-3 flex-1">
-                  <p className="text-sm font-medium">You claim your badge!</p>
-                  <p className="mt-1 text-sm">
+                  <p className="p-mlm text-sm font-medium">You claim your badge!</p>
+                  <p className="p-mlm mt-1 text-sm">
                     The Badge have been added to your wallet
                   </p>
                 </div>
@@ -48,13 +48,6 @@ const Badge = ({ claim, src, badgeNotification, index }: any) => {
       });
   };
 
-  console.log(
-    "Link to OpenSea  ",
-    "opensea.io/es/assets/matic/" +
-      process.env.REACT_APP_BADGES_CONTRACT_ADDRESS +
-      "/" +
-      index
-  );
   return (
     <>
       <div

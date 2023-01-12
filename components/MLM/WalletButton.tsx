@@ -14,7 +14,7 @@ const WalletButton = () => {
           className="hover:border-tahiti hover:text-tahiti"
           onClick={() => setOpenModal(true)}
         >
-          <p className="px-6 truncate">{account.address}</p>
+          <p className="p-mlm px-6 truncate">{account.address}</p>
         </button>
       </div>
     </>
