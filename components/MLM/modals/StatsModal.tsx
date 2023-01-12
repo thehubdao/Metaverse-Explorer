@@ -12,7 +12,7 @@ export const StatsModal = ({ onDismiss, leaderboard }: any) => {
         <div className="z-10 w-96 transform scale-85 sm:scale-100 flex flex-col items-stretch shadow-dark px-14 py-4 space-y-7 rounded-xl border border-white border-opacity-20 bg-grey-darkest bg-opacity-20 backdrop-filter backdrop-blur-xl">
           <h2 className="max-h-[3.3rem] mt-11">User stats</h2>
           {leaderboard && (
-            <p className="truncate"> {leaderboard["?column?"]}</p>
+            <p className="p-mlm truncate"> {leaderboard["?column?"]}</p>
           )}
           <div className="stats">
             <div className="stats__text">Level</div>

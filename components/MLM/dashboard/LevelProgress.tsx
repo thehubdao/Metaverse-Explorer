@@ -36,7 +36,7 @@ export const LevelProgress = () => {
                 <div className="flex items-center">
                   <h2 className="text-md">GOOD</h2>
                   <div className="ml-3 flex-1">
-                    <p className="text-sm font-medium">SUBSCRIBED</p>
+                    <p className="p-mlm text-sm font-medium">SUBSCRIBED</p>
                   </div>
                 </div>
               </div>
@@ -124,8 +124,8 @@ export const LevelProgress = () => {
                     <div className="flex items-center">
                       <h2 className="text-md">EXP</h2>
                       <div className="ml-3 flex-1">
-                        <p className="text-sm font-medium">Points!</p>
-                        <p className="mt-1 text-sm">
+                        <p className="p-mlm text-sm font-medium">Points!</p>
+                        <p className="p-mlm mt-1 text-sm">
                           You have earned {poinsMinted} points and they are
                           currently being minted.
                         </p>
@@ -160,7 +160,7 @@ export const LevelProgress = () => {
                           src="/images/icons/information.svg"
                         ></img>
                         <div className="ml-3 flex-1">
-                          <p className="mt-1 text-sm pb-3">
+                          <p className="p-mlm mt-1 text-sm pb-3">
                             Make sure to subscribe to our Push channel to
                             receive notifactions about your points, badges,
                             upcoming events and more.
@@ -214,7 +214,7 @@ export const LevelProgress = () => {
       <div className="flex flex-col">
         {balance && (
           <div className="flex items-end">
-            <h2>{`${balance}`}</h2>
+            <h2 className="h2-mlm">{`${balance}`}</h2>
             <h3 className="gradientText font-title text-2xl pl-2 pb-1 ">MLP</h3>
             <button
               className="flex mx-2 border-solid border-2 w-6 h-6 text-xs rounded-full cursor-help place-self-center items-center justify-center"
@@ -231,8 +231,8 @@ export const LevelProgress = () => {
         </div>
         {level && (
           <div className="flex ml-auto mr-0">
-            <h2 className="gradientText font-title text-xl">LVL</h2>
-            <h2 className="pl-2 font-title text-xl">{`${level}`}</h2>
+            <h2 className="h2-mlm gradientText font-title text-xl">LVL</h2>
+            <h2 className="h2-mlm pl-2 font-title text-xl">{`${level}`}</h2>
           </div>
         )}
       </div>

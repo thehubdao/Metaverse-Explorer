@@ -14,8 +14,8 @@ const Dashboard: NextPage = () => {
       <Toaster position="bottom-center" reverseOrder={false} />
       <div className="container-dashboard">
         <div className="item-a">
-          <h1>METAVERSE</h1>
-          <h2 className="ml-10">LOYALTY MODULE</h2>
+          <h1 className="h1-mlm">METAVERSE</h1>
+          <h2 className="h2-mlm ml-10">LOYALTY MODULE</h2>
         </div>
         <iframe
           className="item-b"
