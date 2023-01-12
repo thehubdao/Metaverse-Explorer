@@ -3,9 +3,9 @@ import Button from "./Button"
 
 const OwnCurrencyQuestion = (props: any) => {
   const element: any = useRef<any>(null)
-  
+
   const handleYes = () => {
-    props.actionProvider.PositiveAnswerOwnCurrency()
+    props.actionProvider.PositiveAnswerOwnCurrency(props.currency)
   }
 
   const handleNot = () => {

@@ -4,9 +4,11 @@ import Button from "./Button"
 const InputCurrency = (props: any) => {
   const [inputValue, setInputValue] = useState()
   const element: any = useRef<any>(null)
+  const { setState } = props
 
   const handleSubmitCurrency = (amount: number) => {
     props.actionProvider.handleLastMessage(`$${amount}`)
+    setState((state: any) => ({ ...state, amount: amount }))
   }
 
   const handleChange = (event: any) => {
@@ -23,7 +25,7 @@ const InputCurrency = (props: any) => {
         <input
           className={`bg-grey-sidebar rounded-xl p-3 focus:outline-none text-center ${inputValue ? 'col-span-3' : 'col-span-full'}`}
           type='number'
-          placeholder="Enter Amount USDC or select below"
+          placeholder={`Enter Amount ${props.currency} or select below`}
           value={inputValue}
           onChange={handleChange}
         />
