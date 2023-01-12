@@ -64,7 +64,7 @@ const NavItem = ({ text, link }: any) => {
 						&#xe904;
 					</span>
 				);
-			case 'https://eth-india-hackaton-git-pushnotifications-dap-frontend.vercel.app/':
+			case '/mlm':
 				return (
 					<span className={styleItem} aria-hidden="true">
 						&#xe908;

@@ -36,6 +36,11 @@ module.exports = {
 		ITRM_SERVICE: process.env.ITRM_SERVICE,
 		SOCKET_SERVICE: process.env.SOCKET_SERVICE,
 		WEB3AUTH_CLIENT_ID: process.env.WEB3AUTH_CLIENT_ID,
+		WALLETCONNECT_PROJECT_ID: process.env.WALLETCONNECT_PROJECT_ID,
+		MLM_BACKEND_URL: process.env.MLM_BACKEND_URL,
+		MLM_CONTRACT_ADDRESS: process.env.MLM_CONTRACT_ADDRESS,
+		BADGES_CONTRACT_ADDRESS: process.env.BADGES_CONTRACT_ADDRESS,
+		CHANNEL_PUSH_ADDRESS:process.env.CHANNEL_PUSH_ADDRESS
 	},
 	typescript: {
 		// !! WARN !!
@@ -43,5 +48,5 @@ module.exports = {
 		// your project has type errors.
 		// !! WARN !!
 		ignoreBuildErrors: true,
-	  },
+	},
 };
