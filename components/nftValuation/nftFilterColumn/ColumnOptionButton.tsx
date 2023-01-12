@@ -15,18 +15,9 @@ export default function ColumnOptionButton({ title, children }: Props) {
 				className="items-center tracking-wider p-5 font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all"
 			>
 				<p className="font-bold text-lg">{title}</p>
-				<IoIosArrowDown
-					className={
-						(opened ? "rotate-180 " : "") +
-						"transition-all duration-500 relative bottom-[1px]"
-					}
-				/>
+				<IoIosArrowDown className={(opened ? "rotate-180 " : "") + "transition-all duration-500 relative bottom-[1px]"} />
 			</div>
-			<div
-				className={
-					(opened && "mb-1 md:mb-0") + "md:absolute flex flex-col gap-2"
-				}
-			>
+			<div className={(opened && "mb-1 md:mb-0") + "md:absolute flex flex-col gap-2"}>
 				{opened && <div>{children}</div>}
 			</div>
 		</div>

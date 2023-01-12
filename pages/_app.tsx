@@ -38,12 +38,10 @@ const wagmiClient = createClient({
 
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
-NProgress.configure({ showSpinner: false });
-Router.events.on("routeChangeStart", () => {
-  return NProgress.start();
-});
-Router.events.on("routeChangeComplete", () => NProgress.done());
-Router.events.on("routeChangeError", () => NProgress.done());
+NProgress.configure({ showSpinner: false })
+Router.events.on('routeChangeStart', () => { return NProgress.start() })
+Router.events.on('routeChangeComplete', () => NProgress.done())
+Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
