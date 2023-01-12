@@ -36,6 +36,8 @@ interface nftObject {
 	images: {
 		image_small: string;
 	};
+	name: string | null
+	listed_eth_price: number | undefined | null
 }
 
 const headerList = [
@@ -92,43 +94,51 @@ const collectionsList = [
 ];
 
 export default function NftValuation() {
-	// Data
+	// Fetched Data
 	const [collectionName, setCollectionName] = useState<string>("");
 	const [nftGlobal, setnftGlobal] = useState<nftCollectionProps | null>(null);
 	const [nftTraitsFilters, setnftTraitsFilters] = useState<any[]>([]);
 	const [nftObject, setnftObject] = useState<any[]>([]);
-	const [selectedFilters, setSelectedFilters] = useState({}) // array of filters selected
 
 	// Control Flags
-	const [openedTraits, setOpenedTraits] = useState<boolean>(false);
-	const [filteredItems, setfilteredItems] = useState<nftObject[]>(nftObject);
-	const [checked, setChecked] = useState<boolean>(false);
+	const [openedTraitsColumn, setOpenedTraitsColumn] = useState<boolean>(false);
 	const [loadingGlobalData, setLoadingGlobalData] = useState<boolean>(true);
 	const [loadingCollection, setLoadingCollection] = useState<boolean>(true);
-	const [nFiltersSelected, setNFiltersSelected] = useState<number>(0) // number of filters checked
 
 	// Pagination Controller
 	const [numberOfPages, setNumberOfPages] = useState<number>(0)
 	const [pageLenght, setPageLenght] = useState<number>(20);
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
 
-	useEffect(() => {
-		if (filteredItems.length > 0) {
-			setNumberOfPages(Math.trunc(filteredItems.length / pageLenght));
-			setControlPageIndex(0);
-		} else {
-			setNumberOfPages(Math.trunc(nftObject?.length / pageLenght));
-			setControlPageIndex(0);
-		}
-	}, [filteredItems, nftObject]);
+	// Filter Controller
+	const [filteredItems, setfilteredItems] = useState<nftObject[]>(nftObject);
+	const [selectedFilters, setSelectedFilters] = useState({}) // array of traits filters selected 
+	const [nFiltersSelected, setNFiltersSelected] = useState<number>(0) // number of filters checked
+	const [inputValue, setInputValue] = useState<string | undefined>(undefined); // input on search by Id
+	const [inputValueMin, setInputValueMin] = useState<number>(0);
+	const [inputValueMax, setInputValueMax] = useState<number>(Number.MAX_VALUE);
+	const [isFilteredByPrice, setIsFilteredByPrice] = useState<boolean>(false); // flag if is filter by price
+	const [ejectSelectFilter, setEjectSelectFilter] = useState<boolean>(false); // flag if is filter by traits
+	const [isFilteredByListed, setIsFilteredByListed] = useState<boolean>(false);
+
+	const handleApply = () => {
+		setIsFilteredByPrice(inputValueMax !== Number.MAX_VALUE || inputValueMin !== 0)
+	}
+
+	const handleTraitFilter = (selectedFilter: nftObject, noFiltersSelected: number) => {
+		setSelectedFilters(selectedFilter)
+		setNFiltersSelected(noFiltersSelected)
+		setEjectSelectFilter(!ejectSelectFilter)
+	}
 
 	useEffect(() => {
-		const getNftData = async () => {
-			setLoadingGlobalData(true);
-			setLoadingGlobalData(false);
-		};
-		getNftData();
-	}, []);
+		console.log(filteredItems.length)
+		if (filteredItems.length > 0) {	
+			setNumberOfPages(Math.ceil(filteredItems.length / pageLenght));
+		} else {
+			setNumberOfPages(Math.ceil(nftObject?.length / pageLenght));
+		} setControlPageIndex(0);
+	}, [filteredItems, nftObject]);
 
 	useEffect(() => {
 		if (!nftTraitsFilters) return
@@ -150,11 +160,45 @@ export default function NftValuation() {
 				setnftObject(response);
 				setnftTraitsFilters(traits);
 				setnftGlobal(globalResponse.stats);
+				setLoadingGlobalData(false);
 				setLoadingCollection(false);
 			}
 		};
 		getDataCollection();
 	}, [collectionName]);
+
+	useEffect(() => {
+		if (inputValue) {
+			const results = nftObject.filter((nft: nftObject) => {
+				return nft.tokenId == inputValue;
+			});
+			setfilteredItems(results);
+		} else if (nFiltersSelected > 0 || isFilteredByPrice || isFilteredByListed) {
+			const results = nftObject.filter((nft: any) => {
+				// Traits Filter
+				let isReturnItemByTrait = !(nFiltersSelected > 0)
+				let noItemsByTraits = 0 // its a counter of filters on the object.
+				Object.entries(selectedFilters).forEach(([key, value]: any) => {
+					value.map((item: any) => {
+						if (nft.traits[key] == item) { noItemsByTraits = noItemsByTraits + 1 }
+					})
+				});
+				if (noItemsByTraits === nFiltersSelected) { isReturnItemByTrait = true }
+				// Price filter
+				let isReturnItemByPrice = true
+				if (inputValueMin !== 0 || inputValueMax !== Number.MAX_VALUE) {
+					isReturnItemByPrice = isFilteredByPrice
+						&& nft.floor_adjusted_predicted_price >= inputValueMin
+						&& nft.floor_adjusted_predicted_price <= inputValueMax
+				}
+				// Listed Filter
+				let isReturnItemByListed = !isFilteredByListed
+				if (isFilteredByListed) { isReturnItemByListed = nft.listed_eth_price ? true : false }
+				return (isReturnItemByTrait && isReturnItemByPrice && isReturnItemByListed)
+			});
+			setfilteredItems(results)
+		} else { setfilteredItems(nftObject) }
+	}, [inputValue, ejectSelectFilter, isFilteredByPrice, isFilteredByListed])
 
 	return (
 		<>
@@ -193,38 +237,35 @@ export default function NftValuation() {
 								!loadingCollection && <>
 									{/* Searcher Bar */}
 									<TraitsButton
-										openedTraits={openedTraits}
-										setOpenedTraits={setOpenedTraits}
+										openedTraits={openedTraitsColumn}
+										setOpenedTraits={setOpenedTraitsColumn}
 									/>
 									<div className="col-span-3 ">
 										<SearcherBar
-											nftObject={nftObject}
-											setfilteredItems={setfilteredItems}
-											checked={checked}
-											setChecked={setChecked}
+											inputValue={inputValue}
+											setInputValue={setInputValue}
 										/>
 									</div>
 									{/* Traits Filter Column */}
-									{openedTraits && (
+									{openedTraitsColumn && (
 										<FilterColumn
-											nftObject={nftObject}
-											setfilteredItems={setfilteredItems}
-											setChecked={setChecked}
 											selectedFilters={selectedFilters}
-											setSelectedFilters={setSelectedFilters}
-											nFiltersSelected={nFiltersSelected}
-											setNFiltersSelected={setNFiltersSelected}
 											nftTraitsFilters={nftTraitsFilters}
-
+											inputValueMax={inputValueMax}
+											inputValueMin={inputValueMin}
+											setInputValueMax={setInputValueMax}
+											setInputValueMin={setInputValueMin}
+											handleApply={handleApply}
+											handleTraitFilter={handleTraitFilter}
+											setIsFilteredByListed={setIsFilteredByListed}
 										/>
 									)}
 								</>
 							}
 							{/* NFT Collection List */}
-							<div className={`${openedTraits ? "col-span-3" : "col-span-full"} `}>
+							<div className={`${openedTraitsColumn ? "col-span-3" : "col-span-full"} `}>
 								<Content
 									filteredItems={filteredItems}
-									checked={checked}
 									nftObject={nftObject}
 									isLoading={loadingCollection}
 									controlPageIndex={controlPageIndex}

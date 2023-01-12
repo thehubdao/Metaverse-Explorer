@@ -9,42 +9,36 @@ interface optionList {
 
 interface FilterSelectorTraitsProps {
 	title: string;
-	setChecked: Function;
 	selectedFilters: any
-	setSelectedFilters: Function
-	nFiltersSelected: number
-	setNFiltersSelected: Function
 	nftTraitsFilters: any
+	handleTraitFilter: Function
 }
-
-
 
 export default function FilterSelectorTraits({
 	title,
-	setChecked,
 	selectedFilters,
-	setSelectedFilters,
-	nFiltersSelected,
-	setNFiltersSelected,
-	nftTraitsFilters
+	nftTraitsFilters,
+	handleTraitFilter
 }: FilterSelectorTraitsProps) {
 	const [opened, setOpened] = useState(false);
 
 	const handleFilter = (keyword: string, isntChecked: boolean) => {
 		const auxSelectedFilters: any = selectedFilters
-		let auxNoFilters = nFiltersSelected
+		let auxNoFilters = 0
 		if (isntChecked) {
 			auxSelectedFilters[title].push(keyword)
-			setSelectedFilters(auxSelectedFilters)
-			setNFiltersSelected(auxNoFilters + 1)
-			setChecked(true);
+			Object.entries(auxSelectedFilters).forEach(([key, value]: any) => {
+				if (value.length > 0)
+					auxNoFilters = auxNoFilters + 1
+			});
 		} else {
 			auxSelectedFilters[title] = auxSelectedFilters[title].filter((item: any) => item != keyword)
-			setSelectedFilters(auxSelectedFilters)
-			setNFiltersSelected(auxNoFilters - 1)
-			if (auxNoFilters - 1 <= 0)
-				setChecked(false);
+			Object.entries(auxSelectedFilters).forEach(([key, value]: any) => {
+				if (value.length > 0)
+					auxNoFilters = auxNoFilters + 1
+			});
 		}
+		handleTraitFilter(auxSelectedFilters, auxNoFilters)
 	};
 
 	return (

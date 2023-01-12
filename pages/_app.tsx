@@ -12,13 +12,11 @@ import '../styles/globals.css'
 import MobileControl from '../components/MobileControl'
 
 NProgress.configure({ showSpinner: false })
-Router.events.on('routeChangeStart', () => {
-  return NProgress.start()})
+Router.events.on('routeChangeStart', () => { return NProgress.start() })
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
-
   return (
     <Provider store={store}>
       <div className='hidden lg:block'>
@@ -27,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Layout>
       </div>
       <div className="lg:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
-        <MobileControl/>
+        <MobileControl />
       </div>
     </Provider>
   )

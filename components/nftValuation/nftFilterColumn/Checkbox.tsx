@@ -26,19 +26,17 @@ export function CheckBox({
   }, [])
 
   return (
-    <Fade duration={500} direction="down">
-      <div className="flex justify-between font-plus px-5 py-[1.6px] font-medium text-grey-content transition-all">
-        <p className="text-sm py">{filter.name}</p>
-        <div
-          className={`w-5 h-5 rounded-full cursor-pointer flex justify-center items-center ${isChecked ? 'nm-inset-soft' : 'nm-flat-soft'}`}
-          onClick={() => {
-            setIsChecked(!isChecked)
-            handleFilter(filter.name, !isChecked)
-          }}
-        >
-          <BiCheck className={isChecked ? 'text-grey-icon' : 'hidden'} />
-        </div>
+    <div className="flex justify-between font-plus px-5 py-[1.6px] font-medium text-grey-content transition-all">
+      <p className="text-sm py">{filter.name}</p>
+      <div
+        className={`w-5 h-5 rounded-md cursor-pointer flex justify-center items-center ${isChecked ? 'nm-inset-soft' : 'nm-flat-soft'}`}
+        onClick={() => {
+          setIsChecked(!isChecked)
+          handleFilter(filter.name, !isChecked)
+        }}
+      >
+        <BiCheck className={isChecked ? 'text-grey-icon' : 'hidden'} />
       </div>
-    </Fade>
+    </div>
   );
 }
