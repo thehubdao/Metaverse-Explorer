@@ -41,7 +41,7 @@ export default function Layout({ children }: LayoutProps) {
 			icon: "a",
 		},
 		{
-			url: "https://eth-india-hackaton-git-pushnotifications-dap-frontend.vercel.app/",
+			url: "/mlm",
 			label: "MLM",
 			icon: "i",
 		},
