@@ -5,7 +5,7 @@ import { FaWallet } from "react-icons/fa";
 
 import { Chains } from "../lib/chains";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { disconnect, setAddress, setChain, setRole } from '../state/account'
+import { disconnect, setAddress, setChain, setRole, setWeb3auth } from '../state/account'
 
 // WEB 3 AUTH imports
 const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
@@ -26,10 +26,10 @@ interface ILogin {
 }
 
 export default function InitWeb3Connect() {
-  const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
+  const [web3authState, setWeb3authState] = useState<Web3Auth | null>(null);
   const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
   const dispatch = useAppDispatch()
-  const { address: addressFromRedux } = useAppSelector((state) => state.account)
+  const { address: addressFromRedux, web3auth } = useAppSelector((state) => state.account)
 
   useEffect(() => {
     /* const dispatch = useAppDispatch()
@@ -37,7 +37,7 @@ export default function InitWeb3Connect() {
 
     const init = async () => {
       try {
-        const web3auth = new Web3Auth({
+        const web3authInit = new Web3Auth({
           clientId,
           chainConfig: {
             chainNamespace: CHAIN_NAMESPACES.EIP155,
@@ -48,11 +48,12 @@ export default function InitWeb3Connect() {
         // adding metamask adapter
         const metamaskAdapter = new MetamaskAdapter({ clientId });
         // it will add/update  the metamask adapter in to web3auth class
-        web3auth.configureAdapter(metamaskAdapter);
-        await web3auth.initModal();
-        setWeb3auth(web3auth);
-        if (web3auth.provider) {
-          setProvider(web3auth.provider);
+        web3authInit.configureAdapter(metamaskAdapter);
+        await web3authInit.initModal();
+        dispatch(setWeb3auth(web3authInit))
+        setWeb3authState(web3authInit);
+        if (web3authInit.provider) {
+          setProvider(web3authInit.provider);
         }
       } catch (error) {
         console.error(error);
@@ -62,25 +63,26 @@ export default function InitWeb3Connect() {
     init();
   }, []);
 
+  useEffect(() => {
+    setWeb3authState(web3auth)
+  }, [web3auth])
+
   const login = async () => {
-    let { chainId, addressFromJwt, roles }: ILogin = await connectWeb3Auth(web3auth, setProvider, addressFromRedux)
+    let { chainId, addressFromJwt, roles }: ILogin = await connectWeb3Auth(web3authState, setProvider, addressFromRedux)
     if (chainId) dispatch(setChain(chainId))
     if (addressFromJwt) dispatch(setAddress(addressFromJwt))
     if (roles[0]) dispatch(setRole(roles[0]))
   }
-  
+
   return (
     <>
       {
-        provider
+        web3authState
           ? (
             <div className="flex flex-row">
-              <div>
-                ChainId
-              </div>
               <OvalButton
                 buttonFunction={() => {
-                  disconnectWeb3Auth(web3auth, setProvider)
+                  disconnectWeb3Auth(web3authState, setProvider)
                   dispatch(disconnect())
                 }}
                 label={`${addressFromRedux ? addressFromRedux : 'Loading ...'}`}

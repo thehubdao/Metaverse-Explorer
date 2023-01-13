@@ -1,3 +1,4 @@
+import { Web3Auth } from '@web3auth/modal'
 import { purchaseCoinOptions } from '../components/Purchase'
 import { Network } from './enums'
 import { Metaverse } from './metaverse'
@@ -11,6 +12,7 @@ export interface AccountState {
   address: string | undefined
   chainId: number | undefined
   role: Role | undefined
+  web3auth: Web3Auth | null
 }
 
 export interface AddEthereumChainParameter {

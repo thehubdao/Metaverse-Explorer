@@ -52,7 +52,6 @@ const list = [
 		label: "EDIT AVATAR",
 		icon: "g",
 	},
-	
 ];
 
 export default function Layout({ children }: LayoutProps) {
