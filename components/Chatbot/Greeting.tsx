@@ -1,30 +1,13 @@
 import { useRouter } from 'next/router'
 import Button from "./Button"
-import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { SafeEventEmitterProvider } from "@web3auth/base";
 
-// WEB 3 AUTH imports
-import { connectWeb3Auth } from '../../backend/ConnecWeb3Auth';
-import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import { setAddress, setChain, setRole } from '../../state/account'
-
-interface ILogin {
-  chainId: any
-  addressFromJwt: string
-  roles: undefined[] | string[]
-}
+// web3auth service
+import web3authService from "../../backend/services/Web3authService";
 
 const Greeting = (props: any) => {
   const router = useRouter()
-  const address = useSelector((state: any) => state.account.address)
-  const [userAddress, setUserAddress] = useState(address)
-  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(false)
-
-  // web3 connect
-  const dispatch = useAppDispatch()
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(null);
-  const { address: addressFromRedux, web3auth } = useAppSelector((state) => state.account)
+  const [userAddress, setUserAddress] = useState(null)
 
   const handleNextStep = () => {
     if (userAddress)
@@ -32,11 +15,8 @@ const Greeting = (props: any) => {
   }
 
   const handleLogin = async () => {
-    let { chainId, addressFromJwt, roles }: ILogin = await connectWeb3Auth(web3auth, setProvider, addressFromRedux)
-    if (chainId) dispatch(setChain(chainId))
-    if (addressFromJwt) dispatch(setAddress(addressFromJwt))
-    if (roles[0]) dispatch(setRole(roles[0]))
-    setUserAddress(address)
+    await web3authService.connectWeb3Auth()
+    setUserAddress(await web3authService.getAccounts())
   }
 
   const handleSetupWallet = () => {
@@ -48,16 +28,9 @@ const Greeting = (props: any) => {
   }
 
   useEffect(() => {
-    setUserAddress(address)
-  }, [])
-
-  useEffect(() => {
-    if (isFirstLoad && userAddress) {
-      handleNextStep()
-    } else {
-      setIsFirstLoad(true)
-    }
-  }, [web3auth, userAddress]);
+    const init = async () => { setUserAddress(await web3authService.getAccounts()) }
+    init();
+  }, [web3authService.getWeb3Auth])
 
   return (
     <div className="text-center mt-4">
@@ -67,7 +40,7 @@ const Greeting = (props: any) => {
       <div className="flex w-full justify-center gap-2 mt-4">
         {
           userAddress ? (
-            <Button label={`You Are connected with ${address}`} onClick={handleNextStep} />
+            <Button label={`You Are connected with ${userAddress}`} onClick={handleNextStep} />
           ) : (
             <>
               <Button label={'Login'} icon={'/images/icons/chatbot/clarity-wallet-solid.svg'} onClick={handleLogin} />

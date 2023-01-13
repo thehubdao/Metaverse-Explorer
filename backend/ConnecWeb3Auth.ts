@@ -44,13 +44,13 @@ export const connectWeb3Auth = async (
 
   if (!web3auth) {
     console.log("web3auth not initialized yet");
-    return { chainId: '', addressFromJwt: '', roles: [] };
+    return { chainId: 0, addressFromJwt: undefined, roles: [] };
   }
   const web3authProvider = await web3auth.connect();
   const chainId = await getChainId(web3authProvider)
   const address = await getAccounts(web3authProvider)
 
-  if (address === addressFromRedux) return { chainId: '', addressFromJwt: '', roles: [] }
+  if (address === addressFromRedux) return { chainId: chainId, addressFromJwt: address, roles: [] }
 
   try {
     setProvider(web3authProvider);

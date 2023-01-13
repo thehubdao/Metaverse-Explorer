@@ -132,7 +132,6 @@ export default function NftValuation() {
 	}
 
 	useEffect(() => {
-		console.log(filteredItems.length)
 		if (filteredItems.length > 0) {	
 			setNumberOfPages(Math.ceil(filteredItems.length / pageLenght));
 		} else {

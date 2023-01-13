@@ -19,10 +19,6 @@ const SelectCurrency = (props: any) => {
     element.current.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
   }, [element])
 
-  useEffect(() => {
-    console.log(props)
-  }, [])
-
   return (
     <div className="flex w-full justify-center gap-2 mt-4" ref={element}>
       <Button label="USDC" icon="/images/icons/chatbot/cryptocurrency_usdc.svg" onClick={handleClickUSDC} />

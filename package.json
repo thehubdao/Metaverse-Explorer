@@ -19,8 +19,9 @@
     "@mui/material": "^5.8.4",
     "@reduxjs/toolkit": "^1.6.2",
     "@walletconnect/web3-provider": "^1.6.6",
-    "@web3auth/base": "^3.2.0",
-    "@web3auth/modal": "^3.2.0",
+    "@web3auth/base": "^4.2.2",
+    "@web3auth/modal": "^4.2.3",
+    "@web3auth/web3auth-wagmi-connector": "^2.1.1",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
     "ethers": "^5.5.1",
@@ -51,7 +52,8 @@
     "touch-pinch": "^1.0.1",
     "touch-position": "^2.0.0",
     "tsparticles": "^2.5.3",
-    "use-resize-observer": "^9.1.0"
+    "use-resize-observer": "^9.1.0",
+    "wagmi": "^0.10.10"
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^9.0.0",

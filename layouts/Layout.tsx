@@ -64,10 +64,6 @@ export default function Layout({ children }: LayoutProps) {
 		//console.log(parentRef)
 	}, [parentRef.current])
 
-	useEffect(() => {
-		console.log(children)
-	}, [])
-
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
 			{/* Page wrapper */}
