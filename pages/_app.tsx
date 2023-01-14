@@ -18,61 +18,61 @@ import { Web3Auth } from '@web3auth/modal'
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => {
-    return NProgress.start()
+  return NProgress.start()
 })
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
-    const [wagmiClient, setWagmiClient] = useState<any>()
+  const [wagmiClient, setWagmiClient] = useState<any>()
 
-    useEffect(() => {
-        const initWagmi = async () => {
-            await web3authService.initWeb3auth()
+  useEffect(() => {
+    const initWagmi = async () => {
+      await web3authService.initWeb3auth()
 
-            const { Web3AuthConnector } = await import(
-                '@web3auth/web3auth-wagmi-connector'
-            )
-            const { chains, provider } = configureChains(
-                [mainnet, polygon],
-                [publicProvider()]
-            )
+      const { Web3AuthConnector } = await import(
+        '@web3auth/web3auth-wagmi-connector'
+      )
+      const { chains, provider } = configureChains(
+        [mainnet, polygon],
+        [publicProvider()]
+      )
 
-            const wagmiClientInstance = createClient({
-                autoConnect: true,
-                connectors: [
-                    new Web3AuthConnector({
-                        chains,
-                        options: {
-                            web3AuthInstance:
-                                web3authService.getWeb3Auth as Web3Auth,
-                        },
-                    }),
-                ],
-                provider,
-            })
-            setWagmiClient(wagmiClientInstance)
-        }
-        initWagmi()
-    }, [])
+      const wagmiClientInstance = createClient({
+        autoConnect: true,
+        connectors: [
+          new Web3AuthConnector({
+            chains,
+            options: {
+              web3AuthInstance:
+                web3authService.getWeb3Auth as Web3Auth,
+            },
+          }),
+        ],
+        provider,
+      })
+      setWagmiClient(wagmiClientInstance)
+    }
+    initWagmi()
+  }, [])
 
-    return (
-        <>
-            {wagmiClient && (
-                <WagmiConfig client={wagmiClient}>
-                    <Provider store={store}>
-                        <div className="hidden lg:block">
-                            <Layout>
-                                <Component {...pageProps} />
-                            </Layout>
-                        </div>
-                        <div className="lg:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
-                            <MobileControl />
-                        </div>
-                    </Provider>
-                </WagmiConfig>
-            )}
-        </>
-    )
+  return (
+    <>
+      {wagmiClient && (
+        <WagmiConfig client={wagmiClient}>
+          <Provider store={store}>
+            <div className="hidden lg:block">
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </div>
+            <div className="lg:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
+              <MobileControl />
+            </div>
+          </Provider>
+        </WagmiConfig>
+      )}
+    </>
+  )
 }
-export default MyApp
+export default MyApp;

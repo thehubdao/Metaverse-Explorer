@@ -43,7 +43,7 @@ const list = [
 		icon: "a",
 	},
 	{
-		url: "https://eth-india-hackaton-git-pushnotifications-dap-frontend.vercel.app/",
+		url: "/mlm",
 		label: "MLM",
 		icon: "i",
 	},
@@ -55,6 +55,48 @@ const list = [
 ];
 
 export default function Layout({ children }: LayoutProps) {
+	const SidebarOptionList = [
+		{
+			url: "/valuation",
+			label: "LAND Valuation",
+			icon: "b",
+		},
+		{
+			url: "/nftValuation",
+			label: "NFT Valuation",
+			icon: "c",
+		},
+		{
+			url: "/swap",
+			label: "SWAP",
+			icon: "h",
+		},
+		{
+			url: "/liquidity",
+			label: "LIQUIDITY",
+			icon: "f",
+		},
+		{
+			url: "/stake",
+			label: "STAKE",
+			icon: "d",
+		},
+		{
+			url: "https://snapshot.org/#/metagamehub.eth",
+			label: "GOVERNANCE",
+			icon: "a",
+		},
+		{
+			url: "/mlm",
+			label: "MLM",
+			icon: "i",
+		},
+		{
+			url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland",
+			label: "EDIT AVATAR",
+			icon: "g",
+		},
+	];
 	// Scrollbar Controller
 	const parentRef = useRef<HTMLDivElement>(null)
 	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
