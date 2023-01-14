@@ -14,12 +14,12 @@ class Web3authService {
   private web3auth: Web3Auth | null = null
   private web3authProvider: SafeEventEmitterProvider | null = null
   private roles: string[] | undefined[] = []
-  private isConnected: boolean = false
 
   // Getters
   public get getRoles(): string[] | undefined[] { return this.roles }
   public get getWeb3Auth(): Web3Auth | null { return this.web3auth }
-  public get getIsConnected(): boolean { return this.isConnected }
+
+  
   getAccounts = async () => {
     if (!this.web3authProvider) {
       console.log("provider not initialized yet");
@@ -114,7 +114,6 @@ class Web3authService {
       if (!(await this.getAccounts() == addressFromJwt))
         this.disconnectWeb3Auth()
       this.roles = roles
-      this.isConnected = true
     } catch (e) {
       console.log(e)
       this.web3authProvider = null
@@ -127,7 +126,6 @@ class Web3authService {
       return;
     }
     await this.web3auth.logout();
-    this.isConnected = false
   };
 }
 

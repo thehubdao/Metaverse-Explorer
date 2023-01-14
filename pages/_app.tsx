@@ -4,7 +4,7 @@ import NProgress from 'nprogress' //nprogress module
 import { Provider } from 'react-redux'
 import store from '../state/store'
 import Layout from '../layouts/Layout'
-
+import '/styles/MLMStyles.css'
 import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
 import '../styles/TileMap.css'
