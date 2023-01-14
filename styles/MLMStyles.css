@@ -7,12 +7,12 @@
   --tw-space-x-reverse: 0;
   margin-right: calc(2.25rem * var(--tw-space-x-reverse));
   margin-left: calc(2.25rem * calc(1 - var(--tw-space-x-reverse)));
-  @apply font-title text-background text-4xl max-h-[6.5rem];
+  @apply font-title text-background text-8xl max-h-[6.5rem];
 }
 
 .h2-mlm {
   white-space: nowrap;
-  @apply font-title text-3xl;
+  @apply font-title text-5xl;
 }
 
 .p-mlm {

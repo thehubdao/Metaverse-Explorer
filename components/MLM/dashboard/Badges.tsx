@@ -113,7 +113,7 @@ export const Badges = () => {
             <div className="bg-grey text-white max-w-full max-h-full rounded-2xl space-y-3 p-4">
                 <div className="pb-11 pt-6">
                     <div className="flex flex-row">
-                        <h2 className="text-2xl pl-4 pb-4">Badges</h2>
+                        <h2 className="text-4xl pl-4 pb-4">Badges</h2>
                         <button
                             className="flex mx-4 mt-4 border-solid border-2 w-6 h-6 text-xs rounded-full cursor-help items-center justify-center"
                             id="infoButton"

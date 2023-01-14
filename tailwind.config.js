@@ -107,6 +107,9 @@ module.exports = {
         '3xl': '3rem',
         '4xl': '6rem',
       }, */
+      fontSize: {
+        's': '0.5rem',
+      },
       colors: {
         grey: {
           content: '#54575C',

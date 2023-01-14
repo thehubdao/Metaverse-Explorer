@@ -46,7 +46,7 @@ export const Activity = () => {
         />
       )}
       <div className="flex flex-col space-y-3 max-w-full max-h-full text-white">
-        <h2 className="text-xl truncate ">ACTIVITY</h2>
+        <h2 className="text-2xl truncate ">ACTIVITY</h2>
         {!activities ? (
           <div className="flex flex-col justify-center max-w-full items-center">
             <div

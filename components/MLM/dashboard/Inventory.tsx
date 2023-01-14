@@ -33,7 +33,7 @@ export const Inventory = () => {
   return (
     <div className="bg-grey text-white max-w-full max-h-full rounded-2xl space-y-3">
       <div className="p-8">
-        <h2 className="text-2xl pl-4">Inventory</h2>
+        <h2 className="text-4xl pl-4">Inventory</h2>
         <div className="flex flex-col gap-8 justify-center pt-4 max-w-full max-h-full items-center">
           {!wearables ? (
             <div className="flex flex-col align-center max-w-full items-center">

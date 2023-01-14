@@ -122,7 +122,7 @@ export const LevelProgress = () => {
                 {balance && (
                     <div className="flex items-end">
                         <h2 className="h2-mlm">{`${balance}`}</h2>
-                        <h3 className="gradientText font-title text-2xl pl-2 pb-1 ">
+                        <h3 className="gradientText font-title text-4xl pl-2 pb-1 ">
                             MLP
                         </h3>
                         <button
@@ -140,10 +140,10 @@ export const LevelProgress = () => {
                 </div>
                 {level && (
                     <div className="flex ml-auto mr-0">
-                        <h2 className="h2-mlm gradientText font-title text-xl">
+                        <h2 className="h2-mlm gradientText font-title text-2xl">
                             LVL
                         </h2>
-                        <h2 className="h2-mlm pl-2 font-title text-xl">{`${level}`}</h2>
+                        <h2 className="h2-mlm pl-2 font-title text-2xl">{`${level}`}</h2>
                     </div>
                 )}
             </div>
