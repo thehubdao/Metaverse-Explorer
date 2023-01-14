@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaWallet } from "react-icons/fa";
+import { useAccount } from "wagmi";
 
 // web3auth service
 import web3authService from "../backend/services/Web3authService";
@@ -10,6 +11,7 @@ import OvalButton from "./General/Buttons/OvalButton";
 export default function InitWeb3Connect() {
   const [userAddress, setUserAddress] = useState<string | undefined>(undefined)
   const [isInit, setIsInit] = useState(false)
+/*   const {address} = useAccount() */
 
   useEffect(() => {
     const init = async () => { setUserAddress(await web3authService.getAccounts()) }
@@ -31,13 +33,13 @@ export default function InitWeb3Connect() {
   return (
     <>
       {isInit && <>
-        {
+{/*         {
           userAddress
             ? (
               <div className="flex flex-row">
                 <OvalButton
                   buttonFunction={() => logout()}
-                  label={`${userAddress ? userAddress : 'Loading ...'}`}
+                  label={`${address ? address : 'Loading ...'}`}
                   backgroundColorClass={'bg-white'}
                 />
               </div>
@@ -49,7 +51,7 @@ export default function InitWeb3Connect() {
                 backgroundColorClass={'bg-white'}
               />
             )
-        }
+        } */}
       </>}
     </>
   )

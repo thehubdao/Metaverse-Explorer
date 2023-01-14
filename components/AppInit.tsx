@@ -1,16 +1,38 @@
+import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { Router } from 'next/router'
 import NProgress from 'nprogress' //nprogress module
 import { Provider } from 'react-redux'
+
 import store from '../state/store'
 import Layout from '../layouts/Layout'
-
-import '/styles/nprogress.css' //styles of nprogress
-import '../styles/globals.css'
-import '../styles/TileMap.css'
 import MobileControl from '../components/MobileControl'
-import { useState } from 'react'
-import { WagmiConfig } from 'wagmi'
+import web3authService from '../backend/services/Web3authService'
+import { configureChains, createClient, WagmiConfig } from 'wagmi'
+import { mainnet, polygon } from 'wagmi/chains'
+import { publicProvider } from 'wagmi/providers/public'
+import { Web3Auth } from '@web3auth/modal'
+import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
+
+const { chains, provider } = configureChains(
+    [mainnet, polygon],
+    [publicProvider()]
+)
+
+const createWagmiClient = () => {
+    return createClient({
+        autoConnect: true,
+        connectors: [
+            new Web3AuthConnector({
+                chains,
+                options: {
+                    web3AuthInstance: web3authService.getWeb3Auth as Web3Auth,
+                },
+            }),
+        ],
+        provider,
+    })
+}
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => {
@@ -20,12 +42,9 @@ Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
-    const [wagmiClient, setWagmiClient] = useState<any>()
-
-
     return (
         <>
-            {/* <WagmiConfig client={wagmiClient}> */}
+            <WagmiConfig client={createWagmiClient()}>
                 <Provider store={store}>
                     <div className="hidden lg:block">
                         <Layout>
@@ -36,7 +55,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                         <MobileControl />
                     </div>
                 </Provider>
-            {/* </WagmiConfig> */}
+            </WagmiConfig>
         </>
     )
 }
