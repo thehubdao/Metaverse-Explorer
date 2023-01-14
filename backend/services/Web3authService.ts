@@ -79,7 +79,6 @@ class Web3authService {
       if (web3authInit.provider) { web3authProvider = web3authInit.provider }
       this.web3auth = web3authInit
       this.web3authProvider = web3authProvider
-      this.isConnected = await this.getAccounts() ? true : false
     } catch (error) { console.error(error) }
   }
 

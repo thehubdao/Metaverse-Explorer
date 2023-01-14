@@ -11,8 +11,8 @@ import OvalButton from "./General/Buttons/OvalButton";
 export default function InitWeb3Connect() {
   const [userAddress, setUserAddress] = useState<string | undefined>(undefined)
   const [isInit, setIsInit] = useState(false)
-/*   const {address} = useAccount() */
-
+  const {address} = useAccount()
+console.log(address)
   useEffect(() => {
     const init = async () => { setUserAddress(await web3authService.getAccounts()) }
     init();
@@ -33,7 +33,7 @@ export default function InitWeb3Connect() {
   return (
     <>
       {isInit && <>
-{/*         {
+         {
           userAddress
             ? (
               <div className="flex flex-row">
@@ -51,7 +51,7 @@ export default function InitWeb3Connect() {
                 backgroundColorClass={'bg-white'}
               />
             )
-        } */}
+        } 
       </>}
     </>
   )
