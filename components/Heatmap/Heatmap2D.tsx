@@ -229,9 +229,10 @@ const MaptalksCanva = ({
             color = color.includes('rgb')
                 ? rgbToHex(color.split('(')[1].split(')')[0])
                 : '0x' + color.split('#')[1]
-                const border = `images/${getBorder(land, metaverse)}`
+                const border = getBorder(land, metaverse)
+                const border_url = `images/${border}`
                 const texture = border
-                    ? await PIXI.Texture.fromURL(border, {
+                    ? await PIXI.Texture.fromURL(border_url, {
                           mipmap: PIXI.MIPMAP_MODES.ON,
                       })
                     : PIXI.Texture.WHITE
