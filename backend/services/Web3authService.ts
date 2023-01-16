@@ -1,7 +1,6 @@
 // WEB 3 AUTH imports
 import { Web3Auth } from '@web3auth/modal'
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from '@web3auth/base'
-import { MetamaskAdapter } from '@web3auth/metamask-adapter'
 import jwtDecode from 'jwt-decode'
 
 import { Chains } from '../../lib/chains'
@@ -91,7 +90,7 @@ class Web3authService {
     }
 
     connectWeb3Auth = async (signer: Signer) => {
-const address =await signer.getAddress()
+        const address = await signer.getAddress()
 
         try {
             const { nonce } = await fetchNonce(address)

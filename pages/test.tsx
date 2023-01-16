@@ -1,12 +1,5 @@
 import { NextPage } from "next"
 import Head from "next/head"
-import Image from "next/image";
-import Chatbot from "react-chatbot-kit"
-
-// Chatbot initials
-import config from '../lib/chatbot/config-chatbot'
-import ActionProvider from "../lib/chatbot/ActionProvider"
-import MessageParser from "../lib/chatbot/MessageParser"
 
 const Test: NextPage = () => {
   return (
@@ -18,28 +11,6 @@ const Test: NextPage = () => {
       </Head>
 
       <div className="h-screen w-full flex justify-center items-center pt-24">
-        <div className="grid grid-cols-2 max-w-7xl min-h-[650px]">
-          <div className="relative w-full h-full">
-            <Image
-              src='/images/cyberspace-3.svg'
-              loading='lazy'
-              layout="fill"
-            />
-          </div>
-          <div className="h-full w-full flex flex-col justify-center items-center text-black">
-            <h2 className="text-4xl text-center font-bold">Metaverse Analytics API powered by the MGH DAO AI</h2>
-            <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl mb-10">
-              <p>Suscription Status:
-                <span className="font-bold"> Active until xx.xx.xxxx</span>
-              </p>
-            </div>
-            <Chatbot
-              actionProvider={ActionProvider}
-              messageParser={MessageParser}
-              config={config as any}
-            />
-          </div>
-        </div>
       </div>
     </>
   )

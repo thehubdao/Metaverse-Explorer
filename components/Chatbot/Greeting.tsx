@@ -1,23 +1,19 @@
 import { useRouter } from 'next/router'
-import Button from "./Button"
-import { useEffect, useState } from 'react'
+import { useAccount, useConnect } from 'wagmi'
 
-// web3auth service
-import web3authService from "../../backend/services/Web3authService";
+import Button from "./Button"
+
 
 const Greeting = (props: any) => {
+  const { connect, connectors } = useConnect()
+  const { address } = useAccount()
   const router = useRouter()
-  const [userAddress, setUserAddress] = useState(null)
 
   const handleNextStep = () => {
-    if (userAddress)
-      props.actionProvider.EjectPlanExplanation(userAddress)
+    if (address) props.actionProvider.EjectPlanExplanation(address)
   }
 
-  const handleLogin = async () => {
-    await web3authService.connectWeb3Auth()
-    setUserAddress(await web3authService.getAccounts())
-  }
+  const handleLogin = async () => { connect({ connector: connectors[0] }) }
 
   const handleSetupWallet = () => {
     window.open('https://metamask.io/', '_blank')
@@ -27,11 +23,6 @@ const Greeting = (props: any) => {
     confirm('Sure?') ? router.push("/valuation") : ''
   }
 
-  useEffect(() => {
-    const init = async () => { setUserAddress(await web3authService.getAccounts()) }
-    init();
-  }, [web3authService.getWeb3Auth])
-
   return (
     <div className="text-center mt-4">
       <p className="font-bold text-2xl">Welcome to the MGH DAO valuation services API</p>
@@ -39,8 +30,8 @@ const Greeting = (props: any) => {
       <p className="text-sm py-3 mt-40 rounded-xl border border-grey-content">To continue please connect your web3 wallet</p>
       <div className="flex w-full justify-center gap-2 mt-4">
         {
-          userAddress ? (
-            <Button label={`You Are connected with ${userAddress}`} onClick={handleNextStep} />
+          address ? (
+            <Button label={`You Are connected with ${address}`} onClick={handleNextStep} />
           ) : (
             <>
               <Button label={'Login'} icon={'/images/icons/chatbot/clarity-wallet-solid.svg'} onClick={handleLogin} />

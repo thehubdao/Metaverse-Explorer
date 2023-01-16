@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                         options: {
                             web3AuthInstance:
                                 web3authService.getWeb3Auth as Web3Auth,
-                                
+
                         },
                     }),
                 ],
@@ -63,11 +63,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             {wagmiClient && (
                 <Provider store={store}>
                     <WagmiConfig client={wagmiClient}>
+                        {/* Desktop View */}
                         <div className="hidden lg:block">
                             <Layout>
                                 <Component {...pageProps} />
                             </Layout>
                         </div>
+                        {/* Mobile View */}
                         <div className="lg:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
                             <MobileControl />
                         </div>
