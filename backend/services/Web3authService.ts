@@ -90,8 +90,8 @@ class Web3authService {
         }
     }
 
-    connectWeb3Auth = async (signer: Signer, address: string) => {
-
+    connectWeb3Auth = async (signer: Signer) => {
+const address =await signer.getAddress()
 
         try {
             const { nonce } = await fetchNonce(address)

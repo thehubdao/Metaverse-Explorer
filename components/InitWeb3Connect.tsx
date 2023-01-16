@@ -10,15 +10,14 @@ import web3authService from '../backend/services/Web3authService'
 import OvalButton from './General/Buttons/OvalButton'
 
 export default function InitWeb3Connect() {
-    const { data: signer } = useSigner({
-        async onSettled(signer) {
-            await web3authService.connectWeb3Auth(signer as Signer, address!)
-        },
-    })
     const { connect, connectors } = useConnect()
     const { disconnect } = useDisconnect()
     const { address } = useAccount()
-
+    const { data: signer } = useSigner({
+        async onSettled(signer) {
+            await web3authService.connectWeb3Auth(signer as Signer)
+        },
+    })
     const login = async () => {
         connect({ connector: connectors[0] })
     }
