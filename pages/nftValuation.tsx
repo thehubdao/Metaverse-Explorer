@@ -107,8 +107,8 @@ export default function NftValuation() {
 
 	// Pagination Controller
 	const [numberOfPages, setNumberOfPages] = useState<number>(0)
-	const [pageLenght, setPageLenght] = useState<number>(20);
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
+	const pageLenght: number = 20;
 
 	// Filter Controller
 	const [filteredItems, setfilteredItems] = useState<nftObject[]>(nftObject);
@@ -132,7 +132,7 @@ export default function NftValuation() {
 	}
 
 	useEffect(() => {
-		if (filteredItems.length > 0) {	
+		if (filteredItems.length > 0) {
 			setNumberOfPages(Math.ceil(filteredItems.length / pageLenght));
 		} else {
 			setNumberOfPages(Math.ceil(nftObject?.length / pageLenght));
@@ -148,24 +148,26 @@ export default function NftValuation() {
 		})
 	}, [nftTraitsFilters]);
 
+	// Collection Fetching
 	useEffect(() => {
 		const getDataCollection = async () => {
 			let response, traits, globalResponse
-			if (collectionName) {
-				setLoadingCollection(true);
-				response = await getNftCollection(collectionName);
-				traits = await getDataTraits(collectionName)
-				globalResponse = await getNftGlobalData(collectionName);
-				setnftObject(response);
-				setnftTraitsFilters(traits);
-				setnftGlobal(globalResponse.stats);
-				setLoadingGlobalData(false);
-				setLoadingCollection(false);
-			}
+			if (!collectionName) return
+			setLoadingGlobalData(true);
+			setLoadingCollection(true);
+			response = await getNftCollection(collectionName);
+			traits = await getDataTraits(collectionName)
+			globalResponse = await getNftGlobalData(collectionName);
+			setnftObject(response);
+			setnftTraitsFilters(traits);
+			setnftGlobal(globalResponse.stats);
+			setLoadingGlobalData(false);
+			setLoadingCollection(false);
 		};
 		getDataCollection();
 	}, [collectionName]);
 
+	// Use Effect to handle filters
 	useEffect(() => {
 		if (inputValue) {
 			const results = nftObject.filter((nft: nftObject) => {
