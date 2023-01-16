@@ -249,6 +249,7 @@ const between = (x: number, max: number, min: number) => {
 
 // Using this to display those 5 squares on the map to use as filter buttons
 export const FILTER_COLORS = {
+    6: 'rgb(40,40,150)',
     5: 'rgb(255,56,56)', //RED - Max
     4: 'rgb(255,135,98)', // ORANGE
     3: 'rgb(255,220,98)', // YELLOW
@@ -299,10 +300,18 @@ export const DECENTRALAND_API_COLORS: Record<number, string> = Object.freeze({
  * are way too high compared to the other ones it might make the map more worthy of using to switch the % like we are doing with
  * eth_predicted_price.
  */
-const filterPercentages = {
-    predictedPricePercentage: [0, 20, 40, 60, 80, 100],
-    normal: [0, 20, 40, 60, 80, 100],
+const filterPercentages: any = {
+    predictedPricePercentage: [0, 12, 24, 36, 100],
+    normal: [0, 12, 24, 36, 100],
+    colours: [
+        'rgb(0,0,255)',
+        'rgb(0,255,255)',
+        'rgb(0,255,0)',
+        'rgb(255,255,0)',
+        'rgb(255,0,0)',
+    ],
 }
+
 
 const filterKey = (mapFilter: MapFilter | undefined) => {
     return mapFilter &&
@@ -329,72 +338,41 @@ const filterKey = (mapFilter: MapFilter | undefined) => {
  *  then we can do: 255 - ((10-5)/ (20-5)) * (255 - 170) = colorFromReversePercentage
  * */
 export const generateColor = (percent: number, mapFilter?: MapFilter) => {
-    if (percent === 0 || !mapFilter) return 'rgb(176,176,176)'
-    const colors = [
-        // CAREFUL WITH FORGETTING THE COMAS BETWEEN NUMBERS ON THE RGB!!!
-
-        // LIGHT-BLUE: rgb(0, 255, 160..255)
-        `rgb(146, 196,${
-            255 -
-            Math.ceil(
-                (percent / filterPercentages[filterKey(mapFilter)][1]) *
-                    (255 - 220)
-            )
-        })`,
-
-        // GREEN: rgb(0..170, 255, 0)
-        `rgb(${Math.ceil(
-            ((percent - filterPercentages[filterKey(mapFilter)][1]) /
-                (filterPercentages[filterKey(mapFilter)][2] -
-                    filterPercentages[filterKey(mapFilter)][1])) *
-                (100 - 38)
-        )},236,117)`,
-
-        // YELLOW: rgb(255, 190..255, 0)
-        `rgb(255,${
-            255 -
-            Math.ceil(
-                ((percent - filterPercentages[filterKey(mapFilter)][2]) /
-                    (filterPercentages[filterKey(mapFilter)][3] -
-                        filterPercentages[filterKey(mapFilter)][2])) *
-                    (255 - 190)
-            )
-        },98)`,
-
-        // ORANGE: rgb(255, 100..170, 0)
-        `rgb(255,${
-            170 -
-            Math.ceil(
-                ((percent - filterPercentages[filterKey(mapFilter)][3]) /
-                    (filterPercentages[filterKey(mapFilter)][4] -
-                        filterPercentages[filterKey(mapFilter)][3])) *
-                    (170 - 100)
-            )
-        },90)`,
-
-        // RED: rgb(255, 0..70, 0)
-        `rgb(255, ${
-            70 -
-            Math.ceil(
-                ((percent - filterPercentages[filterKey(mapFilter)][4]) /
-                    (100 - filterPercentages[filterKey(mapFilter)][4])) *
-                    56
-            )
-        },56)`,
-    ]
+    if (percent === 0 || !mapFilter) return FILTER_COLORS[6]
     let color!: string
     if (between(percent, 100, 0)) {
-        colors.map((_, i) => {
-            if (
-                between(
-                    percent,
-                    filterPercentages[filterKey(mapFilter)][i + 1],
-                    filterPercentages[filterKey(mapFilter)][i]
-                )
-            )
-                color = colors[i]
-        })
-    } else color = FILTER_COLORS[0] // GRAY
+        if (percent < filterPercentages.predictedPricePercentage[1])
+            color = `rgb(0, ${Math.ceil(
+                255 * (percent / filterPercentages.predictedPricePercentage[1])
+            )}, 255)`
+        else if (percent < filterPercentages.predictedPricePercentage[2])
+            color = `rgb(0, 255, ${Math.floor(
+                255 *
+                    (1 -
+                        (percent -
+                            filterPercentages.predictedPricePercentage[1]) /
+                            (filterPercentages.predictedPricePercentage[2] -
+                                filterPercentages.predictedPricePercentage[1]))
+            )})`
+        else if (percent < filterPercentages.predictedPricePercentage[3])
+            color = `rgb(${Math.ceil(
+                255 *
+                    ((percent - filterPercentages.predictedPricePercentage[2]) /
+                        (filterPercentages.predictedPricePercentage[3] -
+                            filterPercentages.predictedPricePercentage[2]))
+            )}, 255, 0)`
+        else {
+            color = `rgb(255, ${Math.floor(
+                255 *
+                    (1 -
+                        (percent -
+                            filterPercentages.predictedPricePercentage[2]) /
+                            (100 -
+                                filterPercentages.predictedPricePercentage[2]))
+            )}, 0)`
+        }
+    } else color = FILTER_COLORS[6] // GRAY
+    if (!color) console.log(color)
     return color
 }
 
@@ -428,4 +406,20 @@ export const getTileColor = (
     } else color = generateColor(0)
 
     return color
+}
+
+export const getBorder = (land: any, metaverse: Metaverse) => {
+    if(!land.tile) return '/full_border.jpg'
+    if(land.tile.top && land.tile.left && land.tile.topLeft) return null
+/*     if (
+        metaverse != 'decentraland' ||
+        (land.tile.top && land.tile.left && land.tile.topLeft)
+    )
+        return null */
+    else if (!land.tile.top && land.tile.left) return '/top_border.jpg'
+    else if (land.tile.top && !land.tile.left) return '/left_border.jpg'
+    else if (!land.tile.top && !land.tile.left) return '/topLeft_border.jpg'
+    else if (land.tile.top && land.tile.left && !land.tile.topLeft)
+        return '/fill_border.jpg'
+
 }
