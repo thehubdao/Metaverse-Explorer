@@ -67,7 +67,7 @@ const MaptalksCanva = ({
     const [chunks, setChunks] = useState<any>({})
     const CHUNK_SIZE = 32
     const TILE_SIZE = 64
-    const BORDE_SIZE = 14
+    const BORDE_SIZE = 0
     const BLOCK_SIZE = CHUNK_SIZE * TILE_SIZE
     let checkpoint = 0
     const rgbToHex = (values: any) => {
