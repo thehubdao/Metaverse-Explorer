@@ -398,17 +398,14 @@ export const FILTER_COLORS = {
 }
 
 export const getBorder = (land: any, metaverse: Metaverse) => {
-    if (
-        metaverse != 'decentraland' ||
-        (land.tile.top && land.tile.left && land.tile.topLeft)
-    )
-        return null
+    if(!land.tile) return '/full_border.jpg'
+    if(land.tile.top && land.tile.left && land.tile.topLeft) return null
     else if (!land.tile.top && land.tile.left) return '/top_border.jpg'
     else if (land.tile.top && !land.tile.left) return '/left_border.jpg'
     else if (!land.tile.top && !land.tile.left) return '/topLeft_border.jpg'
     else if (land.tile.top && land.tile.left && !land.tile.topLeft)
         return '/fill_border.jpg'
-    return '/full_border.jpg'
+
 }
 
 // Colors for dictionary filters
