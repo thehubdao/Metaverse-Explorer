@@ -24,7 +24,7 @@ import {
 
 // Filters
 import { typedKeys } from "../lib/utilities";
-import SpecificNftModal from "../components/nftValuation/SpecificNftModal";
+import SpecificAssetModal from "../components/General/SpecificAssetModal";
 
 interface nftCollectionProps {
 	num_owners: number;
@@ -212,7 +212,7 @@ export default function NftValuation() {
 
 			{/* General Section Layout */}
 			{isModalOpen
-				? <SpecificNftModal
+				? <SpecificAssetModal
 					collectionName={collectionName}
 					specificNftSelected={specificNftSelected}
 					handleSpecificNftData={handleSpecificNftData}

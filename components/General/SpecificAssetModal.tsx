@@ -1,21 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { TbArrowBackUp, TbChartCandle } from 'react-icons/tb'
 import { FiSearch } from "react-icons/fi";
 import { nftObject } from "../../lib/types";
 
-const formatter = new Intl.NumberFormat("en-US", {
+const formatter = new Intl.NumberFormat(['ban', 'id'], {
   minimumFractionDigits: 1,
   maximumFractionDigits: 5,
 });
 
-interface SpecificNftModalProps {
+interface SpecificAssetModalProps {
   collectionName: string
   specificNftSelected?: nftObject
   handleSpecificNftData: Function
 }
 
-const ExternalButton = ({ text, icon, externalLink }: { text: string, icon: string, externalLink: string }) => {
+const ExternalButton = ({ text, icon, externalLink }: {
+  text: string,
+  icon: string,
+  externalLink: string
+}) => {
   return (
     <div
       onClick={() => { window.open(externalLink, '_blank') }}
@@ -42,7 +46,7 @@ const BoxData = ({ text, price, message, bigData }: {
   return (
     <div className="w-full">
       <p className="text-xs text-grey-icon font-bold">{text}</p>
-      <p className={`${bigData ? 'text-2xl' : 'text-xl'} font-bold`}>{price && price !== '0.0' ? `${price} ETH` : message}</p>
+      <p className={`${bigData ? 'text-2xl' : 'text-xl'} font-bold`}>{price && price !== '0,0' ? `${price} ETH` : message}</p>
     </div>
   )
 }
@@ -55,7 +59,7 @@ const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) 
   }
 
   return (
-    <div className="flex gap-2 items-center mb-10">
+    <div className="flex gap-2 items-center mb-5">
       <div
         onClick={() => { handleSpecificNftData(false) }}
         className="flex justify-center items-center w-16 h-10 rounded-lg nm-flat-medium hover:nm-flat-soft duration-150 text-lg cursor-pointer"
@@ -83,13 +87,17 @@ const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) 
   )
 }
 
-const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collectionName }: SpecificNftModalProps) => {
+const SpecificAssetModal = ({ specificNftSelected, handleSpecificNftData, collectionName }: SpecificAssetModalProps) => {
+
+  const SteticTimeString = (historyTime: string) => {
+    let timeStringArray = historyTime.split(' ')[0].split('-')
+    return `${timeStringArray[2]}.${timeStringArray[1]}.${timeStringArray[0]}`
+  }
+
   const handleTimeString = (history: any) => {
     let timeString = 'No Data'
     if (history.length > 0) {
-      timeString = history[history.length - 1]['time']
-      const timeStringArray = timeString.split(' ')
-      timeString = timeStringArray[0]
+      timeString = SteticTimeString(history[history.length - 1]['time'])
     } return timeString
   }
 
@@ -98,16 +106,14 @@ const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collecti
       {specificNftSelected
         ? (<div className="w-full max-w-7xl px-6 text-black mb-10">
           <Header handleSpecificNftData={handleSpecificNftData} />
-
           <div className="grid grid-cols-2 gap-2">
 
             {/* Nft Video */}
             <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">
-              <video controls loop className="w-[502px] h-[504px] rounded-xl">
+              <video controls loop key={specificNftSelected["images"]["animation_url"]} className="w-[502px] h-[504px] rounded-xl">
                 <source src={specificNftSelected["images"]["animation_url"]} />
               </video>
             </div>
-
 
             {/* Nft Identification */}
             <div className="flex flex-col h-full justify-between pt-5">
@@ -117,7 +123,7 @@ const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collecti
                     ? specificNftSelected['name']
                     : `${collectionName.toUpperCase()} #${specificNftSelected['tokenId']}`}
                 </p>
-                <p className="text-grey-content text-sm font-bold">Owned by anyone</p>
+                <p className="text-grey-content text-sm">Owned by anyone</p>
               </div>
 
               {/* Box data section */}
@@ -126,7 +132,7 @@ const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collecti
                 <BoxData text="Listing Price:" price={formatter.format(specificNftSelected["listed_eth_price"] ? specificNftSelected['listed_eth_price'] : 0)} message='Not Listed' />
                 <BoxData
                   text="Last Sale Price:"
-                  price={specificNftSelected['history'].length > 0 ? specificNftSelected['history'][specificNftSelected['history'].length - 1]['eth_price'] : undefined}
+                  price={specificNftSelected['history'].length > 0 ? formatter.format(specificNftSelected['history'][specificNftSelected['history'].length - 1]['eth_price']) : undefined}
                   message="No Data"
                 />
                 <BoxData
@@ -160,4 +166,4 @@ const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collecti
   )
 }
 
-export default SpecificNftModal
+export default SpecificAssetModal
