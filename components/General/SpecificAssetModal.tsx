@@ -89,6 +89,10 @@ const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) 
 
 const SpecificAssetModal = ({ specificNftSelected, handleSpecificNftData, collectionName }: SpecificAssetModalProps) => {
 
+  const getLastOwner = () => {
+
+  }
+
   const SteticTimeString = (historyTime: string) => {
     let timeStringArray = historyTime.split(' ')[0].split('-')
     return `${timeStringArray[2]}.${timeStringArray[1]}.${timeStringArray[0]}`
@@ -123,7 +127,7 @@ const SpecificAssetModal = ({ specificNftSelected, handleSpecificNftData, collec
                     ? specificNftSelected['name']
                     : `${collectionName.toUpperCase()} #${specificNftSelected['tokenId']}`}
                 </p>
-                <p className="text-grey-content text-sm">Owned by anyone</p>
+                <p className="text-grey-content text-sm">Owned by {specificNftSelected['history'].length > 0 ? specificNftSelected['history'][specificNftSelected['history'].length - 1]['buyer'] : 'someone'}</p>
               </div>
 
               {/* Box data section */}
