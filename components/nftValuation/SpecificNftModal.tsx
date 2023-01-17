@@ -50,6 +50,10 @@ const BoxData = ({ text, price, message, bigData }: {
 const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) => {
   const [inputValue, setInputValue] = useState<string>()
 
+  const handleClick = () => {
+    handleSpecificNftData(true, undefined, inputValue)
+  }
+
   return (
     <div className="flex gap-2 items-center mb-10">
       <div
@@ -68,6 +72,7 @@ const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) 
           className="font-normal font-plus justify-center text-grey-content nm-inset-soft focus:outline-none placeholder-gray-300 p-3 rounded-full w-full text-sm"
         />
         <button
+          onClick={() => handleClick()}
           type="submit"
           className="absolute block right-4 top-4 text-grey-content text-sm"
         >
@@ -79,11 +84,6 @@ const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) 
 }
 
 const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collectionName }: SpecificNftModalProps) => {
-
-  useEffect(() => {
-    console.log(specificNftSelected)
-  }, [])
-
   const handleTimeString = (history: any) => {
     let timeString = 'No Data'
     if (history.length > 0) {
@@ -102,11 +102,13 @@ const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collecti
           <div className="grid grid-cols-2 gap-2">
 
             {/* Nft Image */}
-            <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">
-              <video controls loop className="w-[502px] h-[504px] rounded-xl">
-                <source src={specificNftSelected["images"]["animation_url"]} />
-              </video>
-            </div>
+            {specificNftSelected["images"]["animation_url"] &&
+              <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">
+                <video controls loop className="w-[502px] h-[504px] rounded-xl">
+                  <source src={specificNftSelected["images"]["animation_url"]} />
+                </video>
+              </div>
+            }
 
             {/* Nft Identification */}
             <div className="flex flex-col h-full justify-between pt-5">
