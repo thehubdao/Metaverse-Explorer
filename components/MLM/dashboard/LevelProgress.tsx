@@ -125,12 +125,12 @@ export const LevelProgress = () => {
                         <h3 className="gradientText font-title text-4xl pl-2 pb-1 ">
                             MLP
                         </h3>
-                        <button
-                            className="flex mx-2 border-solid border-2 w-6 h-6 text-xs rounded-full cursor-help place-self-center items-center justify-center"
-                            id="infoButton"
-                        >
-                            i
-                        </button>
+                        <div className="tooltip flex mx-4 border-solid border-2 w-6 h-6 text-xs rounded-full cursor-help items-center justify-center place-self-center">i
+                        <div className="tooltiptext text-base">
+                        The Metaverse Loyalty Points are a type of on-chain reputation token that can be used to acquire wearables on the MGH marketplace, gain access to MGH experiences, and participate in MGH DAO.
+                        They are an integral part of our ecosystem, serving as a measure of reputation and a way to reward users for their contributions and engagement within the platform.
+                        </div>
+                        </div>
                     </div>
                 )}
                 <div style={Parentdiv}>

@@ -98,15 +98,6 @@ module.exports = {
         thin: ["Alterwave", "sans-serif"],
         fire: ["FiraSans", "sans-serif"]
       },
-/*       fontSize: {
-        's': '0.5rem',
-        'sm': '0.8rem',
-        'base': '1rem',
-        'xl': '1.5rem',
-        '2xl': '2.25rem',
-        '3xl': '3rem',
-        '4xl': '6rem',
-      }, */
       fontSize: {
         's': '0.5rem',
       },
