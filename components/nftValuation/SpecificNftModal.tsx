@@ -101,14 +101,13 @@ const SpecificNftModal = ({ specificNftSelected, handleSpecificNftData, collecti
 
           <div className="grid grid-cols-2 gap-2">
 
-            {/* Nft Image */}
-            {specificNftSelected["images"]["animation_url"] &&
-              <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">
-                <video controls loop className="w-[502px] h-[504px] rounded-xl">
-                  <source src={specificNftSelected["images"]["animation_url"]} />
-                </video>
-              </div>
-            }
+            {/* Nft Video */}
+            <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">
+              <video controls loop className="w-[502px] h-[504px] rounded-xl">
+                <source src={specificNftSelected["images"]["animation_url"]} />
+              </video>
+            </div>
+
 
             {/* Nft Identification */}
             <div className="flex flex-col h-full justify-between pt-5">
