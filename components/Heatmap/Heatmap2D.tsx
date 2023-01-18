@@ -8,7 +8,7 @@ import {
 import { filteredLayer } from '../../lib/heatmap/heatmapLayers'
 import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
-import { setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
+import { getBorder, setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
 import { io } from 'socket.io-client'
@@ -68,7 +68,7 @@ const MaptalksCanva = ({
     const [metaverseData, setMetaverseData] = useState<any>()
     const CHUNK_SIZE = 32
     const TILE_SIZE = 64
-    const BORDE_SIZE = 14
+    const BORDE_SIZE = 0
     const BLOCK_SIZE = CHUNK_SIZE * TILE_SIZE
     let checkpoint = 0
     const rgbToHex = (values: any) => {
@@ -229,8 +229,14 @@ const MaptalksCanva = ({
             color = color.includes('rgb')
                 ? rgbToHex(color.split('(')[1].split(')')[0])
                 : '0x' + color.split('#')[1]
-
-            const rectangle: any = new PIXI.Sprite(PIXI.Texture.WHITE)
+                const border = getBorder(land, metaverse)
+                const border_url = `images/${border}`
+                const texture = border
+                    ? await PIXI.Texture.fromURL(border_url, {
+                          mipmap: PIXI.MIPMAP_MODES.ON,
+                      })
+                    : PIXI.Texture.WHITE
+            const rectangle: any = new PIXI.Sprite(texture)
             const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
             const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
             const chunkKey = `${chunkX}:${chunkY}`

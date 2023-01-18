@@ -73,10 +73,6 @@ class Web3authService {
                     rpcTarget: Chains.ETHEREUM_MAINNET.rpcUrl, // This is the private RPC
                 },
             })
-            /*       // adding metamask adapter
-      const metamaskAdapter = new MetamaskAdapter({ clientId });
-      // it will add/update  the metamask adapter in to web3auth class
-      web3authInit.configureAdapter(metamaskAdapter); */
             await web3authInit.initModal()
             let web3authProvider = null
             if (web3authInit.provider) {
