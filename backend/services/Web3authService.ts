@@ -68,10 +68,16 @@ class Web3authService {
         try {
             const web3authInit = new Web3Auth({
                 clientId,
+
                 chainConfig: {
-                    chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x1',
-                    rpcTarget: Chains.ETHEREUM_MAINNET.rpcUrl, // This is the private RPC
+    chainNamespace: CHAIN_NAMESPACES.EIP155,
+    chainId: "0x89", // hex of 137, polygon mainnet
+    rpcTarget: "https://rpc.ankr.com/polygon",
+    displayName: "Polygon Mainnet",
+    blockExplorer: "https://polygonscan.com",
+    ticker: "MATIC",
+    tickerName: "Matic"
+
                 },
             })
             await web3authInit.initModal()

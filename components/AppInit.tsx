@@ -15,11 +15,12 @@ import { Web3Auth } from '@web3auth/modal'
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 
 const { chains, provider } = configureChains(
-    [mainnet, polygon],
+    [polygon],
     [publicProvider()]
 )
 
 const createWagmiClient = () => {
+
     return createClient({
         autoConnect: true,
         connectors: [

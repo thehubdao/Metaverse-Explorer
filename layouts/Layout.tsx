@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
 // Components
-const InitWeb3Connect = dynamic(() => import('../components/InitWeb3Connect'), { ssr: false })
+const ConnectButton = dynamic(() => import('../components/ConnectButton'), { ssr: false })
 import ScrollBar from "../components/ScrollBar";
 import Sidebar from "../components/Sidebar";
 
@@ -115,7 +115,7 @@ export default function Layout({ children }: LayoutProps) {
 
 			{/* Wallet connection wrapper */}
 			<div className="absolute top-0 right-0">
-				<InitWeb3Connect />
+				<ConnectButton />
 			</div>
 			{/* Sidebar wrapper */}
 			<div className="fixed inset-0 w-24 overflow-hidden">
