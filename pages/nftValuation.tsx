@@ -259,6 +259,7 @@ export default function NftValuation() {
 													handleApply={handleApply}
 													handleTraitFilter={handleTraitFilter}
 													setIsFilteredByListed={setIsFilteredByListed}
+													isFilteredByListed={isFilteredByListed}
 												/>
 											)}
 										</>
