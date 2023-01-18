@@ -46,7 +46,7 @@ export const Activity = () => {
         />
       )}
       <div className="flex flex-col space-y-3 max-w-full max-h-full text-white">
-        <h2 className="text-xl truncate ">ACTIVITY</h2>
+        <h2 className="text-2xl truncate ">ACTIVITY</h2>
         {!activities ? (
           <div className="flex flex-col justify-center max-w-full items-center">
             <div
@@ -103,7 +103,7 @@ export const Activity = () => {
                         {activity.metadata.eventType}
                       </p>
                       <div className="flex px-3 py-2">
-                        <div className="relative w-30 flex sm:scale-85 lg:scale-90 xl:scale-100 font-medium items-center border-solid  border-2 rounded-[10px] px-3 border-white">
+                        <div className="relative w-15 flex sm:scale-85 lg:scale-90 xl:scale-100 font-medium items-center border-solid  border-2 rounded-[10px] px-3 border-white">
                           <h2 className="text-[11px] truncate">DCLAND</h2>
                         </div>
                       </div>

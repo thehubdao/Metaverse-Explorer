@@ -34,7 +34,7 @@ export const Leaderboard = () => {
         />
       )}
       <div className="flex flex-col text-white max-w-full space-y-3">
-        <h2 className="text-xl">LEADERBOARD</h2>
+        <h2 className="text-2xl">LEADERBOARD</h2>
         <div className="flex h-10 bg-grey rounded-2xl py-2 px-4 space-x-4 justify-between">
           {leaderboards && (
             <p className="p-mlm truncate">1. {leaderboards[0]["?column?"]}</p>
