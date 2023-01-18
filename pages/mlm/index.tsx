@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import React, { useEffect } from "react";
-import { ConnectionButton } from "../../components/MLM/auth/ConnectionButton";
+import  ConnectButton  from "../../components/ConnectButton"
 import { useAccount } from "wagmi";
 import { useCallback } from "react";
 import Particles from "react-tsparticles";
@@ -41,10 +41,15 @@ const Auth: NextPage = () => {
             Decentraland ecosystem through different onchain and offchain
             activities.
           </p>
-          <ConnectionButton />
+          <div className="text-center text-black pl-[90px] pr-[90px]">
+
+          <ConnectButton />
+
+          </div>
         </div>
         <div className="flex flex-col pb-10"></div>
       </div>
+
     </>
   );
 };

@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     useEffect(() => {
         const initWagmi = async () => {
             await web3authService.initWeb3auth()
-
+            console.log(polygon,"POLYGON")
             const { Web3AuthConnector } = await import(
                 '@web3auth/web3auth-wagmi-connector'
             )
