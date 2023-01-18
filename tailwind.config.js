@@ -112,7 +112,6 @@ module.exports = {
           lightest: '#F8F9FD'
         },
         'background': '#111111',
-        'grey': '#292929',
         'white': '#ffffff',
         'tahiti': '#3ab7bf',
       },
