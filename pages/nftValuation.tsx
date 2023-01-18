@@ -129,11 +129,8 @@ export default function NftValuation() {
 	}
 
 	useEffect(() => {
-		if (filteredItems.length > 0) {
-			setNumberOfPages(Math.ceil(filteredItems.length / pageLenght));
-		} else {
-			setNumberOfPages(Math.ceil(nftObject?.length / pageLenght));
-		} setControlPageIndex(0);
+		setNumberOfPages(Math.ceil(filteredItems.length > 0 ? filteredItems.length : nftObject?.length) / pageLenght);
+		setControlPageIndex(0);
 	}, [filteredItems, nftObject]);
 
 	useEffect(() => {

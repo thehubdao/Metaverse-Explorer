@@ -159,7 +159,7 @@ const SpecificAssetModal = ({ specificNftSelected, handleSpecificNftData, collec
                   <TbChartCandle />
                   <p>Price Estimation History</p>
                 </div>
-                <div></div>
+                <div className="flex w-full h-full justify-center items-center font-bold">Coming soon!</div>
               </div>
             </div>
           </div>
