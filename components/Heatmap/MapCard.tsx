@@ -59,7 +59,7 @@ const MapCard = ({
       </p>
     </div>
   ) : (
-    <div className='gray-box p-6 flex flex-col cursor-pointer font-plus text-grey-content items-start justify-between gap-4 bg-opacity-100 md:min-h-[362px] md:min-w-[359px] relative z-30'>
+    <div className='gray-box p-4 flex flex-col cursor-pointer font-plus text-grey-content items-start justify-between gap-4 bg-opacity-100 md:min-h-[362px] md:min-w-[359px] relative z-30 bg-grey-bone rounded-xl shadow-2xl'>
       {loadingQuery ? (
         <div className='w-full flex flex-col gap-14 absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4'>
           <Loader />
@@ -73,7 +73,7 @@ const MapCard = ({
         landCoords && (
           <>
             <IoClose
-              className='absolute top-2 right-2 text-xl text-grey-content hover:text-red-500 transition-all '
+              className='absolute top-1 right-1 text-xl text-grey-content hover:text-red-500 transition-all '
               onClick={() => setIsVisible(false)}
             />
             {/* /* LEFT */}
@@ -95,7 +95,7 @@ const MapCard = ({
               {/* Main Land Info */}
               <div className='flex flex-col justify-between'>
                 <div>
-                  <h3 className='text-base font-normal md:text-2xl p-0 leading-4 max-w-xs'>
+                  <h3 className='text-base font-normal md:text-xl pt-2 leading-4 max-w-xs'>
                     {handleLandName(metaverse, {
                       x: landCoords.x,
                       y: landCoords.y
@@ -118,7 +118,7 @@ const MapCard = ({
                   />
                 )}
                 {/* External Links */}
-                <nav className='flex flex-col md:gap-4 gap-[1.40rem] text-grey-content'>
+                <nav className='flex flex-col md:gap-2 pb-2 gap-[1.40rem] text-grey-content'>
                   {apiData.market_links.opensea&& (
                     <ExternalLink href={apiData.market_links.opensea} text='OpenSea' />
                   )}

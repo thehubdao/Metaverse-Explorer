@@ -46,7 +46,7 @@ interface Props {
 const PriceList = ({ predictions, className, metaverse }: Props) => {
   const keys = typedKeys(predictions)
   return (
-    <ul className={'flex flex-col flex-grow min-w-max gap-4 ' + className}>
+    <ul className={'flex flex-col flex-grow min-w-max gap-1 ' + className}>
       {/* Iterating through each Coin.  */}
       {keys.map(
         (key) =>
@@ -76,7 +76,7 @@ const PriceList = ({ predictions, className, metaverse }: Props) => {
                   maximumFractionDigits: 2,
                 })}
                 {/* Coin Name */}
-                <span className='font-light text-lg md:text-xl'>
+                <span className='font-light text-lg 2xl:text-xl'>
                   {' ' +
                     (key === 'metaversePrediction'
                       ? COINS[key][(metaverse + 'Prediction') as metaverseKey]

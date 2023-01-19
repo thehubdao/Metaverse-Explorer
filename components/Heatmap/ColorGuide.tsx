@@ -43,7 +43,7 @@ const ColorGuide = ({ percentFilter, setPercentFilter, filterBy }: Props) => {
     }
   }
   return (
-    <ul className='flex gap-2 gray-box bg-grey-bone h-16 items-baseline w-[248px]'>
+    <ul className='flex gap-2 gray-box items-center'>
       {/* Best/Min */}
       <li className='text-grey-content text-sm font-semibold'>
         {filterBy === 'price_difference' ? 'Best' : 'Min'}
@@ -56,7 +56,7 @@ const ColorGuide = ({ percentFilter, setPercentFilter, filterBy }: Props) => {
               <button
                 style={{ background: FILTER_COLORS[color] }}
                 className={
-                  'w-4 h-4 top-[2px] peer cursor-pointer ' +
+                  'w-4 h-4 peer cursor-pointer ' +
                   (percentFilter &&
                     colorOptions[i] !== percentFilter &&
                     'opacity-30')
