@@ -12,11 +12,11 @@ import MobileControl from '../components/MobileControl'
 import { useEffect, useState } from 'react'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import web3authService from '../backend/services/Web3authService'
-import { mainnet, polygon } from 'wagmi/chains'
+import { mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { Web3Auth } from '@web3auth/modal'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-
+import {} from '../backend/services/RoleContractService'
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => {
     return NProgress.start()
@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 '@web3auth/web3auth-wagmi-connector'
             )
             const { chains, provider, webSocketProvider } = configureChains(
-                [mainnet, polygon],
+                [mainnet, polygon,polygonMumbai ],
                 [publicProvider()]
             )
             const wagmiClientInstance = createClient({

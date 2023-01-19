@@ -1,6 +1,7 @@
 import { Signer } from 'ethers'
 import { FaWallet } from 'react-icons/fa'
 import { useAccount, useConnect, useDisconnect, useSigner } from 'wagmi'
+import { initContract } from '../backend/services/RoleContractService'
 
 // web3auth service
 import web3authService from '../backend/services/Web3authService'
@@ -15,11 +16,16 @@ export default function InitWeb3Connect() {
     const { data: signer } = useSigner({
         async onSettled(signer) {
             await web3authService.connectWeb3Auth(signer as Signer)
+            await initContract(signer as Signer)
         },
     })
 
-    const login = async () => { connect({ connector: connectors[0] }) }
-    const logout = async () => { disconnect() }
+    const login = async () => {
+        connect({ connector: connectors[0] })
+    }
+    const logout = async () => {
+        disconnect()
+    }
 
     return (
         <>
