@@ -20,6 +20,7 @@ const InputCurrency = (props: any) => {
         setState((state: any) => ({ ...state, amount: amount }))
     }
 
+    
     const handleChange = (event: any) => {
         setInputValue(event.target.value)
     }
