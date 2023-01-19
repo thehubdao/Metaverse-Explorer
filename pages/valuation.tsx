@@ -313,34 +313,35 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{metaverse && (
-					<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[55vh]" ref={mapDivRef}>
+					<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[55vh]">
+						<div className="w-full h-full" ref={mapDivRef}>
 
-						<div className="absolute top-8 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
-							<div className="md:flex gap-2 md:gap-4 hidden">
-								{/* Metaverse Selection */}
-								<MapChooseMetaverse
-									metaverse={metaverse}
-									setMetaverse={setMetaverse}
-								/>
-								{/* Filter Selection */}
-								<MapChooseFilter
-									filterBy={filterBy}
-									setFilterBy={setFilterBy}
-								/>
+							<div className="absolute top-8 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
+								<div className="md:flex gap-2 md:gap-4 hidden">
+									{/* Metaverse Selection */}
+									<MapChooseMetaverse
+										metaverse={metaverse}
+										setMetaverse={setMetaverse}
+									/>
+									{/* Filter Selection */}
+									<MapChooseFilter
+										filterBy={filterBy}
+										setFilterBy={setFilterBy}
+									/>
 
-								<MapSearch
-									mapState={mapState}
-									handleMapSelection={handleMapSelection}
-								/>
-							</div>
-
-
-							{/* 'Search By' Forms */}
+									<MapSearch
+										mapState={mapState}
+										handleMapSelection={handleMapSelection}
+									/>
+								</div>
 
 
+								{/* 'Search By' Forms */}
 
-							{/* Main Filter Button. Only for small screens  */}
-							{/* <div className="md:hidden w-2/4">
+
+
+								{/* Main Filter Button. Only for small screens  */}
+								{/* <div className="md:hidden w-2/4">
 								<MapMobileFilters
 									metaverse={metaverse}
 									setMetaverse={setMetaverse}
@@ -349,168 +350,169 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								/>
 							</div> */}
 
-						</div>
-
-						<a href="/purchase" className="flex bg-grey-dark px-4 py-2 nm-flat-medium absolute bottom-2 hover:scale-105 transition ease-in-out duration-300 rounded-full">
-							Unlock Premium Access
-						</a>
-
-
-						{/* Color Guide - Hides when MapCard is showing (only mobile) */}
-						{filterBy !== "basic" && (
-							<div
-								className={
-									(isVisible && "hidden") +
-									" md:block absolute z-20 bottom-2 right-2 unselectable rounded-full bg-grey-dark px-4 py-2"
-								}
-							>
-								<ColorGuide
-									filterBy={filterBy}
-									percentFilter={percentFilter}
-									setPercentFilter={setPercentFilter}
-								/>
 							</div>
-						)}
 
-						{metaverse !== "somnium-space" && (
-							<div className="absolute z-30 top-10 right-20 rounded-full bg-grey-bone p-2 h-9 w-9">
-								{/* Top left Coordinates */}
-								{/* <div className="mb-2 hidden md:block w-[190px] gray-box bg-grey-bone z-30"> */}
-								<MapLandSummary
-									owner={hovered.owner}
-									name={hovered.name}
-									coordinates={hovered.coords}
-									metaverse={metaverse}
-								/>
-							</div>
-						)}
+							<a href="/purchase" className="flex bg-grey-dark px-4 py-2 nm-flat-medium absolute bottom-2 hover:scale-105 transition ease-in-out duration-300 rounded-full">
+								Unlock Premium Access
+							</a>
 
-						{/* Full screen button - Hides when MapCard is showing (all screens) */}
-						{!isVisible && (
-							<div className="absolute z-20 top-10 right-4 rounded-full bg-grey-bone p-2 h-9 w-9">
-								<FullScreenButton
-									fullScreenRef={mapDivRef}
-									className="text-xl text-grey-content"
-								/>
-							</div>
-						)}
-						{/*  Map */}
-						{metaverse !== "somnium-space" ? (
-							<Heatmap2D
-								// min and max values for x and y
-								minX={heatmapSize?.minX || 0}
-								maxX={heatmapSize?.maxX || 0}
-								minY={heatmapSize?.minY || 0}
-								maxY={heatmapSize?.maxY || 0}
-								initialX={heatmapSize?.initialX || 0}
-								initialY={heatmapSize?.initialY || 0}
-								filter={filterBy}
-								// Filter lands by percentage. On bottom left
-								percentFilter={percentFilter}
-								// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
-								// starting position of the map
-								x={
-									typeof selected?.x == "string"
-										? parseFloat(selected?.x)
-										: selected?.x
-								}
-								y={
-									typeof selected?.y == "string"
-										? parseFloat(selected?.y)
-										: selected?.y
-								}
-								//legend filter
-								legendFilter={legendFilter}
-								width={dims.width}
-								height={dims.height}
-								onHover={(
-									x: number,
-									y: number,
-									name?: string,
-									owner?: string
-								) => {
-									handleHover(x, y, name, owner);
-								}}
-								onClick={(
-									land: ValuationTile | undefined,
-									x: number,
-									y: number
-								) => {
-									if (isSelected(x, y)) {
-										setSelected(undefined);
-									} else {
-										const isntFullScreen = document.fullscreenElement ? false : true
-										handleMapSelection(land, x, y, undefined, isntFullScreen);
+
+							{/* Color Guide - Hides when MapCard is showing (only mobile) */}
+							{filterBy !== "basic" && (
+								<div
+									className={
+										(isVisible && "hidden") +
+										" md:block absolute z-20 bottom-2 right-2 unselectable rounded-full bg-grey-dark px-4 py-2"
 									}
-								}}
-								metaverse={metaverse}
-							/>
-						) : (
-							<MaptalksCanva
-								filter={filterBy}
-								// Filter lands by percentage. On bottom left
-								percentFilter={percentFilter}
-								// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
-								// starting position of the map
-								x={
-									typeof selected?.x == "string"
-										? parseFloat(selected?.x)
-										: selected?.x
-								}
-								y={
-									typeof selected?.y == "string"
-										? parseFloat(selected?.y)
-										: selected?.y
-								}
-								//legend filter
-								legendFilter={legendFilter}
-								width={dims.width}
-								height={dims.height}
-								onClick={(land, x, y) => {
-									if (isSelected(x, y)) {
-										setSelected(undefined);
-									} else {
-										const isntFullScreen = document.fullscreenElement ? false : true
-										handleMapSelection(land, x, y, undefined, isntFullScreen);
-									}
-								}}
-								metaverse={metaverse}
-							/>
-						)}
-
-						{/* Selected Land Card */}
-						{isVisible && (
-							<div
-								ref={ref}
-								className="absolute bottom-2 right-8 flex flex-col gap-4"
-							>
-								<Fade duration={300}>
-									<MapCard
-										setIsVisible={setIsVisible}
-										metaverse={metaverse}
-										apiData={cardData?.apiData}
-										predictions={cardData?.predictions}
-										landCoords={cardData?.landCoords}
-										name={cardData?.name}
-										mapState={mapState}
+								>
+									<ColorGuide
+										filterBy={filterBy}
+										percentFilter={percentFilter}
+										setPercentFilter={setPercentFilter}
 									/>
-								</Fade>
-							</div>
-						)}
+								</div>
+							)}
 
-						{/* Map Legend - Hides when MapCard is showing (all screens) */}
-						{filterBy === "basic" ? (
-							!isVisible && (
-								<MapLegend
-									className="absolute bottom-2 right-2"
+							{metaverse !== "somnium-space" && (
+								<div className="absolute z-30 top-10 right-20 rounded-full bg-grey-bone p-2 h-9 w-9">
+									{/* Top left Coordinates */}
+									{/* <div className="mb-2 hidden md:block w-[190px] gray-box bg-grey-bone z-30"> */}
+									<MapLandSummary
+										owner={hovered.owner}
+										name={hovered.name}
+										coordinates={hovered.coords}
+										metaverse={metaverse}
+									/>
+								</div>
+							)}
+
+							{/* Full screen button - Hides when MapCard is showing (all screens) */}
+							{!isVisible && (
+								<div className="absolute z-20 top-10 right-4 rounded-full bg-grey-bone p-2 h-9 w-9">
+									<FullScreenButton
+										fullScreenRef={mapDivRef}
+										className="text-xl text-grey-content"
+									/>
+								</div>
+							)}
+							{/*  Map */}
+							{metaverse !== "somnium-space" ? (
+								<Heatmap2D
+									// min and max values for x and y
+									minX={heatmapSize?.minX || 0}
+									maxX={heatmapSize?.maxX || 0}
+									minY={heatmapSize?.minY || 0}
+									maxY={heatmapSize?.maxY || 0}
+									initialX={heatmapSize?.initialX || 0}
+									initialY={heatmapSize?.initialY || 0}
+									filter={filterBy}
+									// Filter lands by percentage. On bottom left
+									percentFilter={percentFilter}
+									// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
+									// starting position of the map
+									x={
+										typeof selected?.x == "string"
+											? parseFloat(selected?.x)
+											: selected?.x
+									}
+									y={
+										typeof selected?.y == "string"
+											? parseFloat(selected?.y)
+											: selected?.y
+									}
+									//legend filter
 									legendFilter={legendFilter}
-									setLegendFilter={setLegendFilter}
+									width={dims.width}
+									height={dims.height}
+									onHover={(
+										x: number,
+										y: number,
+										name?: string,
+										owner?: string
+									) => {
+										handleHover(x, y, name, owner);
+									}}
+									onClick={(
+										land: ValuationTile | undefined,
+										x: number,
+										y: number
+									) => {
+										if (isSelected(x, y)) {
+											setSelected(undefined);
+										} else {
+											const isntFullScreen = document.fullscreenElement ? false : true
+											handleMapSelection(land, x, y, undefined, isntFullScreen);
+										}
+									}}
 									metaverse={metaverse}
 								/>
-							)
-						) : (
-							<></>
-						)}
+							) : (
+								<MaptalksCanva
+									filter={filterBy}
+									// Filter lands by percentage. On bottom left
+									percentFilter={percentFilter}
+									// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
+									// starting position of the map
+									x={
+										typeof selected?.x == "string"
+											? parseFloat(selected?.x)
+											: selected?.x
+									}
+									y={
+										typeof selected?.y == "string"
+											? parseFloat(selected?.y)
+											: selected?.y
+									}
+									//legend filter
+									legendFilter={legendFilter}
+									width={dims.width}
+									height={dims.height}
+									onClick={(land, x, y) => {
+										if (isSelected(x, y)) {
+											setSelected(undefined);
+										} else {
+											const isntFullScreen = document.fullscreenElement ? false : true
+											handleMapSelection(land, x, y, undefined, isntFullScreen);
+										}
+									}}
+									metaverse={metaverse}
+								/>
+							)}
+
+							{/* Selected Land Card */}
+							{isVisible && (
+								<div
+									ref={ref}
+									className="absolute bottom-2 right-8 flex flex-col gap-4"
+								>
+									<Fade duration={300}>
+										<MapCard
+											setIsVisible={setIsVisible}
+											metaverse={metaverse}
+											apiData={cardData?.apiData}
+											predictions={cardData?.predictions}
+											landCoords={cardData?.landCoords}
+											name={cardData?.name}
+											mapState={mapState}
+										/>
+									</Fade>
+								</div>
+							)}
+
+							{/* Map Legend - Hides when MapCard is showing (all screens) */}
+							{filterBy === "basic" ? (
+								!isVisible && (
+									<MapLegend
+										className="absolute bottom-2 right-2"
+										legendFilter={legendFilter}
+										setLegendFilter={setLegendFilter}
+										metaverse={metaverse}
+									/>
+								)
+							) : (
+								<></>
+							)}
+						</div>
 					</div>
 				)}
 			</div>

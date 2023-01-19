@@ -272,8 +272,8 @@ const MaptalksCanva = ({
 
     return (
         <canvas
-            width={width ? width - 20 : 0}
-            height={height ? height - 20 : 0}
+            width={width}
+            height={height}
             /* style={{ width, height }} */
             id="map"
         />
