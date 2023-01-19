@@ -229,13 +229,13 @@ const MaptalksCanva = ({
             color = color.includes('rgb')
                 ? rgbToHex(color.split('(')[1].split(')')[0])
                 : '0x' + color.split('#')[1]
-                const border = getBorder(land, metaverse)
-                const border_url = `images/${border}`
-                const texture = border
-                    ? await PIXI.Texture.fromURL(border_url, {
-                          mipmap: PIXI.MIPMAP_MODES.ON,
-                      })
-                    : PIXI.Texture.WHITE
+            const border = getBorder(land, metaverse)
+            const border_url = `images/${border}`
+            const texture = border
+                ? await PIXI.Texture.fromURL(border_url, {
+                    mipmap: PIXI.MIPMAP_MODES.ON,
+                })
+                : PIXI.Texture.WHITE
             const rectangle: any = new PIXI.Sprite(texture)
             const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
             const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
@@ -273,7 +273,7 @@ const MaptalksCanva = ({
     }, [width, height])
 
     useEffect(() => {
-        ;(globalFilter = filter),
+        ; (globalFilter = filter),
             (globalPercentFilter = percentFilter),
             (globalLegendFilter = legendFilter)
     }, [filter, percentFilter, legendFilter])
@@ -336,7 +336,7 @@ const MaptalksCanva = ({
         <div
             id="map"
             className="bg-white rounded-lg shadowDiv"
-            style={{ width, height }}
+            style={{ width: width ? width - 20 : 0, height: height ? height - 20 : 0 }}
         />
     )
 }

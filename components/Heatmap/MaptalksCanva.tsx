@@ -22,8 +22,8 @@ let globalFilter: MapFilter,
     globalLegendFilter: LegendFilter
 
 interface IMaptalksCanva {
-    width: number | string | undefined
-    height: number | string | undefined
+    width: number | undefined
+    height: number | undefined
     filter: MapFilter
     percentFilter: PercentFilter
     legendFilter: LegendFilter
@@ -106,10 +106,10 @@ const MaptalksCanva = ({
             globalFilter == 'basic'
                 ? null
                 : (land = await setLandColour(
-                      land,
-                      globalFilter,
-                      metaverseData
-                  ))
+                    land,
+                    globalFilter,
+                    metaverseData
+                ))
             tile = filteredLayer(
                 value.center.x,
                 value.center.y,
@@ -265,15 +265,15 @@ const MaptalksCanva = ({
     }, [filter, percentFilter, legendFilter, x, y])
 
     useEffect(() => {
-        ;(globalFilter = filter),
+        ; (globalFilter = filter),
             (globalPercentFilter = percentFilter),
             (globalLegendFilter = legendFilter)
     }, [filter, percentFilter, legendFilter])
 
     return (
         <canvas
-            width={width}
-            height={height}
+            width={width ? width - 20 : 0}
+            height={height ? height - 20 : 0}
             /* style={{ width, height }} */
             id="map"
         />

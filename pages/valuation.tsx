@@ -304,7 +304,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			)}
 
 			{/* Heatmap */}
-			<div className="relative mb-8 p-8 h-[55vh]" ref={mapDivRef}>
+			<div className="relative mb-8 p-8 h-[55vh]">
 				{!metaverse && (
 					<MapInitMvChoice
 						metaverse={metaverse}
@@ -313,7 +313,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{metaverse && (
-					<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium">
+					<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[55vh]" ref={mapDivRef}>
 
 						<div className="absolute top-8 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
 							<div className="md:flex gap-2 md:gap-4 hidden">
@@ -477,7 +477,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								metaverse={metaverse}
 							/>
 						)}
-						
+
 						{/* Selected Land Card */}
 						{isVisible && (
 							<div
