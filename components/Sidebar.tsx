@@ -61,7 +61,7 @@ export default function Sidebar({ list }: SidebarProps) {
         <div className="flex justify-center items-center h-[20vh]">
           <Image
             src="/images/mgh_logo.svg"
-            width={64}
+            width={68}
             height={64}
             loading='lazy'
             objectFit='cover'
