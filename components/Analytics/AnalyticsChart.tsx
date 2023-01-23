@@ -64,23 +64,23 @@ const AnalyticsChart = ({
         borderVisible: false,
       },
       layout: {
-        backgroundColor: '#131722',
-        textColor: '#d1d4dc',
+        backgroundColor: '#F9FAFB',
+        textColor: '#8B8B8B',
       },
       grid: {
         vertLines: {
           color: 'rgba(42, 46, 57, 0)',
         },
         horzLines: {
-          color: 'rgba(42, 46, 57, 0.6)',
+          color: 'rgba(101, 101, 101, 0.11)',
         },
       },
     })
     const areaSeries = chart.addAreaSeries({
-      topColor: 'rgba(38,198,218, 0.56)',
-      bottomColor: 'rgba(38,198,218, 0.04)',
-      lineColor: 'rgba(38,198,218, 1)',
-      lineWidth: 2,
+      topColor: 'rgba(255,255,255, 0)',
+      bottomColor: 'rgba(255,255,255, 0)',
+      lineColor: '#000000',
+      lineWidth: 1,
       title: window.innerWidth > 500 ? label : undefined,
     })
     const slicedData = sliceTimeData(data, interval).map((currentData) => {
@@ -137,7 +137,7 @@ const AnalyticsChart = ({
               <button
                 key={arrSymbol}
                 className={
-                  'gray-box font-semibold  rounded-lg p-2 text-xs text-gray-400' +
+                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
                   (symbol === arrSymbol
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')
