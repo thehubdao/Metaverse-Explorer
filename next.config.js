@@ -6,7 +6,7 @@ module.exports = {
 			{
 				source: '/',
 				destination: '/valuation',
-				permanent: true,
+				permanent: false,
 			},
 			{
 				source: "/docs/mghdao_engl_whitepaper.pdf",
