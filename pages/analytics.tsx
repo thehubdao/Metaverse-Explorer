@@ -121,13 +121,16 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             if (values[element.route])
                                 return (
                                     <li key={index} className='nm-flat-medium p-8 break-inside-avoid rounded-xl '>
-                                        <h3 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-2xl flex h-[70px]">
-                                            {element.label}{' '}
-                                                <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
-                                                <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-70 ">
-                                                    {element.description}
-                                                </p>
-                                        </h3>
+                                        <div className='flex flex-row flex-nowrap items-baseline'>
+                                            <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
+                                            <h3 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-2xl flex h-[70px] align-middle">
+                                                {element.label}{' '}
+                                                    <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
+                                                    <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-70 ">
+                                                        {element.description}
+                                                    </p>
+                                            </h3>
+                                        </div>
                                         <AnalyticsChart
                                             fetching={loading}
                                             prices={prices}
