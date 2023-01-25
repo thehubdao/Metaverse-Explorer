@@ -48,13 +48,15 @@ const StakeEthereum = () => {
   const { address } = useAccount()
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col justify-center items-center'>
       <div className='pt-24' />
       {address ? (
-        <div className='flex mx-10 gap-10'>
-          {stakeOptions.map(option => <Card option={option} key={option.title} />)}
+        <div className='w-full px-10 '>
+          <div className='w-full flex gap-10'>
+            {stakeOptions.map(option => <Card option={option} key={option.title} />)}
+          </div>
         </div>
-      ) : <ConnectButton />}
+      ) : <div className='w-fit'><ConnectButton /></div>}
 
       {/* Footer */}
       <p className="text-grey-icon text-center text-xs py-20 px-48">
