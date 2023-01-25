@@ -19,12 +19,28 @@ import { RiLoader3Fill } from 'react-icons/ri'
 import { Loader } from '../components'
 
 import { BsQuestionCircle } from 'react-icons/bs'
+import GeneralSection from '../components/GeneralSection'
 const analyticsState = ['loading', 'loaded', 'firstLoad'] as const
 type AnalyticsState = typeof analyticsState[number]
 
 interface Props {
     prices: ICoinPrices
 }
+
+const headerList = [
+	{
+		name: "Portfolio",
+		route: "portfolio",
+	},
+	{
+		name: "Watchlist",
+		route: "watchlist",
+	},
+	{
+		name: "Analytics",
+		route: "analytics",
+	},
+];
 
 const Analytics: NextPage<Props> = ({ prices }) => {
     const [metaverse, setMetaverse] = useState<Metaverse>('sandbox')
@@ -69,26 +85,13 @@ const Analytics: NextPage<Props> = ({ prices }) => {
             </Head>
             <div className="w-full min-w-7xl py-8 xl:pt-0 bg-grey-lightest rounded-lg p-8 justify-center">
                 {/* Main Header */}
-                <div className="border-t border-l border-white/10 p-5 flex flex-col md:flex-row justify-between items-center mb-16 mt-5 bg-grey-dark rounded-xl">
-                    <h1 className="lg:text-5xl text-3xl text-grey-content font-plus mb-0 ">
-                        Analytics
-                    </h1>
-                    {/* Links Wrapper */}
-                    <div className="flex gap-5">
-                        {/* Links */}
-                        {['portfolio', 'watchlist', 'valuation'].map(
-                            (option) => (
-                                <Link key={option} href={`/${option}`}>
-                                    <a className="hover:scale-105 font-bold font-plus text-grey-content text-2xl px-3 sm:px-5 py-3 flex items-center justify-center rounded-3xl shadowDiv">
-                                        <span className="text-base sm:text-lg md:text-xl">
-                                            {formatName(option)}
-                                        </span>
-                                    </a>
-                                </Link>
-                            )
-                        )}
-                    </div>
-                </div>
+                {/* General Section Layout */}
+                <GeneralSection
+                    sectionTitle="Analytics"
+                    optionList={headerList}
+                    backgroundClass={``} 
+                    children={undefined}
+                />
                 {/* Wrapper Metaverse Buttons - MarketCap/Owners */}
                 <div className="flex flex-col lg:flex-row gap-5 gray-box bg-opacity-5 w-fit m-auto mt-20 mb-24 ">
                     {/* Metaverse Choice Buttons */}
@@ -126,7 +129,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                             <h3 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-2xl flex h-[70px] align-middle">
                                                 {element.label}{' '}
                                                     <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
-                                                    <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-70 ">
+                                                    <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">
                                                         {element.description}
                                                     </p>
                                             </h3>

@@ -29,10 +29,11 @@ const AnalyticsChart = ({
 }: Props) => {
   const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>('ETH')
   const intervalLabels = {
-    week: { label: '7D', days: 7 },
-    month: { label: '30D', days: 30 },
-    semester: { label: '180D', days: 180 },
+    daily: { label: '1D', days: 1 },
+    week: {label: '5D', days: 5},
+    month: { label: '1M', days: 30 },
     year: { label: '1Y', days: 365 },
+    lustrum: { label: '5Y', days: 1825 },
     all: { label: 'Max' },
   }
 
@@ -44,7 +45,7 @@ const AnalyticsChart = ({
   }
   const chartElement = useRef<HTMLDivElement>(null)
 
-  const [interval, setInterval] = useState<TimeInterval>('week')
+  const [interval, setInterval] = useState<TimeInterval>('month')
 
   useEffect(() => {
     if (!chartElement.current) return
@@ -114,12 +115,12 @@ const AnalyticsChart = ({
         {/* /* Chart Options Wrapper */}
         <div className='absolute top-1 z-10 flex w-full flex-col gap-4 sm:flex-row justify-between'>
           {/* Interval Buttons */}
-          <div className='flex gap-2 relative left-1 w-fit'>
+          <div className='flex gap-2 relative left-1 w-full justify-between px-14'>
             {typedKeys(intervalLabels).map((arrInterval) => (
               <button
                 key={arrInterval}
                 className={
-                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
+                  'gray-box font-semibold rounded-lg pb-2  text-xs text-gray-400' +
                   (interval === arrInterval
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')
@@ -132,7 +133,7 @@ const AnalyticsChart = ({
           </div>
 
           {/* Coin Buttons */}
-          <div className='sm:flex gap-2 relative left-1 sm:left-auto sm:right-18 w-fit hidden'>
+          {/* <div className='sm:flex gap-2 relative left-1 sm:left-auto sm:right-18 w-fit hidden'>
             {typedKeys(chartSymbolOptions).map((arrSymbol) => (
               <button
                 key={arrSymbol}
@@ -149,7 +150,7 @@ const AnalyticsChart = ({
                   : arrSymbol}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

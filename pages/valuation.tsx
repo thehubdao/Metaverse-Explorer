@@ -268,7 +268,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			<GeneralSection
 				sectionTitle="LAND Valuation"
 				optionList={headerList}
-				backgroundClass={``}
+				backgroundClass={``} 
+				children={undefined}
 			/>
 			{metaverse && (
 				<>
