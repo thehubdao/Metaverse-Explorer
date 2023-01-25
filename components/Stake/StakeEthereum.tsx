@@ -14,7 +14,7 @@ const Card = ({ option }: { option: { title: string, apy: number, period: number
       </div>
       <div className='flex justify-between'>
         <p className='font-bold'>Locking Period</p>
-        <p>{period}</p>
+        <p>{period} Month</p>
       </div>
     </div>
   )
