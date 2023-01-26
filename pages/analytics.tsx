@@ -118,7 +118,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     <Loader />
                 ) : (
                     /* Charts Wrapper */
-                    <ul className="flex flex-col gap-12 flex-wrap w-[47.5%] h-[80rem] m-5 bg-[#F9FAFB]">
+                    <ul className="flex flex-col gap-12 flex-wrap w-[47.5%] h-[95rem] m-5 bg-[#F9FAFB]">
                         {/* Charts */}
                         {chartRoutes.map((element, index) => {
                             if (values[element.route])

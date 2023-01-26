@@ -25,7 +25,7 @@ const AnalyticsMvChoice = ({ metaverse, setMetaverse }: Props) => {
             onClick={() => setMetaverse(landKey)}
             className={`flex flex-col items-center justify-center space-y-2 rounded-xl cursor-pointer p-2 px-3 pt-4 md:w-40 md:h-[12rem] w-30 h-32 group focus:outline-none ${
               metaverse === landKey
-                ? 'border-opacity-20 focus:nm-inset-medium'
+                ? 'border-opacity-20 nm-inset-medium'
                 : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
             } border border-gray-400 focus:nm-inset-medium transition duration-300 ease-in-out`}
           >

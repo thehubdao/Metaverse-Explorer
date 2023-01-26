@@ -6,6 +6,7 @@ import { chartSymbolOptions } from '.'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
 import ChartLoader from './ChartLoader'
+import { FaBlackTie } from 'react-icons/fa'
 
 type ChartData = {
   time: string
@@ -56,8 +57,14 @@ const AnalyticsChart = ({
         fixLeftEdge: true,
         fixRightEdge: true,
         timeVisible: false,
+        borderVisible: false,
+        visible: false,
       },
       rightPriceScale: {
+        visible: false,
+      },
+      leftPriceScale: {
+        visible: true,
         scaleMargins: {
           top: 0.3,
           bottom: 0.25,
@@ -77,10 +84,8 @@ const AnalyticsChart = ({
         },
       },
     })
-    const areaSeries = chart.addAreaSeries({
-      topColor: 'rgba(255,255,255, 0)',
-      bottomColor: 'rgba(255,255,255, 0)',
-      lineColor: '#000000',
+    const lineSeries = chart.addLineSeries({
+      color: 'black',
       lineWidth: 1,
       title: window.innerWidth > 500 ? label : undefined,
     })
@@ -95,7 +100,7 @@ const AnalyticsChart = ({
         value: predictions[chartSymbolOptions[symbol].key],
       }
     })
-    areaSeries.setData(slicedData)
+    lineSeries.setData(slicedData)
 
     const resizeGraph = () => {
       chart.applyOptions({ width: chartElement.current?.clientWidth })
@@ -109,7 +114,7 @@ const AnalyticsChart = ({
 
   return (
     <div className='gray-box'>
-      <div className='max-w-full h-full relative' ref={chartElement}>
+      <div className='max-w-full h-full relative pt-8' ref={chartElement}>
         {fetching && <ChartLoader />}
 
         {/* /* Chart Options Wrapper */}
@@ -120,7 +125,7 @@ const AnalyticsChart = ({
               <button
                 key={arrInterval}
                 className={
-                  'gray-box font-semibold rounded-lg pb-2  text-xs text-gray-400' +
+                  'gray-box font-semibold rounded-lg pb-1 text-xs text-gray-400' +
                   (interval === arrInterval
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')
