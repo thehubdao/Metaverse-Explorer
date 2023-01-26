@@ -8,22 +8,23 @@ import {
 import { filteredLayer } from '../../lib/heatmap/heatmapLayers'
 import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
-import { getBorder, setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
+import {
+    getBorder,
+    setColours,
+    setLandColour,
+} from '../../lib/heatmap/valuationColoring'
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
-import { io } from 'socket.io-client'
+import { io, Socket } from 'socket.io-client'
 import { Container } from 'pixi.js'
-
-let socket = io(process.env.SOCKET_SERVICE!, {
-    path: '/heatmap-backend',
-    transports: ['websocket'],
-})
+import { DefaultEventsMap } from '@socket.io/component-emitter'
+import { getSocketService } from '../../backend/services/SocketService'
 
 let globalFilter: MapFilter,
     globalPercentFilter: PercentFilter,
     globalLegendFilter: LegendFilter
 
-interface IMaptalksCanva {
+interface IHeatmap2D {
     width: number | undefined
     height: number | undefined
     filter: MapFilter
@@ -47,7 +48,7 @@ interface IMaptalksCanva {
     initialY: number
 }
 
-const MaptalksCanva = ({
+const Heatmap2D = ({
     width,
     height,
     filter,
@@ -60,7 +61,7 @@ const MaptalksCanva = ({
     y,
     initialX,
     initialY,
-}: IMaptalksCanva) => {
+}: IHeatmap2D) => {
     const [map, setMap] = useState<any>()
     const [viewport, setViewport] = useState<any>()
     const [mapData, setMapData] = useState<any>({})
@@ -70,7 +71,7 @@ const MaptalksCanva = ({
     const TILE_SIZE = 64
     const BORDE_SIZE = 0
     const BLOCK_SIZE = CHUNK_SIZE * TILE_SIZE
-    let checkpoint = 0
+
     const rgbToHex = (values: any) => {
         let a = values.split(',')
         a = a.map(function (value: any) {
@@ -79,6 +80,86 @@ const MaptalksCanva = ({
         })
         return '0x' + a.join('')
     }
+    const renderHandler = async (land: any) => {
+        let lands: any = mapData || {}
+        let localChunks: any = chunks || {}
+        let name = ''
+        land.coords.y *= -1
+
+        if (land.coords) {
+            name = land.coords.x + ',' + land.coords.y
+        }
+        lands[name] = land!
+        lands[name].land_id = land.tokenId
+        globalFilter == 'basic'
+            ? null
+            : (land = await setLandColour(land, globalFilter, metaverseData))
+        setMapData(lands)
+        let value = land
+        let tile: any
+        tile = filteredLayer(
+            value.coords.x,
+            value.coords.y,
+            globalFilter,
+            globalPercentFilter,
+            globalLegendFilter,
+            land
+        )
+        let { color } = tile
+
+        color = color.includes('rgb')
+            ? rgbToHex(color.split('(')[1].split(')')[0])
+            : '0x' + color.split('#')[1]
+        const border = getBorder(land, metaverse)
+        const border_url = `images/${border}`
+        const texture = border
+            ? await PIXI.Texture.fromURL(border_url, {
+                  mipmap: PIXI.MIPMAP_MODES.ON,
+              })
+            : PIXI.Texture.WHITE
+        const rectangle: any = new PIXI.Sprite(texture)
+        const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
+        const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
+        const chunkKey = `${chunkX}:${chunkY}`
+        let chunkContainer = localChunks[chunkKey]
+        rectangle.tint = color
+        rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
+            land?.tile?.type
+        )
+            ? TILE_SIZE
+            : TILE_SIZE - BORDE_SIZE
+        rectangle.name = land.coords.x + ',' + land.coords.y
+        rectangle.landX = land.coords.x
+        rectangle.landY = land.coords.y
+        rectangle.position.set(
+            land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
+            land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
+        )
+        if (!chunkContainer) {
+            chunkContainer = localChunks[chunkKey] = new Container()
+            chunkContainer.position.set(
+                chunkX * BLOCK_SIZE,
+                chunkY * BLOCK_SIZE
+            )
+            setChunks(localChunks)
+        }
+        chunkContainer.addChild(rectangle)
+        viewport.addChild(chunkContainer)
+    }
+
+    useEffect(() => {
+        if(!metaverseData && !viewport) return
+         console.log('Creando socket', new Date().toISOString())
+        const socketServiceUrl = process.env.SOCKET_SERVICE!
+        const socketService = getSocketService(socketServiceUrl, () => {
+            console.log('Connected')
+        }, renderHandler)
+        socketService.startRender(metaverse)
+        return () => {
+            socketService.disconnect()
+        }
+    }, [metaverseData && viewport])
+
     useEffect(() => {
         setMap(null)
         setViewport(null)
@@ -94,12 +175,17 @@ const MaptalksCanva = ({
         const viewport: any = new Viewport({
             interaction: map.renderer.plugins.interaction,
             passiveWheel: false,
-        }).drag().pinch().wheel().clampZoom({
-            minWidth: TILE_SIZE * 8,
-            minHeight: TILE_SIZE * 8,
-            maxWidth: TILE_SIZE * 800,
-            maxHeight: TILE_SIZE * 800,
-        }).zoom(TILE_SIZE * 300)
+        })
+            .drag()
+            .pinch()
+            .wheel()
+            .clampZoom({
+                minWidth: TILE_SIZE * 8,
+                minHeight: TILE_SIZE * 8,
+                maxWidth: TILE_SIZE * 800,
+                maxHeight: TILE_SIZE * 800,
+            })
+            .zoom(TILE_SIZE * 300)
         /* .clamp({
             direction: 'all',
             underflow: 'center'
@@ -121,7 +207,7 @@ const MaptalksCanva = ({
             document.getElementById('map')?.removeChild(map.view)
             map.destroy()
             viewport.destroy()
-            socket.disconnect()
+            /*             socket.disconnect() */
             onHover(0 / 0, 0 / 0, undefined, undefined)
         }
     }, [metaverse])
@@ -189,84 +275,6 @@ const MaptalksCanva = ({
             }
         })
     }, [viewport])
-
-    useEffect(() => {
-        if (!metaverseData) return
-        socket = io(process.env.SOCKET_SERVICE!, {
-            path: '/heatmap-backend',
-            transports: ['websocket'],
-        })
-        socket.emit('render', metaverse)
-        let lands: any = mapData || {}
-        let localChunks: any = chunks || {}
-        let localCheckpoint: number = 0
-        const renderTile = async (land: any) => {
-            if (!localCheckpoint) localCheckpoint = checkpoint
-            let name = ''
-            land.coords.y *= -1
-
-            if (land.coords) {
-                name = land.coords.x + ',' + land.coords.y
-            }
-            lands[name] = land!
-            lands[name].land_id = land.tokenId
-            globalFilter == 'basic'
-                ? null
-                : (land = await setLandColour(land, globalFilter, metaverseData))
-            setMapData(lands)
-            let value = land
-            let tile: any
-            tile = filteredLayer(
-                value.coords.x,
-                value.coords.y,
-                globalFilter,
-                globalPercentFilter,
-                globalLegendFilter,
-                land
-            )
-            let { color } = tile
-
-            color = color.includes('rgb')
-                ? rgbToHex(color.split('(')[1].split(')')[0])
-                : '0x' + color.split('#')[1]
-                const border = getBorder(land, metaverse)
-                const border_url = `images/${border}`
-                const texture = border
-                    ? await PIXI.Texture.fromURL(border_url, {
-                          mipmap: PIXI.MIPMAP_MODES.ON,
-                      })
-                    : PIXI.Texture.WHITE
-            const rectangle: any = new PIXI.Sprite(texture)
-            const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
-            const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
-            const chunkKey = `${chunkX}:${chunkY}`
-            let chunkContainer = localChunks[chunkKey]
-            rectangle.tint = color
-            rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
-                land?.tile?.type
-            )
-                ? TILE_SIZE
-                : TILE_SIZE - BORDE_SIZE
-            rectangle.name = land.coords.x + ',' + land.coords.y
-            rectangle.landX = land.coords.x
-            rectangle.landY = land.coords.y
-            rectangle.position.set(
-                land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
-                land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
-            )
-            if (!chunkContainer) {
-                chunkContainer = localChunks[chunkKey] = new Container()
-                chunkContainer.position.set(
-                    chunkX * BLOCK_SIZE,
-                    chunkY * BLOCK_SIZE
-                )
-                setChunks(localChunks)
-            }
-            chunkContainer.addChild(rectangle)
-            viewport.addChild(chunkContainer)
-        }
-        socket.on('render', renderTile)
-    }, [metaverseData && viewport])
 
     useEffect(() => {
         if (map?.renderer) map?.renderer.resize(width || 0, height || 0)
@@ -341,4 +349,4 @@ const MaptalksCanva = ({
     )
 }
 
-export default MaptalksCanva
+export default Heatmap2D
