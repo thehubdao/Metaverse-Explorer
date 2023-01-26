@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSigner } from 'wagmi'
 import {
     approveTokens,
-    buyRoleB2C,
+    buyRoleB2B,
 } from '../../backend/services/RoleContractService'
 import Button from './Button'
 
@@ -15,7 +15,7 @@ const InputCurrency = (props: any) => {
     const handleSubmitCurrency = async (amount: number) => {
         if (amount < 350) return
         await approveTokens(props.currency, signer!, amount)
-        await buyRoleB2C(1001, 'USDC', signer!)
+        await buyRoleB2B(1001, 'USDC', signer!)
         props.actionProvider.handleLastMessage(`$${amount}`)
         setState((state: any) => ({ ...state, amount: amount }))
     }

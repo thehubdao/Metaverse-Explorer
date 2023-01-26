@@ -28,7 +28,7 @@ const initContract = async (signer: Signer) => {
     )
 }
 
-const buyRoleB2C = async (role: number, currency: string, signer: Signer) => {
+const buyRoleB2B = async (role: number, currency: string, signer: Signer) => {
     const currency_contract_address = await contract_currencies[
         currency as keyof typeof contract_currencies
     ]()
@@ -54,4 +54,4 @@ const approveTokens = async (
     return token_contract.approve(ROLE_CONTRACT_ADDRESS, token_amount * 1000000 )
 }
 
-export { initContract,approveTokens,buyRoleB2C }
+export { initContract,approveTokens,buyRoleB2B }
