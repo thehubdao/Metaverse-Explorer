@@ -208,7 +208,6 @@ const MaptalksCanva = ({
                 symbol.polygonFill = color.includes('rgb')
                     ? rgbToHex(color.split('(')[1].split(')')[0])
                     : color
-                console.log(symbol)
                 geometry.setSymbol(symbol)
                 return geometry
             })
