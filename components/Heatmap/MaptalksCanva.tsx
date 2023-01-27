@@ -44,7 +44,7 @@ const MaptalksCanva = ({
     const [layer, setLayer] = useState<any>()
     const [mapData, setMapData] = useState<Record<string, ValuationTile>>({})
     const [metaverseData, setMetaverseData] = useState<any>()
-
+    let clickedPolygonData: any
     const rgbToHex = (values: any) => {
         let a = values.split(',')
         a = a.map(function (value: any) {
@@ -105,10 +105,30 @@ const MaptalksCanva = ({
                 cursor: 'pointer',
             }
         )
-            .on('click', () => {
+            .on('click', (e: any) => {
+                if (clickedPolygonData) {
+                    const { clickedPolygon, clickedPolygonStyle } =
+                        clickedPolygonData
+                    clickedPolygon.updateSymbol(clickedPolygonStyle)
+                }
+
+                clickedPolygonData = {
+                    clickedPolygon: e.target,
+                    clickedPolygonStyle: {
+                        polygonFill: originalColor,
+                        lineWidth: borderSize,
+                    },
+                }
+                e.target.updateSymbol({
+                    polygonFill: '#ff9990',
+                    lineWidth: 3,
+                    lineColor: '#ff0044',
+                })
                 onClick(value, value.center.x, value.center.y)
             })
             .on('mouseenter', (e: any) => {
+                const clickedPolygon = clickedPolygonData?.clickedPolygon
+                if (clickedPolygonData && clickedPolygon == e.target) return
                 originalColor = e.target.getSymbol().polygonFill
                 e.target.updateSymbol({
                     polygonFill: '#db2777',
@@ -117,6 +137,8 @@ const MaptalksCanva = ({
                 })
             })
             .on('mouseout', (e: any) => {
+                const clickedPolygon = clickedPolygonData?.clickedPolygon
+                if (clickedPolygonData && clickedPolygon == e.target) return
                 e.target.updateSymbol({
                     polygonFill: originalColor,
                     lineWidth: borderSize,
@@ -204,17 +226,16 @@ const MaptalksCanva = ({
                     legendFilter,
                     land
                 )
-                const { color } = tile
-                let symbol: any = geometry.getSymbol()
-                symbol.polygonFill = color.includes('rgb')
+                let { color } = tile
+                const formattedColor = color.includes('rgb')
                     ? rgbToHex(color.split('(')[1].split(')')[0])
                     : color
-                geometry.setSymbol(symbol)
+                geometry.updateSymbol({ polygonFill: formattedColor })
                 return geometry
             })
         }
         filterUpdate()
-    }, [filter, percentFilter, legendFilter, x, y])
+    }, [filter, percentFilter, legendFilter])
 
     useEffect(() => {
         ;(globalFilter = filter),
