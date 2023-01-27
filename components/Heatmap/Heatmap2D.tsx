@@ -81,8 +81,8 @@ const Heatmap2D = ({
         return '0x' + a.join('')
     }
     const renderHandler = async (land: any) => {
-        let lands: any = mapData || {}
-        let localChunks: any = chunks || {}
+        let lands: any = mapData
+        let localChunks: any = chunks
         let name = ''
         land.coords.y *= -1
 
@@ -148,12 +148,16 @@ const Heatmap2D = ({
     }
 
     useEffect(() => {
-        if(!metaverseData && !viewport) return
-         console.log('Creando socket', new Date().toISOString())
+        if (!metaverseData && !viewport) return
+        console.log('Creando socket', new Date().toISOString())
         const socketServiceUrl = process.env.SOCKET_SERVICE!
-        const socketService = getSocketService(socketServiceUrl, () => {
-            console.log('Connected')
-        }, renderHandler)
+        const socketService = getSocketService(
+            socketServiceUrl,
+            () => {
+                console.log('Connected')
+            },
+            renderHandler
+        )
         socketService.startRender(metaverse)
         return () => {
             socketService.disconnect()
