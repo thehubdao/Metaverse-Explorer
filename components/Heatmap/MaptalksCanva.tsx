@@ -78,7 +78,7 @@ const MaptalksCanva = ({
         let { color } = tile
         let borderColor = '#000'
         let borderSize = 0
-
+        let originalColor: any
         let polygon: any = new maptalks.Polygon(
             [
                 [
@@ -109,6 +109,7 @@ const MaptalksCanva = ({
                 onClick(value, value.center.x, value.center.y)
             })
             .on('mouseenter', (e: any) => {
+                originalColor = e.target.getSymbol().polygonFill
                 e.target.updateSymbol({
                     polygonFill: '#db2777',
                     lineWidth: 3,
@@ -117,7 +118,7 @@ const MaptalksCanva = ({
             })
             .on('mouseout', (e: any) => {
                 e.target.updateSymbol({
-                    polygonFill: color,
+                    polygonFill: originalColor,
                     lineWidth: borderSize,
                     lineColor: borderColor,
                 })
