@@ -301,7 +301,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 p-8 h-[75vh]">
+				<div className="relative mb-8 p-8 h-[65vh]">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
@@ -313,7 +313,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[55vh]">
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
-								<div className="absolute top-8 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
+								<div className="absolute top-1 left-1 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
 									<div className="md:flex gap-2 md:gap-4 hidden">
 										{/* Metaverse Selection */}
 										<MapChooseMetaverse
@@ -349,7 +349,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								</div>
 
-								<a href="/purchase" className="flex bg-grey-dark px-4 py-2 absolute bottom-2 hover:scale-105 transition ease-in-out duration-300 rounded-full">
+								<a href="/purchase" className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-full">
 									Unlock Premium Access
 								</a>
 
@@ -359,7 +359,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									<div
 										className={
 											(isVisible && "hidden") +
-											" md:block absolute z-20 bottom-2 right-2 unselectable rounded-full bg-grey-dark px-4 py-2"
+											" md:block absolute z-20 bottom-1 right-1 unselectable rounded-full bg-grey-dark px-4 py-2"
 										}
 									>
 										<ColorGuide
@@ -371,7 +371,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								)}
 
 								{metaverse !== "somnium-space" && (
-									<div className="absolute z-30 top-10 right-38 rounded-full bg-grey-bone p-2 h-9 w-9">
+									<div className="absolute z-30 top-1 right-12 rounded-full p-2">
 										{/* Top left Coordinates */}
 										{/* <div className="mb-2 hidden md:block w-[190px] gray-box bg-grey-bone z-30"> */}
 										<MapLandSummary
@@ -385,7 +385,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Full screen button - Hides when MapCard is showing (all screens) */}
 								{!isVisible && (
-									<div className="absolute z-20 top-10 right-4 rounded-full bg-grey-bone p-2 h-9 w-9">
+									<div className="absolute z-20 top-1 right-1 rounded-full bg-grey-bone p-2 h-9 w-9">
 										<FullScreenButton
 											fullScreenRef={mapDivRef}
 											className="text-xl text-grey-content"
@@ -500,7 +500,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								{filterBy === "basic" ? (
 									!isVisible && (
 										<MapLegend
-											className="absolute bottom-2 right-2"
+											className="absolute bottom-1 right-1"
 											legendFilter={legendFilter}
 											setLegendFilter={setLegendFilter}
 											metaverse={metaverse}
