@@ -13,9 +13,6 @@ interface FragmentProps {
   }
 }
 
-// Gsap general timeline
-const timeLineAnimation = gsap.timeline()
-
 const Fragment = ({
   label,
   rotateGradesClass,
