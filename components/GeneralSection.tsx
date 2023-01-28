@@ -38,7 +38,7 @@ export default function GeneralSection({ sectionTitle, optionList, children, bac
         <div className={`${backgroundClass} rounded-xl`}>
           {/* Menu Header */}
           <div className="border-t border-l border-white/10 rounded-xl p-5 w-full bg-opacity-30; flex flex-col lg:flex-row justify-between items-center bg-grey-dark">
-            <h1 className="text-grey-content font-plus font-bold rounded-2xl lg:text-3xl text-3xl  mb-0 sm:mb-2">
+            <h1 className="text-grey-content font-plus font-bold rounded-2xl lg:text-3xl text-3xl  mb-0">
               {sectionTitle}
             </h1>
             {/* Links Wrapper */}

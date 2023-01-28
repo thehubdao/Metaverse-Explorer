@@ -119,7 +119,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	});
 
 	const formatter = new Intl.NumberFormat('en-US', {
-		minimumFractionDigits: 2,
+		minimumFractionDigits: 0,
 		maximumFractionDigits: 4,
 	});
 	// Function for resizing heatmap
@@ -276,22 +276,22 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							</div>
 							<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.floor_price)}</p>
+									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.floor_price)}ETH</p>
 									<p className="text-sm">Floor</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.total_volume)}</p>
+									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.total_volume))}ETH</p>
 									<p className="text-sm">Trading Volume</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.market_cap)}</p>
+									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.market_cap))}ETH</p>
 									<p className="text-sm">MCAP</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{globalData.stats?.num_owners}</p>
+									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.num_owners)}</p>
 									<p className="text-sm">Owners</p>
 								</div>
 
@@ -301,7 +301,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 p-8 h-[55vh]">
+				<div className="relative mb-8 p-8 h-[75vh]">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
@@ -349,7 +349,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								</div>
 
-								<a href="/purchase" className="flex bg-grey-dark px-4 py-2 nm-flat-medium absolute bottom-2 hover:scale-105 transition ease-in-out duration-300 rounded-full">
+								<a href="/purchase" className="flex bg-grey-dark px-4 py-2 absolute bottom-2 hover:scale-105 transition ease-in-out duration-300 rounded-full">
 									Unlock Premium Access
 								</a>
 

@@ -1,5 +1,6 @@
 export { ExternalLink } from './Links'
 export { default as PriceList } from './PriceList'
+export { default as PriceListSmall } from './PriceListSmall'
 export { default as HorizontalPriceCard } from './HorizontalPriceCard'
 export { default as OptimizedImage } from './OptimizedImage'
 export { default as FullScreenButton } from './FullScreenButton'

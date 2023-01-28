@@ -1,15 +1,22 @@
-import { PriceList } from '.'
+import { PriceListSmall } from '.'
 import {
   ICoinPrices,
   IPriceCard,
   SingleLandAPIResponse,
 } from '../../lib/valuation/valuationTypes'
-import { ExternalAssetLink } from './Links'
+import { ExternalAssetLink, ExternalLink } from './Links'
 import { BsTwitter } from 'react-icons/bs'
 import { SocialMediaOptions } from '../../lib/socialMediaOptions'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { Metaverse } from '../../lib/metaverse'
 import { useAppSelector } from '../../state/hooks'
+import { createOpenSeaLink } from '../../backend/services/openSeaDataManager'
+
+import {
+  handleLandName,
+  handleTokenID,
+} from '../../lib/valuation/valuationUtils'
+import { formatName } from '../../lib/utilities'
 
 interface Props {
   prices: ICoinPrices
@@ -27,10 +34,13 @@ const HorizontalPriceCard = ({ land, landId, prices, metaverse }: Props) => {
     metaverse
   )
 
+  const openSeaLink = createOpenSeaLink(metaverse, landId)
+
   // SocialMediaOptions contains all options with their texts, icons, etc..
   const options = SocialMediaOptions(landId, metaverse, predictions, address)
   return (
-    <div className='flex gap-3 lg:gap-4  xl:gap-6 w-full flex-col lg:flex-row justify-between relative'>
+
+    <div className='flex justify-between relative nm-flat-medium rounded-lg bg-grey-bone space-x-3 min-w-max'>
       {/* LEFT/TOP */}
       <ExternalAssetLink
         metaverse={metaverse}
@@ -39,15 +49,43 @@ const HorizontalPriceCard = ({ land, landId, prices, metaverse }: Props) => {
         layout='responsive'
       />
       {/* RIGHT/BOTTOM - PriceList */}
-      <div className='w-full'>
-        <h4 className='border-none text-white mb-4'>Price Estimation:</h4>
-        <PriceList predictions={predictions} metaverse={metaverse} />
+      <div className='p-4 pr-7'>
+
+        {/* Links and Info */}
+        <div className='flex flex-col gap-6 md:gap-3'>
+          {/* Name and Id */}
+          <div>
+            {/* Asset Name */}
+            <h3 className='text-base xs:text-xl  2xl:text-2xl lg:text-2xl md:text-lg text-gray-400 min-w-max'>
+              {handleLandName(metaverse, land.coords)}
+            </h3>
+            {/* Asset ID */}
+            <p className='text-xs font-medium text-grey-content'>
+              Token ID: {handleTokenID(landId)}
+            </p>
+          </div>
+
+        </div>
+        <h4 className='border-none text-gray-400 text-sm pt-4'>Price Estimation:</h4>
+        <PriceListSmall predictions={predictions} metaverse={metaverse} />
+
+
+        {/* External Links */}
+        <div className='flex flex-col lg:flex-row gap-5 lg:items-center justify-start pt-4'>
+          {/* {openSeaLink && <ExternalLink href={openSeaLink} text='OpenSea' />} */}
+          {/* <ExternalLink
+            href={land.external_link || ''}
+            text={formatName(metaverse)}
+          /> */}
+          {openSeaLink && <img onClick={() => window.open(openSeaLink)} src="/images/opensea-logo.png" className='grayscale h-5 w-5 hover:grayscale-0 cursor-pointer'/>}
+          <BsTwitter
+            title='Share Valuation'
+            onClick={() => window.open(options.twitter.valuationLink)}
+            className='h-5 w-5 text-grey-content hover:text-blue-400 transition ease-in-out duration-300 cursor-pointer'
+          />
+        </div>
       </div>
-      <BsTwitter
-        title='Share Valuation'
-        onClick={() => window.open(options.twitter.valuationLink)}
-        className='absolute h-5 w-5 bottom-[0.58rem] lg:bottom-0 md:bottom-2 right-0 text-grey-content hover:text-blue-400 transition ease-in-out duration-300 cursor-pointer'
-      />
+
     </div>
   )
 }
