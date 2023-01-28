@@ -86,7 +86,6 @@ const Loader = () => {
           animationProps={{ x: -50, y: 0 }}
         />
       </div>
-      <p className="">Message</p>
     </div>
   )
 }
