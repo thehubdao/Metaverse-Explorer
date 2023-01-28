@@ -336,7 +336,7 @@ const MaptalksCanva = ({
         <div
             id="map"
             className="bg-white rounded-lg shadowDiv"
-            style={{ width: width ? width - 20 : 0, height: height ? height - 20 : 0 }}
+            style={{ width, height }}
         />
     )
 }
