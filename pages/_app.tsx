@@ -1,25 +1,31 @@
+import '/styles/MLMStyles.css'
+import '/styles/nprogress.css' //styles of nprogress
+import '../styles/globals.css'
+import '../styles/TileMap.css'
+
 import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { Router } from 'next/router'
 import NProgress from 'nprogress' //nprogress module
 import { Provider } from 'react-redux'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { mainnet, polygon } from 'wagmi/chains'
-import { publicProvider } from 'wagmi/providers/public'
-import { Web3Auth } from '@web3auth/modal'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-
-import '/styles/MLMStyles.css'
-import '/styles/nprogress.css' //styles of nprogress
-import '../styles/globals.css'
-import '../styles/TileMap.css'
-
-import MobileControl from '../components/MobileControl'
-
 import store from '../state/store'
 import Layout from '../layouts/Layout'
 import web3authService from '../backend/services/Web3authService'
+import { mainnet, polygon, polygonMumbai } from 'wagmi/chains'
+import { publicProvider } from 'wagmi/providers/public'
+import { Web3Auth } from '@web3auth/modal'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+import {} from '../backend/services/RoleContractService'
 import { Loader } from '../components'
+import MobileControl from '../components/MobileControl'
+
+
+
+
+
+
+
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => {
@@ -39,7 +45,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 '@web3auth/web3auth-wagmi-connector'
             )
             const { chains, provider, webSocketProvider } = configureChains(
-                [mainnet, polygon],
+                [mainnet, polygon,polygonMumbai ],
                 [publicProvider()]
             )
             const wagmiClientInstance = createClient({
@@ -67,11 +73,13 @@ function MyApp({ Component, pageProps }: AppProps) {
             {wagmiClient ? (
                 <Provider store={store}>
                     <WagmiConfig client={wagmiClient}>
+                        {/* Desktop View */}
                         <div className="hidden lg:block">
                             <Layout>
                                 <Component {...pageProps} />
                             </Layout>
                         </div>
+                        {/* Mobile View */}
                         <div className="lg:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
                             <MobileControl />
                         </div>
