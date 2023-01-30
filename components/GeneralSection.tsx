@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { formatName } from "../lib/utilities";
+import { useRouter } from "next/router";
 
 interface OptionProps {
   name: string,
@@ -10,16 +11,18 @@ interface GeneralSectionProps {
   sectionTitle: string
   optionList: OptionProps[]
   children: React.ReactNode
-  backgroundClass: string
+  backgroundClass?: string
 }
 
 function linkedButtons(optionList: OptionProps[]) {
+  const router = useRouter();
+
   return (
     optionList.map((option: OptionProps) => {
       return (
         <Link key={option.name} href={`/${option.route}`}>
           {/* Oval Button */}
-          <div className="px-8 py-2 flex items-center justify-center rounded-3xl nm-flat-medium cursor-pointer">
+          <div className={`${router.pathname == `/${option.route}` ? 'nm-inset-medium' : 'nm-flat-medium'} px-8 py-2 flex items-center justify-center rounded-3xl cursor-pointer`}>
             <p className="pt-1 font-bold font-plus text-grey-content text-xl">
               {formatName(option.name)}
             </p>
