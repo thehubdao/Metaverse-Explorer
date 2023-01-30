@@ -234,6 +234,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						collectionName={metaverse}
 						specificAssetSelected={specificLandSelected}
 						handleSpecificAssetData={handleSpecificLandData}
+						hiddenSearchBar={true}
 					/>
 				) : (
 					<GeneralSection

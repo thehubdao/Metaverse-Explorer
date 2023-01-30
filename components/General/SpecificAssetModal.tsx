@@ -12,6 +12,7 @@ interface SpecificAssetModalProps {
   collectionName: string
   specificAssetSelected?: any
   handleSpecificAssetData: Function
+  hiddenSearchBar?: boolean
 }
 
 const ExternalButton = ({ text, icon, externalLink }: {
@@ -50,7 +51,10 @@ const BoxData = ({ text, price, message, bigData }: {
   )
 }
 
-const Header = ({ handleSpecificAssetData }: { handleSpecificAssetData: Function }) => {
+const Header = ({
+  handleSpecificAssetData,
+  hiddenSearchBar
+}: { handleSpecificAssetData: Function, hiddenSearchBar?: boolean }) => {
   const [inputValue, setInputValue] = useState<string>()
 
   const handleClick = () => {
@@ -65,7 +69,7 @@ const Header = ({ handleSpecificAssetData }: { handleSpecificAssetData: Function
       >
         <TbArrowBackUp />
       </div>
-      <div className="relative rounded-full col-span-3 flex w-full">
+      {!hiddenSearchBar && <div className="relative rounded-full flex w-full">
         <input
           type="number"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setInputValue(e.target.value) }}
@@ -81,7 +85,7 @@ const Header = ({ handleSpecificAssetData }: { handleSpecificAssetData: Function
         >
           <FiSearch />
         </button>
-      </div>
+      </div>}
     </div>
   )
 }
@@ -89,7 +93,8 @@ const Header = ({ handleSpecificAssetData }: { handleSpecificAssetData: Function
 const SpecificAssetModal = ({
   specificAssetSelected,
   handleSpecificAssetData,
-  collectionName
+  collectionName,
+  hiddenSearchBar
 }: SpecificAssetModalProps) => {
   const SteticTimeString = (historyTime: string) => {
     let timeStringArray = historyTime.split(' ')[0].split('-')
@@ -107,14 +112,26 @@ const SpecificAssetModal = ({
     <div className="w-full flex justify-center">
       {specificAssetSelected
         ? (<div className="w-full max-w-7xl px-6 text-black mb-10">
-          <Header handleSpecificAssetData={handleSpecificAssetData} />
+          <Header handleSpecificAssetData={handleSpecificAssetData} hiddenSearchBar={hiddenSearchBar} />
           <div className="grid grid-cols-2 gap-2">
 
             {/* Nft Video */}
             <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">
-              <video controls loop key={specificAssetSelected["images"]["animation_url"]} className="w-[502px] h-[504px] rounded-xl">
-                <source src={specificAssetSelected["images"]["animation_url"]} />
-              </video>
+              {
+                specificAssetSelected["images"]["animation_url"] ? (
+                  <video controls loop key={specificAssetSelected["images"]["animation_url"]} className="w-[502px] h-[504px] rounded-xl">
+                    <source src={specificAssetSelected["images"]["animation_url"]} />
+                  </video>
+                ) : (
+                  <div className="w-[502px] h-[504px] rounded-xl">
+                    <Image
+                      src={specificAssetSelected["images"]['image_url']}
+                      layout='fill'
+                      className="rounded-xl"
+                    />
+                  </div>
+                )
+              }
             </div>
 
             {/* Nft Identification */}
