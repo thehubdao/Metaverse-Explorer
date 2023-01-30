@@ -23,9 +23,16 @@ interface Props {
   land: SingleLandAPIResponse
   landId: string
   metaverse: Metaverse
+  handleSpecificLandData: Function
 }
 
-const HorizontalPriceCard = ({ land, landId, prices, metaverse }: Props) => {
+const HorizontalPriceCard = ({
+  land,
+  landId,
+  prices,
+  metaverse,
+  handleSpecificLandData
+}: Props) => {
   const { address } = useAppSelector((state) => state.account)
 
   const predictions = convertETHPrediction(
@@ -40,7 +47,10 @@ const HorizontalPriceCard = ({ land, landId, prices, metaverse }: Props) => {
   const options = SocialMediaOptions(landId, metaverse, predictions, address)
   return (
 
-    <div className='flex justify-between relative nm-flat-medium rounded-lg bg-grey-bone space-x-3 min-w-max'>
+    <div
+      className='flex justify-between relative nm-flat-medium rounded-lg bg-grey-bone space-x-3 min-w-max'
+      onClick={() => {handleSpecificLandData(true, land)}}
+    >
       {/* LEFT/TOP */}
       <ExternalAssetLink
         metaverse={metaverse}
@@ -77,7 +87,7 @@ const HorizontalPriceCard = ({ land, landId, prices, metaverse }: Props) => {
             href={land.external_link || ''}
             text={formatName(metaverse)}
           /> */}
-          {openSeaLink && <img onClick={() => window.open(openSeaLink)} src="/images/opensea-logo.png" className='grayscale h-5 w-5 hover:grayscale-0 cursor-pointer'/>}
+          {openSeaLink && <img onClick={() => window.open(openSeaLink)} src="/images/opensea-logo.png" className='grayscale h-5 w-5 hover:grayscale-0 cursor-pointer' />}
           <BsTwitter
             title='Share Valuation'
             onClick={() => window.open(options.twitter.valuationLink)}
