@@ -48,8 +48,8 @@ const HorizontalPriceCard = ({
   return (
 
     <div
-      className='flex justify-between relative nm-flat-medium rounded-lg bg-grey-bone space-x-3 min-w-max'
-      onClick={() => {handleSpecificLandData(true, land)}}
+      className='flex justify-between relative nm-flat-medium rounded-lg bg-grey-bone space-x-3 min-w-max hover:nm-flat-soft cursor-pointer'
+      onClick={() => { handleSpecificLandData(true, land) }}
     >
       {/* LEFT/TOP */}
       <ExternalAssetLink
