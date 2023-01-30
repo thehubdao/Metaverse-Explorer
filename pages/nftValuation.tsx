@@ -213,8 +213,8 @@ export default function NftValuation() {
 			{isModalOpen
 				? <SpecificAssetModal
 					collectionName={collectionName}
-					specificNftSelected={specificNftSelected}
-					handleSpecificNftData={handleSpecificNftData}
+					specificAssetSelected={specificNftSelected}
+					handleSpecificAssetData={handleSpecificNftData}
 				/>
 				: (
 					<GeneralSection
