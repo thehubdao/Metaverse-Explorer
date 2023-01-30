@@ -105,3 +105,21 @@ export interface LoginJWT {
   address: string
   roles: Role[] | never[]
 }
+
+export interface nftObject {
+  tokenId: string;
+  floor_adjusted_predicted_price: number;
+  traits: {};
+  images: {
+    image_small: string;
+    animation_url: string
+  };
+  name: string | null
+  listed_eth_price: number | undefined | null
+  market_links: {
+    X2Y2: string,
+    looksrare: string,
+    opensea: string
+  }
+  history: any[]
+}

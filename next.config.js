@@ -6,7 +6,7 @@ module.exports = {
 			{
 				source: '/',
 				destination: '/valuation',
-				permanent: true,
+				permanent: false,
 			},
 			{
 				source: "/docs/mghdao_engl_whitepaper.pdf",
@@ -29,7 +29,8 @@ module.exports = {
 			"cdn.axieinfinity.com",
 			"i.seadn.io",
 			"fluf-compressed.s3.eu-west-1.amazonaws.com",
-			"openseauserdata.com"
+			"openseauserdata.com",
+			'ipfs.io'
 		],
 	},
 	env: {
@@ -40,8 +41,7 @@ module.exports = {
 		MLM_BACKEND_URL: process.env.MLM_BACKEND_URL,
 		MLM_CONTRACT_ADDRESS: process.env.MLM_CONTRACT_ADDRESS,
 		BADGES_CONTRACT_ADDRESS: process.env.BADGES_CONTRACT_ADDRESS,
-		CHANNEL_PUSH_ADDRESS:process.env.CHANNEL_PUSH_ADDRESS,
-		ROLE_CONTRACT_ADDRESS:process.env.ROLE_CONTRACT_ADDRESS
+		CHANNEL_PUSH_ADDRESS: process.env.CHANNEL_PUSH_ADDRESS
 	},
 	typescript: {
 		// !! WARN !!

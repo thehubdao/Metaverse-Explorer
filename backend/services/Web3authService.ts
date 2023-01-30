@@ -53,6 +53,7 @@ class Web3authService {
         try {
             const web3authInit = new Web3Auth({
                 clientId,
+
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
                     chainId: '0x13881',

@@ -2,15 +2,12 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Chains } from '../lib/chains'
 import { Contracts } from '../lib/contracts'
-import { useAppSelector } from '../state/hooks'
-
+import { useNetwork } from 'wagmi'
 
 const Swap: NextPage = () => {
-    const { chainId } = useAppSelector(state => state.account)
+    const { chain } = useNetwork()
 
-    const link = (chainId === Chains.MATIC_MAINNET.chainId) ? `https://quickswap.exchange/#/swap?inputCurrency=MATIC&outputCurrency=${Contracts.MGH_TOKEN.MATIC_MAINNET.address}&theme=light` : `https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=${Contracts.MGH_TOKEN.ETHEREUM_MAINNET.address}&theme=light`
-
-
+    const link = (chain?.id === Chains.MATIC_MAINNET.chainId) ? `https://quickswap.exchange/#/swap?inputCurrency=MATIC&outputCurrency=${Contracts.MGH_TOKEN.MATIC_MAINNET.address}&theme=light` : `https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=${Contracts.MGH_TOKEN.ETHEREUM_MAINNET.address}&theme=light`
 
     return (
         <>
@@ -19,17 +16,16 @@ const Swap: NextPage = () => {
                 <meta name="description" content="Governance of metaverse related items, fair valuation and minting of NFT backed tokens and provision of metaverse market data." />
             </Head>
 
-            <div className="w-full -mb-4 xs:-mb-6 sm:-mb-10 xl:-mb-0 h-full flex flex-col items-center justify-center animate__animated animate__fadeIn animate__slow">
+            <div className='w-full h-24 bg-gradient-to-r from-[#FFEFF8] via-[#FFEDF7] to-[#FFEFF8]'></div>
 
+            <div className="w-full h-[600px] flex flex-col items-center justify-center">
                 <iframe
                     src={link}
                     height="600px"
                     width="100%"
-                    className="rounded-none xl:rounded-xl shadow-dark opacity-80 w-screen h-screen xl:w-full xl:h-full bg-transparent"
+                    className="rounded-none w-full h-full bg-transparent"
                 />
-
             </div>
-
         </>
     )
 }

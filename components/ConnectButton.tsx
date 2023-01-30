@@ -10,7 +10,7 @@ import web3authService from '../backend/services/Web3authService'
 // Components
 import OvalButton from './General/Buttons/OvalButton'
 
-export default function InitWeb3Connect() {
+export default function ConnectButton() {
     const { connect, connectors } = useConnect()
     const { disconnect } = useDisconnect()
     const { address } = useAccount()

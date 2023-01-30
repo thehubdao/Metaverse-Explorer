@@ -43,10 +43,10 @@ interface Props {
   metaverse?: Metaverse
 }
 
-const PriceList = ({ predictions, className, metaverse }: Props) => {
+const PriceListSmall = ({ predictions, className, metaverse }: Props) => {
   const keys = typedKeys(predictions)
   return (
-    <ul className={'flex flex-col flex-grow min-w-max gap-1 ' + className}>
+    <ul className={'flex flex-col flex-grow min-w-max gap-0 ' + className}>
       {/* Iterating through each Coin.  */}
       {keys.map(
         (key) =>
@@ -58,7 +58,7 @@ const PriceList = ({ predictions, className, metaverse }: Props) => {
                   ? COINS[key][(metaverse + 'Prediction') as metaverseKey].name
                   : COINS[key].name
               }
-              className='animate-fade-in-slow flex gap-4 items-center w-full justify-start h-full'
+              className='animate-fade-in-slow flex gap-2  items-center w-full justify-start h-full'
             >
               {/* Coin Image */}
               <img
@@ -67,7 +67,7 @@ const PriceList = ({ predictions, className, metaverse }: Props) => {
                     ? COINS[key][(metaverse + 'Prediction') as metaverseKey].src
                     : COINS[key].src
                 }
-                className='rounded-full  h-9 xl:h-10 w-9 xl:w-10 p-1 shadow-button'
+                className='rounded-full  h-5 w-5 '
                 loading='lazy'
               />
               {/* Coin Prediction Number */}
@@ -76,7 +76,7 @@ const PriceList = ({ predictions, className, metaverse }: Props) => {
                   maximumFractionDigits: 2,
                 })}
                 {/* Coin Name */}
-                <span className='font-light text-lg 2xl:text-xl'>
+                <span className='font-light text-sm'>
                   {' ' +
                     (key === 'metaversePrediction'
                       ? COINS[key][(metaverse + 'Prediction') as metaverseKey]
@@ -91,4 +91,4 @@ const PriceList = ({ predictions, className, metaverse }: Props) => {
   )
 }
 
-export default PriceList
+export default PriceListSmall

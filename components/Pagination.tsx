@@ -11,7 +11,7 @@ interface IPagination {
 const Pagination = ({ pageLenght, controlPageIndex, setControlPageIndex }: IPagination) => {
   return (
     <div className="w-full flex flex-col items-center mt-12">
-      <div className="w-full flex text-grey-content justify-around">
+      <div className="w-full flex text-grey-content justify-center space-x-10 items-center">
         <button
           className="h-8 w-8 mr-1 flex justify-center items-center  cursor-pointer"
           onClick={(e) => {
@@ -25,7 +25,7 @@ const Pagination = ({ pageLenght, controlPageIndex, setControlPageIndex }: IPagi
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </button>
-        <div className="flex h-8 font-plus text-xl">
+        <div className="flex h-10 space-x-8 font-plus text-xl">
           {
             (controlPageIndex - 3) > 2
               ? <PrePages setControlPageIndex={setControlPageIndex} />

@@ -22,7 +22,7 @@ export default function MobileControl() {
             <div className="">
                 <Image
                     src="/images/mgh_logo.svg"
-                    width={101}
+                    width={105}
                     height={101}
                     loading='lazy'
                     objectFit='cover'

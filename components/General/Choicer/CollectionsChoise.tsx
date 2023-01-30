@@ -52,7 +52,7 @@ function cardList(options: OptionProps[], setCollection: Function) {
 
 export default function CollectionsChoise({ options, setCollection }: CollectionsChoiseProps) {
   return (
-    <div className='flex justify-center gap-8 pt-10'>
+    <div className='flex justify-center gap-8 pt-10 flex-wrap'>
       {cardList(options, setCollection)}
     </div>
   )

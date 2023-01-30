@@ -19,8 +19,8 @@ let globalFilter: MapFilter,
     globalLegendFilter: LegendFilter
 
 interface IMaptalksCanva {
-    width: number | string | undefined
-    height: number | string | undefined
+    width: number | undefined
+    height: number | undefined
     filter: MapFilter
     percentFilter: PercentFilter
     legendFilter: LegendFilter
@@ -238,7 +238,7 @@ const MaptalksCanva = ({
     }, [filter, percentFilter, legendFilter])
 
     useEffect(() => {
-        ;(globalFilter = filter),
+        ; (globalFilter = filter),
             (globalPercentFilter = percentFilter),
             (globalLegendFilter = legendFilter)
     }, [filter, percentFilter, legendFilter])

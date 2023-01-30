@@ -87,58 +87,40 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
 
       <button
         onClick={() => setOpened(!opened)}
-        className='h-16 gray-box bg-grey-bone mb-2 items-center w-96 tracking-wider font-plus font-medium text-grey-content hover:text-[#7c7b7b] flex justify-between cursor-pointer transition-all'
       >
         {/* Icon */}
-        <span className='hidden sm:block text-lg'>
+        <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
           {filterOptions[filterBy].icon}
         </span>
 
-        {/* Name */}
-        <p className='hidden sm:block'>
-          {filterOptions[filterBy].shortName ?? filterOptions[filterBy].name}
-        </p>
-        {/* Mobile Name */}
-        <p className='block sm:hidden'>Stats</p>
-        {/* Down/Up Arrow */}
-
-        <IoIosArrowDown
-          className={
-            (isPremium ? '' : 'opacity-0 ') +
-            (opened ? 'rotate-180 ' : '') +
-            'transition-all duration-500 relative bottom-[1px]'
-          }
-        />
       </button>
       {/* FilterOptions */}
-      <div
-        className={(opened && 'mb-1 md:mb-0') + 'md:absolute flex flex-col gap-2'}
-      >
-        {opened &&
-          isPremium &&
-          typedKeys(filterOptions).map(
-            (filter) =>
-              filter !== filterBy && (
-                <div key={filter}>
-                  <Fade duration={500} direction='down'>
-                    <button
-                      className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] w-96 text-sm md:text-base'
-                      onClick={() => {
-                        setFilterBy(filter)
-                        setOpened(false)
-                      }}
 
-                    >
-                      {filterOptions[filter].icon}
-                      <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
-                        {filterOptions[filter].name}
-                      </span>
-                    </button>
-                  </Fade>
-                </div>
-              )
-          )}
-      </div>
+      {opened &&
+        <div className={`flex flex-col space-y-4 md:absolute bg-grey-bone rounded-xl rounded-tl-none p-3 pt-5`}>
+          {isPremium &&
+            typedKeys(filterOptions).map(
+              (filter) =>
+                filter !== filterBy && (
+                  <div key={filter}>
+                      <button
+                        className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
+                        onClick={() => {
+                          setFilterBy(filter)
+                          setOpened(false)
+                        }}
+
+                      >
+                        {filterOptions[filter].icon}
+                        <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
+                          {filterOptions[filter].name}
+                        </span>
+                      </button>
+                  </div>
+                )
+            )}
+        </div>}
+
     </div>
   )
 }

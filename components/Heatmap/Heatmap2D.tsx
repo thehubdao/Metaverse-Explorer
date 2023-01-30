@@ -285,7 +285,7 @@ const Heatmap2D = ({
     }, [width, height])
 
     useEffect(() => {
-        ;(globalFilter = filter),
+        ; (globalFilter = filter),
             (globalPercentFilter = percentFilter),
             (globalLegendFilter = legendFilter)
     }, [filter, percentFilter, legendFilter])
