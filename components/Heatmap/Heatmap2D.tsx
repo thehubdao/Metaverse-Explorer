@@ -68,7 +68,7 @@ const Heatmap2D = ({
   const [mapData, setMapData] = useState<any>({})
   const [chunks, setChunks] = useState<any>({})
   const [metaverseData, setMetaverseData] = useState<any>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const CHUNK_SIZE = 32
   const TILE_SIZE = 64
@@ -161,9 +161,9 @@ const Heatmap2D = ({
       },
       renderHandler
     )
-    setIsLoading(false)
+    setIsLoading(true)
     socketService.startRender(metaverse)
-    socketService.onRenderFinish(() => { setIsLoading(true) })
+    socketService.onRenderFinish(() => { setIsLoading(false) })
     return () => {
       socketService.disconnect()
     }
@@ -194,7 +194,7 @@ const Heatmap2D = ({
         maxWidth: TILE_SIZE * 800,
         maxHeight: TILE_SIZE * 800,
       })
-      .zoom(TILE_SIZE * 300)
+      .zoom(TILE_SIZE * 800)
     /* .clamp({
         direction: 'all',
         underflow: 'center'
@@ -351,15 +351,14 @@ const Heatmap2D = ({
 
   return (
     <>
-      {isLoading ? (
-        <div
-          id="map"
-          className="bg-white rounded-lg shadowDiv"
-          style={{ width, height }}
-        />
-      ) : (
+      <div
+        id="map"
+        className={`bg-white rounded-lg ${isLoading ? 'hidden' : 'block'}`}
+        style={{ width, height }}
+      />
+      <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
         <Loader />
-      )}
+      </div>
     </>
   )
 }
