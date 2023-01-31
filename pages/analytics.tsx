@@ -64,7 +64,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                         metaverse,
                         chartRoutes[i].route
                     )) as ChartInfo[]
-                })
+                }),
             )
 
 
@@ -118,7 +118,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     <Loader />
                 ) : (
                     /* Charts Wrapper */
-                    <ul className="flex flex-col gap-12 flex-wrap w-[47.5%] h-[95rem] m-5 bg-[#F9FAFB]">
+                    <ul className="grid grid-cols-2 gap-12 w-full mr-7 my-5 bg-[#F9FAFB]">
                         {/* Charts */}
                         {chartRoutes.map((element, index) => {
                             if (values[element.route])

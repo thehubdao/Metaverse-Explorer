@@ -89,11 +89,22 @@ const AnalyticsChart = ({
       lineWidth: 1,
       title: window.innerWidth > 500 ? label : undefined,
     })
+    const lineSeriesDecentraland = chart.addLineSeries({
+      color: 'blue',
+      lineWidth: 1,
+      title: window.innerWidth > 500 ? label : undefined,
+    })
+    const lineSeriesSomnium = chart.addLineSeries({
+      color: 'red',
+      lineWidth: 1,
+      title: window.innerWidth > 500 ? label : undefined,
+    })
+
     const slicedData = sliceTimeData(data, interval).map((currentData) => {
       const predictions = convertETHPrediction(
         prices,
         currentData.data,
-        metaverse
+        'sandbox'
       )
       return {
         time: parseInt(currentData.time) as UTCTimestamp,
