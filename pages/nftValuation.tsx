@@ -25,6 +25,8 @@ import {
 // Filters
 import { typedKeys } from "../lib/utilities";
 import SpecificAssetModal from "../components/General/SpecificAssetModal";
+import { Loader } from "../components";
+import { Link } from "react-router-dom";
 
 interface nftCollectionProps {
 	num_owners: number;
@@ -54,30 +56,11 @@ const collectionsList = [
 		nItems: 10000,
 		collection: "fluf",
 	},
-	{
-		name: "FLUF World",
-		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
-		creator: "FLUF_World",
-		nItems: 10000,
-		collection: "fluf",
-	},
-	{
-		name: "FLUF World",
-		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
-		creator: "FLUF_World",
-		nItems: 10000,
-		collection: "fluf",
-	},
-	{
-		name: "FLUF World",
-		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
-		creator: "FLUF_World",
-		nItems: 10000,
-		collection: "fluf",
-	},
 ];
 
 export default function NftValuation() {
+	const commingSoon = true
+
 	// Fetched Data
 	const [collectionName, setCollectionName] = useState<string>("");
 	const [nftGlobal, setnftGlobal] = useState<nftCollectionProps | null>(null);
@@ -192,6 +175,15 @@ export default function NftValuation() {
 			setfilteredItems(results)
 		} else { setfilteredItems(nftObject) }
 	}, [inputValue, ejectSelectFilter, isFilteredByPrice, isFilteredByListed])
+
+	if (commingSoon) {
+		return (
+			<div className="flex flex-col justify-center items-center w-full h-screen">
+				<Loader />
+				<h2 className="text-black font-bold text-4xl">Our awesome view is comming soon!</h2>
+			</div>
+		)
+	}
 
 	return (
 		<>
