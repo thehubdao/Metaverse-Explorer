@@ -86,10 +86,12 @@ const Logo = () => {
   )
 }
 
-const Loader = () => {
+const Loader = ({ size, color }: { size: number, color: string }) => {
   return (
-    <div className="w-full h-full self-center flex items-center justify-center p-20">
-      <Logo />
+    <div className="w-full h-full flex items-center justify-center p-20">
+      <div className={`w-[${size}px] h-[${size}px]`}>
+        <Logo />
+      </div>
     </div>
   )
 }
