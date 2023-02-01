@@ -89,9 +89,7 @@ const Logo = () => {
 const Loader = () => {
   return (
     <div className="w-full h-full self-center flex items-center justify-center p-20">
-      <div className="w-10 h-10">
-        <Logo />
-      </div>
+      <Logo />
     </div>
   )
 }
