@@ -6,6 +6,7 @@ import { initContract } from '../backend/services/RoleContractService'
 
 // web3auth service
 import web3authService from '../backend/services/Web3authService'
+import { ellipseAddress } from '../lib/utilities'
 
 // Components
 import OvalButton from './General/Buttons/OvalButton'
