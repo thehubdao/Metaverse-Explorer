@@ -235,6 +235,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						specificAssetSelected={specificLandSelected}
 						handleSpecificAssetData={handleSpecificLandData}
 						hiddenSearchBar={true}
+						hiddenOwner={true}
 					/>
 				) : (
 					<GeneralSection
