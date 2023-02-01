@@ -15,6 +15,7 @@ import { SocialMediaOptions } from '../../lib/socialMediaOptions'
 import DataComparisonBox from '../Valuation/DataComparison/DataComparisonBox'
 import { Metaverse } from '../../lib/metaverse'
 import { TopSellingDataTable } from '../../types/TopSelling'
+import { useAccount } from 'wagmi'
 interface Props {
   apiData?: IAPIData
   predictions?: IPredictions
@@ -45,7 +46,7 @@ const MapCard = ({
     'errorQuery',
   ])
 
-  const { address } = useAppSelector((state) => state.account)
+  const { address } = useAccount()
   const options = SocialMediaOptions(
     apiData?.tokenId,
     apiData?.metaverse,
@@ -113,7 +114,7 @@ const MapCard = ({
                 {/* Add To Watchlist Button */}
                 {address && (
                   <AddToWatchlistButton
-                    landId={apiData.tokenId}
+                    land={apiData}
                     metaverse={apiData.metaverse}
                   />
                 )}

@@ -15,9 +15,7 @@ import {
 } from '../../lib/heatmap/valuationColoring'
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
-import { io, Socket } from 'socket.io-client'
 import { Container } from 'pixi.js'
-import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { getSocketService } from '../../backend/services/SocketService'
 
 let globalFilter: MapFilter,

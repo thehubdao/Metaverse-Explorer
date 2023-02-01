@@ -58,26 +58,11 @@ export async function addMissingWatchlist(
 
 // Add Land to User's WatchList
 export async function addLandToWatchList(
-    landId: string,
-    walletAddress: string,
+    land: any,
+    address: string,
     metaverse: Metaverse
 ) {
-    const user = doc(db, 'users', walletAddress)
-    await updateDoc(user, {
-        [metaverse + '-watchlist']: arrayUnion(landId),
-    })
-
-    const updatedData = await getUserInfo(walletAddress)
-    return updatedData
-    // console.log("firing")
-    // const updatedData = await calls(`${URL}addToWatchlist`, {
-    //   address: walletAddress,
-    //   metaverse: metaverse,
-    //   land: landId,
-    //   method: "update",
-    // });
-
-    return updatedData
+    const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
 }
 
 // Remove Land from User's WatchList

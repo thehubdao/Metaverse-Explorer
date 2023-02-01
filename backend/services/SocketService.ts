@@ -32,9 +32,15 @@ class SocketService {
     onNewLand(callback: any) {
         this.socket?.on('new-land-data', callback)
     }
+
+    onRenderFinish(callback: any) {
+        this.socket?.on('render-finish', callback)
+    }
+
     offNewLand() {
         this.socket?.off('new-land-data')
     }
+
     startRender(metaverse: Metaverse) {
         console.log(this.socket, 'Emit render', metaverse)
         this.socket?.on('render-finish', () => this.disconnect())

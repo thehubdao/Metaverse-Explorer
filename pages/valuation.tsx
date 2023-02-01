@@ -469,6 +469,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												setSelected(undefined);
 											} else {
 												const isntFullScreen = document.fullscreenElement ? false : true
+												
 												handleMapSelection(land, x, y, undefined, isntFullScreen);
 											}
 										}}
@@ -545,9 +546,9 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							</h3>
 							<TopPicksLands metaverse={metaverse} />
 						</div>
-						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
+						{/* <div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
 							<TopSellingLands metaverse={metaverse} />
-						</div>
+						</div> */}
 
 						<p className="text-xs sm:text-sm text-grey-content font-plus pt-96 px-10">
 							The MGH DAO does not provide, personalized investment

@@ -65,7 +65,7 @@ export const findHeatmapLand = (
   apiData = {
     ...land,
     metaverse: metaverse,
-    tokenId: land.land_id!,
+    tokenId: land.tokenId!,
     prices: getPriceByFilter(land, prices, filterBy)
   }
 
