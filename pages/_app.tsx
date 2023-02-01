@@ -16,16 +16,9 @@ import { mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { Web3Auth } from '@web3auth/modal'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import {} from '../backend/services/RoleContractService'
+import { } from '../backend/services/RoleContractService'
 import { Loader } from '../components'
 import MobileControl from '../components/MobileControl'
-
-
-
-
-
-
-
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => {
@@ -45,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 '@web3auth/web3auth-wagmi-connector'
             )
             const { chains, provider, webSocketProvider } = configureChains(
-                [mainnet, polygon,polygonMumbai ],
+                [mainnet, polygon, polygonMumbai],
                 [publicProvider()]
             )
             const wagmiClientInstance = createClient({
@@ -87,7 +80,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </Provider>
             ) : (
                 <div className='flex flex-col w-full h-screen justify-center items-center'>
-                    <Loader />
+                    <Loader size={400} color='' />
                     <p className='font-bold'>We are connecting our web3 tools</p>
                 </div>
             )}
