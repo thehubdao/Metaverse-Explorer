@@ -179,8 +179,9 @@ export default function NftValuation() {
 
 	if (commingSoon) {
 		return (
-			<div className="flex flex-col justify-center items-center w-full h-screen">
-				<Image src='/images/mgh_logo.svg'/>
+			<div className="flex justify-center items-center w-full h-screen gap-6">
+				<Image src='/images/mgh_logo.svg' width={100} height={100} />
+				<h2 className="font-bold text-xl">We will launch soon</h2>
 			</div>
 		)
 	}
