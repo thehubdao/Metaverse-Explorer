@@ -56,7 +56,7 @@ class Web3authService {
 
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x13881',
+                    chainId: '0x1',
                     rpcTarget: Chains.MATIC_TESTNET.rpcUrl, // This is the private RPC
                 },
             })

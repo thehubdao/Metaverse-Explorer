@@ -258,7 +258,7 @@ const MaptalksCanva = ({
         className={isLoading ? 'hidden' : 'block'}
       />
       <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader />
+        <Loader color='' size={200}/>
       </div>
     </>
   )
