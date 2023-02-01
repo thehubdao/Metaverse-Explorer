@@ -1,283 +1,267 @@
 import { useEffect, useState } from 'react'
 import * as maptalks from 'maptalks'
 import {
-    Atlas,
-    LegendFilter,
-    MapFilter,
-    PercentFilter,
-    ValuationTile,
+  Atlas,
+  LegendFilter,
+  MapFilter,
+  PercentFilter,
+  ValuationTile,
 } from '../../lib/heatmap/heatmapCommonTypes'
 import { filteredLayer } from '../../lib/heatmap/heatmapLayers'
 import { io } from 'socket.io-client'
 import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
 import { setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
-const socket = io(process.env.SOCKET_SERVICE!, {
-    path: '/heatmap-backend',
-    transports: ['websocket'],
-})
+import { getSocketService } from '../../backend/services/SocketService'
+import Loader from '../Loader'
 
 let globalFilter: MapFilter,
-    globalPercentFilter: PercentFilter,
-    globalLegendFilter: LegendFilter
+  globalPercentFilter: PercentFilter,
+  globalLegendFilter: LegendFilter
 
 interface IMaptalksCanva {
-    width: number | undefined
-    height: number | undefined
-    filter: MapFilter
-    percentFilter: PercentFilter
-    legendFilter: LegendFilter
-    x: number | undefined
-    y: number | undefined
-    onClick: (land: ValuationTile, x: number, y: number) => void
-    metaverse: Metaverse
+  width: number | undefined
+  height: number | undefined
+  filter: MapFilter
+  percentFilter: PercentFilter
+  legendFilter: LegendFilter
+  x: number | undefined
+  y: number | undefined
+  onClick: (land: ValuationTile, x: number, y: number) => void
+  metaverse: Metaverse
 }
 
 const MaptalksCanva = ({
-    width,
-    height,
-    filter,
-    percentFilter,
-    legendFilter,
-    x,
-    y,
-    onClick,
+  width,
+  height,
+  filter,
+  percentFilter,
+  legendFilter,
+  x,
+  y,
+  onClick,
 }: IMaptalksCanva) => {
-    const [map, setMap] = useState<maptalks.Map>()
-    const [mapData, setMapData] = useState<Record<string, ValuationTile>>()
-    const [metaverseData, setMetaverseData] = useState<any>()
-    useEffect(() => {
-        const getMetaverseData = async () => {
-            let dataCall: any = await fetch(
-                process.env.SOCKET_SERVICE + `/limits?metaverse=somnium-space`
-            )
-            dataCall = await dataCall.json()
-            setMetaverseData(dataCall)
-        }
-        getMetaverseData()
-    }, [])
-    useEffect(() => {
-        console.log(metaverseData)
-        if (!metaverseData) return
-        let map: any
-        var imageLayer = new maptalks.ImageLayer('images', [
-            {
-                url: '/images/Waterfront_Extended_Parcels_Map_allgreen.jpg',
-                extent: [-1, -1, 1, 1],
-                opacity: 1,
-            },
-        ])
+  const [map, setMap] = useState<maptalks.Map>()
+  const [layer, setLayer] = useState<any>()
+  const [mapData, setMapData] = useState<Record<string, ValuationTile>>({})
+  const [metaverseData, setMetaverseData] = useState<any>()
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
-        map = new maptalks.Map('map', {
-            center: [0, 0],
-            zoom: 10,
-            minZoom: 9,
-            maxZoom: 12,
-            attribution: false,
-            pitch: 1,
-            dragPitch: false,
-            //dragRotate: false,
-        })
-        map.addLayer(imageLayer)
+  let clickedPolygonData: any
+  const rgbToHex = (values: any) => {
+    let a = values.split(',')
+    a = a.map(function (value: any) {
+      value = parseInt(value).toString(16)
+      return value.length == 1 ? '0' + value : value
+    })
+    return '#' + a.join('')
+  }
 
-        let layer = new maptalks.VectorLayer('vector', [], {
-            forceRenderOnMoving: true,
-            forceRenderOnRotating: true,
-            forceRenderOnZooming: true,
-            enableSimplify: true,
-            hitDetect: false,
-        }).addTo(map)
-
-        let lands: any = {}
-        let polygons: any = []
-        socket.emit('render', 'somnium-space', 0)
-        socket.on('render', async (land) => {
-            let name = ''
-            if (land.coords) {
-                name = land?.coords.x + ',' + land?.coords.y
-            } else {
-                name = land?.center.x + ',' + land?.center.y
-            }
-            lands[name] = land!
-            lands[name].land_id = land.tokenId
-            let value = land
-            let tile: any
-            if (!value.center) return
-            globalFilter == 'basic'
-                ? null
-                : (land = await setLandColour(
-                    land,
-                    globalFilter,
-                    metaverseData
-                ))
-            tile = filteredLayer(
-                value.center.x,
-                value.center.y,
-                filter,
-                percentFilter,
-                legendFilter,
-                value
-            )
-            let { color } = tile
-            let borderColor = '#000'
-            let borderSize = 0
-
-            let polygon = new maptalks.Polygon(
-                [
-                    [
-                        [value.geometry[0].x, value.geometry[0].y],
-                        [value.geometry[1].x, value.geometry[1].y],
-                        [value.geometry[2].x, value.geometry[2].y],
-                        [value.geometry[3].x, value.geometry[3].y],
-                    ],
-                ],
-                {
-                    visible: true,
-                    editable: true,
-                    shadowBlur: 0,
-                    shadowColor: 'black',
-                    draggable: false,
-                    dragShadow: false, // display a shadow during dragging
-                    drawOnAxis: null, // force dragging stick on a axis, can be: x, y
-                    symbol: {
-                        lineWidth: borderSize,
-                        lineColor: borderColor,
-                        polygonFill: color,
-                        polygonOpacity: 1,
-                    },
-                    cursor: 'pointer',
-                }
-            )
-                .on('click', () => {
-                    onClick(value, value.center.x, value.center.y)
-                })
-                .on('mouseenter', (e: any) => {
-                    e.target.updateSymbol({
-                        polygonFill: '#db2777',
-                        lineWidth: 3,
-                        lineColor: '#db2777',
-                    })
-                })
-                .on('mouseout', (e: any) => {
-                    e.target.updateSymbol({
-                        polygonFill: color,
-                        lineWidth: borderSize,
-                        lineColor: borderColor,
-                    })
-                })
-            layer.addGeometry(polygon)
-            polygons.push(polygon)
-        })
-
-        socket.on('render', () => {
-            // set map's max extent to map's map view power by 2
-            map.setMaxExtent(new maptalks.Extent(-2, -2, 2, 2))
-            setMapData(lands)
-            setMap(map)
-        })
-    }, [metaverseData])
-
-    useEffect(() => {
-        if (!map) return
-        const filterUpdate = async () => {
-            let lands: any = []
-            map.removeLayer('vector')
-            let coloredAtlas = await setColours(mapData!, filter, metaverseData)
-            if (map && x && y) {
-                map.setCenter(new maptalks.Coordinate(x, y))
-            }
-            console.log(coloredAtlas)
-
-            Object.values(coloredAtlas!).forEach((value: any) => {
-                let tile: any
-                tile = filteredLayer(
-                    value.center.x,
-                    value.center.y,
-                    filter,
-                    percentFilter,
-                    legendFilter,
-                    value
-                )
-
-                let { color } = tile
-                let borderColor = '#000'
-                let borderSize = 0
-
-                //set color if the land is selected
-                if (value.center.x == x && value.center.y == y) {
-                    color = '#ff9990'
-                    borderColor = '#ff0044'
-                    borderSize = 3
-                }
-
-                let polygon = new maptalks.Polygon(
-                    [
-                        [
-                            [value.geometry[0].x, value.geometry[0].y],
-                            [value.geometry[1].x, value.geometry[1].y],
-                            [value.geometry[2].x, value.geometry[2].y],
-                            [value.geometry[3].x, value.geometry[3].y],
-                        ],
-                    ],
-                    {
-                        visible: true,
-                        editable: true,
-                        shadowBlur: 0,
-                        shadowColor: 'black',
-                        draggable: false,
-                        dragShadow: false, // display a shadow during dragging
-                        drawOnAxis: null, // force dragging stick on a axis, can be: x, y
-                        symbol: {
-                            lineWidth: borderSize,
-                            lineColor: borderColor,
-                            polygonFill: color,
-                            polygonOpacity: 1,
-                        },
-                        cursor: 'pointer',
-                    }
-                )
-                    .on('click', () => {
-                        onClick(value, value.center.x, value.center.y)
-                    })
-                    .on('mouseenter', (e: any) => {
-                        e.target.updateSymbol({
-                            polygonFill: '#db2777',
-                            lineWidth: 3,
-                            lineColor: '#db2777',
-                        })
-                    })
-                    .on('mouseout', (e: any) => {
-                        e.target.updateSymbol({
-                            polygonFill: color,
-                            lineWidth: borderSize,
-                            lineColor: borderColor,
-                        })
-                    })
-                lands.push(polygon)
-            })
-            new maptalks.VectorLayer('vector', lands, {
-                forceRenderOnMoving: true,
-                forceRenderOnRotating: true,
-                forceRenderOnZooming: true,
-            }).addTo(map)
-        }
-        filterUpdate()
-    }, [filter, percentFilter, legendFilter, x, y])
-
-    useEffect(() => {
-        ; (globalFilter = filter),
-            (globalPercentFilter = percentFilter),
-            (globalLegendFilter = legendFilter)
-    }, [filter, percentFilter, legendFilter])
-
-    return (
-        <canvas
-            width={width}
-            height={height}
-            /* style={{ width, height }} */
-            id="map"
-        />
+  const renderHandler = async (land: any) => {
+    let name = ''
+    if (land.coords) {
+      name = land?.coords.x + ',' + land?.coords.y
+    } else {
+      name = land?.center.x + ',' + land?.center.y
+    }
+    let value = land
+    let tile: any
+    if (!value.center) return
+    globalFilter == 'basic'
+      ? null
+      : (land = await setLandColour(land, globalFilter, metaverseData))
+    tile = filteredLayer(
+      value.center.x,
+      value.center.y,
+      filter,
+      percentFilter,
+      legendFilter,
+      value
     )
+    let { color } = tile
+    let borderColor = '#000'
+    let borderSize = 0
+    let originalColor: any
+    let polygon: any = new maptalks.Polygon(
+      [
+        [
+          [value.geometry[0].x, value.geometry[0].y],
+          [value.geometry[1].x, value.geometry[1].y],
+          [value.geometry[2].x, value.geometry[2].y],
+          [value.geometry[3].x, value.geometry[3].y],
+        ],
+      ],
+      {
+        visible: true,
+        editable: true,
+        shadowBlur: 0,
+        shadowColor: 'black',
+        draggable: false,
+        dragShadow: false, // display a shadow during dragging
+        drawOnAxis: null, // force dragging stick on a axis, can be: x, y
+        symbol: {
+          lineWidth: borderSize,
+          lineColor: borderColor,
+          polygonFill: color,
+          polygonOpacity: 1,
+        },
+        cursor: 'pointer',
+      }
+    )
+      .on('click', (e: any) => {
+        if (clickedPolygonData) {
+          const { clickedPolygon, clickedPolygonStyle } =
+            clickedPolygonData
+          clickedPolygon.updateSymbol(clickedPolygonStyle)
+        }
+
+        clickedPolygonData = {
+          clickedPolygon: e.target,
+          clickedPolygonStyle: {
+            polygonFill: originalColor,
+            lineWidth: borderSize,
+          },
+        }
+        e.target.updateSymbol({
+          polygonFill: '#ff9990',
+          lineWidth: 3,
+          lineColor: '#ff0044',
+        })
+        onClick(value, value.center.x, value.center.y)
+      })
+      .on('mouseenter', (e: any) => {
+        const clickedPolygon = clickedPolygonData?.clickedPolygon
+        if (clickedPolygonData && clickedPolygon == e.target) return
+        originalColor = e.target.getSymbol().polygonFill
+        e.target.updateSymbol({
+          polygonFill: '#db2777',
+          lineWidth: 3,
+          lineColor: '#db2777',
+        })
+      })
+      .on('mouseout', (e: any) => {
+        const clickedPolygon = clickedPolygonData?.clickedPolygon
+        if (clickedPolygonData && clickedPolygon == e.target) return
+        e.target.updateSymbol({
+          polygonFill: originalColor,
+          lineWidth: borderSize,
+          lineColor: borderColor,
+        })
+      })
+    polygon.landName = name
+    layer.addGeometry(polygon)
+    map?.setMaxExtent(new maptalks.Extent(-2, -2, 2, 2))
+    const lands = mapData
+    lands[name] = land
+    setMapData(lands)
+  }
+
+  useEffect(() => {
+    const imageLayer = new maptalks.ImageLayer('images', [
+      {
+        url: '/images/Waterfront_Extended_Parcels_Map_allgreen.jpg',
+        extent: [-1, -1, 1, 1],
+        opacity: 1,
+      },
+    ])
+
+    let initialMap = new maptalks.Map('map', {
+      center: [0, 0],
+      zoom: 9,
+      minZoom: 8,
+      maxZoom: 12,
+      attribution: false,
+      pitch: 1,
+      dragPitch: false,
+      //dragRotate: false,
+    })
+    initialMap.addLayer(imageLayer)
+
+    let initialLayer = new maptalks.VectorLayer('vector', [], {
+      forceRenderOnMoving: true,
+      forceRenderOnRotating: true,
+      forceRenderOnZooming: true,
+      enableSimplify: true,
+      hitDetect: false,
+    }).addTo(initialMap)
+    setMap(initialMap)
+    setLayer(initialLayer)
+  }, [])
+
+  useEffect(() => {
+    const getMetaverseData = async () => {
+      let dataCall: any = await fetch(
+        process.env.SOCKET_SERVICE + `/limits?metaverse=somnium-space`
+      )
+      dataCall = await dataCall.json()
+      setMetaverseData(dataCall)
+    }
+    getMetaverseData()
+  }, [])
+
+  useEffect(() => {
+    if (!metaverseData || !layer || !map) return
+    const socketServiceUrl = process.env.SOCKET_SERVICE!
+    const socketService = getSocketService(
+      socketServiceUrl,
+      () => {
+        console.log('Connected')
+      },
+      renderHandler
+    )
+    setIsLoading(true)
+    socketService.startRender('somnium-space')
+    socketService.onRenderFinish(() => { setIsLoading(false) })
+    return () => {
+      socketService.disconnect()
+    }
+  }, [metaverseData && layer && map])
+
+  useEffect(() => {
+    if (!map) return
+    const filterUpdate = async () => {
+      let coloredAtlas = await setColours(mapData!, filter, metaverseData)
+      const coloredLayer = layer.forEach((geometry: any) => {
+        const land = coloredAtlas[geometry.landName]
+        const tile: any = filteredLayer(
+          land.center.x,
+          land.center.y,
+          filter,
+          percentFilter,
+          legendFilter,
+          land
+        )
+        let { color } = tile
+        const formattedColor = color.includes('rgb')
+          ? rgbToHex(color.split('(')[1].split(')')[0])
+          : color
+        geometry.updateSymbol({ polygonFill: formattedColor })
+        return geometry
+      })
+    }
+    filterUpdate()
+  }, [filter, percentFilter, legendFilter])
+
+  useEffect(() => {
+    ; (globalFilter = filter),
+      (globalPercentFilter = percentFilter),
+      (globalLegendFilter = legendFilter)
+  }, [filter, percentFilter, legendFilter])
+
+  return (
+    <>
+      <canvas
+        width={width}
+        height={height}
+        /* style={{ width, height }} */
+        id="map"
+        className={isLoading ? 'hidden' : 'block'}
+      />
+      <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
+        <Loader color='' size={200}/>
+      </div>
+    </>
+  )
 }
 
 export default MaptalksCanva

@@ -23,6 +23,7 @@ interface IFilterColumn {
 	handleApply: Function
 	handleTraitFilter: Function
 	setIsFilteredByListed: Function
+	isFilteredByListed: boolean
 }
 
 const OpenFilterSection = ({ title, children }: any) => {
@@ -47,19 +48,13 @@ export default function FilterColumn({
 	setInputValueMin,
 	handleApply,
 	handleTraitFilter,
-	setIsFilteredByListed
+	setIsFilteredByListed,
+	isFilteredByListed
 }: IFilterColumn) {
 	const [currency, setCurrency] = useState<Currencies>("eth");
-	const [selectedFilter, setSelectedFilter] = useState([''])
 
 	const handleListed = (keyword: string, isntChecked: boolean) => {
-		if (isntChecked) {
-			setSelectedFilter([keyword])
-			setIsFilteredByListed(true)
-		} else {
-			setSelectedFilter([''])
-			setIsFilteredByListed(false)
-		}
+		isntChecked ? setIsFilteredByListed(true) : setIsFilteredByListed(false)
 	}
 
 	return (
@@ -67,7 +62,7 @@ export default function FilterColumn({
 			<OpenFilterSection title={'Status'}>
 				<CheckBox
 					filter={{ name: 'listed', description: '' }}
-					selectedFilters={selectedFilter}
+					selectedFilters={isFilteredByListed ? ['listed'] : ['']}
 					handleFilter={handleListed}
 				/>
 			</OpenFilterSection>

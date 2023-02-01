@@ -210,7 +210,7 @@ export const setColours = async (
                 max,
                 limits
             ),
-            last_month_sells: getLandDependingOnGivenNumberOfDays(valuation, 30)
+            last_month_sells: getLandDependingOnGivenNumberOfDays(valuationAtlas[valuation], 30)
                 ? getPercentage(
                       CalculateMaxPriceOnHistoryDependGivenDays(
                           valuationAtlas[valuation],
