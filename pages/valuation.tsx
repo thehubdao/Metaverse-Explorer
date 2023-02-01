@@ -301,7 +301,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 p-8 h-[75vh]">
+				<div className="relative mb-8 p-8 h-[85vh]">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
@@ -310,7 +310,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					)}
 
 					{metaverse && (
-						<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[75vh]">
+						<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[80vh]">
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
 								<div className="absolute top-1 left-1 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">

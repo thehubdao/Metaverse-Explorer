@@ -33,12 +33,12 @@ import SpecificAssetModal from '../components/General/SpecificAssetModal'
 
 const headerList = [
 	{
-		name: "Watchlist",
-		route: "watchlist",
-	},
-	{
 		name: "Portfolio",
 		route: "portfolio",
+	},
+	{
+		name: "Watchlist",
+		route: "watchlist",
 	},
 	{
 		name: "Analytics",
