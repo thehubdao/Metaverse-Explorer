@@ -6,6 +6,7 @@ import { initContract } from '../backend/services/RoleContractService'
 
 // web3auth service
 import web3authService from '../backend/services/Web3authService'
+import { ellipseAddress } from '../lib/utilities'
 
 // Components
 import OvalButton from './General/Buttons/OvalButton'
@@ -38,7 +39,7 @@ export default function ConnectButton() {
                 <div className="flex flex-row">
                     <OvalButton
                         buttonFunction={() => logout()}
-                        label={`${address ? address : 'Loading ...'}`}
+                        label={`${address ? ellipseAddress(address) : 'Loading ...'}`}
                         backgroundColorClass={'bg-white'}
                     />
                 </div>
