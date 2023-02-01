@@ -279,7 +279,7 @@ const Heatmap2D = ({
       if (currentSprite && !isDragging) {
         const x = currentSprite.landX,
           y = currentSprite.landY
-        currentTint = 4 * 0xff9990
+        /* currentTint = 4 * 0xff9990 */
         onClick(mapData[x + ',' + y], x, y * -1)
       }
     })
@@ -357,7 +357,7 @@ const Heatmap2D = ({
         style={{ width, height }}
       />
       <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader />
+        <Loader color='' size={200} />
       </div>
     </>
   )

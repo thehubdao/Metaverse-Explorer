@@ -18,8 +18,8 @@ export const metaverseInitialCenter = {
         maxY: 0,
         minX: 0,
         minY: 0,
-        initialX: 62,
-        initialY: 204,
+        initialX: 9,
+        initialY: -28,
     },
     decentraland: {
         maxX: 0,
