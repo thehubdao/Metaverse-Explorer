@@ -27,6 +27,7 @@ import { typedKeys } from "../lib/utilities";
 import SpecificAssetModal from "../components/General/SpecificAssetModal";
 import { Loader } from "../components";
 import { Link } from "react-router-dom";
+import Image from "next/image";
 
 interface nftCollectionProps {
 	num_owners: number;
@@ -179,8 +180,7 @@ export default function NftValuation() {
 	if (commingSoon) {
 		return (
 			<div className="flex flex-col justify-center items-center w-full h-screen">
-				<Loader />
-				<h2 className="text-black font-bold text-4xl">Our awesome view is comming soon!</h2>
+				<Image src='/images/mgh_logo.svg'/>
 			</div>
 		)
 	}
