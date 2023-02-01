@@ -25,6 +25,9 @@ import {
 // Filters
 import { typedKeys } from "../lib/utilities";
 import SpecificAssetModal from "../components/General/SpecificAssetModal";
+import { Loader } from "../components";
+import { Link } from "react-router-dom";
+import Image from "next/image";
 
 interface nftCollectionProps {
 	num_owners: number;
@@ -54,30 +57,11 @@ const collectionsList = [
 		nItems: 10000,
 		collection: "fluf",
 	},
-	{
-		name: "FLUF World",
-		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
-		creator: "FLUF_World",
-		nItems: 10000,
-		collection: "fluf",
-	},
-	{
-		name: "FLUF World",
-		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
-		creator: "FLUF_World",
-		nItems: 10000,
-		collection: "fluf",
-	},
-	{
-		name: "FLUF World",
-		logo: "https://i.seadn.io/gcs/files/eae1fd3d26c6558ec5bba12c8aa29bd7.png?auto=format&w=1920",
-		creator: "FLUF_World",
-		nItems: 10000,
-		collection: "fluf",
-	},
 ];
 
 export default function NftValuation() {
+	const commingSoon = true
+
 	// Fetched Data
 	const [collectionName, setCollectionName] = useState<string>("");
 	const [nftGlobal, setnftGlobal] = useState<nftCollectionProps | null>(null);
@@ -193,6 +177,15 @@ export default function NftValuation() {
 		} else { setfilteredItems(nftObject) }
 	}, [inputValue, ejectSelectFilter, isFilteredByPrice, isFilteredByListed])
 
+	if (commingSoon) {
+		return (
+			<div className="flex justify-center items-center w-full h-screen gap-6">
+				<Image src='/images/mgh_logo.svg' width={100} height={100} />
+				<h2 className="font-bold text-xl">We will launch soon</h2>
+			</div>
+		)
+	}
+
 	return (
 		<>
 			<Head>
@@ -213,8 +206,8 @@ export default function NftValuation() {
 			{isModalOpen
 				? <SpecificAssetModal
 					collectionName={collectionName}
-					specificNftSelected={specificNftSelected}
-					handleSpecificNftData={handleSpecificNftData}
+					specificAssetSelected={specificNftSelected}
+					handleSpecificAssetData={handleSpecificNftData}
 				/>
 				: (
 					<GeneralSection

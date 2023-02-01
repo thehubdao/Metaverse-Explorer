@@ -57,7 +57,7 @@ export default function Sidebar({ list }: SidebarProps) {
 
   return (
     <div className="bg-grey-sidebar">
-      <Link href={"/"}>
+      <Link href={"/valuation"}>
         <div className="flex justify-center items-center h-[20vh]">
           <Image
             src="/images/mgh_logo.svg"

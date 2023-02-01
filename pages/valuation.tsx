@@ -301,7 +301,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 p-8 h-[65vh]">
+				<div className="relative mb-8 p-8 h-[85vh]">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
@@ -310,7 +310,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					)}
 
 					{metaverse && (
-						<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[55vh]">
+						<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[80vh]">
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
 								<div className="absolute top-1 left-1 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
@@ -370,10 +370,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 								)}
 
-								{metaverse !== "somnium-space" && (
+								{/* {metaverse !== "somnium-space" && (
 									<div className="absolute z-30 top-1 right-12 rounded-full p-2">
-										{/* Top left Coordinates */}
-										{/* <div className="mb-2 hidden md:block w-[190px] gray-box bg-grey-bone z-30"> */}
 										<MapLandSummary
 											owner={hovered.owner}
 											name={hovered.name}
@@ -381,7 +379,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											metaverse={metaverse}
 										/>
 									</div>
-								)}
+								)} */}
 
 								{/* Full screen button - Hides when MapCard is showing (all screens) */}
 								{!isVisible && (
@@ -518,7 +516,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				{/* Daily Volume and Floor Price Wrapper */}
 				{metaverse && (
 					<Fade duration={600} className="w-full p-8">
-						<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 md:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
+						<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 xl:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
 							{/* Daily Volume */}
 							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
 								<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />

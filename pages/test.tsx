@@ -12,7 +12,7 @@ const Test: NextPage = () => {
       </Head>
 
       <div className="h-screen w-full flex justify-center items-center pt-24">
-        <Loader />
+        <Loader size={200} color="" />
       </div>
     </>
   )

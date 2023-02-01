@@ -26,7 +26,7 @@ export enum Metaverses {
   ALL = "All",
   SANDBOX = "Sandbox",
   DECENTRALAND = "Decentraland",
-  AXIE = "Axie Infinity",
+  // AXIE = "Axie Infinity",
   SOMNIUM = "Somnium Space"
 }
 

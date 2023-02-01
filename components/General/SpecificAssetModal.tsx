@@ -2,7 +2,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { TbArrowBackUp, TbChartCandle } from 'react-icons/tb'
 import { FiSearch } from "react-icons/fi";
-import { nftObject } from "../../lib/types";
 
 const formatter = new Intl.NumberFormat(['ban', 'id'], {
   minimumFractionDigits: 1,
@@ -11,8 +10,9 @@ const formatter = new Intl.NumberFormat(['ban', 'id'], {
 
 interface SpecificAssetModalProps {
   collectionName: string
-  specificNftSelected?: nftObject
-  handleSpecificNftData: Function
+  specificAssetSelected?: any
+  handleSpecificAssetData: Function
+  hiddenSearchBar?: boolean
 }
 
 const ExternalButton = ({ text, icon, externalLink }: {
@@ -51,22 +51,25 @@ const BoxData = ({ text, price, message, bigData }: {
   )
 }
 
-const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) => {
+const Header = ({
+  handleSpecificAssetData,
+  hiddenSearchBar
+}: { handleSpecificAssetData: Function, hiddenSearchBar?: boolean }) => {
   const [inputValue, setInputValue] = useState<string>()
 
   const handleClick = () => {
-    handleSpecificNftData(true, undefined, inputValue)
+    handleSpecificAssetData(true, undefined, inputValue)
   }
 
   return (
     <div className="flex gap-2 items-center mb-5">
       <div
-        onClick={() => { handleSpecificNftData(false) }}
+        onClick={() => { handleSpecificAssetData(false) }}
         className="flex justify-center items-center w-16 h-10 rounded-lg nm-flat-medium hover:nm-flat-soft duration-150 text-lg cursor-pointer"
       >
         <TbArrowBackUp />
       </div>
-      <div className="relative rounded-full col-span-3 flex w-full">
+      {!hiddenSearchBar && <div className="relative rounded-full flex w-full">
         <input
           type="number"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setInputValue(e.target.value) }}
@@ -82,17 +85,17 @@ const Header = ({ handleSpecificNftData }: { handleSpecificNftData: Function }) 
         >
           <FiSearch />
         </button>
-      </div>
+      </div>}
     </div>
   )
 }
 
-const SpecificAssetModal = ({ specificNftSelected, handleSpecificNftData, collectionName }: SpecificAssetModalProps) => {
-
-  const getLastOwner = () => {
-
-  }
-
+const SpecificAssetModal = ({
+  specificAssetSelected,
+  handleSpecificAssetData,
+  collectionName,
+  hiddenSearchBar
+}: SpecificAssetModalProps) => {
   const SteticTimeString = (historyTime: string) => {
     let timeStringArray = historyTime.split(' ')[0].split('-')
     return `${timeStringArray[2]}.${timeStringArray[1]}.${timeStringArray[0]}`
@@ -107,50 +110,62 @@ const SpecificAssetModal = ({ specificNftSelected, handleSpecificNftData, collec
 
   return (
     <div className="w-full flex justify-center">
-      {specificNftSelected
+      {specificAssetSelected
         ? (<div className="w-full max-w-7xl px-6 text-black mb-10">
-          <Header handleSpecificNftData={handleSpecificNftData} />
+          <Header handleSpecificAssetData={handleSpecificAssetData} hiddenSearchBar={hiddenSearchBar} />
           <div className="grid grid-cols-2 gap-2">
 
             {/* Nft Video */}
             <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">
-              <video controls loop key={specificNftSelected["images"]["animation_url"]} className="w-[502px] h-[504px] rounded-xl">
-                <source src={specificNftSelected["images"]["animation_url"]} />
-              </video>
+              {
+                specificAssetSelected["images"]["animation_url"] ? (
+                  <video controls loop key={specificAssetSelected["images"]["animation_url"]} className="w-[502px] h-[504px] rounded-xl">
+                    <source src={specificAssetSelected["images"]["animation_url"]} />
+                  </video>
+                ) : (
+                  <div className="w-[502px] h-[504px] rounded-xl">
+                    <Image
+                      src={specificAssetSelected["images"]['image_url']}
+                      layout='fill'
+                      className="rounded-xl"
+                    />
+                  </div>
+                )
+              }
             </div>
 
             {/* Nft Identification */}
             <div className="flex flex-col h-full justify-between pt-5">
               <div>
                 <p className="text-2xl font-bold">
-                  {specificNftSelected['name']
-                    ? specificNftSelected['name']
-                    : `${collectionName.toUpperCase()} #${specificNftSelected['tokenId']}`}
+                  {specificAssetSelected['name']
+                    ? specificAssetSelected['name']
+                    : `${collectionName.toUpperCase()} #${specificAssetSelected['tokenId']}`}
                 </p>
-                <p className="text-grey-content text-sm">Owned by {specificNftSelected['history'].length > 0 ? specificNftSelected['history'][specificNftSelected['history'].length - 1]['buyer'] : 'someone'}</p>
+                <p className="text-grey-content text-sm">Owned by {specificAssetSelected['history'].length > 0 ? specificAssetSelected['history'][specificAssetSelected['history'].length - 1]['buyer'] : 'someone'}</p>
               </div>
 
               {/* Box data section */}
-              <BoxData text="Price Estimation:" price={formatter.format(specificNftSelected["floor_adjusted_predicted_price"])} bigData={true} />
+              <BoxData text="Price Estimation:" price={formatter.format(specificAssetSelected["floor_adjusted_predicted_price"])} bigData={true} />
               <div className="flex flex-row">
-                <BoxData text="Listing Price:" price={formatter.format(specificNftSelected["listed_eth_price"] ? specificNftSelected['listed_eth_price'] : 0)} message='Not Listed' />
+                <BoxData text="Listing Price:" price={formatter.format(specificAssetSelected["listed_eth_price"] ? specificAssetSelected['listed_eth_price'] : 0)} message='Not Listed' />
                 <BoxData
                   text="Last Sale Price:"
-                  price={specificNftSelected['history'].length > 0 ? formatter.format(specificNftSelected['history'][specificNftSelected['history'].length - 1]['eth_price']) : undefined}
+                  price={specificAssetSelected['history'].length > 0 ? formatter.format(specificAssetSelected['history'][specificAssetSelected['history'].length - 1]['eth_price']) : undefined}
                   message="No Data"
                 />
                 <BoxData
                   text="Last bought on:"
-                  message={handleTimeString(specificNftSelected['history'])}
+                  message={handleTimeString(specificAssetSelected['history'])}
                 />
               </div>
 
               {/* Externar Links */}
               <div className="flex flex-row gap-3 items-center">
                 <p className="whitespace-nowrap w-fit text-grey-icon font-bold text-xs">View NFT  on:</p>
-                <ExternalButton text="Looksrare" icon="/images/icons/markets/looksrare.svg" externalLink={specificNftSelected['market_links']['looksrare']} />
-                <ExternalButton text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={specificNftSelected['market_links']['opensea']} />
-                <ExternalButton text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={specificNftSelected['market_links']['X2Y2']} />
+                <ExternalButton text="Looksrare" icon="/images/icons/markets/looksrare.svg" externalLink={specificAssetSelected['market_links']['looksrare']} />
+                <ExternalButton text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={specificAssetSelected['market_links']['opensea']} />
+                <ExternalButton text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={specificAssetSelected['market_links']['X2Y2']} />
               </div>
 
               {/* Chart section */}
