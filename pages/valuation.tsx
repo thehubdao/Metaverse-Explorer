@@ -211,7 +211,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		}
 		try {
 			if (!lands.name) throw "myException";
-			const landData:any = findHeatmapLand(
+			const landData: any = findHeatmapLand(
 				lands,
 				prices,
 				metaverse,
@@ -242,6 +242,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 		return () => window.removeEventListener("resize", resize);
 	}, [metaverse, address]);
+
+	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
+	const [openMapFilter, setOpenMapFilter] = useState(false)
+	const [openSearchFilter, setOpenSearchFilter] = useState(false)
 
 	return (
 		<>
@@ -319,16 +323,22 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										<MapChooseMetaverse
 											metaverse={metaverse}
 											setMetaverse={setMetaverse}
+											opened={openMetaverseFilter}
+											onClick={() => {setOpenMapFilter(false), setOpenMetaverseFilter(!openMetaverseFilter), setOpenSearchFilter(false)}}
 										/>
 										{/* Filter Selection */}
 										<MapChooseFilter
 											filterBy={filterBy}
 											setFilterBy={setFilterBy}
+											opened={openMapFilter}
+											onClick={() => {setOpenMapFilter(!openMapFilter), setOpenMetaverseFilter(false), setOpenSearchFilter(false)}}
 										/>
 
 										<MapSearch
 											mapState={mapState}
 											handleMapSelection={handleMapSelection}
+											opened={openSearchFilter}
+											onClick={() => {setOpenMapFilter(false), setOpenMetaverseFilter(false), setOpenSearchFilter(!openSearchFilter)}}
 										/>
 									</div>
 

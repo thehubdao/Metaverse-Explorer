@@ -16,12 +16,14 @@ interface Props {
     y?: number | undefined,
     tokenId?: string | undefined
   ) => Promise<NodeJS.Timeout | undefined>
+  onClick: () => void
+  opened: boolean
 }
-const MapSearch = ({ mapState, handleMapSelection }: Props) => {
+const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => {
   const [landId, setLandId] = useState('')
   const [coordinates, setCoordinates] = useState({ X: '', Y: '' })
   const [mobile, setMobile] = useState(false)
-  const [opened, setOpened] = useState(false)
+  // const [opened, setOpened] = useState(false)
   const [loadingQuery, errorQuery] = getState(mapState, [
     'loadingQuery',
     'errorQuery',
@@ -48,22 +50,22 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
       hasGuide: true,
     },
   }
-  const checkMobile = () => {
-    // not sure why setMobile(window.innerWidth <= 768) isn't working..
-    window.innerWidth <= 768 ? setMobile(true) : setMobile(false)
-    if (window.innerWidth > 768) {
-      setOpened(true)
-    }
-  }
+  // const checkMobile = () => {
+  //   // not sure why setMobile(window.innerWidth <= 768) isn't working..
+  //   window.innerWidth <= 768 ? setMobile(true) : setMobile(false)
+  //   if (window.innerWidth > 768) {
+  //     setOpened(true)
+  //   }
+  // }
 
-  useEffect(() => {
-    // checkMobile()
-    window.addEventListener('resize', checkMobile)
+  // useEffect(() => {
+  //   // checkMobile()
+  //   window.addEventListener('resize', checkMobile)
 
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('resize', checkMobile)
+  //   }
+  // }, [])
 
   return (
     <div className='flex flex-col gap-6 h-16 md:h-auto'>
@@ -74,12 +76,12 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
       >
 
         <div
-          onClick={() => setOpened(!opened)}
+          onClick={() => onClick()}
           className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full cursor-pointer w-12 h-12 ${opened && "rounded-b-none"}`}
         >
           {/* Icon */}
           {/* <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}> */}
-            <AiOutlineSearch className='text-2xl'/>
+          <AiOutlineSearch className='text-2xl' />
           {/* </span> */}
 
         </div>

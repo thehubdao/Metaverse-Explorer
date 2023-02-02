@@ -13,13 +13,15 @@ import { useAppSelector } from '../../state/hooks'
 interface Props {
   filterBy: MapFilter
   setFilterBy: React.Dispatch<React.SetStateAction<MapFilter>>
+  onClick: () => void
+  opened: boolean
 }
 
-const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
+const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
   const { role } = useAppSelector((state) => state.account)
   const isPremium = true // This will be replaced with role when we release this feature.
   const [openModal, setOpenModal] = useState(false);
-  const [opened, setOpened] = useState(false)
+  // const [opened, setOpened] = useState(false)
   const filterOptions = {
     basic: {
       name: 'Basic',
@@ -86,7 +88,7 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
       {/* Filter Button + Name */}
 
       <button
-        onClick={() => setOpened(!opened)}
+        onClick={() => onClick()}
       >
         {/* Icon */}
         <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
@@ -103,19 +105,19 @@ const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
               (filter) =>
                 filter !== filterBy && (
                   <div key={filter}>
-                      <button
-                        className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
-                        onClick={() => {
-                          setFilterBy(filter)
-                          setOpened(false)
-                        }}
+                    <button
+                      className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
+                      onClick={() => {
+                        setFilterBy(filter)
+                        onClick()
+                      }}
 
-                      >
-                        {filterOptions[filter].icon}
-                        <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
-                          {filterOptions[filter].name}
-                        </span>
-                      </button>
+                    >
+                      {filterOptions[filter].icon}
+                      <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
+                        {filterOptions[filter].name}
+                      </span>
+                    </button>
                   </div>
                 )
             )}
