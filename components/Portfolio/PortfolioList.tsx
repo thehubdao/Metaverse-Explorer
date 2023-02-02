@@ -12,10 +12,11 @@ interface Props {
   lands: LandListAPIResponse
   prices: ICoinPrices
   metaverse: Metaverse
+  handleSpecificLandData: Function
 }
-const PortfolioList = ({ lands, prices, metaverse }: Props) => {
+const PortfolioList = ({ lands, prices, metaverse, handleSpecificLandData }: Props) => {
   return (
-    <ul className='grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-2'>
+    <ul className='grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8'>
       <Fade duration={400} className='w-full flex justify-center'>
         {typedKeys(lands).map((land) => (
           <li key={land} className='w-full gray-box shadowNormal'>
@@ -24,6 +25,7 @@ const PortfolioList = ({ lands, prices, metaverse }: Props) => {
               land={lands[land]}
               landId={land}
               prices={prices}
+              handleSpecificLandData={handleSpecificLandData}
             />
           </li>
         ))}

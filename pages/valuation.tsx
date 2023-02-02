@@ -21,7 +21,6 @@ import {
 	TopPicksLands,
 	TopSellingLands,
 } from "../components/Valuation";
-import Link from "next/link";
 import {
 	ColorGuide,
 	MapCard,
@@ -72,7 +71,6 @@ interface Hovered {
 	coords: { x: number; y: number };
 	owner?: string;
 }
-const styleContent = 'text-xxs xs:text-xxs xl:text-xs font-plus font-bold text-grey-content pt-0 sm:pt-5 flex justify-between'
 
 const headerList = [
 	{
@@ -94,7 +92,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [estimateAccuracy, setestimateAccuracy] = useState<AnyObject>({})
 
 	const { address, chainId } = useAppSelector((state) => state.account);
-	const { web3Provider } = useConnectWeb3();
 
 	const [mapState, setMapState] = useState<ValuationState>("loading");
 	/* const [loading] = getState(mapState, ['loading']) */
@@ -122,7 +119,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	});
 
 	const formatter = new Intl.NumberFormat('en-US', {
-		minimumFractionDigits: 2,
+		minimumFractionDigits: 0,
 		maximumFractionDigits: 4,
 	});
 	// Function for resizing heatmap
@@ -269,79 +266,79 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				sectionTitle="LAND Valuation"
 				optionList={headerList}
 				backgroundClass={``}
-			/>
-			{metaverse && (
-				<>
-					<div className="flex items-center justify-between p-8">
-						<div className="flex flex-col space-y-3 max-w-xl">
-							<p className="text-2xl">The Sandbox LANDs</p>
-							<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
-						</div>
-						<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
-							<div className="flex flex-col space-y-1 items-center">
-								<p className=" font-black text-2xl">{formatter.format(globalData.stats?.floor_price)}</p>
-								<p className="text-sm">Floor</p>
-							</div>
-
-							<div className="flex flex-col space-y-1 items-center">
-								<p className=" font-black text-2xl">{formatter.format(globalData.stats?.total_volume)}</p>
-								<p className="text-sm">Trading Volume</p>
-							</div>
-
-							<div className="flex flex-col space-y-1 items-center">
-								<p className=" font-black text-2xl">{formatter.format(globalData.stats?.market_cap)}</p>
-								<p className="text-sm">MCAP</p>
-							</div>
-
-							<div className="flex flex-col space-y-1 items-center">
-								<p className=" font-black text-2xl">{globalData.stats?.num_owners}</p>
-								<p className="text-sm">Owners</p>
-							</div>
-
-						</div>
-					</div>
-				</>
-			)}
-
-			{/* Heatmap */}
-			<div className="relative mb-8 p-8 h-[55vh]">
-				{!metaverse && (
-					<MapInitMvChoice
-						metaverse={metaverse}
-						setMetaverse={setMetaverse}
-					/>
-				)}
-
+			>
 				{metaverse && (
-					<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[55vh]">
-						<div className="w-full h-full" ref={mapDivRef}>
-
-							<div className="absolute top-8 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
-								<div className="md:flex gap-2 md:gap-4 hidden">
-									{/* Metaverse Selection */}
-									<MapChooseMetaverse
-										metaverse={metaverse}
-										setMetaverse={setMetaverse}
-									/>
-									{/* Filter Selection */}
-									<MapChooseFilter
-										filterBy={filterBy}
-										setFilterBy={setFilterBy}
-									/>
-
-									<MapSearch
-										mapState={mapState}
-										handleMapSelection={handleMapSelection}
-									/>
+					<>
+						<div className="flex items-center justify-between p-8">
+							<div className="flex flex-col space-y-3 max-w-xl">
+								<p className="text-2xl">The Sandbox LANDs</p>
+								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+							</div>
+							<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
+								<div className="flex flex-col space-y-1 items-center">
+									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.floor_price)}ETH</p>
+									<p className="text-sm">Floor</p>
 								</div>
 
+								<div className="flex flex-col space-y-1 items-center">
+									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.total_volume))}ETH</p>
+									<p className="text-sm">Trading Volume</p>
+								</div>
 
-								{/* 'Search By' Forms */}
+								<div className="flex flex-col space-y-1 items-center">
+									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.market_cap))}ETH</p>
+									<p className="text-sm">MCAP</p>
+								</div>
+
+								<div className="flex flex-col space-y-1 items-center">
+									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.num_owners)}</p>
+									<p className="text-sm">Owners</p>
+								</div>
+
+							</div>
+						</div>
+					</>
+				)}
+
+				{/* Heatmap */}
+				<div className="relative mb-8 p-8 h-[85vh]">
+					{!metaverse && (
+						<MapInitMvChoice
+							metaverse={metaverse}
+							setMetaverse={setMetaverse}
+						/>
+					)}
+
+					{metaverse && (
+						<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[80vh]">
+							<div className="w-full h-full relative bg-grey-bone" ref={mapDivRef}>
+
+								<div className="absolute top-1 left-1 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
+									<div className="md:flex gap-2 md:gap-4 hidden">
+										{/* Metaverse Selection */}
+										<MapChooseMetaverse
+											metaverse={metaverse}
+											setMetaverse={setMetaverse}
+										/>
+										{/* Filter Selection */}
+										<MapChooseFilter
+											filterBy={filterBy}
+											setFilterBy={setFilterBy}
+										/>
+
+										<MapSearch
+											mapState={mapState}
+											handleMapSelection={handleMapSelection}
+										/>
+									</div>
+
+
+									{/* 'Search By' Forms */}
 
 
 
-								{/* Main Filter Button. Only for small screens  */}
-								{/* <div className="md:hidden w-2/4">
+									{/* Main Filter Button. Only for small screens  */}
+									{/* <div className="md:hidden w-2/4">
 								<MapMobileFilters
 									metaverse={metaverse}
 									setMetaverse={setMetaverse}
@@ -350,227 +347,227 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								/>
 							</div> */}
 
-							</div>
-
-							<a href="/purchase" className="flex bg-grey-dark px-4 py-2 nm-flat-medium absolute bottom-2 hover:scale-105 transition ease-in-out duration-300 rounded-full">
-								Unlock Premium Access
-							</a>
-
-
-							{/* Color Guide - Hides when MapCard is showing (only mobile) */}
-							{filterBy !== "basic" && (
-								<div
-									className={
-										(isVisible && "hidden") +
-										" md:block absolute z-20 bottom-2 right-2 unselectable rounded-full bg-grey-dark px-4 py-2"
-									}
-								>
-									<ColorGuide
-										filterBy={filterBy}
-										percentFilter={percentFilter}
-										setPercentFilter={setPercentFilter}
-									/>
 								</div>
-							)}
 
-							{metaverse !== "somnium-space" && (
-								<div className="absolute z-30 top-10 right-20 rounded-full bg-grey-bone p-2 h-9 w-9">
-									{/* Top left Coordinates */}
-									{/* <div className="mb-2 hidden md:block w-[190px] gray-box bg-grey-bone z-30"> */}
-									<MapLandSummary
-										owner={hovered.owner}
-										name={hovered.name}
-										coordinates={hovered.coords}
-										metaverse={metaverse}
-									/>
-								</div>
-							)}
+								<a href="/purchase" className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-full">
+									Unlock Premium Access
+								</a>
 
-							{/* Full screen button - Hides when MapCard is showing (all screens) */}
-							{!isVisible && (
-								<div className="absolute z-20 top-10 right-4 rounded-full bg-grey-bone p-2 h-9 w-9">
-									<FullScreenButton
-										fullScreenRef={mapDivRef}
-										className="text-xl text-grey-content"
-									/>
-								</div>
-							)}
-							{/*  Map */}
-							{metaverse !== "somnium-space" ? (
-								<Heatmap2D
-									// min and max values for x and y
-									minX={heatmapSize?.minX || 0}
-									maxX={heatmapSize?.maxX || 0}
-									minY={heatmapSize?.minY || 0}
-									maxY={heatmapSize?.maxY || 0}
-									initialX={heatmapSize?.initialX || 0}
-									initialY={heatmapSize?.initialY || 0}
-									filter={filterBy}
-									// Filter lands by percentage. On bottom left
-									percentFilter={percentFilter}
-									// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
-									// starting position of the map
-									x={
-										typeof selected?.x == "string"
-											? parseFloat(selected?.x)
-											: selected?.x
-									}
-									y={
-										typeof selected?.y == "string"
-											? parseFloat(selected?.y)
-											: selected?.y
-									}
-									//legend filter
-									legendFilter={legendFilter}
-									width={dims.width}
-									height={dims.height}
-									onHover={(
-										x: number,
-										y: number,
-										name?: string,
-										owner?: string
-									) => {
-										handleHover(x, y, name, owner);
-									}}
-									onClick={(
-										land: ValuationTile | undefined,
-										x: number,
-										y: number
-									) => {
-										if (isSelected(x, y)) {
-											setSelected(undefined);
-										} else {
-											const isntFullScreen = document.fullscreenElement ? false : true
-											handleMapSelection(land, x, y, undefined, isntFullScreen);
+
+								{/* Color Guide - Hides when MapCard is showing (only mobile) */}
+								{filterBy !== "basic" && (
+									<div
+										className={
+											(isVisible && "hidden") +
+											" md:block absolute z-20 bottom-1 right-1 unselectable rounded-full bg-grey-dark px-4 py-2"
 										}
-									}}
-									metaverse={metaverse}
-								/>
-							) : (
-								<MaptalksCanva
-									filter={filterBy}
-									// Filter lands by percentage. On bottom left
-									percentFilter={percentFilter}
-									// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
-									// starting position of the map
-									x={
-										typeof selected?.x == "string"
-											? parseFloat(selected?.x)
-											: selected?.x
-									}
-									y={
-										typeof selected?.y == "string"
-											? parseFloat(selected?.y)
-											: selected?.y
-									}
-									//legend filter
-									legendFilter={legendFilter}
-									width={dims.width}
-									height={dims.height}
-									onClick={(land, x, y) => {
-										if (isSelected(x, y)) {
-											setSelected(undefined);
-										} else {
-											const isntFullScreen = document.fullscreenElement ? false : true
-											handleMapSelection(land, x, y, undefined, isntFullScreen);
-										}
-									}}
-									metaverse={metaverse}
-								/>
-							)}
-
-							{/* Selected Land Card */}
-							{isVisible && (
-								<div
-									ref={ref}
-									className="absolute bottom-2 right-8 flex flex-col gap-4"
-								>
-									<Fade duration={300}>
-										<MapCard
-											setIsVisible={setIsVisible}
-											metaverse={metaverse}
-											apiData={cardData?.apiData}
-											predictions={cardData?.predictions}
-											landCoords={cardData?.landCoords}
-											name={cardData?.name}
-											mapState={mapState}
+									>
+										<ColorGuide
+											filterBy={filterBy}
+											percentFilter={percentFilter}
+											setPercentFilter={setPercentFilter}
 										/>
-									</Fade>
-								</div>
-							)}
+									</div>
+								)}
 
-							{/* Map Legend - Hides when MapCard is showing (all screens) */}
-							{filterBy === "basic" ? (
-								!isVisible && (
-									<MapLegend
-										className="absolute bottom-2 right-2"
+								{/* {metaverse !== "somnium-space" && (
+									<div className="absolute z-30 top-1 right-12 rounded-full p-2">
+										<MapLandSummary
+											owner={hovered.owner}
+											name={hovered.name}
+											coordinates={hovered.coords}
+											metaverse={metaverse}
+										/>
+									</div>
+								)} */}
+
+								{/* Full screen button - Hides when MapCard is showing (all screens) */}
+								{!isVisible && (
+									<div className="absolute z-20 top-1 right-1 rounded-full bg-grey-bone p-2 h-9 w-9">
+										<FullScreenButton
+											fullScreenRef={mapDivRef}
+											className="text-xl text-grey-content"
+										/>
+									</div>
+								)}
+								{/*  Map */}
+								{metaverse !== "somnium-space" ? (
+									<Heatmap2D
+										// min and max values for x and y
+										minX={heatmapSize?.minX || 0}
+										maxX={heatmapSize?.maxX || 0}
+										minY={heatmapSize?.minY || 0}
+										maxY={heatmapSize?.maxY || 0}
+										initialX={heatmapSize?.initialX || 0}
+										initialY={heatmapSize?.initialY || 0}
+										filter={filterBy}
+										// Filter lands by percentage. On bottom left
+										percentFilter={percentFilter}
+										// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
+										// starting position of the map
+										x={
+											typeof selected?.x == "string"
+												? parseFloat(selected?.x)
+												: selected?.x
+										}
+										y={
+											typeof selected?.y == "string"
+												? parseFloat(selected?.y)
+												: selected?.y
+										}
+										//legend filter
 										legendFilter={legendFilter}
-										setLegendFilter={setLegendFilter}
+										width={dims.width}
+										height={dims.height}
+										onHover={(
+											x: number,
+											y: number,
+											name?: string,
+											owner?: string
+										) => {
+											handleHover(x, y, name, owner);
+										}}
+										onClick={(
+											land: ValuationTile | undefined,
+											x: number,
+											y: number
+										) => {
+											if (isSelected(x, y)) {
+												setSelected(undefined);
+											} else {
+												const isntFullScreen = document.fullscreenElement ? false : true
+												handleMapSelection(land, x, y, undefined, isntFullScreen);
+											}
+										}}
 										metaverse={metaverse}
 									/>
-								)
-							) : (
-								<></>
-							)}
+								) : (
+									<MaptalksCanva
+										filter={filterBy}
+										// Filter lands by percentage. On bottom left
+										percentFilter={percentFilter}
+										// Filter lands by utility (watchlist, portfolio, etc..). On bottom right
+										// starting position of the map
+										x={
+											typeof selected?.x == "string"
+												? parseFloat(selected?.x)
+												: selected?.x
+										}
+										y={
+											typeof selected?.y == "string"
+												? parseFloat(selected?.y)
+												: selected?.y
+										}
+										//legend filter
+										legendFilter={legendFilter}
+										width={dims.width}
+										height={dims.height}
+										onClick={(land, x, y) => {
+											if (isSelected(x, y)) {
+												setSelected(undefined);
+											} else {
+												const isntFullScreen = document.fullscreenElement ? false : true
+
+												handleMapSelection(land, x, y, undefined, isntFullScreen);
+											}
+										}}
+										metaverse={metaverse}
+									/>
+								)}
+
+								{/* Selected Land Card */}
+								{isVisible && (
+									<div
+										ref={ref}
+										className="absolute bottom-2 right-8 flex flex-col gap-4"
+									>
+										<Fade duration={300}>
+											<MapCard
+												setIsVisible={setIsVisible}
+												metaverse={metaverse}
+												apiData={cardData?.apiData}
+												predictions={cardData?.predictions}
+												landCoords={cardData?.landCoords}
+												name={cardData?.name}
+												mapState={mapState}
+											/>
+										</Fade>
+									</div>
+								)}
+
+								{/* Map Legend - Hides when MapCard is showing (all screens) */}
+								{filterBy === "basic" ? (
+									!isVisible && (
+										<MapLegend
+											className="absolute bottom-1 right-1"
+											legendFilter={legendFilter}
+											setLegendFilter={setLegendFilter}
+											metaverse={metaverse}
+										/>
+									)
+								) : (
+									<></>
+								)}
+							</div>
 						</div>
-					</div>
+					)}
+				</div>
+
+				{/* Daily Volume and Floor Price Wrapper */}
+				{metaverse && (
+					<Fade duration={600} className="w-full p-8">
+						<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 xl:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
+							{/* Daily Volume */}
+							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+								<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
+							</div>
+							{/* Floor Price */}
+							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+								<FloorPriceTracker
+									metaverse={metaverse}
+									coinPrices={prices}
+								/>
+							</div>
+							{/* Estimate accuracy */}
+							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+								<EstimateAccuracy metaverse={metaverse} coinPrices={prices} />
+							</div>
+							{/* Free Valuation */}
+							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+								{/* <FreeValuation /> */}
+							</div>
+						</div>
+
+						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 mb-10 nm-flat-hard">
+							<h3 className="lg:text-2xl text-xl text-grey-content font-plus mb-0 sm:mb-5">
+								Our Top Picks
+							</h3>
+							<TopPicksLands metaverse={metaverse} />
+						</div>
+						{/* <div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
+							<TopSellingLands metaverse={metaverse} />
+						</div> */}
+
+						<p className="text-xs sm:text-sm text-grey-content font-plus pt-96 px-10">
+							The MGH DAO does not provide, personalized investment
+							recommendations or advisory services. Any information provided
+							through the land evaluation tool and others is not, and should
+							not be, considered as advice of any kind and is for
+							information purposes only. That land is “valuated” does not
+							mean, that it is in any way approved, checked audited, and/or
+							has a real or correct value. In no event shall the MGH DAO be
+							liable for any special, indirect, or consequential damages, or
+							any other damages of any kind, including but not limited to
+							loss of use, loss of profits, or loss of data, arising out of
+							or in any way connected with the use of or inability to use
+							the Service, including without limitation any damages
+							resulting from reliance by you on any information obtained
+							from using the Service.
+						</p>
+
+					</Fade>
 				)}
-			</div>
-
-			{/* Daily Volume and Floor Price Wrapper */}
-			{metaverse && (
-				<Fade duration={600} className="w-full p-8">
-					<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 md:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
-						{/* Daily Volume */}
-						<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-							<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
-						</div>
-						{/* Floor Price */}
-						<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-							<FloorPriceTracker
-								metaverse={metaverse}
-								coinPrices={prices}
-							/>
-						</div>
-						{/* Estimate accuracy */}
-						<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-							<EstimateAccuracy metaverse={metaverse} coinPrices={prices} />
-						</div>
-						{/* Free Valuation */}
-						<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-							{/* <FreeValuation /> */}
-						</div>
-					</div>
-
-					<div className="rounded-3xl shadowDiv bg-grey-bone p-5 mb-10 nm-flat-hard">
-						<h3 className="lg:text-2xl text-xl text-grey-content font-plus mb-0 sm:mb-5">
-							Our Top Picks
-						</h3>
-						<TopPicksLands metaverse={metaverse} />
-					</div>
-					<div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
-						<TopSellingLands metaverse={metaverse} />
-					</div>
-
-					<p className="text-xs sm:text-sm text-grey-content font-plus pt-96 px-10">
-						The MGH DAO does not provide, personalized investment
-						recommendations or advisory services. Any information provided
-						through the land evaluation tool and others is not, and should
-						not be, considered as advice of any kind and is for
-						information purposes only. That land is “valuated” does not
-						mean, that it is in any way approved, checked audited, and/or
-						has a real or correct value. In no event shall the MGH DAO be
-						liable for any special, indirect, or consequential damages, or
-						any other damages of any kind, including but not limited to
-						loss of use, loss of profits, or loss of data, arising out of
-						or in any way connected with the use of or inability to use
-						the Service, including without limitation any damages
-						resulting from reliance by you on any information obtained
-						from using the Service.
-					</p>
-
-				</Fade>
-			)}
+			</GeneralSection>
 		</>
 	);
 };
