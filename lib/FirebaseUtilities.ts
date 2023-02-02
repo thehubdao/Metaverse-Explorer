@@ -62,7 +62,7 @@ export async function addLandToWatchList(
     address: string,
     metaverse: Metaverse
 ) {
-    const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
+    const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
 }
 
 // Remove Land from User's WatchList

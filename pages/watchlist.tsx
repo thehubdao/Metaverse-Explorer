@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { FaWallet } from 'react-icons/fa'
-
+import { Fade } from 'react-awesome-reveal'
 // web3auth functions
 import { useAccount, useConnect } from 'wagmi'
 import ConnectButton from '../components/ConnectButton'
@@ -11,6 +11,7 @@ import ConnectButton from '../components/ConnectButton'
 import OvalButton from '../components/General/Buttons/OvalButton'
 import GeneralSection from '../components/GeneralSection'
 import { MapInitMvChoice } from '../components/Heatmap'
+import Land from '../components/Watchlist/Land'
 import MetaverseCard from '../components/Watchlist/MetaverseCard'
 import SearchLandForm from '../components/Watchlist/SearchForm'
 import { Metaverse } from '../lib/metaverse'
@@ -34,30 +35,40 @@ const metaverseOptions = [
     {
         name: 'Sandbox',
         logo: '/images/the-sandbox-sand-logo.png',
+        key: 'sandbox',
     },
     {
         name: 'Decentraland',
         logo: '/images/decentraland-mana-logo.png',
+        key: 'decentraland',
     },
     {
         name: 'Somnium space',
         logo: '/images/somnium-space-cube-logo.webp',
+        key: 'somnium-space',
     },
 ]
 
 const Watchlist: NextPage = () => {
     const [metaverse, setMetaverse] = useState<Metaverse>()
-    const [watchList, setWatchList] = useState()
+    const [watchlist, setWatchlist] = useState<any>()
     const { address } = useAccount()
 
     useEffect(() => {
         const getWatchList = async () => {
-          const watchlistrequest = await axios.get(`${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`)
-          const watchlist = watchlistrequest.data
-          setWatchList(watchlist)
+            const watchlistRequest = await axios.get(
+                `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+            )
+            const watchlist = watchlistRequest.data
+            console.log(watchlist['somnium-space'])
+            setWatchlist(watchlist)
         }
         getWatchList()
     }, [])
+
+    useEffect(() => {
+        if (!metaverse) return
+    }, [metaverse])
 
     return (
         <>
@@ -73,15 +84,18 @@ const Watchlist: NextPage = () => {
                 optionList={headerList}
             >
                 {address ? (
+                    <div>
                     <div className="w-full flex flex-col justify-center items-center">
                         {/* Metaverse Card selector */}
                         <div className="flex flex-wrap gap-10 my-10">
                             {metaverseOptions.map((option) => {
                                 return (
                                     <MetaverseCard
+                                        key={option.key}
                                         currentMetaverse={metaverse}
                                         imageUrl={option.logo}
                                         label={option.name}
+                                        metaverseKey={option.key as Metaverse}
                                         setMetaverse={setMetaverse}
                                     />
                                 )
@@ -93,7 +107,35 @@ const Watchlist: NextPage = () => {
                             <SearchLandForm searchBy="tokenId" />
                             <SearchLandForm searchBy="coordinates" />
                         </div>
+                        
                     </div>
+                    <ul className="grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8">
+                            <Fade
+                                duration={400}
+                                className="w-full flex justify-center"
+                            >
+                                {metaverse &&
+                                    watchlist[metaverse] &&
+                                    Object.values(watchlist[metaverse]).map(
+                                        (land: any) => {
+                                            console.log(land)
+                                            return (
+                                                <li
+                                                    key={land.tokenId}
+                                                    className="w-full gray-box shadowNormal"
+                                                >
+                                                    <Land
+                                                        land={land}
+                                                        landId={land.tokenId}
+                                                        metaverse={metaverse}
+                                                    />
+                                                </li>
+                                            )
+                                        }
+                                    )}
+                            </Fade>
+                        </ul>
+                        </div>
                 ) : (
                     <div className="flex justify-center">
                         {/* Auth Button */}
