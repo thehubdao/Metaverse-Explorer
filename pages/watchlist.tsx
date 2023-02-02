@@ -15,7 +15,7 @@ import Land from '../components/Watchlist/Land'
 import MetaverseCard from '../components/Watchlist/MetaverseCard'
 import SearchLandForm from '../components/Watchlist/SearchForm'
 import { Metaverse } from '../lib/metaverse'
-import { removeLandFromWatchList } from '../lib/FirebaseUtilities'
+import { addLandToWatchList, removeLandFromWatchList } from '../lib/FirebaseUtilities'
 
 const headerList = [
     {
@@ -55,7 +55,14 @@ const Watchlist: NextPage = () => {
     const [watchlist, setWatchlist] = useState<any>()
     const { address } = useAccount()
 
-    const removeFromWatchlist = async (land: any, metaverse: Metaverse) => {
+    const addLand = async (land: any, metaverse: Metaverse) => {
+        await addLandToWatchList(land, address!, metaverse)
+        const newWatchlist = Object.assign({}, watchlist)
+        newWatchlist[metaverse][land.tokenId] = land
+        setWatchlist(newWatchlist)
+    }
+
+    const removeLand = async (land: any, metaverse: Metaverse) => {
         await removeLandFromWatchList(land, address!, metaverse)
         const newWatchlist = Object.assign({}, watchlist)
         delete newWatchlist[metaverse][land.tokenId]
@@ -71,13 +78,9 @@ const Watchlist: NextPage = () => {
     }
 
     useEffect(() => {
+        if (!address) return
         getWatchList()
-    }, [])
-
-    useEffect(() => {
-        if (!watchlist) return
-        console.log(watchlist, 'UPDATE')
-    }, [watchlist])
+    }, [address])
 
     return (
         <>
@@ -116,8 +119,8 @@ const Watchlist: NextPage = () => {
                             {/* Add land inputs */}
                             {metaverse && (
                                 <div className="flex w-full justify-center items-center gap-24">
-                                    <SearchLandForm searchBy="tokenId" />
-                                    <SearchLandForm searchBy="coordinates" />
+                                    <SearchLandForm searchBy="tokenId" metaverse={metaverse} addLand = {addLand}/>
+                                    <SearchLandForm searchBy="coordinates" metaverse={metaverse} addLand = {addLand}/>
                                 </div>
                             )}
                         </div>
@@ -130,7 +133,6 @@ const Watchlist: NextPage = () => {
                                     watchlist &&
                                     watchlist[metaverse] &&
                                     Object.values(watchlist[metaverse])
-                                        .filter((land) => land != null)
                                         .map((land: any) => {
                                             return (
                                                 <li
@@ -142,7 +144,7 @@ const Watchlist: NextPage = () => {
                                                         landId={land.tokenId}
                                                         metaverse={metaverse}
                                                         onTrashClick={
-                                                            removeFromWatchlist
+                                                            removeLand
                                                         }
                                                     />
                                                 </li>

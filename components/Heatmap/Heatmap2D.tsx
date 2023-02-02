@@ -18,6 +18,8 @@ import { Viewport } from 'pixi-viewport'
 import { Container } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
+import axios from 'axios'
+import { useAccount } from 'wagmi'
 
 let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
@@ -35,7 +37,7 @@ interface IHeatmap2D {
     name: string | undefined,
     owner: string | undefined
   ) => void
-  onClick: (land: ValuationTile | undefined, x: number, y: number) => void
+  onClick: (land: ValuationTile | undefined, x: number, y: number, watchlist:any) => void
   metaverse: Metaverse
   x: number | undefined
   y: number | undefined
@@ -67,6 +69,8 @@ const Heatmap2D = ({
   const [chunks, setChunks] = useState<any>({})
   const [metaverseData, setMetaverseData] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
+
+
 
   const CHUNK_SIZE = 32
   const TILE_SIZE = 64
@@ -147,6 +151,8 @@ const Heatmap2D = ({
     chunkContainer.addChild(rectangle)
     viewport.addChild(chunkContainer)
   }
+
+
 
   useEffect(() => {
     if (!metaverseData && !viewport) return

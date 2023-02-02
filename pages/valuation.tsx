@@ -174,7 +174,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		x?: number,
 		y?: number,
 		tokenId?: string,
-		isntFullScreen?: boolean
+		isntFullScreen?: boolean,
 	) => {
 		setCardData(undefined);
 		setMapState("loadingQuery");
@@ -211,7 +211,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		}
 		try {
 			if (!lands.name) throw "myException";
-			const landData = findHeatmapLand(
+			const landData:any = findHeatmapLand(
 				lands,
 				prices,
 				metaverse,

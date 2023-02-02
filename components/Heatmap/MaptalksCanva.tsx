@@ -27,7 +27,7 @@ interface IMaptalksCanva {
   legendFilter: LegendFilter
   x: number | undefined
   y: number | undefined
-  onClick: (land: ValuationTile, x: number, y: number) => void
+  onClick: (land: ValuationTile, x: number, y: number, watchlist:any) => void
   metaverse: Metaverse
 }
 
