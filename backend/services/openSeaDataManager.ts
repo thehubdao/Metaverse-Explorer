@@ -20,12 +20,13 @@ async function getEthExchangePrice() {
   return data_json
 }
 async function getEstimateAccuracyValues(collectionName:string) {
-  console.log("collection", collectionName)
-  if (collectionName === 'axie-infinity' || collectionName === 'somnium-space' ) {
+  let test='test';
+  if (collectionName === 'axie-infinity' ) {
     collectionName = '--'
   }
+  if (collectionName === 'somnium-space') test='' 
   const data = await fetch(
-    `https://services.itrmachines.com/test/${collectionName}/performance`
+    `https://services.itrmachines.com/${test}/${collectionName}/performance`
   )
   const data_json = await data.json()
   return data_json
