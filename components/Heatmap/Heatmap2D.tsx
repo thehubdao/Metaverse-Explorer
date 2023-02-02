@@ -15,9 +15,7 @@ import {
 } from '../../lib/heatmap/valuationColoring'
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
-import { io, Socket } from 'socket.io-client'
 import { Container } from 'pixi.js'
-import { DefaultEventsMap } from '@socket.io/component-emitter'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 
@@ -279,7 +277,7 @@ const Heatmap2D = ({
       if (currentSprite && !isDragging) {
         const x = currentSprite.landX,
           y = currentSprite.landY
-        currentTint = 4 * 0xff9990
+        /* currentTint = 4 * 0xff9990 */
         onClick(mapData[x + ',' + y], x, y * -1)
       }
     })
@@ -357,7 +355,7 @@ const Heatmap2D = ({
         style={{ width, height }}
       />
       <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader />
+        <Loader color='' size={200} />
       </div>
     </>
   )

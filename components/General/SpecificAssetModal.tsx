@@ -13,6 +13,7 @@ interface SpecificAssetModalProps {
   specificAssetSelected?: any
   handleSpecificAssetData: Function
   hiddenSearchBar?: boolean
+  hiddenOwner?: boolean
 }
 
 const ExternalButton = ({ text, icon, externalLink }: {
@@ -94,7 +95,8 @@ const SpecificAssetModal = ({
   specificAssetSelected,
   handleSpecificAssetData,
   collectionName,
-  hiddenSearchBar
+  hiddenSearchBar,
+  hiddenOwner
 }: SpecificAssetModalProps) => {
   const SteticTimeString = (historyTime: string) => {
     let timeStringArray = historyTime.split(' ')[0].split('-')
@@ -142,7 +144,7 @@ const SpecificAssetModal = ({
                     ? specificAssetSelected['name']
                     : `${collectionName.toUpperCase()} #${specificAssetSelected['tokenId']}`}
                 </p>
-                <p className="text-grey-content text-sm">Owned by {specificAssetSelected['history'].length > 0 ? specificAssetSelected['history'][specificAssetSelected['history'].length - 1]['buyer'] : 'someone'}</p>
+                {!hiddenOwner && <p className="text-grey-content text-sm">Owned by {specificAssetSelected['history'].length > 0 ? specificAssetSelected['history'][specificAssetSelected['history'].length - 1]['buyer'] : 'someone'}</p>}
               </div>
 
               {/* Box data section */}
