@@ -49,12 +49,12 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
     </>
   ) : (
     <>
-    <div className='flex flex-col'>
+    <div className='flex flex-col h-full'>
         <p className={`text-lg xl:text-xl font-medium text-grey-content font-plus mb-4`}>
           Estimate Accuracy:{' '}
         </p>
         <div
-          className='flex border-t border-l border-white/10 shadow-blck rounded-xl justify-between p-9 bg-grey-panel'
+          className='flex border-t border-l border-white/10 shadow-blck rounded-xl justify-between p-5 min-w-max h-full bg-grey-panel'
         >
           <div className="flex flex-col space-y-1">
             <p className={styleContent}>

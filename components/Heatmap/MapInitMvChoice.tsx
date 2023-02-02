@@ -39,7 +39,7 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
             onClick={() => setMetaverse(landKey)}
             className={`flex flex-col shadowMetaverse items-center justify-center space-y-2 rounded-xl cursor-pointer p-2 px-3 pt-4 w-[200px] h-[250px] group focus:outline-none nm-flat-hard hover:scale-105 transition ease-in-out duration-300 ${metaverse === landKey
               ? ' text-gray-200'
-              : ' hover:border-opacity-100  '
+              : ' hover:border-opacity-100 nm-flat-hard'
               }`}
           >
             <OptimizedImage
