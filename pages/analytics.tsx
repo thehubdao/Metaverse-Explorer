@@ -83,7 +83,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 <title>MGH | Analytics</title>
                 <meta name="description" content="Analytics Dashboard" />
             </Head>
-            <div className="w-full min-w-7xl py-8 xl:pt-0 bg-grey-lightest rounded-lg p-8 justify-center">
+            <div className="w-full min-w-7xl py-8 xl:pt-24 bg-grey-lightest rounded-lg p-8 justify-center">
                 {/* Main Header */}
                 {/* General Section Layout */}
                 <GeneralSection
