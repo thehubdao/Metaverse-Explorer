@@ -3,7 +3,7 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { FaWallet } from 'react-icons/fa'
-
+import { Fade } from 'react-awesome-reveal'
 // web3auth functions
 import { useAccount, useConnect } from 'wagmi'
 import ConnectButton from '../components/ConnectButton'
@@ -11,9 +11,11 @@ import ConnectButton from '../components/ConnectButton'
 import OvalButton from '../components/General/Buttons/OvalButton'
 import GeneralSection from '../components/GeneralSection'
 import { MapInitMvChoice } from '../components/Heatmap'
+import Land from '../components/Watchlist/Land'
 import MetaverseCard from '../components/Watchlist/MetaverseCard'
 import SearchLandForm from '../components/Watchlist/SearchForm'
 import { Metaverse } from '../lib/metaverse'
+import { addLandToWatchList, removeLandFromWatchList } from '../lib/FirebaseUtilities'
 
 const headerList = [
     {
@@ -34,30 +36,51 @@ const metaverseOptions = [
     {
         name: 'Sandbox',
         logo: '/images/the-sandbox-sand-logo.png',
+        key: 'sandbox',
     },
     {
         name: 'Decentraland',
         logo: '/images/decentraland-mana-logo.png',
+        key: 'decentraland',
     },
     {
         name: 'Somnium space',
         logo: '/images/somnium-space-cube-logo.webp',
+        key: 'somnium-space',
     },
 ]
 
 const Watchlist: NextPage = () => {
     const [metaverse, setMetaverse] = useState<Metaverse>()
-    const [watchList, setWatchList] = useState()
+    const [watchlist, setWatchlist] = useState<any>()
     const { address } = useAccount()
 
+    const addLand = async (land: any, metaverse: Metaverse) => {
+        await addLandToWatchList(land, address!, metaverse)
+        const newWatchlist = Object.assign({}, watchlist)
+        newWatchlist[metaverse][land.tokenId] = land
+        setWatchlist(newWatchlist)
+    }
+
+    const removeLand = async (land: any, metaverse: Metaverse) => {
+        await removeLandFromWatchList(land, address!, metaverse)
+        const newWatchlist = Object.assign({}, watchlist)
+        delete newWatchlist[metaverse][land.tokenId]
+        setWatchlist(newWatchlist)
+    }
+
+    const getWatchList = async () => {
+        const watchlistRequest = await axios.get(
+            `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+        )
+        const watchlist = watchlistRequest.data
+        setWatchlist(watchlist)
+    }
+
     useEffect(() => {
-        const getWatchList = async () => {
-          const watchlistrequest = await axios.get(`${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`)
-          const watchlist = watchlistrequest.data
-          setWatchList(watchlist)
-        }
+        if (!address) return
         getWatchList()
-    }, [])
+    }, [address])
 
     return (
         <>
@@ -73,26 +96,62 @@ const Watchlist: NextPage = () => {
                 optionList={headerList}
             >
                 {address ? (
-                    <div className="w-full flex flex-col justify-center items-center">
-                        {/* Metaverse Card selector */}
-                        <div className="flex flex-wrap gap-10 my-10">
-                            {metaverseOptions.map((option) => {
-                                return (
-                                    <MetaverseCard
-                                        currentMetaverse={metaverse}
-                                        imageUrl={option.logo}
-                                        label={option.name}
-                                        setMetaverse={setMetaverse}
-                                    />
-                                )
-                            })}
-                        </div>
+                    <div>
+                        <div className="w-full flex flex-col justify-center items-center">
+                            {/* Metaverse Card selector */}
+                            <div className="flex flex-wrap gap-10 my-10">
+                                {metaverseOptions.map((option) => {
+                                    return (
+                                        <MetaverseCard
+                                            key={option.key}
+                                            currentMetaverse={metaverse}
+                                            imageUrl={option.logo}
+                                            label={option.name}
+                                            metaverseKey={
+                                                option.key as Metaverse
+                                            }
+                                            setMetaverse={setMetaverse}
+                                        />
+                                    )
+                                })}
+                            </div>
 
-                        {/* Add land inputs */}
-                        <div className="flex w-full justify-center items-center gap-24">
-                            <SearchLandForm searchBy="tokenId" />
-                            <SearchLandForm searchBy="coordinates" />
+                            {/* Add land inputs */}
+                            {metaverse && (
+                                <div className="flex w-full justify-center items-center gap-24">
+                                    <SearchLandForm searchBy="tokenId" metaverse={metaverse} addLand = {addLand}/>
+                                    <SearchLandForm searchBy="coordinates" metaverse={metaverse} addLand = {addLand}/>
+                                </div>
+                            )}
                         </div>
+                        <ul className="grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8">
+                            <Fade
+                                duration={400}
+                                className="w-full flex justify-center"
+                            >
+                                {metaverse &&
+                                    watchlist &&
+                                    watchlist[metaverse] &&
+                                    Object.values(watchlist[metaverse])
+                                        .map((land: any) => {
+                                            return (
+                                                <li
+                                                    key={land.tokenId}
+                                                    className="w-full gray-box shadowNormal"
+                                                >
+                                                    <Land
+                                                        land={land}
+                                                        landId={land.tokenId}
+                                                        metaverse={metaverse}
+                                                        onTrashClick={
+                                                            removeLand
+                                                        }
+                                                    />
+                                                </li>
+                                            )
+                                        })}
+                            </Fade>
+                        </ul>
                     </div>
                 ) : (
                     <div className="flex justify-center">

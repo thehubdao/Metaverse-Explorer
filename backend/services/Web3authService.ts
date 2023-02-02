@@ -26,7 +26,7 @@ class Web3authService {
     public get getB2CRoles(): [any] | null {
         return this.B2CRoles
     }
-    public get getToken():string | null {
+    public get getToken(): string | null {
         return this.token
     }
 
@@ -53,7 +53,7 @@ class Web3authService {
         try {
             const web3authInit = new Web3Auth({
                 clientId,
-web3AuthNetwork:'cyan',
+                web3AuthNetwork: 'cyan',
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
                     chainId: '0x89',

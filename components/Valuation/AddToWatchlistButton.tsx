@@ -17,7 +17,6 @@ interface Props {
 
 const AddToWatchlistButton = ({ land, metaverse }: Props) => {
     const { address } = useAccount()
-console.log(land)
     const addToWatchList = async () => {
         if (!address) return
         await addLandToWatchList(land, address, metaverse)
