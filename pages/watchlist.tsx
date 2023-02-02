@@ -15,6 +15,7 @@ import Land from '../components/Watchlist/Land'
 import MetaverseCard from '../components/Watchlist/MetaverseCard'
 import SearchLandForm from '../components/Watchlist/SearchForm'
 import { Metaverse } from '../lib/metaverse'
+import { removeLandFromWatchList } from '../lib/FirebaseUtilities'
 
 const headerList = [
     {
@@ -54,21 +55,29 @@ const Watchlist: NextPage = () => {
     const [watchlist, setWatchlist] = useState<any>()
     const { address } = useAccount()
 
+    const removeFromWatchlist = async (land: any, metaverse: Metaverse) => {
+        await removeLandFromWatchList(land, address!, metaverse)
+        const newWatchlist = Object.assign({}, watchlist)
+        delete newWatchlist[metaverse][land.tokenId]
+        setWatchlist(newWatchlist)
+    }
+
+    const getWatchList = async () => {
+        const watchlistRequest = await axios.get(
+            `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+        )
+        const watchlist = watchlistRequest.data
+        setWatchlist(watchlist)
+    }
+
     useEffect(() => {
-        const getWatchList = async () => {
-            const watchlistRequest = await axios.get(
-                `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
-            )
-            const watchlist = watchlistRequest.data
-            console.log(watchlist['somnium-space'])
-            setWatchlist(watchlist)
-        }
         getWatchList()
     }, [])
 
     useEffect(() => {
-        if (!metaverse) return
-    }, [metaverse])
+        if (!watchlist) return
+        console.log(watchlist, 'UPDATE')
+    }, [watchlist])
 
     return (
         <>
@@ -85,40 +94,44 @@ const Watchlist: NextPage = () => {
             >
                 {address ? (
                     <div>
-                    <div className="w-full flex flex-col justify-center items-center">
-                        {/* Metaverse Card selector */}
-                        <div className="flex flex-wrap gap-10 my-10">
-                            {metaverseOptions.map((option) => {
-                                return (
-                                    <MetaverseCard
-                                        key={option.key}
-                                        currentMetaverse={metaverse}
-                                        imageUrl={option.logo}
-                                        label={option.name}
-                                        metaverseKey={option.key as Metaverse}
-                                        setMetaverse={setMetaverse}
-                                    />
-                                )
-                            })}
-                        </div>
+                        <div className="w-full flex flex-col justify-center items-center">
+                            {/* Metaverse Card selector */}
+                            <div className="flex flex-wrap gap-10 my-10">
+                                {metaverseOptions.map((option) => {
+                                    return (
+                                        <MetaverseCard
+                                            key={option.key}
+                                            currentMetaverse={metaverse}
+                                            imageUrl={option.logo}
+                                            label={option.name}
+                                            metaverseKey={
+                                                option.key as Metaverse
+                                            }
+                                            setMetaverse={setMetaverse}
+                                        />
+                                    )
+                                })}
+                            </div>
 
-                        {/* Add land inputs */}
-                        <div className="flex w-full justify-center items-center gap-24">
-                            <SearchLandForm searchBy="tokenId" />
-                            <SearchLandForm searchBy="coordinates" />
+                            {/* Add land inputs */}
+                            {metaverse && (
+                                <div className="flex w-full justify-center items-center gap-24">
+                                    <SearchLandForm searchBy="tokenId" />
+                                    <SearchLandForm searchBy="coordinates" />
+                                </div>
+                            )}
                         </div>
-                        
-                    </div>
-                    <ul className="grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8">
+                        <ul className="grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8">
                             <Fade
                                 duration={400}
                                 className="w-full flex justify-center"
                             >
                                 {metaverse &&
+                                    watchlist &&
                                     watchlist[metaverse] &&
-                                    Object.values(watchlist[metaverse]).map(
-                                        (land: any) => {
-                                            console.log(land)
+                                    Object.values(watchlist[metaverse])
+                                        .filter((land) => land != null)
+                                        .map((land: any) => {
                                             return (
                                                 <li
                                                     key={land.tokenId}
@@ -128,14 +141,16 @@ const Watchlist: NextPage = () => {
                                                         land={land}
                                                         landId={land.tokenId}
                                                         metaverse={metaverse}
+                                                        onTrashClick={
+                                                            removeFromWatchlist
+                                                        }
                                                     />
                                                 </li>
                                             )
-                                        }
-                                    )}
+                                        })}
                             </Fade>
                         </ul>
-                        </div>
+                    </div>
                 ) : (
                     <div className="flex justify-center">
                         {/* Auth Button */}
