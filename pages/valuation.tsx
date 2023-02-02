@@ -467,7 +467,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												setSelected(undefined);
 											} else {
 												const isntFullScreen = document.fullscreenElement ? false : true
-												
+
 												handleMapSelection(land, x, y, undefined, isntFullScreen);
 											}
 										}}
