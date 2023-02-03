@@ -37,7 +37,7 @@ interface IHeatmap2D {
     name: string | undefined,
     owner: string | undefined
   ) => void
-  onClick: (land: ValuationTile | undefined, x: number, y: number, watchlist:any) => void
+  onClick: (land: ValuationTile | undefined, x: number, y: number, watchlist: any) => void
   metaverse: Metaverse
   x: number | undefined
   y: number | undefined
@@ -69,8 +69,6 @@ const Heatmap2D = ({
   const [chunks, setChunks] = useState<any>({})
   const [metaverseData, setMetaverseData] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
-
-
 
   const CHUNK_SIZE = 32
   const TILE_SIZE = 64
@@ -283,8 +281,8 @@ const Heatmap2D = ({
       if (currentSprite && !isDragging) {
         const x = currentSprite.landX,
           y = currentSprite.landY
-        /* currentTint = 4 * 0xff9990 */
-        onClick(mapData[x + ',' + y], x, y * -1)
+        currentTint = 4 * 0xff9990
+        onClick(mapData[x + ',' + y], x, y * -1, undefined)
       }
     })
   }, [viewport])
@@ -325,8 +323,11 @@ const Heatmap2D = ({
 
   useEffect(() => {
     if (!x || !y) return
+
     try {
-      viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
+      document.fullscreenElement
+        ? viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
+        : 0
     } catch (e) {
       return
     }

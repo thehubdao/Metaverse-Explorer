@@ -25,7 +25,7 @@ interface Props {
     setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
     mapState: ValuationState
     name?: string
-    watchlist: any
+    watchlist?: any
 }
 
 const getExternalLink = (metaverse: Metaverse, dataTable: IAPIData) => {
@@ -58,19 +58,19 @@ const MapCard = ({
         predictions
     )
     const getWatchList = async () => {
-      const watchlistRequest = await axios.get(
-          `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
-      )
-  
-      const watchlist = watchlistRequest.data 
-         console.log(watchlist)
-      setWatchlist(watchlist)
-  }
-  
-  useEffect(() => {
-      if (!address) return
-      getWatchList()
-  }, [address])
+        const watchlistRequest = await axios.get(
+            `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+        )
+
+        const watchlist = watchlistRequest.data
+        console.log(watchlist)
+        setWatchlist(watchlist)
+    }
+
+    useEffect(() => {
+        if (!address) return
+        getWatchList()
+    }, [address])
 
     return errorQuery ? (
         <div className="gray-box bg-opacity-100 z-30">
@@ -82,7 +82,7 @@ const MapCard = ({
         <div className="gray-box scale-90 p-2 flex flex-col cursor-pointer max-w-sm font-plus text-grey-content items-start justify-between gap-2 bg-opacity-100 relative z-30 bg-grey-bone rounded-xl shadow-2xl">
             {loadingQuery ? (
                 <div className="w-full flex flex-col gap-14 absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
-                    <Loader />
+                    <Loader color='' size={200} />
                     <p className="text-lg font-semibold text-center text-grey-content">
                         Calculating
                     </p>
@@ -146,12 +146,12 @@ const MapCard = ({
                                     watchlist[metaverse][apiData?.tokenId] && (
                                         <p>Land in watchlist</p>
                                     )) ||
-                                    (address && watchlist && ( 
-                                      <div onClick={() =>getWatchList()}><AddToWatchlistButton
+                                    (address && watchlist && (
+                                        <div onClick={() => getWatchList()}><AddToWatchlistButton
                                             land={apiData}
                                             metaverse={apiData.metaverse}
                                         /></div>
-                                        
+
                                     ))}
                                 {/* External Links */}
                                 <nav className="flex flex-col md:gap-1 pb-1 pt-2 gap-[1.0rem] text-grey-content">
