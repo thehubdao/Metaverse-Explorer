@@ -81,7 +81,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
         <img
           src="/images/purchase_header.png"
           alt="purchase_header"
-          className={`object-fill flex w-full}`}
+          className={`object-fill flex w-full`}
         />
       </div>
 

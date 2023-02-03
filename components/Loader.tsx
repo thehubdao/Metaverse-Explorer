@@ -89,7 +89,7 @@ const Logo = () => {
 const Loader = ({ size, color }: { size: number, color: string }) => {
   return (
     <div className="w-full h-full flex items-center justify-center p-20">
-      <div className={`w-[${size}px] h-[${size}px]`}>
+      <div style={{ width: size, height: size }}>
         <Logo />
       </div>
     </div>

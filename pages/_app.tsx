@@ -29,6 +29,13 @@ Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [wagmiClient, setWagmiClient] = useState<any>()
+    const [loadingTimeout, setLoadingTimeout] = useState(false)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoadingTimeout(true)
+        }, 3000)
+    }, [])
 
     useEffect(() => {
         const initWagmi = async () => {
@@ -63,7 +70,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
         <>
-            {wagmiClient ? (
+            {wagmiClient && loadingTimeout ? (
                 <Provider store={store}>
                     <WagmiConfig client={wagmiClient}>
                         {/* Desktop View */}
@@ -79,9 +86,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                     </WagmiConfig>
                 </Provider>
             ) : (
-                <div className='flex flex-col w-full h-screen justify-center items-center'>
-                    <Loader size={400} color='' />
-                    <p className='font-bold'>We are connecting our web3 tools</p>
+                <div className='relative flex flex-col w-full h-screen justify-center items-center'>
+                    <div className='w-fit'>
+                        <Loader size={100} color='' />
+                    </div>
+                    <p className='absolute bottom-12 font-bold text-grey-content'>We are connecting our web3 tools</p>
                 </div>
             )}
         </>

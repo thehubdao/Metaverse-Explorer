@@ -56,9 +56,9 @@ export default function Sidebar({ list }: SidebarProps) {
   }, [parentRef.current])
 
   return (
-    <div className="bg-grey-sidebar">
+    <div className="bg-grey-dark relative">
       <Link href={"/valuation"}>
-        <div className="flex justify-center items-center h-[20vh]">
+        <div className="absolute w-full flex justify-center items-center top-6">
           <Image
             src="/images/mgh_logo.svg"
             width={58}
@@ -68,14 +68,16 @@ export default function Sidebar({ list }: SidebarProps) {
           />
         </div>
       </Link>
-      <div className="h-[80vh] overflow-y-scroll hidescroll pt-6 pb-10 relative" ref={parentRef}>
+      <div className="h-[15vh]" />
+      <div className="h-[70vh] flex justify-center items-center overflow-y-scroll hidescroll py-10 relative" ref={parentRef}>
         {parentDom && <ScrollBar parentDom={parentDom} />}
         <div className="flex flex-col space-y-4 items-center">
           {createMenu(list, router.pathname)}
         </div>
       </div>
-      <div className="w-full h-6 absolute top-[20vh] left-0 bg-gradient-to-b from-grey-sidebar pointer-events-none"></div>
-      <div className="w-full h-6 absolute bottom-0 left-0 bg-gradient-to-t from-grey-sidebar pointer-events-none"></div>
+      <div className="h-[15vh]" />
+      <div className="w-full h-6 absolute top-[15vh] left-0 bg-gradient-to-b from-grey-dark pointer-events-none"></div>
+      <div className="w-full h-6 absolute bottom-[15vh] left-0 bg-gradient-to-t from-grey-dark pointer-events-none"></div>
     </div>
   )
 }

@@ -22,9 +22,9 @@ function linkedButtons(optionList: OptionProps[]) {
       return (
         <Link key={option.name} href={`/${option.route}`}>
           {/* Oval Button */}
-          <div className={`${router.pathname == `/${option.route}` ? 'nm-inset-medium' : 'nm-flat-medium'} px-8 py-2 flex items-center justify-center rounded-3xl cursor-pointer`}>
-            <p className="pt-1 font-bold font-plus text-grey-content text-xl">
-              {formatName(option.name)}
+          <div className={`${router.pathname == `/${option.route}` ? 'nm-inset-medium' : 'nm-flat-medium border border-white'} px-8 py-2 flex items-center justify-center rounded-3xl cursor-pointer bg-grey-bone`}>
+            <p className="pt-1 font-bold font-plus text-grey-content text-base">
+              {formatName(option.name, true)}
             </p>
           </div>
         </Link>
@@ -40,7 +40,7 @@ export default function GeneralSection({ sectionTitle, optionList, children, bac
       <div className="px-8">
         <div className={`${backgroundClass} rounded-xl`}>
           {/* Menu Header */}
-          <div className="border-t border-l border-white/10 rounded-xl p-5 w-full bg-opacity-30; flex flex-col lg:flex-row justify-between items-center bg-grey-dark">
+          <div className="border-t border-l border-white/10 rounded-3xl p-5 w-full bg-opacity-30; flex flex-col lg:flex-row justify-between items-center bg-grey-dark">
             <h1 className="text-grey-content font-plus font-bold rounded-2xl lg:text-3xl text-3xl  mb-0">
               {sectionTitle}
             </h1>

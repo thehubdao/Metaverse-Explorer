@@ -109,7 +109,7 @@ export default function Layout({ children }: LayoutProps) {
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
 			{/* Page wrapper */}
-			<main className="w-full min-h-screen pl-24 relative">
+			<main className="w-full min-h-screen pl-32 relative">
 				<div className="absolute top-0 right-0 z-50">
 					<ConnectButton />
 				</div>
@@ -117,7 +117,7 @@ export default function Layout({ children }: LayoutProps) {
 			</main>
 
 			{/* Sidebar wrapper */}
-			<div className="fixed inset-0 w-24 overflow-hidden">
+			<div className="fixed inset-0 w-32 overflow-hidden">
 				<Sidebar list={list} />
 			</div>
 			{parentDom && <ScrollBar parentDom={parentDom} />}

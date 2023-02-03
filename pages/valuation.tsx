@@ -261,7 +261,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				<img
 					src="/images/purchase_header.png"
 					alt="purchase_header"
-					className={`object-fill flex w-full}`}
+					className={`object-fill flex w-full`}
 				/>
 			</div>
 
