@@ -28,6 +28,7 @@ import SpecificAssetModal from "../components/General/SpecificAssetModal";
 import { Loader } from "../components";
 import { Link } from "react-router-dom";
 import Image from "next/image";
+import Footer from "../components/General/Footer";
 
 interface nftCollectionProps {
 	num_owners: number;
@@ -283,8 +284,8 @@ export default function NftValuation() {
 									</div>
 								</div>
 								{/* Footer */}
-								<p className="text-grey-icon text-center text-xs p-20">
-									The MGH DAO does not provide, personalized investment
+								<Footer
+									label="The MGH DAO does not provide, personalized investment
 									recommendations or advisory services. Any information provided
 									through the land evaluation tool and others is not, and should not
 									be, considered as advice of any kind and is for information
@@ -296,8 +297,8 @@ export default function NftValuation() {
 									or loss of data, arising out of or in any way connected with the
 									use of or inability to use the Service, including without
 									limitation any damages resulting from reliance by you on any
-									information obtained from using the Service.
-								</p>
+									information obtained from using the Service."
+								/>
 							</>
 						) : (
 							<InitChoice title="Choose a NFT Collection">

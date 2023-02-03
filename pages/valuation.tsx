@@ -47,6 +47,7 @@ import { metaverseInitialCenter } from "../lib/valuation/valuationUtils";
 import EstimateAccuracy from "../components/Valuation/EstimateAccuracy";
 import FreeValuation from "../components/Valuation/FreeValuation";
 import GeneralSection from "../components/GeneralSection";
+import Footer from "../components/General/Footer";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -323,21 +324,21 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											metaverse={metaverse}
 											setMetaverse={setMetaverse}
 											opened={openMetaverseFilter}
-											onClick={() => {setOpenMapFilter(false), setOpenMetaverseFilter(!openMetaverseFilter), setOpenSearchFilter(false)}}
+											onClick={() => { setOpenMapFilter(false), setOpenMetaverseFilter(!openMetaverseFilter), setOpenSearchFilter(false) }}
 										/>
 										{/* Filter Selection */}
 										<MapChooseFilter
 											filterBy={filterBy}
 											setFilterBy={setFilterBy}
 											opened={openMapFilter}
-											onClick={() => {setOpenMapFilter(!openMapFilter), setOpenMetaverseFilter(false), setOpenSearchFilter(false)}}
+											onClick={() => { setOpenMapFilter(!openMapFilter), setOpenMetaverseFilter(false), setOpenSearchFilter(false) }}
 										/>
 
 										<MapSearch
 											mapState={mapState}
 											handleMapSelection={handleMapSelection}
 											opened={openSearchFilter}
-											onClick={() => {setOpenMapFilter(false), setOpenMetaverseFilter(false), setOpenSearchFilter(!openSearchFilter)}}
+											onClick={() => { setOpenMapFilter(false), setOpenMetaverseFilter(false), setOpenSearchFilter(!openSearchFilter) }}
 										/>
 									</div>
 
@@ -557,8 +558,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<TopSellingLands metaverse={metaverse} />
 						</div> */}
 
-						<p className="text-xs sm:text-sm text-grey-content font-plus pt-96 px-10">
-							The MGH DAO does not provide, personalized investment
+						<Footer
+							label="The MGH DAO does not provide, personalized investment
 							recommendations or advisory services. Any information provided
 							through the land evaluation tool and others is not, and should
 							not be, considered as advice of any kind and is for
@@ -571,8 +572,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							or in any way connected with the use of or inability to use
 							the Service, including without limitation any damages
 							resulting from reliance by you on any information obtained
-							from using the Service.
-						</p>
+							from using the Service."
+						/>
 
 					</Fade>
 				)}

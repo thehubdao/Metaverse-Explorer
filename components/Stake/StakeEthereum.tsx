@@ -1,6 +1,7 @@
 import { useAccount } from 'wagmi'
 
 import ConnectButton from "../ConnectButton"
+import Footer from '../General/Footer'
 
 const Card = ({ option }: { option: { title: string, apy: number, period: number } }) => {
   const { title, apy, period } = option
@@ -59,9 +60,9 @@ const StakeEthereum = () => {
       ) : <div className='w-fit'><ConnectButton /></div>}
 
       {/* Footer */}
-      <p className="text-grey-icon text-center text-xs py-20 px-48">
-        In bonded staking, your tokens are locked for the duration of an epoch. The first 7 days of each era are the deposit / withdrawal window. During these 7 days you can deposit and withdraw tokens from the previous epoch and the newly started one. No rewards are accumulated during this time. After 7 days, all tokens committed to the pools are locked for the rest of the epoch and rewards are accumulated, which can either be withdrawn in the first 7 days of the following epoch or automatically roll over to the following epochs. Staking Agreement
-      </p>
+      <Footer
+        label='In bonded staking, your tokens are locked for the duration of an epoch. The first 7 days of each era are the deposit / withdrawal window. During these 7 days you can deposit and withdraw tokens from the previous epoch and the newly started one. No rewards are accumulated during this time. After 7 days, all tokens committed to the pools are locked for the rest of the epoch and rewards are accumulated, which can either be withdrawn in the first 7 days of the following epoch or automatically roll over to the following epochs. Staking Agreement'
+      />
     </div>
   )
 }
