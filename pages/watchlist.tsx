@@ -55,6 +55,12 @@ const Watchlist: NextPage = () => {
     const [watchlist, setWatchlist] = useState<any>()
     const { address } = useAccount()
 
+    const MetaverseLabel = {
+        sandbox: 'Sandbox',
+        decentraland: 'Decentraland',
+        'somnium-space': 'Somnium space',
+    }
+
     const addLand = async (land: any, metaverse: Metaverse) => {
         await addLandToWatchList(land, address!, metaverse)
         const newWatchlist = Object.assign({}, watchlist)
@@ -104,7 +110,7 @@ const Watchlist: NextPage = () => {
                                     return (
                                         <MetaverseCard
                                             key={option.key}
-                                            currentMetaverse={metaverse}
+                                            currentMetaverse={metaverse ? MetaverseLabel[metaverse] : undefined}
                                             imageUrl={option.logo}
                                             label={option.name}
                                             metaverseKey={
@@ -119,8 +125,8 @@ const Watchlist: NextPage = () => {
                             {/* Add land inputs */}
                             {metaverse && (
                                 <div className="flex w-full justify-center items-center gap-24">
-                                    <SearchLandForm searchBy="tokenId" metaverse={metaverse} addLand = {addLand}/>
-                                    <SearchLandForm searchBy="coordinates" metaverse={metaverse} addLand = {addLand}/>
+                                    <SearchLandForm searchBy="tokenId" metaverse={metaverse} addLand={addLand} />
+                                    <SearchLandForm searchBy="coordinates" metaverse={metaverse} addLand={addLand} />
                                 </div>
                             )}
                         </div>

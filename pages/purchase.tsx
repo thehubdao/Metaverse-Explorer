@@ -23,6 +23,7 @@ import { Plans } from '../lib/enums'
 import { makeOwnProvider, typedKeys } from '../lib/utilities'
 import { useAppSelector } from '../state/hooks'
 import { AiFillCheckCircle } from 'react-icons/ai'
+import Footer from '../components/General/Footer'
 
 const features = [
   "Unlimited Valuations",
@@ -153,25 +154,25 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
           </div>
 
           <div className='bg-gray-50 rounded-xl flex flex-col p-5 shadow-lg'>
-            <img src="images/heatmap.png" className='h-96'/>
+            <img src="images/heatmap.png" className='h-96' />
           </div>
         </div>
 
-        <p className="text-grey-icon text-center text-xs p-20 pt-96">
-          The MGH DAO does not provide, personalized investment
-          recommendations or advisory services. Any information provided
-          through the land evaluation tool and others is not, and should not
-          be, considered as advice of any kind and is for information
-          purposes only. That land is “valuated” does not mean, that it is
-          in any way approved, checked audited, and/or has a real or correct
-          value. In no event shall the MGH DAO be liable for any special,
-          indirect, or consequential damages, or any other damages of any
-          kind, including but not limited to loss of use, loss of profits,
-          or loss of data, arising out of or in any way connected with the
-          use of or inability to use the Service, including without
-          limitation any damages resulting from reliance by you on any
-          information obtained from using the Service.
-        </p>
+        <Footer
+          label='The MGH DAO does not provide, personalized investment
+        recommendations or advisory services. Any information provided
+        through the land evaluation tool and others is not, and should not
+        be, considered as advice of any kind and is for information
+        purposes only. That land is “valuated” does not mean, that it is
+        in any way approved, checked audited, and/or has a real or correct
+        value. In no event shall the MGH DAO be liable for any special,
+        indirect, or consequential damages, or any other damages of any
+        kind, including but not limited to loss of use, loss of profits,
+        or loss of data, arising out of or in any way connected with the
+        use of or inability to use the Service, including without
+        limitation any damages resulting from reliance by you on any
+        information obtained from using the Service.'
+        />
 
       </div>
 
