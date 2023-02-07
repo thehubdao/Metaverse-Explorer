@@ -64,10 +64,10 @@ const HorizontalPriceCard = ({
         {/* Links and Info */}
         <div className='flex flex-col gap-6 md:gap-3'>
           {/* Name and Id */}
-          <div>
+          <div className='w-[250px]'>
             {/* Asset Name */}
-            <h3 className='text-3xl text-grey-icon min-w-max'>
-              {handleLandName(metaverse, land.coords)}
+            <h3 className='text-2xl text-grey-icon'>
+              {handleLandName(metaverse, land.coords, land.name)}
             </h3>
             {/* Asset ID */}
             <p className='text-base font-medium text-grey-content'>
