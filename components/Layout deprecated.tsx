@@ -5,9 +5,9 @@ import useConnectWeb3 from "../backend/connectWeb3";
 import { useAppSelector } from "../state/hooks";
 
 import NavItem from "./NavItem deprecated";
-import WalletButton from "./WalletButton";
+import WalletButton from "./WalletButton_deprecated";
 import SmallScreenToolbar from "./SmallScreenToolbar deprecated";
-import WalletModal from "./WalletModal";
+import WalletModal from "./WalletModal_deprecated";
 import NetworkButton from "./NetworkButton";
 import { OptimizedImage } from "./General";
 

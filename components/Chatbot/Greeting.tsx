@@ -3,7 +3,6 @@ import { useAccount, useConnect } from 'wagmi'
 
 import Button from "./Button"
 
-
 const Greeting = (props: any) => {
   const { connect, connectors } = useConnect()
   const { address } = useAccount()
