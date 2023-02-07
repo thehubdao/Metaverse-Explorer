@@ -92,7 +92,8 @@ export default function Layout({ children }: LayoutProps) {
 			icon: "i",
 		},
 		{
-			url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland",
+			/* url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland", */
+			url: '/avatar',
 			label: "EDIT AVATAR",
 			icon: "g",
 		},

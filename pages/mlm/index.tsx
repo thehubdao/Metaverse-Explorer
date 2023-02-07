@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import React, { useEffect } from "react";
-import  ConnectButton  from "../../components/ConnectButton"
+import ConnectButton from "../../components/ConnectButton"
 import { useAccount } from "wagmi";
 import { useCallback } from "react";
 import Particles from "react-tsparticles";
@@ -8,20 +8,32 @@ import { loadFull } from "tsparticles";
 
 import { ParticlesThree } from "../../lib/MLM/particles-config";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const Auth: NextPage = () => {
+  const commingSoon = true
+  
   const router = useRouter();
   const account = useAccount();
   const particlesInit = useCallback(async (engine: any) => {
     await loadFull(engine);
   }, []);
-  const particlesLoaded = useCallback(async (container: any) => {}, []);
+  const particlesLoaded = useCallback(async (container: any) => { }, []);
 
   useEffect(() => {
     if (account && account.isConnected) {
       router.push("/mlm/dashboard");
     }
   }, [account.isConnected]);
+
+  if (commingSoon) {
+    return (
+      <div className="flex justify-center items-center w-full h-screen gap-6">
+        <Image src='/images/mgh_logo.svg' width={100} height={100} />
+        <h2 className="font-bold text-xl">Coming soon!</h2>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -43,7 +55,7 @@ const Auth: NextPage = () => {
           </p>
           <div className="text-center text-black pl-[90px] pr-[90px]">
 
-          <ConnectButton />
+            <ConnectButton />
 
           </div>
         </div>
