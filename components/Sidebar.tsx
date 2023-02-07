@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ScrollBar from "./ScrollBar";
+import Tooltip from "@mui/material/Tooltip";
 
 interface ButtonProps {
   url: string
@@ -24,10 +25,11 @@ interface SidebarProps {
 function Button({ url, label, icon, active }: ButtonProps) {
   return (
     <Link href={url}>
-      <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium'} bg-white bg-opacity-60 cursor-pointer`}>
-        <div className="font-icons text-3xl">{icon}</div>
-        <div className="hidden text-sm">{label}</div>
-      </div>
+      <Tooltip title={label} placement="right">
+        <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium'} bg-white bg-opacity-60 cursor-pointer`}>
+          <div className="font-icons text-3xl">{icon}</div>
+        </div>
+      </Tooltip>
     </Link>
   )
 }
