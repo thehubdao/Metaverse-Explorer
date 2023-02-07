@@ -8,7 +8,7 @@ import { formatName } from '../../lib/utilities'
 import { LandsKey } from '../../lib/valuation/valuationTypes'
 import { WatchListState } from '../../pages/watchlist'
 import { OptimizedImage } from '../General'
-import WalletButton from '../WalletButton'
+import WalletButton from '../WalletButton_deprecated'
 
 interface Props {
   state: WatchListState

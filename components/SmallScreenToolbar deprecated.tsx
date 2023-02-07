@@ -5,7 +5,7 @@ import { MdClose } from "react-icons/md"
 
 import NavItem from './NavItem deprecated';
 import NetworkButton from "./NetworkButton"
-import WalletButton from "./WalletButton"
+import WalletButton from "./WalletButton_deprecated"
 
 
 const SmallScreenToolbar = ({ onWalletClick, disconnectWallet, web3Provider, chainId }: any) => {
