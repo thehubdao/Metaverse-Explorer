@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import React, { useContext, useEffect, useState } from 'react'
+import Image from "next/image";
 import GeneralSection from '../components/GeneralSection'
 import {
   apiTokenNames,
@@ -77,13 +78,14 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
       </Head>
 
       {/* Top Padding or Image */}
-      <div className={`relative p-0 mb-8 w-full`}>
-        <img
-          src="/images/purchase_header.png"
-          alt="purchase_header"
-          className={`object-fill flex w-full`}
-        />
-      </div>
+			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
+				<Image
+					src="/images/land_header.svg"
+					objectFit={'cover'}
+					alt='land header'
+					layout="fill"
+				/>
+			</div>
 
       <div className='flex flex-col space-y-10'>
         <h1 className='text-center md:text-4xl lg:text-5xl text-3xl green-text-gradient mb-8 mt-20'>
