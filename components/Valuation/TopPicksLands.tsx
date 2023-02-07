@@ -31,7 +31,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 				.then((response) => {
 					setPicks(response.data);
 					setLoading(false);
-					setNumberOfPages(Math.ceil(response.data.length) / pageLenght);
+					setNumberOfPages(Math.ceil(response.data.length / pageLenght));
 					setControlPageIndex(0);
 				})
 				.catch((error) => {

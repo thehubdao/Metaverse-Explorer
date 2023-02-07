@@ -554,9 +554,9 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							</h3>
 							<TopPicksLands metaverse={metaverse} />
 						</div>
-						{/* <div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
+						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
 							<TopSellingLands metaverse={metaverse} />
-						</div> */}
+						</div>
 
 						<Footer
 							label="The MGH DAO does not provide, personalized investment
