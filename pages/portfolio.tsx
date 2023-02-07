@@ -247,7 +247,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 						<div className="flex items-center justify-between p-8 space-x-20">
 							<div className="flex flex-col space-y-3 max-w-lg">
-								<p className="text-2xl">Description</p>
+								<p className="text-2xl font-semibold">Description</p>
 								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 							</div>
 							<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">

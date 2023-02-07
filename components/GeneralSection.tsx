@@ -22,7 +22,7 @@ function linkedButtons(optionList: OptionProps[]) {
       return (
         <Link key={option.name} href={`/${option.route}`}>
           {/* Oval Button */}
-          <div className={`${router.pathname == `/${option.route}` ? 'nm-inset-medium' : 'nm-flat-medium border border-white'} px-8 py-2 flex items-center justify-center rounded-3xl cursor-pointer bg-grey-bone`}>
+          <div className={`${router.pathname == `/${option.route}` ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft border border-white'} px-8 py-2 flex items-center justify-center rounded-3xl cursor-pointer bg-grey-bone transition ease-in-out duration-300`}>
             <p className="pt-1 font-bold font-plus text-grey-content text-base">
               {formatName(option.name, true)}
             </p>

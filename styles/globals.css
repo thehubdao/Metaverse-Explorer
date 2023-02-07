@@ -58,8 +58,8 @@ html {
   }
 
   .nm-flat-hard {
-    box-shadow: 6px 6px 12px #dadef0,
-      -6px -6px 12px #ffffff;
+    box-shadow: 15px 15px 30px #dadef0,
+      -15px -15px 30px #ffffff;
   }
 
   .nm-inset-soft {
@@ -68,8 +68,8 @@ html {
   }
 
   .nm-inset-medium {
-    box-shadow: inset 6px 6px 7px #dadef0,
-      inset -7px -4px 7px #ffffff;
+    box-shadow: inset 7px 4px 5px #dadef0,
+      inset -7px -4px 5px #ffffff;
   }
 
   .nm-inset-hard {
