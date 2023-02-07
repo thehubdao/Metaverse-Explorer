@@ -58,7 +58,7 @@ const PriceListSmall = ({ predictions, className, metaverse }: Props) => {
                   ? COINS[key][(metaverse + 'Prediction') as metaverseKey].name
                   : COINS[key].name
               }
-              className='animate-fade-in-slow flex gap-2  items-center w-full justify-start h-full'
+              className='flex gap-2 sitems-center w-full justify-start items-center h-full'
             >
               {/* Coin Image */}
               <img
@@ -71,7 +71,7 @@ const PriceListSmall = ({ predictions, className, metaverse }: Props) => {
                 loading='lazy'
               />
               {/* Coin Prediction Number */}
-              <p className='text-lg 2xl:text-xl font-medium font-plus text-grey-content pt-0.5'>
+              <p className='text-lg 2xl:text-xl font-bold font-plus text-grey-content pt-0.5'>
                 {predictions[key]?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
                 })}

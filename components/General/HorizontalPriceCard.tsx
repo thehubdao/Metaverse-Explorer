@@ -48,7 +48,7 @@ const HorizontalPriceCard = ({
   return (
 
     <div
-      className='flex justify-between relative nm-flat-medium rounded-lg bg-grey-bone space-x-3 min-w-max hover:nm-flat-soft cursor-pointer'
+      className='flex h-[300px] justify-between relative nm-flat-medium rounded-3xl bg-grey-bone space-x-3 min-w-max hover:nm-flat-soft cursor-pointer'
       onClick={() => { handleSpecificLandData(true, land) }}
     >
       {/* LEFT/TOP */}
@@ -59,24 +59,24 @@ const HorizontalPriceCard = ({
         layout='responsive'
       />
       {/* RIGHT/BOTTOM - PriceList */}
-      <div className='p-4 pr-7'>
+      <div className='flex flex-col justify-center p-7 pr-7 w-[400px]'>
 
         {/* Links and Info */}
         <div className='flex flex-col gap-6 md:gap-3'>
           {/* Name and Id */}
           <div>
             {/* Asset Name */}
-            <h3 className='text-base xs:text-xl  2xl:text-2xl lg:text-2xl md:text-lg text-gray-400 min-w-max'>
+            <h3 className='text-3xl text-grey-icon min-w-max'>
               {handleLandName(metaverse, land.coords)}
             </h3>
             {/* Asset ID */}
-            <p className='text-xs font-medium text-grey-content'>
+            <p className='text-base font-medium text-grey-content'>
               Token ID: {handleTokenID(landId)}
             </p>
           </div>
 
         </div>
-        <h4 className='border-none text-gray-400 text-sm pt-4'>Price Estimation:</h4>
+        <h4 className='border-none text-grey-icon text-sm pt-4'>Price Estimation:</h4>
         <PriceListSmall predictions={predictions} metaverse={metaverse} />
 
 
