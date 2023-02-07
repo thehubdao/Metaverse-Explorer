@@ -38,7 +38,7 @@ import { useAppSelector } from "../state/hooks";
 import { getUserNFTs } from "../lib/nftUtils";
 import useConnectWeb3 from "../backend/connectWeb3";
 import { Chains } from "../lib/chains";
-import { FullScreenButton } from "../components/General";
+import { FullScreenButton, OptimizedImage } from "../components/General";
 import { Metaverse } from "../lib/metaverse";
 import { findHeatmapLand } from "../lib/heatmap/findHeatmapLand";
 import Head from "next/head";
@@ -48,6 +48,7 @@ import EstimateAccuracy from "../components/Valuation/EstimateAccuracy";
 import FreeValuation from "../components/Valuation/FreeValuation";
 import GeneralSection from "../components/GeneralSection";
 import Footer from "../components/General/Footer";
+import Image from "next/image";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -256,12 +257,14 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					content="Land Valuation with our Custom Heatmap"
 				/>
 			</Head>
+
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 mb-8 w-full`}>
-				<img
-					src="/images/purchase_header.png"
-					alt="purchase_header"
-					className={`object-fill flex w-full`}
+			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
+				<Image
+					src="/images/land_header.svg"
+					objectFit={'cover'}
+					alt='land header'
+					layout="fill"
 				/>
 			</div>
 

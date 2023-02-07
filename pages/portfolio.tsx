@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import Image from "next/image";
 import { useAccount } from 'wagmi'
 
 import {
@@ -220,11 +221,12 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* {openModal && <WalletModal onDismiss={() => setOpenModal(false)} />} */}
 
 			{/* Top Padding or Image */}
-			<div className={`relative ${!isModalOpen ? "p-0 mb-8 w-full" : "pt-24"}`}>
-				<img
-					src="/images/purchase_header.png"
-					alt="purchase_header"
-					className={`${!isModalOpen ? "object-fill flex w-full" : "hidden"}`}
+			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
+				<Image
+					src="/images/land_header.svg"
+					objectFit={'cover'}
+					alt='land header'
+					layout="fill"
 				/>
 			</div>
 
