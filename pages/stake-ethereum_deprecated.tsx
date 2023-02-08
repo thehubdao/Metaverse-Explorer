@@ -9,7 +9,7 @@ import { stakeMGH, unstakeMGH } from '../backend/ethereumStaking';
 import useConnectWeb3 from '../backend/connectWeb3';
 import changeChain from '../backend/changeChain';
 
-import WalletModal from "../components/WalletModal"
+import WalletModal from "../components/WalletModal_deprecated"
 import TransactionModal from '../components/TransactionModal';
 import StakingPool from '../components/StakingPool';
 

@@ -43,60 +43,60 @@ html {
   /* Neomorphism Box Shadows */
 
   .nm-none {
-    box-shadow: 0px 0px 0px #cdcfd8,
+    box-shadow: 0px 0px 0px #dadef0,
       0px 0px 0px #ffffff;
   }
 
   .nm-flat-soft {
-    box-shadow: 2px 2px 4px #cdcfd8,
+    box-shadow: 2px 2px 4px #dadef0,
       -2px -2px 4px #ffffff;
   }
 
   .nm-flat-medium {
-    box-shadow: 4px 4px 8px #cdcfd8,
-      -4px -4px 8px #ffffff;
+    box-shadow: 7px 5px 7px #dadef0,
+      -7px -5px 7px #ffffff;
   }
 
   .nm-flat-hard {
-    box-shadow: 6px 6px 12px #cdcfd8,
-      -6px -6px 12px #ffffff;
+    box-shadow: 15px 15px 30px #dadef0,
+      -15px -15px 30px #ffffff;
   }
 
   .nm-inset-soft {
-    box-shadow: inset 2px 2px 4px #cdcfd8,
+    box-shadow: inset 2px 2px 4px #dadef0,
       inset -2px -2px 4px #ffffff;
   }
 
   .nm-inset-medium {
-    box-shadow: inset 4px 4px 8px #cdcfd8,
-      inset -4px -4px 8px #ffffff;
+    box-shadow: inset 7px 4px 5px #dadef0,
+      inset -7px -4px 5px #ffffff;
   }
 
   .nm-inset-hard {
-    box-shadow: inset 6px 6px 12px #cdcfd8,
+    box-shadow: inset 6px 6px 12px #dadef0,
       inset -6px -6px 12px #ffffff;
   }
 
   .nm-flat-inset-soft {
-    box-shadow: 2px 2px 4px #cdcfd8,
+    box-shadow: 2px 2px 4px #dadef0,
       -2px -2px 4px #ffffff,
-      inset 2px 2px 4px #cdcfd8,
+      inset 2px 2px 4px #dadef0,
       inset -2px -2px 4px #ffffff;
     border: 1px solid white;
   }
 
   .nm-flat-inset-medium {
-    box-shadow: 4px 4px 8px #cdcfd8,
-      -4px -4px 8px #ffffff,
-      inset 4px 4px 8px #cdcfd8,
+    box-shadow: 7px 5px 7px #dadef0,
+      -7px -5px 7px #ffffff,
+      inset 4px 4px 8px #dadef0,
       inset -4px -4px 8px #ffffff;
     border: 1px solid white;
   }
 
   .nm-flat-inset-hard {
-    box-shadow: 6px 6px 12px #cdcfd8,
+    box-shadow: 6px 6px 12px #dadef0,
       -6px -6px 12px #ffffff,
-      inset 6px 6px 12px #cdcfd8,
+      inset 6px 6px 12px #dadef0,
       inset -6px -6px 12px #ffffff;
     border: 1px solid white;
   }
