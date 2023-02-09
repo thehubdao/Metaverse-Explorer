@@ -212,6 +212,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		}
 		try {
 			if (!lands.name) throw "myException";
+			console.log(lands)
 			const landData: any = findHeatmapLand(
 				lands,
 				prices,
