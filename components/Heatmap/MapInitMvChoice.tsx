@@ -18,7 +18,7 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
   }
 
   return (
-    <div className='w-full h-full py-8 bg-[#f8f9fd] rounded-3xl'>
+    <div className='w-full h-full py-14 bg-[#f8f9fd] rounded-3xl'>
       {/* Title */}
       <h2 className='text-grey-content font-plus font-bold rounded-2xl lg:text-3xl text-2xl text-center my-8'>
         Choose a Metaverse

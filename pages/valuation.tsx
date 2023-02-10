@@ -305,7 +305,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 py-8 h-[85vh]">
+				<div className="relative mb-8 py-8 h-full">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
