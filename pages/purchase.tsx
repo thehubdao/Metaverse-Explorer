@@ -36,6 +36,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
         <title>MGH | Purchase</title>
         <meta name='description' content='Purchase VIP Status' />
       </Head>
+
       {
         selection
           ? (<div className="h-screen w-full flex justify-center items-center pt-24">
@@ -72,11 +73,12 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
           </div>)
           : (<>
             {/* Top Padding or Image */}
-            <div className={`relative p-0 mb-8 w-full`}>
-              <img
-                src="/images/purchase_header.png"
-                alt="purchase_header"
-                className={`object-fill flex w-full`}
+            <div className={`relative p-0 mb-8 w-full h-[400px]`}>
+              <Image
+                src="/images/land_header.svg"
+                objectFit={'cover'}
+                alt='land header'
+                layout="fill"
               />
             </div>
 
