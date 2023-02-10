@@ -28,18 +28,18 @@ interface Props {
 }
 
 const headerList = [
-	{
-		name: "Portfolio",
-		route: "portfolio",
-	},
-	{
-		name: "Watchlist",
-		route: "watchlist",
-	},
-	{
-		name: "Analytics",
-		route: "analytics",
-	},
+    {
+        name: "Portfolio",
+        route: "portfolio",
+    },
+    {
+        name: "Watchlist",
+        route: "watchlist",
+    },
+    {
+        name: "Analytics",
+        route: "analytics",
+    },
 ];
 
 const Analytics: NextPage<Props> = ({ prices }) => {
@@ -89,7 +89,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 <GeneralSection
                     sectionTitle="Analytics"
                     optionList={headerList}
-                    backgroundClass={``} 
+                    backgroundClass={``}
                     children={undefined}
                 />
                 {/* Wrapper Metaverse Buttons - MarketCap/Owners */}
@@ -102,16 +102,16 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 </div>
                 {/* Market Cap - Owners Land % */}
                 <div className="nm-flat-hard w-fit m-auto mb-16 flex flex-col justify-center text-base sm:text-lg font-medium text-grey-content font-plus whitespace-nowrap border-1 rounded-3xl">
-                        <p className="px-11 py-3.5 flex gap-1 justify-center">
-                            LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
-                            {loaded ? (
-                                richList?.pctParcels &&
-                                (richList.pctParcels * 100).toFixed() + '%'
-                            ) : (
-                                <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
-                            )}
-                        </p>
-                    </div>
+                    <p className="px-11 py-3.5 flex gap-1 justify-center">
+                        LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
+                        {loaded ? (
+                            richList?.pctParcels &&
+                            (richList.pctParcels * 100).toFixed() + '%'
+                        ) : (
+                            <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
+                        )}
+                    </p>
+                </div>
 
                 {/* Loader for Initial Fetch */}
                 {firstLoad ? (
@@ -121,6 +121,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     <ul className="grid grid-cols-2 gap-12 w-full mr-7 my-5 bg-[#F9FAFB]">
                         {/* Charts */}
                         {chartRoutes.map((element, index) => {
+                            console.log(element.route)
                             if (values[element.route])
                                 return (
                                     <li key={index} className='nm-flat-medium p-8 break-inside-avoid rounded-xl '>
@@ -128,10 +129,10 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                             <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
                                             <h3 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-2xl flex h-[70px] align-middle">
                                                 {element.label}{' '}
-                                                    <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
-                                                    <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">
-                                                        {element.description}
-                                                    </p>
+                                                <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
+                                                <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">
+                                                    {element.description}
+                                                </p>
                                             </h3>
                                         </div>
                                         <AnalyticsChart
