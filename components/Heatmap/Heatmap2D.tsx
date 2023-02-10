@@ -49,6 +49,15 @@ interface IHeatmap2D {
   initialY: number
 }
 
+const loadPhrases = [
+  'Did you know that there are 160 siloed virtual worlds in the metaverse?',
+  'The size of a single parcel in Decentraland is just 16x16 meters!',
+  'There are over 160,000 Sandbox LANDs',
+  'Somnium Space is the leading VR compatible metaverse currently available.',
+  'The term "metaverse" was first introduced in 1992 by sci-fi author Neal Stephenson in his novel Snow Crash.',
+  'A single parcel in the Sandbox metaverse measures a generous 96x96 meters.'
+]
+
 const Heatmap2D = ({
   width,
   height,
@@ -70,10 +79,22 @@ const Heatmap2D = ({
   const [metaverseData, setMetaverseData] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
+  function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
+  const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
+
   const CHUNK_SIZE = 32
   const TILE_SIZE = 64
   const BORDE_SIZE = 0
   const BLOCK_SIZE = CHUNK_SIZE * TILE_SIZE
+
+  useEffect(() => {
+    if (!isLoading) return
+    const intervalFunction = setInterval(() => {
+      setIndexLoading((prevIndex) => (prevIndex + 1) % loadPhrases.length)
+    }, 8 * 1000) // X seg * 1000ms
+
+    return () => clearInterval(intervalFunction)
+  }, [])
 
   const rgbToHex = (values: any) => {
     let a = values.split(',')
@@ -361,8 +382,9 @@ const Heatmap2D = ({
         className={`bg-white rounded-lg ${isLoading ? 'hidden' : 'block'}`}
         style={{ width, height }}
       />
-      <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
+      <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
         <Loader color='' size={200} />
+        <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>
   )
