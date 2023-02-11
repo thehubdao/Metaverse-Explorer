@@ -363,9 +363,9 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								</div>
 
-								<a href="/purchase" className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-full">
-									Unlock Premium Access
-								</a>
+								<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-full">
+									Unlimited access until Feb 28th
+								</p>
 
 
 								{/* Color Guide - Hides when MapCard is showing (only mobile) */}
