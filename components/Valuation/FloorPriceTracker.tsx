@@ -25,13 +25,13 @@ const FloorPriceTracker = ({ coinPrices, metaverse }: Props) => {
       setLoading(true)
       // Fetch Data from OpenSea
       const stats = await getCollectionData(metaverse)
-/*       if (metaverse === 'axie-infinity') {
-        // Fetch Data from Axie Market
-        try {
-          const floorPrice = Number(await getAxieFloorPrice())
-          stats.floor_price = floorPrice
-        } catch (error) { }
-      } */
+      /*       if (metaverse === 'axie-infinity') {
+              // Fetch Data from Axie Market
+              try {
+                const floorPrice = Number(await getAxieFloorPrice())
+                stats.floor_price = floorPrice
+              } catch (error) { }
+            } */
 
       if (metaverse === 'somnium-space') {
         // Fetch Data from Somnium Space floor price ITRM service
@@ -69,8 +69,8 @@ const FloorPriceTracker = ({ coinPrices, metaverse }: Props) => {
 
   return !predictions ? (
     <>
-      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel'>
-        <p className={`text-lg xl:text-xl font-medium text-grey-content font-plus`}>
+      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel h-full'>
+        <p className={`text-lg xl:text-xl font-medium text-grey-content font-plus h-full`}>
           We couldn't obtain floor price for the {formatName(metaverse)} lands
           collection. Check{' '}
           <a
@@ -86,16 +86,16 @@ const FloorPriceTracker = ({ coinPrices, metaverse }: Props) => {
     </>
   ) : (
     <>
-      <div>
+      <div className='flex flex-col h-full'>
         <p className={`text-lg xl:text-xl font-medium font-plus text-grey-content mb-4`}>
           Floor Price:{' '}
         </p>
-        <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel'>
+        <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel h-full'>
 
           <div
             className={
               (loading ? 'opacity-0' : 'opacity-100') +
-              ' transition-all duration-300'
+              ' transition-all duration-300 h-full'
             }
           >
             <PriceList predictions={predictions} metaverse={metaverse} />
