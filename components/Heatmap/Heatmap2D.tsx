@@ -217,7 +217,7 @@ const Heatmap2D = ({
         maxWidth: TILE_SIZE * 800,
         maxHeight: TILE_SIZE * 800,
       })
-      .zoom(TILE_SIZE * 800)
+      .zoom(TILE_SIZE * 200)
     /* .clamp({
         direction: 'all',
         underflow: 'center'
