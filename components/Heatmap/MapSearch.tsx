@@ -160,7 +160,7 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
                     onChange={(e) => setLandId(e.target.value)}
                     value={landId}
                     placeholder='14271'
-                    className='font-semibold border-gray-300 placeholder-gray-300 bg-transparent block w-[8.5rem] text-white p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl placeholder-opacity-75'
+                    className='font-light font-plus border-gray-300 shadowCoord placeholder-grey-content block w-[8.5rem]  text-grey-content p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                   />
                 )}
               </div>

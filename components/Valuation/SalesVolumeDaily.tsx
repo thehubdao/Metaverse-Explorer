@@ -21,11 +21,11 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
       setLoading(true)
       // Fetch Data from OpenSea
       const stats = await getCollectionData(metaverse)
-/*       if (metaverse === 'axie-infinity') {
-        // Fetch from Axie Market
-        const dailyVolume = Number(await getAxieDailyTradeVolume())
-        stats.one_day_volume = dailyVolume
-      } */
+      /*       if (metaverse === 'axie-infinity') {
+              // Fetch from Axie Market
+              const dailyVolume = Number(await getAxieDailyTradeVolume())
+              stats.one_day_volume = dailyVolume
+            } */
 
       const formattedMetaverse =
         metaverse === 'sandbox'
@@ -51,7 +51,7 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
 
   return !predictions ? (
     <>
-      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel'>
+      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel h-full'>
         <p className={`text-lg xl:text-xl font-medium text-grey-content`}>
           We couldn't obtain Daily Volume for the {formatName(metaverse)} lands
           collection. Check{' '}
@@ -68,23 +68,22 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
     </>
   ) : (
     <>
-    <div className='flex flex-col'>
+      <div className='flex flex-col h-full'>
         <p className={`text-lg xl:text-xl font-medium text-grey-content font-plus mb-4`}>
           Daily Volume:{' '}
         </p>
-      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel'>     
-
-        <div
-          className={
-            (loading ? 'opacity-0' : 'opacity-100') +
-            ' transition-all duration-300'
-          }
-        >
-          <PriceList predictions={predictions} metaverse={metaverse} />
+        <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel h-full'>
+          <div
+            className={
+              (loading ? 'opacity-0' : 'opacity-100') +
+              ' transition-all duration-300'
+            }
+          >
+            <PriceList predictions={predictions} metaverse={metaverse} />
+          </div>
         </div>
       </div>
-    </div>
-        
+
     </>
   )
 }

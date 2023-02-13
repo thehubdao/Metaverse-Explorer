@@ -45,10 +45,10 @@ import Head from "next/head";
 import { Heatmap2D } from "../components/Heatmap/index";
 import { metaverseInitialCenter } from "../lib/valuation/valuationUtils";
 import EstimateAccuracy from "../components/Valuation/EstimateAccuracy";
-import FreeValuation from "../components/Valuation/FreeValuation";
 import GeneralSection from "../components/GeneralSection";
 import Footer from "../components/General/Footer";
 import Image from "next/image";
+import HistoricalFloorPrice from "../components/Valuation/HistoricalFloorPrice";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -115,6 +115,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	}
 
 	const mapDivRef = useRef<HTMLDivElement>(null);
+
 	const [dims, setDims] = useState({
 		height: mapDivRef.current?.offsetWidth,
 		width: mapDivRef.current?.offsetWidth,
@@ -142,6 +143,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		const coords = { x, y };
 		setHovered({ coords, owner, name });
 	};
+
 	const getglobalData = async () => {
 		if (!metaverse) return;
 		try {
@@ -363,9 +365,9 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								</div>
 
-								<a href="/purchase" className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-full">
-									Unlock Premium Access
-								</a>
+								<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-full">
+									Unlimited access until Feb 28th
+								</p>
 
 
 								{/* Color Guide - Hides when MapCard is showing (only mobile) */}
@@ -491,21 +493,16 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div
-										ref={ref}
-										className="absolute bottom-2 right-8 flex flex-col gap-4"
-									>
-										<Fade duration={300}>
-											<MapCard
-												setIsVisible={setIsVisible}
-												metaverse={metaverse}
-												apiData={cardData?.apiData}
-												predictions={cardData?.predictions}
-												landCoords={cardData?.landCoords}
-												name={cardData?.name}
-												mapState={mapState}
-											/>
-										</Fade>
+									<div ref={ref} className="absolute bottom-2 right-8 flex flex-col gap-4">
+										<MapCard
+											setIsVisible={setIsVisible}
+											metaverse={metaverse}
+											apiData={cardData?.apiData}
+											predictions={cardData?.predictions}
+											landCoords={cardData?.landCoords}
+											name={cardData?.name}
+											mapState={mapState}
+										/>
 									</div>
 								)}
 
@@ -529,29 +526,39 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 				{/* Daily Volume and Floor Price Wrapper */}
 				{metaverse && (
-					<Fade duration={600} className="w-full p-8">
-						<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 xl:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
-							{/* Daily Volume */}
-							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+					<>
+						<div className="grid grid-cols-5 gap-2">
+							<div>
+								{/* Daily Volume */}
 								<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
 							</div>
-							{/* Floor Price */}
-							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+							<div>
+								{/* Floor Price */}
 								<FloorPriceTracker
 									metaverse={metaverse}
 									coinPrices={prices}
 								/>
 							</div>
-							{/* Estimate accuracy */}
-							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+							<div>
+								{/* Estimate accuracy */}
 								<EstimateAccuracy metaverse={metaverse} coinPrices={prices} />
 							</div>
-							{/* Free Valuation */}
-							<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								{/* <FreeValuation /> */}
+							<div className="col-span-2">
+								{/* Historic Floor Price */}
+								<HistoricalFloorPrice metaverse={metaverse} coinPrices={prices} />
+							</div>
+							<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 xl:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
+								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+								</div>
+								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+								</div>
+								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+								</div>
+								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
+									{/* <FreeValuation /> */}
+								</div>
 							</div>
 						</div>
-
 						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 mb-10 nm-flat-hard">
 							<h3 className="lg:text-2xl text-xl text-grey-content font-plus mb-0 sm:mb-5">
 								Our Top Picks
@@ -561,9 +568,11 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
 							<TopSellingLands metaverse={metaverse} />
 						</div>
+					</>
+				)}
 
-						<Footer
-							label="The MGH DAO does not provide, personalized investment
+				<Footer
+					label="The MGH DAO does not provide, personalized investment
 							recommendations or advisory services. Any information provided
 							through the land evaluation tool and others is not, and should
 							not be, considered as advice of any kind and is for
@@ -577,10 +586,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							the Service, including without limitation any damages
 							resulting from reliance by you on any information obtained
 							from using the Service."
-						/>
-
-					</Fade>
-				)}
+				/>
 			</GeneralSection>
 		</>
 	);
