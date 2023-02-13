@@ -13,7 +13,7 @@ const Home: NextPage = () => {
                 <meta name="description" content="Swap your MGH, become a liquidity provider by staking your tokens and access our data ecosytem." />
             </Head>
 
-            <div className="w-full flex flex-col items-center justify-start space-y-10 mt-8 xl:mt-0 pt-24">
+            <div className="w-full flex flex-col items-center justify-start space-y-10 mt-8 xl:mt-0">
 
                 <div className="flex flex-col items-start border-t border-l border-white/10  p-5 w-full bg-grey-dark bg-opacity-30 text-left shadowDiv">
                     <h2 className="text-grey-content font-normal font-plus rounded-2xl">Leverage the MetaGameHub<br /> DeFi Ecosystem</h2>

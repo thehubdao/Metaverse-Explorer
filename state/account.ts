@@ -7,7 +7,6 @@ const initialState: AccountState = {
   address: undefined,
   chainId: 1,
   role: undefined,
-  web3auth: null
 }
 
 export const accountSlice = createSlice({
@@ -29,14 +28,11 @@ export const accountSlice = createSlice({
     setRole: (state, { payload }) => {
       state.role = payload
     },
-    setWeb3auth: (state, { payload }) => {
-      state.web3auth = payload
-    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { connect, disconnect, setChain, setAddress, setRole, setWeb3auth } =
+export const { connect, disconnect, setChain, setAddress, setRole } =
   accountSlice.actions
 
 export default accountSlice.reducer

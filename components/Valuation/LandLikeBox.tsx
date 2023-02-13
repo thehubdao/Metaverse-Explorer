@@ -121,7 +121,7 @@ const LandLikeBox = ({ landId, metaverse, twitterLink }: Props) => {
           onClick={like}
           role='button'
           className={
-            'h-8  w-8 hover:text-green-500 transition-all' +
+            'h-8 md:h-10 w-8 md:w-10 hover:text-green-500 transition-all' +
             (userReacted.liked ? 'text-green-500' : '')
           }
         />
@@ -136,7 +136,7 @@ const LandLikeBox = ({ landId, metaverse, twitterLink }: Props) => {
           onClick={dislike}
           role='button'
           className={
-            'h-8 w-8 hover:text-red-500 transition-all' +
+            'h-8 md:h-10 w-8 md:w-10 hover:text-red-500 transition-all' +
             (userReacted.disliked && 'text-red-500')
           }
         />

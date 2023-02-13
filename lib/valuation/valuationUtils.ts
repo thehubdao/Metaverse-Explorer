@@ -18,8 +18,8 @@ export const metaverseInitialCenter = {
         maxY: 0,
         minX: 0,
         minY: 0,
-        initialX: 9,
-        initialY: -28,
+        initialX: 62,
+        initialY: 204,
     },
     decentraland: {
         maxX: 0,
@@ -255,7 +255,7 @@ export const getAxieDailyTradeVolume = async () => {
 }
 
 export const fetchLandList = async (metaverse: Metaverse, lands: string[]) => {
-    let link = `${process.env.ITRM_SERVICE}${metaverse == "somnium-space" || /* metaverse == "axie-infinity"  */ false ? "" : "/test"}/${metaverse}/${/* metaverse == "axie-infinity"  */ false ? "predict" : "map"}?tokenId=`
+    let link = `${process.env.ITRM_SERVICE}${metaverse == "somnium-space" || metaverse == "axie-infinity" ? "" : "/test"}/${metaverse}/${metaverse == "axie-infinity" ? "predict" : "map"}?tokenId=`
     lands.forEach((land, i) => {
         link = link + land + (i !== lands.length - 1 ? ',' : '')
     })

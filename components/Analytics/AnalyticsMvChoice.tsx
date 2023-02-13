@@ -12,22 +12,22 @@ const AnalyticsMvChoice = ({ metaverse, setMetaverse }: Props) => {
   const mvOptions = {
     sandbox: { logo: '/images/the-sandbox-sand-logo.png' },
     decentraland: { logo: '/images/decentraland-mana-logo.png' },
-    /* 'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' }, */
+    'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' },
     'somnium-space': { logo: '/images/somnium-space-cube-logo.webp'}
   }
   return (
     <div className='w-full h-full p-2'>
       {/* Metaverse Buttons */}
-      <div className='nm-insert-hard flex justify-center gap-5 sm:gap-8'>
+      <div className='flex justify-center gap-2 sm:gap-4'>
         {typedKeys(mvOptions).map((landKey) => (
           <button
             key={landKey}
             onClick={() => setMetaverse(landKey)}
-            className={`flex flex-col items-center justify-center space-y-2 rounded-xl cursor-pointer p-2 px-3 pt-4 md:w-40 md:h-[12rem] w-30 h-32 group focus:outline-none ${
+            className={`flex flex-col items-center justify-center space-y-2 rounded-xl cursor-pointer p-2 px-3 pt-4 md:w-30 md:h-[9.7rem] w-24 h-24 group focus:outline-none ${
               metaverse === landKey
-                ? 'border-opacity-20 nm-inset-medium'
-                : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
-            } border border-gray-400 focus:nm-inset-medium transition duration-300 ease-in-out`}
+                ? 'border-opacity-100 text-gray-200'
+                : 'border-opacity-40 hover:border-opacity-100 text-gray-400 hover:text-gray-200'
+            } border border-gray-400 focus:border-opacity-100 transition duration-300 ease-in-out`}
           >
             <OptimizedImage
               src={mvOptions[landKey].logo}

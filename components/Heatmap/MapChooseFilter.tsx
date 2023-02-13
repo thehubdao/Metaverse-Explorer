@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Fade, FadeProps } from 'react-awesome-reveal'
+import { Fade } from 'react-awesome-reveal'
 import { BiTargetLock, BiTransferAlt, BiBullseye } from 'react-icons/bi'
 import { FiMap } from 'react-icons/fi'
 import { IoIosArrowDown } from 'react-icons/io'
@@ -13,15 +13,13 @@ import { useAppSelector } from '../../state/hooks'
 interface Props {
   filterBy: MapFilter
   setFilterBy: React.Dispatch<React.SetStateAction<MapFilter>>
-  onClick: () => void
-  opened: boolean
 }
 
-const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
+const MapChooseFilter = ({ filterBy, setFilterBy }: Props) => {
   const { role } = useAppSelector((state) => state.account)
   const isPremium = true // This will be replaced with role when we release this feature.
   const [openModal, setOpenModal] = useState(false);
-  // const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(false)
   const filterOptions = {
     basic: {
       name: 'Basic',
@@ -48,7 +46,7 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
       description: 'This filter only shows the listed LANDs and their respective price estimation. green = low price estimation, red = high price estimation'
     },
     price_difference: {
-      name: 'Listing Price',
+      name: 'Price Difference',
       shortName: undefined,
       icon: <MdAttachMoney />,
       description: 'This filter only shows the listed LANDs and their respective price estimation in relation to the listed price. green = undervalued red = overvalued'
@@ -86,43 +84,61 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
   return (
     <div>
       {/* Filter Button + Name */}
-
+      
       <button
-        onClick={() => onClick()}
+        onClick={() => setOpened(!opened)}
+        className='h-16 gray-box bg-grey-bone mb-2 items-center w-96 tracking-wider font-plus font-medium text-grey-content hover:text-[#7c7b7b] flex justify-between cursor-pointer transition-all'
       >
         {/* Icon */}
-        <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
+        <span className='hidden sm:block text-lg'>
           {filterOptions[filterBy].icon}
         </span>
 
+        {/* Name */}
+        <p className='hidden sm:block'>
+          {filterOptions[filterBy].shortName ?? filterOptions[filterBy].name}
+        </p>
+        {/* Mobile Name */}
+        <p className='block sm:hidden'>Stats</p>
+        {/* Down/Up Arrow */}
+
+        <IoIosArrowDown
+          className={
+            (isPremium ? '' : 'opacity-0 ') +
+            (opened ? 'rotate-180 ' : '') +
+            'transition-all duration-500 relative bottom-[1px]'
+          }
+        />
       </button>
       {/* FilterOptions */}
+      <div
+        className={(opened && 'mb-1 md:mb-0') + 'md:absolute flex flex-col gap-2'}
+      >
+        {opened &&
+          isPremium &&
+          typedKeys(filterOptions).map(
+            (filter) =>
+              filter !== filterBy && (
+                <Fade duration={500} key={filter} direction='down'>
+                  <button
+                    className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] w-96 text-sm md:text-base'
+                    onClick={() => {
+                      setFilterBy(filter)
+                      setOpened(false)
+                    }} 
 
-      {opened &&
-        <div className={`flex flex-col space-y-4 md:absolute bg-grey-bone rounded-xl rounded-tl-none p-3 pt-5`}>
-          {isPremium &&
-            typedKeys(filterOptions).map(
-              (filter) =>
-                filter !== filterBy && (
-                  <div key={filter}>
-                    <button
-                      className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
-                      onClick={() => {
-                        setFilterBy(filter)
-                        onClick()
-                      }}
+                  >
+                    {filterOptions[filter].icon}
+                    <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
+                      {filterOptions[filter].name}
+                    </span>
 
-                    >
-                      {filterOptions[filter].icon}
-                      <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
-                        {filterOptions[filter].name}
-                      </span>
-                    </button>
-                  </div>
-                )
-            )}
-        </div>}
-
+                    
+                  </button>
+                </Fade>
+              )
+          )}
+      </div>
     </div>
   )
 }

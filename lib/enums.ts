@@ -16,20 +16,6 @@ export enum Provider {
   WEB3AUTH = 'web3auth'
 }
 
-export enum Plans {
-  BASIC = "Basic",
-  PREMIUM = "Premium",
-  PRO = "Pro"
-}
-
-export enum Metaverses {
-  ALL = "All Lands",
-  SANDBOX = "Sandbox",
-  DECENTRALAND = "Decentraland",
-  // AXIE = "Axie Infinity",
-  SOMNIUM = "Somnium Space"
-}
-
 // Commenting this out to use type from ./metaverse.ts If not we are constantly having to write "as Metaverse" when using this enum
 // export enum Metaverse {
 //     SANDBOX = "sandbox",

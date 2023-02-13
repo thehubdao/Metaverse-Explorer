@@ -44,5 +44,4 @@ export interface SingleLandAPIResponse {
     y: number
   }
   owner: string
-  name?: string
 }

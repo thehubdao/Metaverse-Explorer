@@ -1,125 +1,782 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
- */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('chatbot.css') all;
-
-/* Z - index */
-/* MobileControl 99 */
-
-html::-webkit-scrollbar {
-  display: none;
-}
-
-html {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-
 @layer base {
+  
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 100;
+    src: url("./fonts/Montserrat/Montserrat-Thin.ttf");
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 300;
+    src: url("./fonts/Montserrat/Montserrat-Light.ttf");
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    src: url("./fonts/Montserrat/Montserrat-Regular.ttf");
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    src: url("./fonts/Montserrat/Montserrat-SemiBold.ttf");
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    font-weight: 800;
+    src: url("./fonts/Montserrat/Montserrat-Bold.ttf");
+  }
+
+  .scrollbar--y::-webkit-scrollbar {
+    width: 8px;
+    height: 20px;
+  }
+
+  .scrollbar--x::-webkit-scrollbar {
+    width: 20px;
+    height: 8px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #F8F9FA;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #D9D9D9;
+    border-radius: 100vh;
+    border: 3px solid #D9D9D9;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #D9D9D9;
+  }
+
+  @font-face {
+    font-family: 'Alterwave';
+    font-weight: 400;
+    src: url('./fonts/Alterwave/Alterwave-Thin.ttf');
+  }
+  @font-face {
+    font-family: 'Alterwave';
+    font-weight: 500;
+    src: url('./fonts/Alterwave/Alterwave-Light.ttf');
+  }
+  @font-face {
+    font-family: 'Alterwave';
+    font-weight: 600;
+    src: url('./fonts/Alterwave/Alterwave-Regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'PlusJakartaSans';
+    font-weight: 200;
+    src: url('./fonts/PlusJacarta/PlusJakartaSans-ExtraLight.ttf');
+  }
+  @font-face {
+    font-family: 'PlusJakartaSans';
+    font-weight: 300;
+    src: url('./fonts/PlusJacarta/PlusJakartaSans-Light.ttf');
+  }
+  @font-face {
+    font-family: 'PlusJakartaSans';
+    font-weight: 400;
+    src: url('./fonts/PlusJacarta/PlusJakartaSans-Regular.ttf');
+  }
+  @font-face {
+    font-family: 'PlusJakartaSans';
+    font-weight: 700;
+    src: url('./fonts/PlusJacarta/PlusJakartaSans-Bold.ttf');
+  }
+
+
+  @font-face {
+    font-family: 'LighPlusJakartaSansters';
+    font-weight: 400;
+    src: url('./fonts/Lighters-Regular.ttf');
+  }
+
   @font-face {
     font-family: 'iconSet1';
-    src: url('/fonts/fonts-icons/iconSet01.ttf');
+    src: url('./fonts/fonts-icons/iconSet01.ttf');
   }
 
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  .hidescroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  .hidescroll {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-  }
-
-  /* Neomorphism Box Shadows */
-
-  .nm-none {
-    box-shadow: 0px 0px 0px #dadef0,
-      0px 0px 0px #ffffff;
-  }
-
-  .nm-flat-soft {
-    box-shadow: 2px 2px 4px #dadef0,
-      -2px -2px 4px #ffffff;
-  }
-
-  .nm-flat-medium {
-    box-shadow: 7px 5px 7px #dadef0,
-      -7px -5px 7px #ffffff;
-  }
-
-  .nm-flat-hard {
-    box-shadow: 15px 15px 30px #dadef0,
-      -15px -15px 30px #ffffff;
-  }
-
-  .nm-inset-soft {
-    box-shadow: inset 2px 2px 4px #dadef0,
-      inset -2px -2px 4px #ffffff;
-  }
-
-  .nm-inset-medium {
-    box-shadow: inset 7px 4px 5px #dadef0,
-      inset -7px -4px 5px #ffffff;
-  }
-
-  .nm-inset-hard {
-    box-shadow: inset 6px 6px 12px #dadef0,
-      inset -6px -6px 12px #ffffff;
-  }
-
-  .nm-flat-inset-soft {
-    box-shadow: 2px 2px 4px #dadef0,
-      -2px -2px 4px #ffffff,
-      inset 2px 2px 4px #dadef0,
-      inset -2px -2px 4px #ffffff;
-    border: 1px solid white;
-  }
-
-  .nm-flat-inset-medium {
-    box-shadow: 7px 5px 7px #dadef0,
-      -7px -5px 7px #ffffff,
-      inset 4px 4px 8px #dadef0,
-      inset -4px -4px 8px #ffffff;
-    border: 1px solid white;
-  }
-
-  .nm-flat-inset-hard {
-    box-shadow: 6px 6px 12px #dadef0,
-      -6px -6px 12px #ffffff,
-      inset 6px 6px 12px #dadef0,
-      inset -6px -6px 12px #ffffff;
-    border: 1px solid white;
-  }
 }
 
 :root {
-  --font-iconSet1: 'iconSet1';
+  --font-iconSet1: 'iconSet1'; 
 }
 
-/*Remove inner & outer spin-button for input number*/
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
+.nav-link__icon {
+  font-family: var(--font-iconSet1);
+  font-size: 1.8rem;
+}
+.nav-item {
+  @apply transform hover:scale-110 transition-all duration-500 ease-in-out hover:text-blue-400;
+}
+
+.nav-item-selected {
+  @apply hidden lg:block pb-1 text-xl font-medium bg-transparent;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+}
+div
+.menu a {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.menu a .span-layout {
+  transition: transform 0.2s ease-out;
+}
+
+.menu a .span-layout:first-child {
+  display: inline-block;
+  padding: 8px;
+}
+
+.menu a .span-layout:last-child {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-100%);
+}
+
+.menu a:hover .span-layout:first-child {
+  transform: translateY(100%);
+}
+
+.menu a:hover .span-layout:last-child,
+.menu[data-animation] a:hover .span-layout:last-child {
+  transform: none;
+}
+
+.menu[data-animation="to-right"] a .span-layout:last-child {
+  transform: translateX(-100%);
+}
+
+.menu[data-animation="to-right"] a:hover .span-layout:first-child {
+  transform: translateX(100%);
+}
+
+
+
+.social-media-icon {
+  @apply text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl text-gray-200 transform hover:scale-125 transition duration-300 ease-in-out;
+}
+
+.button {
+  @apply text-center rounded-full px-4 sm:px-6 py-1.5 sm:py-2 bg-gray-400 bg-opacity-10 transform hover:scale-105 transition duration-300 ease-in-out hover:shadow-button sm:hover:shadow-color border border-white border-opacity-20 hover:border-opacity-70 cursor-pointer;
+}
+
+.button-text {
+  @apply text-gray-300 font-medium mt-0.5 text-base;
+}
+
+.long-text {
+  @apply text-gray-400 text-base lg:text-lg xl:text-xl max-w-md lg:max-w-2xl;
+}
+
+.short-text {
+  @apply text-gray-400 z-10;
+}
+
+.toolbar-top {
+  @apply z-50 p-5 top-5 fixed w-11/12 text-gray-200 rounded-2xl bg-white transition-all duration-500 bg-opacity-20;
+}
+
+.toolbar-scroll {
+  @apply z-50 p-5 top-0 fixed w-11/12 text-gray-200 rounded-b-2xl bg-white transition-all duration-500 bg-opacity-20 backdrop-filter backdrop-blur-3xl;
+}
+
+.toolbar-top-small {
+  @apply p-5 top-0 fixed w-full text-gray-200 bg-white bg-opacity-20 backdrop-filter backdrop-blur-3xl;
+}
+
+/* .logo {
+  transform: rotateY(180deg);
+} */
+
+.logo {
+  animation: rotation 1.5s infinite linear;
+}
+
+.neonText {
+  color: #fff;
+  animation: neon 0.08s ease-in-out infinite alternate;
+}
+@keyframes neon {
+  from {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.92),
+      0 0 30px rgba(202, 228, 225, 0.34), 0 0 12px rgba(30, 132, 242, 0.52),
+      0 0 21px rgba(30, 132, 242, 0.92), 0 0 34px rgba(30, 132, 242, 0.78),
+      0 0 54px rgba(30, 132, 242, 0.92);
+  }
+  to {
+    text-shadow: 0 0 6px rgba(202, 228, 225, 0.98),
+      0 0 30px rgba(202, 228, 225, 0.42), 0 0 12px rgba(30, 132, 242, 0.58),
+      0 0 22px rgba(30, 132, 242, 0.84), 0 0 38px rgba(30, 132, 242, 0.88),
+      0 0 60px rgba(30, 132, 242, 1);
+  }
+}
+
+@keyframes rotation {
+  100% {
+    transform: rotatey(360deg);
+  }
+}
+
+html {
+  @apply bg-black;
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* 
-input[type=checkbox]{
-  width: 20px;
-  height: 20px;
-  border-radius: 9px;
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
-input[type=checkbox]:checked {
-  background: green;
+h1 {
+  @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-medium py-3;
+}
+
+h2 {
+  @apply text-3xl xs:text-4xl lg:text-5xl xl:text-6xl font-medium pt-0 sm:pt-3 pb-3;
+}
+
+h3 {
+  @apply text-2xl sm:text-4xl font-medium py-3;
+}
+
+h4 {
+  @apply text-gray-200 text-xl mb-3 z-10 border-b max-w-max;
+}
+
+h6 {
+  @apply text-3xl xs:text-4xl  sm:text-5xl lg:text-6xl font-lighters py-2;
+}
+
+.hoverlift {
+  transition: all 0.3s ease !important;
+}
+
+.hoverlift:hover {
+  transform: translateY(-4px) !important;
+}
+
+.gray-box {
+  @apply border-t border-l border-white/10 shadow-dark rounded-3xl p-5 w-full bg-grey-bone bg-opacity-30;
+}
+
+.text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-br from-pink-500 via-blue-400 to-blue-500;
+}
+.reverse-text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-br from-blue-500 via-pink-500 to-pink-500;
+}
+
+.green-text-gradient {
+  @apply text-transparent bg-clip-text bg-gradient-to-b from-blue-500 via-green-400 to-green-500;
+}
+.progress-ring__circle {
+  stroke-dashoffset: 250;
+  stroke-dasharray: 500 500;
+}
+
+.fa-thumbs-down {
+  color: #aab8c2;
+}
+.fa-thumbs-down:hover {
+  color: purple;
+}
+/* .fa-thumbs-down i:hover{
+  color: greenyellow
+}
+.fa-thumbs-down i before:hover{
+  color: greenyellow
 } */
+
+/****Commentary Box Styling****/
+.like-button .heartbox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.like-button svg {
+  cursor: pointer;
+  overflow: visible;
+  width: 2.5rem;
+  margin: 5px;
+}
+
+.like-button:hover {
+  fill: #e2264d !important;
+  color: #e2264d !important;
+}
+
+.like-button svg:hover {
+  fill: #e2264d !important;
+  color: #e2264d !important;
+}
+
+.like-button svg #heart {
+  transform-origin: center;
+  animation: animateHeartOut 0.3s linear forwards;
+}
+
+.like-button svg:hover #heart path {
+  fill: #fce57e;
+}
+
+.like-button svg #main-circ {
+  transform-origin: 29.5px 29.5px;
+}
+
+.like-button .checkbox {
+  display: none;
+}
+
+.like-button .checkbox:checked + label svg #heart {
+  transform: scale(0.2);
+  fill: #e2264d;
+  animation: animateHeart 0.3s linear forwards 0.25s;
+}
+
+.like-button .checkbox:checked + label svg #main-circ {
+  transition: all 2s;
+  animation: animateCircle 0.3s linear forwards;
+  opacity: 1;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup1 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup1 #heart1 {
+  transform: scale(0) translate(0, -30px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup1 #heart2 {
+  transform: scale(0) translate(10px, -50px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup2 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup2 #heart1 {
+  transform: scale(0) translate(30px, -15px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup2 #heart2 {
+  transform: scale(0) translate(60px, -15px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup3 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup3 #heart1 {
+  transform: scale(0) translate(30px, 0px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup3 #heart2 {
+  transform: scale(0) translate(60px, 10px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup4 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup4 #heart1 {
+  transform: scale(0) translate(30px, 15px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup4 #heart2 {
+  transform: scale(0) translate(40px, 50px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup5 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup5 #heart1 {
+  transform: scale(0) translate(-10px, 20px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup5 #heart2 {
+  transform: scale(0) translate(-60px, 30px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup6 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup6 #heart1 {
+  transform: scale(0) translate(-30px, 0px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup6 #heart2 {
+  transform: scale(0) translate(-60px, -5px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup7 {
+  opacity: 1;
+  transition: 0.1s all 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup7 #heart1 {
+  transform: scale(0) translate(-30px, -15px);
+  transform-origin: 0 0 0;
+  transition: 0.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup7 #heart2 {
+  transform: scale(0) translate(-55px, -30px);
+  transform-origin: 0 0 0;
+  transition: 1.5s transform 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup2 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup3 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup4 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup5 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup6 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+.like-button .checkbox:checked + label svg #heartgroup7 {
+  opacity: 1;
+  transition: 0.1s opacity 0.3s;
+}
+
+@keyframes animateCircle {
+  40% {
+    transform: scale(10);
+    opacity: 1;
+    fill: #dd4688;
+  }
+
+  55% {
+    transform: scale(11);
+    opacity: 1;
+    fill: #d46abf;
+  }
+
+  65% {
+    transform: scale(12);
+    opacity: 1;
+    fill: #cc8ef5;
+  }
+
+  75% {
+    transform: scale(13);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.5;
+  }
+
+  85% {
+    transform: scale(17);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.2;
+  }
+
+  95% {
+    transform: scale(18);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0.1;
+  }
+
+  100% {
+    transform: scale(19);
+    opacity: 1;
+    fill: transparent;
+    stroke: #cc8ef5;
+    stroke-width: 0;
+  }
+}
+
+@keyframes animateHeart {
+  0% {
+    transform: scale(0.2);
+  }
+
+  40% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animateHeartOut {
+  0% {
+    transform: scale(1.4);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* glass buttons */
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.span-hover {
+  color: whitesmoke !important;
+}
+
+.span-hover:hover {
+  color: black !important;
+}
+
+.regular-icon {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.wide-btn {
+  width: 100px !important;
+}
+
+.tall-btn {
+  height: 60px !important;
+}
+
+.glass-btn {
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  margin-left: 1em;
+  margin-right: 1em;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.glass-btn.blue-btn {
+  -webkit-box-shadow: 0px 20px 20px -17px rgba(0, 111, 255, 0.53);
+  -moz-box-shadow: 0px 20px 20px -17px rgba(0, 111, 255, 0.53);
+  box-shadow: 0px 20px 20px -17px rgba(0, 111, 255, 0.53);
+}
+.glass-btn.blue-btn:hover {
+  -webkit-box-shadow: 0px 20px 35px -16px rgba(0, 111, 255, 0.65);
+  -moz-box-shadow: 0px 20px 35px -16px rgba(0, 111, 255, 0.65);
+  box-shadow: 0px 20px 35px -16px rgba(0, 111, 255, 0.65);
+}
+.glass-btn.blue-btn .content {
+  font-size: 4em;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right, #006fff, #00acff 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 10px 37px rgba(0, 111, 255, 0.8);
+}
+.glass-btn.red-btn {
+  -webkit-box-shadow: 0px 20px 20px -17px rgba(255, 16, 39, 0.5);
+  -moz-box-shadow: 0px 20px 20px -17px rgba(255, 16, 39, 0.5);
+  box-shadow: 0px 20px 20px -17px rgba(255, 16, 39, 0.5);
+}
+.glass-btn.red-btn:hover {
+  -webkit-box-shadow: 0px 20px 35px -16px rgba(255, 16, 39, 0.57);
+  -moz-box-shadow: 0px 20px 35px -16px rgba(255, 16, 39, 0.57);
+  box-shadow: 0px 20px 35px -16px rgba(255, 16, 39, 0.57);
+}
+.glass-btn.red-btn .content {
+  font-size: 4em;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right, #ff1027, #ff4f06 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 10px 37px rgba(255, 16, 39, 0.6);
+}
+.glass-btn.amber-btn {
+  -webkit-box-shadow: 0px 20px 20px -17px rgba(255, 159, 16, 0.53);
+  -moz-box-shadow: 0px 20px 20px -17px rgba(255, 159, 16, 0.53);
+  box-shadow: 0px 20px 20px -17px rgba(255, 159, 16, 0.53);
+}
+.glass-btn.amber-btn:hover {
+  -webkit-box-shadow: 0px 20px 35px -16px rgba(255, 159, 16, 0.6);
+  -moz-box-shadow: 0px 20px 35px -16px rgba(255, 159, 16, 0.6);
+  box-shadow: 0px 20px 35px -16px rgba(255, 159, 16, 0.6);
+}
+.glass-btn.amber-btn .content {
+  font-size: 4em;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right, #ff8d00, #f7ad07 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 10px 37px rgba(255, 94, 16, 0.7);
+}
+
+.glass-btn:hover {
+  background-color: #f5f5f5;
+  transform: translateY(-5px);
+  transition: all 0.3s;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(264, 1fr);
+}
+
+.shadowNavItem {
+  background: #EBEBF3;
+  border: 1px solid #FFFFFF;
+  box-shadow: -2px -2px 4px #FFFFFF, 4px 6px 14px #CBCFDB, inset -2px -3px 4px #FFFFFF, inset 4px 1px 9px rgba(141, 141, 141, 0.25);
+  border-radius: 16px;
+}
+.shadowNormal {
+  background: #F9FAFB;
+  box-shadow: 4px 6px 14px #CBCFDB, -2px -2px 4px #FFFFFF;
+}
+.shadowDiv {
+  background: #F9FAFB;
+  box-shadow: 2.87012px 3.58765px 4.30518px #DADEF0, -4.30518px -2.87012px 4.30518px #FFFFFF;
+  border-radius: 13px;
+}
+
+.stake{
+  background: #F9FAFB;
+  box-shadow: -14.8774px -10.7448px 19.8365px #FFFFFF, 9px 11px 37px #E9ECF7;
+  border-radius: 9.06334px;
+}
+.shadowMetaverse {
+  background: #F9FAFB;
+  box-shadow: inset -18px -13px 24px #FFFFFF, inset 11px 11px 33px #E9ECF7;
+  border-radius: 15.7857px;
+}
+.shadowCoord {
+  background: #F8F9FA;
+  box-shadow: inset 2.87012px 2.87012px 2.87012px #D7DEEB;
+  border-radius: 7px;
+}
+.searchBy {
+  background: #F9FAFB;
+  box-shadow: inset 2.49875px 2.49875px 2.49875px #D7DEEB;
+}
+
+.stakestyletext {
+  background: linear-gradient(184.91deg, #BAD6FF -31.9%, #005897 108.8%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+}
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.tooltip {
+  position: relative;
+}
+
+.tooltip:hover:after{
+  
+  background: #54575C;
+  border-radius: 8px;
+  color: #F9FAFB;
+  content: attr(data-tooltip);
+  font-size: 16px;
+  bottom: 26px;
+  left: 20%;
+  padding: 5px 15px;
+  position: absolute;
+  z-index: 98;
+}
+
+.tooltip:hover:before{
+  border: solid;
+  border-color: #444 transparent;
+  bottom: 20px;
+  content: "";
+  left: 50%;
+  position: absolute;
+  z-index: 99;
+}

@@ -46,7 +46,7 @@ interface Props {
 const PriceList = ({ predictions, className, metaverse }: Props) => {
   const keys = typedKeys(predictions)
   return (
-    <ul className={'flex flex-col flex-grow min-w-max gap-1 ' + className}>
+    <ul className={'flex flex-col flex-grow min-w-max gap-4 ' + className}>
       {/* Iterating through each Coin.  */}
       {keys.map(
         (key) =>
@@ -71,25 +71,23 @@ const PriceList = ({ predictions, className, metaverse }: Props) => {
                 loading='lazy'
               />
               {/* Coin Prediction Number */}
-              <div className='w-full grid grid-cols-2 gap-6 content-center items-center text-lg 2xl:text-xl font-plus'>
-                <p className='font-thin text-grey-content pt-0.5'>
-                  {predictions[key]?.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </p>
+              <p className='text-lg 2xl:text-xl font-medium font-plus text-grey-content pt-0.5'>
+                {predictions[key]?.toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })}
                 {/* Coin Name */}
-                <p className='font-bold'>
+                <span className='font-light text-lg md:text-xl'>
                   {' ' +
                     (key === 'metaversePrediction'
                       ? COINS[key][(metaverse + 'Prediction') as metaverseKey]
-                        .name
+                          .name
                       : COINS[key].name)}
-                </p>
-              </div>
+                </span>
+              </p>
             </li>
           )
       )}
-    </ul >
+    </ul>
   )
 }
 

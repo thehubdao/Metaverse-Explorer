@@ -23,7 +23,7 @@ const TopSellingFilter = ({ filterBy, setFilterBy }: Props) => {
 				<button
 					key={filter}
 					type="button"
-					className="py-2.5 px-5 mr-2 mb-2 text-sm font-bold focus:outline-none rounded-2xl  text-grey-content font-plus shadowNormal nm-flat-soft hover:nm-inset-soft"
+					className="py-2.5 px-5 mr-2 mb-2 text-sm font-bold focus:outline-none rounded-2xl  text-grey-content font-plus shadowNormal "
 					onClick={() => setFilterBy(filter)}
 				>
 					{filterOptions[filter].label}

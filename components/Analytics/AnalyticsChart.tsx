@@ -6,7 +6,6 @@ import { chartSymbolOptions } from '.'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
 import ChartLoader from './ChartLoader'
-import { FaBlackTie } from 'react-icons/fa'
 
 type ChartData = {
   time: string
@@ -30,11 +29,10 @@ const AnalyticsChart = ({
 }: Props) => {
   const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>('ETH')
   const intervalLabels = {
-    daily: { label: '1D', days: 1 },
-    week: {label: '5D', days: 5},
-    month: { label: '1M', days: 30 },
+    week: { label: '7D', days: 7 },
+    month: { label: '30D', days: 30 },
+    semester: { label: '180D', days: 180 },
     year: { label: '1Y', days: 365 },
-    lustrum: { label: '5Y', days: 1825 },
     all: { label: 'Max' },
   }
 
@@ -46,7 +44,7 @@ const AnalyticsChart = ({
   }
   const chartElement = useRef<HTMLDivElement>(null)
 
-  const [interval, setInterval] = useState<TimeInterval>('month')
+  const [interval, setInterval] = useState<TimeInterval>('week')
 
   useEffect(() => {
     if (!chartElement.current) return
@@ -57,14 +55,8 @@ const AnalyticsChart = ({
         fixLeftEdge: true,
         fixRightEdge: true,
         timeVisible: false,
-        borderVisible: false,
-        visible: false,
       },
       rightPriceScale: {
-        visible: false,
-      },
-      leftPriceScale: {
-        visible: true,
         scaleMargins: {
           top: 0.3,
           bottom: 0.25,
@@ -72,46 +64,37 @@ const AnalyticsChart = ({
         borderVisible: false,
       },
       layout: {
-        backgroundColor: '#F9FAFB',
-        textColor: '#8B8B8B',
+        backgroundColor: '#131722',
+        textColor: '#d1d4dc',
       },
       grid: {
         vertLines: {
           color: 'rgba(42, 46, 57, 0)',
         },
         horzLines: {
-          color: 'rgba(101, 101, 101, 0.11)',
+          color: 'rgba(42, 46, 57, 0.6)',
         },
       },
     })
-    const lineSeries = chart.addLineSeries({
-      color: 'black',
-      lineWidth: 1,
+    const areaSeries = chart.addAreaSeries({
+      topColor: 'rgba(38,198,218, 0.56)',
+      bottomColor: 'rgba(38,198,218, 0.04)',
+      lineColor: 'rgba(38,198,218, 1)',
+      lineWidth: 2,
       title: window.innerWidth > 500 ? label : undefined,
     })
-    const lineSeriesDecentraland = chart.addLineSeries({
-      color: 'blue',
-      lineWidth: 1,
-      title: window.innerWidth > 500 ? label : undefined,
-    })
-    const lineSeriesSomnium = chart.addLineSeries({
-      color: 'red',
-      lineWidth: 1,
-      title: window.innerWidth > 500 ? label : undefined,
-    })
-
     const slicedData = sliceTimeData(data, interval).map((currentData) => {
       const predictions = convertETHPrediction(
         prices,
         currentData.data,
-        'sandbox'
+        metaverse
       )
       return {
         time: parseInt(currentData.time) as UTCTimestamp,
         value: predictions[chartSymbolOptions[symbol].key],
       }
     })
-    lineSeries.setData(slicedData)
+    areaSeries.setData(slicedData)
 
     const resizeGraph = () => {
       chart.applyOptions({ width: chartElement.current?.clientWidth })
@@ -125,18 +108,18 @@ const AnalyticsChart = ({
 
   return (
     <div className='gray-box'>
-      <div className='max-w-full h-full relative pt-8' ref={chartElement}>
+      <div className='max-w-full h-full relative' ref={chartElement}>
         {fetching && <ChartLoader />}
 
         {/* /* Chart Options Wrapper */}
         <div className='absolute top-1 z-10 flex w-full flex-col gap-4 sm:flex-row justify-between'>
           {/* Interval Buttons */}
-          <div className='flex gap-2 relative left-1 w-full justify-between px-14'>
+          <div className='flex gap-2 relative left-1 w-fit'>
             {typedKeys(intervalLabels).map((arrInterval) => (
               <button
                 key={arrInterval}
                 className={
-                  'gray-box font-semibold rounded-lg pb-1 text-xs text-gray-400' +
+                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
                   (interval === arrInterval
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')
@@ -149,12 +132,12 @@ const AnalyticsChart = ({
           </div>
 
           {/* Coin Buttons */}
-          {/* <div className='sm:flex gap-2 relative left-1 sm:left-auto sm:right-18 w-fit hidden'>
+          <div className='sm:flex gap-2 relative left-1 sm:left-auto sm:right-18 w-fit hidden'>
             {typedKeys(chartSymbolOptions).map((arrSymbol) => (
               <button
                 key={arrSymbol}
                 className={
-                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
+                  'gray-box font-semibold  rounded-lg p-2 text-xs text-gray-400' +
                   (symbol === arrSymbol
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')
@@ -166,7 +149,7 @@ const AnalyticsChart = ({
                   : arrSymbol}
               </button>
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ interface Props {
 
 const MapLandSummary = ({ name, owner, coordinates, metaverse }: Props) => {
   return (
-    <div className='flex flex-col gap-2 text-sm bg-grey-bone p-1'>
+    <div className='flex flex-col gap-2 text-sm'>
       <div className='flex gap-4'>
         {typedKeys(coordinates).map((coord) => (
           <span

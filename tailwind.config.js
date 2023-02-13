@@ -1,5 +1,8 @@
 module.exports = {
-  content: ['./layouts/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  mode: 'jit',
+  darkMode: 'class', // or 'media' or 'class'
+  important: true,
   theme: {
     extend: {
       keyframes: {
@@ -87,33 +90,35 @@ module.exports = {
         subtleWhite: '0 1px 7px 0px rgba(250, 250, 250, 0.2)',
       },
       fontFamily: {
+        // 'sans': ['Quicksand', 'sans-serif'],
+        'mont': ['Montserrat', 'sans-serif'],
         'plus': ['PlusJakartaSans', 'sans-serif'],
-        'icons': ['iconSet1'],
-        title: ["Anton", "sans-serif"],
-        anton: ["anton", "sans-serif"],
-        sans: ["Alterwave", "sans-serif"],
-        prompt: ["Prompt", "sans-serif"],
-        lighters: ["Lighters", "sans-serif"],
-        inter: ["Inter", "sans-serif"],
-        thin: ["Alterwave", "sans-serif"],
-        fire: ["FiraSans", "sans-serif"]
+        'sans': ['Alterwave', 'sans-serif'],
+        'prompt': ['Prompt', 'sans-serif'],
+        'lighters': ['Lighters', 'sans-serif']
       },
       fontSize: {
-        's': '0.5rem',
+        'xxs': '0.5rem'
+      },
+      transitionDuration: {
+        '2000': '2000ms',
+      },
+      padding: {
+        full: '100%'
+      },
+      backgroundImage: {
+        'hero-pattern': "url('/public/images/pool_punk.png')",
       },
       colors: {
         grey: {
           content: '#54575C',
           sidebar: '#EDEDF5',
           icon: '#9B9B9B',
-          dark: '#F3F6FF',
+          dark: '#ECEEF8',
           bone: '#F9FAFB',
-          panel: '#E9ECF6',
-          lightest: '#F8F9FD',
-        },
-        'background': '#111111',
-        'white': '#ffffff',
-        'tahiti': '#3ab7bf',
+          panel:'#E9ECF6',
+          lightest: '#F8F9FD'
+        }
       },
     },
     screens: {

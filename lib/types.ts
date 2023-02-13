@@ -1,4 +1,3 @@
-import { Web3Auth } from '@web3auth/modal'
 import { purchaseCoinOptions } from '../components/Purchase'
 import { Network } from './enums'
 import { Metaverse } from './metaverse'
@@ -12,7 +11,6 @@ export interface AccountState {
   address: string | undefined
   chainId: number | undefined
   role: Role | undefined
-  web3auth: Web3Auth | null
 }
 
 export interface AddEthereumChainParameter {
@@ -67,7 +65,6 @@ export interface IAPIData {
     eth_predicted_price: number
   }
   owner?: string
-  market_links?: any
 }
 
 export interface IPredictions {
@@ -105,22 +102,4 @@ export type Role = {
 export interface LoginJWT {
   address: string
   roles: Role[] | never[]
-}
-
-export interface nftObject {
-  tokenId: string;
-  floor_adjusted_predicted_price: number;
-  traits: {};
-  images: {
-    image_small: string;
-    animation_url: string
-  };
-  name: string | null
-  listed_eth_price: number | undefined | null
-  market_links: {
-    X2Y2: string,
-    looksrare: string,
-    opensea: string
-  }
-  history: any[]
 }

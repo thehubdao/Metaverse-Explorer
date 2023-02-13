@@ -58,20 +58,41 @@ export async function addMissingWatchlist(
 
 // Add Land to User's WatchList
 export async function addLandToWatchList(
-    land: any,
-    address: string,
+    landId: string,
+    walletAddress: string,
     metaverse: Metaverse
 ) {
-    const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
+    const user = doc(db, 'users', walletAddress)
+    await updateDoc(user, {
+        [metaverse + '-watchlist']: arrayUnion(landId),
+    })
+
+    const updatedData = await getUserInfo(walletAddress)
+    return updatedData
+    // console.log("firing")
+    // const updatedData = await calls(`${URL}addToWatchlist`, {
+    //   address: walletAddress,
+    //   metaverse: metaverse,
+    //   land: landId,
+    //   method: "update",
+    // });
+
+    return updatedData
 }
 
 // Remove Land from User's WatchList
 export async function removeLandFromWatchList(
-    land:any,
-    address: string,
+    landId: string,
+    walletAddress: string,
     metaverse: Metaverse
 ) {
-    const removeFromWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`,land)
+    const user = doc(db, 'users', walletAddress)
+    await updateDoc(user, {
+        [metaverse + '-watchlist']: arrayRemove(landId),
+    })
+
+    const updatedData = await getUserInfo(walletAddress)
+    return updatedData
 }
 
 /* Valuation scores  */
