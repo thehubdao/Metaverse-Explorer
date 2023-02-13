@@ -71,7 +71,7 @@ class Web3authService {
     connectWeb3Auth = async (signer: Signer) => {
         const address = await signer.getAddress()
 
-        try {
+/*         try {
             const { nonce } = await fetchNonce(address)
             // Create Msg
             const msgToSign = `${nonce}`
@@ -94,7 +94,7 @@ class Web3authService {
             this.B2CRoles = B2CRoles
         } catch (e) {
             console.log(e)
-        }
+        } */
     }
 
     disconnectWeb3Auth = async () => {

@@ -20,7 +20,7 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
     if (!metaverse) return
     const fetchHistoricFloorPrice = async () => {
       setLoadingChart(true)
-      const response = await fetchChartData(metaverse, '/FloorPrice')
+      const response = await fetchChartData(metaverse, 'floorPrice')
       setHistoricFloorPrice(response)
       setLoadingChart(false)
     }
@@ -29,7 +29,8 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
 
   return (
     <>
-      <h3>Historic Floor Price:</h3>
+      {historicFloorPrice && 
+      <><h3>Historic Floor Price:</h3>
       <div className="rounded-3xl overflow-hidden h-full">
         <AnalyticsChart
           data={historicFloorPrice}
@@ -38,7 +39,7 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
           metaverse={metaverse}
           prices={coinPrices}
         />
-      </div>
+      </div></>}
     </>
   )
 }
