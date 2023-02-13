@@ -4,7 +4,8 @@ import { typedKeys } from '../../lib/utilities'
 import { Metaverse } from "../../lib/metaverse";
 import axios from "axios";
 import { RiLoader3Fill } from "react-icons/ri";
-import Pagination from "../Pagination";
+//import Pagination from "../Pagination";
+import { Pagination } from "@mui/material";
 
 interface Props {
 	metaverse: Metaverse;
@@ -13,8 +14,11 @@ interface Props {
 const TopPicksLands = ({ metaverse }: Props) => {
 	const [loading, setLoading] = useState(true);
 	const [picks, setPicks] = useState([]);
+
+	// Pagination Controller
+	const [numberOfPages, setNumberOfPages] = useState<number>(0)
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
-	const [pageLenght, setPageLenght] = useState(0);
+	const pageLenght: number = 15;
 
 	useEffect(() => {
 		const setData = async () => {
@@ -27,7 +31,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 				.then((response) => {
 					setPicks(response.data);
 					setLoading(false);
-					setPageLenght(Math.trunc(response.data.length / 10 + 1));
+					setNumberOfPages(Math.ceil(response.data.length / pageLenght));
 					setControlPageIndex(0);
 				})
 				.catch((error) => {
@@ -42,8 +46,8 @@ const TopPicksLands = ({ metaverse }: Props) => {
 	const rowData = () => {
 		const rows: any = [];
 		for (
-			let index: number = controlPageIndex * 10;
-			index < controlPageIndex * 10 + 10;
+			let index: number = controlPageIndex * pageLenght;
+			index < controlPageIndex * pageLenght + pageLenght;
 			index++
 		) {
 			if (!picks[index]) return rows;
@@ -127,11 +131,18 @@ const TopPicksLands = ({ metaverse }: Props) => {
 							{rowData()}
 						</tbody>
 					</table>
-					<Pagination
-						pageLenght={pageLenght}
-						controlPageIndex={controlPageIndex + 1}
-						setControlPageIndex={setControlPageIndex}
-					/>
+					<div className="w-full flex justify-center">
+						{numberOfPages > 1 ? (
+							<Pagination
+								count={numberOfPages}
+								defaultPage={controlPageIndex + 1}
+								siblingCount={3} boundaryCount={2}
+								shape="rounded"
+								size="large"
+								onChange={(e, page) => { setControlPageIndex(page - 1) }}
+							/>
+						) : (<></>)}
+					</div>
 				</>
 			)}
 		</div>

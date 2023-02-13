@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Fade } from 'react-awesome-reveal'
-import { AiFillQuestionCircle } from 'react-icons/ai'
+import { AiFillQuestionCircle, AiOutlineSearch } from 'react-icons/ai'
 import { BsQuestionCircle } from 'react-icons/bs'
 import { IoIosArrowDown } from 'react-icons/io'
 import { ValuationTile } from '../../lib/heatmap/heatmapCommonTypes'
@@ -16,12 +16,14 @@ interface Props {
     y?: number | undefined,
     tokenId?: string | undefined
   ) => Promise<NodeJS.Timeout | undefined>
+  onClick: () => void
+  opened: boolean
 }
-const MapSearch = ({ mapState, handleMapSelection }: Props) => {
+const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => {
   const [landId, setLandId] = useState('')
   const [coordinates, setCoordinates] = useState({ X: '', Y: '' })
   const [mobile, setMobile] = useState(false)
-  const [opened, setOpened] = useState(window.innerWidth > 768)
+  // const [opened, setOpened] = useState(false)
   const [loadingQuery, errorQuery] = getState(mapState, [
     'loadingQuery',
     'errorQuery',
@@ -48,45 +50,48 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
       hasGuide: true,
     },
   }
-  const checkMobile = () => {
-    // not sure why setMobile(window.innerWidth <= 768) isn't working..
-    window.innerWidth <= 768 ? setMobile(true) : setMobile(false)
-    if (window.innerWidth > 768) {
-      setOpened(true)
-    }
-  }
+  // const checkMobile = () => {
+  //   // not sure why setMobile(window.innerWidth <= 768) isn't working..
+  //   window.innerWidth <= 768 ? setMobile(true) : setMobile(false)
+  //   if (window.innerWidth > 768) {
+  //     setOpened(true)
+  //   }
+  // }
 
-  useEffect(() => {
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
+  // useEffect(() => {
+  //   // checkMobile()
+  //   window.addEventListener('resize', checkMobile)
 
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('resize', checkMobile)
+  //   }
+  // }, [])
 
   return (
-    <div className='flex flex-col gap-6 md:absolute h-16 md:h-auto w-[190px]'>
+    <div className='flex flex-col gap-6 h-16 md:h-auto'>
       {/* Search */}
       <form
-        className='gray-box bg-grey-bone'
+        className='gray-box bg-grey-bone rounded-full'
         onSubmit={(e) => searchOptions[searchBy].search(e)}
       >
+
         <div
+          onClick={() => onClick()}
+          className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full cursor-pointer w-12 h-12 ${opened && "rounded-b-none"}`}
+        >
+          {/* Icon */}
+          {/* <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}> */}
+          <AiOutlineSearch className='text-2xl' />
+          {/* </span> */}
+
+        </div>
+        {/* <div
           className={
             (opened ? 'items-center' : 'items-end') +
             ' flex gap-2 md:cursor-text cursor-pointer'
           }
           onClick={() => mobile && setOpened(!opened)}
         >
-          <p
-            className={
-              (opened && 'mb-4') +
-              ' font-bold font-plus text-grey-content md:text-lg md:pt-1 whitespace-nowrap'
-            }
-          >
-            Search by
-          </p>
           {mobile && (
             <IoIosArrowDown
               className={
@@ -95,9 +100,11 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
               }
             />
           )}
-        </div>
+        </div> */}
+
+        {/* Inputs */}
         {opened && (
-          <Fade duration={400}>
+          <div className={`flex flex-col space-y-4 md:absolute bg-grey-bone rounded-xl rounded-tl-none p-3 pt-5`}>
             <div className='flex flex-col gap-2 mb-4'>
               {/* Mapping through search options */}
               {typedKeys(searchOptions).map((filter) => (
@@ -123,12 +130,6 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
                 </span>
               ))}
             </div>
-          </Fade>
-        )}
-
-        {/* Inputs */}
-        {opened && (
-          <Fade duration={400}>
             <div className='flex flex-col gap-4 relative'>
               <div className='flex gap-2'>
                 {searchBy === 'coordinates' ? (
@@ -159,14 +160,14 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
                     onChange={(e) => setLandId(e.target.value)}
                     value={landId}
                     placeholder='14271'
-                    className='font-semibold border-gray-300 placeholder-gray-300 bg-transparent block w-[8.5rem] text-white p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl placeholder-opacity-75'
+                    className='font-light font-plus border-gray-300 shadowCoord placeholder-grey-content block w-[8.5rem]  text-grey-content p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                   />
                 )}
               </div>
               {/* Add land Button */}
               <SearchLandButton searchBy={searchBy} mapState={mapState} />
             </div>
-          </Fade>
+          </div>
         )}
       </form>
     </div>

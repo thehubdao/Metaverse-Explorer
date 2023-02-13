@@ -2,9 +2,9 @@ import { Contracts } from '../../lib/contracts'
 import { Metaverse } from '../../lib/metaverse'
 
 async function getCollectionStats(collectionName: string) {
-  if (collectionName === 'axie-infinity') {
+/*   if (collectionName === 'axie-infinity') {
     collectionName = 'axie'
-  }
+  } */
   const data = await fetch(
     `https://api.opensea.io/api/v1/collection/${collectionName}`
   )
@@ -20,12 +20,13 @@ async function getEthExchangePrice() {
   return data_json
 }
 async function getEstimateAccuracyValues(collectionName:string) {
-  console.log("collection", collectionName)
-  if (collectionName === 'axie-infinity' || collectionName === 'somnium-space' ) {
+  let test='test';
+  if (collectionName === 'axie-infinity' ) {
     collectionName = '--'
   }
+  if (collectionName === 'somnium-space') test='' 
   const data = await fetch(
-    `https://services.itrmachines.com/test/${collectionName}/performance`
+    `https://services.itrmachines.com/${test}/${collectionName}/performance`
   )
   const data_json = await data.json()
   return data_json
@@ -68,7 +69,7 @@ export async function getEstimateAccuracy(collectionName:string) {
 }
 
 export const createOpenSeaLink = (metaverse: Metaverse, landId: string) => {
-  if (metaverse === 'axie-infinity') return
+/*   if (metaverse === 'axie-infinity') return */
   const contracts = {
     decentraland: Contracts.PARCEL.ETHEREUM_MAINNET.address,
     sandbox: Contracts.LAND.ETHEREUM_MAINNET.newAddress,

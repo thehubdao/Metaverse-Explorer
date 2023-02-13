@@ -1,38 +1,50 @@
 import type { NextPage } from 'next'
-import Link from 'next/link';
 import Head from 'next/head'
+import { useState } from 'react'
 
+import OptionCard from '../components/Stake/OptionCard'
+import StakeEthereum from '../components/Stake/StakeEthereum'
+import StakePolygon from '../components/Stake/StakePolygon'
+
+const stakeOptions = [
+	{
+		title: 'Ethereum Staking',
+		description: 'bonded staking, fixed APY, 4 different Pools',
+		imageUrl: '/images/ethereum-eth-logo.png',
+		option: 'Ethereum'
+	},
+	{
+		title: 'Polygon Staking',
+		description: 'unbonded staking, variable APY',
+		imageUrl: '/images/polygon-matic-logo.png',
+		option: 'Polygon'
+	}
+]
 
 const Stake: NextPage = () => {
+	const [stakeSelected, setStakeSelected] = useState<'Ethereum' | 'Polygon' | undefined>()
 
+	return (
+		<>
+			<Head>
+				<title>MGH - Staking</title>
+				<meta name="description" content="Governance of metaverse related items, fair valuation and minting of NFT backed tokens and provision of metaverse market data." />
+			</Head>
 
-    return (
-        <>
-            <Head>
-                <title>MGH - Staking</title>
-                <meta name="description" content="Governance of metaverse related items, fair valuation and minting of NFT backed tokens and provision of metaverse market data." />
-            </Head>
+			{!stakeSelected && <div className="flex w-full bg-grey-lightest h-screen py-[10%] justify-center items-center">
+				<div className='flex w-full h-fit justify-center gap-10'>
+					{stakeOptions.map((item) => <OptionCard
+						item={item}
+						key={item.option}
+						setStakeSelected={setStakeSelected}
+					/>)}
+				</div>
+			</div>}
 
-            <div className="flex w-full bg-grey-lightest rounded-xl h-full place-content-center py-[10%] space-x-9">
-                <Link href="/stake-ethereum">
-                    <a className="stake flex flex-col w-1/4 items-center px-3 py-6 xs:p-5 text-center justify-center rounded-xl">
-                        <img src="/images/ethereum-eth-logo.png" className="mb-8 h-60" />
-                        <p className="text-grey-content font-plus font-bold text-xl sm:text-3xl">Ethereum Staking</p>
-                        <p className="text-grey-content font-plus font-light text-sm leading-5 sm:text-xl pt-3">bonded staking, fixed APY, 4 different Pools</p>
-                    </a>
-                </Link>
-
-                <Link href="/stake-polygon">
-                    <a className="stake flex flex-col w-1/4 items-center px-3 py-6 xs:p-5 text-center justify-center rounded-xl">
-                        <img src="/images/polygon-matic-logo.png" className="mb-8 h-60" />
-                        <p className="text-grey-content font-plus font-bold text-xl sm:text-3xl">Polygon Staking</p>
-                        <p className="text-grey-content font-plus font-light text-sm leading-5 sm:text-xl pt-3">unbonded staking, variable APY</p>
-                    </a>
-                </Link>
-            </div>
-
-        </>
-    )
+			{stakeSelected === 'Ethereum' && <StakeEthereum />}
+			{stakeSelected === 'Polygon' && <StakePolygon />}
+		</>
+	)
 }
 
 export default Stake

@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Fira+Sans:wght@300;400;700&display=swap");
+
+.h1-mlm {
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: 1px;
+  padding-right: 2.25rem;
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2.25rem * var(--tw-space-x-reverse));
+  margin-left: calc(2.25rem * calc(1 - var(--tw-space-x-reverse)));
+  @apply font-title text-background text-8xl max-h-[6.5rem];
+}
+
+.h2-mlm {
+  white-space: nowrap;
+  @apply font-title text-5xl;
+}
+
+.p-mlm {
+  @apply font-fire;
+  @layer text-md;
+}
+
+/* Color gradient */
+.regularButton button {
+  @apply w-[100%] h-16 rounded-xl;
+  background: linear-gradient(
+    123.27deg,
+    #a278f8 23.13%,
+    #0a59aa 72.67%
+  ) !important;
+}
+
+.gradientText {
+  @apply font-title;
+  background: linear-gradient(116.57deg, #0a59aa 33.33%, #a278f8 89.94%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradientbox1 {
+  background: linear-gradient(116.57deg, #0a59aa 33.33%, #a278f8 89.94%);
+}
+.gradientbox2 {
+  background: linear-gradient(123.27deg, #a278f8 23.13%, #0a59aa 72.67%);
+}
+
+/* Modals Options */
+.modal {
+  @apply fixed top-0 left-0 flex items-center justify-center h-screen w-screen z-50;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.stats {
+  @apply bg-background h-11 border-2 rounded-xl my-2.5 flex flex-nowrap inline-block;
+}
+
+.stats__text {
+  @apply pl-5 py-2;
+}
+
+.stats__data {
+  @apply absolute py-2 right-20;
+}
+
+/* Grid Dashboard Options */
+.container-dashboard {
+  display: grid;
+  grid-gap: 30px;
+  grid-template:
+    [row1-start] "title avatar button" 15% [row1-end]
+    [row2-start] "title avatar inventory" 2% [row2-end]
+    [row3-start] "badges avatar inventory" auto [row3-end]
+    [row4-start] "leaderboard avatar activity" 8% [row4-end]
+    [row5-start] "leaderboard level activity" 15% [row5-end]
+    / 31% auto 31%;
+
+  @apply min-h-screen text-base bg-background text-white pt-9 pr-9 pb-20 space-x-9;
+}
+
+.item-a {
+  grid-area: title;
+}
+.item-b {
+  grid-area: avatar;
+}
+.item-c {
+  grid-area: button;
+  align-self: center;
+}
+.item-d {
+  grid-area: badges;
+  align-self: center;
+}
+.item-e {
+  grid-area: inventory;
+  align-self: center;
+}
+.item-f {
+  grid-area: leaderboard;
+}
+.item-g {
+  grid-area: level;
+  align-self: center;
+}
+.item-h {
+  grid-area: activity;
+}
+
+/* Swiper CSS options */
+.swiper {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.swiper-scrollbar-drag {
+  background: #9c9c9c !important;
+  cursor: pointer;
+}
+
+.swiper-wrapper {
+  margin-bottom: 20px;
+}
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: #555;
+  width: 450px;
+  z-index: 10;
+  border-width: 5px;
+  border-style: solid;
+  border-radius: 5%;
+  border-color: #555;
+  text-align: justify;
+  padding: 8px 8px;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 10;
+  left: 150%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.particles {
+  position: fixed;
+  width: 100%;
+  z-index: -1!important;
+}
