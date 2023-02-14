@@ -24,12 +24,12 @@ const list = [
 	},
 	{
 		url: "/swap",
-		label: "SWAP",
+		label: "Buy MGH",
 		icon: "h",
 	},
 	{
 		url: "/liquidity",
-		label: "Buy MGH",
+		label: "Provide Liquidity",
 		icon: "f",
 	},
 	{
