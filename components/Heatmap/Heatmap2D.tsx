@@ -50,8 +50,8 @@ interface IHeatmap2D {
 }
 
 const loadPhrases = [
-  'Did you know that there are 160 siloed virtual worlds in the metaverse?',
-  'The size of a single parcel in Decentraland is just 16x16 meters!',
+  'Did you know that there are over 160 siloed virtual worlds in the metaverse?',
+  'The size of a single parcel in Decentraland is 16x16 meters!',
   'There are over 160,000 Sandbox LANDs',
   'Somnium Space is the leading VR compatible metaverse currently available.',
   'The term "metaverse" was first introduced in 1992 by sci-fi author Neal Stephenson in his novel Snow Crash.',
