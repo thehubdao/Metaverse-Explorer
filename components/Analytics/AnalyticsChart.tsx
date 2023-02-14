@@ -31,7 +31,7 @@ const AnalyticsChart = ({
   const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>('ETH')
   const intervalLabels = {
     daily: { label: '1D', days: 1 },
-    week: {label: '5D', days: 5},
+    week: { label: '5D', days: 5 },
     month: { label: '1M', days: 30 },
     year: { label: '1Y', days: 365 },
     lustrum: { label: '5Y', days: 1825 },
@@ -86,16 +86,6 @@ const AnalyticsChart = ({
     })
     const lineSeries = chart.addLineSeries({
       color: 'black',
-      lineWidth: 1,
-      title: window.innerWidth > 500 ? label : undefined,
-    })
-    const lineSeriesDecentraland = chart.addLineSeries({
-      color: 'blue',
-      lineWidth: 1,
-      title: window.innerWidth > 500 ? label : undefined,
-    })
-    const lineSeriesSomnium = chart.addLineSeries({
-      color: 'red',
       lineWidth: 1,
       title: window.innerWidth > 500 ? label : undefined,
     })
