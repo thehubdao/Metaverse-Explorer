@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Fade } from 'react-awesome-reveal'
 import { AiFillQuestionCircle, AiOutlineSearch } from 'react-icons/ai'
-import { BsQuestionCircle } from 'react-icons/bs'
-import { IoIosArrowDown } from 'react-icons/io'
 import { ValuationTile } from '../../lib/heatmap/heatmapCommonTypes'
 import { getState, typedKeys } from '../../lib/utilities'
 import { ValuationState } from '../../pages/valuation'
@@ -22,14 +19,14 @@ interface Props {
 const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => {
   const [landId, setLandId] = useState('')
   const [coordinates, setCoordinates] = useState({ X: '', Y: '' })
-  const [mobile, setMobile] = useState(false)
-  // const [opened, setOpened] = useState(false)
+
   const [loadingQuery, errorQuery] = getState(mapState, [
     'loadingQuery',
     'errorQuery',
   ])
 
   const [searchBy, setSearchBy] = useState<'coordinates' | 'id'>('coordinates')
+
   const searchById = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     handleMapSelection(undefined, undefined, undefined, landId)
@@ -80,27 +77,8 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
           className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full cursor-pointer w-12 h-12 ${opened && "rounded-b-none"}`}
         >
           {/* Icon */}
-          {/* <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}> */}
           <AiOutlineSearch className='text-2xl' />
-          {/* </span> */}
-
         </div>
-        {/* <div
-          className={
-            (opened ? 'items-center' : 'items-end') +
-            ' flex gap-2 md:cursor-text cursor-pointer'
-          }
-          onClick={() => mobile && setOpened(!opened)}
-        >
-          {mobile && (
-            <IoIosArrowDown
-              className={
-                (opened ? 'rotate-180' : '') +
-                ' transition-all duration-500 relative bottom-[6px] text-grey-content'
-              }
-            />
-          )}
-        </div> */}
 
         {/* Inputs */}
         {opened && (
