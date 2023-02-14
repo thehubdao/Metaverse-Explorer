@@ -8,15 +8,14 @@ import { BsTwitter } from 'react-icons/bs'
 import Loader from '../Loader'
 import { formatName, getState } from '../../lib/utilities'
 import { AddToWatchlistButton, LandLikeBox } from '../Valuation'
-import { useAppSelector } from '../../state/hooks'
 import { IoClose } from 'react-icons/io5'
 import { ValuationState } from '../../pages/valuation'
 import { SocialMediaOptions } from '../../lib/socialMediaOptions'
 import DataComparisonBox from '../Valuation/DataComparison/DataComparisonBox'
 import { Metaverse } from '../../lib/metaverse'
-import { TopSellingDataTable } from '../../types/TopSelling'
 import { useAccount } from 'wagmi'
 import axios from 'axios'
+
 interface Props {
     apiData?: IAPIData
     predictions?: IPredictions
@@ -74,7 +73,7 @@ const MapCard = ({
 
     return errorQuery ? (
         <div className="gray-box bg-opacity-100 z-30">
-            <p className="text-lg font-semibold font-plus text-center text-grey-content">
+            <p className="text-lg font-semibold font-plus text-center text-grey-content bg-grey-bone rounded-3xl px-5">
                 No a Valid Land or not enough Data yet!
             </p>
         </div>

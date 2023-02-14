@@ -171,8 +171,6 @@ const Heatmap2D = ({
     viewport.addChild(chunkContainer)
   }
 
-
-
   useEffect(() => {
     if (!metaverseData && !viewport) return
     console.log('Creando socket', new Date().toISOString())
@@ -303,7 +301,7 @@ const Heatmap2D = ({
         const x = currentSprite.landX,
           y = currentSprite.landY
         currentTint = 4 * 0xff9990
-        onClick(mapData[x + ',' + y], x, y * -1, undefined)
+        onClick(mapData[x + ',' + y], x, y, undefined)
       }
     })
   }, [viewport])
