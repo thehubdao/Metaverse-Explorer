@@ -18,13 +18,13 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
   }
 
   return (
-    <div className='w-full h-full p-8'>
+    <div className='w-full h-full py-14 bg-[#f8f9fd] rounded-3xl'>
       {/* Title */}
-      <h2 className='text-grey-content font-plus font-normal rounded-2xl lg:text-3xl text-2xl text-center mb-8'>
+      <h2 className='text-grey-content font-plus font-bold rounded-2xl lg:text-3xl text-2xl text-center my-8'>
         Choose a Metaverse
       </h2>
 
-      <div className='flex space-x-2 items-center justify-center bg-grey-dark rounded-2xl w-[70%] m-auto p-2'>
+      <div className='flex space-x-2 items-center justify-center bg-grey-dark rounded-2xl w-fit m-auto py-2 px-24'>
         <BsExclamationCircleFill className={`text-2xl z-10 text-[#6196FF]`} />
         <p className='flex text-xs xs:text-base xl:text-base font-normal font-plus text-grey-content pl-3'>
           You can have &nbsp;<span className='font-bold'>5 free valuations</span>, after that pro version is needed
@@ -32,14 +32,14 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
       </div>
 
       {/* Metaverse Buttons */}
-      <div className='flex justify-center gap-8 pt-10'>
+      <div className='flex justify-center gap-16 pt-20'>
         {typedKeys(mvOptions).map((landKey) => (
           <button
             key={landKey}
             onClick={() => setMetaverse(landKey)}
-            className={`flex flex-col shadowMetaverse items-center justify-center space-y-2 rounded-xl cursor-pointer p-2 px-3 pt-4 w-[200px] h-[250px] group focus:outline-none nm-flat-hard hover:scale-105 transition ease-in-out duration-300 ${metaverse === landKey
+            className={`flex flex-col bg-[#f3f5f8] items-center justify-center space-y-2 rounded-3xl cursor-pointer p-2 px-3 pt-4 w-[240px] h-[320px] group focus:outline-none nm-flat-hard hover:nm-flat-soft transition ease-in-out duration-300 border-white border ${metaverse === landKey
               ? ' text-gray-200'
-              : ' hover:border-opacity-100 nm-flat-hard'
+              : ' hover:border-opacity-100'
               }`}
           >
             <OptimizedImage

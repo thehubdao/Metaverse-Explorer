@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
+import Image from "next/image";
 import { useAccount } from 'wagmi'
 
 import {
@@ -30,6 +31,7 @@ import { getAddress } from 'ethers/lib/utils'
 import { Metaverse, metaverseObject } from '../lib/metaverse'
 import GeneralSection from '../components/GeneralSection'
 import SpecificAssetModal from '../components/General/SpecificAssetModal'
+import Footer from '../components/General/Footer'
 
 const headerList = [
 	{
@@ -219,11 +221,12 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* {openModal && <WalletModal onDismiss={() => setOpenModal(false)} />} */}
 
 			{/* Top Padding or Image */}
-			<div className={`relative ${!isModalOpen ? "p-0 mb-8 w-full" : "pt-24"}`}>
-				<img
-					src="/images/purchase_header.png"
-					alt="purchase_header"
-					className={`${!isModalOpen ? "object-fill flex w-full" : "hidden"}`}
+			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
+				<Image
+					src="/images/land_header.svg"
+					objectFit={'cover'}
+					alt='land header'
+					layout="fill"
 				/>
 			</div>
 
@@ -246,16 +249,16 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 						<div className="flex items-center justify-between p-8 space-x-20">
 							<div className="flex flex-col space-y-3 max-w-lg">
-								<p className="text-2xl">Description</p>
+								<p className="text-2xl font-semibold">Description</p>
 								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 							</div>
 							<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">
-								<div className="flex flex-col space-y-5 items-center justify-end nm-flat-medium p-3 rounded-lg">
+								<div className="flex flex-col space-y-5 items-center justify-end nm-flat-hard py-3 px-7 rounded-3xl bg-grey-bone">
 									<p className=" font-black text-3xl">{totalAssets}</p>
 									<p className="text-sm">Total LANDs owned</p>
 								</div>
 
-								<div className="flex flex-col space-y-2 items-center nm-flat-medium p-3 rounded-lg">
+								<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
 									<p className=" font-black text-2xl"><PriceList predictions={totalWorth} /></p>
 									<p className="text-sm">Total Value worth</p>
 								</div>
@@ -263,21 +266,23 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							</div>
 						</div>
 
-						<div className='w-full flex items-center justify-center space-x-5 py-5'>
-							{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
-								<button
-									type="button"
-									className={`flex items-center py-2.5 px-5 text-sm font-bold focus:outline-none rounded-2xl text-grey-content font-plus shadowNormal nm-flat-soft hover:nm-inset-soft ${metaverse === Metaverses[key] ? "nm-inset-soft" : "nm-flat-soft"}`}
-									onClick={() => setMetaverse(Metaverses[key])}
-								>
-									{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
-									{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
-									{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
-									{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
+						<div className='mx-16 mb-24'>
+							<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
+								{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
+									<button
+										type="button"
+										className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
+										onClick={() => setMetaverse(Metaverses[key])}
+									>
+										{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
+										{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
+										{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
+										{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
 
-									{Metaverses[key]}
-								</button>
-							))}
+										{Metaverses[key].toUpperCase()}
+									</button>
+								))}
+							</div>
 						</div>
 
 						{/* Lands Grid */}
@@ -329,6 +334,12 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								/>
 							</div>
 						)}
+
+						<div className='mt-60'>
+							<Footer
+								label='The MGH DAO does not provide, personalized investment recommendations or advisory services. Any information provided through the land evaluation tool and others is not, and should not be, considered as advice of any kind and is for information purposes only. That land is “valuated” does not mean, that it is in any way approved, checked audited, and/or has a real or correct value. In no event shall the MGH DAO be liable for any special, indirect, or consequential damages, or any other damages of any kind, including but not limited to loss of use, loss of profits, or loss of data, arising out of or in any way connected with the use of or inability to use the Service, including without limitation any damages resulting from reliance by you on any information obtained from using the Service.'
+							/>
+						</div>
 
 						{/* 
             <section className="w-full xs:w-[22rem] sm:w-[26rem] md:w-[48rem] lg:w-full max-w-7xl pt-12 bg-grey-lightest rounded-lg p-8">

@@ -18,6 +18,8 @@ import { Viewport } from 'pixi-viewport'
 import { Container } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
+import axios from 'axios'
+import { useAccount } from 'wagmi'
 
 let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
@@ -35,7 +37,7 @@ interface IHeatmap2D {
     name: string | undefined,
     owner: string | undefined
   ) => void
-  onClick: (land: ValuationTile | undefined, x: number, y: number) => void
+  onClick: (land: ValuationTile | undefined, x: number, y: number, watchlist: any) => void
   metaverse: Metaverse
   x: number | undefined
   y: number | undefined
@@ -46,6 +48,15 @@ interface IHeatmap2D {
   initialX: number
   initialY: number
 }
+
+const loadPhrases = [
+  'Did you know that there are over 160 siloed virtual worlds in the metaverse?',
+  'The size of a single parcel in Decentraland is 16x16 meters!',
+  'There are over 160,000 Sandbox LANDs',
+  'Somnium Space is the leading VR compatible metaverse currently available.',
+  'The term "metaverse" was first introduced in 1992 by sci-fi author Neal Stephenson in his novel Snow Crash.',
+  'A single parcel in the Sandbox metaverse measures a generous 96x96 meters.'
+]
 
 const Heatmap2D = ({
   width,
@@ -68,10 +79,22 @@ const Heatmap2D = ({
   const [metaverseData, setMetaverseData] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
+  function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
+  const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
+
   const CHUNK_SIZE = 32
   const TILE_SIZE = 64
   const BORDE_SIZE = 0
   const BLOCK_SIZE = CHUNK_SIZE * TILE_SIZE
+
+  useEffect(() => {
+    if (!isLoading) return
+    const intervalFunction = setInterval(() => {
+      setIndexLoading((prevIndex) => (prevIndex + 1) % loadPhrases.length)
+    }, 8 * 1000) // X seg * 1000ms
+
+    return () => clearInterval(intervalFunction)
+  }, [])
 
   const rgbToHex = (values: any) => {
     let a = values.split(',')
@@ -192,7 +215,7 @@ const Heatmap2D = ({
         maxWidth: TILE_SIZE * 800,
         maxHeight: TILE_SIZE * 800,
       })
-      .zoom(TILE_SIZE * 800)
+      .zoom(TILE_SIZE * 200)
     /* .clamp({
         direction: 'all',
         underflow: 'center'
@@ -277,8 +300,8 @@ const Heatmap2D = ({
       if (currentSprite && !isDragging) {
         const x = currentSprite.landX,
           y = currentSprite.landY
-        /* currentTint = 4 * 0xff9990 */
-        onClick(mapData[x + ',' + y], x, y * -1)
+        currentTint = 4 * 0xff9990
+        onClick(mapData[x + ',' + y], x, y, undefined)
       }
     })
   }, [viewport])
@@ -319,8 +342,11 @@ const Heatmap2D = ({
 
   useEffect(() => {
     if (!x || !y) return
+
     try {
-      viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
+      document.fullscreenElement
+        ? viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
+        : 0
     } catch (e) {
       return
     }
@@ -354,8 +380,9 @@ const Heatmap2D = ({
         className={`bg-white rounded-lg ${isLoading ? 'hidden' : 'block'}`}
         style={{ width, height }}
       />
-      <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
+      <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
         <Loader color='' size={200} />
+        <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>
   )

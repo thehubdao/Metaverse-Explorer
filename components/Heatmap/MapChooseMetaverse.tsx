@@ -8,10 +8,12 @@ import { OptimizedImage } from '../General'
 interface Props {
   metaverse: Metaverse
   setMetaverse: React.Dispatch<React.SetStateAction<Metaverse | undefined>>
+  onClick: () => void
+  opened: boolean
 }
 
-const MapChooseMetaverse = ({ metaverse, setMetaverse }: Props) => {
-  const [opened, setOpened] = useState(false)
+const MapChooseMetaverse = ({ metaverse, setMetaverse, onClick, opened }: Props) => {
+  // const [opened, setOpened] = useState(false)
   const mvOptions = {
     sandbox: { src: '/images/the-sandbox-sand-logo.png' },
     decentraland: { src: '/images/decentraland-mana-logo.png' },
@@ -22,7 +24,7 @@ const MapChooseMetaverse = ({ metaverse, setMetaverse }: Props) => {
   return (
     <div className='relative z-50'>
       <button
-        onClick={() => setOpened(!opened)}
+        onClick={() => onClick()}
       >
         <div className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
           <OptimizedImage
@@ -54,7 +56,7 @@ const MapChooseMetaverse = ({ metaverse, setMetaverse }: Props) => {
                   className='flex gray-box gap-2 md:gap-4 bg-opacity-100 items-center font-plus font-medium text-grey-content hover:text-[#7c7b7b] whitespace-nowrap min-w-max bg-grey-bone rounded-xl'
                   onClick={() => {
                     setMetaverse(mv)
-                    setOpened(false)
+                    onClick()
                   }}
                 >
                   <OptimizedImage

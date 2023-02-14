@@ -62,22 +62,16 @@ export async function addLandToWatchList(
     address: string,
     metaverse: Metaverse
 ) {
-    const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
+    const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
 }
 
 // Remove Land from User's WatchList
 export async function removeLandFromWatchList(
-    landId: string,
-    walletAddress: string,
+    land:any,
+    address: string,
     metaverse: Metaverse
 ) {
-    const user = doc(db, 'users', walletAddress)
-    await updateDoc(user, {
-        [metaverse + '-watchlist']: arrayRemove(landId),
-    })
-
-    const updatedData = await getUserInfo(walletAddress)
-    return updatedData
+    const removeFromWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`,land)
 }
 
 /* Valuation scores  */

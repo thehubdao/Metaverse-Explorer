@@ -8,7 +8,6 @@ import {
   ValuationTile,
 } from '../../lib/heatmap/heatmapCommonTypes'
 import { filteredLayer } from '../../lib/heatmap/heatmapLayers'
-import { io } from 'socket.io-client'
 import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
 import { setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
@@ -31,6 +30,15 @@ interface IMaptalksCanva {
   metaverse: Metaverse
 }
 
+const loadPhrases = [
+  'Did you know that there are over 160 siloed virtual worlds in the metaverse?',
+  'The size of a single parcel in Decentraland is 16x16 meters!',
+  'There are over 160,000 Sandbox LANDs',
+  'Somnium Space is the leading VR compatible metaverse currently available.',
+  'The term "metaverse" was first introduced in 1992 by sci-fi author Neal Stephenson in his novel Snow Crash.',
+  'A single parcel in the Sandbox metaverse measures a generous 96x96 meters.'
+]
+
 const MaptalksCanva = ({
   width,
   height,
@@ -46,6 +54,9 @@ const MaptalksCanva = ({
   const [mapData, setMapData] = useState<Record<string, ValuationTile>>({})
   const [metaverseData, setMetaverseData] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
+  const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
   let clickedPolygonData: any
   const rgbToHex = (values: any) => {
@@ -248,6 +259,15 @@ const MaptalksCanva = ({
       (globalLegendFilter = legendFilter)
   }, [filter, percentFilter, legendFilter])
 
+  useEffect(() => {
+    if (!isLoading) return
+    const intervalFunction = setInterval(() => {
+      setIndexLoading((prevIndex) => (prevIndex + 1) % loadPhrases.length)
+    }, 8 * 1000) // X seg * 1000ms
+
+    return () => clearInterval(intervalFunction)
+  }, [])
+
   return (
     <>
       <canvas
@@ -257,8 +277,9 @@ const MaptalksCanva = ({
         id="map"
         className={isLoading ? 'hidden' : 'block'}
       />
-      <div className={`h-full w-full justify-center items-center ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader color='' size={200}/>
+      <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
+        <Loader color='' size={200} />
+        <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>
   )

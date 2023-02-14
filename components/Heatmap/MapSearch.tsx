@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Fade } from 'react-awesome-reveal'
 import { AiFillQuestionCircle, AiOutlineSearch } from 'react-icons/ai'
-import { BsQuestionCircle } from 'react-icons/bs'
-import { IoIosArrowDown } from 'react-icons/io'
 import { ValuationTile } from '../../lib/heatmap/heatmapCommonTypes'
 import { getState, typedKeys } from '../../lib/utilities'
 import { ValuationState } from '../../pages/valuation'
@@ -16,18 +13,20 @@ interface Props {
     y?: number | undefined,
     tokenId?: string | undefined
   ) => Promise<NodeJS.Timeout | undefined>
+  onClick: () => void
+  opened: boolean
 }
-const MapSearch = ({ mapState, handleMapSelection }: Props) => {
+const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => {
   const [landId, setLandId] = useState('')
   const [coordinates, setCoordinates] = useState({ X: '', Y: '' })
-  const [mobile, setMobile] = useState(false)
-  const [opened, setOpened] = useState(false)
+
   const [loadingQuery, errorQuery] = getState(mapState, [
     'loadingQuery',
     'errorQuery',
   ])
 
   const [searchBy, setSearchBy] = useState<'coordinates' | 'id'>('coordinates')
+
   const searchById = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     handleMapSelection(undefined, undefined, undefined, landId)
@@ -48,22 +47,22 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
       hasGuide: true,
     },
   }
-  const checkMobile = () => {
-    // not sure why setMobile(window.innerWidth <= 768) isn't working..
-    window.innerWidth <= 768 ? setMobile(true) : setMobile(false)
-    if (window.innerWidth > 768) {
-      setOpened(true)
-    }
-  }
+  // const checkMobile = () => {
+  //   // not sure why setMobile(window.innerWidth <= 768) isn't working..
+  //   window.innerWidth <= 768 ? setMobile(true) : setMobile(false)
+  //   if (window.innerWidth > 768) {
+  //     setOpened(true)
+  //   }
+  // }
 
-  useEffect(() => {
-    // checkMobile()
-    window.addEventListener('resize', checkMobile)
+  // useEffect(() => {
+  //   // checkMobile()
+  //   window.addEventListener('resize', checkMobile)
 
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-    }
-  }, [])
+  //   return () => {
+  //     window.removeEventListener('resize', checkMobile)
+  //   }
+  // }, [])
 
   return (
     <div className='flex flex-col gap-6 h-16 md:h-auto'>
@@ -74,31 +73,12 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
       >
 
         <div
-          onClick={() => setOpened(!opened)}
+          onClick={() => onClick()}
           className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full cursor-pointer w-12 h-12 ${opened && "rounded-b-none"}`}
         >
           {/* Icon */}
-          {/* <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}> */}
-            <AiOutlineSearch className='text-2xl'/>
-          {/* </span> */}
-
+          <AiOutlineSearch className='text-2xl' />
         </div>
-        {/* <div
-          className={
-            (opened ? 'items-center' : 'items-end') +
-            ' flex gap-2 md:cursor-text cursor-pointer'
-          }
-          onClick={() => mobile && setOpened(!opened)}
-        >
-          {mobile && (
-            <IoIosArrowDown
-              className={
-                (opened ? 'rotate-180' : '') +
-                ' transition-all duration-500 relative bottom-[6px] text-grey-content'
-              }
-            />
-          )}
-        </div> */}
 
         {/* Inputs */}
         {opened && (
@@ -158,7 +138,7 @@ const MapSearch = ({ mapState, handleMapSelection }: Props) => {
                     onChange={(e) => setLandId(e.target.value)}
                     value={landId}
                     placeholder='14271'
-                    className='font-semibold border-gray-300 placeholder-gray-300 bg-transparent block w-[8.5rem] text-white p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl placeholder-opacity-75'
+                    className='font-light font-plus border-gray-300 shadowCoord placeholder-grey-content block w-[8.5rem]  text-grey-content p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                   />
                 )}
               </div>

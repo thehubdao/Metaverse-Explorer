@@ -23,7 +23,7 @@ export enum Plans {
 }
 
 export enum Metaverses {
-  ALL = "All",
+  ALL = "All Lands",
   SANDBOX = "Sandbox",
   DECENTRALAND = "Decentraland",
   // AXIE = "Axie Infinity",

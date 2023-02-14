@@ -4,20 +4,20 @@ import Image from 'next/image'
 import Chatbot from 'react-chatbot-kit'
 
 // Chatbot initials
-import config from '../lib/chatbot/config-chatbot'
-import ActionProvider from '../lib/chatbot/ActionProvider'
+import { configB2b } from '../lib/chatbot/config-chatbot'
+import { ActionProviderB2b } from '../lib/chatbot/ActionProvider'
 import MessageParser from '../lib/chatbot/MessageParser'
 import web3authService from '../backend/services/Web3authService'
 import { useEffect, useState } from 'react'
 
 const B2B: NextPage = () => {
     const [isInit, setIsInit] = useState(false)
-useEffect(() => {console.log(web3authService.getB2Broles)})
+    useEffect(() => { console.log(web3authService.getB2Broles) })
     useEffect(() => {
         console.log(isInit, 'IS INIT')
     }, [isInit])
     useEffect(() => {
-        console.log(web3authService.getToken,"TOKEN")
+        console.log(web3authService.getToken, "TOKEN")
         if (!web3authService.getToken) return
         setIsInit(true)
         console.log(web3authService.getB2Broles)
@@ -59,9 +59,9 @@ useEffect(() => {console.log(web3authService.getB2Broles)})
                             </div>
                         }
                         <Chatbot
-                            actionProvider={ActionProvider}
+                            actionProvider={ActionProviderB2b}
                             messageParser={MessageParser}
-                            config={config as any}
+                            config={configB2b as any}
                         />
                     </div>
                 </div>

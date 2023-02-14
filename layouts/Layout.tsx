@@ -24,79 +24,38 @@ const list = [
 	},
 	{
 		url: "/swap",
-		label: "SWAP",
+		label: "Buy MGH",
 		icon: "h",
 	},
 	{
 		url: "/liquidity",
-		label: "LIQUIDITY",
+		label: "Provide Liquidity",
 		icon: "f",
 	},
 	{
 		url: "/stake",
-		label: "STAKE",
+		label: "Stake MGH",
 		icon: "d",
 	},
 	{
 		url: "https://snapshot.org/#/metagamehub.eth",
-		label: "GOVERNANCE",
+		label: "Governance",
 		icon: "a",
 	},
 	{
 		url: "/mlm",
-		label: "MLM",
+		label: "Metaverse Loyalty System",
 		icon: "i",
 	},
 	{
-		url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland",
-		label: "EDIT AVATAR",
+		/* url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland", */
+		url: '/avatar',
+		label: "Avatar Generator",
 		icon: "g",
 	},
 ];
 
 export default function Layout({ children }: LayoutProps) {
-	const SidebarOptionList = [
-		{
-			url: "/valuation",
-			label: "LAND Valuation",
-			icon: "b",
-		},
-		{
-			url: "/nftValuation",
-			label: "NFT Valuation",
-			icon: "c",
-		},
-		{
-			url: "/swap",
-			label: "SWAP",
-			icon: "h",
-		},
-		{
-			url: "/liquidity",
-			label: "LIQUIDITY",
-			icon: "f",
-		},
-		{
-			url: "/stake",
-			label: "STAKE",
-			icon: "d",
-		},
-		{
-			url: "https://snapshot.org/#/metagamehub.eth",
-			label: "GOVERNANCE",
-			icon: "a",
-		},
-		{
-			url: "/mlm",
-			label: "MLM",
-			icon: "i",
-		},
-		{
-			url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland",
-			label: "EDIT AVATAR",
-			icon: "g",
-		},
-	];
 	// Scrollbar Controller
 	const parentRef = useRef<HTMLDivElement>(null)
 	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
@@ -109,7 +68,7 @@ export default function Layout({ children }: LayoutProps) {
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
 			{/* Page wrapper */}
-			<main className="w-full min-h-screen pl-24 relative">
+			<main className="w-full min-h-screen pl-32 relative">
 				<div className="absolute top-0 right-0 z-50">
 					<ConnectButton />
 				</div>
@@ -117,7 +76,7 @@ export default function Layout({ children }: LayoutProps) {
 			</main>
 
 			{/* Sidebar wrapper */}
-			<div className="fixed inset-0 w-24 overflow-hidden">
+			<div className="fixed inset-0 w-32 overflow-hidden">
 				<Sidebar list={list} />
 			</div>
 			{parentDom && <ScrollBar parentDom={parentDom} />}

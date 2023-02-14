@@ -26,7 +26,7 @@ class Web3authService {
     public get getB2CRoles(): [any] | null {
         return this.B2CRoles
     }
-    public get getToken():string | null {
+    public get getToken(): string | null {
         return this.token
     }
 
@@ -53,10 +53,10 @@ class Web3authService {
         try {
             const web3authInit = new Web3Auth({
                 clientId,
-
+                web3AuthNetwork: 'cyan',
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x1',
+                    chainId: '0x89',
                     rpcTarget: Chains.MATIC_TESTNET.rpcUrl, // This is the private RPC
                 },
             })
@@ -71,7 +71,7 @@ class Web3authService {
     connectWeb3Auth = async (signer: Signer) => {
         const address = await signer.getAddress()
 
-        try {
+/*         try {
             const { nonce } = await fetchNonce(address)
             // Create Msg
             const msgToSign = `${nonce}`
@@ -94,7 +94,7 @@ class Web3authService {
             this.B2CRoles = B2CRoles
         } catch (e) {
             console.log(e)
-        }
+        } */
     }
 
     disconnectWeb3Auth = async () => {

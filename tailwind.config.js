@@ -106,10 +106,10 @@ module.exports = {
           content: '#54575C',
           sidebar: '#EDEDF5',
           icon: '#9B9B9B',
-          dark: '#ECEEF8',
+          dark: '#F3F6FF',
           bone: '#F9FAFB',
           panel: '#E9ECF6',
-          lightest: '#F8F9FD'
+          lightest: '#F8F9FD',
         },
         'background': '#111111',
         'white': '#ffffff',

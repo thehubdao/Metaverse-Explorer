@@ -17,7 +17,6 @@ interface Props {
 
 const AddToWatchlistButton = ({ land, metaverse }: Props) => {
     const { address } = useAccount()
-console.log(land)
     const addToWatchList = async () => {
         if (!address) return
         await addLandToWatchList(land, address, metaverse)
@@ -25,7 +24,7 @@ console.log(land)
 
     return (
         <button
-            className="flex text-left items-center text-gray-200 text-sm hover:text-pink-500 transition duration-300 font-medium ease-in-out"
+            className="flex text-left items-center text-grey-content text-sm hover:text-pink-400 transition duration-300 font-medium ease-in-out"
             onClick={addToWatchList}
         >
             {'Add to Watchlist'}
