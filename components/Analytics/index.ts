@@ -8,6 +8,10 @@ export const AnalyticsChart = dynamic(() => import('./AnalyticsChart'), {
   ssr: false,
 })
 
+export const AnalyticsMultiChart = dynamic(() => import('./AnalyticsMultiChart'), {
+  ssr: false,
+})
+
 export const FloorAndVolumeChart = dynamic(
   () => import('../../components/Valuation/FloorAndVolumeChart'),
   {

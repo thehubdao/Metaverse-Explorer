@@ -4,11 +4,11 @@ import { formatName, typedKeys } from '../../lib/utilities'
 import { OptimizedImage } from '../General'
 
 interface Props {
-  setMetaverse: React.Dispatch<React.SetStateAction<Metaverse>>
-  metaverse?: Metaverse
+  setAllMetaverse: React.Dispatch<React.SetStateAction<Metaverse>>
+  allMetaverse: any
 }
 
-const AnalyticsMvChoice = ({ metaverse, setMetaverse }: Props) => {
+const AnalyticsMvChoice = ({ allMetaverse, setAllMetaverse }: Props) => {
   const mvOptions = {
     sandbox: { logo: '/images/the-sandbox-sand-logo.png' },
     decentraland: { logo: '/images/decentraland-mana-logo.png' },
@@ -19,15 +19,25 @@ const AnalyticsMvChoice = ({ metaverse, setMetaverse }: Props) => {
     <div className='w-full h-full p-2'>
       {/* Metaverse Buttons */}
       <div className='nm-insert-hard flex justify-center gap-5 sm:gap-8'>
-        {typedKeys(mvOptions).map((landKey) => (
+        {typedKeys(mvOptions).map((landKey: Metaverse) => (
           <button
             key={landKey}
-            onClick={() => setMetaverse(landKey)}
+            onClick={() =>{
+              let state: boolean;
+              allMetaverse[landKey].active ? state=false : state=true 
+              setAllMetaverse((prevState: any) => ({
+              ...prevState,
+                [landKey]: {
+                  ...prevState[landKey],
+                  active: state
+                },
+              })
+            )}}
             className={`flex flex-col items-center justify-center space-y-2 rounded-xl cursor-pointer p-2 px-3 pt-4 md:w-40 md:h-[12rem] w-30 h-32 group focus:outline-none ${
-              metaverse === landKey
+              allMetaverse[landKey].active
                 ? 'border-opacity-20 nm-inset-medium'
                 : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
-            } border border-gray-400 focus:nm-inset-medium transition duration-300 ease-in-out`}
+            } border border-gray-400 transition duration-300 ease-in-out`}
           >
             <OptimizedImage
               src={mvOptions[landKey].logo}
@@ -35,7 +45,7 @@ const AnalyticsMvChoice = ({ metaverse, setMetaverse }: Props) => {
               width={60}
               objectFit='contain'
               className={`w-10 ${
-                metaverse === landKey ? 'grayscale-0' : 'grayscale'
+                allMetaverse[landKey].active ? 'grayscale-0' : 'grayscale'
               } group-hover:grayscale-0 transition duration-300 ease-in-out`}
             />
             <p className='font-medium text-xs md:text-sm pt-1'>
