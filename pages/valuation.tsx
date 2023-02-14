@@ -174,9 +174,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const handleMapSelection = async (
 		lands?: ValuationTile | any,
 		x?: number,
-		y?: number,
+		y: number = 0,
 		tokenId?: string,
-		isntFullScreen?: boolean,
 	) => {
 		setCardData(undefined);
 		setMapState("loadingQuery");
@@ -185,8 +184,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		if (!lands) {
 			try {
 				let data;
-				const parameters =
-					x && y ? `x=${x}&y=${y}` : tokenId ? `tokenId=${tokenId}` : null;
+				const parameters = (x !== undefined && y !== undefined) ? `x=${x}&y=${y}` : tokenId ? `tokenId=${tokenId}` : null;
 				const response = await fetch(
 					`${process.env.ITRM_SERVICE}${metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
 						? ""
@@ -199,6 +197,16 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					}
 				);
 				lands = await response.json();
+				let auxLands
+				Object.entries(lands).forEach(([key, value]) => {
+					auxLands = value
+				});
+				lands = auxLands
+
+				if (metaverse !== 'somnium-space') {
+					const auxY = lands.coords.y
+					lands.coords.y = -auxY
+				}
 				/* 				if (metaverse !== "axie-infinity") {
 									Object.entries(lands).forEach(([key, value]) => {
 										lands = value;
@@ -213,7 +221,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		}
 		try {
 			if (!lands.name) throw "myException";
-			console.log(lands)
 			const landData: any = findHeatmapLand(
 				lands,
 				prices,
@@ -450,7 +457,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												setSelected(undefined);
 											} else {
 												const isntFullScreen = document.fullscreenElement ? false : true
-												handleMapSelection(land, x, y, undefined, isntFullScreen);
+												handleMapSelection(land, x, y, undefined);
 											}
 										}}
 										metaverse={metaverse}
@@ -480,9 +487,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
-												const isntFullScreen = document.fullscreenElement ? false : true
-
-												handleMapSelection(land, x, y, undefined, isntFullScreen);
+												handleMapSelection(land, x, y, undefined);
 											}
 										}}
 										metaverse={metaverse}
