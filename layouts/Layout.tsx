@@ -29,28 +29,28 @@ const list = [
 	},
 	{
 		url: "/liquidity",
-		label: "LIQUIDITY",
+		label: "Buy MGH",
 		icon: "f",
 	},
 	{
 		url: "/stake",
-		label: "STAKE",
+		label: "Stake MGH",
 		icon: "d",
 	},
 	{
 		url: "https://snapshot.org/#/metagamehub.eth",
-		label: "GOVERNANCE",
+		label: "Governance",
 		icon: "a",
 	},
 	{
 		url: "/mlm",
-		label: "MLM",
+		label: "Metaverse Loyalty System",
 		icon: "i",
 	},
 	{
 		/* url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland", */
 		url: '/avatar',
-		label: "EDIT AVATAR",
+		label: "Avatar Generator",
 		icon: "g",
 	},
 ];
