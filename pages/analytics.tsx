@@ -10,7 +10,7 @@ import { Metaverse } from '../lib/metaverse'
 import { formatName, getState } from '../lib/utilities'
 import Head from 'next/head'
 import {
-    AnalyticsChart,
+    AnalyticsMultiChart,
     AnalyticsMvChoice,
     chartRoutes,
 } from '../components/Analytics'
@@ -28,25 +28,40 @@ interface Props {
 }
 
 const headerList = [
-	{
-		name: "Portfolio",
-		route: "portfolio",
-	},
-	{
-		name: "Watchlist",
-		route: "watchlist",
-	},
-	{
-		name: "Analytics",
-		route: "analytics",
-	},
+    {
+        name: "Portfolio",
+        route: "portfolio",
+    },
+    {
+        name: "Watchlist",
+        route: "watchlist",
+    },
+    {
+        name: "Analytics",
+        route: "analytics",
+    },
 ];
+
+const arrayMetaverses: Metaverse[] = [
+    "sandbox",
+    "decentraland",
+    "somnium-space"
+]
 
 const Analytics: NextPage<Props> = ({ prices }) => {
     const [metaverse, setMetaverse] = useState<Metaverse>('sandbox')
     type RouteValues = Partial<
         Record<typeof chartRoutes[number]['route'], ChartInfo[]>
     >
+    type RequiredMetaverse = {
+        [metaverse in keyof Metaverse]: Metaverse[metaverse]
+    }
+    const [metaverses, setMetaverses] = useState<RequiredMetaverse>()
+    const [allMetaverse, setAllMetaverse] = useState<any>({
+        'sandbox': { name: "Sandbox", active: true, color: "blue", data: undefined },
+        'decentraland': { name: "Decentraland", active: true, color: "orange", data: undefined },
+        'somnium-space': { name: "Somnium-space", active: true, color: "black", data: undefined },
+    })
     const [values, setValues] = useState<RouteValues>({})
     const [state, setState] = useState<AnalyticsState>('firstLoad')
     const [loading, loaded, firstLoad] = getState(state, [...analyticsState])
@@ -57,18 +72,34 @@ const Analytics: NextPage<Props> = ({ prices }) => {
         const salesVolumeCall = async () => {
             //firstLoad shows loader instead of charts, we use it for the initial Load.
             state !== 'firstLoad' && setState('loading')
-            const routesValues: RouteValues = {}
-            await Promise.all(
-                chartRoutes.map(async (_, i) => {
-                    routesValues[chartRoutes[i].route] = (await fetchChartData(
-                        metaverse,
-                        chartRoutes[i].route
-                    )) as ChartInfo[]
-                }),
-            )
 
+            let name: Metaverse;
 
-            setValues(routesValues)
+            for (let i = 0; i < arrayMetaverses.length; i++) {
+
+                let routesValues: RouteValues = {}
+
+                name = arrayMetaverses[i]
+
+                await Promise.all(
+                    chartRoutes.map(async (_, i) => {
+                        routesValues[chartRoutes[i].route] = (await fetchChartData(
+                            name,
+                            chartRoutes[i].route
+                        )) as ChartInfo[]
+                    }),
+                )
+
+                if (allMetaverse[name].data == undefined && allMetaverse[name].active == true)
+                    setAllMetaverse((prevState: any) => ({
+                        ...prevState,
+                        [name]: {
+                            ...prevState[name],
+                            data: routesValues
+                        },
+                    }))
+            }
+
             setMarkCap((await fetchChartData(metaverse, 'mCap')) as number)
             setRichList(
                 (await fetchChartData(metaverse, 'richList')) as RichList
@@ -76,7 +107,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
             setState('loaded')
         }
         salesVolumeCall()
-    }, [metaverse])
+    }, [allMetaverse])
     return (
         <>
             <Head>
@@ -89,57 +120,58 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 <GeneralSection
                     sectionTitle="Analytics"
                     optionList={headerList}
-                    backgroundClass={``} 
+                    backgroundClass={``}
                     children={undefined}
                 />
                 {/* Wrapper Metaverse Buttons - MarketCap/Owners */}
                 <div className="flex flex-col lg:flex-row gap-5 gray-box bg-opacity-5 w-fit m-auto mt-20 mb-24 ">
                     {/* Metaverse Choice Buttons */}
                     <AnalyticsMvChoice
-                        metaverse={metaverse}
-                        setMetaverse={setMetaverse}
+                        allMetaverse={allMetaverse}
+                        setAllMetaverse={setAllMetaverse}
                     />
                 </div>
                 {/* Market Cap - Owners Land % */}
                 <div className="nm-flat-hard w-fit m-auto mb-16 flex flex-col justify-center text-base sm:text-lg font-medium text-grey-content font-plus whitespace-nowrap border-1 rounded-3xl">
-                        <p className="px-11 py-3.5 flex gap-1 justify-center">
-                            LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
-                            {loaded ? (
-                                richList?.pctParcels &&
-                                (richList.pctParcels * 100).toFixed() + '%'
-                            ) : (
-                                <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
-                            )}
-                        </p>
-                    </div>
+                    <p className="px-11 py-3.5 flex gap-1 justify-center">
+                        LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
+                        {loaded ? (
+                            richList?.pctParcels &&
+                            (richList.pctParcels * 100).toFixed() + '%'
+                        ) : (
+                            <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
+                        )}
+                    </p>
+                </div>
 
                 {/* Loader for Initial Fetch */}
                 {firstLoad ? (
-                    <Loader />
+                    <Loader size={0} color={''} />
                 ) : (
                     /* Charts Wrapper */
                     <ul className="grid grid-cols-2 gap-12 w-full mr-7 my-5 bg-[#F9FAFB]">
                         {/* Charts */}
                         {chartRoutes.map((element, index) => {
-                            if (values[element.route])
+                            if (allMetaverse.sandbox.data)
                                 return (
                                     <li key={index} className='nm-flat-medium p-8 break-inside-avoid rounded-xl '>
                                         <div className='flex flex-row flex-nowrap items-baseline'>
                                             <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
                                             <h3 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-2xl flex h-[70px] align-middle">
                                                 {element.label}{' '}
-                                                    <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
-                                                    <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">
-                                                        {element.description}
-                                                    </p>
+                                                <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
+                                                <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">
+                                                    {element.description}
+                                                </p>
                                             </h3>
                                         </div>
-                                        <AnalyticsChart
+                                        <AnalyticsMultiChart
                                             fetching={loading}
                                             prices={prices}
-                                            metaverse={metaverse}
-                                            data={values[element.route]!}
+                                            metaverses={arrayMetaverses}
+                                            dataMetaverse={allMetaverse}
                                             label={element.label}
+                                            route={element.route}
                                         />
                                     </li>
                                 )
