@@ -195,12 +195,14 @@ const Heatmap2D = ({
     setViewport(null)
     setChunks({})
     setMapData({})
-    const map: any = new PIXI.Application({
+    const map: PIXI.Application = new PIXI.Application({
       width,
       height,
       resolution: 1,
       transparent: true,
     })
+
+    map.view.style.borderRadius = '24px'
 
     const viewport: any = new Viewport({
       interaction: map.renderer.plugins.interaction,
@@ -378,7 +380,7 @@ const Heatmap2D = ({
       <div
         id="map"
         className={`bg-white ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
-        style={{ width, height }}
+        style={{ width, height, border: 16 }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
         <Loader color='' size={100} />
