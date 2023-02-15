@@ -89,6 +89,12 @@ const headerList = [
 	},
 ];
 
+const metaverseLabels:Record<Metaverse,string>={
+	sandbox: "The Sandbox",
+	decentraland: "Decentraland",
+	"somnium-space": "Somnium Space"
+}
+
 const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [globalData, setglobalData] = useState<AnyObject>({})
 	const [estimateAccuracy, setestimateAccuracy] = useState<AnyObject>({})
@@ -288,7 +294,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					<>
 						<div className="flex items-center justify-between p-8">
 							<div className="flex flex-col space-y-3 max-w-xl">
-								<p className="text-2xl">The Sandbox LANDs</p>
+								<p className="text-2xl">{metaverseLabels[metaverse]} LANDs</p>
 								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 							</div>
 							<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
