@@ -97,12 +97,12 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             data: routesValues
                         },
                     }))
-            }
 
-            setMarkCap((await fetchChartData(metaverse, 'mCap')) as number)
-            setRichList(
-                (await fetchChartData(metaverse, 'richList')) as RichList
-            )
+                setMarkCap((await fetchChartData(name, 'mCap')) as number)
+                setRichList(
+                    (await fetchChartData(name, 'richList')) as RichList
+                )
+            }
             setState('loaded')
         }
         salesVolumeCall()
