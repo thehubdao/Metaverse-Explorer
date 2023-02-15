@@ -26,7 +26,7 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
     basic: {
       name: 'Basic',
       shortName: undefined,
-      icon: <FiMap />,
+      icon: <FiMap className='w-full h-full' />,
       description: 'Quickly find undervalued LANDs when clicking on the squares in the map'
     },
     eth_predicted_price: {
@@ -91,9 +91,11 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
         onClick={() => onClick()}
       >
         {/* Icon */}
-        <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
-          {filterOptions[filterBy].icon}
-        </span>
+        <div className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
+          <div className='w-full h-full p-3'>
+            {filterOptions[filterBy].icon}
+          </div>
+        </div>
 
       </button>
       {/* FilterOptions */}
