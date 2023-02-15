@@ -89,7 +89,7 @@ const headerList = [
 	},
 ];
 
-const metaverseLabels:Record<Metaverse,string>={
+const metaverseLabels: Record<Metaverse, string> = {
 	sandbox: "The Sandbox",
 	decentraland: "Decentraland",
 	"somnium-space": "Somnium Space"
@@ -333,10 +333,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					)}
 
 					{metaverse && (
-						<div className="bg-grey-bone rounded-xl p-2 nm-flat-medium h-[80vh]">
+						<div className="bg-grey-bone rounded-[30px] p-7 nm-flat-medium h-[80vh]">
 							<div className="w-full h-full relative bg-grey-bone" ref={mapDivRef}>
 
-								<div className="absolute top-1 left-1 z-20 flex gap-4 p-2 md:w-fit w-full unselectable">
+								<div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full unselectable m-4">
 									<div className="md:flex gap-2 md:gap-4 hidden">
 										{/* Metaverse Selection */}
 										<MapChooseMetaverse
@@ -378,7 +378,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								</div>
 
-								<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-full">
+								<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-xl m-4	">
 									Unlimited access until Feb 28th
 								</p>
 
@@ -388,7 +388,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									<div
 										className={
 											(isVisible && "hidden") +
-											" md:block absolute z-20 bottom-1 right-1 unselectable rounded-full bg-grey-dark px-4 py-2"
+											" md:block absolute z-20 bottom-1 right-1 unselectable rounded-full bg-grey-dark px-4 py-2 m-4"
 										}
 									>
 										<ColorGuide
@@ -412,7 +412,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Full screen button - Hides when MapCard is showing (all screens) */}
 								{!isVisible && (
-									<div className="absolute z-20 top-1 right-1 rounded-full bg-grey-bone p-2 h-9 w-9">
+									<div className="absolute z-20 top-1 right-1 rounded-full bg-grey-bone m-4 p-2 h-9 w-9">
 										<FullScreenButton
 											fullScreenRef={mapDivRef}
 											className="text-xl text-grey-content"
@@ -521,7 +521,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								{filterBy === "basic" ? (
 									!isVisible && (
 										<MapLegend
-											className="absolute bottom-1 right-1"
+											className="absolute bottom-1 right-1 m-4"
 											legendFilter={legendFilter}
 											setLegendFilter={setLegendFilter}
 											metaverse={metaverse}

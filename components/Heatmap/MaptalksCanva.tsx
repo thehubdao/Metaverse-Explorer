@@ -275,10 +275,10 @@ const MaptalksCanva = ({
         height={height}
         /* style={{ width, height }} */
         id="map"
-        className={isLoading ? 'hidden' : 'block'}
+        className={isLoading ? 'hidden' : 'block rounded-3xl'}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader color='' size={200} />
+        <Loader color='' size={100} />
         <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>
