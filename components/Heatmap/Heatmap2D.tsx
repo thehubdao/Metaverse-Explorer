@@ -15,7 +15,7 @@ import {
 } from '../../lib/heatmap/valuationColoring'
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
-import { Container } from 'pixi.js'
+import { Container, Texture } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import axios from 'axios'
@@ -220,24 +220,39 @@ const Heatmap2D = ({
         direction: 'all',
         underflow: 'center'
     }) */
-
     map.stage.addChild(viewport)
     document.getElementById('map')?.appendChild(map.view)
     setMap(map)
     setViewport(viewport)
+    const setBackground = async () => {
+
+      const sandbox_bg_url = 'images/sandbox_bg.jpg'
+      const texture = await PIXI.Texture.fromURL(sandbox_bg_url, {
+      })
+      const mapBackground = new PIXI.Sprite(metaverse == 'sandbox' ? texture : PIXI.Texture.WHITE)
+      mapBackground.position.set(-205 * TILE_SIZE, -204 * TILE_SIZE)
+      mapBackground.width = 410 * TILE_SIZE
+      mapBackground.height = 410 * TILE_SIZE
+      mapBackground.tint = 0xFFFF1
+      mapBackground.zIndex = -100
+      viewport.addChild(mapBackground)
+    }
+
     const getMetaverseData = async () => {
+      await setBackground()
       let dataCall: any = await fetch(
         process.env.SOCKET_SERVICE + `/limits?metaverse=${metaverse}`
       )
+
       dataCall = await dataCall.json()
       setMetaverseData(dataCall)
     }
     getMetaverseData()
     return () => {
-      document.getElementById('map')?.removeChild(map.view)
-      map.destroy()
-      viewport.destroy()
-      /*             socket.disconnect() */
+      document?.getElementById('map')?.removeChild(map?.view)
+      map?.destroy()
+      viewport?.destroy()
+
       onHover(0 / 0, 0 / 0, undefined, undefined)
     }
   }, [metaverse])
@@ -247,7 +262,7 @@ const Heatmap2D = ({
     viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE)
     let currentTint: any
     let currentSprite: any
-    viewport.on('mousemove', (e: any): any => {
+    viewport?.on('mousemove', (e: any): any => {
       let { x, y } = viewport.toLocal(e.data.global)
 
       x = Math.floor(x / TILE_SIZE)
@@ -377,7 +392,7 @@ const Heatmap2D = ({
     <>
       <div
         id="map"
-        className={`bg-white rounded-lg ${isLoading ? 'hidden' : 'block'}`}
+        className={`bg-[#3C3E42] rounded-lg ${isLoading ? 'hidden' : 'block'}`}
         style={{ width, height }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
