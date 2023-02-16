@@ -7,7 +7,7 @@ import { Chains } from "../lib/chains"
 
 
 export default function usePolygonStaking(signer: Signer | undefined, address: string | undefined, chainId: number | undefined) {
-
+    const provider = signer?.provider
     const [MGHBalance, setMGHBalance] = useState("")
     const [allowance, setAllowance] = useState("")
 
@@ -32,7 +32,7 @@ export default function usePolygonStaking(signer: Signer | undefined, address: s
             let allowance = ""
             let balance = "";
 
-            const contractInfo  = await getContractInfo(signer, chainId)
+            const contractInfo  = await getContractInfo(provider, chainId)
             totalSupply = formatEther(contractInfo.totalSupply)
             rewardRate = formatEther(contractInfo.rewardRate)
             APY = contractInfo.APY

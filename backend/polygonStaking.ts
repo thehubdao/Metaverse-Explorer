@@ -1,3 +1,4 @@
+import { Provider } from "@ethersproject/providers";
 import { BigNumber, ethers, providers, Signer } from "ethers";
 import { Chains } from "../lib/chains";
 
@@ -88,13 +89,13 @@ export const calcReward = async (signer: Signer, address: string) => {
     return { staked, earned }
 }
 
-export const getContractInfo = async (signer: Signer | undefined, chainId: number | undefined) => {
+export const getContractInfo = async (provider: Provider | undefined, chainId: number | undefined) => {
 
     let contractProvider;
-    if (!signer || chainId !== Chains.MATIC_MAINNET.chainId) {
+    if (!provider || chainId !== Chains.MATIC_MAINNET.chainId) {
         contractProvider = new ethers.providers.InfuraProvider(Chains.MATIC_MAINNET.chainId, "03bfd7b76f3749c8bb9f2c91bdba37f3")
     } else {
-        contractProvider = signer
+        contractProvider = provider
     }
 
     const contract = new ethers.Contract(
