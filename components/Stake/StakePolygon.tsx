@@ -1,47 +1,45 @@
 import { useEffect, useState } from 'react';
-import type { NextPage } from 'next'
 import Head from 'next/head'
-import dynamic from 'next/dynamic';
-import { ethers } from 'ethers';
+import { ethers, Signer } from 'ethers';
 
 import { Tokens } from '../../lib/enums'
 import { Chains } from '../../lib/chains';
 import { Contracts } from '../../lib/contracts';
-import { useAppSelector } from '../../state/hooks';
 
 import { approveMGH, getReward, reinvestReward, stakeMGH, unstakeMGH } from '../../backend/polygonStaking';
 import usePolygonStaking from '../../backend/usePolygonStaking';
 import addTokenToWallet from "../../backend/addToken"
-import useConnectWeb3 from '../../backend/connectWeb3';
 import changeChain from '../../backend/changeChain';
 
 import ConnectButton from "../ConnectButton"
 import TransactionModal from '../TransactionModal';
 import Loader from '../Loader';
-import { useAccount } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 
 
-const PolygonStaking: NextPage = () => {
-    const { web3Provider } = useConnectWeb3()
-    const { chainId } = useAppSelector(state => state.account)
-    const { MGHBalance, allowance, totalStaked, earned, totalSupply, rewardRate, APY, loading } = usePolygonStaking(web3Provider, address, chainId)
+const PolygonStaking = () => {
+
 
     const [stakeInput, setStakeInput] = useState("")
     const [unstakeInput, setUnstakeInput] = useState("")
-
+    const [chainId,setChainId] = useState<number>()
     const [openModal, setOpenModal] = useState(false)
     const [transactionLoading, setTransactionLoading] = useState(true)
     const [transactionModal, setTransactionModal] = useState(false)
     const [success, setSuccess] = useState(true)
     const [hash, setHash] = useState("")
     const { address } = useAccount()
+    const { data:signer} = useSigner()
+    const { MGHBalance, allowance, totalStaked, earned, totalSupply, rewardRate, APY, loading } = usePolygonStaking(signer as Signer, address, chainId)
 
     useEffect(() => {
-        if (!web3Provider) {
+        if (!signer) {
             setStakeInput("")
             setUnstakeInput("")
         }
-    }, [web3Provider])
+        const getChainId = async ()=>setChainId(await signer?.getChainId())
+        getChainId()
+    }, [signer])
 
     if (!transactionModal && !transactionLoading) {
         setTransactionModal(true)
@@ -64,29 +62,29 @@ const PolygonStaking: NextPage = () => {
     }
 
     const approve = async () => {
-        const transaction = await approveMGH(web3Provider, address)
+        const transaction = await approveMGH(signer as Signer, address)
         await processTransaction(transaction)
     }
 
     const stake = async () => {
         const amount = ethers.utils.parseEther(stakeInput)
-        const transaction = await stakeMGH(web3Provider, address, amount)
+        const transaction = await stakeMGH(signer as Signer, address, amount)
         await processTransaction(transaction)
     }
 
     const unstake = async () => {
         const amount = ethers.utils.parseEther(unstakeInput)
-        const transaction = await unstakeMGH(web3Provider, address, amount)
+        const transaction = await unstakeMGH(signer as Signer, address, amount)
         await processTransaction(transaction)
     }
 
     const claimRewards = async () => {
-        const transaction = await getReward(web3Provider, address)
+        const transaction = await getReward(signer as Signer, address)
         await processTransaction(transaction)
     }
 
     const reinvest = async () => {
-        const transaction = await reinvestReward(web3Provider, address)
+        const transaction = await reinvestReward(signer as Signer, address)
         await processTransaction(transaction)
     }
 
@@ -109,7 +107,7 @@ const PolygonStaking: NextPage = () => {
                     <div className="flex flex-col space-y-5 w-full lg:w-7/12">
 
                         <div className="relative flex flex-col space-y-5 h-full items-center justify-between border-t border-l border-opacity-10 shadow-dark rounded-xl p-2 pb-10 sm:p-5 sm:pb-12 w-full bg-grey-dark bg-opacity-30">
-                            {(!web3Provider || !+allowance || chainId !== Chains.MATIC_MAINNET.chainId) && <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-0 backdrop-blur-sm rounded-xl z-20"></div>}
+                            {(!signer || !+allowance || chainId !== Chains.MATIC_MAINNET.chainId) && <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-0 backdrop-blur-sm rounded-xl z-20"></div>}
                             <div className="self-start flex items-center justify-center space-x-2 sm:space-x-4 w-full pr-2 mb-2 z-30">
                                 <img src="/images/mgh_logo.png" className="object-scale-down h-10 sm:h-14 p-1" />
                                 <h3 className="text-gray-300 pb-1.5">$MGH Staking</h3>
@@ -149,15 +147,15 @@ const PolygonStaking: NextPage = () => {
                                 
                             )}
 
-                            {web3Provider && !+allowance && chainId === Chains.MATIC_MAINNET.chainId && (
+                            {signer && !+allowance && chainId === Chains.MATIC_MAINNET.chainId && (
                                 <button onClick={approve} className="z-30 disabled:opacity-50 disabled:hover:shadow-dark disabled:cursor-default mt-4 relative flex justify-center items-center  transition ease-in-out duration-500 shadow-dark rounded-xl w-full max-w-md py-3 sm:py-4 group">
                                     <div className="h-full w-full absolute bg-gradient-to-br transition-all ease-in-out duration-300 from-pink-600 to-blue-500 rounded-xl opacity-60 group-hover:opacity-80" />
                                     <span className="pt-1 z-10 text-gray-200 font-medium text-lg sm:text-xl">Approve MGH</span>
                                 </button>
                             )}
 
-                            {web3Provider && chainId !== Chains.MATIC_MAINNET.chainId && (
-                                <button onClick={() => { changeChain(web3Provider.provider, Chains.MATIC_MAINNET.chainId) }} className="z-30 disabled:opacity-50 disabled:hover:shadow-dark disabled:cursor-default mt-4 relative flex justify-center items-center  transition ease-in-out duration-500 shadow-dark rounded-xl w-full max-w-md py-3 sm:py-4 group">
+                            {signer && chainId !== Chains.MATIC_MAINNET.chainId && (
+                                <button onClick={() => { changeChain(signer.provider, Chains.MATIC_MAINNET.chainId) }} className="z-30 disabled:opacity-50 disabled:hover:shadow-dark disabled:cursor-default mt-4 relative flex justify-center items-center  transition ease-in-out duration-500 shadow-dark rounded-xl w-full max-w-md py-3 sm:py-4 group">
                                     <div className="h-full w-full absolute bg-gradient-to-br transition-all ease-in-out duration-300 from-pink-600 to-blue-500 rounded-xl opacity-60 group-hover:opacity-80" />
                                     <span className="pt-1 z-10 text-gray-200 font-medium text-lg sm:text-xl">Switch to Polygon</span>v
                                 </button>
@@ -217,10 +215,10 @@ const PolygonStaking: NextPage = () => {
 
 
 
-                        <div className="flex flex-col justify-center items-center rounded-xl p-2 sm:p-5 w-full bg-grey-dark bg-opacity-30 shadow-dark max-w-4xl">
+{/*                         <div className="flex flex-col justify-center items-center rounded-xl p-2 sm:p-5 w-full bg-grey-dark bg-opacity-30 shadow-dark max-w-4xl">
                             <p className="mb-5 text-gray-300 font-medium max-w-sm text-center text-sm sm:text-base pt-4 sm:pt-0">$MGH staking is on Polygon for you to save network fees. To stake your $MGH, you first have to bridge them using the Polygon Bridge.</p>
-                            {(web3Provider && chainId === Chains.MATIC_MAINNET.chainId) && <p onClick={() => addTokenToWallet(web3Provider.provider, Contracts.MGH_TOKEN.MATIC_MAINNET.address)} className="mt-3 pt-1 z-10 text-gray-400 hover:text-blue-400 transition ease-in-out duration-300 font-medium text-lg cursor-pointer">Add $MGH to your Wallet</p>}
-                        </div>
+                            {(signer && chainId === Chains.MATIC_MAINNET.chainId) && <p onClick={() => addTokenToWallet(signer, Contracts.MGH_TOKEN.MATIC_MAINNET.address)} className="mt-3 pt-1 z-10 text-gray-400 hover:text-blue-400 transition ease-in-out duration-300 font-medium text-lg cursor-pointer">Add $MGH to your Wallet</p>}
+                        </div> */}
 
                     </div>
 

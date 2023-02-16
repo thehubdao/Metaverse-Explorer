@@ -3,10 +3,10 @@ const tokenDecimals = 18;
 const tokenImage = 'https://app.metagamehub.io/images/mgh_logo.png';
 
 
-const addTokenToWallet = async (provider: any, address: string) => {
+const addTokenToWallet = async (signer: any, address: string) => {
     try {
         // wasAdded is a boolean. Like any RPC method, an error may be thrown.
-        await provider.request({
+        await signer.request({
             method: 'wallet_watchAsset',
             params: {
                 type: 'ERC20', // Initially only supports ERC20, but eventually more!
