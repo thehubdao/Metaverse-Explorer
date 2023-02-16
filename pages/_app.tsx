@@ -90,7 +90,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <div className='w-fit'>
                         <Loader size={100} color='' />
                     </div>
-                    <p className='absolute bottom-12 font-bold text-grey-content'>We are connecting our web3 tools</p>
+                    <p className='absolute bottom-12 font-bold text-grey-content'>MGH loves you!</p>
                 </div>
             )}
         </>
