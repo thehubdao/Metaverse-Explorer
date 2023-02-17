@@ -230,7 +230,7 @@ const Heatmap2D = ({
       const texture = await PIXI.Texture.fromURL(sandbox_bg_url, {
       })
       const mapBackground = new PIXI.Sprite(metaverse == 'sandbox' ? texture : PIXI.Texture.WHITE)
-      mapBackground.position.set(-205 * TILE_SIZE, -204 * TILE_SIZE)
+      mapBackground.position.set(-204 * TILE_SIZE, -203 * TILE_SIZE)
       mapBackground.width = 410 * TILE_SIZE
       mapBackground.height = 410 * TILE_SIZE
       mapBackground.zIndex = -100
