@@ -85,10 +85,12 @@ const Watchlist: NextPage = () => {
       >
         {address ? (
           <div className='bg-[#f8f9fd] rounded-3xl py-16 my-10'>
-            <div className="w-full flex flex-col justify-center items-center">
-              {/* Metaverse Card selector */}
+
+
+            {/* Metaverse Card selector */}
+            <div className="w-full grid justify-center items-center">
               {/* Metaverse Buttons */}
-              <div className='flex justify-center gap-16 pb-10'>
+              <div className='flex flex-wrap justify-center gap-16 pb-10'>
                 {typedKeys(mvOptions).map((landKey) => (
                   <button
                     key={landKey}
@@ -115,12 +117,14 @@ const Watchlist: NextPage = () => {
 
               {/* Add land inputs */}
               {metaverse && (
-                <div className="flex w-full justify-center items-center gap-24">
+                <div className="flex w-full justify-between items-center gap-24">
                   <SearchLandForm searchBy="tokenId" metaverse={metaverse} addLand={addLand} />
                   <SearchLandForm searchBy="coordinates" metaverse={metaverse} addLand={addLand} />
                 </div>
               )}
             </div>
+
+            {/* Watch List */}
             <ul className="grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8">
               {metaverse &&
                 watchlist &&
