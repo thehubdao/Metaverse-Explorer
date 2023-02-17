@@ -30,7 +30,7 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
   return (
     <>
       {historicFloorPrice && 
-      <><h3>Historic Floor Price:</h3>
+      <><h3 className="text-lg">Historic Floor Price:</h3>
       <div className="rounded-3xl overflow-hidden h-full">
         <AnalyticsChart
           data={historicFloorPrice}

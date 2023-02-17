@@ -91,9 +91,9 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
         onClick={() => onClick()}
       >
         {/* Icon */}
-        <span className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
+        <div className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
           {filterOptions[filterBy].icon}
-        </span>
+        </div>
 
       </button>
       {/* FilterOptions */}
