@@ -20,7 +20,7 @@ const MapLegend = ({
   const colors = typedKeys(LEGEND_COLORS).filter((element) => {
     return metaverse === 'decentraland'
       ? true
-      : ['watchlist', 'portfolio', 'on-sale'].includes(element)
+      : ['on-sale', 'watchlist', 'portfolio'].includes(element)
   })
   const handleLegendClick = (legend: keyof typeof LEGEND_COLORS) => {
     if (colors.includes(legend)) {

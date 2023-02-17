@@ -37,7 +37,7 @@ export default function GeneralSection({ sectionTitle, optionList, children, bac
   return (
     <>
       {/* Top Header */}
-      <div className="px-8">
+      <div className="px-16">
         <div className={`${backgroundClass} rounded-xl`}>
           {/* Menu Header */}
           <div className="border-t border-l border-white/10 rounded-3xl p-5 w-full bg-opacity-30; flex flex-col lg:flex-row justify-between items-center bg-grey-dark">

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Metaverse } from '../../lib/metaverse'
 import { IPredictions } from '../../lib/types'
 import { typedKeys } from '../../lib/utilities'
@@ -61,17 +62,19 @@ const PriceList = ({ predictions, className, metaverse }: Props) => {
               className='animate-fade-in-slow flex gap-4 items-center w-full justify-start h-full'
             >
               {/* Coin Image */}
-              <img
+              <Image 
                 src={
                   key === 'metaversePrediction'
                     ? COINS[key][(metaverse + 'Prediction') as metaverseKey].src
                     : COINS[key].src
                 }
-                className='rounded-full  h-9 xl:h-10 w-9 xl:w-10 p-1 shadow-button'
+                className='rounded-full h-10 w-10 p-2 justify-end'
+                width={25}
+                height={25}
                 loading='lazy'
               />
               {/* Coin Prediction Number */}
-              <div className='w-full grid grid-cols-2 gap-6 content-center items-center text-lg 2xl:text-xl font-plus'>
+              <div className='w-full grid grid-cols-2 gap-6 content-center items-center text-xl font-plus'>
                 <p className='font-thin text-grey-content pt-0.5'>
                   {predictions[key]?.toLocaleString(undefined, {
                     maximumFractionDigits: 2,

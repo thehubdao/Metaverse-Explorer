@@ -2,172 +2,158 @@ import axios from 'axios'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { FaWallet } from 'react-icons/fa'
-import { Fade } from 'react-awesome-reveal'
+
 // web3auth functions
-import { useAccount, useConnect } from 'wagmi'
+import { useAccount } from 'wagmi'
 import ConnectButton from '../components/ConnectButton'
 
-import OvalButton from '../components/General/Buttons/OvalButton'
 import GeneralSection from '../components/GeneralSection'
-import { MapInitMvChoice } from '../components/Heatmap'
 import Land from '../components/Watchlist/Land'
-import MetaverseCard from '../components/Watchlist/MetaverseCard'
 import SearchLandForm from '../components/Watchlist/SearchForm'
 import { Metaverse } from '../lib/metaverse'
 import { addLandToWatchList, removeLandFromWatchList } from '../lib/FirebaseUtilities'
+import { formatName, typedKeys } from '../lib/utilities'
+import { OptimizedImage } from '../components/General'
 
 const headerList = [
-    {
-        name: 'Portfolio',
-        route: 'portfolio',
-    },
-    {
-        name: 'Watchlist',
-        route: 'watchlist',
-    },
-    {
-        name: 'Analytics',
-        route: 'analytics',
-    },
+  {
+    name: 'Portfolio',
+    route: 'portfolio',
+  },
+  {
+    name: 'Watchlist',
+    route: 'watchlist',
+  },
+  {
+    name: 'Analytics',
+    route: 'analytics',
+  },
 ]
 
-const metaverseOptions = [
-    {
-        name: 'Sandbox',
-        logo: '/images/the-sandbox-sand-logo.png',
-        key: 'sandbox',
-    },
-    {
-        name: 'Decentraland',
-        logo: '/images/decentraland-mana-logo.png',
-        key: 'decentraland',
-    },
-    {
-        name: 'Somnium space',
-        logo: '/images/somnium-space-cube-logo.webp',
-        key: 'somnium-space',
-    },
-]
+const mvOptions = {
+  sandbox: { logo: '/images/the-sandbox-sand-logo.png' },
+  decentraland: { logo: '/images/decentraland-mana-logo.png' },
+  /*     'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' }, */
+  'somnium-space': { logo: '/images/somnium-space-cube-logo.webp' }
+}
 
 const Watchlist: NextPage = () => {
-    const [metaverse, setMetaverse] = useState<Metaverse>()
-    const [watchlist, setWatchlist] = useState<any>()
-    const { address } = useAccount()
+  const [metaverse, setMetaverse] = useState<Metaverse>()
+  const [watchlist, setWatchlist] = useState<any>()
+  const { address } = useAccount()
 
-    const MetaverseLabel = {
-        sandbox: 'Sandbox',
-        decentraland: 'Decentraland',
-        'somnium-space': 'Somnium space',
-    }
 
-    const addLand = async (land: any, metaverse: Metaverse) => {
-        await addLandToWatchList(land, address!, metaverse)
-        const newWatchlist = Object.assign({}, watchlist)
-        newWatchlist[metaverse][land.tokenId] = land
-        setWatchlist(newWatchlist)
-    }
+  const addLand = async (land: any, metaverse: Metaverse) => {
+    await addLandToWatchList(land, address!, metaverse)
+    const newWatchlist = Object.assign({}, watchlist)
+    newWatchlist[metaverse][land.tokenId] = land
+    setWatchlist(newWatchlist)
+  }
 
-    const removeLand = async (land: any, metaverse: Metaverse) => {
-        await removeLandFromWatchList(land, address!, metaverse)
-        const newWatchlist = Object.assign({}, watchlist)
-        delete newWatchlist[metaverse][land.tokenId]
-        setWatchlist(newWatchlist)
-    }
+  const removeLand = async (land: any, metaverse: Metaverse) => {
+    await removeLandFromWatchList(land, address!, metaverse)
+    const newWatchlist = Object.assign({}, watchlist)
+    delete newWatchlist[metaverse][land.tokenId]
+    setWatchlist(newWatchlist)
+  }
 
-    const getWatchList = async () => {
-        const watchlistRequest = await axios.get(
-            `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
-        )
-        const watchlist = watchlistRequest.data
-        setWatchlist(watchlist)
-    }
-
-    useEffect(() => {
-        if (!address) return
-        getWatchList()
-    }, [address])
-
-    return (
-        <>
-            <Head>
-                <title>MGH - NFT Valuation</title>
-                <meta name="description" content="" />
-            </Head>
-
-            <div className="pt-24 w-full" />
-
-            <GeneralSection
-                sectionTitle="Your Watchlist"
-                optionList={headerList}
-            >
-                {address ? (
-                    <div>
-                        <div className="w-full flex flex-col justify-center items-center">
-                            {/* Metaverse Card selector */}
-                            <div className="flex flex-wrap gap-10 my-10">
-                                {metaverseOptions.map((option) => {
-                                    return (
-                                        <MetaverseCard
-                                            key={option.key}
-                                            currentMetaverse={metaverse ? MetaverseLabel[metaverse] : undefined}
-                                            imageUrl={option.logo}
-                                            label={option.name}
-                                            metaverseKey={
-                                                option.key as Metaverse
-                                            }
-                                            setMetaverse={setMetaverse}
-                                        />
-                                    )
-                                })}
-                            </div>
-
-                            {/* Add land inputs */}
-                            {metaverse && (
-                                <div className="flex w-full justify-center items-center gap-24">
-                                    <SearchLandForm searchBy="tokenId" metaverse={metaverse} addLand={addLand} />
-                                    <SearchLandForm searchBy="coordinates" metaverse={metaverse} addLand={addLand} />
-                                </div>
-                            )}
-                        </div>
-                        <ul className="grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8">
-                            <Fade
-                                duration={400}
-                                className="w-full flex justify-center"
-                            >
-                                {metaverse &&
-                                    watchlist &&
-                                    watchlist[metaverse] &&
-                                    Object.values(watchlist[metaverse])
-                                        .map((land: any) => {
-                                            return (
-                                                <li
-                                                    key={land.tokenId}
-                                                    className="w-full gray-box shadowNormal"
-                                                >
-                                                    <Land
-                                                        land={land}
-                                                        landId={land.tokenId}
-                                                        metaverse={metaverse}
-                                                        onTrashClick={
-                                                            removeLand
-                                                        }
-                                                    />
-                                                </li>
-                                            )
-                                        })}
-                            </Fade>
-                        </ul>
-                    </div>
-                ) : (
-                    <div className="flex justify-center">
-                        {/* Auth Button */}
-                        <ConnectButton />
-                    </div>
-                )}
-            </GeneralSection>
-        </>
+  const getWatchList = async () => {
+    const watchlistRequest = await axios.get(
+      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
     )
+    const watchlist = watchlistRequest.data
+    setWatchlist(watchlist)
+  }
+
+  useEffect(() => {
+    if (!address) return
+    getWatchList()
+  }, [address])
+
+  return (
+    <>
+      <Head>
+        <title>MGH - NFT Valuation</title>
+        <meta name="description" content="" />
+      </Head>
+
+      <div className="pt-24 w-full" />
+
+      <GeneralSection
+        sectionTitle="Your Watchlist"
+        optionList={headerList}
+      >
+        {address ? (
+          <div className='bg-[#f8f9fd] rounded-3xl py-16 my-10'>
+            <div className="w-full flex flex-col justify-center items-center">
+              {/* Metaverse Card selector */}
+              {/* Metaverse Buttons */}
+              <div className='flex justify-center gap-16 pb-10'>
+                {typedKeys(mvOptions).map((landKey) => (
+                  <button
+                    key={landKey}
+                    onClick={() => setMetaverse(landKey)}
+                    className={`flex flex-col bg-[#f3f5f8] items-center justify-center space-y-2 rounded-3xl cursor-pointer p-2 px-3 pt-4 w-[240px] h-[320px] group focus:outline-none nm-flat-hard hover:nm-flat-soft transition ease-in-out duration-300 border-white border ${metaverse === landKey
+                      ? ' text-gray-200'
+                      : ' hover:border-opacity-100'
+                      }`}
+                  >
+                    <OptimizedImage
+                      src={mvOptions[landKey].logo}
+                      height={100}
+                      width={100}
+                      objectFit='contain'
+                      className={`w-10 ${metaverse === landKey ? 'grayscale-0' : 'grayscale'
+                        } group-hover:grayscale-0 transition duration-300 ease-in-out`}
+                    />
+                    <p className='text-grey-content font-plus font-normal text-lg md:text-lg pt-7'>
+                      {formatName(landKey)}
+                    </p>
+                  </button>
+                ))}
+              </div>
+
+              {/* Add land inputs */}
+              {metaverse && (
+                <div className="flex w-full justify-center items-center gap-24">
+                  <SearchLandForm searchBy="tokenId" metaverse={metaverse} addLand={addLand} />
+                  <SearchLandForm searchBy="coordinates" metaverse={metaverse} addLand={addLand} />
+                </div>
+              )}
+            </div>
+            <ul className="grid gap-4 lg:gap-12 md:gap-6 md:grid-cols-3 p-8">
+              {metaverse &&
+                watchlist &&
+                watchlist[metaverse] &&
+                Object.values(watchlist[metaverse])
+                  .map((land: any) => {
+                    return (
+                      <li
+                        key={land.tokenId}
+                        className="w-full gray-box shadowNormal"
+                      >
+                        <Land
+                          land={land}
+                          landId={land.tokenId}
+                          metaverse={metaverse}
+                          onTrashClick={
+                            removeLand
+                          }
+                        />
+                      </li>
+                    )
+                  })}
+            </ul>
+          </div>
+        ) : (
+          <div className="flex justify-center">
+            {/* Auth Button */}
+            <ConnectButton />
+          </div>
+        )}
+      </GeneralSection>
+    </>
+  )
 }
 
 export default Watchlist
