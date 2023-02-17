@@ -233,7 +233,6 @@ const Heatmap2D = ({
       mapBackground.position.set(-205 * TILE_SIZE, -204 * TILE_SIZE)
       mapBackground.width = 410 * TILE_SIZE
       mapBackground.height = 410 * TILE_SIZE
-      mapBackground.tint = 0xFFFF1
       mapBackground.zIndex = -100
       viewport.addChild(mapBackground)
     }
