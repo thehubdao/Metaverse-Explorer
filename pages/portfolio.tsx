@@ -13,15 +13,11 @@ import {
 	LandListAPIResponse,
 	SingleLandAPIResponse,
 } from '../lib/valuation/valuationTypes'
-import { ExternalLink, PriceList } from '../components/General'
+import { PriceList } from '../components/General'
 import { IPredictions } from '../lib/types'
-import { useAppSelector } from '../state/hooks'
 import { useRouter } from 'next/router'
-import { ellipseAddress, formatName, typedKeys } from '../lib/utilities'
-import { Loader, WalletModal } from '../components'
+import { typedKeys } from '../lib/utilities'
 import PortfolioList from '../components/Portfolio/PortfolioList'
-import { BsTwitter } from 'react-icons/bs'
-import { FiCopy } from 'react-icons/fi'
 import { SocialMediaOptions } from '../lib/socialMediaOptions'
 import { ethers } from 'ethers'
 import { Chains } from '../lib/chains'

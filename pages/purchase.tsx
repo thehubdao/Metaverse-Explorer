@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { Plans } from '../lib/enums'
 
 import Footer from '../components/General/Footer'
-import { PurchaseCoinValues } from '../components/Purchase/purchaseTypes'
+import { PurchaseCoinValues } from '../types/Purchase/purchaseTypes'
 
 // Chatbot initials
 import { configB2c } from '../lib/chatbot/config-chatbot'
