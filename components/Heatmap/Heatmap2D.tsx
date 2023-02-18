@@ -200,12 +200,14 @@ const Heatmap2D = ({
     setViewport(null)
     setChunks({})
     setMapData({})
-    const map: any = new PIXI.Application({
+    const map: PIXI.Application = new PIXI.Application({
       width,
       height,
       resolution: 1,
       transparent: true,
     })
+
+    map.view.style.borderRadius = '24px'
 
     const viewport: any = new Viewport({
       interaction: map.renderer.plugins.interaction,
@@ -397,12 +399,11 @@ const Heatmap2D = ({
     <>
       <div
         id="map"
-        className={`bg-[#3C3E42] rounded-lg ${isLoading ? 'hidden' : 'block'}`}
-        style={{ width, height }}
+        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
+        style={{ width, height, border: 16 }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
-        {/* {metaverseData && <div>{landsLoaded} / {metaverseData.basic.landAmount}</div>} */}
-        <Loader color='' size={200} />
+        <Loader color='' size={100} />
         <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>
