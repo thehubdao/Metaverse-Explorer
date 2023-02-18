@@ -6,7 +6,6 @@ import { chartSymbolOptions } from '.'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
 import ChartLoader from './ChartLoader'
-import { FaBlackTie } from 'react-icons/fa'
 
 type ChartData = {
   time: string
@@ -56,9 +55,7 @@ const AnalyticsChart = ({
       timeScale: {
         fixLeftEdge: true,
         fixRightEdge: true,
-        timeVisible: false,
         borderVisible: false,
-        visible: false,
       },
       rightPriceScale: {
         visible: false,
@@ -73,7 +70,7 @@ const AnalyticsChart = ({
       },
       layout: {
         backgroundColor: '#F9FAFB',
-        textColor: '#8B8B8B',
+        textColor: "black",
       },
       grid: {
         vertLines: {
@@ -115,11 +112,11 @@ const AnalyticsChart = ({
 
   return (
     <div className='gray-box'>
-      <div className='max-w-full h-full relative pt-8' ref={chartElement}>
+      <div className="max-w-full h-full relative pt-14" ref={chartElement}>
         {fetching && <ChartLoader />}
 
         {/* /* Chart Options Wrapper */}
-        <div className='absolute top-1 z-10 flex w-full flex-col gap-4 sm:flex-row justify-between'>
+        <div className="absolute top-1 z-10 flex w-full flex-col gap-8 sm:left-2 sm:flex-row justify-between">
           {/* Interval Buttons */}
           <div className='flex gap-2 relative left-1 w-full justify-between px-14'>
             {typedKeys(intervalLabels).map((arrInterval) => (
@@ -139,7 +136,7 @@ const AnalyticsChart = ({
           </div>
 
           {/* Coin Buttons */}
-          {/* <div className='sm:flex gap-2 relative left-1 sm:left-auto sm:right-18 w-fit hidden'>
+          <div className='sm:flex gap-1 relative left-1 sm:left-auto sm:right-2 w-fit hidden'>
             {typedKeys(chartSymbolOptions).map((arrSymbol) => (
               <button
                 key={arrSymbol}
@@ -156,7 +153,7 @@ const AnalyticsChart = ({
                   : arrSymbol}
               </button>
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

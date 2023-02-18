@@ -18,12 +18,12 @@ const filterOptions = {
 
 const TopSellingFilter = ({ filterBy, setFilterBy }: Props) => {
 	return (
-		<div className="w-fit inline-flex">
+		<div className="w-fit inline-flex gap-3">
 			{typedKeys(filterOptions).map((filter) => (
 				<button
 					key={filter}
 					type="button"
-					className="py-2.5 px-5 mr-2 mb-2 text-sm font-bold focus:outline-none rounded-2xl  text-grey-content font-plus shadowNormal nm-flat-soft hover:nm-inset-soft"
+					className="py-2.5 px-5 mb-2 text-sm font-bold focus:outline-none rounded-2xl  text-grey-content font-plus nm-flat-medium hover:nm-flat-soft"
 					onClick={() => setFilterBy(filter)}
 				>
 					{filterOptions[filter].label}

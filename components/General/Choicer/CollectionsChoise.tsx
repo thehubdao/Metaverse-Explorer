@@ -1,4 +1,3 @@
-import { formatName } from "../../../lib/utilities"
 import Image from "next/image";
 
 interface OptionProps {

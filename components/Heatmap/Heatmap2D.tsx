@@ -237,10 +237,9 @@ const Heatmap2D = ({
       const texture = await PIXI.Texture.fromURL(sandbox_bg_url, {
       })
       const mapBackground = new PIXI.Sprite(metaverse == 'sandbox' ? texture : PIXI.Texture.WHITE)
-      mapBackground.position.set(-205 * TILE_SIZE, -204 * TILE_SIZE)
+      mapBackground.position.set(-204 * TILE_SIZE, -203 * TILE_SIZE)
       mapBackground.width = 410 * TILE_SIZE
       mapBackground.height = 410 * TILE_SIZE
-      mapBackground.tint = 0xFFFF1
       mapBackground.zIndex = -100
       viewport.addChild(mapBackground)
     }
@@ -399,7 +398,7 @@ const Heatmap2D = ({
     <>
       <div
         id="map"
-        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
+        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-[25px]'}`}
         style={{ width, height, border: 16 }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>

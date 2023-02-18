@@ -6,7 +6,7 @@ import {
     RichList,
 } from '../components/Analytics/fetchChartData'
 import { Metaverse } from '../lib/metaverse'
-import { formatName, getState } from '../lib/utilities'
+import { getState } from '../lib/utilities'
 import Head from 'next/head'
 import {
     AnalyticsMultiChart,
