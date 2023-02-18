@@ -50,6 +50,8 @@ const headerList = [
 	},
 ];
 
+
+
 const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const { query, push } = useRouter()
 
@@ -78,6 +80,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		undefined,
 		address
 	)
+	
 	const externalWallet = query.wallet
 	const isRonin = query.wallet?.toString().startsWith('ronin')
 
