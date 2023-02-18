@@ -90,7 +90,7 @@ const PolygonStaking = () => {
 
 
     return (
-        <>
+        <div className='flex justify-center pt-[100px]'>
             <Head>
                 <title>MGH - Staking - Polygon</title>
                 <meta name="description" content="Governance of metaverse related items, fair valuation and minting of NFT backed tokens and provision of metaverse market data." />
@@ -226,7 +226,7 @@ const PolygonStaking = () => {
                 </div>
             )}
 
-        </>
+        </div>
     )
 }
 
