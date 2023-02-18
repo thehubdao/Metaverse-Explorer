@@ -47,7 +47,7 @@ export default function DescriptionContent({ title, description, boxInfo, isLoad
       <div className="flex rounded-xl justify-evenly w-2/6">
         {
           isLoading ? (
-            <Loader />
+            <Loader color="black" size={100}/>
           ) : (
             <>
               <SmallContainer condition='MCAP' value={boxInfo.market_cap} currency="ETH" />
