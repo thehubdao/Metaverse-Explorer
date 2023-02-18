@@ -27,7 +27,7 @@
     "@web3modal/react": "^2.0.0-rc.3",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
-    "ethers": "^5.5.1",
+    "ethers": "^5.7.2",
     "firebase": "^9.6.5",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.18.1",
@@ -60,7 +60,7 @@
     "touch-position": "^2.0.0",
     "tsparticles": "^2.5.3",
     "use-resize-observer": "^9.1.0",
-    "wagmi": "^0.10.10"
+    "wagmi": "^0.10.15"
   },
   "devDependencies": {
     "@typechain/ethers-v5": "^9.0.0",
