@@ -1,7 +1,6 @@
 import '/styles/MLMStyles.css'
 import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
-import '../styles/TileMap.css'
 
 import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'

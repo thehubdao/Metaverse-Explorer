@@ -6,7 +6,6 @@ import { chartSymbolOptions } from '.'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
 import ChartLoader from './ChartLoader'
-import { FaBlackTie } from 'react-icons/fa'
 
 type ChartData = {
   time: string

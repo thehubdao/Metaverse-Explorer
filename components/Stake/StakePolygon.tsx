@@ -6,7 +6,7 @@ const StakingSection = () => {
     <div className="flex flex-col row-span-3 nm-flat-medium rounded-xl p-10 gap-7 justify-center items-center">
       <div className="flex justify-center items-center gap-3">
         <Image
-          src='/images/mgh_logo.svg'
+          src='/images//mgh_logo/mgh_logo.svg'
           width={40}
           height={40}
         />

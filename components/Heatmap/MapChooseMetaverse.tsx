@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { Fade } from 'react-awesome-reveal'
-import { IoIosArrowDown } from 'react-icons/io'
+import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
 import { formatName, typedKeys } from '../../lib/utilities'
 import { OptimizedImage } from '../General'

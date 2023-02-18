@@ -4,7 +4,6 @@ import { Metaverse } from '../../lib/metaverse'
 import { IPredictions } from '../../lib/types'
 import { formatName } from '../../lib/utilities'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
-import { getAxieDailyTradeVolume } from '../../lib/valuation/valuationUtils'
 import { PriceList } from '../General'
 
 interface Props {
