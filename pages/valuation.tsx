@@ -1,8 +1,6 @@
 import { NextPage } from "next";
 import { AnyObject } from "immer/dist/internal";
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Fade } from "react-awesome-reveal";
 import {
 	HeatmapSize,
 	LandCoords,
@@ -12,7 +10,6 @@ import {
 	ValuationTile,
 } from "../lib/heatmap/heatmapCommonTypes";
 import { useVisible } from "../lib/hooks";
-import { formatName } from "../lib/utilities";
 import { ICoinPrices } from "../lib/valuation/valuationTypes";
 import { IAPIData, IPredictions, UserData } from "../lib/types";
 import {
@@ -28,17 +25,11 @@ import {
 	MapChooseMetaverse,
 	MapLegend,
 	MapInitMvChoice,
-	MapLandSummary,
-	MapMobileFilters,
 	MapSearch,
 	MaptalksCanva,
 } from "../components/Heatmap";
-import { getUserInfo } from "../lib/FirebaseUtilities";
 import { useAppSelector } from "../state/hooks";
-import { getUserNFTs } from "../lib/nftUtils";
-import useConnectWeb3 from "../backend/connectWeb3";
-import { Chains } from "../lib/chains";
-import { FullScreenButton, OptimizedImage } from "../components/General";
+import { FullScreenButton } from "../components/General";
 import { Metaverse } from "../lib/metaverse";
 import { findHeatmapLand } from "../lib/heatmap/findHeatmapLand";
 import Head from "next/head";
@@ -97,9 +88,8 @@ const metaverseLabels: Record<Metaverse, string> = {
 
 const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [globalData, setglobalData] = useState<AnyObject>({})
-	const [estimateAccuracy, setestimateAccuracy] = useState<AnyObject>({})
 
-	const { address, chainId } = useAppSelector((state) => state.account);
+	const { address } = useAppSelector((state) => state.account);
 
 	const [mapState, setMapState] = useState<ValuationState>("loading");
 	/* const [loading] = getState(mapState, ['loading']) */
@@ -360,22 +350,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											onClick={() => { setOpenMapFilter(false), setOpenMetaverseFilter(false), setOpenSearchFilter(!openSearchFilter) }}
 										/>
 									</div>
-
-
-									{/* 'Search By' Forms */}
-
-
-
-									{/* Main Filter Button. Only for small screens  */}
-									{/* <div className="md:hidden w-2/4">
-								<MapMobileFilters
-									metaverse={metaverse}
-									setMetaverse={setMetaverse}
-									filterBy={filterBy}
-									setFilterBy={setFilterBy}
-								/>
-							</div> */}
-
 								</div>
 
 								<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-xl m-4	">

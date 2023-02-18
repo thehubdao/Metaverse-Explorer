@@ -42,8 +42,6 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
             <ExternalAssetLink
                 metaverse={metaverse}
                 land={land}
-                landId={landId}
-                layout="responsive"
             />
             {/* RIGHT/BOTTOM - PriceList */}
             <div className="p-4 pr-7">
