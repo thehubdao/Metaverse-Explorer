@@ -275,7 +275,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			</Head>
 
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
+			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
 					src="/images/land_header.svg"
 					objectFit={'cover'}
@@ -398,17 +398,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										/>
 									</div>
 								)}
-
-								{/* {metaverse !== "somnium-space" && (
-									<div className="absolute z-30 top-1 right-12 rounded-full p-2">
-										<MapLandSummary
-											owner={hovered.owner}
-											name={hovered.name}
-											coordinates={hovered.coords}
-											metaverse={metaverse}
-										/>
-									</div>
-								)} */}
 
 								{/* Full screen button - Hides when MapCard is showing (all screens) */}
 								{!isVisible && (

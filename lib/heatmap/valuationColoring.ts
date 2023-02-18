@@ -249,14 +249,15 @@ export const FILTER_COLORS = {
 
 // Colors for dictionary filters
 export const LEGEND_COLORS = {
-    watchlist: '#FF597B', // On User's Watchlist
-    portfolio: '#4Df0CF', // Owned by User (On their portfolio)
     'on-sale': '#FFE5A3', // On sale
-
+    
     // Decentraland Only
     roads: '#5775A5', // roads
     plazas: '#32D2FF', // plazas
     districts: '#23334D', // districts
+
+    watchlist: '#FF597B', // On User's Watchlist
+    portfolio: '#4Df0CF', // Owned by User (On their portfolio)
 }
 
 // Colors for Tiles in Decentraland Api Basic Map

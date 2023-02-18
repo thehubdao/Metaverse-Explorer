@@ -393,7 +393,7 @@ const Heatmap2D = ({
     <>
       <div
         id="map"
-        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
+        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-[25px]'}`}
         style={{ width, height, border: 16 }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>

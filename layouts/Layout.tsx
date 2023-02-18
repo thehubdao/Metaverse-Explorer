@@ -72,7 +72,9 @@ export default function Layout({ children }: LayoutProps) {
 				<div className="absolute top-0 right-0 z-50">
 					<ConnectButton />
 				</div>
-				{children}
+				<div >
+					{children}
+				</div>
 			</main>
 
 			{/* Sidebar wrapper */}

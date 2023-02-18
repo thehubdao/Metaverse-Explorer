@@ -69,7 +69,7 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
   ) : (
     <>
       <div className='flex flex-col h-full'>
-        <p className={`text-lg font-medium text-grey-content font-plus mb-4`}>
+        <p className={`text-lg font-medium text-grey-content font-plus mb-4 ml-8`}>
           Daily Volume:{' '}
         </p>
         <div className='flex flex-col justify-center items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel h-full'>

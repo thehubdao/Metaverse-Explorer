@@ -221,7 +221,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* {openModal && <WalletModal onDismiss={() => setOpenModal(false)} />} */}
 
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
+			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
 					src="/images/land_header.svg"
 					objectFit={'cover'}
