@@ -25,8 +25,6 @@ import {
 // Filters
 import { typedKeys } from "../lib/utilities";
 import SpecificAssetModal from "../components/General/SpecificAssetModal";
-import { Loader } from "../components";
-import { Link } from "react-router-dom";
 import Image from "next/image";
 import Footer from "../components/General/Footer";
 

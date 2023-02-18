@@ -402,7 +402,7 @@ const Heatmap2D = ({
         style={{ width, height, border: 16 }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader color='' size={100} />
+        <Loader color='blue' size={100} />
         <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>
