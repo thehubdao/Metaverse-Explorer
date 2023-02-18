@@ -267,7 +267,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* Top Padding or Image */}
 			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
-					src="/images/land_header.svg"
+					src="/images/land_header.webp"
 					objectFit={'cover'}
 					alt='land header'
 					layout="fill"
