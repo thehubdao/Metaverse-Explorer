@@ -57,9 +57,7 @@ const AnalyticsMultiChart = ({
       timeScale: {
         fixLeftEdge: true,
         fixRightEdge: true,
-        timeVisible: false,
         borderVisible: false,
-        visible: false,
       },
       rightPriceScale: {
         visible: false,
@@ -74,7 +72,7 @@ const AnalyticsMultiChart = ({
       },
       layout: {
         backgroundColor: "#F9FAFB",
-        textColor: "#8B8B8B",
+        textColor: "black",
       },
       grid: {
         vertLines: {
@@ -126,11 +124,11 @@ const AnalyticsMultiChart = ({
 
   return (
     <div className="gray-box">
-      <div className="max-w-full h-full relative pt-8" ref={chartElement}>
+      <div className="max-w-full h-full relative pt-14" ref={chartElement}>
         {fetching && <ChartLoader />}
 
         {/* /* Chart Options Wrapper */}
-        <div className="absolute top-1 z-10 flex w-full flex-col gap-4 sm:flex-row justify-between">
+        <div className="absolute top-1 z-10 flex w-full flex-col gap-8 sm:left-2 sm:flex-row justify-between">
           {/* Interval Buttons */}
           <div className="flex gap-2 relative left-1 w-full justify-between px-14">
             {typedKeys(intervalLabels).map((arrInterval) => (
@@ -150,24 +148,24 @@ const AnalyticsMultiChart = ({
           </div>
 
           {/* Coin Buttons */}
-          {/* <div className='sm:flex gap-2 relative left-1 sm:left-auto sm:right-18 w-fit hidden'>
-              {typedKeys(chartSymbolOptions).map((arrSymbol) => (
-                <button
-                  key={arrSymbol}
-                  className={
-                    'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
-                    (symbol === arrSymbol
-                      ? ' text-gray-300 bg-opacity-80 '
-                      : ' hover:text-gray-300 hover:bg-opacity-80')
-                  }
-                  onClick={() => setSymbol(arrSymbol)}
-                >
-                  {arrSymbol === 'METAVERSE'
-                    ? chartSymbolOptions[arrSymbol][metaverse]
-                    : arrSymbol}
-                </button>
-              ))}
-            </div> */}
+          <div className='sm:flex gap-1 relative left-1 sm:left-auto sm:right-2 w-fit hidden'>
+            {typedKeys(chartSymbolOptions).map((arrSymbol, index) => (
+              <button
+                key={arrSymbol}
+                className={
+                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
+                  (symbol === arrSymbol
+                    ? ' text-gray-300 bg-opacity-80 '
+                    : ' hover:text-gray-300 hover:bg-opacity-80')
+                }
+                onClick={() => setSymbol(arrSymbol)}
+              >
+                {arrSymbol === 'METAVERSE'
+                  ? chartSymbolOptions[arrSymbol][metaverses[index]]
+                  : arrSymbol}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
