@@ -13,8 +13,14 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
   const mvOptions = {
     sandbox: { logo: '/images/the-sandbox-sand-logo.png' },
     decentraland: { logo: '/images/decentraland-mana-logo.png' },
-/*     'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' }, */
+    /*     'axie-infinity': { logo: '/images/axie-infinity-axs-logo.png' }, */
     'somnium-space': { logo: '/images/somnium-space-cube-logo.webp' }
+  }
+
+  const mvTitle = {
+    sandbox: 'The Sandbox',
+    decentraland: 'Decentraland',
+    'somnium-space': 'Somnium Space'
   }
 
   return (
@@ -27,7 +33,7 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
       <div className='flex space-x-2 items-center justify-center bg-grey-dark rounded-2xl w-fit m-auto py-2 px-24'>
         <BsExclamationCircleFill className={`text-2xl z-10 text-[#6196FF]`} />
         <p className='flex text-xs xs:text-base xl:text-base font-normal font-plus text-grey-content pl-3'>
-          You can have &nbsp;<span className='font-bold'>5 free valuations</span>, after that pro version is needed
+          You can request up to &nbsp;<span className='font-bold'>10 free valuations</span>, after that pro version is needed
         </p>
       </div>
 
@@ -51,7 +57,7 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
                 } group-hover:grayscale-0 transition duration-300 ease-in-out`}
             />
             <p className='text-grey-content font-plus font-normal text-lg md:text-lg pt-7'>
-              {formatName(landKey)}
+              {mvTitle[landKey]}
             </p>
           </button>
         ))}

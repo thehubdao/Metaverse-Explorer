@@ -1,14 +1,11 @@
-import React, { useState } from 'react'
-import { Fade, FadeProps } from 'react-awesome-reveal'
+import React from 'react'
 import { BiTargetLock, BiTransferAlt, BiBullseye } from 'react-icons/bi'
 import { FiMap } from 'react-icons/fi'
-import { IoIosArrowDown } from 'react-icons/io'
 import { MdAttachMoney } from 'react-icons/md'
 import { VscGraphLine } from 'react-icons/vsc'
 import { GiStopwatch } from 'react-icons/gi'
 import { MapFilter } from '../../lib/heatmap/heatmapCommonTypes'
 import { typedKeys } from '../../lib/utilities'
-import { useAppSelector } from '../../state/hooks'
 
 interface Props {
   filterBy: MapFilter
@@ -18,9 +15,7 @@ interface Props {
 }
 
 const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
-  const { role } = useAppSelector((state) => state.account)
   const isPremium = true // This will be replaced with role when we release this feature.
-  const [openModal, setOpenModal] = useState(false);
   // const [opened, setOpened] = useState(false)
   const filterOptions = {
     basic: {

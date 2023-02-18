@@ -1,4 +1,3 @@
-import Valuation from '../../pages/valuation'
 import { Metaverse } from '../metaverse'
 import { ValueOf } from '../types'
 import { typedKeys } from '../utilities'
@@ -146,11 +145,96 @@ export const setLandColour = async (
     return land
 }
 
+export const getGeneralData = (
+    valuationAtlas: Record<string, any>
+) => {
+    const getLandDependingOnGivenNumberOfDays = (
+        valuation: any,
+        givenDays: number
+    ) => {
+        let counter = 0
+        let now = new Date()
+        let deathLine = now.setDate(now.getDate() - givenDays)
+        valuationAtlas[valuation].history?.map((dataHistory: any) => {
+            let historyTime = new Date(dataHistory.timestamp).getTime()
+            if (historyTime > deathLine) counter = counter + 1
+        })
+        return counter
+    }
+
+    /**
+    * Some Lands are listed for way too high prices.
+    * To keep the price_difference filter consistent, we will consider
+    that have a price difference of less than the number below
+    */
+    const MAX_DIFF = 400
+
+    // GENERATE MAX
+    const elementOptions: any = {
+        transfers: {
+            predictions: typedKeys(valuationAtlas).map(
+                (valuation) => valuationAtlas[valuation].history?.length
+            ),
+        },
+        price_difference: {
+            predictions: typedKeys(valuationAtlas).map((valuation) => {
+                if (
+                    typeof valuationAtlas[valuation].current_price_eth ===
+                    'undefined'
+                )
+                    return
+                const diff = (valuationAtlas[valuation].current_price_eth / valuationAtlas[valuation].eth_predicted_price) -1
+                return diff
+            }),
+        },
+        listed_lands: {
+            predictions: typedKeys(valuationAtlas).map(
+                (valuation) => valuationAtlas[valuation].eth_predicted_price
+            ),
+        },
+        basic: { predictions: [] },
+        eth_predicted_price: {predictions:typedKeys(valuationAtlas).map( 
+            (valuation) =>
+                valuationAtlas[valuation][ 
+                    "eth_predicted_price" as keyof ValueOf<typeof valuationAtlas> & MapFilter
+                ]
+        )},
+        floor_adjusted_predicted_price: {
+            predictions: typedKeys(valuationAtlas).map(
+                (valuation) =>
+                    valuationAtlas[valuation]?.floor_adjusted_predicted_price
+            ),
+        },
+        last_month_sells: {
+            predictions: typedKeys(valuationAtlas).map((valuation) => {
+                if (getLandDependingOnGivenNumberOfDays(valuation, 30) > 0)
+                    {
+                        return CalculateMaxPriceOnHistoryDependGivenDays(
+                        valuationAtlas[valuation],
+                        30
+                    )}
+                
+                return 0
+            }),
+        },
+    }
+
+    Object.keys(elementOptions).forEach((key) => {
+        let predictions =
+            elementOptions[key as keyof typeof elementOptions].predictions
+        elementOptions[key] = {
+            max: getMax(predictions),
+            limits: getLimits(predictions),
+            landAmount: typedKeys(valuationAtlas).length
+        }
+    })
+    return elementOptions
+}
+
 // Calculating Percentages depending on the current chosen filter.
 export const setColours = async (
     valuationAtlas: Record<string, any>,
     filter: MapFilter,
-    wholeData: any
 ) => {
     const getLandDependingOnGivenNumberOfDays = (
         land: any,
@@ -165,7 +249,7 @@ export const setColours = async (
         })
         return counter
     }
-    const MAX_DIFF = 400
+    const wholeData = getGeneralData(valuationAtlas)
 
     console.log(wholeData, filter)
     let max = wholeData[filter].max,
@@ -249,14 +333,15 @@ export const FILTER_COLORS = {
 
 // Colors for dictionary filters
 export const LEGEND_COLORS = {
-    watchlist: 'rgb(255,255,255)', // On User's Watchlist
-    portfolio: 'rgb(30,94,255)', // Owned by User (On their portfolio)
-    'on-sale': 'rgb(255, 120, 193)', // On sale
-
+    'on-sale': '#FFE5A3', // On sale
+    
     // Decentraland Only
-    roads: '#747679', // roads
-    plazas: '#26EC75', // plazas
-    districts: '#496274', // districts
+    roads: '#5775A5', // roads
+    plazas: '#32D2FF', // plazas
+    districts: '#23334D', // districts
+
+    watchlist: '#FF597B', // On User's Watchlist
+    portfolio: '#4Df0CF', // Owned by User (On their portfolio)
 }
 
 // Colors for Tiles in Decentraland Api Basic Map
@@ -266,10 +351,10 @@ export const DECENTRALAND_API_COLORS: Record<number, string> = Object.freeze({
     2: '#ff9990', // my estates
     3: '#ff4053', // my estates on sale
     4: '#ffbd33', // parcels/estates where I have permissions
-    5: '#496274', // districts
+    5: '#23334D', // districts
     6: '#563db8', // contributions
-    7: '#747679', // roads
-    8: '#26EC75', // plazas
+    7: '#354D74', // roads
+    8: '#32D2FF', // plazas
     9: '#3D3A46', // owned parcel/estate
     10: '#3D3A46', // parcels on sale (we show them as owned parcels)
     11: '#09080A', // unowned pacel/estate

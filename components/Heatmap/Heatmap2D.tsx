@@ -15,7 +15,7 @@ import {
 } from '../../lib/heatmap/valuationColoring'
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
-import { Container } from 'pixi.js'
+import { Container, Texture } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import axios from 'axios'
@@ -76,8 +76,9 @@ const Heatmap2D = ({
   const [viewport, setViewport] = useState<any>()
   const [mapData, setMapData] = useState<any>({})
   const [chunks, setChunks] = useState<any>({})
-  const [metaverseData, setMetaverseData] = useState<any>()
+/*   const [metaverseData, setMetaverseData] = useState<any>() */
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [landsLoaded, setLandsLoaded] = useState<number>(0)
 
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
@@ -104,7 +105,10 @@ const Heatmap2D = ({
     })
     return '0x' + a.join('')
   }
+  let landAmount = 0
   const renderHandler = async (land: any) => {
+    landAmount+=1
+    setLandsLoaded(landAmount)
     let lands: any = mapData
     let localChunks: any = chunks
     let name = ''
@@ -115,9 +119,9 @@ const Heatmap2D = ({
     }
     lands[name] = land!
     lands[name].land_id = land.tokenId
-    globalFilter == 'basic'
+    /* globalFilter == 'basic'
       ? null
-      : (land = await setLandColour(land, globalFilter, metaverseData))
+      : (land = await setLandColour(land, globalFilter, metaverseData)) */
     setMapData(lands)
     let value = land
     let tile: any
@@ -169,10 +173,11 @@ const Heatmap2D = ({
     }
     chunkContainer.addChild(rectangle)
     viewport.addChild(chunkContainer)
+
   }
 
   useEffect(() => {
-    if (!metaverseData && !viewport) return
+    if (!viewport) return
     console.log('Creando socket', new Date().toISOString())
     const socketServiceUrl = process.env.SOCKET_SERVICE!
     const socketService = getSocketService(
@@ -188,7 +193,7 @@ const Heatmap2D = ({
     return () => {
       socketService.disconnect()
     }
-  }, [metaverseData && viewport])
+  }, [viewport])
 
   useEffect(() => {
     setMap(null)
@@ -222,24 +227,38 @@ const Heatmap2D = ({
         direction: 'all',
         underflow: 'center'
     }) */
-
     map.stage.addChild(viewport)
     document.getElementById('map')?.appendChild(map.view)
     setMap(map)
     setViewport(viewport)
-    const getMetaverseData = async () => {
+    const setBackground = async () => {
+
+      const sandbox_bg_url = 'images/sandbox_bg.jpg'
+      const texture = await PIXI.Texture.fromURL(sandbox_bg_url, {
+      })
+      const mapBackground = new PIXI.Sprite(metaverse == 'sandbox' ? texture : PIXI.Texture.WHITE)
+      mapBackground.position.set(-204 * TILE_SIZE, -203 * TILE_SIZE)
+      mapBackground.width = 410 * TILE_SIZE
+      mapBackground.height = 410 * TILE_SIZE
+      mapBackground.zIndex = -100
+      viewport.addChild(mapBackground)
+    }
+
+    /* const getMetaverseData = async () => {
+      await setBackground()
       let dataCall: any = await fetch(
         process.env.SOCKET_SERVICE + `/limits?metaverse=${metaverse}`
       )
+
       dataCall = await dataCall.json()
       setMetaverseData(dataCall)
     }
-    getMetaverseData()
+    getMetaverseData() */
     return () => {
-      document.getElementById('map')?.removeChild(map.view)
-      map.destroy()
-      viewport.destroy()
-      /*             socket.disconnect() */
+      document?.getElementById('map')?.removeChild(map?.view)
+      map?.destroy()
+      viewport?.destroy()
+
       onHover(0 / 0, 0 / 0, undefined, undefined)
     }
   }, [metaverse])
@@ -249,7 +268,7 @@ const Heatmap2D = ({
     viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE)
     let currentTint: any
     let currentSprite: any
-    viewport.on('mousemove', (e: any): any => {
+    viewport?.on('mousemove', (e: any): any => {
       let { x, y } = viewport.toLocal(e.data.global)
 
       x = Math.floor(x / TILE_SIZE)
@@ -321,7 +340,7 @@ const Heatmap2D = ({
   useEffect(() => {
     if (!chunks || !mapData) return
     const filterUpdate = async () => {
-      let lands = await setColours(mapData, globalFilter, metaverseData)
+      let lands = await setColours(mapData, globalFilter)
       for (const key in chunks) {
         for (const child of chunks[key].children) {
           let tile: any = filteredLayer(
@@ -339,7 +358,7 @@ const Heatmap2D = ({
         }
       }
     }
-    if (metaverseData) filterUpdate()
+    /* if (metaverseData)  */filterUpdate()
   }, [filter, percentFilter, legendFilter, x, y])
 
   useEffect(() => {
@@ -379,7 +398,7 @@ const Heatmap2D = ({
     <>
       <div
         id="map"
-        className={`bg-white ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
+        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-[25px]'}`}
         style={{ width, height, border: 16 }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
