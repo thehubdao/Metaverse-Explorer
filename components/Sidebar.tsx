@@ -62,7 +62,7 @@ export default function Sidebar({ list }: SidebarProps) {
       <Link href={"/valuation"}>
         <div className="absolute w-full flex justify-center items-center top-6">
           <Image
-            src="/images/mgh_logo.svg"
+            src="/images//mgh_logo/mgh_logo.svg"
             width={58}
             height={54}
             loading='lazy'

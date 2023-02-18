@@ -21,7 +21,7 @@ export default function MobileControl() {
         <div className="flex flex-col items-center justify-around font-plus text-grey-content w-screen h-screen">
             <div className="">
                 <Image
-                    src="/images/mgh_logo.svg"
+                    src="/images//mgh_logo/mgh_logo.svg"
                     width={105}
                     height={101}
                     loading='lazy'
