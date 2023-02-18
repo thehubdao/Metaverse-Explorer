@@ -12,14 +12,14 @@ const Toolbar = ({ dark }: any) => {
 
             <div className="z-20 p-5 pr-5 lg:pr-0 xl:pr-5 w-full flex justify-between items-center font-medium">
                 <a href="/" className="block lg:hidden transform hover:scale-110 transition-all duration-500 ease-in-out">
-                    <img src="/images/mgh_logo.png" className={`h-10 w-10`} />
+                    <img src="/images/mgh_logo.svg" className={`h-10 w-10`} />
                 </a>
 
                 <nav className={`hidden lg:flex flex-row flex-grow justify-center items-stretch`} >
 
                     <div className="flex flex-grow space-x-8 items-center justify-start">
                         <a href="/" className="hidden lg:block mr-5 transform hover:scale-110 transition-all duration-500 ease-in-out">
-                            <img src="/images/mgh_logo.png" className={`h-12 w-12`} />
+                            <img src="/images/mgh_logo.svg" className={`h-12 w-12`} />
                         </a>
                         <a href="/collection" target="_blank" className="nav-item pt-1">LANDs</a>
                         <a href="/#news" className="nav-item pt-1">News</a>

@@ -76,8 +76,9 @@ const Heatmap2D = ({
   const [viewport, setViewport] = useState<any>()
   const [mapData, setMapData] = useState<any>({})
   const [chunks, setChunks] = useState<any>({})
-  const [metaverseData, setMetaverseData] = useState<any>()
+/*   const [metaverseData, setMetaverseData] = useState<any>() */
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [landsLoaded, setLandsLoaded] = useState<number>(0)
 
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
@@ -104,7 +105,10 @@ const Heatmap2D = ({
     })
     return '0x' + a.join('')
   }
+  let landAmount = 0
   const renderHandler = async (land: any) => {
+    landAmount+=1
+    setLandsLoaded(landAmount)
     let lands: any = mapData
     let localChunks: any = chunks
     let name = ''
@@ -115,9 +119,9 @@ const Heatmap2D = ({
     }
     lands[name] = land!
     lands[name].land_id = land.tokenId
-    globalFilter == 'basic'
+    /* globalFilter == 'basic'
       ? null
-      : (land = await setLandColour(land, globalFilter, metaverseData))
+      : (land = await setLandColour(land, globalFilter, metaverseData)) */
     setMapData(lands)
     let value = land
     let tile: any
@@ -169,10 +173,11 @@ const Heatmap2D = ({
     }
     chunkContainer.addChild(rectangle)
     viewport.addChild(chunkContainer)
+
   }
 
   useEffect(() => {
-    if (!metaverseData && !viewport) return
+    if (!viewport) return
     console.log('Creando socket', new Date().toISOString())
     const socketServiceUrl = process.env.SOCKET_SERVICE!
     const socketService = getSocketService(
@@ -188,7 +193,7 @@ const Heatmap2D = ({
     return () => {
       socketService.disconnect()
     }
-  }, [metaverseData && viewport])
+  }, [viewport])
 
   useEffect(() => {
     setMap(null)
@@ -238,7 +243,7 @@ const Heatmap2D = ({
       viewport.addChild(mapBackground)
     }
 
-    const getMetaverseData = async () => {
+    /* const getMetaverseData = async () => {
       await setBackground()
       let dataCall: any = await fetch(
         process.env.SOCKET_SERVICE + `/limits?metaverse=${metaverse}`
@@ -247,7 +252,7 @@ const Heatmap2D = ({
       dataCall = await dataCall.json()
       setMetaverseData(dataCall)
     }
-    getMetaverseData()
+    getMetaverseData() */
     return () => {
       document?.getElementById('map')?.removeChild(map?.view)
       map?.destroy()
@@ -334,7 +339,7 @@ const Heatmap2D = ({
   useEffect(() => {
     if (!chunks || !mapData) return
     const filterUpdate = async () => {
-      let lands = await setColours(mapData, globalFilter, metaverseData)
+      let lands = await setColours(mapData, globalFilter)
       for (const key in chunks) {
         for (const child of chunks[key].children) {
           let tile: any = filteredLayer(
@@ -352,7 +357,7 @@ const Heatmap2D = ({
         }
       }
     }
-    if (metaverseData) filterUpdate()
+    /* if (metaverseData)  */filterUpdate()
   }, [filter, percentFilter, legendFilter, x, y])
 
   useEffect(() => {
@@ -396,6 +401,7 @@ const Heatmap2D = ({
         style={{ width, height }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
+        {/* {metaverseData && <div>{landsLoaded} / {metaverseData.basic.landAmount}</div>} */}
         <Loader color='' size={200} />
         <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>

@@ -109,7 +109,7 @@ const PolygonStaking = () => {
                         <div className="relative flex flex-col space-y-5 h-full items-center justify-between border-t border-l border-opacity-10 shadow-dark rounded-xl p-2 pb-10 sm:p-5 sm:pb-12 w-full bg-grey-dark bg-opacity-30">
                             {(!signer || !+allowance || chainId !== Chains.MATIC_MAINNET.chainId) && <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-0 backdrop-blur-sm rounded-xl z-20"></div>}
                             <div className="self-start flex items-center justify-center space-x-2 sm:space-x-4 w-full pr-2 mb-2 z-30">
-                                <img src="/images/mgh_logo.png" className="object-scale-down h-10 sm:h-14 p-1" />
+                                <img src="/images/mgh_logo.svg" className="object-scale-down h-10 sm:h-14 p-1" />
                                 <h3 className="text-gray-300 pb-1.5">$MGH Staking</h3>
                             </div>
 

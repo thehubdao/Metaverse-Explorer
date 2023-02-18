@@ -25,23 +25,23 @@ const Swap: NextPage = () => {
 
                     {ethToMGH ? (
                         <>
-                            <TokenInput name={network === Network.ETHEREUM ? Tokens.ETH : Tokens.MMGH} logo={network === Network.ETHEREUM ? "/images/ethereum-eth-logo.png" : "/images/mgh_logo.png"} direction="From" />
+                            <TokenInput name={network === Network.ETHEREUM ? Tokens.ETH : Tokens.MMGH} logo={network === Network.ETHEREUM ? "/images/ethereum-eth-logo.png" : "/images/mgh_logo.svg"} direction="From" />
                             <div className="my-5 flex w-full max-w-sm sm:max-w-lg items-center justify-between">
                                 <hr className="w-1/12 border-gray-500" />
                                 <IoSwapVertical onClick={() => setEthtoMGH(!ethToMGH)} className=" text-5xl sm:text-6xl text-gray-300 hover:text-pink-600 cursor-pointer transform hover:rotate-180 transition ease-in-out duration-300 bg-grey-dark bg-opacity-70 rounded-full p-2" />
                                 <hr className="w-8/12 xs:w-9/12 border-gray-500" />
                             </div>
-                            <TokenInput name={network === Network.ETHEREUM ? Tokens.MGH : Tokens.MGH_DATA} logo="/images/mgh_logo.png" direction="To" />
+                            <TokenInput name={network === Network.ETHEREUM ? Tokens.MGH : Tokens.MGH_DATA} logo="/images/mgh_logo.svg" direction="To" />
                         </>
                     ) : (
                         <>
-                            <TokenInput name={network === Network.ETHEREUM ? Tokens.MGH : Tokens.MGH_DATA} logo="/images/mgh_logo.png" direction="From" />
+                            <TokenInput name={network === Network.ETHEREUM ? Tokens.MGH : Tokens.MGH_DATA} logo="/images/mgh_logo.svg" direction="From" />
                             <div className="my-5 flex w-full max-w-sm sm:max-w-lg items-center justify-between">
                                 <hr className="w-1/12 border-gray-500" />
                                 <IoSwapVertical onClick={() => setEthtoMGH(!ethToMGH)} className=" text-5xl sm:text-6xl text-gray-300 hover:text-pink-600 cursor-pointer transform hover:rotate-180 transition ease-in-out duration-300 bg-grey-dark bg-opacity-70 rounded-full p-2" />
                                 <hr className="w-8/12 xs:w-9/12 border-gray-500" />
                             </div>
-                            <TokenInput name={network === Network.ETHEREUM ? Tokens.ETH : Tokens.MMGH} logo={network === Network.ETHEREUM ? "/images/ethereum-eth-logo.png" : "/images/mgh_logo.png"} direction="To" />
+                            <TokenInput name={network === Network.ETHEREUM ? Tokens.ETH : Tokens.MMGH} logo={network === Network.ETHEREUM ? "/images/ethereum-eth-logo.png" : "/images/mgh_logo.svg"} direction="To" />
                         </>
                     )}
 

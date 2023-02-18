@@ -90,7 +90,7 @@ const LandItem = ({
           <OptimizedImage
             height={imgSize}
             width={imgSize}
-            src={land.images.image_url || 'images/mgh_logo.png'}
+            src={land.images.image_url || 'images/mgh_logo.svg'}
             rounded='lg'
           />
           <FiExternalLink className='absolute top-0 right-0 text-grey-content font-plus text-xs backdrop-filter backdrop-blur-sm rounded-xl w-6 h-6 p-1' />

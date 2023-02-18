@@ -20,7 +20,7 @@ const Stake: NextPage = () => {
                 <div className="flex flex-col items-center border-t border-l border-opacity-20 shadow-dark rounded-xl p-5 w-full bg-grey-dark bg-opacity-30 max-w-4xl">
                     <h3 className="pb-5 text-gray-300">MGH/ETH Pool</h3>
 
-                    <TokenInput name={Tokens.MGH} logo="/images/mgh_logo.png" />
+                    <TokenInput name={Tokens.MGH} logo="/images/mgh_logo.svg" />
                     <div className="py-2 block sm:hidden"/>
                     <TokenInput name={Tokens.ETH} logo="/images/ethereum-eth-logo.png" />
 

@@ -36,7 +36,7 @@ const ExternalAssetLink = ({
         className='hover:shadow-dark relative h-full w-full'
       >
         <OptimizedImage
-          src={land.images.image_url || '/images/mgh_logo.png'}
+          src={land.images.image_url || '/images/mgh_logo.svg'}
           className="rounded-l-3xl"
           layout={'fill'}
           width={100}

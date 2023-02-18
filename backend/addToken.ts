@@ -1,6 +1,6 @@
 const tokenSymbol = 'MGH';
 const tokenDecimals = 18;
-const tokenImage = 'https://app.metagamehub.io/images/mgh_logo.png';
+const tokenImage = 'https://app.metagamehub.io/images/mgh_logo.svg';
 
 
 const addTokenToWallet = async (signer: any, address: string) => {
