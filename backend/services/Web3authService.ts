@@ -6,8 +6,6 @@ import jwtDecode from 'jwt-decode'
 import { Chains } from '../../lib/chains'
 const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
 import RPC from '../api/etherRPC' // for using web3.js
-import { verifyMessage } from 'ethers/lib/utils'
-import { fetchNonce, sendSignedNonce } from '../login'
 import { Signer } from 'ethers'
 
 class Web3authService {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Fade } from 'react-awesome-reveal'
 import { BiDislike, BiLike } from 'react-icons/bi'
 import { BsTwitter } from 'react-icons/bs'
 import {
@@ -108,11 +107,9 @@ const LandLikeBox = ({ landId, metaverse, twitterLink }: Props) => {
     <div className='flex relative text-center w-full justify-start items-end font-medium gap-6 text-gray-400'>
       {connectToVote && (
         <div className='absolute'>
-          <Fade duration={500}>
-            <span className='font-medium min-w-max absolute w-fit p-3 pt-4 bg-black/50 backdrop-blur-xl rounded-xl -top-1/2'>
-              Connect Wallet to Vote!
-            </span>
-          </Fade>
+          <span className='font-medium min-w-max absolute w-fit p-3 pt-4 bg-black/50 backdrop-blur-xl rounded-xl -top-1/2'>
+            Connect Wallet to Vote!
+          </span>
         </div>
       )}
       {/* Like */}

@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { Plans } from '../lib/enums'
 
 import Footer from '../components/General/Footer'
-import { PurchaseCoinValues } from '../components/Purchase/purchaseTypes'
+import { PurchaseCoinValues } from '../types/Purchase/purchaseTypes'
 
 // Chatbot initials
 import { configB2c } from '../lib/chatbot/config-chatbot'
@@ -75,7 +75,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
             {/* Top Padding or Image */}
             <div className={`relative p-0 mb-8 w-full h-[400px]`}>
               <Image
-                src="/images/land_header.svg"
+                src="/images/land_header.webp"
                 objectFit={'cover'}
                 alt='land header'
                 layout="fill"

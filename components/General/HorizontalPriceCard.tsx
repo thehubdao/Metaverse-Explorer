@@ -55,8 +55,6 @@ const HorizontalPriceCard = ({
       <ExternalAssetLink
         metaverse={metaverse}
         land={land}
-        landId={landId}
-        layout='responsive'
       />
       {/* RIGHT/BOTTOM - PriceList */}
       <div className='flex flex-col justify-center p-7 pr-7 w-[400px]'>

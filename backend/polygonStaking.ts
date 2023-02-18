@@ -1,4 +1,5 @@
-import { BigNumber, ethers, providers } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import { BigNumber, ethers, providers, Signer } from "ethers";
 import { Chains } from "../lib/chains";
 
 import { Contracts } from "../lib/contracts";
@@ -11,27 +12,25 @@ const StakingContract = Contracts.MGH_STAKING.MATIC_MAINNET.address
 const StakingContractAbi = Contracts.MGH_STAKING.MATIC_MAINNET.abi
 
 
-export const getMGHBalance = async (provider: providers.Web3Provider | undefined, address: string | undefined) => {
-    if (!provider || !address) {
+export const getMGHBalance = async (signer: Signer | undefined, address: string | undefined) => {
+    if (!signer || !address) {
         return
     }
 
     const contract = new ethers.Contract(
         MGHContract,
         MGHContractAbi,
-        provider
+        signer
     );
 
     const balance = await contract.balanceOf(address)
     return balance
 }
 
-export const approveMGH = async (provider: providers.Web3Provider | undefined, address: string | undefined) => {
-    if (!provider || !address) {
+export const approveMGH = async (signer: Signer | undefined, address: string | undefined) => {
+    if (!signer || !address) {
         return
     }
-
-    const signer = provider.getSigner()
 
     const contract = new ethers.Contract(
         MGHContract,
@@ -43,12 +42,11 @@ export const approveMGH = async (provider: providers.Web3Provider | undefined, a
     return result
 }
 
-export const stakeMGH = async (provider: providers.Web3Provider | undefined, address: string | undefined, amount: BigNumber) => {
-    if (!provider || !address) {
+export const stakeMGH = async (signer: Signer | undefined, address: string | undefined, amount: BigNumber) => {
+    if (!signer || !address) {
         return
     }
 
-    const signer = provider.getSigner()
 
     const contract = new ethers.Contract(
         StakingContract,
@@ -60,12 +58,12 @@ export const stakeMGH = async (provider: providers.Web3Provider | undefined, add
     return transaction
 }
 
-export const unstakeMGH = async (provider: providers.Web3Provider | undefined, address: string | undefined, amount: BigNumber) => {
-    if (!provider || !address) {
+export const unstakeMGH = async (signer: Signer | undefined, address: string | undefined, amount: BigNumber) => {
+    if (!signer || !address) {
         return
     }
 
-    const signer = provider.getSigner()
+
 
     const contract = new ethers.Contract(
         StakingContract,
@@ -77,12 +75,12 @@ export const unstakeMGH = async (provider: providers.Web3Provider | undefined, a
     return transaction
 }
 
-export const calcReward = async (provider: providers.Web3Provider, address: string) => {
+export const calcReward = async (signer: Signer, address: string) => {
 
     const contract = new ethers.Contract(
         StakingContract,
         StakingContractAbi,
-        provider
+        signer
     );
 
     const staked = await contract.balanceOf(address)
@@ -91,7 +89,7 @@ export const calcReward = async (provider: providers.Web3Provider, address: stri
     return { staked, earned }
 }
 
-export const getContractInfo = async (provider: providers.Web3Provider | undefined, chainId: number | undefined) => {
+export const getContractInfo = async (provider: Provider | undefined, chainId: number | undefined) => {
 
     let contractProvider;
     if (!provider || chainId !== Chains.MATIC_MAINNET.chainId) {
@@ -113,12 +111,10 @@ export const getContractInfo = async (provider: providers.Web3Provider | undefin
     return { totalSupply, rewardRate, APY }
 }
 
-export const getReward = async (provider: providers.Web3Provider | undefined, address: string | undefined) => {
-    if (!provider || !address) {
+export const getReward = async (signer: Signer | undefined, address: string | undefined) => {
+    if (!signer || !address) {
         return
     }
-
-    const signer = provider.getSigner()
 
     const contract = new ethers.Contract(
         StakingContract,
@@ -130,12 +126,10 @@ export const getReward = async (provider: providers.Web3Provider | undefined, ad
     return transaction
 }
 
-export const reinvestReward = async (provider: providers.Web3Provider | undefined, address: string | undefined) => {
-    if (!provider || !address) {
+export const reinvestReward = async (signer: Signer | undefined, address: string | undefined) => {
+    if (!signer || !address) {
         return
     }
-
-    const signer = provider.getSigner()
 
     const contract = new ethers.Contract(
         StakingContract,
@@ -147,15 +141,15 @@ export const reinvestReward = async (provider: providers.Web3Provider | undefine
     return transaction
 }
 
-export const getMGHAllowance = async (provider: providers.Web3Provider | undefined, address: string | undefined) => {
-    if (!provider || !address) {
+export const getMGHAllowance = async (signer: Signer | undefined, address: string | undefined) => {
+    if (!signer || !address) {
         return
     }
 
     const contract = new ethers.Contract(
         MGHContract,
         MGHContractAbi,
-        provider
+        signer
     );
 
     const result = await contract.allowance(address, StakingContract)

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import { ethers } from "ethers"
+import { ethers, Signer } from "ethers"
 import { formatEther } from "@ethersproject/units"
 
 import { calcReward, getContractInfo, getMGHAllowance, getMGHBalance } from "./polygonStaking"
 import { Chains } from "../lib/chains"
 
 
-export default function usePolygonStaking(web3Provider: ethers.providers.Web3Provider | undefined, address: string | undefined, chainId: number | undefined) {
-
+export default function usePolygonStaking(signer: Signer | undefined, address: string | undefined, chainId: number | undefined) {
+    const provider = signer?.provider
     const [MGHBalance, setMGHBalance] = useState("")
     const [allowance, setAllowance] = useState("")
 
@@ -32,20 +32,20 @@ export default function usePolygonStaking(web3Provider: ethers.providers.Web3Pro
             let allowance = ""
             let balance = "";
 
-            const contractInfo  = await getContractInfo(web3Provider, chainId)
+            const contractInfo  = await getContractInfo(provider, chainId)
             totalSupply = formatEther(contractInfo.totalSupply)
             rewardRate = formatEther(contractInfo.rewardRate)
             APY = contractInfo.APY
 
-            if (web3Provider && address && chainId === Chains.MATIC_MAINNET.chainId) {
-                const reward = await calcReward(web3Provider, address)
+            if (signer && address && chainId === Chains.MATIC_MAINNET.chainId) {
+                const reward = await calcReward(signer, address)
                 totalStaked = formatEther(reward.staked)
                 earned = formatEther(reward.earned)
 
-                allowance = formatEther(await getMGHAllowance(web3Provider, address))
+                allowance = formatEther(await getMGHAllowance(signer, address))
 
                 if (+allowance) {
-                    balance = formatEther(await getMGHBalance(web3Provider, address))
+                    balance = formatEther(await getMGHBalance(signer, address))
                 } 
             }
 
@@ -67,7 +67,7 @@ export default function usePolygonStaking(web3Provider: ethers.providers.Web3Pro
 
         return () => { active = false; setLoading(true) }
 
-    }, [web3Provider, address, chainId])
+    }, [signer, address, chainId])
 
 
     return { MGHBalance, allowance, totalStaked, earned, totalSupply, rewardRate, APY, loading }

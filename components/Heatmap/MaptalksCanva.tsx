@@ -178,7 +178,7 @@ const MaptalksCanva = ({
 
     let initialMap = new maptalks.Map('map', {
       center: [0, 0],
-      zoom: 9,
+      zoom: 10,
       minZoom: 8,
       maxZoom: 12,
       attribution: false,
@@ -231,7 +231,7 @@ const MaptalksCanva = ({
   useEffect(() => {
     if (!map) return
     const filterUpdate = async () => {
-      let coloredAtlas = await setColours(mapData!, filter, metaverseData)
+      let coloredAtlas = await setColours(mapData!, filter)
       const coloredLayer = layer.forEach((geometry: any) => {
         const land = coloredAtlas[geometry.landName]
         const tile: any = filteredLayer(
@@ -278,7 +278,7 @@ const MaptalksCanva = ({
         className={isLoading ? 'hidden' : 'block rounded-3xl'}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader color='' size={100} />
+        <Loader color='blue' size={100} />
         <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>
