@@ -32,6 +32,8 @@ import { Metaverse, metaverseObject } from '../lib/metaverse'
 import GeneralSection from '../components/GeneralSection'
 import SpecificAssetModal from '../components/General/SpecificAssetModal'
 import Footer from '../components/General/Footer'
+import ConnectButton from '../components/ConnectButton';
+import NoLands from '../components/Portfolio/NoLands';
 
 const headerList = [
 	{
@@ -302,36 +304,67 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									)
 							)}
 
-						{lands && metaverse === Metaverses.SANDBOX && lands["sandbox"] && typedKeys(lands["sandbox"]).length > 0 && (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"sandbox"}
-									lands={lands["sandbox"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
+						{lands && metaverse === Metaverses.SANDBOX && (
+							lands["sandbox"]
+								? (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={"sandbox"}
+											lands={lands["sandbox"]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+								) : (
+									<NoLands />
+								)
 						)}
 
-						{lands && metaverse === Metaverses.DECENTRALAND && lands["decentraland"] && typedKeys(lands["decentraland"]).length > 0 && (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"decentraland"}
-									lands={lands["decentraland"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
+						{lands && metaverse === Metaverses.DECENTRALAND && (
+							lands["decentraland"]
+								? (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={"decentraland"}
+											lands={lands["decentraland"]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+								) : (
+									<NoLands />
+								)
 						)}
 
-						{lands && metaverse === Metaverses.SOMNIUM && lands["somnium-space"] && typedKeys(lands["somnium-space"]).length > 0 && (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"somnium-space"}
-									lands={lands["somnium-space"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
+						{lands && metaverse === Metaverses.SOMNIUM && (
+							lands["somnium-space"]
+								? (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={"somnium-space"}
+											lands={lands["somnium-space"]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+
+								) : (
+									<NoLands />
+								)
+						)}
+
+						{!address && (
+							<div className="flex flex-col justify-center items-center mt-28">
+								{/* Auth Button */}
+								<Image
+									src="/images//mgh_logo/mgh_logo.svg"
+									width={136}
+									height={131}
+									loading='lazy'
+									objectFit='cover'
 								/>
+								<p className='text-grey-icon font-bold text-2xl pt-6'>Please log in to show your portfolio</p>
+								<ConnectButton />
 							</div>
 						)}
 
