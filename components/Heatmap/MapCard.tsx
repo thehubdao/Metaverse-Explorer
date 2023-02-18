@@ -81,7 +81,7 @@ const MapCard = ({
         <div className="gray-box scale-90 p-2 flex flex-col cursor-pointer max-w-sm font-plus text-grey-content items-start justify-between gap-2 bg-opacity-100 relative z-30 bg-grey-bone rounded-xl shadow-2xl">
             {loadingQuery ? (
                 <div className="w-full flex flex-col gap-14 absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
-                    <Loader color='' size={200} />
+                    <Loader color='blue' size={200} />
                     <p className="text-lg font-semibold text-center text-grey-content">
                         Calculating
                     </p>

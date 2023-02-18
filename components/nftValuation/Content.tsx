@@ -47,7 +47,7 @@ export default function Content({
 		<>
 			{isLoading ? (
 				<div className="w-full pt-16">
-					<Loader />
+					<Loader color="blue" size={100}/>
 				</div>
 			) : (
 				<div className="flex flex-wrap justify-center gap-10">

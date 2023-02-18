@@ -14,6 +14,7 @@ import { Metaverse } from '../lib/metaverse'
 import { addLandToWatchList, removeLandFromWatchList } from '../lib/FirebaseUtilities'
 import { formatName, typedKeys } from '../lib/utilities'
 import { OptimizedImage } from '../components/General'
+import Image from 'next/image'
 
 const headerList = [
   {
@@ -150,8 +151,16 @@ const Watchlist: NextPage = () => {
             </ul>
           </div>
         ) : (
-          <div className="flex justify-center">
+          <div className="flex flex-col justify-center items-center mt-28">
             {/* Auth Button */}
+            <Image
+              src="/images//mgh_logo/mgh_logo.svg"
+              width={136}
+              height={131}
+              loading='lazy'
+              objectFit='cover'
+            />
+            <p className='text-grey-icon font-bold text-2xl pt-6'>Please log in to show your watchlist</p>
             <ConnectButton />
           </div>
         )}

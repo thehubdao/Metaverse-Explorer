@@ -22,14 +22,14 @@ const PolygonStaking = () => {
 
     const [stakeInput, setStakeInput] = useState("")
     const [unstakeInput, setUnstakeInput] = useState("")
-    const [chainId,setChainId] = useState<number>()
+    const [chainId, setChainId] = useState<number>()
     const [openModal, setOpenModal] = useState(false)
     const [transactionLoading, setTransactionLoading] = useState(true)
     const [transactionModal, setTransactionModal] = useState(false)
     const [success, setSuccess] = useState(true)
     const [hash, setHash] = useState("")
     const { address } = useAccount()
-    const { data:signer} = useSigner()
+    const { data: signer } = useSigner()
     const { MGHBalance, allowance, totalStaked, earned, totalSupply, rewardRate, APY, loading } = usePolygonStaking(signer as Signer, address, chainId)
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const PolygonStaking = () => {
             setStakeInput("")
             setUnstakeInput("")
         }
-        const getChainId = async ()=>setChainId(await signer?.getChainId())
+        const getChainId = async () => setChainId(await signer?.getChainId())
         getChainId()
     }, [signer])
 
@@ -100,7 +100,7 @@ const PolygonStaking = () => {
                 <TransactionModal onDismiss={() => { setTransactionModal(false); !transactionLoading && window.location.reload() }} loading={transactionLoading} success={success} hash={hash} chainId={chainId} />
             )}
 
-            {loading ? (<Loader size={0} color={''} />) : (
+            {loading ? (<Loader size={0} color={'blue'} />) : (
 
                 <div className="flex flex-col lg:flex-row space-x-0 lg:space-x-10 space-y-5 lg:space-y-0 max-w-7xl w-full mt-8 xl:mt-0">
 
@@ -143,8 +143,8 @@ const PolygonStaking = () => {
 
 
                             {!address && (
-                              <div className='z-30'><ConnectButton/></div>
-                                
+                                <div className='z-30'><ConnectButton /></div>
+
                             )}
 
                             {signer && !+allowance && chainId === Chains.MATIC_MAINNET.chainId && (
@@ -215,7 +215,7 @@ const PolygonStaking = () => {
 
 
 
-{/*                         <div className="flex flex-col justify-center items-center rounded-xl p-2 sm:p-5 w-full bg-grey-dark bg-opacity-30 shadow-dark max-w-4xl">
+                        {/*                         <div className="flex flex-col justify-center items-center rounded-xl p-2 sm:p-5 w-full bg-grey-dark bg-opacity-30 shadow-dark max-w-4xl">
                             <p className="mb-5 text-gray-300 font-medium max-w-sm text-center text-sm sm:text-base pt-4 sm:pt-0">$MGH staking is on Polygon for you to save network fees. To stake your $MGH, you first have to bridge them using the Polygon Bridge.</p>
                             {(signer && chainId === Chains.MATIC_MAINNET.chainId) && <p onClick={() => addTokenToWallet(signer, Contracts.MGH_TOKEN.MATIC_MAINNET.address)} className="mt-3 pt-1 z-10 text-gray-400 hover:text-blue-400 transition ease-in-out duration-300 font-medium text-lg cursor-pointer">Add $MGH to your Wallet</p>}
                         </div> */}
