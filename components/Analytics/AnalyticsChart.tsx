@@ -6,7 +6,6 @@ import { chartSymbolOptions } from '.'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
 import ChartLoader from './ChartLoader'
-import { FaBlackTie } from 'react-icons/fa'
 
 type ChartData = {
   time: string
@@ -137,26 +136,6 @@ const AnalyticsChart = ({
               </button>
             ))}
           </div>
-
-          {/* Coin Buttons */}
-          {/* <div className='sm:flex gap-2 relative left-1 sm:left-auto sm:right-18 w-fit hidden'>
-            {typedKeys(chartSymbolOptions).map((arrSymbol) => (
-              <button
-                key={arrSymbol}
-                className={
-                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
-                  (symbol === arrSymbol
-                    ? ' text-gray-300 bg-opacity-80 '
-                    : ' hover:text-gray-300 hover:bg-opacity-80')
-                }
-                onClick={() => setSymbol(arrSymbol)}
-              >
-                {arrSymbol === 'METAVERSE'
-                  ? chartSymbolOptions[arrSymbol][metaverse]
-                  : arrSymbol}
-              </button>
-            ))}
-          </div> */}
         </div>
       </div>
     </div>
