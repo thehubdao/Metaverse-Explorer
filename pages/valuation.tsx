@@ -467,7 +467,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-2 right-8 flex flex-col gap-4">
+									<div ref={ref} className="absolute bottom-12 right-2 flex flex-col gap-4">
 										<MapCard
 											setIsVisible={setIsVisible}
 											metaverse={metaverse}
