@@ -323,8 +323,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					)}
 
 					{metaverse && (
-						<div className="bg-grey-bone rounded-[30px] p-7 nm-flat-medium h-[80vh]">
-							<div className="w-full h-full relative bg-grey-bone" ref={mapDivRef}>
+						<div className="rounded-[30px] p-7 nm-flat-medium h-[80vh]">
+							<div className="w-full h-full relative" ref={mapDivRef}>
 
 								<div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full unselectable m-4">
 									<div className="md:flex gap-2 md:gap-4 hidden">
@@ -467,7 +467,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-2 right-8 flex flex-col gap-4">
+									<div ref={ref} className="absolute bottom-12 right-2 flex flex-col gap-4">
 										<MapCard
 											setIsVisible={setIsVisible}
 											metaverse={metaverse}
