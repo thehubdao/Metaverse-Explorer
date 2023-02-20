@@ -183,7 +183,7 @@ const Heatmap2D = ({
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
-        console.log('Connected')
+        console.log('Connected', new Date().toISOString())
       },
       renderHandler
     )
