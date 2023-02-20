@@ -21,9 +21,13 @@ import Loader from '../Loader'
 import axios from 'axios'
 import { useAccount } from 'wagmi'
 
+
+
 let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
   globalLegendFilter: LegendFilter
+
+let landIndex = 0
 
 interface IHeatmap2D {
   width: number | undefined
@@ -106,7 +110,8 @@ const Heatmap2D = ({
     return '0x' + a.join('')
   }
   let landAmount = 0
-  const renderHandler = async (land: any) => {
+  const renderHandler = async (land: any, landKeyIndex:any) => {
+    landIndex = landKeyIndex
     landAmount+=1
     setLandsLoaded(landAmount)
     let lands: any = mapData
@@ -183,12 +188,14 @@ const Heatmap2D = ({
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
-        console.log('Connected')
+
+        console.log('Connected', new Date().toISOString())
+        socketService.startRender(metaverse)
       },
       renderHandler
     )
     setIsLoading(true)
-    socketService.startRender(metaverse)
+    
     socketService.onRenderFinish(() => { setIsLoading(false) })
     return () => {
       socketService.disconnect()
