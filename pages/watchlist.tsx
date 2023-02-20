@@ -160,7 +160,7 @@ const Watchlist: NextPage = () => {
               loading='lazy'
               objectFit='cover'
             />
-            <p className='text-grey-icon font-bold text-2xl pt-6'>Please log in to show your watchlist</p>
+            <p className='text-grey-icon font-light text-2xl pt-6'>Please log in to show your watchlist</p>
             <ConnectButton />
           </div>
         )}

@@ -30,7 +30,7 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
         Choose a Metaverse
       </h2>
 
-      <div className='flex space-x-2 items-center justify-center bg-grey-dark rounded-2xl w-fit m-auto py-2 px-24'>
+      <div className='flex space-x-2 items-center justify-center bg-[#eceef8] rounded-2xl w-fit m-auto py-2 px-24'>
         <BsExclamationCircleFill className={`text-2xl z-10 text-[#6196FF]`} />
         <p className='flex text-xs xs:text-base xl:text-base font-normal font-plus text-grey-content pl-3'>
           You can request up to &nbsp;<span className='font-bold'>10 free valuations</span>, after that pro version is needed

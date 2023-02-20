@@ -10,7 +10,7 @@ const Logo = ({ color }: { color: iColors }) => {
 
   const colors = {
     black: 'rgb(49, 47, 48)',
-    blue: 'rgb(25, 127, 243)'
+    blue: 'rgb(24, 175, 242)'
   }
 
   useEffect(() => {
