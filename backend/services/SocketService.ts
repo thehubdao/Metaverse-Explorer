@@ -10,9 +10,11 @@ class SocketService {
         onDisconnect?: any
     ) {
         this.socket = io(socketUrl)
+                this.onError()
         this.onConnect(onConnect)
         this.pingPong()
         this.onNewLand(onNewLand)
+
     }
 
     pingPong() {
@@ -21,6 +23,13 @@ class SocketService {
         })
         console.log(this.socket)
     }
+
+        onError(){
+        this.socket?.on('connect_error', err => console.log(err))
+this.socket?.on('connect_failed', err => console.log(err))
+this.socket?.on('disconnect', err => console.log(err))
+    }
+
     onConnect(callback: any) {
         this.socket?.on('connect', callback)
     }
