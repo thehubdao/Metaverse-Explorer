@@ -25,9 +25,9 @@ class SocketService {
     }
 
     onError() {
-        this.socket?.on('connect_error', err => console.log(err))
-        this.socket?.on('connect_failed', err => console.log(err))
-        this.socket?.on('disconnect', err => console.log(err))
+        this.socket?.on('connect_error', err => console.log(err, new Date().toISOString()))
+        this.socket?.on('connect_failed', err => console.log(err, new Date().toISOString()))
+        this.socket?.on('disconnect', err => console.log(err, new Date().toISOString()))
     }
 
     onConnect(callback: any) {
