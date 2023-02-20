@@ -76,7 +76,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		undefined,
 		address
 	)
-	
+
 	const externalWallet = query.wallet
 	const isRonin = query.wallet?.toString().startsWith('ronin')
 
@@ -222,13 +222,17 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* {openModal && <WalletModal onDismiss={() => setOpenModal(false)} />} */}
 
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
-				<Image
-					src="/images/land_header.webp"
-					objectFit={'cover'}
-					alt='land header'
-					layout="fill"
-				/>
+			<div className={`relative p-0 w-full ${!isModalOpen && 'h-[400px] mb-24'}`}>
+				{
+					!isModalOpen && (
+						<Image
+							src="/images/land_header.webp"
+							objectFit={'cover'}
+							alt='land header'
+							layout="fill"
+						/>
+					)
+				}
 			</div>
 
 			{/* General Section Layout */}
@@ -240,6 +244,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						handleSpecificAssetData={handleSpecificLandData}
 						hiddenSearchBar={true}
 						hiddenOwner={true}
+						isFullHeight={true}
 					/>
 				) : (
 					<GeneralSection
@@ -362,7 +367,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									loading='lazy'
 									objectFit='cover'
 								/>
-								<p className='text-grey-icon font-bold text-2xl pt-6'>Please log in to show your portfolio</p>
+								<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to show your portfolio</p>
 								<ConnectButton />
 							</div>
 						)}

@@ -25,8 +25,8 @@ import {
 // Filters
 import { typedKeys } from "../lib/utilities";
 import SpecificAssetModal from "../components/General/SpecificAssetModal";
-import Image from "next/image";
 import Footer from "../components/General/Footer";
+import CommingSoon from "../components/CommingSoon";
 
 interface nftCollectionProps {
 	num_owners: number;
@@ -178,10 +178,7 @@ export default function NftValuation() {
 
 	if (commingSoon) {
 		return (
-			<div className="flex justify-center items-center w-full h-screen gap-6">
-				<Image src='/images//mgh_logo/mgh_logo.svg' width={100} height={100} />
-				<h2 className="font-bold text-xl">Coming soon!</h2>
-			</div>
+			<CommingSoon />
 		)
 	}
 
