@@ -80,7 +80,7 @@ const Heatmap2D = ({
   const [viewport, setViewport] = useState<any>()
   const [mapData, setMapData] = useState<any>({})
   const [chunks, setChunks] = useState<any>({})
-/*   const [metaverseData, setMetaverseData] = useState<any>() */
+  /*   const [metaverseData, setMetaverseData] = useState<any>() */
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [landsLoaded, setLandsLoaded] = useState<number>(0)
 
@@ -110,9 +110,9 @@ const Heatmap2D = ({
     return '0x' + a.join('')
   }
   let landAmount = 0
-  const renderHandler = async (land: any, landKeyIndex:any) => {
+  const renderHandler = async (land: any, landKeyIndex: any) => {
     landIndex = landKeyIndex
-    landAmount+=1
+    landAmount += 1
     setLandsLoaded(landAmount)
     let lands: any = mapData
     let localChunks: any = chunks
@@ -195,7 +195,7 @@ const Heatmap2D = ({
       renderHandler
     )
     setIsLoading(true)
-    
+
     socketService.onRenderFinish(() => { setIsLoading(false) })
     return () => {
       socketService.disconnect()
@@ -262,7 +262,8 @@ const Heatmap2D = ({
     }
     getMetaverseData() */
     return () => {
-      document?.getElementById('map')?.removeChild(map?.view)
+      try { document?.getElementById('map')?.removeChild(map?.view) } catch{}
+
       map?.destroy()
       viewport?.destroy()
 
