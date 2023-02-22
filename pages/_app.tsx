@@ -1,7 +1,6 @@
 import '/styles/MLMStyles.css'
 import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
-import '../styles/TileMap.css'
 
 import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
@@ -88,7 +87,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             ) : (
                 <div className='relative flex flex-col w-full h-screen justify-center items-center'>
                     <div className='w-fit'>
-                        <Loader size={100} color='' />
+                        <Loader size={100} color='blue' />
                     </div>
                     <p className='absolute bottom-12 font-bold text-grey-content'>MGH loves you!</p>
                 </div>

@@ -14,6 +14,7 @@ interface SpecificAssetModalProps {
   handleSpecificAssetData: Function
   hiddenSearchBar?: boolean
   hiddenOwner?: boolean
+  isFullHeight?: boolean
 }
 
 const ExternalButton = ({ text, icon, externalLink }: {
@@ -96,7 +97,8 @@ const SpecificAssetModal = ({
   handleSpecificAssetData,
   collectionName,
   hiddenSearchBar,
-  hiddenOwner
+  hiddenOwner,
+  isFullHeight
 }: SpecificAssetModalProps) => {
   const SteticTimeString = (historyTime: string) => {
     let timeStringArray = historyTime.split(' ')[0].split('-')
@@ -113,9 +115,9 @@ const SpecificAssetModal = ({
   return (
     <div className="w-full flex justify-center">
       {specificAssetSelected
-        ? (<div className="w-full max-w-7xl px-6 text-black mb-10">
+        ? (<div className={`w-full max-w-7xl px-6 text-black ${isFullHeight ? 'h-screen py-7' : 'mb-10'}`}>
           <Header handleSpecificAssetData={handleSpecificAssetData} hiddenSearchBar={hiddenSearchBar} />
-          <div className="grid grid-cols-2 gap-2">
+          <div className={`grid grid-cols-2 gap-2 ${isFullHeight ? 'h-full content-start pt-10' : ''} `}>
 
             {/* Nft Video */}
             <div className="w-fit h-full relative flex justify-center items-center nm-flat-medium p-5 rounded-lg">

@@ -26,7 +26,7 @@ function Button({ url, label, icon, active }: ButtonProps) {
   return (
     <Link href={url}>
       <Tooltip title={label} placement="right">
-        <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium'} bg-white bg-opacity-60 cursor-pointer`}>
+        <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium hover:nm-flat-soft'} bg-white bg-opacity-60 cursor-pointer transition duration-300 ease-in-out`}>
           <div className="font-icons text-3xl">{icon}</div>
         </div>
       </Tooltip>
@@ -62,7 +62,7 @@ export default function Sidebar({ list }: SidebarProps) {
       <Link href={"/valuation"}>
         <div className="absolute w-full flex justify-center items-center top-6">
           <Image
-            src="/images/mgh_logo.svg"
+            src="/images//mgh_logo/mgh_logo.svg"
             width={58}
             height={54}
             loading='lazy'

@@ -15,7 +15,7 @@ const TransactionModal = ({ onDismiss, loading, success, hash, chainId }: any) =
             <div onClick={onDismiss} className="absolute h-full w-full bg-black bg-opacity-40 backdrop-filter backdrop-blur" />
             <div className="z-10 w-96 transform scale-85 sm:scale-100 flex flex-col items-center shadow-dark text-center p-5 pt-10 space-y-10 rounded-xl border border-opacity-20 bg-white bg-opacity-20 backdrop-filter backdrop-blur-xl text-gray-200">
                 {loading &&
-                    <><img src="/images/mgh_logo.png" className={` h-24 w-24 logo`} />
+                    <><img src="/images/mgh_logo.svg" className={` h-24 w-24 logo`} />
                         <p className="text-3xl text-blue-400 font-medium text-center">Processing Transaction</p></>
                 }
                 {!loading && (success ? (

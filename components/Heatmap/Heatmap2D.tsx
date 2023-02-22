@@ -21,9 +21,13 @@ import Loader from '../Loader'
 import axios from 'axios'
 import { useAccount } from 'wagmi'
 
+
+
 let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
   globalLegendFilter: LegendFilter
+
+let landIndex = 0
 
 interface IHeatmap2D {
   width: number | undefined
@@ -76,8 +80,9 @@ const Heatmap2D = ({
   const [viewport, setViewport] = useState<any>()
   const [mapData, setMapData] = useState<any>({})
   const [chunks, setChunks] = useState<any>({})
-  const [metaverseData, setMetaverseData] = useState<any>()
+  /*   const [metaverseData, setMetaverseData] = useState<any>() */
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [landsLoaded, setLandsLoaded] = useState<number>(0)
 
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
@@ -104,7 +109,11 @@ const Heatmap2D = ({
     })
     return '0x' + a.join('')
   }
-  const renderHandler = async (land: any) => {
+  let landAmount = 0
+  const renderHandler = async (land: any, landKeyIndex: any) => {
+    landIndex = landKeyIndex
+    landAmount += 1
+    setLandsLoaded(landAmount)
     let lands: any = mapData
     let localChunks: any = chunks
     let name = ''
@@ -115,9 +124,9 @@ const Heatmap2D = ({
     }
     lands[name] = land!
     lands[name].land_id = land.tokenId
-    globalFilter == 'basic'
+    /* globalFilter == 'basic'
       ? null
-      : (land = await setLandColour(land, globalFilter, metaverseData))
+      : (land = await setLandColour(land, globalFilter, metaverseData)) */
     setMapData(lands)
     let value = land
     let tile: any
@@ -169,16 +178,19 @@ const Heatmap2D = ({
     }
     chunkContainer.addChild(rectangle)
     viewport.addChild(chunkContainer)
+
   }
 
   useEffect(() => {
-    if (!metaverseData && !viewport) return
+    if (!viewport) return
     console.log('Creando socket', new Date().toISOString())
     const socketServiceUrl = process.env.SOCKET_SERVICE!
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
-        console.log('Connected')
+
+        console.log('Connected', new Date().toISOString())
+        socketService.startRender(metaverse)
       },
       renderHandler
     )
@@ -226,7 +238,7 @@ const Heatmap2D = ({
     return () => {
       socketService.disconnect()
     }
-  }, [metaverseData && viewport])
+  }, [viewport])
 
   useEffect(() => {
     setMap(null)
@@ -277,8 +289,8 @@ const Heatmap2D = ({
       viewport.addChild(mapBackground)
     }
 
-    const getMetaverseData = async () => {
-      /* await setBackground() */
+    /* const getMetaverseData = async () => {
+      await setBackground()
       let dataCall: any = await fetch(
         process.env.SOCKET_SERVICE + `/limits?metaverse=${metaverse}`
       )
@@ -286,9 +298,10 @@ const Heatmap2D = ({
       dataCall = await dataCall.json()
       setMetaverseData(dataCall)
     }
-    getMetaverseData()
+    getMetaverseData() */
     return () => {
-      document?.getElementById('map')?.removeChild(map?.view)
+      try { document?.getElementById('map')?.removeChild(map?.view) } catch{}
+
       map?.destroy()
       viewport?.destroy()
 
@@ -374,7 +387,7 @@ const Heatmap2D = ({
   useEffect(() => {
     if (!chunks || !mapData) return
     const filterUpdate = async () => {
-      let lands = await setColours(mapData, globalFilter, metaverseData)
+      let lands = await setColours(mapData, globalFilter)
       for (const key in chunks) {
         for (const child of chunks[key].children) {
           if(!lands[child.name]) continue
@@ -393,7 +406,7 @@ const Heatmap2D = ({
         }
       }
     }
-    if (metaverseData) filterUpdate()
+    /* if (metaverseData)  */filterUpdate()
   }, [filter, percentFilter, legendFilter, x, y])
 
   useEffect(() => {
@@ -433,11 +446,11 @@ const Heatmap2D = ({
     <>
       <div
         id="map"
-        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
+        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-[25px]'}`}
         style={{ width, height, border: 16 }}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
-        <Loader color='' size={100} />
+        <Loader color='blue' size={100} />
         <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
       </div>
     </>

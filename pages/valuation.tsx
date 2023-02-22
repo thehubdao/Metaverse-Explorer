@@ -1,8 +1,6 @@
 import { NextPage } from "next";
 import { AnyObject } from "immer/dist/internal";
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Fade } from "react-awesome-reveal";
 import {
 	HeatmapSize,
 	LandCoords,
@@ -12,7 +10,6 @@ import {
 	ValuationTile,
 } from "../lib/heatmap/heatmapCommonTypes";
 import { useVisible } from "../lib/hooks";
-import { formatName } from "../lib/utilities";
 import { ICoinPrices } from "../lib/valuation/valuationTypes";
 import { IAPIData, IPredictions, UserData } from "../lib/types";
 import {
@@ -28,17 +25,11 @@ import {
 	MapChooseMetaverse,
 	MapLegend,
 	MapInitMvChoice,
-	MapLandSummary,
-	MapMobileFilters,
 	MapSearch,
 	MaptalksCanva,
 } from "../components/Heatmap";
-import { getUserInfo } from "../lib/FirebaseUtilities";
 import { useAppSelector } from "../state/hooks";
-import { getUserNFTs } from "../lib/nftUtils";
-import useConnectWeb3 from "../backend/connectWeb3";
-import { Chains } from "../lib/chains";
-import { FullScreenButton, OptimizedImage } from "../components/General";
+import { FullScreenButton } from "../components/General";
 import { Metaverse } from "../lib/metaverse";
 import { findHeatmapLand } from "../lib/heatmap/findHeatmapLand";
 import Head from "next/head";
@@ -97,9 +88,8 @@ const metaverseLabels: Record<Metaverse, string> = {
 
 const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [globalData, setglobalData] = useState<AnyObject>({})
-	const [estimateAccuracy, setestimateAccuracy] = useState<AnyObject>({})
 
-	const { address, chainId } = useAppSelector((state) => state.account);
+	const { address } = useAppSelector((state) => state.account);
 
 	const [mapState, setMapState] = useState<ValuationState>("loading");
 	/* const [loading] = getState(mapState, ['loading']) */
@@ -275,9 +265,9 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			</Head>
 
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
+			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
-					src="/images/land_header.svg"
+					src="/images/land_header.webp"
 					objectFit={'cover'}
 					alt='land header'
 					layout="fill"
@@ -294,7 +284,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					<>
 						<div className="flex items-center justify-between p-8">
 							<div className="flex flex-col space-y-3 max-w-xl">
-								<p className="text-2xl">{metaverseLabels[metaverse]} LANDs</p>
+								<p className="text-2xl">{metaverseLabels[metaverse]}</p>
 								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 							</div>
 							<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
@@ -333,8 +323,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					)}
 
 					{metaverse && (
-						<div className="bg-grey-bone rounded-[30px] p-7 nm-flat-medium h-[80vh]">
-							<div className="w-full h-full relative bg-grey-bone" ref={mapDivRef}>
+						<div className="rounded-[30px] p-7 nm-flat-medium h-[80vh]">
+							<div className="w-full h-full relative" ref={mapDivRef}>
 
 								<div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full unselectable m-4">
 									<div className="md:flex gap-2 md:gap-4 hidden">
@@ -360,22 +350,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											onClick={() => { setOpenMapFilter(false), setOpenMetaverseFilter(false), setOpenSearchFilter(!openSearchFilter) }}
 										/>
 									</div>
-
-
-									{/* 'Search By' Forms */}
-
-
-
-									{/* Main Filter Button. Only for small screens  */}
-									{/* <div className="md:hidden w-2/4">
-								<MapMobileFilters
-									metaverse={metaverse}
-									setMetaverse={setMetaverse}
-									filterBy={filterBy}
-									setFilterBy={setFilterBy}
-								/>
-							</div> */}
-
 								</div>
 
 								<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-xl m-4	">
@@ -398,17 +372,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										/>
 									</div>
 								)}
-
-								{/* {metaverse !== "somnium-space" && (
-									<div className="absolute z-30 top-1 right-12 rounded-full p-2">
-										<MapLandSummary
-											owner={hovered.owner}
-											name={hovered.name}
-											coordinates={hovered.coords}
-											metaverse={metaverse}
-										/>
-									</div>
-								)} */}
 
 								{/* Full screen button - Hides when MapCard is showing (all screens) */}
 								{!isVisible && (
@@ -504,7 +467,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-2 right-8 flex flex-col gap-4">
+									<div ref={ref} className="absolute bottom-12 right-2 flex flex-col gap-4">
 										<MapCard
 											setIsVisible={setIsVisible}
 											metaverse={metaverse}

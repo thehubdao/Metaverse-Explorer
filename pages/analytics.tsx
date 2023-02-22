@@ -6,7 +6,7 @@ import {
     RichList,
 } from '../components/Analytics/fetchChartData'
 import { Metaverse } from '../lib/metaverse'
-import { formatName, getState } from '../lib/utilities'
+import { getState } from '../lib/utilities'
 import Head from 'next/head'
 import {
     AnalyticsMultiChart,
@@ -145,7 +145,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
 
                 {/* Loader for Initial Fetch */}
                 {firstLoad ? (
-                    <Loader size={0} color={''} />
+                    <Loader size={0} color={'blue'} />
                 ) : (
                     /* Charts Wrapper */
                     <ul className="grid grid-cols-2 gap-12 w-full mr-7 my-5 bg-[#F9FAFB]">

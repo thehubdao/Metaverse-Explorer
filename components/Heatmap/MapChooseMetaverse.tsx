@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { Fade } from 'react-awesome-reveal'
-import { IoIosArrowDown } from 'react-icons/io'
+import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
 import { formatName, typedKeys } from '../../lib/utilities'
 import { OptimizedImage } from '../General'
@@ -15,10 +13,19 @@ interface Props {
 const MapChooseMetaverse = ({ metaverse, setMetaverse, onClick, opened }: Props) => {
   // const [opened, setOpened] = useState(false)
   const mvOptions = {
-    sandbox: { src: '/images/the-sandbox-sand-logo.png' },
-    decentraland: { src: '/images/decentraland-mana-logo.png' },
+    sandbox: {
+      src: '/images/the-sandbox-sand-logo.png',
+      name: 'The Sandbox'
+    },
+    decentraland: {
+      src: '/images/decentraland-mana-logo.png',
+      name: 'Decentraland'
+    },
     /*     'axie-infinity': { src: '/images/axie-infinity-axs-logo.png' }, */
-    'somnium-space': { src: '/images/somnium-space-cube-logo.webp' }
+    'somnium-space': {
+      src: '/images/somnium-space-cube-logo.webp',
+      name: 'Somnium Space'
+    }
   }
 
   return (
@@ -65,7 +72,7 @@ const MapChooseMetaverse = ({ metaverse, setMetaverse, onClick, opened }: Props)
                     src={mvOptions[mv].src}
                   />
                   <span className='text-sm md:text-base'>
-                    {formatName(mv)}
+                    {mvOptions[mv].name}
                   </span>
                 </button>
 

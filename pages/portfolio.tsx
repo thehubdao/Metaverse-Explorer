@@ -13,15 +13,11 @@ import {
 	LandListAPIResponse,
 	SingleLandAPIResponse,
 } from '../lib/valuation/valuationTypes'
-import { ExternalLink, PriceList } from '../components/General'
+import { PriceList } from '../components/General'
 import { IPredictions } from '../lib/types'
-import { useAppSelector } from '../state/hooks'
 import { useRouter } from 'next/router'
-import { ellipseAddress, formatName, typedKeys } from '../lib/utilities'
-import { Loader, WalletModal } from '../components'
+import { typedKeys } from '../lib/utilities'
 import PortfolioList from '../components/Portfolio/PortfolioList'
-import { BsTwitter } from 'react-icons/bs'
-import { FiCopy } from 'react-icons/fi'
 import { SocialMediaOptions } from '../lib/socialMediaOptions'
 import { ethers } from 'ethers'
 import { Chains } from '../lib/chains'
@@ -32,6 +28,8 @@ import { Metaverse, metaverseObject } from '../lib/metaverse'
 import GeneralSection from '../components/GeneralSection'
 import SpecificAssetModal from '../components/General/SpecificAssetModal'
 import Footer from '../components/General/Footer'
+import ConnectButton from '../components/ConnectButton';
+import NoLands from '../components/Portfolio/NoLands';
 
 const headerList = [
 	{
@@ -47,6 +45,8 @@ const headerList = [
 		route: "analytics",
 	},
 ];
+
+
 
 const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const { query, push } = useRouter()
@@ -76,6 +76,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		undefined,
 		address
 	)
+
 	const externalWallet = query.wallet
 	const isRonin = query.wallet?.toString().startsWith('ronin')
 
@@ -221,13 +222,17 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* {openModal && <WalletModal onDismiss={() => setOpenModal(false)} />} */}
 
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 mb-8 w-full h-[400px]`}>
-				<Image
-					src="/images/land_header.svg"
-					objectFit={'cover'}
-					alt='land header'
-					layout="fill"
-				/>
+			<div className={`relative p-0 w-full ${!isModalOpen && 'h-[400px] mb-24'}`}>
+				{
+					!isModalOpen && (
+						<Image
+							src="/images/land_header.webp"
+							objectFit={'cover'}
+							alt='land header'
+							layout="fill"
+						/>
+					)
+				}
 			</div>
 
 			{/* General Section Layout */}
@@ -239,6 +244,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						handleSpecificAssetData={handleSpecificLandData}
 						hiddenSearchBar={true}
 						hiddenOwner={true}
+						isFullHeight={true}
 					/>
 				) : (
 					<GeneralSection
@@ -302,36 +308,67 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									)
 							)}
 
-						{lands && metaverse === Metaverses.SANDBOX && lands["sandbox"] && typedKeys(lands["sandbox"]).length > 0 && (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"sandbox"}
-									lands={lands["sandbox"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
+						{lands && metaverse === Metaverses.SANDBOX && (
+							lands["sandbox"]
+								? (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={"sandbox"}
+											lands={lands["sandbox"]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+								) : (
+									<NoLands />
+								)
 						)}
 
-						{lands && metaverse === Metaverses.DECENTRALAND && lands["decentraland"] && typedKeys(lands["decentraland"]).length > 0 && (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"decentraland"}
-									lands={lands["decentraland"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
+						{lands && metaverse === Metaverses.DECENTRALAND && (
+							lands["decentraland"]
+								? (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={"decentraland"}
+											lands={lands["decentraland"]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+								) : (
+									<NoLands />
+								)
 						)}
 
-						{lands && metaverse === Metaverses.SOMNIUM && lands["somnium-space"] && typedKeys(lands["somnium-space"]).length > 0 && (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"somnium-space"}
-									lands={lands["somnium-space"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
+						{lands && metaverse === Metaverses.SOMNIUM && (
+							lands["somnium-space"]
+								? (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={"somnium-space"}
+											lands={lands["somnium-space"]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+
+								) : (
+									<NoLands />
+								)
+						)}
+
+						{!address && (
+							<div className="flex flex-col justify-center items-center mt-28">
+								{/* Auth Button */}
+								<Image
+									src="/images//mgh_logo/mgh_logo.svg"
+									width={136}
+									height={131}
+									loading='lazy'
+									objectFit='cover'
 								/>
+								<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to show your portfolio</p>
+								<ConnectButton />
 							</div>
 						)}
 

@@ -25,7 +25,7 @@ const SearchByCoords = ({ metaverse, addLand }: any) => {
 
     return (
         <>
-            <div className="flex font-normal font-plus justify-center text-grey-content placeholder-gray-300 gap-3">
+            <div className="flex font-normal font-plus justify-center text-grey-content placeholder-gray-300 gap-3 mb-4">
                 <input
                     type="number"
                     placeholder="X"
@@ -64,7 +64,7 @@ const SearchById = ({ metaverse, addLand }: any) => {
 
     return (
         <>
-            <div className="w-full">
+            <div className="w-full mb-4">
                 <input
                     type="number"
                     placeholder="Token ID"

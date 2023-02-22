@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useAccount } from "wagmi";
 import { Dashboard as DashboardImport } from "../../components/index";
+import CommingSoon from "../../components/CommingSoon";
 
 const Dashboard: NextPage = () => {
   const commingSoon = true
@@ -19,10 +20,7 @@ const Dashboard: NextPage = () => {
 
   if (commingSoon) {
     return (
-      <div className="flex justify-center items-center w-full h-screen gap-6">
-        <Image src='/images/mgh_logo.svg' width={100} height={100} />
-        <h2 className="font-bold text-xl">Coming soon!</h2>
-      </div>
+      <CommingSoon />
     )
   }
 
