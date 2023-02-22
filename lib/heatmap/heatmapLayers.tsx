@@ -14,6 +14,7 @@ export const filteredLayer: Layer = (
     legendFilter,
     land
 ) => {
+
     if (new Set([5, 6, 7, 8, 12]).has(land?.tile?.type))
         return decentralandAPILayer(x, y, land)
     /* Don't show a layer if user is tier0 and metaverse is decentraland. (we already have decentralands Map for that)  */
@@ -72,18 +73,18 @@ export const filteredLayer: Layer = (
         // If there's no legend filter and mapFilter is on basic
     } else if (mapFilter === 'basic') {
         // If we are on decentraland and we land isnt on sale or on watchlist or on portfolio then return null
-        if (land.portfolio) {
+        if (land?.portfolio) {
             color = LEGEND_COLORS.portfolio
             scale = scaleOptions.mid
             // if mapFilter is basic and land is on watchlist set color to fixed color and scale to mid
-        } else if (land.watchlist) {
+        } else if (land?.watchlist) {
             color = LEGEND_COLORS.watchlist
             scale = scaleOptions.mid
             // if mapFilter is basic and land is on sale set color to fixed color and scale to mid
-        } else if (land.current_price_eth) {
+        } else if (land?.current_price_eth) {
             color = LEGEND_COLORS['on-sale']
         } else {
-            color = land.tile?.type ? '#19202A' : '#0097FF' //'#26EC75' // Green color for basic view with no filters and lands that are not on sale or watchlist or portfolio
+            color = land.tile?.type ? '#19202A' : '#7EFDE4' //'#26EC75' // Green color for basic view with no filters and lands that are not on sale or watchlist or portfolio
         }
         // If there is no legend filter. And mapFilter is not on basic then generate a color based on percentage.
     } else {
