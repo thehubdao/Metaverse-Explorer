@@ -275,7 +275,7 @@ const MaptalksCanva = ({
         height={height}
         /* style={{ width, height }} */
         id="map"
-        className={isLoading ? 'hidden' : 'block rounded-3xl'}
+        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
         <Loader color='' size={100} />
