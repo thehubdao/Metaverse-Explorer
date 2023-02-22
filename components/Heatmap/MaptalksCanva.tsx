@@ -178,9 +178,9 @@ const MaptalksCanva = ({
 
     let initialMap = new maptalks.Map('map', {
       center: [0, 0],
-      zoom: 10,
+      zoom: 11,
       minZoom: 8,
-      maxZoom: 12,
+      maxZoom: 13,
       attribution: false,
       pitch: 1,
       dragPitch: false,
