@@ -178,9 +178,9 @@ const MaptalksCanva = ({
 
     let initialMap = new maptalks.Map('map', {
       center: [0, 0],
-      zoom: 10,
+      zoom: 11,
       minZoom: 8,
-      maxZoom: 12,
+      maxZoom: 13,
       attribution: false,
       pitch: 1,
       dragPitch: false,
@@ -275,7 +275,7 @@ const MaptalksCanva = ({
         height={height}
         /* style={{ width, height }} */
         id="map"
-        className={isLoading ? 'hidden' : 'block rounded-3xl bg-[#3C3E42]'}
+        className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-2xl'}`}
       />
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
         <Loader color='blue' size={100} />

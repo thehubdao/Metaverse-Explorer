@@ -195,8 +195,46 @@ const Heatmap2D = ({
       renderHandler
     )
     setIsLoading(true)
+    socketService.startRender(metaverse)
+    socketService.onRenderFinish(async () => {
+      const localChunks = chunks
+      if (metaverse == "sandbox") for (let i = -204; i <= 203; i++) {
+        const x = i
+        for (let j = -203; j <= 204; j++) {
+          const y = j
+          if (!mapData[x + ',' + y]) {
+            const borderURL = 'images/full_border_dead.jpg'
+            const rectangle: any = new PIXI.Sprite(await PIXI.Texture.fromURL(borderURL, {
+              mipmap: PIXI.MIPMAP_MODES.ON,
+            }))
+            const chunkX = Math.floor(x / CHUNK_SIZE)
+            const chunkY = Math.floor(y / CHUNK_SIZE)
+            const chunkKey = `${chunkX}:${chunkY}`
+            let chunkContainer = localChunks[chunkKey]
+            rectangle.tint = 0x2d4162
+            rectangle.width = rectangle.height =
+              TILE_SIZE
+            rectangle.position.set(
+              x * TILE_SIZE - chunkX * BLOCK_SIZE,
+              y * TILE_SIZE - chunkY * BLOCK_SIZE
+            )
+            rectangle.type = 'dead'
+            if (!chunkContainer) {
+              chunkContainer = localChunks[chunkKey] = new Container()
+              chunkContainer.position.set(
+                chunkX * BLOCK_SIZE,
+                chunkY * BLOCK_SIZE
+              )
+              setChunks(localChunks)
+            }
+            chunkContainer.addChild(rectangle)
+            viewport.addChild(chunkContainer)
+          }
+        }
+      }
 
-    socketService.onRenderFinish(() => { setIsLoading(false) })
+      setIsLoading(false)
+    })
     return () => {
       socketService.disconnect()
     }
@@ -243,7 +281,7 @@ const Heatmap2D = ({
       const sandbox_bg_url = 'images/sandbox_bg.jpg'
       const texture = await PIXI.Texture.fromURL(sandbox_bg_url, {
       })
-      const mapBackground = new PIXI.Sprite(metaverse == 'sandbox' ? texture : PIXI.Texture.WHITE)
+      const mapBackground = new PIXI.Sprite(/* metaverse == 'sandbox' ? texture : */ PIXI.Texture.WHITE)
       mapBackground.position.set(-204 * TILE_SIZE, -203 * TILE_SIZE)
       mapBackground.width = 410 * TILE_SIZE
       mapBackground.height = 410 * TILE_SIZE
@@ -293,6 +331,7 @@ const Heatmap2D = ({
       const child = chunkContainer?.children.find(
         (child: any) => child.x === x && child.y === y
       )
+      if(child && child.type == 'dead') return
       if (child) {
         if (currentSprite) {
           currentSprite.tint = currentTint
@@ -351,6 +390,7 @@ const Heatmap2D = ({
       let lands = await setColours(mapData, globalFilter)
       for (const key in chunks) {
         for (const child of chunks[key].children) {
+          if(!lands[child.name]) continue
           let tile: any = filteredLayer(
             child.landX,
             child.landY,
