@@ -9,7 +9,10 @@ class SocketService {
         onNewLand: any,
         onDisconnect?: any
     ) {
-        this.socket = io(socketUrl)
+        this.socket = io(socketUrl, {
+            transports: ['websocket']
+         }
+         )
         this.onError()
         this.onConnect(onConnect)
         this.pingPong()
