@@ -18,6 +18,8 @@ let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
   globalLegendFilter: LegendFilter
 
+  let landIndex = 0
+
 interface IMaptalksCanva {
   width: number | undefined
   height: number | undefined
@@ -52,7 +54,6 @@ const MaptalksCanva = ({
   const [map, setMap] = useState<maptalks.Map>()
   const [layer, setLayer] = useState<any>()
   const [mapData, setMapData] = useState<Record<string, ValuationTile>>({})
-  const [metaverseData, setMetaverseData] = useState<any>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
@@ -68,7 +69,8 @@ const MaptalksCanva = ({
     return '#' + a.join('')
   }
 
-  const renderHandler = async (land: any) => {
+  const renderHandler = async (land: any,landKeyIndex:number) => {
+    landIndex = Number(landKeyIndex)
     let name = ''
     if (land.coords) {
       name = land?.coords.x + ',' + land?.coords.y
@@ -78,9 +80,6 @@ const MaptalksCanva = ({
     let value = land
     let tile: any
     if (!value.center) return
-    globalFilter == 'basic'
-      ? null
-      : (land = await setLandColour(land, globalFilter, metaverseData))
     tile = filteredLayer(
       value.center.x,
       value.center.y,
@@ -199,7 +198,7 @@ const MaptalksCanva = ({
     setLayer(initialLayer)
   }, [])
 
-  useEffect(() => {
+/*   useEffect(() => {
     const getMetaverseData = async () => {
       let dataCall: any = await fetch(
         process.env.SOCKET_SERVICE + `/limits?metaverse=somnium-space`
@@ -208,10 +207,10 @@ const MaptalksCanva = ({
       setMetaverseData(dataCall)
     }
     getMetaverseData()
-  }, [])
+  }, []) */
 
   useEffect(() => {
-    if (!metaverseData || !layer || !map) return
+    if ( !layer || !map) return
     const socketServiceUrl = process.env.SOCKET_SERVICE!
     const socketService = getSocketService(
       socketServiceUrl,
@@ -221,12 +220,12 @@ const MaptalksCanva = ({
       renderHandler
     )
     setIsLoading(true)
-    socketService.startRender('somnium-space')
+    socketService.renderStart('somnium-space', landIndex)
     socketService.onRenderFinish(() => { setIsLoading(false) })
     return () => {
       socketService.disconnect()
     }
-  }, [metaverseData && layer && map])
+  }, [ layer && map])
 
   useEffect(() => {
     if (!map) return
