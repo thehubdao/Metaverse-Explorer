@@ -87,7 +87,7 @@ module.exports = {
         subtleWhite: '0 1px 7px 0px rgba(250, 250, 250, 0.2)',
       },
       fontFamily: {
-        'plus': ['Plus Jakarta Sans', 'cursive'],
+        'plus': ['Plus Jakarta Sans', 'sans-serif'],
         'icons': ['iconSet1'],
         title: ["Anton", "sans-serif"],
         anton: ["anton", "sans-serif"],

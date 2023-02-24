@@ -6,6 +6,7 @@ import { VscGraphLine } from 'react-icons/vsc'
 import { GiStopwatch } from 'react-icons/gi'
 import { MapFilter } from '../../lib/heatmap/heatmapCommonTypes'
 import { typedKeys } from '../../lib/utilities'
+import Image from 'next/image'
 
 interface Props {
   filterBy: MapFilter
@@ -79,14 +80,14 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
     // },
   }
   return (
-    <div>
+    <div className='relative'>
       {/* Filter Button + Name */}
 
       <button
         onClick={() => onClick()}
       >
         {/* Icon */}
-        <div className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
+        <div className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none h-15 pb-3"}`}>
           {filterOptions[filterBy].icon}
         </div>
 
@@ -94,29 +95,37 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
       {/* FilterOptions */}
 
       {opened &&
-        <div className={`flex flex-col space-y-4 md:absolute bg-grey-bone rounded-xl rounded-tl-none p-3 pt-5`}>
-          {isPremium &&
-            typedKeys(filterOptions).map(
-              (filter) =>
-                filter !== filterBy && (
-                  <div key={filter}>
-                    <button
-                      className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
-                      onClick={() => {
-                        setFilterBy(filter)
-                        onClick()
-                      }}
+        <>
+          <div className='absolute top-[48px] left-[48px] w-3 h-3'>
+            <Image
+              src={'/images/heatmap/curve.svg'}
+              layout='fill'
+            />
+          </div>
+          <div className={`flex flex-col space-y-4 md:absolute bg-grey-bone rounded-xl rounded-tl-none p-3 pt-5`}>
+            {isPremium &&
+              typedKeys(filterOptions).map(
+                (filter) =>
+                  filter !== filterBy && (
+                    <div key={filter}>
+                      <button
+                        className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
+                        onClick={() => {
+                          setFilterBy(filter)
+                          onClick()
+                        }}
 
-                    >
-                      {filterOptions[filter].icon}
-                      <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
-                        {filterOptions[filter].name}
-                      </span>
-                    </button>
-                  </div>
-                )
-            )}
-        </div>}
+                      >
+                        {filterOptions[filter].icon}
+                        <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
+                          {filterOptions[filter].name}
+                        </span>
+                      </button>
+                    </div>
+                  )
+              )}
+          </div>
+        </>}
 
     </div>
   )
