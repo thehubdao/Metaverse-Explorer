@@ -33,6 +33,10 @@ import NoLands from '../components/Portfolio/NoLands';
 
 const headerList = [
 	{
+		name: "Land Valuation",
+		route: "valuation",
+	},
+	{
 		name: "Portfolio",
 		route: "portfolio",
 	},

@@ -28,6 +28,10 @@ interface Props {
 
 const headerList = [
     {
+		name: "Land Valuation",
+		route: "valuation",
+	},
+    {
         name: "Portfolio",
         route: "portfolio",
     },
