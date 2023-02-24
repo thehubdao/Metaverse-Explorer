@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
 import { formatName, typedKeys } from '../../lib/utilities'
@@ -33,52 +34,50 @@ const MapChooseMetaverse = ({ metaverse, setMetaverse, onClick, opened }: Props)
       <button
         onClick={() => onClick()}
       >
-        <div className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none"}`}>
+        <div className={`hidden sm:flex bg-grey-bone items-center justify-center rounded-full w-12 h-12 ${opened && "rounded-b-none h-15 pb-3"}`}>
           <OptimizedImage
             height={30}
             width={30}
             src={mvOptions[metaverse].src}
           />
         </div>
-        {/* <span className='text-base hidden sm:block'>
-          {formatName(metaverse)}
-        </span> */}
-        {/* <span className='text-base block sm:hidden'>Metaverse</span>
-        <IoIosArrowDown
-          className={
-            (opened ? 'rotate-180' : '') +
-            ' transition-all duration-500 relative bottom-[1px]'
-          }
-        /> */}
       </button>
       {opened &&
+        <>
+          <div className='absolute top-[48px] left-[48px] w-3 h-3'>
+            <Image
+              src={'/images/heatmap/curve.svg'}
+              layout='fill'
+            />
+          </div>
+          <div className={`flex flex-col space-y-4 absolute bg-grey-bone rounded-xl rounded-tl-none p-3 pt-5`}>
 
-        <div className={`flex flex-col space-y-4 md:absolute bg-grey-bone rounded-xl rounded-tl-none p-3 pt-5`}>
+            {typedKeys(mvOptions).map(
+              (mv) =>
+                mv !== metaverse && (
 
-          {typedKeys(mvOptions).map(
-            (mv) =>
-              mv !== metaverse && (
+                  <button
+                    className='flex gray-box gap-2 md:gap-4 bg-opacity-100 items-center font-plus font-medium text-grey-content hover:text-[#7c7b7b] whitespace-nowrap min-w-max bg-grey-bone rounded-xl'
+                    onClick={() => {
+                      setMetaverse(mv)
+                      onClick()
+                    }}
+                  >
+                    <OptimizedImage
+                      height={25}
+                      width={25}
+                      src={mvOptions[mv].src}
+                    />
+                    <span className='text-sm md:text-base'>
+                      {mvOptions[mv].name}
+                    </span>
+                  </button>
 
-                <button
-                  className='flex gray-box gap-2 md:gap-4 bg-opacity-100 items-center font-plus font-medium text-grey-content hover:text-[#7c7b7b] whitespace-nowrap min-w-max bg-grey-bone rounded-xl'
-                  onClick={() => {
-                    setMetaverse(mv)
-                    onClick()
-                  }}
-                >
-                  <OptimizedImage
-                    height={25}
-                    width={25}
-                    src={mvOptions[mv].src}
-                  />
-                  <span className='text-sm md:text-base'>
-                    {mvOptions[mv].name}
-                  </span>
-                </button>
+                )
+            )}
+          </div>
 
-              )
-          )}
-        </div>
+        </>
       }
     </div>
   )
