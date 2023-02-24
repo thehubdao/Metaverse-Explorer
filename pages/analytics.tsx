@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
     ChartInfo,
     fetchChartData,
@@ -16,7 +16,8 @@ import {
 import { ICoinPrices } from '../lib/valuation/valuationTypes'
 import { RiLoader3Fill } from 'react-icons/ri'
 import { Loader } from '../components'
-
+import { typedKeys } from "../lib/utilities";
+import { chartSymbolOptions } from '../components/Analytics'
 import { BsQuestionCircle } from 'react-icons/bs'
 import GeneralSection from '../components/GeneralSection'
 const analyticsState = ['loading', 'loaded', 'firstLoad'] as const
@@ -27,6 +28,10 @@ interface Props {
 }
 
 const headerList = [
+    {
+		name: "Land Valuation",
+		route: "valuation",
+	},
     {
         name: "Portfolio",
         route: "portfolio",
@@ -48,7 +53,6 @@ const arrayMetaverses: Metaverse[] = [
 ]
 
 const Analytics: NextPage<Props> = ({ prices }) => {
-    const [metaverse, setMetaverse] = useState<Metaverse>('sandbox')
     type RouteValues = Partial<
         Record<typeof chartRoutes[number]['route'], ChartInfo[]>
     >
@@ -57,15 +61,31 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     }
     const [metaverses, setMetaverses] = useState<RequiredMetaverse>()
     const [allMetaverse, setAllMetaverse] = useState<any>({
-        'sandbox': { name: "Sandbox", active: true, color: "blue", data: undefined },
-        'decentraland': { name: "Decentraland", active: true, color: "orange", data: undefined },
-        'somnium-space': { name: "Somnium-space", active: true, color: "black", data: undefined },
+        'sandbox': { name: "Sandbox", active: true, color: "#1AABF4", data: undefined },
+        'decentraland': { name: "Decentraland", active: true, color: "#FDB522", data: undefined },
+        'somnium-space': { name: "Somnium-space", active: true, color: "#292D2E", data: undefined },
     })
     const [values, setValues] = useState<RouteValues>({})
     const [state, setState] = useState<AnalyticsState>('firstLoad')
     const [loading, loaded, firstLoad] = getState(state, [...analyticsState])
     const [markCap, setMarkCap] = useState(0)
     const [richList, setRichList] = useState<RichList>()
+
+    /* Time intervals options*/
+    const intervalLabels = {
+        daily: { label: "1D", days: 1 },
+        week: { label: "5D", days: 5 },
+        month: { label: "1M", days: 30 },
+        year: { label: "1Y", days: 365 },
+        lustrum: { label: "5Y", days: 1825 },
+        all: { label: "ALL" },
+    };
+
+    type TimeInterval = keyof typeof intervalLabels;
+
+    const [interval, setInterval] = useState<TimeInterval>("month");
+
+    const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>("ETH");
 
     useEffect(() => {
         const salesVolumeCall = async () => {
@@ -122,27 +142,61 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     backgroundClass={``}
                     children={undefined}
                 />
-                {/* Wrapper Metaverse Buttons - MarketCap/Owners */}
-                <div className="flex flex-col lg:flex-row gap-5 gray-box bg-opacity-5 w-fit m-auto mt-20 mb-24 ">
-                    {/* Metaverse Choice Buttons */}
-                    <AnalyticsMvChoice
-                        allMetaverse={allMetaverse}
-                        setAllMetaverse={setAllMetaverse}
-                    />
-                </div>
                 {/* Market Cap - Owners Land % */}
-                <div className="nm-flat-hard w-fit m-auto mb-16 flex flex-col justify-center text-base sm:text-lg font-medium text-grey-content font-plus whitespace-nowrap border-1 rounded-3xl">
-                    <p className="px-11 py-3.5 flex gap-1 justify-center">
-                        LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
-                        {loaded ? (
-                            richList?.pctParcels &&
-                            (richList.pctParcels * 100).toFixed() + '%'
-                        ) : (
-                            <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
-                        )}
-                    </p>
-                </div>
+                <p className="px-11 py-24 flex gap-1 justify-center">
+                    LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
+                    {loaded ? (
+                        richList?.pctParcels &&
+                        (richList.pctParcels * 100).toFixed() + '%'
+                    ) : (
+                        <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
+                    )}
+                </p>
+                {/* Wrapper Metaverse Options Buttons */}
+                <div className='flex items-center justify-between'>
+                    <div className="flex flex-col lg:flex-row gap-5 gray-box bg-opacity-5 w-64">
+                        {/* Metaverse Choice Buttons */}
+                        <AnalyticsMvChoice
+                            allMetaverse={allMetaverse}
+                            setAllMetaverse={setAllMetaverse}
+                        />
+                    </div>
 
+                    <div className='flex'>
+                        {/* Coin Buttons */}
+                        <div className='flex gap-3 w-full px-7'>
+                            {typedKeys(chartSymbolOptions).map((arrSymbol, index) => (
+                                <button
+                                    key={arrSymbol}
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-14 h-10 group focus:outline-none ${symbol === arrSymbol
+                                        ? 'border-opacity-20 nm-inset-medium'
+                                        : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
+                                        } border border-gray-400 transition duration-300 ease-in-out`}
+                                    onClick={() => setSymbol(arrSymbol)}
+                                >
+                                    {arrSymbol === 'METAVERSE'
+                                        ? chartSymbolOptions[arrSymbol][arrayMetaverses[index]]
+                                        : arrSymbol}
+                                </button>
+                            ))}
+                        </div>
+                        {/* Interval Buttons */}
+                        <div className="flex gap-3 w-full px-5">
+                            {typedKeys(intervalLabels).map((arrInterval) => (
+                                <button
+                                    key={arrInterval}
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-10 h-10 group focus:outline-none ${interval === arrInterval
+                                        ? 'border-opacity-20 nm-inset-medium'
+                                        : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
+                                        } border border-gray-400 transition duration-300 ease-in-out`}
+                                    onClick={() => setInterval(arrInterval)}
+                                >
+                                    {intervalLabels[arrInterval]["label"]}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
                 {/* Loader for Initial Fetch */}
                 {firstLoad ? (
                     <Loader size={0} color={'blue'} />
@@ -169,8 +223,10 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                             prices={prices}
                                             metaverses={arrayMetaverses}
                                             dataMetaverse={allMetaverse}
-                                            label={element.label}
                                             route={element.route}
+                                            interval={interval}
+                                            intervalLabels={intervalLabels}
+                                            symbol={symbol}
                                         />
                                     </li>
                                 )

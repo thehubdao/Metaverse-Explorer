@@ -43,7 +43,7 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
       description: 'This filter only shows the listed LANDs and their respective price estimation. green = low price estimation, red = high price estimation'
     },
     price_difference: {
-      name: 'Listing Price',
+      name: 'Undervalued Grabs',
       shortName: undefined,
       icon: <MdAttachMoney />,
       description: 'This filter only shows the listed LANDs and their respective price estimation in relation to the listed price. green = undervalued red = overvalued'

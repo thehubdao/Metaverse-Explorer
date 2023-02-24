@@ -18,6 +18,10 @@ import Image from 'next/image'
 
 const headerList = [
   {
+		name: "Land Valuation",
+		route: "valuation",
+	},
+  {
     name: 'Portfolio',
     route: 'portfolio',
   },
