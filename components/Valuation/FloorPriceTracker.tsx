@@ -33,18 +33,18 @@ const FloorPriceTracker = ({ coinPrices, metaverse }: Props) => {
               } catch (error) { }
             } */
 
-      if (metaverse === 'somnium-space') {
+      /* if (metaverse === 'somnium-space') {
         // Fetch Data from Somnium Space floor price ITRM service
         try {
           const floorPrice = Number(await getSomniumSpaceFloorPrice())
           stats.floor_price = floorPrice
         } catch (error) { }
-      }
+      } */
 
-      if (metaverse === 'somnium-space') {
+      /* if (metaverse === 'somnium-space') {
         const floorPrice = Number(await getFloorPriceByItrm(metaverse))
         stats.floor_price = floorPrice
-      }
+      } */
 
       const formattedMetaverse =
         metaverse === 'sandbox'
@@ -52,6 +52,7 @@ const FloorPriceTracker = ({ coinPrices, metaverse }: Props) => {
           : metaverse === 'somnium-space'
             ? 'somnium-space-cubes'
             : metaverse
+
       const metaversePrediction =
         (stats.floor_price * coinPrices.ethereum?.usd) /
         coinPrices[formattedMetaverse].usd
