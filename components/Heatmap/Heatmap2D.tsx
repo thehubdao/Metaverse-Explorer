@@ -195,7 +195,6 @@ const Heatmap2D = ({
       renderHandler
     )
     setIsLoading(true)
-    socketService.startRender(metaverse)
     socketService.onRenderFinish(async () => {
       const localChunks = chunks
       if (metaverse == "sandbox") for (let i = -204; i <= 203; i++) {
