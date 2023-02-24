@@ -111,7 +111,7 @@ const Heatmap2D = ({
   }
   let landAmount = 0
   const renderHandler = async (land: any, landKeyIndex: any) => {
-    landIndex = landKeyIndex
+    landIndex = Number(landKeyIndex)
     landAmount += 1
     setLandsLoaded(landAmount)
     let lands: any = mapData
@@ -190,7 +190,7 @@ const Heatmap2D = ({
       () => {
 
         console.log('Connected', new Date().toISOString())
-        socketService.startRender(metaverse)
+        socketService.renderStart(metaverse, landIndex)
       },
       renderHandler
     )
@@ -240,6 +240,7 @@ const Heatmap2D = ({
   }, [viewport])
 
   useEffect(() => {
+    landIndex = 0
     setMap(null)
     setViewport(null)
     setChunks({})
@@ -299,10 +300,10 @@ const Heatmap2D = ({
     }
     getMetaverseData() */
     return () => {
-      try { document?.getElementById('map')?.removeChild(map?.view) } catch{}
+      try { document?.getElementById('map')?.removeChild(map?.view) } catch { }
 
-      map?.destroy()
-      viewport?.destroy()
+      try { map?.destroy() } catch { }
+      try { viewport?.destroy() } catch { }
 
       onHover(0 / 0, 0 / 0, undefined, undefined)
     }
@@ -330,7 +331,7 @@ const Heatmap2D = ({
       const child = chunkContainer?.children.find(
         (child: any) => child.x === x && child.y === y
       )
-      if(child && child.type == 'dead') return
+      if (child && child.type == 'dead') return
       if (child) {
         if (currentSprite) {
           currentSprite.tint = currentTint
@@ -389,7 +390,7 @@ const Heatmap2D = ({
       let lands = await setColours(mapData, globalFilter)
       for (const key in chunks) {
         for (const child of chunks[key].children) {
-          if(!lands[child.name]) continue
+          if (!lands[child.name]) continue
           let tile: any = filteredLayer(
             child.landX,
             child.landY,
