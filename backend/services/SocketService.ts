@@ -53,11 +53,12 @@ class SocketService {
         this.socket?.off('new-land-data')
     }
 
-    startRender(metaverse: Metaverse) {
-        console.log(this.socket, 'Emit render', metaverse, new Date().toISOString())
+    renderStart(metaverse: Metaverse, landIndex:number) {
+        console.log(this.socket, 'Emit render', metaverse, landIndex, new Date().toISOString())
         this.socket?.on('render-finish', () => this.disconnect())
-        this.socket?.emit('render-start', metaverse)
+        this.socket?.emit('render-start', metaverse, landIndex)
     }
+
     disconnect() {
         this.socket?.disconnect()
     }
