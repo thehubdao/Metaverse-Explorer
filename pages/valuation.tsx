@@ -357,7 +357,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								</div>
 
 								<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-xl m-4	">
-									Unlimited access until Feb 28th
+									Unlimited access until March 31st
 								</p>
 
 
@@ -543,9 +543,9 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							</h3>
 							<TopPicksLands metaverse={metaverse} />
 						</div>
-						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
+						{/* <div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
 							<TopSellingLands metaverse={metaverse} />
-						</div>
+						</div> */}
 					</>
 				)}
 
