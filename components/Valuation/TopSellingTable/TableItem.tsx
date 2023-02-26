@@ -20,6 +20,16 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
     return <span className="mr-2">{`${Number.parseFloat(dataTable.valuation).toFixed(3)} ${dataTable.symbol}`}</span>
   }
 
+  const buyerControl = (buyer: string | undefined) => {
+    if (!buyer) return 'anonymous'
+
+    if (buyer.length > 20) {
+      buyer = `${buyer.substring(0, 2)}...${buyer.substring(-3)}`
+    }
+
+    return buyer
+  }
+
   const tdStyle = "border-t-0 px-4 border-l-0 border-r-0 text-md lg:text-lg whitespace-nowrap p-4 text-center"
 
   return (
@@ -40,7 +50,7 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
         {valuationLoader()}
       </td>
       <td className={`${tdStyle} text-xs`} >
-        <span>{dataTable.buyer || 'anonymous'}</span>
+        <span>{buyerControl(dataTable.buyer)}</span>
       </td>
       <td className={tdStyle} >
         <span>{dataTable.date}</span>
