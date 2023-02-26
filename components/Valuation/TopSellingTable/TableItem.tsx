@@ -1,5 +1,5 @@
 import { Metaverse } from "../../../lib/metaverse"
-import { TopSellingDataTable, TopSellingRequestItem } from "../../../types/TopSelling"
+import { TopSellingDataTable, TopSellingRequestItem } from "../../../types/valuation/TopSelling"
 
 const getExternalLink = (metaverse: Metaverse, dataTable: TopSellingDataTable) => {
   return metaverse === 'somnium-space' ? ("https://somniumspace.com/parcel/" + dataTable.landId) : dataTable.external_link
