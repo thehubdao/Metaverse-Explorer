@@ -19,18 +19,22 @@ const DataComparisonBox = ({ currentPriceEth, predictions }: Props) => {
 
   return (
     //Current Listing Price || Not Listed Message
-    <div className='relative left-1  flex gap-2 flex-col pt-4 text-md text-left font-medium '>
-      <p className={currentPriceEth ? 'text-green-500' : 'text-gray-400 '}>
+    <div className='relative flex text-base text-left font-medium items-center gap-5'>
+      <p className={`${currentPriceEth ? 'text-green-500' : 'text-gray-400'} text-lg`}>
         {currentPriceEth
-          ? `Listed: ${currentPriceEth?.toFixed(2)} ETH`
+          ? `${currentPriceEth?.toFixed(2)} ETH`
           : 'Not Listed'}
       </p>
       {/* Comparison Percentage  */}
       {currentPriceEth && (
-        <p className={isUnderValued ? 'text-blue-400' : 'text-red-400'}>
-          {Math.abs(comparedValue).toFixed()}%{' '}
-          {isUnderValued ? 'Undervalued' : 'Overvalued'}
-        </p>
+        <div className={`${isUnderValued ? 'text-blue-400' : 'text-red-400'} flex flex-col items-center`}>
+          <p>
+            {`(${Math.abs(comparedValue).toFixed()}%)`}
+          </p>
+          <p>
+            {isUnderValued ? 'Undervalued' : 'Overvalued'}
+          </p>
+        </div>
       )}
     </div>
   )

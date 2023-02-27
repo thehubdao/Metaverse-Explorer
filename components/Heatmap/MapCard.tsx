@@ -10,6 +10,7 @@ import { getState } from "../../lib/utilities";
 import { handleLandName } from "../../lib/valuation/valuationUtils";
 import { ValuationState } from "../../pages/valuation";
 import { OptimizedImage, PriceList } from "../General";
+import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 
 interface Props {
   apiData?: IAPIData
@@ -36,7 +37,7 @@ const MapCard = ({
     'loadedQuery',
     'errorQuery',
   ])
-  const imgSize = 200
+  const imgSize = 220
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
   const options = SocialMediaOptions(
@@ -82,25 +83,47 @@ const MapCard = ({
     <>
       {apiData &&
         landCoords && (
-          <div className="bg-grey-bone rounded-3xl p-3 flex">
+          <div className="bg-grey-bone rounded-3xl p-6 flex w-[650px]">
             {/* Close button */}
-            <IoClose
-              className="absolute top-0.5 right-0.5 text-xl text-grey-content hover:text-red-500 bg-transparent transition-all "
+            <div
+              className="absolute right-4 top-4 rounded nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
               onClick={() => setIsVisible(false)}
-            />
-            <div className=''>
+            >
+              <IoClose
+                className="text-xl text-grey-conten"
+
+              />
+
+            </div>
+
+            <div className='max-w-[220px] mr-6'>
               <OptimizedImage
                 height={imgSize}
                 width={imgSize}
                 src={apiData.images?.image_url}
                 rounded="xl"
               />
-              <p>Lets us know what you think of this price estimation:</p>
-              <div></div>
-              <button>ADD TO WATCHLIST</button>
+              <p className="text-center text-grey-icon font-semibold text-sm">Lets us know what you think of this price estimation:</p>
+              <div className="flex justify-between py-3">
+                <button className="bg-grey-panel rounded-xl w-11 h-11">
+                  1
+                </button>
+                <button className="bg-grey-panel rounded-xl w-11 h-11">
+                  1
+                </button>
+                <button className="bg-grey-panel rounded-xl w-11 h-11">
+                  1
+                </button>
+                <button className="bg-grey-panel rounded-xl w-11 h-11">
+                  1
+                </button>
+              </div>
+              <button
+                className="w-full text-center text-xs text-white bg-grey-content py-3 rounded-2xl"
+              >ADD TO WATCHLIST</button>
             </div>
-            <div>
-              <h3 className="text-base font-normal md:text-xl pt-2.5 leading-4">
+            <div className="flex flex-col justify-between">
+              <h3 className="font-semibold text-2xl pt-10">
                 {handleLandName(
                   metaverse,
                   {
@@ -110,19 +133,38 @@ const MapCard = ({
                   name ? name : undefined
                 )}
               </h3>
-              <p>Estimated Price:</p>
-              {/* Price List */}
-              {predictions ? (
-                <PriceList
-                  metaverse={metaverse}
+              <div>
+                <p className="text-sm text-grey-icon">Estimated Price:</p>
+                {/* Price List */}
+                {predictions ? (
+                  <div className="w-fit">
+                    <PriceList
+                      metaverse={metaverse}
+                      predictions={predictions}
+                    />
+                  </div>
+                ) : (
+                  <span className="flex gap-2 text-lg">
+                    Fetching Predictions
+                    <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-4">
+                <p className="text-sm text-grey-icon">Listing price: </p>
+                <DataComparisonBox
+                  currentPriceEth={apiData.current_price_eth}
                   predictions={predictions}
                 />
-              ) : (
-                <span className="flex gap-2 text-lg">
-                  Fetching Predictions
-                  <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
-                </span>
-              )}
+              </div>
+              <div>
+                <p className="text-sm text-grey-icon">Find land on:</p>
+                <div className="flex gap-5">
+                  <button>Sandbox</button>
+                  <button>OpenSea</button>
+                  <button>Other</button>
+                </div>
+              </div>
             </div>
           </div>
         )}
