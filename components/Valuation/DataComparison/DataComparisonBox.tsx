@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react'
 import { IPredictions } from '../../../lib/types'
 
@@ -20,23 +21,32 @@ const DataComparisonBox = ({ currentPriceEth, predictions }: Props) => {
   return (
     //Current Listing Price || Not Listed Message
     <div className='relative flex text-base text-left font-medium items-center gap-5'>
-      <p className={`${currentPriceEth ? 'text-green-500' : 'text-gray-400'} text-lg`}>
-        {currentPriceEth
-          ? `${currentPriceEth?.toFixed(2)} ETH`
-          : 'Not Listed'}
-      </p>
+      {currentPriceEth
+        ? <p className={`text-grey-content text-lg`}>
+          <Image
+            src={'/images/eth.svg'}
+            width={20}
+            height={20}
+            className='rounded-full'
+          />
+          {`${currentPriceEth?.toFixed(2)} ETH`}
+        </p>
+        : <p className={`text-grey-content text-lg`}>Not Listed</p>
+      }
       {/* Comparison Percentage  */}
-      {currentPriceEth && (
-        <div className={`${isUnderValued ? 'text-blue-400' : 'text-red-400'} flex flex-col items-center`}>
-          <p>
-            {`(${Math.abs(comparedValue).toFixed()}%)`}
-          </p>
-          <p>
-            {isUnderValued ? 'Undervalued' : 'Overvalued'}
-          </p>
-        </div>
-      )}
-    </div>
+      {
+        currentPriceEth && (
+          <div className={`${isUnderValued ? 'bg-[#47E298]' : 'bg-[#FF4949]'} text-white flex flex-col items-center px-2 py-1 rounded-lg`}>
+            <p className='text-base leading-3'>
+              {`${Math.abs(comparedValue).toFixed()}%`}
+            </p>
+            <p className='text-xs leading-3'>
+              {isUnderValued ? 'Undervalued' : 'Overvalued'}
+            </p>
+          </div>
+        )
+      }
+    </div >
   )
 }
 

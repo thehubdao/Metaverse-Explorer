@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { AiOutlineExpand } from "react-icons/ai";
+import { BsTwitter } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useAccount } from "wagmi";
@@ -10,6 +12,7 @@ import { getState } from "../../lib/utilities";
 import { handleLandName } from "../../lib/valuation/valuationUtils";
 import { ValuationState } from "../../pages/valuation";
 import { OptimizedImage, PriceList } from "../General";
+import { AddToWatchlistButton } from "../Valuation";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 
 interface Props {
@@ -37,20 +40,35 @@ const MapCard = ({
     'loadedQuery',
     'errorQuery',
   ])
-  const imgSize = 220
+  const imgSize = 250
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
+
   const options = SocialMediaOptions(
     apiData?.tokenId,
     apiData?.metaverse,
     predictions
   )
 
+  const metaverseInfo = {
+    sandbox: {
+      image: '/images/the-sandbox-sand-logo.png',
+      label: 'The Sandbox'
+    },
+    decentraland: {
+      image: '/images/decentraland-mana-logo.png',
+      label: 'Decentraland'
+    },
+    "somnium-space": {
+      image: '/images/somnium-space-cube-logo.webp',
+      label: 'Somnium Space'
+    }
+  }
+
   const getWatchList = async () => {
     const watchlistRequest = await axios.get(
       `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
     )
-
     const watchlist = watchlistRequest.data
     setWatchlist(watchlist)
   }
@@ -58,6 +76,7 @@ const MapCard = ({
   useEffect(() => {
     if (!address) return
     getWatchList()
+    console.log(apiData)
   }, [address])
 
 
@@ -84,43 +103,81 @@ const MapCard = ({
       {apiData &&
         landCoords && (
           <div className="bg-grey-bone rounded-3xl p-6 flex w-[650px]">
-            {/* Close button */}
-            <div
-              className="absolute right-4 top-4 rounded nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
-              onClick={() => setIsVisible(false)}
-            >
-              <IoClose
-                className="text-xl text-grey-conten"
-
-              />
-
+            <div className="absolute right-6 top-6 flex gap-3">
+              {/* Twitter button */}
+              <div
+                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out"
+              >
+                <BsTwitter
+                  title="Share Valuation"
+                  onClick={() =>
+                    window.open(
+                      options.twitter
+                        .valuationLink
+                    )
+                  }
+                  className="text-xl text-grey-conten"
+                />
+              </div>
+              {/* Open specific asset modal button */}
+              <div
+                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out"
+              >
+                <AiOutlineExpand className="text-xl text-grey-conten" />
+              </div>
+              {/* Close button */}
+              <div
+                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
+                onClick={() => setIsVisible(false)}
+              >
+                <IoClose className="text-xl text-grey-conten" />
+              </div>
             </div>
 
-            <div className='max-w-[220px] mr-6'>
-              <OptimizedImage
-                height={imgSize}
-                width={imgSize}
-                src={apiData.images?.image_url}
-                rounded="xl"
-              />
-              <p className="text-center text-grey-icon font-semibold text-sm">Lets us know what you think of this price estimation:</p>
-              <div className="flex justify-between py-3">
-                <button className="bg-grey-panel rounded-xl w-11 h-11">
-                  1
+            <div className='w-full max-w-[250px] mr-6'>
+              <div className={`h-fit relative`}>
+                <OptimizedImage
+                  height={imgSize}
+                  width={imgSize}
+                  src={apiData.images?.image_url}
+                  rounded="xl"
+                />
+                <div className='absolute bottom-4 left-3 bg-grey-panel rounded-full flex justify-center items-center p-1'>
+                  <OptimizedImage
+                    src={metaverseInfo[metaverse].image}
+                    width={40}
+                    height={40}
+                    rounded={"full"}
+
+                  />
+                </div>
+              </div>
+              <p className="text-center text-grey-icon font-normal text-sm">what you think of this price estimation?</p>
+              <div className="flex justify-between py-3 gap-1">
+                <button className="bg-[#1AB3F3] text-white rounded-lg text-xs p-2 w-full">
+                  Perfect
                 </button>
-                <button className="bg-grey-panel rounded-xl w-11 h-11">
-                  1
+                <button className="bg-[#FF4949] text-white rounded-lg text-xs p-2 w-full">
+                  Overvalued
                 </button>
-                <button className="bg-grey-panel rounded-xl w-11 h-11">
-                  1
-                </button>
-                <button className="bg-grey-panel rounded-xl w-11 h-11">
-                  1
+                <button className="bg-[#47E298] text-white rounded-lg text-xs p-2 w-full">
+                  Undervalued
                 </button>
               </div>
-              <button
-                className="w-full text-center text-xs text-white bg-grey-content py-3 rounded-2xl"
-              >ADD TO WATCHLIST</button>
+              {/* Add To Watchlist Button */}
+              {(address &&
+                watchlist &&
+                watchlist[metaverse] &&
+                watchlist[metaverse][apiData?.tokenId] && (
+                  <p>Land in watchlist</p>
+                )) ||
+                (address && watchlist && (
+                  <div onClick={() => getWatchList()}><AddToWatchlistButton
+                    land={apiData}
+                    metaverse={apiData.metaverse}
+                  /></div>
+
+                ))}
             </div>
             <div className="flex flex-col justify-between">
               <h3 className="font-semibold text-2xl pt-10">
@@ -134,7 +191,7 @@ const MapCard = ({
                 )}
               </h3>
               <div>
-                <p className="text-sm text-grey-icon">Estimated Price:</p>
+                <p className="text-sm text-grey-icon">Our Price Estimation:</p>
                 {/* Price List */}
                 {predictions ? (
                   <div className="w-fit">
@@ -159,10 +216,31 @@ const MapCard = ({
               </div>
               <div>
                 <p className="text-sm text-grey-icon">Find land on:</p>
-                <div className="flex gap-5">
-                  <button>Sandbox</button>
-                  <button>OpenSea</button>
-                  <button>Other</button>
+                <div className="flex gap-5 font-bold">
+                  <button
+                    onClick={() => { window.open(apiData.external_link) }}
+                    className="flex justify-center gap-1"
+                  >
+                    <OptimizedImage
+                      src={metaverseInfo[metaverse].image}
+                      width={20}
+                      height={20}
+                      rounded={"full"}
+                    />
+                    {metaverseInfo[metaverse].label}
+                  </button>
+                  <button
+                    onClick={() => { window.open(apiData.market_links.opensea) }}
+                    className="flex justify-center gap-1"
+                  >
+                    <OptimizedImage
+                      src="/images/icons/markets/opensea.svg"
+                      width={20}
+                      height={20}
+                      rounded={"full"}
+                    />
+                    OpenSea
+                  </button>
                 </div>
               </div>
             </div>

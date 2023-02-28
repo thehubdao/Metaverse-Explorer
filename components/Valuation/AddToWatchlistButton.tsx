@@ -1,8 +1,6 @@
 import React from 'react'
 import { useAccount } from 'wagmi'
-import {
-  addLandToWatchList
-} from '../../lib/FirebaseUtilities'
+import { addLandToWatchList } from '../../lib/FirebaseUtilities'
 import { Metaverse } from '../../lib/metaverse'
 
 interface Props {
@@ -19,10 +17,10 @@ const AddToWatchlistButton = ({ land, metaverse }: Props) => {
 
   return (
     <button
-      className="flex text-left items-center text-grey-content text-sm hover:text-pink-400 transition duration-300 font-medium ease-in-out"
+      className="w-full bg-grey-content text-white rounded-2xl p-2 transition duration-300 ease-in-out text-sm font-extrabold"
       onClick={addToWatchList}
     >
-      {'Add to Watchlist'}
+      {'ADD TO WATCHLIST'}
     </button>
   )
 }
