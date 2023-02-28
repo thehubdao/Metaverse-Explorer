@@ -276,13 +276,13 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 			{openSpecificModal && metaverse && <div
 				onClick={() => { setOpenSpecificModal(false) }}
-				className="z-50 absolute w-screen h-full top-0 right-0 bg-black opacity-75"
+				className="z-50 absolute w-screen h-full top-0 right-0 bg-black bg-opacity-75"
 			>
-				{/* <SpecificLandModal
+				<SpecificLandModal
 					collectionName={metaverseLabels[metaverse]}
 					specificAssetSelected={cardData?.apiData}
 					handleSpecificAssetData={() => { }}
-				/> */}
+				/>
 			</div>}
 
 			{/* Top Padding or Image */}

@@ -113,7 +113,7 @@ const SpecificLandModal = ({
   }
 
   return (
-    <div className="w-full flex justify-center">
+    <div className="flex justify-center m-20 bg-grey-panel">
       {specificAssetSelected
         ? (<div className={`w-full max-w-7xl px-6 text-black ${isFullHeight ? 'h-screen py-7' : 'mb-10'}`}>
           <Header handleSpecificAssetData={handleSpecificAssetData} hiddenSearchBar={hiddenSearchBar} />
