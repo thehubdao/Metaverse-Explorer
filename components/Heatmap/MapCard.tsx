@@ -5,6 +5,7 @@ import { BsTwitter } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useAccount } from "wagmi";
+import { removeLandFromWatchList } from "../../lib/FirebaseUtilities";
 import { Metaverse } from "../../lib/metaverse";
 import { SocialMediaOptions } from "../../lib/socialMediaOptions";
 import { IAPIData, IPredictions } from "../../lib/types";
@@ -65,6 +66,13 @@ const MapCard = ({
       image: '/images/somnium-space-cube-logo.webp',
       label: 'Somnium Space'
     }
+  }
+
+  const removeLand = async (land: any, metaverse: Metaverse) => {
+    await removeLandFromWatchList(land, address!, metaverse)
+    const newWatchlist = Object.assign({}, watchlist)
+    delete newWatchlist[metaverse][land.tokenId]
+    setWatchlist(newWatchlist)
   }
 
   const getWatchList = async () => {
@@ -172,7 +180,12 @@ const MapCard = ({
                 watchlist &&
                 watchlist[metaverse] &&
                 watchlist[metaverse][apiData?.tokenId] && (
-                  <p>Land in watchlist</p>
+                  <button
+                    className="w-full bg-grey-content text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
+                    onClick={() => removeLand(apiData, metaverse)}
+                  >
+                    {'REMOVE FROM WATCHLIST'}
+                  </button>
                 )) ||
                 (address && watchlist && (
                   <div onClick={() => getWatchList()}><AddToWatchlistButton
