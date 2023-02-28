@@ -21,6 +21,7 @@ interface Props {
   landCoords?: { x: string | number; y: string | number }
   metaverse: Metaverse
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setOpenSpecificModal: Function
   mapState: ValuationState
   name?: string
   watchlist?: any
@@ -32,6 +33,7 @@ const MapCard = ({
   landCoords,
   metaverse,
   setIsVisible,
+  setOpenSpecificModal,
   mapState,
   name,
 }: Props) => {
@@ -122,6 +124,7 @@ const MapCard = ({
               {/* Open specific asset modal button */}
               <div
                 className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out"
+                onClick={() => { setOpenSpecificModal(true) }}
               >
                 <AiOutlineExpand className="text-xl text-grey-conten" />
               </div>
