@@ -111,6 +111,7 @@ const Heatmap2D = ({
   }
   let landAmount = 0
   const renderHandler = async (land: any, landKeyIndex: any) => {
+    setLandsLoaded(landAmount)
     landIndex = Number(landKeyIndex)
     landAmount += 1
     setLandsLoaded(landAmount)
@@ -452,6 +453,7 @@ const Heatmap2D = ({
       <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
         <Loader color='blue' size={100} />
         <p className='absolute bottom-20 max-w-lg text-center'>{loadPhrases[indexLoading]}</p>
+        {landAmount}
       </div>
     </>
   )

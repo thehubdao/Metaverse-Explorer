@@ -7,6 +7,8 @@ import { Chains } from '../../lib/chains'
 const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
 import RPC from '../api/etherRPC' // for using web3.js
 import { Signer } from 'ethers'
+import { fetchNonce, sendSignedNonce } from '../login'
+import { verifyMessage } from 'ethers/lib/utils.js'
 
 class Web3authService {
     private web3auth: Web3Auth | null = null
@@ -68,8 +70,7 @@ class Web3authService {
 
     connectWeb3Auth = async (signer: Signer) => {
         const address = await signer.getAddress()
-
-/*         try {
+        try {
             const { nonce } = await fetchNonce(address)
             // Create Msg
             const msgToSign = `${nonce}`
@@ -88,11 +89,12 @@ class Web3authService {
                 B2CRoles: any
             }>(token)
             this.token = token
+            console.log(token)
             this.B2BRoles = B2BRoles
             this.B2CRoles = B2CRoles
         } catch (e) {
             console.log(e)
-        } */
+        }
     }
 
     disconnectWeb3Auth = async () => {
