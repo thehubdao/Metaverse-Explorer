@@ -537,15 +537,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								</div>
 							</div>
 						</div>
-						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 mb-10 nm-flat-hard">
-							<h3 className="lg:text-2xl text-xl text-grey-content font-plus mb-0 sm:mb-5">
-								Our Top Picks
-							</h3>
+						<div className="rounded-3xl bg-grey-bone p-5 mb-10 nm-flat-hard">
 							<TopPicksLands metaverse={metaverse} />
 						</div>
-						{/* <div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
+						<div className="rounded-3xl bg-grey-bone p-5 nm-flat-hard">
 							<TopSellingLands metaverse={metaverse} />
-						</div> */}
+						</div>
 					</>
 				)}
 

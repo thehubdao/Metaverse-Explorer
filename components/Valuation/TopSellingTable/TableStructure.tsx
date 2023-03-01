@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import TableItem from "./TableItem"
 import { handleOrder, handleOrderRank, handleOrderPrice, handleDate, handleOrderValuation } from "../../../lib/valuation/topSellingLands/Order"
-import { TopSellingRequestItem } from "../../../types/TopSelling"
+import { TopSellingRequestItem } from "../../../types/valuation/TopSelling"
 import { Metaverse } from "../../../lib/metaverse"
 
 interface filterBy {

@@ -1,5 +1,6 @@
+import { Tooltip } from "@mui/material"
 import { Metaverse } from "../../../lib/metaverse"
-import { TopSellingDataTable, TopSellingRequestItem } from "../../../types/TopSelling"
+import { TopSellingDataTable, TopSellingRequestItem } from "../../../types/valuation/TopSelling"
 
 const getExternalLink = (metaverse: Metaverse, dataTable: TopSellingDataTable) => {
   return metaverse === 'somnium-space' ? ("https://somniumspace.com/parcel/" + dataTable.landId) : dataTable.external_link
@@ -18,6 +19,16 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
     if (typeof (dataTable?.valuation) === 'string')
       return <span className="mr-2">{dataTable.valuation}</span>
     return <span className="mr-2">{`${Number.parseFloat(dataTable.valuation).toFixed(3)} ${dataTable.symbol}`}</span>
+  }
+
+  const buyerControl = (buyer: string | undefined) => {
+    if (!buyer) return 'anonymous'
+
+    if (buyer.length > 20) {
+      buyer = `${buyer.substring(0, 5)}...${buyer.substring(buyer.length - 5, buyer.length)}`
+    }
+
+    return buyer
   }
 
   const tdStyle = "border-t-0 px-4 border-l-0 border-r-0 text-md lg:text-lg whitespace-nowrap p-4 text-center"
@@ -39,8 +50,10 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
       <td className={tdStyle} >
         {valuationLoader()}
       </td>
-      <td className={`${tdStyle} text-xs`} >
-        <span>{dataTable.buyer || 'anonymous'}</span>
+      <td className={`${tdStyle} text-lg`} >
+        <Tooltip title={dataTable.buyer} placement='bottom'>
+          <span>{buyerControl(dataTable.buyer)}</span>
+        </Tooltip>
       </td>
       <td className={tdStyle} >
         <span>{dataTable.date}</span>

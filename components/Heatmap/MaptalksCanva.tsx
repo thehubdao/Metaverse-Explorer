@@ -18,7 +18,7 @@ let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
   globalLegendFilter: LegendFilter
 
-  let landIndex = 0
+let landIndex = 0
 
 interface IMaptalksCanva {
   width: number | undefined
@@ -56,7 +56,7 @@ const MaptalksCanva = ({
   const [mapData, setMapData] = useState<Record<string, ValuationTile>>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
+  function getRandomInt(max: number) { return Math.floor(Math.random() * max) }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
   let clickedPolygonData: any
@@ -69,7 +69,7 @@ const MaptalksCanva = ({
     return '#' + a.join('')
   }
 
-  const renderHandler = async (land: any,landKeyIndex:number) => {
+  const renderHandler = async (land: any, landKeyIndex: number) => {
     landIndex = Number(landKeyIndex)
     let name = ''
     if (land.coords) {
@@ -194,23 +194,24 @@ const MaptalksCanva = ({
       enableSimplify: true,
       hitDetect: false,
     }).addTo(initialMap)
+    landIndex = 0
     setMap(initialMap)
     setLayer(initialLayer)
   }, [])
 
-/*   useEffect(() => {
-    const getMetaverseData = async () => {
-      let dataCall: any = await fetch(
-        process.env.SOCKET_SERVICE + `/limits?metaverse=somnium-space`
-      )
-      dataCall = await dataCall.json()
-      setMetaverseData(dataCall)
-    }
-    getMetaverseData()
-  }, []) */
+  /*   useEffect(() => {
+      const getMetaverseData = async () => {
+        let dataCall: any = await fetch(
+          process.env.SOCKET_SERVICE + `/limits?metaverse=somnium-space`
+        )
+        dataCall = await dataCall.json()
+        setMetaverseData(dataCall)
+      }
+      getMetaverseData()
+    }, []) */
 
   useEffect(() => {
-    if ( !layer || !map) return
+    if (!layer || !map) return
     const socketServiceUrl = process.env.SOCKET_SERVICE!
     const socketService = getSocketService(
       socketServiceUrl,
@@ -225,7 +226,7 @@ const MaptalksCanva = ({
     return () => {
       socketService.disconnect()
     }
-  }, [ layer && map])
+  }, [layer && map])
 
   useEffect(() => {
     if (!map) return
