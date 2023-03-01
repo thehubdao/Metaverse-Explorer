@@ -1,3 +1,4 @@
+import { Tooltip } from "@mui/material"
 import { Metaverse } from "../../../lib/metaverse"
 import { TopSellingDataTable, TopSellingRequestItem } from "../../../types/valuation/TopSelling"
 
@@ -24,7 +25,7 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
     if (!buyer) return 'anonymous'
 
     if (buyer.length > 20) {
-      buyer = `${buyer.substring(0, 2)}...${buyer.substring(-3)}`
+      buyer = `${buyer.substring(0, 5)}...${buyer.substring(buyer.length - 5, buyer.length)}`
     }
 
     return buyer
@@ -49,8 +50,10 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
       <td className={tdStyle} >
         {valuationLoader()}
       </td>
-      <td className={`${tdStyle} text-xs`} >
-        <span>{buyerControl(dataTable.buyer)}</span>
+      <td className={`${tdStyle} text-lg`} >
+        <Tooltip title={dataTable.buyer} placement='bottom'>
+          <span>{buyerControl(dataTable.buyer)}</span>
+        </Tooltip>
       </td>
       <td className={tdStyle} >
         <span>{dataTable.date}</span>
