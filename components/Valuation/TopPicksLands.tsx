@@ -1,10 +1,11 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Metaverse } from "../../lib/metaverse";
 import axios from "axios";
 import { RiLoader3Fill } from "react-icons/ri";
 import { Pagination } from "@mui/material";
 import NoData from "../General/NoData";
+import ScrollBar from "../ScrollBar";
 
 interface Props {
 	metaverse: Metaverse;
@@ -18,6 +19,14 @@ const TopPicksLands = ({ metaverse }: Props) => {
 	const [numberOfPages, setNumberOfPages] = useState<number>(0)
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
 	const pageLenght: number = 15;
+
+	// Scrollbar Controller
+	const parentRef = useRef<HTMLTableSectionElement>(null)
+	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
+
+	useEffect(() => {
+		setParentDom(parentRef.current)
+	}, [parentRef.current])
 
 	useEffect(() => {
 		const setData = async () => {
@@ -143,8 +152,9 @@ const TopPicksLands = ({ metaverse }: Props) => {
 						</th>
 					</tr>
 				</thead>
-				<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[50vh] md:h-[30vh] scrollbar--y scrollbar overflow-x-hidden">
+				<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[30vh]" ref={parentRef}>
 					{rowData()}
+					{/* {parentDom && <ScrollBar parentDom={parentDom} />} */}
 				</tbody>
 			</table>
 			<div className="w-full flex justify-center">
