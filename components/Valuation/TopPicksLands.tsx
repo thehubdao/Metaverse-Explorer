@@ -1,39 +1,53 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Metaverse } from "../../lib/metaverse";
 import axios from "axios";
 import { RiLoader3Fill } from "react-icons/ri";
 import { Pagination } from "@mui/material";
+import NoData from "../General/NoData";
+import ScrollBar from "../ScrollBar";
 
 interface Props {
 	metaverse: Metaverse;
 }
 
 const TopPicksLands = ({ metaverse }: Props) => {
-	const [loading, setLoading] = useState(true);
 	const [picks, setPicks] = useState([]);
+	const [stateData, setStateData] = useState<'errorQuery' | 'loadingQuery' | 'successQuery'>('loadingQuery')
 
 	// Pagination Controller
 	const [numberOfPages, setNumberOfPages] = useState<number>(0)
 	const [controlPageIndex, setControlPageIndex] = useState<number>(0);
 	const pageLenght: number = 15;
 
+	// Scrollbar Controller
+	const parentRef = useRef<HTMLTableSectionElement>(null)
+	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
+
+	useEffect(() => {
+		setParentDom(parentRef.current)
+	}, [parentRef.current])
+
 	useEffect(() => {
 		const setData = async () => {
-			setLoading(true);
+			setStateData('loadingQuery');
 
 			await axios
 				.get(process.env.ITRM_SERVICE + "/val-analytics/topPicks", {
 					params: { metaverse: metaverse },
 				})
 				.then((response) => {
-					setPicks(response.data);
-					setLoading(false);
-					setNumberOfPages(Math.ceil(response.data.length / pageLenght));
-					setControlPageIndex(0);
+					if (response.data) {
+						setPicks(response.data);
+						setStateData('successQuery');
+						setNumberOfPages(Math.ceil(response.data.length / pageLenght));
+						setControlPageIndex(0);
+					} else {
+						setStateData('errorQuery')
+					}
 				})
 				.catch((error) => {
-					console.log(error);
+					setStateData('errorQuery')
 				});
 		};
 		setData().catch((e) => console.log(e));
@@ -96,53 +110,65 @@ const TopPicksLands = ({ metaverse }: Props) => {
 		return rows;
 	};
 
+	if (stateData === 'errorQuery') {
+		return (
+			<div className="mb-28">
+				<NoData label="couldn't connect to top picks service" />
+			</div>
+		)
+	}
+
+	if (stateData === 'loadingQuery') {
+		return (
+			<p className="text-gray-300 flex gap-2">
+				Loading Top Picks{" "}
+				<RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
+			</p>
+		)
+	}
+
 	return (
 		<div className="flex flex-col items-start mb-10">
-			{loading ? (
-				<p className="text-grey-content flex gap-2">
-					Loading Top Picks{" "}
-					<RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
-				</p>
-			) : (
-				<>
-					<table className="w-full table-fixed border-collapse">
-						<thead className="bg-transparent text-slate-200 w-full">
-							<tr className="flex w-full mb-4 text-center text-grey-content font-plus font-bold bg-grey-dark rounded-lg">
-								<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
-									Land
-								</th>
-								<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
-									Coord
-								</th>
-								<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
-									Current price
-								</th>
-								<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
-									Predicted price
-								</th>
-								<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base">
-									Gap
-								</th>
-							</tr>
-						</thead>
-						<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[50vh] md:h-[30vh] scrollbar--y scrollbar overflow-x-hidden">
-							{rowData()}
-						</tbody>
-					</table>
-					<div className="w-full flex justify-center">
-						{numberOfPages > 1 ? (
-							<Pagination
-								count={numberOfPages}
-								defaultPage={controlPageIndex + 1}
-								siblingCount={3} boundaryCount={2}
-								shape="rounded"
-								size="large"
-								onChange={(e, page) => { setControlPageIndex(page - 1) }}
-							/>
-						) : (<></>)}
-					</div>
-				</>
-			)}
+			<h3 className="lg:text-2xl text-xl text-grey-content font-plus mb-0 sm:mb-5">
+				Our Top Picks
+			</h3>
+			<table className="w-full table-fixed border-collapse">
+				<thead className="bg-transparent text-slate-200 w-full">
+					<tr className="flex w-full mb-4 text-center text-grey-content font-plus font-bold bg-grey-dark rounded-lg">
+						<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
+							Land
+						</th>
+						<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
+							Coord
+						</th>
+						<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
+							Current price
+						</th>
+						<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
+							Predicted price
+						</th>
+						<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base">
+							Gap
+						</th>
+					</tr>
+				</thead>
+				<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[30vh]" ref={parentRef}>
+					{rowData()}
+					{/* {parentDom && <ScrollBar parentDom={parentDom} />} */}
+				</tbody>
+			</table>
+			<div className="w-full flex justify-center">
+				{numberOfPages > 1 ? (
+					<Pagination
+						count={numberOfPages}
+						defaultPage={controlPageIndex + 1}
+						siblingCount={3} boundaryCount={2}
+						shape="rounded"
+						size="large"
+						onChange={(e, page) => { setControlPageIndex(page - 1) }}
+					/>
+				) : (<></>)}
+			</div>
 		</div>
 	);
 };
