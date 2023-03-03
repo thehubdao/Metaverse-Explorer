@@ -8,7 +8,7 @@ const formatter = new Intl.NumberFormat(['ban', 'id'], {
   maximumFractionDigits: 5,
 });
 
-interface SpecificAssetModalProps {
+interface SpecificLandModalProps {
   collectionName: string
   specificAssetSelected?: any
   handleSpecificAssetData: Function
@@ -99,7 +99,7 @@ const SpecificLandModal = ({
   hiddenSearchBar,
   hiddenOwner,
   isFullHeight
-}: SpecificAssetModalProps) => {
+}: SpecificLandModalProps) => {
   const SteticTimeString = (historyTime: string) => {
     let timeStringArray = historyTime.split(' ')[0].split('-')
     return `${timeStringArray[2]}.${timeStringArray[1]}.${timeStringArray[0]}`
