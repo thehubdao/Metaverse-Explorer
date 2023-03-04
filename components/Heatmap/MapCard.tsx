@@ -86,7 +86,6 @@ const MapCard = ({
   useEffect(() => {
     if (!address) return
     getWatchList()
-    console.log(apiData)
   }, [address])
 
 
@@ -131,10 +130,10 @@ const MapCard = ({
               </div>
               {/* Open specific asset modal button */}
               <div
-                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out"
+                className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-xl"
                 onClick={() => { setOpenSpecificModal(true) }}
               >
-                <AiOutlineExpand className="text-xl text-grey-conten" />
+                <AiOutlineExpand className="text-grey-conten" />
               </div>
               {/* Close button */}
               <div
@@ -159,7 +158,6 @@ const MapCard = ({
                     width={40}
                     height={40}
                     rounded={"full"}
-
                   />
                 </div>
               </div>
@@ -192,7 +190,6 @@ const MapCard = ({
                     land={apiData}
                     metaverse={apiData.metaverse}
                   /></div>
-
                 ))}
             </div>
             <div className="flex flex-col justify-between">
