@@ -40,6 +40,7 @@ import GeneralSection from "../components/GeneralSection";
 import Footer from "../components/General/Footer";
 import Image from "next/image";
 import HistoricalFloorPrice from "../components/Valuation/HistoricalFloorPrice";
+import SpecificLandModal from "../components/Valuation/SpecificLandModal";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -109,7 +110,16 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [percentFilter, setPercentFilter] = useState<PercentFilter>();
 	const [legendFilter, setLegendFilter] = useState<LegendFilter>();
 	const [heatmapSize, setHeatmapSize] = useState<HeatmapSize>();
+
+	//Land Modal (and card data)
+	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
 	const [cardData, setCardData] = useState<CardData>();
+
+	//Heatmap options
+	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
+	const [openMapFilter, setOpenMapFilter] = useState(false)
+	const [openSearchFilter, setOpenSearchFilter] = useState(false)
+
 	function isSelected(x: number, y: number) {
 		return selected?.x === x && selected?.y === y;
 	}
@@ -254,10 +264,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		return () => window.removeEventListener("resize", resize);
 	}, [metaverse, address]);
 
-	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
-	const [openMapFilter, setOpenMapFilter] = useState(false)
-	const [openSearchFilter, setOpenSearchFilter] = useState(false)
-
 	return (
 		<>
 			<Head>
@@ -267,6 +273,24 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					content="Land Valuation with our Custom Heatmap"
 				/>
 			</Head>
+
+			{openSpecificModal && metaverse && <div
+				className="z-50 absolute w-screen h-full top-0 right-0 flex justify-center"
+			>
+				<div className="mt-[70vh] z-30">
+					<SpecificLandModal
+						collectionName={metaverseLabels[metaverse]}
+						specificAssetSelected={cardData?.apiData}
+						setOpenSpecificModal={setOpenSpecificModal}
+						predictions={cardData?.predictions}
+						metaverse={metaverse}
+					/>
+				</div>
+				<div
+					className="absolute w-screen h-full top-0 right-0 bg-black bg-opacity-75"
+					onClick={() => { setOpenSpecificModal(false) }}
+				/>
+			</div>}
 
 			{/* Top Padding or Image */}
 			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
@@ -471,9 +495,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-12 right-2 flex flex-col gap-4">
+									<div ref={ref} className="absolute bottom-8 right-1 flex flex-col gap-4 m-4">
 										<MapCard
 											setIsVisible={setIsVisible}
+											setOpenSpecificModal={setOpenSpecificModal}
 											metaverse={metaverse}
 											apiData={cardData?.apiData}
 											predictions={cardData?.predictions}
