@@ -18,6 +18,7 @@ interface Props {
   data: ChartData[]
   fetching: boolean
   label: string
+  backgroundHexa?: string
 }
 
 const AnalyticsChart = ({
@@ -26,6 +27,7 @@ const AnalyticsChart = ({
   metaverse,
   prices,
   fetching,
+  backgroundHexa
 }: Props) => {
   const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>('ETH')
   const intervalLabels = {
@@ -69,7 +71,7 @@ const AnalyticsChart = ({
         borderVisible: false,
       },
       layout: {
-        backgroundColor: '#F9FAFB',
+        backgroundColor: backgroundHexa ? backgroundHexa : '#F9FAFB',
         textColor: "black",
       },
       grid: {
@@ -123,7 +125,7 @@ const AnalyticsChart = ({
               <button
                 key={arrInterval}
                 className={
-                  'gray-box font-semibold rounded-lg pb-1 text-xs text-gray-400' +
+                  'font-semibold rounded-lg pb-1 text-xs text-gray-400' +
                   (interval === arrInterval
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')
@@ -141,7 +143,7 @@ const AnalyticsChart = ({
               <button
                 key={arrSymbol}
                 className={
-                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
+                  'font-semibold rounded-lg p-2 text-xs text-gray-400' +
                   (symbol === arrSymbol
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')

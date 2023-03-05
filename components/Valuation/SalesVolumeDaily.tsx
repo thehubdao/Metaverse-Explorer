@@ -32,7 +32,7 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
           : metaverse === 'somnium-space'
             ? 'somnium-space-cubes'
             : metaverse
-            
+
       const metaversePrediction =
         (stats.one_day_volume * coinPrices.ethereum?.usd) /
         (coinPrices as any)[formattedMetaverse]?.usd
@@ -69,7 +69,7 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
   ) : (
     <>
       <div className='flex flex-col h-full'>
-        <p className={`text-lg font-medium text-grey-content font-plus mb-4 ml-8`}>
+        <p className={`text-lg font-semibold text-grey-content font-plus mb-4 ml-8`}>
           Daily Volume:{' '}
         </p>
         <div className='flex flex-col justify-center items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel h-full'>
@@ -83,7 +83,6 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
           </div>
         </div>
       </div>
-
     </>
   )
 }
