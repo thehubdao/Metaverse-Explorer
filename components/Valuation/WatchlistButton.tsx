@@ -65,8 +65,8 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
           The Land {handleLandName(
             metaverse,
             {
-              x: land?.coords.x,
-              y: land?.coords.y,
+              x: land.coords ? land?.coords.x : land?.center.x,
+              y: land?.coords ? land?.coords.y : land?.center.y,
             },
             land.name ? land.name : undefined
           )} whas added to your watchlist
@@ -77,8 +77,8 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
           The Land {handleLandName(
             metaverse,
             {
-              x: land?.coords.x,
-              y: land?.coords.y,
+              x: land.coords ? land?.coords.x : land?.center.x,
+              y: land?.coords ? land?.coords.y : land?.center.y,
             },
             land.name ? land.name : undefined
           )} whas removed from your watchlist
@@ -89,8 +89,8 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
           We cant resolve the action with Land {handleLandName(
             metaverse,
             {
-              x: land?.coords.x,
-              y: land?.coords.y,
+              x: land.coords ? land?.coords.x : land?.center.x,
+              y: land?.coords ? land?.coords.y : land?.center.y,
             },
             land.name ? land.name : undefined
           )}

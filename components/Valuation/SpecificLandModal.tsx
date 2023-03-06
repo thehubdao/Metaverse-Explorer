@@ -5,7 +5,6 @@ import { AiOutlineCompress } from "react-icons/ai";
 import { RiLoader3Fill } from "react-icons/ri";
 import { TbChartCandle } from 'react-icons/tb'
 import { useAccount } from "wagmi";
-import { removeLandFromWatchList } from "../../lib/FirebaseUtilities";
 import { Metaverse } from "../../lib/metaverse";
 import { IPredictions } from "../../lib/types";
 import { OptimizedImage, PriceList } from "../General";
@@ -84,13 +83,6 @@ const SpecificLandModal = ({
       image: '/images/somnium-space-cube-logo.webp',
       label: 'Somnium Space'
     }
-  }
-
-  const removeLand = async (land: any, metaverse: Metaverse) => {
-    await removeLandFromWatchList(land, address!, metaverse)
-    const newWatchlist = Object.assign({}, watchlist)
-    delete newWatchlist[metaverse][land.tokenId]
-    setWatchlist(newWatchlist)
   }
 
   const getWatchList = async () => {
