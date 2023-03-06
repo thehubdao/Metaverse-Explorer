@@ -530,7 +530,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				{/* Daily Volume and Floor Price Wrapper */}
 				{metaverse && (
 					<>
-						<div className="grid grid-cols-5 gap-2 mb-20 mt-10">
+						<div className="grid grid-cols-5 gap-5 mb-20 mt-10">
 							<div>
 								{/* Daily Volume */}
 								<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
