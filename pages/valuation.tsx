@@ -342,7 +342,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 py-8 h-full">
+				<div className="relative py-8 h-full">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
@@ -530,7 +530,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				{/* Daily Volume and Floor Price Wrapper */}
 				{metaverse && (
 					<>
-						<div className="grid grid-cols-5 gap-2">
+						<div className="grid grid-cols-5 gap-5 mb-20 mt-10">
 							<div>
 								{/* Daily Volume */}
 								<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
@@ -549,17 +549,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<div className="col-span-2">
 								{/* Historic Floor Price */}
 								<HistoricalFloorPrice metaverse={metaverse} coinPrices={prices} />
-							</div>
-							<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 xl:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-									{/* <FreeValuation /> */}
-								</div>
 							</div>
 						</div>
 						<div className="rounded-3xl bg-grey-bone p-5 mb-10 nm-flat-hard">

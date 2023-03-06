@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { createChart, UTCTimestamp } from "lightweight-charts";
-import { typedKeys } from "../../lib/utilities";
 import { Metaverse } from "../../lib/metaverse";
 import { chartSymbolOptions } from ".";
 import { convertETHPrediction } from "../../lib/valuation/valuationUtils";
 import { ICoinPrices } from "../../lib/valuation/valuationTypes";
-import ChartLoader from "./ChartLoader";
+import Loader from "../Loader";
 
 type ChartData = {
   time: string;
@@ -117,8 +116,10 @@ const AnalyticsMultiChart = ({
 
   return (
     <div className="gray-box">
-      <div className="max-w-full h-full relative" ref={chartElement}>
-        {fetching && <ChartLoader />}
+      <div className="relative max-w-full h-full" ref={chartElement}>
+        {fetching && <div className="absolute">
+          <Loader color='blue' size={100} />
+        </div>}
       </div>
     </div>
   );
