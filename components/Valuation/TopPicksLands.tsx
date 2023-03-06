@@ -33,7 +33,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 			setStateData('loadingQuery');
 
 			await axios
-				.get(process.env.ITRM_SERVICE + "/val-analytics/topPicks", {
+				.get(process.env.ITRM_SERVICE + "/val-analytics/topPicks5", {
 					params: { metaverse: metaverse },
 				})
 				.then((response) => {
