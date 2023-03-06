@@ -115,9 +115,11 @@ const AnalyticsChart = ({
   }, [data, interval, metaverse, symbol])
 
   return (
-    <div className='gray-box'>
+    <div className=''>
       <div className="max-w-full h-full relative pt-14" ref={chartElement}>
-        {fetching && <Loader color='blue' size={100}/>}
+        {fetching && <div className='absolute'>
+          <Loader color='blue' size={100} />
+        </div>}
 
         {/* /* Chart Options Wrapper */}
         <div className="absolute top-1 z-10 flex w-full flex-col gap-8 sm:left-2 sm:flex-row justify-between">
