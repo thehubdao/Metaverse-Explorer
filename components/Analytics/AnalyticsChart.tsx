@@ -5,7 +5,7 @@ import { Metaverse } from '../../lib/metaverse'
 import { chartSymbolOptions } from '.'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
-import ChartLoader from './ChartLoader'
+import Loader from '../Loader'
 
 type ChartData = {
   time: string
@@ -83,8 +83,10 @@ const AnalyticsChart = ({
         },
       },
     })
-    const lineSeries = chart.addLineSeries({
-      color: 'black',
+    const lineSeries = chart.addAreaSeries({
+      topColor: '#AFB9EB',
+      bottomColor: 'rgba(93, 252, 233, 0)',
+      lineColor: '#AFB9EB',
       lineWidth: 1,
       title: window.innerWidth > 500 ? label : undefined,
     })
@@ -115,7 +117,7 @@ const AnalyticsChart = ({
   return (
     <div className='gray-box'>
       <div className="max-w-full h-full relative pt-14" ref={chartElement}>
-        {fetching && <ChartLoader />}
+        {fetching && <Loader color='blue' size={100}/>}
 
         {/* /* Chart Options Wrapper */}
         <div className="absolute top-1 z-10 flex w-full flex-col gap-8 sm:left-2 sm:flex-row justify-between">

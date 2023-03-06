@@ -31,7 +31,7 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
     <>
       <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel'>
         <p className={`text-lg font-medium text-grey-content`}>
-          We couldn't obtain Estimate Accuracy
+          We couldn't obtain Chart data
           Check{' '}
           <a
             href='https://opensea.io/collection'
@@ -61,16 +61,6 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
           />
         </div>
       </div>
-    </>
-  )
-
-  return (
-    <>
-      {historicFloorPrice &&
-        <><h3 className="text-lg ml-8"></h3>
-          <div className="rounded-3xl overflow-hidden h-full">
-
-          </div></>}
     </>
   )
 }
