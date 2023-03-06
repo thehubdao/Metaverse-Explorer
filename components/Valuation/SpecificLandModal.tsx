@@ -9,8 +9,8 @@ import { removeLandFromWatchList } from "../../lib/FirebaseUtilities";
 import { Metaverse } from "../../lib/metaverse";
 import { IPredictions } from "../../lib/types";
 import { OptimizedImage, PriceList } from "../General";
-import AddToWatchlistButton from "./AddToWatchlistButton";
 import DataComparisonBox from "./DataComparison/DataComparisonBox";
+import WatchlistButton from "./WatchlistButton";
 
 const formatter = new Intl.NumberFormat(['ban', 'id'], {
   minimumFractionDigits: 1,
@@ -249,17 +249,17 @@ const SpecificLandModal = ({
                 watchlist &&
                 watchlist[metaverse] &&
                 watchlist[metaverse][specificAssetSelected?.tokenId] && (
-                  <button
-                    className="w-full bg-grey-content text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
-                    onClick={() => removeLand(specificAssetSelected, metaverse)}
-                  >
-                    {'REMOVE FROM WATCHLIST'}
-                  </button>
-                )) ||
-                (address && watchlist && (
-                  <div onClick={() => getWatchList()}><AddToWatchlistButton
+                  <div onClick={() => getWatchList()}><WatchlistButton
                     land={specificAssetSelected}
                     metaverse={specificAssetSelected.metaverse}
+                    action='remove'
+                  /></div>
+                )) ||
+                (address && watchlist && (
+                  <div onClick={() => getWatchList()}><WatchlistButton
+                    land={specificAssetSelected}
+                    metaverse={specificAssetSelected.metaverse}
+                    action='add'
                   /></div>
                 ))}
             </div>

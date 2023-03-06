@@ -13,8 +13,8 @@ import { getState } from "../../lib/utilities";
 import { handleLandName } from "../../lib/valuation/valuationUtils";
 import { ValuationState } from "../../pages/valuation";
 import { OptimizedImage, PriceList } from "../General";
-import { AddToWatchlistButton } from "../Valuation";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
+import WatchlistButton from "../Valuation/WatchlistButton";
 
 interface Props {
   apiData?: IAPIData
@@ -178,17 +178,17 @@ const MapCard = ({
                 watchlist &&
                 watchlist[metaverse] &&
                 watchlist[metaverse][apiData?.tokenId] && (
-                  <button
-                    className="w-full bg-grey-content text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
-                    onClick={() => removeLand(apiData, metaverse)}
-                  >
-                    {'REMOVE FROM WATCHLIST'}
-                  </button>
-                )) ||
-                (address && watchlist && (
-                  <div onClick={() => getWatchList()}><AddToWatchlistButton
+                  <div onClick={() => getWatchList()}><WatchlistButton
                     land={apiData}
                     metaverse={apiData.metaverse}
+                    action='remove'
+                  /></div>
+                )) ||
+                (address && watchlist && (
+                  <div onClick={() => getWatchList()}><WatchlistButton
+                    land={apiData}
+                    metaverse={apiData.metaverse}
+                    action='add'
                   /></div>
                 ))}
             </div>
