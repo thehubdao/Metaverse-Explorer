@@ -59,7 +59,7 @@ const collectionsList = [
 ];
 
 export default function NftValuation() {
-	const commingSoon = false
+	const commingSoon = true
 
 	// Fetched Data
 	const [collectionName, setCollectionName] = useState<string>("");
