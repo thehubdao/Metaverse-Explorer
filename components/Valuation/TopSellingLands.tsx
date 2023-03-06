@@ -16,7 +16,7 @@ const TopSellingLands = (props: { metaverse: Metaverse }) => {
 	const [stateData, setStateData] = useState<'errorQuery' | 'loadingQuery' | 'successQuery'>('loadingQuery')
 
 	async function waitingData(metaverse: Metaverse) {
-		const data = await fetchChartData(metaverse, "topSellingLands5");
+		const data = await fetchChartData(metaverse, "topSellingLands");
 		if (data) {
 			setTopSellings(data);
 			setStateData('successQuery')
