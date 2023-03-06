@@ -84,9 +84,9 @@ const AnalyticsChart = ({
       },
     })
     const lineSeries = chart.addAreaSeries({
-      topColor: '#AFB9EB',
+      topColor: '#1aabf4',
       bottomColor: 'rgba(93, 252, 233, 0)',
-      lineColor: '#AFB9EB',
+      lineColor: '#1aabf4',
       lineWidth: 1,
       title: window.innerWidth > 500 ? label : undefined,
     })
