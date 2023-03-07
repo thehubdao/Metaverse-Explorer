@@ -165,13 +165,23 @@ const MapCard = ({
               </div>
 
               {/* Add To Watchlist Button */}
-              <div onClick={() => getWatchList()}><WatchlistButton
-                land={apiData}
-                metaverse={apiData.metaverse}
-                action={(watchlist &&
-                  watchlist[metaverse] &&
-                  watchlist[metaverse][apiData?.tokenId]) ? 'add' : 'remove'}
-              /></div>
+              {(watchlist &&
+                watchlist[metaverse] &&
+                watchlist[metaverse][apiData?.tokenId])
+                ? (
+                  <div onClick={() => getWatchList()}><WatchlistButton
+                    land={apiData}
+                    metaverse={apiData.metaverse}
+                    action={'remove'}
+                  /></div>
+                ) : (
+                  <div onClick={() => getWatchList()}><WatchlistButton
+                    land={apiData}
+                    metaverse={apiData.metaverse}
+                    action={'add'}
+                  /></div>
+                )
+              }
             </div>
             <div className="flex flex-col justify-between">
               <h3 className="font-semibold text-2xl pt-10">
