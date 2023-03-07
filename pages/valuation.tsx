@@ -512,6 +512,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									setOpenSpecificModal={setOpenSpecificModal}
 									predictions={cardData?.predictions}
 									metaverse={metaverse}
+									setIsVisible={setIsVisible}
 								/>}
 							</div>
 						</div>

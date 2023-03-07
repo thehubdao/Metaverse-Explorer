@@ -2,10 +2,13 @@ import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineCompress } from "react-icons/ai";
+import { BsTwitter } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
 import { TbChartCandle } from 'react-icons/tb'
 import { useAccount } from "wagmi";
 import { Metaverse } from "../../lib/metaverse";
+import { SocialMediaOptions } from "../../lib/socialMediaOptions";
 import { IPredictions } from "../../lib/types";
 import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "./DataComparison/DataComparisonBox";
@@ -22,6 +25,7 @@ interface SpecificLandModalProps {
   specificAssetSelected?: any
   predictions?: IPredictions
   metaverse: Metaverse
+  setIsVisible: Function
 }
 
 const ExternalButton = ({ text, icon, externalLink }: {
@@ -65,7 +69,8 @@ const SpecificLandModal = ({
   collectionName,
   setOpenSpecificModal,
   predictions,
-  metaverse
+  metaverse,
+  setIsVisible
 }: SpecificLandModalProps) => {
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
@@ -106,6 +111,12 @@ const SpecificLandModal = ({
     } return timeString
   }
 
+  const options = SocialMediaOptions(
+    specificAssetSelected?.tokenId,
+    specificAssetSelected?.metaverse,
+    predictions
+  )
+
   useEffect(() => {
     if (!address) return
     getWatchList()
@@ -118,11 +129,37 @@ const SpecificLandModal = ({
           onClick={() => { }}
           className="relative flex justify-center m-20 bg-white w-fit rounded-[2rem] mx-10"
         >
-          <div
-            className=" absolute rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out top-6 right-6 text-xl w-9 h-9 hover:text-base flex justify-center items-center"
-            onClick={() => { setOpenSpecificModal(false) }}
-          >
-            <AiOutlineCompress />
+          <div className="absolute right-6 top-6 flex gap-3">
+            {/* Twitter button */}
+            <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
+              <BsTwitter
+                title="Share Valuation"
+                onClick={() =>
+                  window.open(
+                    options.twitter
+                      .valuationLink
+                  )
+                }
+                className="text-xl text-grey-conten"
+              />
+            </div>
+            {/* Open specific asset modal button */}
+            <div
+              className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-sm"
+              onClick={() => { setOpenSpecificModal(false) }}
+            >
+              <AiOutlineCompress />
+            </div>
+            {/* Close button */}
+            <div
+              className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
+              onClick={() => {
+                setOpenSpecificModal(false)
+                setIsVisible(false)
+              }}
+            >
+              <IoClose className="text-xl text-grey-conten" />
+            </div>
           </div>
 
           {specificAssetSelected

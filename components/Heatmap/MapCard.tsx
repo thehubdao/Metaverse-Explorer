@@ -5,7 +5,6 @@ import { BsTwitter } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
 import { useAccount } from "wagmi";
-import { removeLandFromWatchList } from "../../lib/FirebaseUtilities";
 import { Metaverse } from "../../lib/metaverse";
 import { SocialMediaOptions } from "../../lib/socialMediaOptions";
 import { IAPIData, IPredictions } from "../../lib/types";
@@ -107,9 +106,7 @@ const MapCard = ({
           <div className="bg-grey-bone rounded-3xl p-6 flex w-[650px]">
             <div className="absolute right-6 top-6 flex gap-3">
               {/* Twitter button */}
-              <div
-                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out"
-              >
+              <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
                 <BsTwitter
                   title="Share Valuation"
                   onClick={() =>
