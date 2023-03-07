@@ -477,7 +477,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-8 right-1 flex flex-col gap-4 m-4">
+									<div ref={ref} className="absolute bottom-1 right-1 flex flex-col gap-4 m-4">
 										<MapCard
 											setIsVisible={setIsVisible}
 											setOpenSpecificModal={setOpenSpecificModal}
