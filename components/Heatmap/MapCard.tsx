@@ -166,24 +166,15 @@ const MapCard = ({
                   Undervalued
                 </button>
               </div>
+
               {/* Add To Watchlist Button */}
-              {(address &&
-                watchlist &&
-                watchlist[metaverse] &&
-                watchlist[metaverse][apiData?.tokenId] && (
-                  <div onClick={() => getWatchList()}><WatchlistButton
-                    land={apiData}
-                    metaverse={apiData.metaverse}
-                    action='remove'
-                  /></div>
-                )) ||
-                (address && watchlist && (
-                  <div onClick={() => getWatchList()}><WatchlistButton
-                    land={apiData}
-                    metaverse={apiData.metaverse}
-                    action='add'
-                  /></div>
-                ))}
+              <div onClick={() => getWatchList()}><WatchlistButton
+                land={apiData}
+                metaverse={apiData.metaverse}
+                action={(watchlist &&
+                  watchlist[metaverse] &&
+                  watchlist[metaverse][apiData?.tokenId]) ? 'add' : 'remove'}
+              /></div>
             </div>
             <div className="flex flex-col justify-between">
               <h3 className="font-semibold text-2xl pt-10">

@@ -33,7 +33,7 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
 
   return !values /* || metaverse =="axie-infinity" */ ? (
     <>
-      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel'>
+      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel h-full'>
         <p className={`text-lg font-medium text-grey-content`}>
           We couldn't obtain Estimate Accuracy
           Check{' '}

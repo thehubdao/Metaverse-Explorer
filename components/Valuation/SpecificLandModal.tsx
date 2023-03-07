@@ -239,27 +239,17 @@ const SpecificLandModal = ({
                   </div>
 
                   {/* Add To Watchlist Button */}
-                  {(address &&
-                    watchlist &&
-                    watchlist[metaverse] &&
-                    watchlist[metaverse][specificAssetSelected?.tokenId] && (
-                      <div onClick={() => getWatchList()}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action='remove'
-                      /></div>
-                    )) ||
-                    (address && watchlist && (
-                      <div onClick={() => getWatchList()}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action='add'
-                      /></div>
-                    ))}
+                  <div onClick={() => getWatchList()}><WatchlistButton
+                    land={specificAssetSelected}
+                    metaverse={specificAssetSelected.metaverse}
+                    action={(watchlist &&
+                      watchlist[metaverse] &&
+                      watchlist[metaverse][specificAssetSelected?.tokenId]) ? 'add' : 'remove'}
+                  /></div>
                 </div>
               </div>
             </div>)
-            : <p>Nft not found!</p>
+            : <p>Land not found!</p>
           }
         </div>
       </div>

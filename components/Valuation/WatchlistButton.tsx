@@ -59,16 +59,27 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     }
   }
 
+  if (!address) {
+    return (
+      <button
+        className="w-full bg-grey-icon text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
+        onClick={addToWatchList}
+      >
+        {'LOGIN TO WATCHLIST'}
+      </button>
+    )
+  }
+
   return (
     <>
       {action === 'add' && <button
-        className="w-full bg-grey-content text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
+        className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-flat-medium hover:nm-flat-soft"
         onClick={addToWatchList}
       >
         {'ADD TO WATCHLIST'}
       </button>}
       {action === 'remove' && <button
-        className="w-full bg-grey-content text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
+        className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-inset-medium"
         onClick={() => removeLand()}
       >
         {'REMOVE FROM WATCHLIST'}
