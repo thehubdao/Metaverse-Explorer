@@ -1,5 +1,5 @@
 import { Alert, Snackbar } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { addLandToWatchList, removeLandFromWatchList } from '../../lib/FirebaseUtilities'
 import { Metaverse } from '../../lib/metaverse'
@@ -16,6 +16,19 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
   const [openAdd, setOpenAdd] = useState(false);
   const [openRemove, setOpenRemove] = useState(false)
   const [openWarning, setOpenWarning] = useState(false)
+  let [landName, setLandName] = useState('')
+
+  useEffect(() => {
+    let landName = handleLandName(
+      metaverse,
+      {
+        x: land.coords ? land?.coords.x : land?.center.x,
+        y: land?.coords ? land?.coords.y : land?.center.y,
+      },
+      land.name ? land.name : undefined
+    )
+    setLandName(landName)
+  }, [land])
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') return;
@@ -60,42 +73,38 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
       >
         {'REMOVE FROM WATCHLIST'}
       </button>}
-      <Snackbar open={openAdd} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          The Land {handleLandName(
-            metaverse,
-            {
-              x: land.coords ? land?.coords.x : land?.center.x,
-              y: land?.coords ? land?.coords.y : land?.center.y,
-            },
-            land.name ? land.name : undefined
-          )} whas added to your watchlist
-        </Alert>
-      </Snackbar>
-      <Snackbar open={openRemove} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
-          The Land {handleLandName(
-            metaverse,
-            {
-              x: land.coords ? land?.coords.x : land?.center.x,
-              y: land?.coords ? land?.coords.y : land?.center.y,
-            },
-            land.name ? land.name : undefined
-          )} whas removed from your watchlist
-        </Alert>
-      </Snackbar>
-      <Snackbar open={openWarning} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          We cant resolve the action with Land {handleLandName(
-            metaverse,
-            {
-              x: land.coords ? land?.coords.x : land?.center.x,
-              y: land?.coords ? land?.coords.y : land?.center.y,
-            },
-            land.name ? land.name : undefined
-          )}
-        </Alert>
-      </Snackbar>
+      <div className='w-full flex justify-center'>
+        <Snackbar
+          open={openAdd}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }} >
+            The Land {landName} was added to your watchlist
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openRemove}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
+            The Land {landName} was removed from your watchlist
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openWarning}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            We cant resolve the action with Land {landName}
+          </Alert>
+        </Snackbar>
+      </div>
     </>
   )
 }

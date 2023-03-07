@@ -68,13 +68,6 @@ const MapCard = ({
     }
   }
 
-  const removeLand = async (land: any, metaverse: Metaverse) => {
-    await removeLandFromWatchList(land, address!, metaverse)
-    const newWatchlist = Object.assign({}, watchlist)
-    delete newWatchlist[metaverse][land.tokenId]
-    setWatchlist(newWatchlist)
-  }
-
   const getWatchList = async () => {
     const watchlistRequest = await axios.get(
       `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
