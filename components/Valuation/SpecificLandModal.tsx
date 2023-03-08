@@ -28,6 +28,7 @@ interface SpecificLandModalProps {
   predictions?: IPredictions
   metaverse: Metaverse
   setIsVisible: Function
+  landCoords?: { x: string | number; y: string | number }
 }
 
 const ExternalButton = ({ text, icon, externalLink }: {
@@ -83,7 +84,8 @@ const SpecificLandModal = ({
   setOpenSpecificModal,
   predictions,
   metaverse,
-  setIsVisible
+  setIsVisible,
+  landCoords
 }: SpecificLandModalProps) => {
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
@@ -239,7 +241,7 @@ const SpecificLandModal = ({
                           <h3 className="text-grey-icon text-xs">Coordinate</h3>
                           <div className="flex">
                             <BiTargetLock />
-                            <p className="text-sm font-bold">{`X:${specificAssetSelected['coords']['x']} Y:${specificAssetSelected['coords']['y']}`}</p>
+                            <p className="text-sm font-bold">{`X:${landCoords?.x} Y:${landCoords?.y}}`}</p>
                           </div>
                         </div>
                       }

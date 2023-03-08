@@ -511,6 +511,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									specificAssetSelected={cardData?.apiData}
 									setOpenSpecificModal={setOpenSpecificModal}
 									predictions={cardData?.predictions}
+									landCoords={cardData?.landCoords}
 									metaverse={metaverse}
 									setIsVisible={setIsVisible}
 								/>}
