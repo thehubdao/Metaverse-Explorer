@@ -1,7 +1,9 @@
+import { Tooltip } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineCompress } from "react-icons/ai";
+import { BiTargetLock } from "react-icons/bi";
 import { BsTwitter } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
@@ -36,7 +38,7 @@ const ExternalButton = ({ text, icon, externalLink }: {
   return (
     <div
       onClick={() => { window.open(externalLink, '_blank') }}
-      className="w-full flex flex-row gap-2 justify-center items-center nm-flat-medium hover:nm-flat-soft duration-150 rounded-2xl p-2 cursor-pointer"
+      className="w-full flex gap-2 justify-start items-center duration-150 rounded-2xl p-2 cursor-pointer h-15"
     >
       <Image
         src={icon}
@@ -45,21 +47,32 @@ const ExternalButton = ({ text, icon, externalLink }: {
         width={20}
         height={20}
       />
-      <p className="text-sm font-bold">{text}</p>
+      <p className="text-sm font-bold hover:font-extrabold">{text}</p>
     </div>
   )
 }
 
-const BoxData = ({ text, price, message, bigData }: {
+const BoxData = ({ text, price, message, bigData, icon }: {
   text: string,
   price?: string | null,
   message?: string,
   bigData?: boolean
+  icon?: string
 }) => {
   return (
     <div className="w-full">
       <p className="text-sm text-grey-icon">{text}</p>
-      <p className={`${bigData ? 'text-2xl' : 'text-xl'}`}>{price && price !== '0,0' ? `${price} ETH` : message}</p>
+      <div className="flex">
+        {icon && <Image
+          src={icon}
+          width={20}
+          height={20}
+          className='rounded-full'
+        />}
+        <p className={`${bigData ? 'text-xl' : 'text-lg'}`}>
+          {price && price !== '0,0' ? `${price} ETH` : message}
+        </p>
+      </div>
     </div>
   )
 }
@@ -109,6 +122,16 @@ const SpecificLandModal = ({
     if (history.length > 0) {
       timeString = SteticTimeString(history[history.length - 1]['time'])
     } return timeString
+  }
+
+  const steticLongString = (dataString: string | undefined) => {
+    if (!dataString) return 'anonymous'
+
+    if (dataString.length > 10) {
+      dataString = `${dataString.substring(0, 4)}...${dataString.substring(dataString.length - 4, dataString.length)}`
+    }
+
+    return dataString
   }
 
   const options = SocialMediaOptions(
@@ -204,15 +227,20 @@ const SpecificLandModal = ({
                         ? specificAssetSelected['name']
                         : `${collectionName.toUpperCase()} #${specificAssetSelected['tokenId']}`}
                     </p>
-                    <div className="my-5">
+                    <div className="my-5 flex flex-wrap gap-5">
                       <div className="">
                         <h3 className="text-grey-icon text-xs">Token ID</h3>
-                        <p className="text-sm">{specificAssetSelected['tokenId']}</p>
+                        <Tooltip title={specificAssetSelected['tokenId']} placement='bottom'>
+                          <p className="text-sm font-bold">{steticLongString(specificAssetSelected['tokenId'])}</p>
+                        </Tooltip>
                       </div>
                       {specificAssetSelected.coords &&
                         <div className="">
                           <h3 className="text-grey-icon text-xs">Coordinate</h3>
-                          <p className="text-sm">{`X:${specificAssetSelected['coords']['x']} Y:${specificAssetSelected['coords']['y']}`}</p>
+                          <div className="flex">
+                            <BiTargetLock />
+                            <p className="text-sm font-bold">{`X:${specificAssetSelected['coords']['x']} Y:${specificAssetSelected['coords']['y']}`}</p>
+                          </div>
                         </div>
                       }
                     </div>
@@ -249,21 +277,13 @@ const SpecificLandModal = ({
                         text="Last Sale Price:"
                         price={specificAssetSelected['history'].length > 0 ? formatter.format(specificAssetSelected['history'][specificAssetSelected['history'].length - 1]['eth_price']) : undefined}
                         message="No Data"
+                        icon={'/images/eth.svg'}
                       />
                       <BoxData
                         text="Last bought on:"
                         message={handleTimeString(specificAssetSelected['history'])}
                       />
                     </div>
-                  </div>
-
-                  {/* Externar Links */}
-                  <p className="whitespace-nowrap w-fit text-grey-icon font-bold text-xs">View Land  on:</p>
-                  <div className="grid grid-cols-2 gap-3 items-center mb-3">
-                    <ExternalButton text="Looksrare" icon="/images/icons/markets/looksrare.svg" externalLink={specificAssetSelected['market_links']['looksrare']} />
-                    <ExternalButton text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={specificAssetSelected['market_links']['opensea']} />
-                    <ExternalButton text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={specificAssetSelected['market_links']['X2Y2']} />
-                    <ExternalButton text={metaverseInfo[metaverse].label} icon={metaverseInfo[metaverse].image} externalLink={specificAssetSelected['external_link']} />
                   </div>
 
                   {/* Chart section */}
@@ -275,14 +295,33 @@ const SpecificLandModal = ({
                     <div className="flex w-full h-full justify-center items-center font-bold">Coming soon!</div>
                   </div>
 
+                  {/* Externar Links */}
+                  <p className="whitespace-nowrap w-fit text-grey-icon font-bold text-xs">Find land on:</p>
+                  <div className="grid grid-cols-4 items-center my-3">
+                    <ExternalButton text="Looksrare" icon="/images/icons/markets/looksrare.svg" externalLink={specificAssetSelected['market_links']['looksrare']} />
+                    <ExternalButton text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={specificAssetSelected['market_links']['opensea']} />
+                    <ExternalButton text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={specificAssetSelected['market_links']['X2Y2']} />
+                    <ExternalButton text={metaverseInfo[metaverse].label} icon={metaverseInfo[metaverse].image} externalLink={specificAssetSelected['external_link']} />
+                  </div>
+
                   {/* Add To Watchlist Button */}
-                  <div onClick={() => getWatchList()}><WatchlistButton
-                    land={specificAssetSelected}
-                    metaverse={specificAssetSelected.metaverse}
-                    action={(watchlist &&
-                      watchlist[metaverse] &&
-                      watchlist[metaverse][specificAssetSelected?.tokenId]) ? 'add' : 'remove'}
-                  /></div>
+                  {(watchlist &&
+                    watchlist[metaverse] &&
+                    watchlist[metaverse][specificAssetSelected?.tokenId])
+                    ? (
+                      <div onClick={() => getWatchList()}><WatchlistButton
+                        land={specificAssetSelected}
+                        metaverse={specificAssetSelected.metaverse}
+                        action={'remove'}
+                      /></div>
+                    ) : (
+                      <div onClick={() => getWatchList()}><WatchlistButton
+                        land={specificAssetSelected}
+                        metaverse={specificAssetSelected.metaverse}
+                        action={'add'}
+                      /></div>
+                    )
+                  }
                 </div>
               </div>
             </div>)

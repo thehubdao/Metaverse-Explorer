@@ -22,15 +22,17 @@ const DataComparisonBox = ({ currentPriceEth, predictions }: Props) => {
     //Current Listing Price || Not Listed Message
     <div className='relative flex text-base text-left font-medium items-center gap-5'>
       {currentPriceEth
-        ? <p className={`text-grey-content text-lg`}>
+        ? <div className='flex'>
           <Image
             src={'/images/eth.svg'}
             width={20}
             height={20}
             className='rounded-full'
           />
-          {`${currentPriceEth?.toFixed(2)} ETH`}
-        </p>
+          <p className={`text-grey-content text-lg`}>
+            {`${currentPriceEth?.toFixed(2)} ETH`}
+          </p>
+        </div>
         : <p className={`text-grey-content text-lg`}>Not Listed</p>
       }
       {/* Comparison Percentage  */}
