@@ -23,7 +23,7 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
       metaverse,
       {
         x: land.coords ? land?.coords.x : land?.center.x,
-        y: land?.coords ? -land?.coords.y : land?.center.y,
+        y: land?.coords ? land?.coords.y : land?.center.y,
       },
       land.name ? land.name : undefined
     )
