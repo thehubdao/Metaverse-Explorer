@@ -274,24 +274,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				/>
 			</Head>
 
-			{openSpecificModal && metaverse && <div
-				className="z-50 absolute w-screen h-full top-0 right-0 flex justify-center"
-			>
-				<div className="mt-[70vh] z-30">
-					<SpecificLandModal
-						collectionName={metaverseLabels[metaverse]}
-						specificAssetSelected={cardData?.apiData}
-						setOpenSpecificModal={setOpenSpecificModal}
-						predictions={cardData?.predictions}
-						metaverse={metaverse}
-					/>
-				</div>
-				<div
-					className="absolute w-screen h-full top-0 right-0 bg-black bg-opacity-75"
-					onClick={() => { setOpenSpecificModal(false) }}
-				/>
-			</div>}
-
 			{/* Top Padding or Image */}
 			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
@@ -495,7 +477,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-8 right-1 flex flex-col gap-4 m-4">
+									<div ref={ref} className="absolute bottom-1 right-1 flex flex-col gap-4 m-4">
 										<MapCard
 											setIsVisible={setIsVisible}
 											setOpenSpecificModal={setOpenSpecificModal}
@@ -522,6 +504,17 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								) : (
 									<></>
 								)}
+
+								{/* Specific land modal */}
+								{openSpecificModal && metaverse && <SpecificLandModal
+									collectionName={metaverseLabels[metaverse]}
+									specificAssetSelected={cardData?.apiData}
+									setOpenSpecificModal={setOpenSpecificModal}
+									predictions={cardData?.predictions}
+									landCoords={cardData?.landCoords}
+									metaverse={metaverse}
+									setIsVisible={setIsVisible}
+								/>}
 							</div>
 						</div>
 					)}
