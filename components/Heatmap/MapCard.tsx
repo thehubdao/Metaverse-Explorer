@@ -151,7 +151,7 @@ const MapCard = ({
                   />
                 </div>
               </div>
-              <p className="text-center text-grey-icon font-normal text-sm">what you think of this price estimation?</p>
+              <p className="text-center text-grey-icon font-normal text-sm">Do you like this price estimation?</p>
               <div className="flex justify-between py-3 gap-1">
                 <button className="bg-[#1AB3F3] text-white rounded-lg text-xs p-2 w-full">
                   Perfect
