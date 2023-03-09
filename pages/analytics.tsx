@@ -133,7 +133,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 <title>MGH | Analytics</title>
                 <meta name="description" content="Analytics Dashboard" />
             </Head>
-            <div className="w-full min-w-7xl py-8 xl:pt-24 bg-grey-lightest rounded-lg p-8 justify-center">
+            <div className="pt-24 w-full">
                 {/* Main Header */}
                 {/* General Section Layout */}
                 <GeneralSection
@@ -153,7 +153,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     )}
                 </p>
                 {/* Wrapper Metaverse Options Buttons */}
-                <div className='flex items-center justify-between'>
+                <div className='flex items-center justify-between px-16 mb-10'>
                     <div className="flex flex-col lg:flex-row gap-5 gray-box bg-opacity-5 w-64">
                         {/* Metaverse Choice Buttons */}
                         <AnalyticsMvChoice
@@ -168,10 +168,10 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             {typedKeys(chartSymbolOptions).map((arrSymbol, index) => (
                                 <button
                                     key={arrSymbol}
-                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-14 h-10 group focus:outline-none ${symbol === arrSymbol
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-16 h-12 group focus:outline-none ${symbol === arrSymbol
                                         ? 'border-opacity-20 nm-inset-medium'
                                         : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
-                                        } border border-gray-400 transition duration-300 ease-in-out`}
+                                        } border border-white transition duration-300 ease-in-out`}
                                     onClick={() => setSymbol(arrSymbol)}
                                 >
                                     {arrSymbol === 'METAVERSE'
@@ -181,14 +181,14 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             ))}
                         </div>
                         {/* Interval Buttons */}
-                        <div className="flex gap-3 w-full px-5">
+                        <div className="flex gap-3 w-full ">
                             {typedKeys(intervalLabels).map((arrInterval) => (
                                 <button
                                     key={arrInterval}
-                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-10 h-10 group focus:outline-none ${interval === arrInterval
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-12 h-12 group focus:outline-none ${interval === arrInterval
                                         ? 'border-opacity-20 nm-inset-medium'
                                         : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
-                                        } border border-gray-400 transition duration-300 ease-in-out`}
+                                        } border border-white transition duration-300 ease-in-out`}
                                     onClick={() => setInterval(arrInterval)}
                                 >
                                     {intervalLabels[arrInterval]["label"]}
@@ -202,21 +202,21 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     <Loader size={0} color={'blue'} />
                 ) : (
                     /* Charts Wrapper */
-                    <ul className="grid grid-cols-2 gap-12 w-full mr-7 my-5 bg-[#F9FAFB]">
+                    <ul className="grid grid-cols-2 gap-12 w-full mr-7 my-5 px-16">
                         {/* Charts */}
                         {chartRoutes.map((element, index) => {
                             if (allMetaverse.sandbox.data)
                                 return (
-                                    <li key={index} className='nm-flat-medium p-8 break-inside-avoid rounded-xl '>
+                                    <li key={index} className='nm-flat-medium p-8 break-inside-avoid rounded-xl bg-[#F9FAFB]'>
                                         <div className='flex flex-row flex-nowrap items-baseline'>
                                             <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
-                                            <h3 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-2xl flex h-[70px] align-middle">
+                                            <h4 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-base font-bold flex h-[70px] align-middle">
                                                 {element.label}{' '}
                                                 <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
                                                 <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">
                                                     {element.description}
                                                 </p>
-                                            </h3>
+                                            </h4>
                                         </div>
                                         <AnalyticsMultiChart
                                             fetching={loading}

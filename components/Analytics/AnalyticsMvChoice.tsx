@@ -16,9 +16,9 @@ const AnalyticsMvChoice = ({ allMetaverse, setAllMetaverse }: Props) => {
     'somnium-space': { logo: '/images/somnium-space-cube-logo.webp' }
   }
   return (
-    <div className='w-full h-full p-2'>
+    <div className='w-full h-full'>
       {/* Metaverse Buttons */}
-      <div className='nm-insert-hard flex justify-center gap-2 sm:gap-4'>
+      <div className='nm-insert-hard flex justify-start gap-2 sm:gap-4'>
         {typedKeys(mvOptions).map((landKey: Metaverse) => (
           <button
             key={landKey}
@@ -34,14 +34,14 @@ const AnalyticsMvChoice = ({ allMetaverse, setAllMetaverse }: Props) => {
               })
               )
             }}
-            className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-1 w-10 h-10 group focus:outline-none ${allMetaverse[landKey].active
+            className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-1 w-14 h-12 group focus:outline-none ${allMetaverse[landKey].active
               ? 'border-opacity-20 nm-inset-medium'
               : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
-              } border border-gray-400 transition duration-300 ease-in-out`}
+              } border border-white transition duration-300 ease-in-out`}
           >
             <OptimizedImage
               src={mvOptions[landKey].logo}
-              height={60}
+              height={42}
               width={60}
               objectFit='contain'
               className={` ${allMetaverse[landKey].active ? 'grayscale-0' : 'grayscale'
