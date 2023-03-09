@@ -9,6 +9,7 @@ import RPC from '../api/etherRPC' // for using web3.js
 import { Signer } from 'ethers'
 import { fetchNonce, sendSignedNonce } from '../login'
 import { verifyMessage } from 'ethers/lib/utils.js'
+import axios from 'axios'
 
 class Web3authService {
     private web3auth: Web3Auth | null = null
@@ -82,19 +83,25 @@ class Web3authService {
                 return
             }
             // JWT request to API
-            const { token } = await sendSignedNonce(signedNonce, signedAddress)
+            const tokenData = await sendSignedNonce(signedNonce, signedAddress)
+            const { accessToken, decodedToken } = tokenData
             // Decode JWT and set Global State
-            const { B2BRoles, B2CRoles } = jwtDecode<{
-                B2BRoles: any
-                B2CRoles: any
-            }>(token)
-            this.token = token
-            console.log(token)
+            const { B2BRoles, B2CRoles } = decodedToken
+            console.log(accessToken)
             this.B2BRoles = B2BRoles
             this.B2CRoles = B2CRoles
+
+            return accessToken
         } catch (e) {
             console.log(e)
         }
+
+    }
+
+    refreshToken = async () => {
+        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authService/refresh-token`)
+        const {data:accesToken} = refreshRes
+        return accesToken
     }
 
     disconnectWeb3Auth = async () => {

@@ -62,6 +62,18 @@ const loadPhrases = [
   'A single parcel in the Sandbox metaverse measures a generous 96x96 meters.'
 ]
 
+const formatLand = (pureLandData: string) => {
+  const dataArray = pureLandData.split(';')
+  const [x, y, eth_predicted_price, floor_adjusted_predicted_price, tokenId] = dataArray
+  const land = {
+    coords: { x, y },
+    eth_predicted_price,
+    floor_adjusted_predicted_price, tokenId
+  }
+
+  return land
+}
+
 const Heatmap2D = ({
   width,
   height,
@@ -110,76 +122,78 @@ const Heatmap2D = ({
     return '0x' + a.join('')
   }
   let landAmount = 0
-  const renderHandler = async (land: any, landKeyIndex: any) => {
-    setLandsLoaded(landAmount)
-    landIndex = Number(landKeyIndex)
-    landAmount += 1
-    setLandsLoaded(landAmount)
-    let lands: any = mapData
-    let localChunks: any = chunks
-    let name = ''
-    land.coords.y *= -1
+  const renderHandler = async ([land, landKeyIndex]: any) => {
+    try {
+      land = formatLand(land)
+      setLandsLoaded(landAmount)
+      landIndex = Number(landKeyIndex)
+      landAmount += 1
+      setLandsLoaded(landAmount)
+      let lands: any = mapData
+      let localChunks: any = chunks
+      let name = ''
+      land.coords.y *= -1
 
-    if (land.coords) {
-      name = land.coords.x + ',' + land.coords.y
-    }
-    lands[name] = land!
-    lands[name].land_id = land.tokenId
-    /* globalFilter == 'basic'
-      ? null
-      : (land = await setLandColour(land, globalFilter, metaverseData)) */
-    setMapData(lands)
-    let value = land
-    let tile: any
-    tile = filteredLayer(
-      value.coords.x,
-      value.coords.y,
-      globalFilter,
-      globalPercentFilter,
-      globalLegendFilter,
-      land
-    )
-    let { color } = tile
-
-    color = color.includes('rgb')
-      ? rgbToHex(color.split('(')[1].split(')')[0])
-      : '0x' + color.split('#')[1]
-    const border = getBorder(land, metaverse)
-    const border_url = `images/${border}`
-    const texture = border
-      ? await PIXI.Texture.fromURL(border_url, {
-        mipmap: PIXI.MIPMAP_MODES.ON,
-      })
-      : PIXI.Texture.WHITE
-    const rectangle: any = new PIXI.Sprite(texture)
-    const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
-    const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
-    const chunkKey = `${chunkX}:${chunkY}`
-    let chunkContainer = localChunks[chunkKey]
-    rectangle.tint = color
-    rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
-      land?.tile?.type
-    )
-      ? TILE_SIZE
-      : TILE_SIZE - BORDE_SIZE
-    rectangle.name = land.coords.x + ',' + land.coords.y
-    rectangle.landX = land.coords.x
-    rectangle.landY = land.coords.y
-    rectangle.position.set(
-      land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
-      land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
-    )
-    if (!chunkContainer) {
-      chunkContainer = localChunks[chunkKey] = new Container()
-      chunkContainer.position.set(
-        chunkX * BLOCK_SIZE,
-        chunkY * BLOCK_SIZE
+      if (land.coords) {
+        name = land.coords.x + ',' + land.coords.y
+      }
+      lands[name] = land!
+      lands[name].land_id = land.tokenId
+      /* globalFilter == 'basic'
+        ? null
+        : (land = await setLandColour(land, globalFilter, metaverseData)) */
+      setMapData(lands)
+      let value = land
+      let tile: any
+      tile = filteredLayer(
+        value.coords.x,
+        value.coords.y,
+        globalFilter,
+        globalPercentFilter,
+        globalLegendFilter,
+        land
       )
-      setChunks(localChunks)
-    }
-    chunkContainer.addChild(rectangle)
-    viewport.addChild(chunkContainer)
+      let { color } = tile
 
+      color = color.includes('rgb')
+        ? rgbToHex(color.split('(')[1].split(')')[0])
+        : '0x' + color.split('#')[1]
+      const border = getBorder(land, metaverse)
+      const border_url = `images/${border}`
+      const texture = border
+        ? await PIXI.Texture.fromURL(border_url, {
+          mipmap: PIXI.MIPMAP_MODES.ON,
+        })
+        : PIXI.Texture.WHITE
+      const rectangle: any = new PIXI.Sprite(texture)
+      const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
+      const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
+      const chunkKey = `${chunkX}:${chunkY}`
+      let chunkContainer = localChunks[chunkKey]
+      rectangle.tint = color
+      rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
+        land?.tile?.type
+      )
+        ? TILE_SIZE
+        : TILE_SIZE - BORDE_SIZE
+      rectangle.name = land.coords.x + ',' + land.coords.y
+      rectangle.landX = land.coords.x
+      rectangle.landY = land.coords.y
+      rectangle.position.set(
+        land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
+        land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
+      )
+      if (!chunkContainer) {
+        chunkContainer = localChunks[chunkKey] = new Container()
+        chunkContainer.position.set(
+          chunkX * BLOCK_SIZE,
+          chunkY * BLOCK_SIZE
+        )
+        setChunks(localChunks)
+      }
+      chunkContainer.addChild(rectangle)
+      viewport.addChild(chunkContainer)
+    } catch (e) { }
   }
 
   useEffect(() => {

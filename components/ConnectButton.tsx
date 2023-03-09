@@ -1,11 +1,12 @@
 import { Signer } from 'ethers'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { FaWallet } from 'react-icons/fa'
 import { useAccount, useConnect, useDisconnect, useSigner } from 'wagmi'
 import { initContract } from '../backend/services/RoleContractService'
 
 // web3auth service
 import web3authService from '../backend/services/Web3authService'
+import { useToken } from '../backend/useToken'
 import { ellipseAddress } from '../lib/utilities'
 
 // Components
@@ -17,10 +18,21 @@ export default function ConnectButton() {
   const { address } = useAccount()
   const { data: signer } = useSigner()
 
+
+
+  const onTokenInvalid = async () => {
+    await web3authService.disconnectWeb3Auth()
+  };
+  const { setToken } = useToken(onTokenInvalid, async () => {
+    const accessToken = await web3authService.refreshToken()
+    setToken(accessToken)
+  });
+
   useEffect(() => {
     if (!signer) return
     const initAuth = async () => {
-      await web3authService.connectWeb3Auth(signer as Signer)
+      const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
+      setToken(accessToken)
       await initContract(signer as Signer)
     }
     initAuth()
