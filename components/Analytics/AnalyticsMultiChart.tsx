@@ -20,6 +20,7 @@ interface Props {
   interval: any;
   intervalLabels: any,
   symbol: keyof typeof chartSymbolOptions,
+  updateMosaic?: string;
 }
 
 const AnalyticsMultiChart = ({
@@ -31,6 +32,7 @@ const AnalyticsMultiChart = ({
   interval,
   intervalLabels,
   symbol,
+  updateMosaic,
 }: Props) => {
 
   type TimeInterval = keyof typeof intervalLabels;
@@ -112,7 +114,7 @@ const AnalyticsMultiChart = ({
       window.removeEventListener("resize", resizeGraph);
       chart.remove();
     };
-  }, [interval, dataMetaverse, symbol]);
+  }, [interval, dataMetaverse, symbol, updateMosaic]);
 
   return (
     <div className="gray-box">

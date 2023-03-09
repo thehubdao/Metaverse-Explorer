@@ -20,6 +20,7 @@ import { typedKeys } from "../lib/utilities";
 import { chartSymbolOptions } from '../components/Analytics'
 import { BsQuestionCircle } from 'react-icons/bs'
 import GeneralSection from '../components/GeneralSection'
+import OptimizedImage from '../components/General/OptimizedImage'
 const analyticsState = ['loading', 'loaded', 'firstLoad'] as const
 type AnalyticsState = typeof analyticsState[number]
 
@@ -70,6 +71,10 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     const [loading, loaded, firstLoad] = getState(state, [...analyticsState])
     const [markCap, setMarkCap] = useState(0)
     const [richList, setRichList] = useState<RichList>()
+    const mosaicOp = {
+        twoCol: { logo: '/images/two-col.svg' },
+        oneCol: { logo: '/images/one-col.svg' },
+      }
 
     /* Time intervals options*/
     const intervalLabels = {
@@ -84,8 +89,10 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     type TimeInterval = keyof typeof intervalLabels;
 
     const [interval, setInterval] = useState<TimeInterval>("month");
+    const [mosaicButton, setMosaicButton] = useState<keyof typeof mosaicOp>("twoCol");
 
     const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>("ETH");
+    
 
     useEffect(() => {
         const salesVolumeCall = async () => {
@@ -127,6 +134,11 @@ const Analytics: NextPage<Props> = ({ prices }) => {
         }
         salesVolumeCall()
     }, [allMetaverse])
+
+    useEffect(() =>{
+        setInterval(interval)
+    },[mosaicButton])
+
     return (
         <>
             <Head>
@@ -181,7 +193,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             ))}
                         </div>
                         {/* Interval Buttons */}
-                        <div className="flex gap-3 w-full ">
+                        <div className="flex gap-3 w-full pr-7">
                             {typedKeys(intervalLabels).map((arrInterval) => (
                                 <button
                                     key={arrInterval}
@@ -195,6 +207,29 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                 </button>
                             ))}
                         </div>
+                        {/* mosaic Buttons */}
+                        <div className="flex gap-3 w-full ">
+                            {typedKeys(mosaicOp).map((arrMosaic) => (
+                                <button
+                                    key={arrMosaic}
+                                    
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-16 h-12 group focus:outline-none ${mosaicButton === arrMosaic
+                                        ? 'border-opacity-20 nm-inset-medium'
+                                        : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
+                                        } border border-white transition duration-300 ease-in-out`}
+                                        onClick={() => setMosaicButton(arrMosaic)}
+                                >
+                                    <OptimizedImage
+                                        src={mosaicOp[arrMosaic].logo}
+                                        height={48}
+                                        width={50}
+                                        objectFit='contain'
+                                        className={` ${mosaicOp[arrMosaic].logo ? 'grayscale-0' : 'grayscale'
+                                            } group-hover:grayscale-0 transition duration-300 ease-in-out`}
+                                    />
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 {/* Loader for Initial Fetch */}
@@ -202,7 +237,10 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     <Loader size={0} color={'blue'} />
                 ) : (
                     /* Charts Wrapper */
-                    <ul className="grid grid-cols-2 gap-12 w-full mr-7 my-5 px-16">
+                    <ul className={`grid  gap-12 w-full mr-7 my-5 px-16 ${mosaicButton === 'twoCol'
+                        ? 'grid-cols-2'
+                        : 'grid-cols-1'
+                        } `}>
                         {/* Charts */}
                         {chartRoutes.map((element, index) => {
                             if (allMetaverse.sandbox.data)
@@ -227,6 +265,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                             interval={interval}
                                             intervalLabels={intervalLabels}
                                             symbol={symbol}
+                                            updateMosaic={mosaicButton}
                                         />
                                     </li>
                                 )
