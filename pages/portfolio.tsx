@@ -142,6 +142,9 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			'03bfd7b76f3749c8bb9f2c91bdba37f3'
 		)
 
+		console.log('eth provider', providerEthereum)
+		console.log('matic provider', providerMatic)
+
 		// Requesting and Formatting Assets
 		const setPortfolioAssets = async () => {
 			resetState()
