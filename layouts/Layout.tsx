@@ -67,7 +67,8 @@ export default function Layout({ children }: LayoutProps) {
 
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
-			<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
+			<head><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta></head>
+			
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
 				<div className="absolute top-0 right-0 z-50">
