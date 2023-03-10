@@ -221,8 +221,8 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                 >
                                     <OptimizedImage
                                         src={mosaicOp[arrMosaic].logo}
+                                        width={25}
                                         height={48}
-                                        width={50}
                                         objectFit='contain'
                                         className={` ${mosaicOp[arrMosaic].logo ? 'grayscale-0' : 'grayscale'
                                             } group-hover:grayscale-0 transition duration-300 ease-in-out`}
