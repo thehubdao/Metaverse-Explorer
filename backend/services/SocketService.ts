@@ -15,6 +15,7 @@ class SocketService {
         this.onMessage()
         this.onError()
         this.onConnect(onConnect)
+        this.onDisconnect((ev:any)=>{console.log(ev.reason)})
         this.pingPong()
         this.onNewLand(onNewLand)
         console.log(this.socket)
