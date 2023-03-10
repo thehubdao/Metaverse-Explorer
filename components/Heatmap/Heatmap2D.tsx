@@ -199,7 +199,7 @@ const Heatmap2D = ({
   useEffect(() => {
     if (!viewport) return
     console.log('Creando socket', new Date().toISOString())
-    const socketServiceUrl = process.env.SOCKET_SERVICE!
+    const socketServiceUrl = 'ws://54.167.97.243:3001'
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
