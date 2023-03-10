@@ -40,6 +40,7 @@ import GeneralSection from "../components/GeneralSection";
 import Footer from "../components/General/Footer";
 import Image from "next/image";
 import HistoricalFloorPrice from "../components/Valuation/HistoricalFloorPrice";
+import SpecificLandModal from "../components/Valuation/SpecificLandModal";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -109,7 +110,16 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [percentFilter, setPercentFilter] = useState<PercentFilter>();
 	const [legendFilter, setLegendFilter] = useState<LegendFilter>();
 	const [heatmapSize, setHeatmapSize] = useState<HeatmapSize>();
+
+	//Land Modal (and card data)
+	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
 	const [cardData, setCardData] = useState<CardData>();
+
+	//Heatmap options
+	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
+	const [openMapFilter, setOpenMapFilter] = useState(false)
+	const [openSearchFilter, setOpenSearchFilter] = useState(false)
+
 	function isSelected(x: number, y: number) {
 		return selected?.x === x && selected?.y === y;
 	}
@@ -254,10 +264,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		return () => window.removeEventListener("resize", resize);
 	}, [metaverse, address]);
 
-	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
-	const [openMapFilter, setOpenMapFilter] = useState(false)
-	const [openSearchFilter, setOpenSearchFilter] = useState(false)
-
 	return (
 		<>
 			<Head>
@@ -318,7 +324,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 py-8 h-full">
+				<div className="relative py-8 h-full">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
@@ -471,9 +477,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-12 right-2 flex flex-col gap-4">
+									<div ref={ref} className="absolute bottom-1 right-1 flex flex-col gap-4 m-4">
 										<MapCard
 											setIsVisible={setIsVisible}
+											setOpenSpecificModal={setOpenSpecificModal}
 											metaverse={metaverse}
 											apiData={cardData?.apiData}
 											predictions={cardData?.predictions}
@@ -497,6 +504,17 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								) : (
 									<></>
 								)}
+
+								{/* Specific land modal */}
+								{openSpecificModal && metaverse && <SpecificLandModal
+									collectionName={metaverseLabels[metaverse]}
+									specificAssetSelected={cardData?.apiData}
+									setOpenSpecificModal={setOpenSpecificModal}
+									predictions={cardData?.predictions}
+									landCoords={cardData?.landCoords}
+									metaverse={metaverse}
+									setIsVisible={setIsVisible}
+								/>}
 							</div>
 						</div>
 					)}
@@ -505,7 +523,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				{/* Daily Volume and Floor Price Wrapper */}
 				{metaverse && (
 					<>
-						<div className="grid grid-cols-5 gap-2">
+						<div className="grid grid-cols-5 gap-5 mb-20 mt-10">
 							<div>
 								{/* Daily Volume */}
 								<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
@@ -524,17 +542,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<div className="col-span-2">
 								{/* Historic Floor Price */}
 								<HistoricalFloorPrice metaverse={metaverse} coinPrices={prices} />
-							</div>
-							<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 xl:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-									{/* <FreeValuation /> */}
-								</div>
 							</div>
 						</div>
 						<div className="rounded-3xl bg-grey-bone p-5 mb-10 nm-flat-hard">

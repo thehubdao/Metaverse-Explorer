@@ -27,19 +27,40 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
     fetchHistoricFloorPrice()
   }, [metaverse])
 
-  return (
+  return !historicFloorPrice /* || metaverse =="axie-infinity" */ ? (
     <>
-      {historicFloorPrice && 
-      <><h3 className="text-lg ml-8">Historic Floor Price:</h3>
-      <div className="rounded-3xl overflow-hidden h-full">
-        <AnalyticsChart
-          data={historicFloorPrice}
-          fetching={loadingChart}
-          label='Historic Floor Price:'
-          metaverse={metaverse}
-          prices={coinPrices}
-        />
-      </div></>}
+      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel'>
+        <p className={`text-lg font-medium text-grey-content`}>
+          We couldn't obtain Chart data
+          Check{' '}
+          <a
+            href='https://opensea.io/collection'
+            target='_blank'
+            className='hover:underline text-grey-content'
+          >
+            Open Sea Market
+          </a>{' '}
+          for more information.
+        </p>
+      </div>
+    </>
+  ) : (
+    <>
+      <div className='flex flex-col h-full'>
+        <p className={`text-lg font-semibold text-grey-content font-plus mb-4 ml-2`}>
+          Historic Floor Price:{' '}
+        </p>
+        <div className='border-t border-l border-white/10 rounded-xl justify-between items-center p-5 h-full bg-grey-panel overflow-hidden w-full'>
+          <AnalyticsChart
+            data={historicFloorPrice}
+            fetching={loadingChart}
+            label='Historic Floor Price:'
+            metaverse={metaverse}
+            prices={coinPrices}
+            backgroundHexa={'#E9ECF6'}
+          />
+        </div>
+      </div>
     </>
   )
 }

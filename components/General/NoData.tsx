@@ -9,9 +9,9 @@ const NoData = ({ label }: Props) => {
     <div className="flex flex-col justify-center items-center mt-28">
       {/* Auth Button */}
       <Image
-        src="/images//mgh_logo/mgh_logo.svg"
+        src="/images/icons/error_icon.svg"
         width={136}
-        height={131}
+        height={136}
         loading='lazy'
         objectFit='cover'
       />

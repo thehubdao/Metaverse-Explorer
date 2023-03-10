@@ -23,11 +23,4 @@ export const chartRoutes = [
 export const chartSymbolOptions = {
     ETH: { key: 'ethPrediction' },
     USDC: { key: 'usdPrediction' },
-    METAVERSE: {
-        key: 'metaversePrediction',
-        sandbox: 'SAND',
-        decentraland: 'MANA',
-        'axie-infinity': 'AXS',
-        'somnium-space': 'CUBE'
-    },
 } as const
