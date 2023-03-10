@@ -23,8 +23,6 @@ const ExternalAssetLink = ({
           src={land.images.image_url || '/images/mgh_logo.svg'}
           className="rounded-l-3xl"
           layout={'fill'}
-          width={100}
-          height={100}
         />
 
         <FiExternalLink className='absolute top-0 right-0 text-white text-xs backdrop-filter backdrop-blur-sm rounded-xl w-6 h-6 p-1' />

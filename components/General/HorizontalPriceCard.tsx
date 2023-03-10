@@ -16,7 +16,6 @@ import {
   handleLandName,
   handleTokenID,
 } from '../../lib/valuation/valuationUtils'
-import { formatName } from '../../lib/utilities'
 
 interface Props {
   prices: ICoinPrices

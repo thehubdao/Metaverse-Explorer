@@ -132,8 +132,13 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		if (externalWallet && alreadyFetched) return
 		setAlreadyFetched(true)
 
-		const provider = new ethers.providers.InfuraProvider(
+		const providerEthereum = new ethers.providers.InfuraProvider(
 			Chains.ETHEREUM_MAINNET.chainId,
+			'03bfd7b76f3749c8bb9f2c91bdba37f3'
+		)
+
+		const providerMatic = new ethers.providers.InfuraProvider(
+			Chains.MATIC_MAINNET.chainId,
 			'03bfd7b76f3749c8bb9f2c91bdba37f3'
 		)
 
@@ -146,29 +151,46 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			try {
 				await Promise.all(
 					typedKeys(metaverseObject).map(async (metaverse) => {
-						let rawIds: string[] | undefined
+						let rawIdsEthereum: string[] | undefined
+						let rawIdsMatic: string[] | undefined
 						if (/* metaverse === 'axie-infinity' */ false) {
-							rawIds = await getAxieLands(
+							rawIdsEthereum = await getAxieLands(
 								formatAddress(
 									(externalWallet as string) ?? address
 								)
 							)
 						} else {
-							rawIds = await getUserNFTs(
-								provider,
-								formatAddress(
-									(externalWallet as string) ?? address
-								),
+							rawIdsEthereum = await getUserNFTs(
+								providerEthereum,
+								'Ethereum',
+								formatAddress((externalWallet as string) ?? address),
 								metaverse
 							)
+
+							rawIdsMatic = await getUserNFTs(
+								providerMatic,
+								'Polygon',
+								formatAddress((externalWallet as string) ?? address),
+								metaverse
+							)
+
 						}
-						if (!rawIds || rawIds.length <= 0) return
+						if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) return
 
 						// LandList Call
-						const metaverseLandsObject = await fetchLandList(
-							metaverse,
-							rawIds
-						)
+						let metaverseLandsObjectEthereum = {}
+						let metaverseLandsObjectMatic = {}
+
+						if (rawIdsEthereum && rawIdsEthereum.length > 0)
+							metaverseLandsObjectEthereum = await fetchLandList(metaverse, rawIdsEthereum)
+
+						if (rawIdsMatic && rawIdsMatic.length > 0)
+							metaverseLandsObjectMatic = await fetchLandList(metaverse, rawIdsMatic)
+
+
+						const metaverseLandsObject: any = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic }
+
+						console.log('lands', metaverseLandsObject)
 
 						// Adding Total Worth
 						const totalMvWorth = { usd: 0, eth: 0 }
@@ -195,6 +217,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								previous +
 								typedKeys(metaverseLandsObject).length
 						)
+
 						// Adding the worth of each metaverse into the totalWorth
 						setTotalWorth((previousWorth) => ({
 							ethPrediction:
@@ -269,7 +292,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								</div>
 
 								<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
-									<p className=" font-black text-2xl"><PriceList predictions={totalWorth} /></p>
+									<div className=" font-black text-2xl"><PriceList predictions={totalWorth} /></div>
 									<p className="text-sm">Total Value worth</p>
 								</div>
 
@@ -283,6 +306,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										type="button"
 										className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
 										onClick={() => setMetaverse(Metaverses[key])}
+										key={key}
 									>
 										{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
 										{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
