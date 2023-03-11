@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   LegendFilter,
   MapFilter,
@@ -94,7 +94,9 @@ const Heatmap2D = ({
   const [chunks, setChunks] = useState<any>({})
   /*   const [metaverseData, setMetaverseData] = useState<any>() */
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [landsLoaded, setLandsLoaded] = useState<number>(0)
+  const [landsLoaded, setLandsLoaded] = useState<any>([])
+  let tempLands: any[] = []
+
 
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
@@ -125,10 +127,8 @@ const Heatmap2D = ({
   const renderHandler = async ([land, landKeyIndex]: any) => {
     try {
       land = formatLand(land)
-      setLandsLoaded(landAmount)
       landIndex = Number(landKeyIndex)
       landAmount += 1
-      setLandsLoaded(landAmount)
       let lands: any = mapData
       let localChunks: any = chunks
       let name = ''
@@ -196,10 +196,13 @@ const Heatmap2D = ({
     } catch (e) { }
   }
 
+
   useEffect(() => {
     if (!viewport) return
+    
     console.log('Creando socket', new Date().toISOString())
-    const socketServiceUrl = 'wss://heatmapws.itrmachines.com:3001/'
+    const socketServiceUrl = 'ws://localhost:3002/'
+    tempLands=[]
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
@@ -207,11 +210,16 @@ const Heatmap2D = ({
         console.log('Connected', new Date().toISOString())
         socketService.renderStart(metaverse, landIndex)
       },
-      renderHandler
+      (landRawData: any) => {
+        tempLands.push(landRawData)
+      }
     )
     setIsLoading(true)
     socketService.onRenderFinish(async () => {
-      const localChunks = chunks
+      for (const land of tempLands) {
+        await renderHandler(land)
+      }
+       const localChunks = chunks
       if (metaverse == "sandbox") for (let i = -204; i <= 203; i++) {
         const x = i
         for (let j = -203; j <= 204; j++) {
@@ -246,7 +254,7 @@ const Heatmap2D = ({
           }
         }
       }
-
+ 
       setIsLoading(false)
     })
     return () => {
