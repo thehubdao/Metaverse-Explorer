@@ -213,7 +213,7 @@ const Heatmap2D = ({
     if (!viewport) return
 
     console.log('Creando socket', new Date().toISOString())
-    const socketServiceUrl = 'ws://localhost:3001/'
+    const socketServiceUrl = 'wss://heatmapws.itrmachines.com:3001/'
     tempLands = []
     const socketService = getSocketService(
       socketServiceUrl,
