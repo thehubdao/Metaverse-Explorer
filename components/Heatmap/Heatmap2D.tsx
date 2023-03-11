@@ -62,13 +62,25 @@ const loadPhrases = [
   'A single parcel in the Sandbox metaverse measures a generous 96x96 meters.'
 ]
 
-const formatLand = (pureLandData: string) => {
+const formatLand = (pureLandData: string, metaverse: Metaverse) => {
   const dataArray = pureLandData.split(';')
   const [x, y, eth_predicted_price, floor_adjusted_predicted_price, tokenId] = dataArray
-  const land = {
+  let land: any = {
     coords: { x, y },
     eth_predicted_price,
     floor_adjusted_predicted_price, tokenId
+  }
+
+  if (metaverse != 'decentraland') return land
+
+  const [, , , , , type, top, left, topLeft] = dataArray
+
+  land.tile = {
+    type,
+    ...(top ? { top } : {}),
+    ...(left ? { left } : {}),
+    ...(topLeft ? { topLeft } : {})
+
   }
 
   return land
@@ -126,7 +138,7 @@ const Heatmap2D = ({
   let landAmount = 0
   const renderHandler = async ([land, landKeyIndex]: any) => {
     try {
-      land = formatLand(land)
+      land = formatLand(land, metaverse)
       landIndex = Number(landKeyIndex)
       landAmount += 1
       let lands: any = mapData
@@ -199,10 +211,10 @@ const Heatmap2D = ({
 
   useEffect(() => {
     if (!viewport) return
-    
+
     console.log('Creando socket', new Date().toISOString())
-    const socketServiceUrl = 'wss://heatmapws.itrmachines.com:3001/'
-    tempLands=[]
+    const socketServiceUrl = 'ws://localhost:3001/'
+    tempLands = []
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
@@ -219,7 +231,7 @@ const Heatmap2D = ({
       for (const land of tempLands) {
         await renderHandler(land)
       }
-       const localChunks = chunks
+      const localChunks = chunks
       if (metaverse == "sandbox") for (let i = -204; i <= 203; i++) {
         const x = i
         for (let j = -203; j <= 204; j++) {
@@ -254,7 +266,7 @@ const Heatmap2D = ({
           }
         }
       }
- 
+
       setIsLoading(false)
     })
     return () => {
