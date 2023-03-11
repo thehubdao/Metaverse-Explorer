@@ -30,6 +30,7 @@ import SpecificAssetModal from '../components/General/SpecificAssetModal'
 import Footer from '../components/General/Footer'
 import ConnectButton from '../components/ConnectButton';
 import NoLands from '../components/Portfolio/NoLands';
+import { printAlchemy } from '../lib/alchemyProvider';
 
 const headerList = [
 	{
@@ -142,9 +143,6 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			'03bfd7b76f3749c8bb9f2c91bdba37f3'
 		)
 
-		console.log('eth provider', providerEthereum)
-		console.log('matic provider', providerMatic)
-
 		// Requesting and Formatting Assets
 		const setPortfolioAssets = async () => {
 			resetState()
@@ -193,8 +191,6 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 						const metaverseLandsObject: any = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic }
 
-						console.log('lands', metaverseLandsObject)
-
 						// Adding Total Worth
 						const totalMvWorth = { usd: 0, eth: 0 }
 						typedKeys(metaverseLandsObject).forEach((land) => {
@@ -238,6 +234,11 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 		setPortfolioAssets()
 	}, [externalWallet, address])
+
+	useEffect(() => {
+		if (address)
+			printAlchemy(address)
+	}, [])
 
 	return (
 		<>
