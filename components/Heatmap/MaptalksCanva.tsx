@@ -13,6 +13,7 @@ import { Metaverse } from '../../lib/metaverse'
 import { setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
+import { formatLand } from '../../lib/heatmapSocket'
 
 let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
@@ -55,7 +56,7 @@ const MaptalksCanva = ({
   const [layer, setLayer] = useState<any>()
   const [mapData, setMapData] = useState<Record<string, ValuationTile>>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
-
+  let tempLands: any[] = []
   function getRandomInt(max: number) { return Math.floor(Math.random() * max) }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
@@ -69,14 +70,10 @@ const MaptalksCanva = ({
     return '#' + a.join('')
   }
 
-  const renderHandler = async (land: any, landKeyIndex: number) => {
+  const renderHandler = async ([land, landKeyIndex]: any) => {
+    land = formatLand(land, 'somnium-space')
     landIndex = Number(landKeyIndex)
-    let name = ''
-    if (land.coords) {
-      name = land?.coords.x + ',' + land?.coords.y
-    } else {
-      name = land?.center.x + ',' + land?.center.y
-    }
+    let name = land?.center.x + ',' + land?.center.y
     let value = land
     let tile: any
     if (!value.center) return
@@ -212,17 +209,26 @@ const MaptalksCanva = ({
 
   useEffect(() => {
     if (!layer || !map) return
-    const socketServiceUrl = process.env.SOCKET_SERVICE!
+    tempLands = []
+    const socketServiceUrl = 'ws://localhost:3001/'
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
+        socketService.renderStart('somnium-space', landIndex)
         console.log('Connected')
       },
-      renderHandler
+      (landRawData: any) => {
+        tempLands.push(landRawData)
+      }
     )
     setIsLoading(true)
-    socketService.renderStart('somnium-space', landIndex)
-    socketService.onRenderFinish(() => { setIsLoading(false) })
+
+    socketService.onRenderFinish(async () => {
+      for (const land of tempLands) {
+        await renderHandler(land)
+      }
+      setIsLoading(false)
+    })
     return () => {
       socketService.disconnect()
     }

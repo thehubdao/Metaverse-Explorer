@@ -20,6 +20,7 @@ import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import axios from 'axios'
 import { useAccount } from 'wagmi'
+import { formatLand } from '../../lib/heatmapSocket'
 
 
 
@@ -62,29 +63,7 @@ const loadPhrases = [
   'A single parcel in the Sandbox metaverse measures a generous 96x96 meters.'
 ]
 
-const formatLand = (pureLandData: string, metaverse: Metaverse) => {
-  const dataArray = pureLandData.split(';')
-  const [x, y, eth_predicted_price, floor_adjusted_predicted_price, tokenId] = dataArray
-  let land: any = {
-    coords: { x, y },
-    eth_predicted_price,
-    floor_adjusted_predicted_price, tokenId
-  }
 
-  if (metaverse != 'decentraland') return land
-
-  const [, , , , , type, top, left, topLeft] = dataArray
-
-  land.tile = {
-    type,
-    ...(top ? { top } : {}),
-    ...(left ? { left } : {}),
-    ...(topLeft ? { topLeft } : {})
-
-  }
-
-  return land
-}
 
 const Heatmap2D = ({
   width,
@@ -108,8 +87,6 @@ const Heatmap2D = ({
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [landsLoaded, setLandsLoaded] = useState<any>([])
   let tempLands: any[] = []
-
-
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
@@ -213,7 +190,7 @@ const Heatmap2D = ({
     if (!viewport) return
 
     console.log('Creando socket', new Date().toISOString())
-    const socketServiceUrl = 'wss://heatmapws.itrmachines.com:3001/'
+    const socketServiceUrl = 'ws://localhost:3001/'
     tempLands = []
     const socketService = getSocketService(
       socketServiceUrl,
@@ -421,8 +398,10 @@ const Heatmap2D = ({
 
   useEffect(() => {
     if (!chunks || !mapData) return
+
     const filterUpdate = async () => {
       let lands = await setColours(mapData, globalFilter)
+      console.log(lands)
       for (const key in chunks) {
         for (const child of chunks[key].children) {
           if (!lands[child.name]) continue
@@ -441,7 +420,7 @@ const Heatmap2D = ({
         }
       }
     }
-    /* if (metaverseData)  */filterUpdate()
+    filterUpdate()
   }, [filter, percentFilter, legendFilter, x, y])
 
   useEffect(() => {
