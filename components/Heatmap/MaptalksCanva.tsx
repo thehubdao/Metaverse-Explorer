@@ -210,7 +210,7 @@ const MaptalksCanva = ({
   useEffect(() => {
     if (!layer || !map) return
     tempLands = []
-    const socketServiceUrl = 'ws://localhost:3001/'
+    const socketServiceUrl = 'wss://heatmapws.itrmachines.com:3001/'
     const socketService = getSocketService(
       socketServiceUrl,
       () => {
