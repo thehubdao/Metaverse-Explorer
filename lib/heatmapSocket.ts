@@ -12,7 +12,6 @@ export const formatLand = (pureLandData: string, metaverse: Metaverse) => {
 
     if (metaverse == 'somnium-space') {
         const [, , , , , , geometryRawData] = dataArray
-        console.log(dataArray)
         const geometryRawArray = geometryRawData.split('/')
         const geometry = geometryRawArray.map((coords) => {
             const [x, y] = coords.split(':')
