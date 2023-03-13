@@ -277,7 +277,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* Top Padding or Image */}
 			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
-					src="/images/land_header.webp"
+					src="/images/land_header.png"
 					objectFit={'cover'}
 					alt='land header'
 					layout="fill"
@@ -292,29 +292,29 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			>
 				{metaverse && (
 					<>
-						<div className="flex items-center justify-between p-8">
+						<div className="flex items-center justify-between p-8 mt-7">
 							<div className="flex flex-col space-y-3 max-w-xl">
-								<p className="text-2xl">{metaverseLabels[metaverse]}</p>
-								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+								<p className="text-3xl font-semibold">{metaverseLabels[metaverse]}</p>
+								<p className="font-medium">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 							</div>
 							<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.floor_price)}ETH</p>
+									<p className="font-black text-3xl">{formatter.format(globalData.stats?.floor_price)} ETH</p>
 									<p className="text-sm">Floor</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.total_volume))}ETH</p>
+									<p className="font-black text-3xl">{formatter.format(Math.round(globalData.stats?.total_volume))} ETH</p>
 									<p className="text-sm">Trading Volume</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.market_cap))}ETH</p>
+									<p className="font-black text-3xl">{formatter.format(Math.round(globalData.stats?.market_cap))} ETH</p>
 									<p className="text-sm">MCAP</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.num_owners)}</p>
+									<p className=" font-black text-3xl">{formatter.format(globalData.stats?.num_owners)}</p>
 									<p className="text-sm">Owners</p>
 								</div>
 
@@ -337,7 +337,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
 								<div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full unselectable m-4">
-									<div className="md:flex gap-2 md:gap-4 hidden">
+									<div className="md:flex gap-2 md:gap-4 hidden font-medium">
 										{/* Metaverse Selection */}
 										<MapChooseMetaverse
 											metaverse={metaverse}

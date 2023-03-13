@@ -75,7 +75,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
             {/* Top Padding or Image */}
             <div className={`relative p-0 mb-8 w-full h-[400px]`}>
               <Image
-                src="/images/land_header.webp"
+                src="/images/land_header.png"
                 objectFit={'cover'}
                 alt='land header'
                 layout="fill"

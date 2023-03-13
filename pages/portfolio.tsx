@@ -230,7 +230,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				{
 					!isModalOpen && (
 						<Image
-							src="/images/land_header.webp"
+							src="/images/land_header.png"
 							objectFit={'cover'}
 							alt='land header'
 							layout="fill"
