@@ -48,7 +48,7 @@ const HorizontalPriceCard = ({
   return (
 
     <div
-      className='flex h-[300px] justify-between relative nm-flat-medium rounded-3xl bg-grey-bone space-x-3 min-w-max hover:nm-flat-soft cursor-pointer'
+      className='flex h-[300px] justify-between relative nm-flat-medium rounded-2xl bg-grey-bone space-x-3 min-w-max hover:nm-flat-soft cursor-pointer overflow-hidden'
       onClick={() => { handleSpecificLandData(true, land) }}
     >
       {/* LEFT/TOP */}
@@ -57,14 +57,14 @@ const HorizontalPriceCard = ({
         land={land}
       />
       {/* RIGHT/BOTTOM - PriceList */}
-      <div className='flex flex-col justify-center p-7 pr-7 w-[400px]'>
+      <div className='flex flex-col justify-center p-7 pr-7 w-[50%]'>
 
         {/* Links and Info */}
         <div className='flex flex-col gap-6 md:gap-3'>
           {/* Name and Id */}
           <div className='w-[200px]'>
             {/* Asset Name */}
-            <h3 className='text-2xl text-grey-icon'>
+            <h3 className='text-2xl text-grey-icon truncate' title={handleLandName(metaverse, land.coords, land.name)}>
               {handleLandName(metaverse, land.coords, land.name)}
             </h3>
             {/* Asset ID */}

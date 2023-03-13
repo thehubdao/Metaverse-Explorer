@@ -12,16 +12,16 @@ const ExternalAssetLink = ({
 }: Props) => {
 
   return (
-    <div className='w-full relative flex lg:flex-col gap-3 lg:gap-4 xl:gap-6'>
+    <div className='w-[50%] relative flex lg:flex-col gap-3 lg:gap-4 xl:gap-6'>
       {/* External Img Link */}
       <a
         href={land.external_link || ''}
         target='_blank'
-        className='hover:shadow-dark relative h-full w-full'
+        className='hover:shadow-dark relative h-full w-full '
       >
         <OptimizedImage
           src={land.images.image_url || '/images/mgh_logo.svg'}
-          className="rounded-l-3xl"
+          className=""
           layout={'fill'}
           width={100}
           height={100}
