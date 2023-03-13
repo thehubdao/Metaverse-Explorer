@@ -423,11 +423,11 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										) => {
 											handleHover(x, y, name, owner);
 										}}
-										onClick={(
-											land: ValuationTile | undefined,
-											x: number,
-											y: number
+										onClickLand={(
+											landRawData: any
 										) => {
+											const land = JSON.parse(landRawData)
+											const { x, y } =   land.coords
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
@@ -458,10 +458,15 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										legendFilter={legendFilter}
 										width={dims.width}
 										height={dims.height}
-										onClick={(land, x, y) => {
+										onClickLand={(
+											landRawData: any
+										) => {
+											const land = JSON.parse(landRawData)
+											const { x, y } = land.center
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
+												const isntFullScreen = document.fullscreenElement ? false : true
 												handleMapSelection(land, x, y, undefined);
 											}
 										}}

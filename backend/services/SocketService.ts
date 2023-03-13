@@ -15,7 +15,7 @@ class SocketService {
         this.onMessage()
         this.onError()
         this.onConnect(onConnect)
-        this.onDisconnect((ev:any)=>{console.log(ev.reason)})
+        this.onDisconnect((ev: any) => { console.log(ev.reason) })
         this.pingPong()
         this.onNewLand(onNewLand)
         console.log(this.socket)
@@ -67,6 +67,15 @@ class SocketService {
 
     onNewLand(callback: any) {
         this.messageHandlers['new-land-data'] = callback
+    }
+
+    onGiveLand(callback: any) {
+        this.messageHandlers['give-land'] = callback
+    }
+
+    getLand(metaverse:Metaverse,tokenId: string) { 
+        console.log(this.socket,metaverse,tokenId)
+        this.socket?.send(`get-land|${metaverse};${tokenId}`)
     }
 
     onRenderFinish(callback: any) {

@@ -19,6 +19,8 @@ let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
   globalLegendFilter: LegendFilter
 
+let socketService: any
+
 let landIndex = 0
 
 interface IMaptalksCanva {
@@ -29,7 +31,7 @@ interface IMaptalksCanva {
   legendFilter: LegendFilter
   x: number | undefined
   y: number | undefined
-  onClick: (land: ValuationTile, x: number, y: number) => void
+  onClickLand: (landRawData: any) => void
   metaverse: Metaverse
 }
 
@@ -50,7 +52,7 @@ const MaptalksCanva = ({
   legendFilter,
   x,
   y,
-  onClick,
+  onClickLand,
 }: IMaptalksCanva) => {
   const [map, setMap] = useState<maptalks.Map>()
   const [layer, setLayer] = useState<any>()
@@ -134,7 +136,9 @@ const MaptalksCanva = ({
           lineWidth: 3,
           lineColor: '#ff0044',
         })
-        onClick(value, value.center.x, value.center.y)
+        const tokenId = value.tokenId
+        console.log(tokenId)
+        socketService.getLand('somnium-space', tokenId)
       })
       .on('mouseenter', (e: any) => {
         const clickedPolygon = clickedPolygonData?.clickedPolygon
@@ -211,7 +215,7 @@ const MaptalksCanva = ({
     if (!layer || !map) return
     tempLands = []
     const socketServiceUrl = 'wss://heatmapws.itrmachines.com:3001/'
-    const socketService = getSocketService(
+    socketService = getSocketService(
       socketServiceUrl,
       () => {
         socketService.renderStart('somnium-space', landIndex)
@@ -222,7 +226,7 @@ const MaptalksCanva = ({
       }
     )
     setIsLoading(true)
-
+    socketService.onGiveLand(onClickLand)
     socketService.onRenderFinish(async () => {
       for (const land of tempLands) {
         await renderHandler(land)
