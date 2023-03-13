@@ -367,7 +367,6 @@ const Heatmap2D = ({
 
   const filterUpdate = async () => {
     let lands = await setColours(mapData, globalFilter)
-    console.log(lands, mapData)
     for (const key in chunks) {
       for (const child of chunks[key].children) {
         if (!lands[child.name]) continue
