@@ -13,10 +13,13 @@ import { Metaverse } from '../../lib/metaverse'
 import { setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
+import { formatLand } from '../../lib/heatmapSocket'
 
 let globalFilter: MapFilter,
   globalPercentFilter: PercentFilter,
   globalLegendFilter: LegendFilter
+
+let socketService: any
 
 let landIndex = 0
 
@@ -28,7 +31,7 @@ interface IMaptalksCanva {
   legendFilter: LegendFilter
   x: number | undefined
   y: number | undefined
-  onClick: (land: ValuationTile, x: number, y: number) => void
+  onClickLand: (landRawData: any) => void
   metaverse: Metaverse
 }
 
@@ -49,13 +52,13 @@ const MaptalksCanva = ({
   legendFilter,
   x,
   y,
-  onClick,
+  onClickLand,
 }: IMaptalksCanva) => {
   const [map, setMap] = useState<maptalks.Map>()
   const [layer, setLayer] = useState<any>()
   const [mapData, setMapData] = useState<Record<string, ValuationTile>>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
-
+  let tempLands: any[] = []
   function getRandomInt(max: number) { return Math.floor(Math.random() * max) }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
@@ -69,14 +72,10 @@ const MaptalksCanva = ({
     return '#' + a.join('')
   }
 
-  const renderHandler = async (land: any, landKeyIndex: number) => {
+  const renderHandler = async ([land, landKeyIndex]: any) => {
+    land = formatLand(land, 'somnium-space')
     landIndex = Number(landKeyIndex)
-    let name = ''
-    if (land.coords) {
-      name = land?.coords.x + ',' + land?.coords.y
-    } else {
-      name = land?.center.x + ',' + land?.center.y
-    }
+    let name = land?.center.x + ',' + land?.center.y
     let value = land
     let tile: any
     if (!value.center) return
@@ -137,7 +136,9 @@ const MaptalksCanva = ({
           lineWidth: 3,
           lineColor: '#ff0044',
         })
-        onClick(value, value.center.x, value.center.y)
+        const tokenId = value.tokenId
+        console.log(tokenId)
+        socketService.getLand('somnium-space', tokenId)
       })
       .on('mouseenter', (e: any) => {
         const clickedPolygon = clickedPolygonData?.clickedPolygon
@@ -212,17 +213,26 @@ const MaptalksCanva = ({
 
   useEffect(() => {
     if (!layer || !map) return
-    const socketServiceUrl = process.env.SOCKET_SERVICE!
-    const socketService = getSocketService(
+    tempLands = []
+    const socketServiceUrl = process.env.SOCKET_SERVICE as string
+    socketService = getSocketService(
       socketServiceUrl,
       () => {
+        socketService.renderStart('somnium-space', landIndex)
         console.log('Connected')
       },
-      renderHandler
+      (landRawData: any) => {
+        tempLands.push(landRawData)
+      }
     )
     setIsLoading(true)
-    socketService.renderStart('somnium-space', landIndex)
-    socketService.onRenderFinish(() => { setIsLoading(false) })
+    socketService.onGiveLand(onClickLand)
+    socketService.onRenderFinish(async () => {
+      for (const land of tempLands) {
+        await renderHandler(land)
+      }
+      setIsLoading(false)
+    })
     return () => {
       socketService.disconnect()
     }

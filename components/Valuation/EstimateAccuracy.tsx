@@ -68,7 +68,7 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
               MAXIMUM :
             </p>
             <p className={styleContent}>
-              MINIMUN :
+              MINIMUM :
             </p>
           </div>
           <div className="items-end space-y-1 text-right">

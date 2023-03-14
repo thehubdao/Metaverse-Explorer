@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import {
   LegendFilter,
   MapFilter,
   PercentFilter,
-  ValuationTile,
 } from '../../lib/heatmap/heatmapCommonTypes'
 import { filteredLayer } from '../../lib/heatmap/heatmapLayers'
 import React from 'react'
@@ -11,15 +10,14 @@ import { Metaverse } from '../../lib/metaverse'
 import {
   getBorder,
   setColours,
-  setLandColour,
 } from '../../lib/heatmap/valuationColoring'
 import * as PIXI from 'pixi.js'
 import { Viewport } from 'pixi-viewport'
 import { Container, Texture } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
-import axios from 'axios'
 import { useAccount } from 'wagmi'
+import { formatLand } from '../../lib/heatmapSocket'
 
 
 
@@ -28,6 +26,10 @@ let globalFilter: MapFilter,
   globalLegendFilter: LegendFilter
 
 let landIndex = 0
+
+
+let tempLands: any[] = []
+let mapData: any = {}
 
 interface IHeatmap2D {
   width: number | undefined
@@ -41,7 +43,7 @@ interface IHeatmap2D {
     name: string | undefined,
     owner: string | undefined
   ) => void
-  onClick: (land: ValuationTile | undefined, x: number, y: number, watchlist: any) => void
+  onClickLand: (landRawData: any) => void
   metaverse: Metaverse
   x: number | undefined
   y: number | undefined
@@ -62,6 +64,8 @@ const loadPhrases = [
   'A single parcel in the Sandbox metaverse measures a generous 96x96 meters.'
 ]
 
+let socketService: any
+
 const Heatmap2D = ({
   width,
   height,
@@ -69,7 +73,7 @@ const Heatmap2D = ({
   percentFilter,
   legendFilter,
   onHover,
-  onClick,
+  onClickLand,
   metaverse,
   x,
   y,
@@ -78,12 +82,8 @@ const Heatmap2D = ({
 }: IHeatmap2D) => {
   const [map, setMap] = useState<any>()
   const [viewport, setViewport] = useState<any>()
-  const [mapData, setMapData] = useState<any>({})
   const [chunks, setChunks] = useState<any>({})
-  /*   const [metaverseData, setMetaverseData] = useState<any>() */
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [landsLoaded, setLandsLoaded] = useState<number>(0)
-
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
@@ -109,93 +109,97 @@ const Heatmap2D = ({
     })
     return '0x' + a.join('')
   }
-  let landAmount = 0
-  const renderHandler = async (land: any, landKeyIndex: any) => {
-    landIndex = Number(landKeyIndex)
-    landAmount += 1
-    setLandsLoaded(landAmount)
-    let lands: any = mapData
-    let localChunks: any = chunks
-    let name = ''
-    land.coords.y *= -1
+  const renderHandler = async ([land, landKeyIndex]: any) => {
+    try {
+      land = formatLand(land, metaverse)
+      landIndex = Number(landKeyIndex)
+      let localChunks: any = chunks
+      let name = ''
+      land.coords.y *= -1
 
-    if (land.coords) {
-      name = land.coords.x + ',' + land.coords.y
-    }
-    lands[name] = land!
-    lands[name].land_id = land.tokenId
-    /* globalFilter == 'basic'
-      ? null
-      : (land = await setLandColour(land, globalFilter, metaverseData)) */
-    setMapData(lands)
-    let value = land
-    let tile: any
-    tile = filteredLayer(
-      value.coords.x,
-      value.coords.y,
-      globalFilter,
-      globalPercentFilter,
-      globalLegendFilter,
-      land
-    )
-    let { color } = tile
-
-    color = color.includes('rgb')
-      ? rgbToHex(color.split('(')[1].split(')')[0])
-      : '0x' + color.split('#')[1]
-    const border = getBorder(land, metaverse)
-    const border_url = `images/${border}`
-    const texture = border
-      ? await PIXI.Texture.fromURL(border_url, {
-        mipmap: PIXI.MIPMAP_MODES.ON,
-      })
-      : PIXI.Texture.WHITE
-    const rectangle: any = new PIXI.Sprite(texture)
-    const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
-    const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
-    const chunkKey = `${chunkX}:${chunkY}`
-    let chunkContainer = localChunks[chunkKey]
-    rectangle.tint = color
-    rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
-      land?.tile?.type
-    )
-      ? TILE_SIZE
-      : TILE_SIZE - BORDE_SIZE
-    rectangle.name = land.coords.x + ',' + land.coords.y
-    rectangle.landX = land.coords.x
-    rectangle.landY = land.coords.y
-    rectangle.position.set(
-      land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
-      land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
-    )
-    if (!chunkContainer) {
-      chunkContainer = localChunks[chunkKey] = new Container()
-      chunkContainer.position.set(
-        chunkX * BLOCK_SIZE,
-        chunkY * BLOCK_SIZE
+      if (land.coords) {
+        name = land.coords.x + ',' + land.coords.y
+      }
+      mapData[name] = land
+      
+      let value = land
+      let tile: any
+      tile = filteredLayer(
+        value.coords.x,
+        value.coords.y,
+        globalFilter,
+        globalPercentFilter,
+        globalLegendFilter,
+        land
       )
-      setChunks(localChunks)
-    }
-    chunkContainer.addChild(rectangle)
-    viewport.addChild(chunkContainer)
+      let { color } = tile
 
+      color = color.includes('rgb')
+        ? rgbToHex(color.split('(')[1].split(')')[0])
+        : '0x' + color.split('#')[1]
+      const border = getBorder(land, metaverse)
+      const border_url = `images/${border}`
+      const texture = border
+        ? await PIXI.Texture.fromURL(border_url, {
+          mipmap: PIXI.MIPMAP_MODES.ON,
+        })
+        : PIXI.Texture.WHITE
+      const rectangle: any = new PIXI.Sprite(texture)
+      const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
+      const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
+      const chunkKey = `${chunkX}:${chunkY}`
+      let chunkContainer = localChunks[chunkKey]
+      rectangle.tint = color
+      rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
+        land?.tile?.type
+      )
+        ? TILE_SIZE
+        : TILE_SIZE - BORDE_SIZE
+      rectangle.name = land.coords.x + ',' + land.coords.y
+      rectangle.landX = land.coords.x
+      rectangle.landY = land.coords.y
+      rectangle.tokenId = land.tokenId
+      rectangle.position.set(
+        land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
+        land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
+      )
+      if (!chunkContainer) {
+        chunkContainer = localChunks[chunkKey] = new Container()
+        chunkContainer.position.set(
+          chunkX * BLOCK_SIZE,
+          chunkY * BLOCK_SIZE
+        )
+        setChunks(localChunks)
+      }
+      chunkContainer.addChild(rectangle)
+      viewport.addChild(chunkContainer)
+    } catch (e) { }
   }
+
 
   useEffect(() => {
     if (!viewport) return
+
     console.log('Creando socket', new Date().toISOString())
-    const socketServiceUrl = process.env.SOCKET_SERVICE!
-    const socketService = getSocketService(
+    const socketServiceUrl = process.env.SOCKET_SERVICE as string
+    tempLands = []
+    socketService = getSocketService(
       socketServiceUrl,
       () => {
 
         console.log('Connected', new Date().toISOString())
         socketService.renderStart(metaverse, landIndex)
       },
-      renderHandler
+      (landRawData: any) => {
+        tempLands.push(landRawData)
+      }
     )
     setIsLoading(true)
+    socketService.onGiveLand(onClickLand)
     socketService.onRenderFinish(async () => {
+      for (const land of tempLands) {
+        await renderHandler(land)
+      }
       const localChunks = chunks
       if (metaverse == "sandbox") for (let i = -204; i <= 203; i++) {
         const x = i
@@ -244,7 +248,7 @@ const Heatmap2D = ({
     setMap(null)
     setViewport(null)
     setChunks({})
-    setMapData({})
+    mapData = {}
     const map: PIXI.Application = new PIXI.Application({
       width,
       height,
@@ -276,29 +280,7 @@ const Heatmap2D = ({
     document.getElementById('map')?.appendChild(map.view)
     setMap(map)
     setViewport(viewport)
-    const setBackground = async () => {
 
-      const sandbox_bg_url = 'images/sandbox_bg.jpg'
-      const texture = await PIXI.Texture.fromURL(sandbox_bg_url, {
-      })
-      const mapBackground = new PIXI.Sprite(/* metaverse == 'sandbox' ? texture : */ PIXI.Texture.WHITE)
-      mapBackground.position.set(-204 * TILE_SIZE, -203 * TILE_SIZE)
-      mapBackground.width = 410 * TILE_SIZE
-      mapBackground.height = 410 * TILE_SIZE
-      mapBackground.zIndex = -100
-      viewport.addChild(mapBackground)
-    }
-
-    /* const getMetaverseData = async () => {
-      await setBackground()
-      let dataCall: any = await fetch(
-        process.env.SOCKET_SERVICE + `/limits?metaverse=${metaverse}`
-      )
-
-      dataCall = await dataCall.json()
-      setMetaverseData(dataCall)
-    }
-    getMetaverseData() */
     return () => {
       try { document?.getElementById('map')?.removeChild(map?.view) } catch { }
 
@@ -366,10 +348,9 @@ const Heatmap2D = ({
     })
     viewport.on('click', () => {
       if (currentSprite && !isDragging) {
-        const x = currentSprite.landX,
-          y = currentSprite.landY
+        const tokenId = currentSprite.tokenId
         currentTint = 4 * 0xff9990
-        onClick(mapData[x + ',' + y], x, y, undefined)
+        socketService.getLand(metaverse, tokenId)
       }
     })
   }, [viewport])
@@ -384,29 +365,32 @@ const Heatmap2D = ({
       (globalLegendFilter = legendFilter)
   }, [filter, percentFilter, legendFilter])
 
-  useEffect(() => {
-    if (!chunks || !mapData) return
-    const filterUpdate = async () => {
-      let lands = await setColours(mapData, globalFilter)
-      for (const key in chunks) {
-        for (const child of chunks[key].children) {
-          if (!lands[child.name]) continue
-          let tile: any = filteredLayer(
-            child.landX,
-            child.landY,
-            filter,
-            percentFilter,
-            legendFilter,
-            lands[child.name]
-          )
-          let { color } = tile
-          child.tint = color.includes('rgb')
-            ? rgbToHex(color.split('(')[1].split(')')[0])
-            : '0x' + color.split('#')[1]
-        }
+  const filterUpdate = async () => {
+    let lands = await setColours(mapData, globalFilter)
+    for (const key in chunks) {
+      for (const child of chunks[key].children) {
+        if (!lands[child.name]) continue
+        let tile: any = filteredLayer(
+          child.landX,
+          child.landY,
+          filter,
+          percentFilter,
+          legendFilter,
+          lands[child.name]
+        )
+        let { color } = tile
+        child.tint = color.includes('rgb')
+          ? rgbToHex(color.split('(')[1].split(')')[0])
+          : '0x' + color.split('#')[1]
       }
     }
-    /* if (metaverseData)  */filterUpdate()
+  }
+
+  useEffect(() => {
+    if (!chunks || !mapData) return
+
+
+    filterUpdate()
   }, [filter, percentFilter, legendFilter, x, y])
 
   useEffect(() => {
