@@ -96,17 +96,17 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 	const externalWallet = query.wallet
 
-/* 	const copyLink = () => {
-		navigator.clipboard.writeText(
-			'https://app.metagamehub.io/portfolio?wallet=' + address
-		)
-		// Display Feedback Text
-
-		setCopiedText(true)
-		setTimeout(() => {
-			setCopiedText(false)
-		}, 1100)
-	} */
+	/* 	const copyLink = () => {
+			navigator.clipboard.writeText(
+				'https://app.metagamehub.io/portfolio?wallet=' + address
+			)
+			// Display Feedback Text
+	
+			setCopiedText(true)
+			setTimeout(() => {
+				setCopiedText(false)
+			}, 1100)
+		} */
 
 	// Resetting state when Wallet Changes
 	const resetState = () => {
@@ -131,6 +131,8 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		landData: any,
 		metaverse: Metaverse
 	) => {
+		console.log('metaverse:', metaverse)
+
 		const specificLand: any = findHeatmapLand(
 			landData,
 			prices,
@@ -308,7 +310,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						</div>
 
 						<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
-							<p className=" font-black text-2xl"><PriceList predictions={totalWorth} /></p>
+							<div className=" font-black text-2xl"><PriceList predictions={totalWorth} /></div>
 							<p className="text-sm">Total Value worth</p>
 						</div>
 
@@ -319,6 +321,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
 						{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
 							<button
+								key={key}
 								type="button"
 								className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
 								onClick={() => setMetaverse(Metaverses[key])}
