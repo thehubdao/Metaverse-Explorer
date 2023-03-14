@@ -14,7 +14,7 @@ import {
 	SingleLandAPIResponse,
 } from '../lib/valuation/valuationTypes'
 import { PriceList } from '../components/General'
-import { IPredictions } from '../lib/types'
+import { IAPIData, IPredictions } from '../lib/types'
 import { useRouter } from 'next/router'
 import { typedKeys } from '../lib/utilities'
 import PortfolioList from '../components/Portfolio/PortfolioList'
@@ -30,6 +30,16 @@ import SpecificAssetModal from '../components/General/SpecificAssetModal'
 import Footer from '../components/General/Footer'
 import ConnectButton from '../components/ConnectButton';
 import NoLands from '../components/Portfolio/NoLands';
+import SpecificLandModal from '../components/Valuation/SpecificLandModal';
+import { findHeatmapLand } from '../lib/heatmap/findHeatmapLand';
+
+interface CardData {
+	apiData: IAPIData;
+	predictions: IPredictions;
+	landCoords: { x: string | number; y: string | number };
+	name: string | undefined;
+	metaverse: Metaverse
+}
 
 const headerList = [
 	{
@@ -50,8 +60,6 @@ const headerList = [
 	},
 ];
 
-
-
 const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const { query, push } = useRouter()
 
@@ -70,9 +78,9 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [lands, setLands] = useState<Record<Metaverse, LandListAPIResponse>>()
 	const [loading, setLoading] = useState(true)
 
-	// Specific Land modal controller
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [specificLandSelected, setSpecificLandSelected] = useState<SingleLandAPIResponse>();
+	//Land Modal (and card data)
+	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
+	const [specificLandSelected, setSpecificLandSelected] = useState<CardData>();
 
 	const socialMedia = SocialMediaOptions(
 		undefined,
@@ -81,10 +89,15 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		address
 	)
 
-	const externalWallet = query.wallet
-	const isRonin = query.wallet?.toString().startsWith('ronin')
+	const metaverseLabels: Record<Metaverse, string> = {
+		sandbox: "The Sandbox",
+		decentraland: "Decentraland",
+		"somnium-space": "Somnium Space"
+	}
 
-	const copyLink = () => {
+	const externalWallet = query.wallet
+
+/* 	const copyLink = () => {
 		navigator.clipboard.writeText(
 			'https://app.metagamehub.io/portfolio?wallet=' + address
 		)
@@ -94,7 +107,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		setTimeout(() => {
 			setCopiedText(false)
 		}, 1100)
-	}
+	} */
 
 	// Resetting state when Wallet Changes
 	const resetState = () => {
@@ -116,16 +129,22 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 	const handleSpecificLandData = (
 		openModal: boolean,
-		landData?: any,
-		landId?: string,
-		functionMetaverse?: Metaverse) => {
-		if (landId && functionMetaverse && lands) {
-			let results = lands[functionMetaverse]
-			if (results)
-				setSpecificLandSelected(results[landId])
-		}
-		landData && setSpecificLandSelected(landData)
-		setIsModalOpen(openModal)
+		landData: any,
+		metaverse: Metaverse
+	) => {
+		const specificLand: any = findHeatmapLand(
+			landData,
+			prices,
+			metaverse,
+			{
+				x: landData.coords ? landData.coords.x : landData.center.x,
+				y: landData.coords ? landData.coords.y : landData.center.y,
+			},
+			landData.tokenId
+		);
+		specificLand.metaverse = metaverse
+		setSpecificLandSelected(specificLand)
+		setOpenSpecificModal(openModal)
 	}
 
 	useEffect(() => {
@@ -156,9 +175,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						} else {
 							rawIds = await getUserNFTs(
 								provider,
-								formatAddress(
-									(externalWallet as string) ?? address
-								),
+								formatAddress((externalWallet as string) ?? address),
 								metaverse
 							)
 						}
@@ -226,163 +243,159 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* {openModal && <WalletModal onDismiss={() => setOpenModal(false)} />} */}
 
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 w-full ${!isModalOpen && 'h-[400px] mb-24'}`}>
-				{
-					!isModalOpen && (
-						<Image
-							src="/images/land_header.png"
-							objectFit={'cover'}
-							alt='land header'
-							layout="fill"
-						/>
-					)
-				}
+			<div className={`relative p-0 w-full h-[400px] mb-24`}>
+				<Image
+					src="/images/land_header.webp"
+					objectFit={'cover'}
+					alt='land header'
+					layout="fill"
+				/>
 			</div>
 
+			{/* Specific land modal */}
+			{openSpecificModal && specificLandSelected && <SpecificLandModal
+				collectionName={metaverseLabels[specificLandSelected.metaverse]}
+				specificAssetSelected={specificLandSelected.apiData}
+				setOpenSpecificModal={setOpenSpecificModal}
+				predictions={specificLandSelected.predictions}
+				landCoords={specificLandSelected.landCoords}
+				metaverse={specificLandSelected.metaverse}
+				setIsVisible={() => { }}
+			/>}
+
 			{/* General Section Layout */}
-			{
-				isModalOpen ? (
-					<SpecificAssetModal
-						collectionName={metaverse}
-						specificAssetSelected={specificLandSelected}
-						handleSpecificAssetData={handleSpecificLandData}
-						hiddenSearchBar={true}
-						hiddenOwner={true}
-						isFullHeight={true}
-					/>
-				) : (
-					<GeneralSection
-						sectionTitle="Portfolio"
-						optionList={headerList}
-						backgroundClass={``}
-					>
+			<GeneralSection
+				sectionTitle="Portfolio"
+				optionList={headerList}
+				backgroundClass={``}
+			>
 
-						<div className="flex items-center justify-between p-8 space-x-20">
-							<div className="flex flex-col space-y-3 max-w-lg">
-								<p className="text-2xl font-semibold">Description</p>
-								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
-							</div>
-							<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">
-								<div className="flex flex-col space-y-5 items-center justify-end nm-flat-hard py-3 px-7 rounded-3xl bg-grey-bone">
-									<p className=" font-black text-3xl">{totalAssets}</p>
-									<p className="text-sm">Total LANDs owned</p>
-								</div>
-
-								<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
-									<p className=" font-black text-2xl"><PriceList predictions={totalWorth} /></p>
-									<p className="text-sm">Total Value worth</p>
-								</div>
-
-							</div>
+				<div className="flex items-center justify-between p-8 space-x-20">
+					<div className="flex flex-col space-y-3 max-w-lg">
+						<p className="text-2xl font-semibold">Description</p>
+						<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+					</div>
+					<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">
+						<div className="flex flex-col space-y-5 items-center justify-end nm-flat-hard py-3 px-7 rounded-3xl bg-grey-bone">
+							<p className=" font-black text-3xl">{totalAssets}</p>
+							<p className="text-sm">Total LANDs owned</p>
 						</div>
 
-						<div className='mx-16 mb-24'>
-							<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
-								{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
-									<button
-										type="button"
-										className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
-										onClick={() => setMetaverse(Metaverses[key])}
-									>
-										{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
-										{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
-										{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
-										{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
-
-										{Metaverses[key].toUpperCase()}
-									</button>
-								))}
-							</div>
+						<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
+							<p className=" font-black text-2xl"><PriceList predictions={totalWorth} /></p>
+							<p className="text-sm">Total Value worth</p>
 						</div>
 
-						{/* Lands Grid */}
-						{lands && metaverse === Metaverses.ALL &&
-							typedKeys(metaverseObject).map(
-								(metaverse, index) =>
-									lands[metaverse] &&
-									typedKeys(lands[metaverse]).length > 0 && (
-										<div key={metaverse} className="mb-8 sm:mb-12">
-											<PortfolioList
-												metaverse={metaverse}
-												lands={lands[metaverse]}
-												prices={prices}
-												handleSpecificLandData={handleSpecificLandData}
-											/>
-										</div>
-									)
-							)}
+					</div>
+				</div>
 
-						{lands && metaverse === Metaverses.SANDBOX && (
-							lands["sandbox"]
-								? (
-									<div key={metaverse} className="mb-8 sm:mb-12">
-										<PortfolioList
-											metaverse={"sandbox"}
-											lands={lands["sandbox"]}
-											prices={prices}
-											handleSpecificLandData={handleSpecificLandData}
-										/>
-									</div>
-								) : (
-									<NoLands />
-								)
-						)}
+				<div className='mx-16 mb-24'>
+					<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
+						{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
+							<button
+								type="button"
+								className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
+								onClick={() => setMetaverse(Metaverses[key])}
+							>
+								{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
+								{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
+								{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
+								{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
 
-						{lands && metaverse === Metaverses.DECENTRALAND && (
-							lands["decentraland"]
-								? (
-									<div key={metaverse} className="mb-8 sm:mb-12">
-										<PortfolioList
-											metaverse={"decentraland"}
-											lands={lands["decentraland"]}
-											prices={prices}
-											handleSpecificLandData={handleSpecificLandData}
-										/>
-									</div>
-								) : (
-									<NoLands />
-								)
-						)}
+								{Metaverses[key].toUpperCase()}
+							</button>
+						))}
+					</div>
+				</div>
 
-						{lands && metaverse === Metaverses.SOMNIUM && (
-							lands["somnium-space"]
-								? (
-									<div key={metaverse} className="mb-8 sm:mb-12">
-										<PortfolioList
-											metaverse={"somnium-space"}
-											lands={lands["somnium-space"]}
-											prices={prices}
-											handleSpecificLandData={handleSpecificLandData}
-										/>
-									</div>
+				{/* Lands Grid */}
+				{lands && metaverse === Metaverses.ALL &&
+					typedKeys(metaverseObject).map(
+						(metaverse, index) =>
+							lands[metaverse] &&
+							typedKeys(lands[metaverse]).length > 0 && (
+								<div key={metaverse} className="mb-8 sm:mb-12">
+									<PortfolioList
+										metaverse={metaverse}
+										lands={lands[metaverse]}
+										prices={prices}
+										handleSpecificLandData={handleSpecificLandData}
+									/>
+								</div>
+							)
+					)}
 
-								) : (
-									<NoLands />
-								)
-						)}
-
-						{!address && (
-							<div className="flex flex-col justify-center items-center mt-28">
-								{/* Auth Button */}
-								<Image
-									src="/images//mgh_logo/mgh_logo.svg"
-									width={136}
-									height={131}
-									loading='lazy'
-									objectFit='cover'
+				{lands && metaverse === Metaverses.SANDBOX && (
+					lands["sandbox"]
+						? (
+							<div key={metaverse} className="mb-8 sm:mb-12">
+								<PortfolioList
+									metaverse={"sandbox"}
+									lands={lands["sandbox"]}
+									prices={prices}
+									handleSpecificLandData={handleSpecificLandData}
 								/>
-								<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to show your portfolio</p>
-								<ConnectButton />
 							</div>
-						)}
+						) : (
+							<NoLands />
+						)
+				)}
 
-						<div className='mt-60'>
-							<Footer
-								label='The MGH DAO does not provide, personalized investment recommendations or advisory services. Any information provided through the land evaluation tool and others is not, and should not be, considered as advice of any kind and is for information purposes only. That land is “valuated” does not mean, that it is in any way approved, checked audited, and/or has a real or correct value. In no event shall the MGH DAO be liable for any special, indirect, or consequential damages, or any other damages of any kind, including but not limited to loss of use, loss of profits, or loss of data, arising out of or in any way connected with the use of or inability to use the Service, including without limitation any damages resulting from reliance by you on any information obtained from using the Service.'
-							/>
-						</div>
+				{lands && metaverse === Metaverses.DECENTRALAND && (
+					lands["decentraland"]
+						? (
+							<div key={metaverse} className="mb-8 sm:mb-12">
+								<PortfolioList
+									metaverse={"decentraland"}
+									lands={lands["decentraland"]}
+									prices={prices}
+									handleSpecificLandData={handleSpecificLandData}
+								/>
+							</div>
+						) : (
+							<NoLands />
+						)
+				)}
 
-						{/* 
+				{lands && metaverse === Metaverses.SOMNIUM && (
+					lands["somnium-space"]
+						? (
+							<div key={metaverse} className="mb-8 sm:mb-12">
+								<PortfolioList
+									metaverse={"somnium-space"}
+									lands={lands["somnium-space"]}
+									prices={prices}
+									handleSpecificLandData={handleSpecificLandData}
+								/>
+							</div>
+
+						) : (
+							<NoLands />
+						)
+				)}
+
+				{!address && (
+					<div className="flex flex-col justify-center items-center mt-28">
+						{/* Auth Button */}
+						<Image
+							src="/images//mgh_logo/mgh_logo.svg"
+							width={136}
+							height={131}
+							loading='lazy'
+							objectFit='cover'
+						/>
+						<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to show your portfolio</p>
+						<ConnectButton />
+					</div>
+				)}
+
+				<div className='mt-60'>
+					<Footer
+						label='The MGH DAO does not provide, personalized investment recommendations or advisory services. Any information provided through the land evaluation tool and others is not, and should not be, considered as advice of any kind and is for information purposes only. That land is “valuated” does not mean, that it is in any way approved, checked audited, and/or has a real or correct value. In no event shall the MGH DAO be liable for any special, indirect, or consequential damages, or any other damages of any kind, including but not limited to loss of use, loss of profits, or loss of data, arising out of or in any way connected with the use of or inability to use the Service, including without limitation any damages resulting from reliance by you on any information obtained from using the Service.'
+					/>
+				</div>
+
+				{/* 
             <section className="w-full xs:w-[22rem] sm:w-[26rem] md:w-[48rem] lg:w-full max-w-7xl pt-12 bg-grey-lightest rounded-lg p-8">
             
                 <hgroup className="text-gray-200 flex flex-col">
@@ -500,9 +513,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
                     )}
                 </hgroup>
             </section> */}
-					</GeneralSection>
-				)
-			}
+			</GeneralSection>
 		</>
 	)
 }

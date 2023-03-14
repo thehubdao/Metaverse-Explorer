@@ -37,36 +37,38 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
     // SocialMediaOptions contains all options with their texts, icons, etc..
     /*   const options = SocialMediaOptions(landId, metaverse, predictions, address) */
     return (
-        <div className="flex justify-between relative nm-flat-medium rounded-lg bg-grey-bone space-x-3 min-w-max hover:nm-flat-soft cursor-pointer">
+        <div className="flex justify-between relative nm-flat-medium rounded-2xl bg-grey-bone space-x-3 min-w-max h-full hover:nm-flat-soft cursor-pointer overflow-hidden">
             {/* LEFT/TOP */}
             <ExternalAssetLink
                 metaverse={metaverse}
                 land={land}
             />
             {/* RIGHT/BOTTOM - PriceList */}
-            <div className="p-4 pr-7">
+            <div className="p-4 pr-7 w-[50%] flex flex-col justify-between">
                 {/* Links and Info */}
-                <div className="flex flex-col gap-6 md:gap-3">
-                    {/* Name and Id */}
-                    <div>
-                        {/* Asset Name */}
-                        <h3 className="text-base xs:text-xl  2xl:text-2xl lg:text-2xl md:text-lg text-gray-400 min-w-max">
-                            {land.coords &&
-                                handleLandName(metaverse, land.coords)}
-                        </h3>
-                        {/* Asset ID */}
-                        <p className="text-xs font-medium text-grey-content">
-                            Token ID: {handleTokenID(landId)}
-                        </p>
+                <div>
+                    <div className="flex flex-col gap-6 md:gap-3">
+                        {/* Name and Id */}
+                        <div>
+                            {/* Asset Name */}
+                            <h3 className="text-base xs:text-xl  2xl:text-2xl lg:text-2xl md:text-lg text-gray-400 truncate" title={handleLandName(metaverse, land.coords)}>
+                                {land.coords &&
+                                    handleLandName(metaverse, land.coords)}
+                            </h3>
+                            {/* Asset ID */}
+                            <p className="text-xs font-medium text-grey-content">
+                                Token ID: {handleTokenID(landId)}
+                            </p>
+                        </div>
                     </div>
+                    <h4 className="border-none text-gray-400 text-sm pt-4">
+                        Price Estimation:
+                    </h4>
                 </div>
-                <h4 className="border-none text-gray-400 text-sm pt-4">
-                    Price Estimation:
-                </h4>
                 {/*        <PriceListSmall predictions={predictions} metaverse={metaverse} /> */}
 
                 {/* External Links */}
-                <div className="flex flex-col lg:flex-row gap-5 lg:items-center justify-start pt-4">
+                <div className="flex flex-col lg:flex-row gap-5 lg:items-center justify-between pt-4">
                     {/* {openSeaLink && <ExternalLink href={openSeaLink} text='OpenSea' />} */}
                     {/* <ExternalLink
             href={land.external_link || ''}
@@ -79,14 +81,14 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
                             className="grayscale h-5 w-5 hover:grayscale-0 cursor-pointer"
                         />
                     )}
+                    <button
+                        onClick={() => onTrashClick(land, metaverse)}
+                        className="relative transition font-medium  ease-in-out flex gap-1 text-sm hover:text-red-400 text-red-800"
+                    >
+                        <FaTrash className="relative -bottom-005" />
+                    </button>
                 </div>
             </div>
-            <button
-                onClick={() => onTrashClick(land, metaverse)}
-                className="relative transition font-medium  ease-in-out flex gap-1 text-sm hover:text-red-400 text-red-800 z-20 top-[119px] -left-[18px]"
-            >
-                <FaTrash className="relative -bottom-005" />
-            </button>
         </div>
     )
 }
