@@ -15,7 +15,7 @@ interface Props {
 }
 const PortfolioList = ({ lands, prices, metaverse, handleSpecificLandData }: Props) => {
   return (
-    <ul className='flex w-full'>
+    <ul className='flex w-full gap-10'>
       {typedKeys(lands).map((land) => (
         <li key={land} className='w-[520px] gray-box'>
           <HorizontalPriceCard
