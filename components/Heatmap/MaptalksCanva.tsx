@@ -214,7 +214,7 @@ const MaptalksCanva = ({
   useEffect(() => {
     if (!layer || !map) return
     tempLands = []
-    const socketServiceUrl = 'wss://heatmapws.itrmachines.com:3001/'
+    const socketServiceUrl = process.env.SOCKET_SERVICE as string
     socketService = getSocketService(
       socketServiceUrl,
       () => {
