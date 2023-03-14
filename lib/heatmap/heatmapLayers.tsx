@@ -15,7 +15,7 @@ export const filteredLayer: Layer = (
     land
 ) => {
 
-    if (new Set([5, 6, 7, 8, 12]).has(land?.tile?.type))
+    if (new Set([5, 6, 7, 8, 12]).has(Number(land?.tile?.type)))
         return decentralandAPILayer(x, y, land)
     /* Don't show a layer if user is tier0 and metaverse is decentraland. (we already have decentralands Map for that)  */
     let color!: string
