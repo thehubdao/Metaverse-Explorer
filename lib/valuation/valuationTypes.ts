@@ -1,3 +1,4 @@
+import { Metaverse } from '../metaverse'
 import { IAPIData, IPredictions } from '../types'
 
 export interface ICoinPrices {
@@ -45,4 +46,5 @@ export interface SingleLandAPIResponse {
   }
   owner: string
   name?: string
+  metaverse?: Metaverse
 }
