@@ -5,13 +5,6 @@ import { IAPIData } from '../types'
 import { ellipseAddress } from '../utilities'
 import { ICoinPrices, IPriceCard, LandListAPIResponse } from './valuationTypes'
 
-const metaverseFormats = {
-    sandbox: 'the-sandbox',
-    decentraland: 'decentraland',
-    'axie-infinity': 'axie-infinity',
-    'somnium-space': 'somnium-space-cubes',
-}
-
 export const metaverseInitialCenter = {
     sandbox: {
         maxX: 0,
@@ -54,12 +47,13 @@ export const convertETHPrediction = (
 ) => {
     const ethUSD = coinPrices.ethereum.usd
     const usdPrediction = ethPrediction * ethUSD
-    const formattedMetaverse =
+    const formattedMetaverse = 
         metaverse === 'sandbox'
             ? 'the-sandbox'
             : metaverse === 'somnium-space'
                 ? 'somnium-space-cubes'
                 : metaverse
+
     const metaverseUSD = coinPrices[formattedMetaverse].usd
     const metaversePrediction = usdPrediction / metaverseUSD
 
@@ -217,7 +211,6 @@ export const getAxieFloorPrice = async () => {
         }
     )
     const floorPrice = await res.json()
-    console.log(floorPrice)
     return formatEther(floorPrice.data.lands.results[0].auction.currentPrice)
 }
 
