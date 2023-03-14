@@ -155,7 +155,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     children={undefined}
                 />
                 {/* Market Cap - Owners Land % */}
-                <p className="px-11 py-24 flex gap-1 justify-center">
+                <p className="px-11 py-24 flex gap-1 font-bold justify-center text-base tracking-[0.375em]">
                     LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
                     {loaded ? (
                         richList?.pctParcels &&
@@ -180,7 +180,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             {typedKeys(chartSymbolOptions).map((arrSymbol, index) => (
                                 <button
                                     key={arrSymbol}
-                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-16 h-12 group focus:outline-none ${symbol === arrSymbol
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-16 h-12 group focus:outline-none bg-[#F9FAFB] ${symbol === arrSymbol
                                         ? 'border-opacity-20 nm-inset-medium'
                                         : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
                                         } border border-white transition duration-300 ease-in-out`}
@@ -197,7 +197,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             {typedKeys(intervalLabels).map((arrInterval) => (
                                 <button
                                     key={arrInterval}
-                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-12 h-12 group focus:outline-none ${interval === arrInterval
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-12 h-12 group focus:outline-none bg-[#F9FAFB] ${interval === arrInterval
                                         ? 'border-opacity-20 nm-inset-medium'
                                         : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
                                         } border border-white transition duration-300 ease-in-out`}
@@ -213,7 +213,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                 <button
                                     key={arrMosaic}
                                     
-                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-16 h-12 group focus:outline-none ${mosaicButton === arrMosaic
+                                    className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-12 h-12 group focus:outline-none bg-[#F9FAFB] ${mosaicButton === arrMosaic
                                         ? 'border-opacity-20 nm-inset-medium'
                                         : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
                                         } border border-white transition duration-300 ease-in-out`}
