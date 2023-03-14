@@ -174,7 +174,6 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								formatAddress((externalWallet as string) ?? address),
 								metaverse
 							)
-
 						}
 						if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) return
 

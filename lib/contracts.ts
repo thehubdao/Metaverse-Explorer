@@ -55,7 +55,7 @@ export const Contracts = {
       newAddress: '0x5cc5b05a8a13e3fbdb0bb9fccd98d38e50f90c38',
     },
     POLYGON_MAINNET: {
-      address: '0x79393A9318F83d75d29EA7123aCC52F4a9d2404A'
+      address: '0x9d305a42a3975ee4c1c57555bed5919889dce63f'
     }
   },
   // Decentraland

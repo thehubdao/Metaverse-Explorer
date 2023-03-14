@@ -92,6 +92,8 @@ export const getUserNFTs = async (
       'somnium-space': Contracts.CUBES.ETHEREUM_MAINNET.address
     }
   }
+
+
   const contract = createNFTContract(provider, (contracts as any)[metaverse])
   // Getting al transfer events that involve the user
   const event = contract.filters.Transfer(undefined, address)
