@@ -10,7 +10,7 @@ import {
 import { filteredLayer } from '../../lib/heatmap/heatmapLayers'
 import React from 'react'
 import { Metaverse } from '../../lib/metaverse'
-import { setColours, setLandColour } from '../../lib/heatmap/valuationColoring'
+import { setColours } from '../../lib/heatmap/valuationColoring'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import { formatLand } from '../../lib/heatmapSocket'
