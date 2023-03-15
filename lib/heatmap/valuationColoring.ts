@@ -79,7 +79,7 @@ const CalculateMaxPriceOnHistoryDependGivenDays = (
     return maxPrice
 }
 
-export const setLandColour = async (
+/* export const setLandColour = async (
     land: any,
     filter: MapFilter,
     wholeData: any
@@ -144,6 +144,7 @@ export const setLandColour = async (
     }
     return land
 }
+ */
 
 export const getGeneralData = (
     valuationAtlas: Record<string, any>
@@ -171,11 +172,7 @@ export const getGeneralData = (
 
     // GENERATE MAX
     const elementOptions: any = {
-        transfers: {
-            predictions: typedKeys(valuationAtlas).map(
-                (valuation) => valuationAtlas[valuation].history?.length
-            ),
-        },
+
         price_difference: {
             predictions: typedKeys(valuationAtlas).map((valuation) => {
                 if (
@@ -183,7 +180,7 @@ export const getGeneralData = (
                     'undefined'
                 )
                     return
-                const diff = (valuationAtlas[valuation].current_price_eth / valuationAtlas[valuation].eth_predicted_price) -1
+                const diff = (valuationAtlas[valuation].current_price_eth / valuationAtlas[valuation].eth_predicted_price) - 1
                 return diff
             }),
         },
@@ -193,29 +190,27 @@ export const getGeneralData = (
             ),
         },
         basic: { predictions: [] },
-        eth_predicted_price: {predictions:typedKeys(valuationAtlas).map( 
-            (valuation) =>
-                valuationAtlas[valuation][ 
+        eth_predicted_price: {
+            predictions: typedKeys(valuationAtlas).map(
+                (valuation) =>
+                    valuationAtlas[valuation][
                     "eth_predicted_price" as keyof ValueOf<typeof valuationAtlas> & MapFilter
-                ]
-        )},
+                    ]
+            )
+        },
         floor_adjusted_predicted_price: {
             predictions: typedKeys(valuationAtlas).map(
                 (valuation) =>
                     valuationAtlas[valuation]?.floor_adjusted_predicted_price
             ),
         },
+        transfers: {
+            predictions: typedKeys(valuationAtlas).map(
+                (valuation) => valuationAtlas[valuation].history_amount
+            ),
+        },
         last_month_sells: {
-            predictions: typedKeys(valuationAtlas).map((valuation) => {
-                if (getLandDependingOnGivenNumberOfDays(valuation, 30) > 0)
-                    {
-                        return CalculateMaxPriceOnHistoryDependGivenDays(
-                        valuationAtlas[valuation],
-                        30
-                    )}
-                
-                return 0
-            }),
+            predictions: typedKeys(valuationAtlas).map((valuation) => valuationAtlas[valuation].max_history_price),
         },
     }
 
@@ -223,9 +218,7 @@ export const getGeneralData = (
         let predictions =
             elementOptions[key as keyof typeof elementOptions].predictions
         elementOptions[key] = {
-            max: getMax(predictions),
             limits: getLimits(predictions),
-            landAmount: typedKeys(valuationAtlas).length
         }
     })
     return elementOptions
@@ -251,22 +244,12 @@ export const setColours = async (
     }
     const wholeData = getGeneralData(valuationAtlas)
 
-    console.log(wholeData, filter)
-    let max = wholeData[filter].max,
-        limits = wholeData[filter].limits
+    const limits = wholeData[filter].limits
 
     // GENERATE PERCENTAGE FOR EACH TILE.
     typedKeys(valuationAtlas).map((valuation) => {
-        const priceDiffPercentage = getPercentage(
-            valuationAtlas[valuation].current_price_eth,
-            limits
-        )
 
         const valuationOptions = {
-            transfers: getPercentage(
-                valuationAtlas[valuation].history?.length,
-                limits
-            ),
             price_difference:
                 typeof valuationAtlas[valuation].current_price_eth !== 'number'
                     ? 0 : valuationAtlas[valuation].current_price_eth > valuationAtlas[valuation].eth_predicted_price ? 100 : 30
@@ -283,15 +266,15 @@ export const setColours = async (
                 valuationAtlas[valuation]?.floor_adjusted_predicted_price,
                 limits
             ),
-            last_month_sells: getLandDependingOnGivenNumberOfDays(valuationAtlas[valuation], 30)
-                ? getPercentage(
-                    CalculateMaxPriceOnHistoryDependGivenDays(
-                        valuationAtlas[valuation],
-                        30
-                    ),
+            last_month_sells:  getPercentage(
+                    valuationAtlas[valuation].max_history_price,
                     limits
                 )
-                : NaN,
+                ,
+            transfers: getPercentage(
+                valuationAtlas[valuation].history_amount,
+                limits
+            ),
         }
 
         let percent = NaN
@@ -309,7 +292,7 @@ export const setColours = async (
 
         valuationAtlas[valuation] = {
             ...valuationAtlas[valuation],
-            percent: percent,
+            percent,
         }
     })
     return valuationAtlas
@@ -334,7 +317,7 @@ export const FILTER_COLORS = {
 // Colors for dictionary filters
 export const LEGEND_COLORS = {
     'on-sale': '#FFE5A3', // On sale
-    
+
     // Decentraland Only
     roads: '#5775A5', // roads
     plazas: '#32D2FF', // plazas
