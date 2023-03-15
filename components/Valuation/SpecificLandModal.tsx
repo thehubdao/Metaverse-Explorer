@@ -200,10 +200,11 @@ const SpecificLandModal = ({
                           <source src={specificAssetSelected["images"]["animation_url"]} />
                         </video>
                       ) : (
-                        <div className="w-[602px] h-fit rounded-xl">
+                        <div className="w-[602px] rounded-xl">
                           <Image
                             src={specificAssetSelected["images"]['image_url']}
                             layout='fill'
+                            objectFit="contain"
                             className="rounded-xl"
                           />
                         </div>
