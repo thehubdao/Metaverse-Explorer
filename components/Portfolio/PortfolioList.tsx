@@ -1,5 +1,4 @@
 import React from 'react'
-import { Fade } from 'react-awesome-reveal'
 import { Metaverse } from '../../lib/metaverse'
 import { typedKeys } from '../../lib/utilities'
 import {
@@ -16,20 +15,18 @@ interface Props {
 }
 const PortfolioList = ({ lands, prices, metaverse, handleSpecificLandData }: Props) => {
   return (
-    <ul className='flex w-full'>
-      <Fade duration={400} className='w-full flex flex-wrap gap-8 p-8 items-center justify-center'>
-        {typedKeys(lands).map((land) => (
-          <li key={land} className='w-[520px] gray-box'>
-            <HorizontalPriceCard
-              metaverse={metaverse}
-              land={lands[land]}
-              landId={land}
-              prices={prices}
-              handleSpecificLandData={handleSpecificLandData}
-            />
-          </li>
-        ))}
-      </Fade>
+    <ul className='flex w-full gap-10'>
+      {typedKeys(lands).map((land) => (
+        <li key={land} className='w-[520px] gray-box'>
+          <HorizontalPriceCard
+            metaverse={metaverse}
+            land={lands[land]}
+            landId={land}
+            prices={prices}
+            handleSpecificLandData={handleSpecificLandData}
+          />
+        </li>
+      ))}
     </ul>
   )
 }
