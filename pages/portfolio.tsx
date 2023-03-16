@@ -273,7 +273,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* Top Padding or Image */}
 			<div className={`relative p-0 w-full h-[400px] mb-24`}>
 				<Image
-					src="/images/land_header.webp"
+					src="/images/land_header.png"
 					objectFit={'cover'}
 					alt='land header'
 					layout="fill"

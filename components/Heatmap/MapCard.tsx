@@ -195,7 +195,7 @@ const MapCard = ({
                 )}
               </h3>
               <div>
-                <p className="text-sm text-grey-icon">Our Price Estimation:</p>
+                <p className="text-sm text-grey-icon mb-3">Our Price Estimation:</p>
                 {/* Price List */}
                 {predictions ? (
                   <div className="w-fit">

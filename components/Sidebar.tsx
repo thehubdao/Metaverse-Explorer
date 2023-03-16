@@ -6,14 +6,20 @@ import ScrollBar from "./ScrollBar";
 import Tooltip from "@mui/material/Tooltip";
 
 interface ButtonProps {
-  url: string
+  url: {
+    ref: string
+    isExternal: boolean
+  },
   label: string
   icon: string
   active: boolean
 }
 
 interface ListProps {
-  url: string,
+  url: {
+    ref: string
+    isExternal: boolean
+  },
   label: string,
   icon: string
 }
@@ -24,12 +30,14 @@ interface SidebarProps {
 
 function Button({ url, label, icon, active }: ButtonProps) {
   return (
-    <Link href={url}>
-      <Tooltip title={label} placement="right">
-        <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium hover:nm-flat-soft'} bg-white bg-opacity-60 cursor-pointer transition duration-300 ease-in-out`}>
-          <div className="font-icons text-3xl">{icon}</div>
-        </div>
-      </Tooltip>
+    <Link href={url.ref}>
+      <a href={url.isExternal ? url.ref : ''} target={url.isExternal ? '_blank' : ''}>
+        <Tooltip title={label} placement="right">
+          <div className={`flex items-center justify-center w-12 h-12 rounded-xl ${active ? 'nm-flat-inset-medium border-white border' : 'nm-flat-medium hover:nm-flat-soft'} bg-white bg-opacity-60 cursor-pointer transition duration-300 ease-in-out`}>
+            <div className="font-icons text-3xl">{icon}</div>
+          </div>
+        </Tooltip>
+      </a>
     </Link>
   )
 }
@@ -39,7 +47,7 @@ function createMenu(list: ListProps[], router: string) {
     list.map((item: ListProps, index: number) => {
       return (
         <div key={index}>
-          <Button url={item.url} label={item.label} icon={item.icon} active={router == item.url} />
+          <Button url={item.url} label={item.label} icon={item.icon} active={router == item.url.ref} />
         </div>
       )
     })
