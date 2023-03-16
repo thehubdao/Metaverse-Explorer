@@ -13,6 +13,7 @@ import { ellipseAddress } from '../lib/utilities'
 import OvalButton from './General/Buttons/OvalButton'
 
 export default function ConnectButton() {
+
   const { connect, connectors } = useConnect()
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
@@ -21,29 +22,47 @@ export default function ConnectButton() {
 
 
   const onTokenInvalid = async () => {
-    await web3authService.disconnectWeb3Auth()
+   /*  await web3authService.disconnectWeb3Auth() */
   };
-  const { setToken } = useToken(onTokenInvalid, async () => {
-    const accessToken = await web3authService.refreshToken()
-    setToken(accessToken)
-  });
 
-  useEffect(() => {
-    if (!signer) return
-    const initAuth = async () => {
-      const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
+  const refreshToken = async () => {
+    try {
+      const accessToken = await web3authService.refreshToken()
+      console.log(accessToken)
       setToken(accessToken)
-      await initContract(signer as Signer)
+      return true
+    } catch (err) {
+      console.log(err)
+      return false
     }
-    initAuth()
-  }, [signer])
+
+
+  }
 
   const login = async () => {
     connect({ connector: connectors[0] })
   }
   const logout = async () => {
+    await web3authService.disconnectWeb3Auth()
     disconnect()
   }
+
+  const { setToken, clearToken } = useToken(onTokenInvalid, refreshToken, logout);
+
+  useEffect(() => {
+    if (!signer) return
+    const initAuth = async () => {
+      const isLoggedIn = await refreshToken()
+      console.log(isLoggedIn)
+      if (isLoggedIn) return
+      const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
+      setToken(accessToken)
+      /* await initContract(signer as Signer) */
+    }
+    initAuth()
+  }, [signer])
+
+
 
   return (
     <>

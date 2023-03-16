@@ -84,6 +84,7 @@ class Web3authService {
             }
             // JWT request to API
             const tokenData = await sendSignedNonce(signedNonce, signedAddress)
+            console.log(tokenData)
             const { accessToken, decodedToken } = tokenData
             // Decode JWT and set Global State
             const { B2BRoles, B2CRoles } = decodedToken
@@ -99,15 +100,14 @@ class Web3authService {
     }
 
     refreshToken = async () => {
-        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authService/refresh-token`)
-        const {data:accesToken} = refreshRes
+        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authService/refresh-token`, { withCredentials: true, })
+        const { data: accesToken } = refreshRes
         return accesToken
     }
 
     disconnectWeb3Auth = async () => {
         if (!this.web3auth) return
-
-        await this.web3auth.logout()
+        axios.get(`${process.env.ITRM_SERVICE}/authService/logout`, { withCredentials: true })
     }
 }
 

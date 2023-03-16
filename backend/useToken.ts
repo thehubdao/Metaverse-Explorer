@@ -11,14 +11,16 @@ export const axiosBase = axios.create({
 
 
 
-export function useToken(onTokenInvalid: Function, onRefreshRequired: Function) {
+export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, logout: Function) {
     const accessToken = useRef<string>();
     const { clearAutomaticTokenRefresh, setTokenExpiration } = useTokenExpiration(onRefreshRequired);
 
     const setToken = useCallback(
         ({ expiry, token }: any) => {
-            accessToken.current = expiry;
-            const expirationDate = new Date(token);
+            accessToken.current = token;
+            const expirationDate = new Date();
+            expirationDate.setSeconds(expirationDate.getSeconds() + expiry / 1000)
+            console.log(expiry, expirationDate)
             setTokenExpiration(expirationDate);
         },
         [setTokenExpiration],
@@ -31,7 +33,7 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function) 
     const clearToken = useCallback(
         (shouldClearCookie = true) => {
             // if we came from a different tab, we should not clear the cookie again
-            const clearRefreshTokenCookie = shouldClearCookie ? axios.get('logout') : Promise.resolve();
+            const clearRefreshTokenCookie = shouldClearCookie ? logout() : Promise.resolve();
 
             // clear refresh token
             return clearRefreshTokenCookie.finally(() => {
@@ -69,7 +71,6 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function) 
             },
         );
 
-        // configure axios-hooks to use this instance of axios
         configure({ axios });
     }, [clearToken, onTokenInvalid]);
 
