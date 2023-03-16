@@ -242,7 +242,7 @@ const SpecificLandModal = ({
                           <h3 className="text-grey-icon text-xs">Coordinate</h3>
                           <div className="flex">
                             <BiTargetLock />
-                            <p className="text-sm font-bold">{`X:${landCoords?.x} Y:${landCoords?.y}}`}</p>
+                            <p className="text-sm font-bold">{`X:${landCoords?.x} Y:${landCoords?.y}`}</p>
                           </div>
                         </div>
                       }
