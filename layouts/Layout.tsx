@@ -13,43 +13,67 @@ interface LayoutProps {
 
 const list = [
 	{
-		url: "/valuation",
+		url: {
+			ref: "/valuation",
+			isExternal: false,
+		},
 		label: "LAND Valuation",
 		icon: "b",
 	},
 	{
-		url: "/nftValuation",
+		url: {
+			ref: "/nftValuation",
+			isExternal: false,
+		},
 		label: "NFT Valuation",
 		icon: "c",
 	},
 	{
-		url: "/swap",
+		url: {
+			ref: "/swap",
+			isExternal: false,
+		},
 		label: "Buy MGH",
 		icon: "h",
 	},
 	{
-		url: "/liquidity",
+		url: {
+			ref: "/liquidity",
+			isExternal: false,
+		},
 		label: "Provide Liquidity",
 		icon: "f",
 	},
 	{
-		url: "/stake",
+		url: {
+			ref: "/stake",
+			isExternal: false,
+		},
 		label: "Stake MGH",
 		icon: "d",
 	},
 	{
-		url: "https://snapshot.org/#/metagamehub.eth",
+		url: {
+			ref: "https://snapshot.org/#/metagamehub.eth",
+			isExternal: true,
+		},
 		label: "Governance",
 		icon: "a",
 	},
 	{
-		url: "/mlm",
+		url: {
+			ref: "/mlm",
+			isExternal: false,
+		},
 		label: "Metaverse Loyalty System",
 		icon: "i",
 	},
 	{
 		/* url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland", */
-		url: '/avatar',
+		url: {
+			ref: '/avatar',
+			isExternal: false,
+		},
 		label: "Avatar Generator",
 		icon: "g",
 	},
@@ -67,7 +91,7 @@ export default function Layout({ children }: LayoutProps) {
 
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
-		
+
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
 				<div className="absolute top-0 right-0 z-50">
