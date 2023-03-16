@@ -299,22 +299,22 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							</div>
 							<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
 								<div className="flex flex-col space-y-1 items-center">
-									<p className="font-black text-3xl">{formatter.format(globalData.stats?.floor_price)} ETH</p>
+									<p className="font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.floor_price)} ETH</p>
 									<p className="text-sm">Floor</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className="font-black text-3xl">{formatter.format(Math.round(globalData.stats?.total_volume))} ETH</p>
+									<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.total_volume))} ETH</p>
 									<p className="text-sm">Trading Volume</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className="font-black text-3xl">{formatter.format(Math.round(globalData.stats?.market_cap))} ETH</p>
+									<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.market_cap))} ETH</p>
 									<p className="text-sm">MCAP</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-3xl">{formatter.format(globalData.stats?.num_owners)}</p>
+									<p className=" font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.num_owners)}</p>
 									<p className="text-sm">Owners</p>
 								</div>
 
