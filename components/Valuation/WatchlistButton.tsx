@@ -34,26 +34,27 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     if (reason === 'clickaway') return;
 
     setOpenRemove(false);
-    setOpenAdd(false)
+    setOpenAdd(false);
+    setOpenWarning(false);
   };
 
-  const addToWatchList = async () => {
+  const handleWatchslist = async ({ action }: { action: 'add' | 'remove' }) => {
     if (!address) return
-    try {
-      await addLandToWatchList(land, address, metaverse)
-      handleClose()
-      setOpenAdd(true);
-    } catch (error) {
-      setOpenWarning(true)
-    }
-  }
 
-  const removeLand = async () => {
-    if (!address) return
     try {
-      await removeLandFromWatchList(land, address, metaverse)
-      handleClose()
-      setOpenRemove(true)
+      let response
+      if (action === 'add') {
+        console.log('added')
+        response = await addLandToWatchList(land, address, metaverse)
+        handleClose()
+        setOpenAdd(true);
+      } else if (action === 'remove') {
+        response = await removeLandFromWatchList(land, address, metaverse)
+        handleClose()
+        setOpenRemove(true)
+      } else {
+        throw "invalid parameter"
+      }
     } catch (error) {
       setOpenWarning(true)
     }
@@ -73,13 +74,13 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     <>
       {action === 'add' && <button
         className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-flat-medium hover:nm-flat-soft"
-        onClick={addToWatchList}
+        onClick={() => handleWatchslist({action: 'add'})}
       >
         {'ADD TO WATCHLIST'}
       </button>}
       {action === 'remove' && <button
         className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-inset-medium"
-        onClick={() => removeLand()}
+        onClick={() => handleWatchslist({action: 'remove'})}
       >
         {'REMOVE FROM WATCHLIST'}
       </button>}
