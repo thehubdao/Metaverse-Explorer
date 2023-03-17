@@ -433,7 +433,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											landRawData: any
 										) => {
 											const land = JSON.parse(landRawData)
-											const { x, y } =   land.coords
+											const { x, y } = land.coords
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
@@ -519,6 +519,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									landCoords={cardData?.landCoords}
 									metaverse={metaverse}
 									setIsVisible={setIsVisible}
+									coinPrices={prices}
 								/>}
 							</div>
 						</div>
