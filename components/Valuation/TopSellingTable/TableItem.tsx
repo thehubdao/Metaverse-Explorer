@@ -2,10 +2,6 @@ import { Tooltip } from "@mui/material"
 import { Metaverse } from "../../../lib/metaverse"
 import { TopSellingDataTable, TopSellingRequestItem } from "../../../types/valuation/TopSelling"
 
-const getExternalLink = (metaverse: Metaverse, dataTable: TopSellingDataTable) => {
-  return metaverse === 'somnium-space' ? ("https://somniumspace.com/parcel/" + dataTable.landId) : dataTable.external_link
-}
-
 const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse: Metaverse }) => {
   let dataTable: TopSellingDataTable | any = item.dataTable || null
 
@@ -37,7 +33,7 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
     <tr>
       <td className={tdStyle}>{item.position}</td>
       <th className={`${tdStyle} text-left flex items-center justify-center font-plus`}>
-        <a className="hover:underline flex items-center text-grey-content w-48" href={getExternalLink(metaverse, dataTable)} target='_blank'>
+        <a className="hover:underline flex items-center text-grey-content w-48" href={dataTable.external_link} target='_blank'>
           <img src={dataTable.image} className="h-12 w-12 bg-white rounded-full border" alt={`Land ${dataTable.asset} image`} />
           <span className="ml-3 font-normal text-grey-content">
             {dataTable.asset}
