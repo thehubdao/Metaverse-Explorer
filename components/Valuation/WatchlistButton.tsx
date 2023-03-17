@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useConnect } from 'wagmi'
 import { addLandToWatchList, removeLandFromWatchList } from '../../lib/FirebaseUtilities'
 import { Metaverse } from '../../lib/metaverse'
 import { handleLandName } from '../../lib/valuation/valuationUtils'
@@ -17,6 +17,7 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
   const [openRemove, setOpenRemove] = useState(false)
   const [openWarning, setOpenWarning] = useState(false)
   let [landName, setLandName] = useState('')
+  const { connect, connectors } = useConnect()
 
   useEffect(() => {
     let landName = handleLandName(
@@ -37,6 +38,10 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     setOpenAdd(false);
     setOpenWarning(false);
   };
+
+  const login = async () => {
+    connect({ connector: connectors[0] })
+  }
 
   const handleWatchslist = async ({ action }: { action: 'add' | 'remove' }) => {
     if (!address) return
@@ -64,6 +69,7 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     return (
       <button
         className="w-full bg-grey-icon text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
+        onClick={() => login()}
       >
         {'LOGIN TO WATCHLIST'}
       </button>
@@ -74,13 +80,13 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     <>
       {action === 'add' && <button
         className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-flat-medium hover:nm-flat-soft"
-        onClick={() => handleWatchslist({action: 'add'})}
+        onClick={() => handleWatchslist({ action: 'add' })}
       >
         {'ADD TO WATCHLIST'}
       </button>}
       {action === 'remove' && <button
         className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-inset-medium"
-        onClick={() => handleWatchslist({action: 'remove'})}
+        onClick={() => handleWatchslist({ action: 'remove' })}
       >
         {'REMOVE FROM WATCHLIST'}
       </button>}
