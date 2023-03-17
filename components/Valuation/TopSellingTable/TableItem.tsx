@@ -36,13 +36,13 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
   return (
     <tr>
       <td className={tdStyle}>{item.position}</td>
-      <th className={`${tdStyle} text-left flex items-center font-plus`}>
-        <img src={dataTable.image} className="h-12 w-12 bg-white rounded-full border" alt={`Land ${dataTable.asset} image`} />
-        <span className="ml-3 font-normal text-grey-content">
-          <a className="hover:underline text-grey-content" href={getExternalLink(metaverse, dataTable)} target='_blank'>
+      <th className={`${tdStyle} text-left flex items-center justify-center font-plus`}>
+        <a className="hover:underline flex items-center text-grey-content w-48" href={getExternalLink(metaverse, dataTable)} target='_blank'>
+          <img src={dataTable.image} className="h-12 w-12 bg-white rounded-full border" alt={`Land ${dataTable.asset} image`} />
+          <span className="ml-3 font-normal text-grey-content">
             {dataTable.asset}
-          </a>
-        </span>
+          </span>
+        </a>
       </th>
       <td className={tdStyle} >
         {priceLoader()}
@@ -58,7 +58,7 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
       <td className={tdStyle} >
         <span>{dataTable.date}</span>
       </td>
-    </tr>
+    </tr >
   )
 }
 
