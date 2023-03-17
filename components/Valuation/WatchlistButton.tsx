@@ -63,7 +63,6 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     return (
       <button
         className="w-full bg-grey-icon text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
-        onClick={addToWatchList}
       >
         {'LOGIN TO WATCHLIST'}
       </button>
