@@ -9,9 +9,10 @@ interface Props {
   land: any
   metaverse: Metaverse
   action: 'add' | 'remove'
+  getWatchList: Function
 }
 
-const WatchlistButton = ({ land, metaverse, action }: Props) => {
+const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
   const { address } = useAccount()
   const [openAdd, setOpenAdd] = useState(false);
   const [openRemove, setOpenRemove] = useState(false)
@@ -49,7 +50,6 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     try {
       let response
       if (action === 'add') {
-        console.log('added')
         response = await addLandToWatchList(land, address, metaverse)
         handleClose()
         setOpenAdd(true);
@@ -60,6 +60,7 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
       } else {
         throw "invalid parameter"
       }
+      getWatchList()
     } catch (error) {
       setOpenWarning(true)
     }
