@@ -18,6 +18,7 @@ import DataComparisonBox from "./DataComparison/DataComparisonBox";
 import WatchlistButton from "./WatchlistButton";
 import dynamic from "next/dynamic";
 import { UTCTimestamp } from "lightweight-charts";
+import NoData from "../General/NoData";
 
 export const LandChart = dynamic(() => import('./SpecificLandModal/LandChart'), {
   ssr: false,
@@ -331,7 +332,7 @@ const SpecificLandModal = ({
                         prices={coinPrices}
                       />)
                       : (<div className="w-full h-full flex justify-center items-center">
-                        <p>No data</p>
+                        <NoData label="No Data" imageSize={50} noMarginTop />
                       </div>)}
 
                     <div className="absolute flex flex-row items-center text-sm font-bold gap-2 top-2 left-2">
