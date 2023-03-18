@@ -139,7 +139,6 @@ const SpecificLandModal = ({
   }
 
   const handleTimeString = (history: any) => {
-    console.log(history)
     let timeString = 'No Data'
     if (history.length > 0) {
       timeString = SteticTimeString(history[history.length - 1]['timestamp'])
