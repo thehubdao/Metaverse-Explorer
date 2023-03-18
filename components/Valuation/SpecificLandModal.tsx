@@ -129,14 +129,20 @@ const SpecificLandModal = ({
 
   const SteticTimeString = (historyTime?: string) => {
     if (!historyTime) return 'No Data'
-    let timeStringArray = historyTime.split(' ')[0].split('-')
-    return `${timeStringArray[2]}.${timeStringArray[1]}.${timeStringArray[0]}`
+    let time = new Date(historyTime);
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let year = time.getFullYear();
+    let month = months[time.getMonth()];
+    let date = time.getDate();
+
+    return `${date}.${month}.${year}`
   }
 
   const handleTimeString = (history: any) => {
+    console.log(history)
     let timeString = 'No Data'
     if (history.length > 0) {
-      timeString = SteticTimeString(history[history.length - 1]['time'])
+      timeString = SteticTimeString(history[history.length - 1]['timestamp'])
     } return timeString
   }
 
