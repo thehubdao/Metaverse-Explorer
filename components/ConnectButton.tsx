@@ -29,6 +29,7 @@ export default function ConnectButton() {
   const login = async () => {
     connect({ connector: connectors[0] })
   }
+  
   const logout = async () => {
     disconnect()
   }

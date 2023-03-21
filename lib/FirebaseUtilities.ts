@@ -63,6 +63,8 @@ export async function addLandToWatchList(
     metaverse: Metaverse
 ) {
     const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
+
+    return addToWatchListRequest
 }
 
 // Remove Land from User's WatchList
@@ -72,6 +74,8 @@ export async function removeLandFromWatchList(
     metaverse: Metaverse
 ) {
     const removeFromWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`,land)
+    
+    return removeFromWatchListRequest
 }
 
 /* Valuation scores  */
