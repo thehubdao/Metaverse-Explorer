@@ -83,7 +83,11 @@ export const filteredLayer: Layer = (
             // if mapFilter is basic and land is on sale set color to fixed color and scale to mid
         } else if (land?.current_price_eth) {
             color = LEGEND_COLORS['on-sale']
-        } else {
+        }else if(land?.land_type == 1){
+            color = '#1AABF4'
+        }
+        
+        else {
             color = land.tile?.type ? '#19202A' : '#7EFDE4' //'#26EC75' // Green color for basic view with no filters and lands that are not on sale or watchlist or portfolio
         }
         // If there is no legend filter. And mapFilter is not on basic then generate a color based on percentage.
