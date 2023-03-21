@@ -12,9 +12,17 @@ import { useAccount } from "wagmi";
 import { Metaverse } from "../../lib/metaverse";
 import { SocialMediaOptions } from "../../lib/socialMediaOptions";
 import { IPredictions } from "../../lib/types";
+import { ICoinPrices } from "../../lib/valuation/valuationTypes";
 import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "./DataComparison/DataComparisonBox";
 import WatchlistButton from "./WatchlistButton";
+import dynamic from "next/dynamic";
+import { UTCTimestamp } from "lightweight-charts";
+import NoData from "../General/NoData";
+
+export const LandChart = dynamic(() => import('./SpecificLandModal/LandChart'), {
+  ssr: false,
+})
 
 const formatter = new Intl.NumberFormat(['ban', 'id'], {
   minimumFractionDigits: 1,
@@ -29,6 +37,7 @@ interface SpecificLandModalProps {
   metaverse: Metaverse
   setIsVisible: Function
   landCoords?: { x: string | number; y: string | number }
+  coinPrices: ICoinPrices
 }
 
 const ExternalButton = ({ text, icon, externalLink }: {
@@ -85,10 +94,15 @@ const SpecificLandModal = ({
   predictions,
   metaverse,
   setIsVisible,
-  landCoords
+  landCoords,
+  coinPrices
 }: SpecificLandModalProps) => {
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
+
+  // chart variables
+  const [loadingChart, setLoadingChart] = useState<boolean>(false)
+  const [landChartData, setLandChartData] = useState<any[]>();
 
   const metaverseInfo = {
     sandbox: {
@@ -115,14 +129,19 @@ const SpecificLandModal = ({
 
   const SteticTimeString = (historyTime?: string) => {
     if (!historyTime) return 'No Data'
-    let timeStringArray = historyTime.split(' ')[0].split('-')
-    return `${timeStringArray[2]}.${timeStringArray[1]}.${timeStringArray[0]}`
+    let time = new Date(historyTime);
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let year = time.getFullYear();
+    let month = months[time.getMonth()];
+    let date = time.getDate();
+
+    return `${date}.${month}.${year}`
   }
 
   const handleTimeString = (history: any) => {
     let timeString = 'No Data'
     if (history.length > 0) {
-      timeString = SteticTimeString(history[history.length - 1]['time'])
+      timeString = SteticTimeString(history[history.length - 1]['timestamp'])
     } return timeString
   }
 
@@ -146,6 +165,25 @@ const SpecificLandModal = ({
     if (!address) return
     getWatchList()
   }, [address])
+
+  useEffect(() => {
+    const fetchHistoricFloorPrice = async () => {
+      setLoadingChart(true)
+      if (specificAssetSelected.history && specificAssetSelected.history.length > 0) {
+        const formatedData = specificAssetSelected.history?.map((currentData: any) => {
+          const timestampString: string = `${currentData.timestamp}`
+          return {
+            time: timestampString.substring(0, timestampString.length - 3),
+            data: currentData.valuation ? currentData.valuation : currentData.eth_price,
+          }
+        })
+        setLandChartData(formatedData)
+      } else {
+        setLandChartData([])
+      } setLoadingChart(false)
+    }
+    fetchHistoricFloorPrice()
+  }, [specificAssetSelected])
 
   return (
     <div className="z-50 fixed w-full h-screen top-0 left-0 flex justify-center items-center">
@@ -196,7 +234,7 @@ const SpecificLandModal = ({
                   <div className="h-full relative flex justify-center items-center rounded-3xl">
                     {
                       specificAssetSelected["images"]["animation_url"] ? (
-                        <video controls loop key={specificAssetSelected["images"]["animation_url"]} className="w-[602px] h-[604px] rounded-xl">
+                        <video controls loop key={specificAssetSelected["images"]["animation_url"]} className="w-[602px] rounded-xl">
                           <source src={specificAssetSelected["images"]["animation_url"]} />
                         </video>
                       ) : (
@@ -290,12 +328,22 @@ const SpecificLandModal = ({
                   </div>
 
                   {/* Chart section */}
-                  <div className="nm-flat-medium rounded-3xl h-[250px] p-5 mb-5">
-                    <div className="flex flex-row items-center text-sm font-bold gap-2">
+                  <div className="nm-flat-medium rounded-3xl h-[250px] p-5 mb-5 relative">
+                    {landChartData && (landChartData.length > 0)
+                      ? (<LandChart
+                        data={landChartData}
+                        fetching={loadingChart}
+                        label='Price Estimation:'
+                        prices={coinPrices}
+                      />)
+                      : (<div className="w-full h-full flex justify-center items-center">
+                        <NoData label="No Data" imageSize={50} noMarginTop />
+                      </div>)}
+
+                    <div className="absolute flex flex-row items-center text-sm font-bold gap-2 top-2 left-2">
                       <TbChartCandle />
                       <p>Price Estimation History</p>
                     </div>
-                    <div className="flex w-full h-full justify-center items-center font-bold">Coming soon!</div>
                   </div>
 
                   {/* Externar Links */}
