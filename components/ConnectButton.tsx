@@ -37,6 +37,7 @@ export default function ConnectButton() {
     connect({ connector: connectors[0] })
     setModalIsOpen(false)
   }
+  
   const logout = async () => {
     disconnect()
     setModalIsOpen(false)

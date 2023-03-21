@@ -2,16 +2,18 @@ import Image from "next/image"
 
 interface Props {
   label: string
+  imageSize?: number
+  noMarginTop?: boolean
 }
 
-const NoData = ({ label }: Props) => {
+const NoData = ({ label, imageSize = 136, noMarginTop }: Props) => {
   return (
-    <div className="flex flex-col justify-center items-center mt-28">
+    <div className={`flex flex-col justify-center items-center ${!noMarginTop && 'mt-28'}`}>
       {/* Auth Button */}
       <Image
         src="/images/icons/error_icon.svg"
-        width={136}
-        height={136}
+        width={imageSize}
+        height={imageSize}
         loading='lazy'
         objectFit='cover'
       />

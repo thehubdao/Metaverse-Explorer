@@ -286,6 +286,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				predictions={specificLandSelected.predictions}
 				landCoords={specificLandSelected.landCoords}
 				metaverse={specificLandSelected.metaverse}
+				coinPrices={prices}
 				setIsVisible={() => { }}
 			/>}
 

@@ -433,7 +433,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											landRawData: any
 										) => {
 											const land = JSON.parse(landRawData)
-											const { x, y } =   land.coords
+											const { x, y } = land.coords
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
@@ -482,7 +482,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-1 right-1 flex flex-col gap-4 m-4">
+									<div ref={ref} className="absolute bottom-16 right-1 flex flex-col gap-4 m-4">
 										<MapCard
 											setIsVisible={setIsVisible}
 											setOpenSpecificModal={setOpenSpecificModal}
@@ -519,6 +519,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									landCoords={cardData?.landCoords}
 									metaverse={metaverse}
 									setIsVisible={setIsVisible}
+									coinPrices={prices}
 								/>}
 							</div>
 						</div>
