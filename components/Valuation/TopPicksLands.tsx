@@ -5,7 +5,6 @@ import axios from "axios";
 import { RiLoader3Fill } from "react-icons/ri";
 import { Pagination } from "@mui/material";
 import NoData from "../General/NoData";
-import ScrollBar from "../ScrollBar";
 
 interface Props {
 	metaverse: Metaverse;
@@ -69,20 +68,23 @@ const TopPicksLands = ({ metaverse }: Props) => {
 					className="flex w-full mb-4 text-grey-content font-plus"
 				>
 					<td className="flex justify-center px-4 content-center w-1/5 relative">
-						<div className="relative lg:h-12 lg:w-12 md:h-8 md:w-8 bg-white rounded-full border mb-4 mt-4 w-6 h-6">
-							<Image
-								src={picks[index]["images"]["image_url"]}
-								layout="fill"
-								className="rounded-full"
-								alt="land image"
-								loading="lazy"
-							/>
-						</div>
+						<a className="w-fit h-fit" href={picks[index]["market_links"]['opensea']} target='_blank'>
+							<div className="relative lg:h-12 lg:w-12 md:h-8 md:w-8 bg-white rounded-full border mb-4 mt-4 w-6 h-6">
+								<Image
+									src={picks[index]["images"]["image_url"]}
+									layout="fill"
+									className="rounded-full"
+									alt="land image"
+									loading="lazy"
+								/>
+							</div>
+						</a>
 					</td>
 					<td className="flex justify-center px-4 content-center items-center text-grey-content pt-0.5 w-1/5 hover:underline">
 						<a
 							className="text-lg lg:text-xl font-medium font-plus md:text-base"
-							href={picks[index]["external_link"]}
+							href={picks[index]["market_links"]['opensea']}
+							target="_blank"
 						>
 							{picks[index]["coords"]
 								? `(x:${picks[index]["coords"]["x"]}, y:${picks[index]["coords"]["y"]})`
