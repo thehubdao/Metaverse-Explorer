@@ -364,12 +364,14 @@ const SpecificLandModal = ({
                         land={specificAssetSelected}
                         metaverse={specificAssetSelected.metaverse}
                         action={'remove'}
+                        getWatchList={getWatchList}
                       /></div>
                     ) : (
                       <div onClick={() => getWatchList()}><WatchlistButton
                         land={specificAssetSelected}
                         metaverse={specificAssetSelected.metaverse}
                         action={'add'}
+                        getWatchList={getWatchList}
                       /></div>
                     )
                   }
