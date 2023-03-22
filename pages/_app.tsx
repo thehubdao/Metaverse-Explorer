@@ -55,7 +55,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                         options: {
                             web3AuthInstance:
                                 web3authService.getWeb3Auth as Web3Auth,
-
                         },
                     }),
                 ],

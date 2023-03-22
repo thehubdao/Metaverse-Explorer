@@ -37,7 +37,7 @@ export default function ConnectButton() {
     connect({ connector: connectors[0] })
     setModalIsOpen(false)
   }
-  
+
   const logout = async () => {
     disconnect()
     setModalIsOpen(false)
@@ -60,8 +60,17 @@ export default function ConnectButton() {
       buyer = `${buyer.substring(0, 9)}...${buyer.substring(buyer.length - 4, buyer.length)}`
     } return buyer
   }
-  const switchWallet = () => {
-    window.ethereum.request({ method: 'eth_requestAccounts' })
+  const switchWallet = async () => {
+    const walletAddress = await window.ethereum.request({
+      method: "eth_requestAccounts",
+      params: [
+        {
+          eth_accounts: {}
+        }
+      ]
+    });
+
+    console.log('wallet request:', walletAddress)
   }
 
   return (
