@@ -8,6 +8,7 @@ import { initContract } from '../backend/services/RoleContractService'
 import web3authService from '../backend/services/Web3authService'
 import { useToken } from '../backend/useToken'
 import { ellipseAddress } from '../lib/utilities'
+import { useAppDispatch } from '../state/hooks'
 
 // Components
 import OvalButton from './General/Buttons/OvalButton'
@@ -22,7 +23,7 @@ export default function ConnectButton() {
 
 
   const onTokenInvalid = async () => {
-   /*  await web3authService.disconnectWeb3Auth() */
+    await web3authService.disconnectWeb3Auth()
   };
 
   const refreshToken = async () => {

@@ -15,12 +15,13 @@ import { addLandToWatchList, removeLandFromWatchList } from '../lib/FirebaseUtil
 import { formatName, typedKeys } from '../lib/utilities'
 import { OptimizedImage } from '../components/General'
 import Image from 'next/image'
+import { useAppSelector } from '../state/hooks'
 
 const headerList = [
   {
-		name: "Land Valuation",
-		route: "valuation",
-	},
+    name: "Land Valuation",
+    route: "valuation",
+  },
   {
     name: 'Portfolio',
     route: 'portfolio',
@@ -46,17 +47,18 @@ const Watchlist: NextPage = () => {
   const [metaverse, setMetaverse] = useState<Metaverse>()
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
+  const { token }: any = useAppSelector((state) => state.account)
 
 
   const addLand = async (land: any, metaverse: Metaverse) => {
-    await addLandToWatchList(land, address!, metaverse)
+    await addLandToWatchList(land, address!, metaverse, token)
     const newWatchlist = Object.assign({}, watchlist)
     newWatchlist[metaverse][land.tokenId] = land
     setWatchlist(newWatchlist)
   }
 
   const removeLand = async (land: any, metaverse: Metaverse) => {
-    await removeLandFromWatchList(land, address!, metaverse)
+    await removeLandFromWatchList(land, address!, metaverse, token)
     const newWatchlist = Object.assign({}, watchlist)
     delete newWatchlist[metaverse][land.tokenId]
     setWatchlist(newWatchlist)
@@ -64,7 +66,13 @@ const Watchlist: NextPage = () => {
 
   const getWatchList = async () => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authentication': `Bearer ${token}`
+        }
+      }
     )
     const watchlist = watchlistRequest.data
     setWatchlist(watchlist)

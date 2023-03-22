@@ -4,6 +4,7 @@ import {
   addLandToWatchList
 } from '../../lib/FirebaseUtilities'
 import { Metaverse } from '../../lib/metaverse'
+import { useAppSelector } from '../../state/hooks'
 
 interface Props {
   land: any
@@ -12,9 +13,11 @@ interface Props {
 
 const AddToWatchlistButton = ({ land, metaverse }: Props) => {
   const { address } = useAccount()
+  const { token }: any = useAppSelector((state) => state.account)
+  
   const addToWatchList = async () => {
     if (!address) return
-    await addLandToWatchList(land, address, metaverse)
+    await addLandToWatchList(land, address, metaverse, token)
   }
 
   return (

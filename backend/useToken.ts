@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { configure } from 'axios-hooks';
 import { useCallback, useEffect, useRef } from "react";
+import { setAccountToken } from "../state/account";
+import { useAppDispatch } from "../state/hooks";
 import { useTokenExpiration } from "./useTokenExpiration";
 
 const REQ_URL = `${process.env.ITRM_SERVICE}/authService/`
@@ -12,6 +14,7 @@ export const axiosBase = axios.create({
 
 
 export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, logout: Function) {
+    const dispatch = useAppDispatch()
     const accessToken = useRef<string>();
     const { clearAutomaticTokenRefresh, setTokenExpiration } = useTokenExpiration(onRefreshRequired);
 
@@ -21,6 +24,7 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, 
             const expirationDate = new Date();
             expirationDate.setSeconds(expirationDate.getSeconds() + expiry / 1000)
             console.log(expiry, expirationDate)
+            dispatch(setAccountToken(token))
             setTokenExpiration(expirationDate);
         },
         [setTokenExpiration],

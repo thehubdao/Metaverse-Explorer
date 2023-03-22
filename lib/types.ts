@@ -11,7 +11,7 @@ export interface AccountState {
   address: string | undefined
   chainId: number | undefined
   role: Role | undefined
-  web3auth: Web3Auth | null
+  token: string | undefined
 }
 
 export interface AddEthereumChainParameter {

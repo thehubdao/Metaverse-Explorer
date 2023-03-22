@@ -100,7 +100,7 @@ class Web3authService {
     }
 
     refreshToken = async () => {
-        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authService/refresh-token`, { withCredentials: true, })
+        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authService/refreshToken`, { withCredentials: true, })
         const { data: accesToken } = refreshRes
         return accesToken
     }
