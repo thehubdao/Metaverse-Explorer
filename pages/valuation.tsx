@@ -40,6 +40,7 @@ import GeneralSection from "../components/GeneralSection";
 import Footer from "../components/General/Footer";
 import Image from "next/image";
 import HistoricalFloorPrice from "../components/Valuation/HistoricalFloorPrice";
+import SpecificLandModal from "../components/Valuation/SpecificLandModal";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -109,7 +110,16 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [percentFilter, setPercentFilter] = useState<PercentFilter>();
 	const [legendFilter, setLegendFilter] = useState<LegendFilter>();
 	const [heatmapSize, setHeatmapSize] = useState<HeatmapSize>();
+
+	//Land Modal (and card data)
+	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
 	const [cardData, setCardData] = useState<CardData>();
+
+	//Heatmap options
+	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
+	const [openMapFilter, setOpenMapFilter] = useState(false)
+	const [openSearchFilter, setOpenSearchFilter] = useState(false)
+
 	function isSelected(x: number, y: number) {
 		return selected?.x === x && selected?.y === y;
 	}
@@ -254,10 +264,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		return () => window.removeEventListener("resize", resize);
 	}, [metaverse, address]);
 
-	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
-	const [openMapFilter, setOpenMapFilter] = useState(false)
-	const [openSearchFilter, setOpenSearchFilter] = useState(false)
-
 	return (
 		<>
 			<Head>
@@ -271,7 +277,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			{/* Top Padding or Image */}
 			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
-					src="/images/land_header.webp"
+					src="/images/land_header.png"
 					objectFit={'cover'}
 					alt='land header'
 					layout="fill"
@@ -286,29 +292,29 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			>
 				{metaverse && (
 					<>
-						<div className="flex items-center justify-between p-8">
+						<div className="flex items-center justify-between p-8 mt-7">
 							<div className="flex flex-col space-y-3 max-w-xl">
-								<p className="text-2xl">{metaverseLabels[metaverse]}</p>
-								<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+								<p className="text-3xl font-semibold">{metaverseLabels[metaverse]}</p>
+								<p className="font-medium">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 							</div>
 							<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.floor_price)}ETH</p>
+									<p className="font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.floor_price)} ETH</p>
 									<p className="text-sm">Floor</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.total_volume))}ETH</p>
+									<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.total_volume))} ETH</p>
 									<p className="text-sm">Trading Volume</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(Math.round(globalData.stats?.market_cap))}ETH</p>
+									<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.market_cap))} ETH</p>
 									<p className="text-sm">MCAP</p>
 								</div>
 
 								<div className="flex flex-col space-y-1 items-center">
-									<p className=" font-black text-2xl">{formatter.format(globalData.stats?.num_owners)}</p>
+									<p className=" font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.num_owners)}</p>
 									<p className="text-sm">Owners</p>
 								</div>
 
@@ -318,7 +324,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				)}
 
 				{/* Heatmap */}
-				<div className="relative mb-8 py-8 h-full">
+				<div className="relative py-8 h-full">
 					{!metaverse && (
 						<MapInitMvChoice
 							metaverse={metaverse}
@@ -331,7 +337,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
 								<div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full unselectable m-4">
-									<div className="md:flex gap-2 md:gap-4 hidden">
+									<div className="md:flex gap-2 md:gap-4 hidden font-medium">
 										{/* Metaverse Selection */}
 										<MapChooseMetaverse
 											metaverse={metaverse}
@@ -423,11 +429,11 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										) => {
 											handleHover(x, y, name, owner);
 										}}
-										onClick={(
-											land: ValuationTile | undefined,
-											x: number,
-											y: number
+										onClickLand={(
+											landRawData: any
 										) => {
+											const land = JSON.parse(landRawData)
+											const { x, y } =   land.coords
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
@@ -458,10 +464,15 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										legendFilter={legendFilter}
 										width={dims.width}
 										height={dims.height}
-										onClick={(land, x, y) => {
+										onClickLand={(
+											landRawData: any
+										) => {
+											const land = JSON.parse(landRawData)
+											const { x, y } = land.center
 											if (isSelected(x, y)) {
 												setSelected(undefined);
 											} else {
+												const isntFullScreen = document.fullscreenElement ? false : true
 												handleMapSelection(land, x, y, undefined);
 											}
 										}}
@@ -471,9 +482,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 								{/* Selected Land Card */}
 								{isVisible && (
-									<div ref={ref} className="absolute bottom-12 right-2 flex flex-col gap-4">
+									<div ref={ref} className="absolute bottom-1 right-1 flex flex-col gap-4 m-4">
 										<MapCard
 											setIsVisible={setIsVisible}
+											setOpenSpecificModal={setOpenSpecificModal}
 											metaverse={metaverse}
 											apiData={cardData?.apiData}
 											predictions={cardData?.predictions}
@@ -497,6 +509,17 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								) : (
 									<></>
 								)}
+
+								{/* Specific land modal */}
+								{openSpecificModal && metaverse && <SpecificLandModal
+									collectionName={metaverseLabels[metaverse]}
+									specificAssetSelected={cardData?.apiData}
+									setOpenSpecificModal={setOpenSpecificModal}
+									predictions={cardData?.predictions}
+									landCoords={cardData?.landCoords}
+									metaverse={metaverse}
+									setIsVisible={setIsVisible}
+								/>}
 							</div>
 						</div>
 					)}
@@ -505,7 +528,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				{/* Daily Volume and Floor Price Wrapper */}
 				{metaverse && (
 					<>
-						<div className="grid grid-cols-5 gap-2">
+						<div className="grid grid-cols-5 gap-5 mb-20 mt-10">
 							<div>
 								{/* Daily Volume */}
 								<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
@@ -525,27 +548,13 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								{/* Historic Floor Price */}
 								<HistoricalFloorPrice metaverse={metaverse} coinPrices={prices} />
 							</div>
-							<div className="flex flex-col sm:flex-row space-y-5 sm:space-y-0 space-x-0 sm:space-x-5 xl:space-x-10 items-stretch justify-between w-full mb-8 mt-10">
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-								</div>
-								<div className="flex flex-col justify-between w-full space-y-5 md:space-y-10 lg:space-y-5">
-									{/* <FreeValuation /> */}
-								</div>
-							</div>
 						</div>
-						<div className="rounded-3xl shadowDiv bg-grey-bone p-5 mb-10 nm-flat-hard">
-							<h3 className="lg:text-2xl text-xl text-grey-content font-plus mb-0 sm:mb-5">
-								Our Top Picks
-							</h3>
+						<div className="rounded-3xl bg-grey-bone p-5 mb-10 nm-flat-hard">
 							<TopPicksLands metaverse={metaverse} />
 						</div>
-						{/* <div className="rounded-3xl shadowDiv bg-grey-bone p-5 nm-flat-hard">
+						<div className="rounded-3xl bg-grey-bone p-5 nm-flat-hard">
 							<TopSellingLands metaverse={metaverse} />
-						</div> */}
+						</div>
 					</>
 				)}
 

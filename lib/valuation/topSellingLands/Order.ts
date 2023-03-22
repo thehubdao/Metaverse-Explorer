@@ -1,4 +1,4 @@
-import { TopSellingRequestItem } from "../../../types/TopSelling"
+import { TopSellingRequestItem } from "../../../types/valuation/TopSelling"
 
 type MapAtribute =
 |  'asset'

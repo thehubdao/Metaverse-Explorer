@@ -69,17 +69,31 @@ export const getAxieLands = async (address: string) => {
  * */
 export const getUserNFTs = async (
   provider: Provider,
+  providerChainName: 'Ethereum' | 'Polygon' = 'Ethereum',
   address: string,
-  metaverse: Metaverse
+  metaverse: Metaverse,
 ) => {
   if (!address.startsWith('0x')) return
 
-  const contracts = {
-    sandbox: Contracts.LAND.ETHEREUM_MAINNET.newAddress,
-    decentraland: Contracts.PARCEL.ETHEREUM_MAINNET.address,
-    'axie-infinity': Contracts.AXIE_LANDS.RONIN_MAINNET.address,
-    'somnium-space': Contracts.CUBES.ETHEREUM_MAINNET.address
+
+  let contracts: any
+  if (providerChainName === 'Ethereum') {
+    contracts = {
+      sandbox: Contracts.LAND.ETHEREUM_MAINNET.newAddress,
+      decentraland: Contracts.PARCEL.ETHEREUM_MAINNET.address,
+      'axie-infinity': Contracts.AXIE_LANDS.RONIN_MAINNET.address,
+      'somnium-space': Contracts.CUBES.ETHEREUM_MAINNET.address
+    }
+  } else {
+    contracts = {
+      sandbox: Contracts.LAND.POLYGON_MAINNET.address,
+      decentraland: Contracts.PARCEL.ETHEREUM_MAINNET.address,
+      'axie-infinity': Contracts.AXIE_LANDS.RONIN_MAINNET.address,
+      'somnium-space': Contracts.CUBES.ETHEREUM_MAINNET.address
+    }
   }
+
+
   const contract = createNFTContract(provider, (contracts as any)[metaverse])
   // Getting al transfer events that involve the user
   const event = contract.filters.Transfer(undefined, address)
@@ -113,6 +127,7 @@ export const getUserNFTs = async (
   }
   return filteredIds
 }
+
 export const getNftTransfersAmount = async (
   provider: Provider,
   contractAddress: string,

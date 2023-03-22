@@ -24,15 +24,16 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
       setLoading(true)
       // Fetch Data from ITRM
       const stats = await getEstimateAccuracy(metaverse)
-      
+
       setValues(stats)
       setLoading(false)
     }
     setData()
   }, [metaverse])
+
   return !values /* || metaverse =="axie-infinity" */ ? (
     <>
-      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel'>
+      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel h-full'>
         <p className={`text-lg font-medium text-grey-content`}>
           We couldn't obtain Estimate Accuracy
           Check{' '}
@@ -49,8 +50,8 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
     </>
   ) : (
     <>
-    <div className='flex flex-col h-full'>
-        <p className={`text-lg font-medium text-grey-content font-plus mb-4 ml-8`}>
+      <div className='flex flex-col h-full'>
+        <p className={`text-lg font-semibold text-grey-content font-plus mb-4 ml-2`}>
           Estimate Accuracy:{' '}
         </p>
         <div
@@ -58,16 +59,16 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
         >
           <div className="flex flex-col space-y-1">
             <p className={styleContent}>
-            MAPE :
+              MAPE :
             </p>
             <p className={styleContent}>
-            R-Squared :
+              R-Squared :
             </p>
             <p className={styleContent}>
               MAXIMUM :
             </p>
             <p className={styleContent}>
-              MINIMUN :
+              MINIMUM :
             </p>
           </div>
           <div className="items-end space-y-1 text-right">
@@ -79,13 +80,13 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
             </p>
             <p className={styleContent}>
               {formatter.format(values.maximum)}
-            </p> 
+            </p>
             <p className={styleContent}>
               {formatter.format(values.minimum)}
-            </p> 
-          </div>			
+            </p>
+          </div>
         </div>
-    </div>
+      </div>
     </>
   )
 }

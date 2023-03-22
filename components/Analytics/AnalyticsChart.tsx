@@ -5,7 +5,7 @@ import { Metaverse } from '../../lib/metaverse'
 import { chartSymbolOptions } from '.'
 import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
-import ChartLoader from './ChartLoader'
+import Loader from '../Loader'
 
 type ChartData = {
   time: string
@@ -18,6 +18,7 @@ interface Props {
   data: ChartData[]
   fetching: boolean
   label: string
+  backgroundHexa?: string
 }
 
 const AnalyticsChart = ({
@@ -26,6 +27,7 @@ const AnalyticsChart = ({
   metaverse,
   prices,
   fetching,
+  backgroundHexa
 }: Props) => {
   const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>('ETH')
   const intervalLabels = {
@@ -69,7 +71,7 @@ const AnalyticsChart = ({
         borderVisible: false,
       },
       layout: {
-        backgroundColor: '#F9FAFB',
+        backgroundColor: backgroundHexa ? backgroundHexa : '#F9FAFB',
         textColor: "black",
       },
       grid: {
@@ -81,8 +83,10 @@ const AnalyticsChart = ({
         },
       },
     })
-    const lineSeries = chart.addLineSeries({
-      color: 'black',
+    const lineSeries = chart.addAreaSeries({
+      topColor: '#1aabf4',
+      bottomColor: 'rgba(93, 252, 233, 0)',
+      lineColor: '#1aabf4',
       lineWidth: 1,
       title: window.innerWidth > 500 ? label : undefined,
     })
@@ -111,9 +115,11 @@ const AnalyticsChart = ({
   }, [data, interval, metaverse, symbol])
 
   return (
-    <div className='gray-box'>
+    <div className=''>
       <div className="max-w-full h-full relative pt-14" ref={chartElement}>
-        {fetching && <ChartLoader />}
+        {fetching && <div className='absolute'>
+          <Loader color='blue' size={100} />
+        </div>}
 
         {/* /* Chart Options Wrapper */}
         <div className="absolute top-1 z-10 flex w-full flex-col gap-8 sm:left-2 sm:flex-row justify-between">
@@ -123,7 +129,7 @@ const AnalyticsChart = ({
               <button
                 key={arrInterval}
                 className={
-                  'gray-box font-semibold rounded-lg pb-1 text-xs text-gray-400' +
+                  'font-semibold rounded-lg pb-1 text-xs text-gray-400' +
                   (interval === arrInterval
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')
@@ -141,7 +147,7 @@ const AnalyticsChart = ({
               <button
                 key={arrSymbol}
                 className={
-                  'gray-box font-semibold rounded-lg p-2 text-xs text-gray-400' +
+                  'font-semibold rounded-lg p-2 text-xs text-gray-400' +
                   (symbol === arrSymbol
                     ? ' text-gray-300 bg-opacity-80 '
                     : ' hover:text-gray-300 hover:bg-opacity-80')

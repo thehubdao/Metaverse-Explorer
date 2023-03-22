@@ -1,210 +1,257 @@
-import { RiLoader3Fill } from 'react-icons/ri'
-import { ExternalLink, OptimizedImage, PriceList } from '../General'
-import { IAPIData, IPredictions } from '../../lib/types'
-import { FiExternalLink } from 'react-icons/fi'
-import React, { useEffect, useState } from 'react'
-import { handleLandName } from '../../lib/valuation/valuationUtils'
-import { BsTwitter } from 'react-icons/bs'
-import Loader from '../Loader'
-import { formatName, getState } from '../../lib/utilities'
-import { AddToWatchlistButton, LandLikeBox } from '../Valuation'
-import { IoClose } from 'react-icons/io5'
-import { ValuationState } from '../../pages/valuation'
-import { SocialMediaOptions } from '../../lib/socialMediaOptions'
-import DataComparisonBox from '../Valuation/DataComparison/DataComparisonBox'
-import { Metaverse } from '../../lib/metaverse'
-import { useAccount } from 'wagmi'
-import axios from 'axios'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { AiOutlineExpand } from "react-icons/ai";
+import { BsTwitter } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
+import { RiLoader3Fill } from "react-icons/ri";
+import { useAccount } from "wagmi";
+import { Metaverse } from "../../lib/metaverse";
+import { SocialMediaOptions } from "../../lib/socialMediaOptions";
+import { IAPIData, IPredictions } from "../../lib/types";
+import { getState } from "../../lib/utilities";
+import { handleLandName } from "../../lib/valuation/valuationUtils";
+import { ValuationState } from "../../pages/valuation";
+import { OptimizedImage, PriceList } from "../General";
+import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
+import WatchlistButton from "../Valuation/WatchlistButton";
 
 interface Props {
-    apiData?: IAPIData
-    predictions?: IPredictions
-    landCoords?: { x: string | number; y: string | number }
-    metaverse: Metaverse
-    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
-    mapState: ValuationState
-    name?: string
-    watchlist?: any
-}
-
-const getExternalLink = (metaverse: Metaverse, dataTable: IAPIData) => {
-    return metaverse === 'somnium-space'
-        ? 'https://somniumspace.com/parcel/' + dataTable.tokenId
-        : dataTable.external_link
+  apiData?: IAPIData
+  predictions?: IPredictions
+  landCoords?: { x: string | number; y: string | number }
+  metaverse: Metaverse
+  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
+  setOpenSpecificModal: Function
+  mapState: ValuationState
+  name?: string
+  watchlist?: any
 }
 
 const MapCard = ({
-    apiData,
-    predictions,
-    landCoords,
-    metaverse,
-    setIsVisible,
-    mapState,
-    name,
+  apiData,
+  predictions,
+  landCoords,
+  metaverse,
+  setIsVisible,
+  setOpenSpecificModal,
+  mapState,
+  name,
 }: Props) => {
-    const imgSize = 150
-    const [loadingQuery, loadedQuery, errorQuery] = getState(mapState, [
-        'loadingQuery',
-        'loadedQuery',
-        'errorQuery',
-    ])
+  const [loadingQuery, loadedQuery, errorQuery] = getState(mapState, [
+    'loadingQuery',
+    'loadedQuery',
+    'errorQuery',
+  ])
+  const imgSize = 250
+  const [watchlist, setWatchlist] = useState<any>()
+  const { address } = useAccount()
 
-    const [watchlist, setWatchlist] = useState<any>()
-    const { address } = useAccount()
-    const options = SocialMediaOptions(
-        apiData?.tokenId,
-        apiData?.metaverse,
-        predictions
-    )
-    const getWatchList = async () => {
-        const watchlistRequest = await axios.get(
-            `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
-        )
+  const options = SocialMediaOptions(
+    apiData?.tokenId,
+    apiData?.metaverse,
+    predictions
+  )
 
-        const watchlist = watchlistRequest.data
-        console.log(watchlist)
-        setWatchlist(watchlist)
+  const metaverseInfo = {
+    sandbox: {
+      image: '/images/the-sandbox-sand-logo.png',
+      label: 'The Sandbox'
+    },
+    decentraland: {
+      image: '/images/decentraland-mana-logo.png',
+      label: 'Decentraland'
+    },
+    "somnium-space": {
+      image: '/images/somnium-space-cube-logo.webp',
+      label: 'Somnium Space'
     }
+  }
 
-    useEffect(() => {
-        if (!address) return
-        getWatchList()
-    }, [address])
-
-    return errorQuery ? (
-        <div className="gray-box bg-opacity-100 z-30">
-            <p className="text-lg font-semibold font-plus text-center text-grey-content bg-grey-bone rounded-3xl px-5">
-                No a Valid Land or not enough Data yet!
-            </p>
-        </div>
-    ) : (
-        <div className="gray-box scale-90 p-2 flex flex-col cursor-pointer max-w-sm font-plus text-grey-content items-start justify-between gap-2 bg-opacity-100 relative z-30 bg-grey-bone rounded-xl shadow-2xl">
-            {loadingQuery ? (
-                <div className="w-full flex flex-col gap-14 absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4">
-                    <Loader color='blue' size={200} />
-                    <p className="text-lg font-semibold text-center text-grey-content">
-                        Calculating
-                    </p>
-                </div>
-            ) : (
-                loadedQuery &&
-                apiData &&
-                landCoords && (
-                    <>
-                        <IoClose
-                            className="absolute top-0.5 right-0.5 text-xl text-grey-content hover:text-red-500 bg-transparent transition-all "
-                            onClick={() => setIsVisible(false)}
-                        />
-                        {/* /* LEFT */}
-                        <div className="flex flex-row gap-4 w-full">
-                            {/* Image Link */}
-                            <a
-                                href={apiData.external_link}
-                                target="_blank"
-                                className="hover:shadow-dark relative flex font-plus"
-                            >
-                                <OptimizedImage
-                                    height={imgSize}
-                                    width={imgSize}
-                                    src={apiData.images?.image_url}
-                                    rounded="lg"
-                                />
-                                <FiExternalLink className="absolute top-0 right-0 text-grey-content text-xs backdrop-filter backdrop-blur-sm rounded-xl w-6 h-6 p-1" />
-                            </a>
-                            {/* Main Land Info */}
-                            <div className="flex flex-col justify-between">
-                                <div>
-                                    <h3 className="text-base font-normal md:text-xl pt-2.5 leading-4">
-                                        {handleLandName(
-                                            metaverse,
-                                            {
-                                                x: landCoords.x,
-                                                y: landCoords.y,
-                                            },
-                                            name ? name : undefined
-                                        )}
-                                    </h3>
-                                    <p className="text-gray-400">
-                                        {/* ID: {handleTokenID(apiData.tokenId)}{' '} */}
-                                        <BsTwitter
-                                            title="Share Valuation"
-                                            onClick={() =>
-                                                window.open(
-                                                    options.twitter
-                                                        .valuationLink
-                                                )
-                                            }
-                                            className=" hidden relative bottom-[0.17rem] left-1  h-4 w-4 z-50 text-grey-content hover:text-blue-400 transition ease-in-out duration-300 cursor-pointer"
-                                        />{' '}
-                                    </p>
-                                </div>
-                                {/* Add To Watchlist Button */}
-                                {(address &&
-                                    watchlist &&
-                                    watchlist[metaverse] &&
-                                    watchlist[metaverse][apiData?.tokenId] && (
-                                        <p>Land in watchlist</p>
-                                    )) ||
-                                    (address && watchlist && (
-                                        <div onClick={() => getWatchList()}><AddToWatchlistButton
-                                            land={apiData}
-                                            metaverse={apiData.metaverse}
-                                        /></div>
-
-                                    ))}
-                                {/* External Links */}
-                                <nav className="flex flex-col md:gap-1 pb-1 pt-2 gap-[1.0rem] text-grey-content">
-                                    {apiData.market_links.opensea && (
-                                        <ExternalLink
-                                            href={apiData.market_links.opensea}
-                                            text="OpenSea"
-                                        />
-                                    )}
-                                    <ExternalLink
-                                        href={getExternalLink(
-                                            metaverse,
-                                            apiData
-                                        )}
-                                        text={formatName(metaverse)}
-                                    />
-                                </nav>
-                            </div>
-                        </div>
-                        {/* /* RIGHT */}
-                        <div className="transition-all static bottom-1">
-                            {/* Price List */}
-                            {predictions ? (
-                                <PriceList
-                                    metaverse={metaverse}
-                                    predictions={predictions}
-                                />
-                            ) : errorQuery ? (
-                                <span>Not enough Data.</span>
-                            ) : (
-                                <span className="flex gap-2 text-lg">
-                                    Fetching Predictions
-                                    <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
-                                </span>
-                            )}
-                            <DataComparisonBox
-                                currentPriceEth={apiData.current_price_eth}
-                                predictions={predictions}
-                            />
-                        </div>
-
-                        {/* Likes */}
-                        <div className="flex flex-start w-full">
-                            <LandLikeBox
-                                landId={apiData.tokenId}
-                                metaverse={apiData.metaverse}
-                                twitterLink={options.twitter.valuationLink}
-                            />
-                        </div>
-                    </>
-                )
-            )}
-        </div>
+  const getWatchList = async () => {
+    const watchlistRequest = await axios.get(
+      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
     )
+    const watchlist = watchlistRequest.data
+    setWatchlist(watchlist)
+  }
+
+  useEffect(() => {
+    if (!address) return
+    getWatchList()
+  }, [address])
+
+
+  if (errorQuery) {
+    return (
+      <div className="z-30">
+        <p className="text-lg font-semibold text-center text-grey-content bg-grey-bone rounded-3xl px-5">
+          No a Valid Land or not enough Data yet!
+        </p>
+      </div>
+    )
+  }
+
+  if (loadingQuery) {
+    return (
+      <div className="w-70 flex bg-grey-bone rounded-3xl justify-center items-center">
+        <p className="text-lg font-semibold text-center text-grey-content">Calculating...</p>
+      </div>
+    )
+  }
+
+  return (
+    <>
+      {apiData &&
+        landCoords && (
+          <div className="bg-grey-bone rounded-3xl p-6 flex w-[650px]">
+            <div className="absolute right-6 top-6 flex gap-3">
+              {/* Twitter button */}
+              <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
+                <BsTwitter
+                  title="Share Valuation"
+                  onClick={() =>
+                    window.open(
+                      options.twitter
+                        .valuationLink
+                    )
+                  }
+                  className="text-xl text-grey-conten"
+                />
+              </div>
+              {/* Open specific asset modal button */}
+              <div
+                className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-xl"
+                onClick={() => { setOpenSpecificModal(true) }}
+              >
+                <AiOutlineExpand className="text-grey-conten" />
+              </div>
+              {/* Close button */}
+              <div
+                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
+                onClick={() => setIsVisible(false)}
+              >
+                <IoClose className="text-xl text-grey-conten" />
+              </div>
+            </div>
+
+            <div className='w-full max-w-[250px] mr-6'>
+              <div className={`h-fit relative`}>
+                <OptimizedImage
+                  height={imgSize}
+                  width={imgSize}
+                  src={apiData.images?.image_url}
+                  rounded="xl"
+                />
+                <div className='absolute bottom-4 left-3 bg-grey-panel rounded-full flex justify-center items-center p-1'>
+                  <OptimizedImage
+                    src={metaverseInfo[metaverse].image}
+                    width={40}
+                    height={40}
+                    rounded={"full"}
+                  />
+                </div>
+              </div>
+              <p className="text-center text-grey-icon font-normal text-sm">Do you like this price estimation?</p>
+              <div className="flex justify-between py-3 gap-1">
+                <button className="bg-[#1AB3F3] text-white rounded-lg text-xs p-2 w-full">
+                  Perfect
+                </button>
+                <button className="bg-[#FF4949] text-white rounded-lg text-xs p-2 w-full">
+                  Overvalued
+                </button>
+                <button className="bg-[#47E298] text-white rounded-lg text-xs p-2 w-full">
+                  Undervalued
+                </button>
+              </div>
+
+              {/* Add To Watchlist Button */}
+              {(watchlist &&
+                watchlist[metaverse] &&
+                watchlist[metaverse][apiData?.tokenId])
+                ? (
+                  <div onClick={() => getWatchList()}><WatchlistButton
+                    land={apiData}
+                    metaverse={apiData.metaverse}
+                    action={'remove'}
+                  /></div>
+                ) : (
+                  <div onClick={() => getWatchList()}><WatchlistButton
+                    land={apiData}
+                    metaverse={apiData.metaverse}
+                    action={'add'}
+                  /></div>
+                )
+              }
+            </div>
+            <div className="flex flex-col justify-between">
+              <h3 className="font-semibold text-2xl pt-10">
+                {handleLandName(
+                  metaverse,
+                  {
+                    x: landCoords.x,
+                    y: landCoords.y,
+                  },
+                  name ? name : undefined
+                )}
+              </h3>
+              <div>
+                <p className="text-sm text-grey-icon mb-3">Our Price Estimation:</p>
+                {/* Price List */}
+                {predictions ? (
+                  <div className="w-fit">
+                    <PriceList
+                      metaverse={metaverse}
+                      predictions={predictions}
+                    />
+                  </div>
+                ) : (
+                  <span className="flex gap-2 text-lg">
+                    Fetching Predictions
+                    <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-4">
+                <p className="text-sm text-grey-icon">Listing price: </p>
+                <DataComparisonBox
+                  currentPriceEth={apiData.current_price_eth}
+                  predictions={predictions}
+                />
+              </div>
+              <div>
+                <p className="text-sm text-grey-icon">Find land on:</p>
+                <div className="flex gap-5 font-bold">
+                  <button
+                    onClick={() => { window.open(apiData.external_link) }}
+                    className="flex justify-center gap-1"
+                  >
+                    <OptimizedImage
+                      src={metaverseInfo[metaverse].image}
+                      width={20}
+                      height={20}
+                      rounded={"full"}
+                    />
+                    {metaverseInfo[metaverse].label}
+                  </button>
+                  <button
+                    onClick={() => { window.open(apiData.market_links.opensea) }}
+                    className="flex justify-center gap-1"
+                  >
+                    <OptimizedImage
+                      src="/images/icons/markets/opensea.svg"
+                      width={20}
+                      height={20}
+                      rounded={"full"}
+                    />
+                    OpenSea
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+    </>
+  )
 }
 
-export default React.memo(MapCard)
+export default MapCard

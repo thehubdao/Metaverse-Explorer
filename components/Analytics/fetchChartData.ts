@@ -14,14 +14,16 @@ export interface RichList {
 }
 
 export const fetchChartData = async (metaverse: Metaverse, route: string) => {
-    const response = await fetch(
-        process.env.ITRM_SERVICE + '/val-analytics/' +
-        route +
-        '?metaverse=' +
-        metaverse
-      )
     try {
+        const response = await fetch(
+            process.env.ITRM_SERVICE + '/val-analytics/' +
+            route +
+            '?metaverse=' +
+            metaverse
+        )
         const data = (await response.json()) as ChartInfo[] | number | RichList
         return data
-    } catch (err) {}
+    } catch (error) {
+        return
+    }
 }
