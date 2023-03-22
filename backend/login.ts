@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const fetchNonce = async (address: string) => {
   const nonceRes = await fetch(
-    `${process.env.ITRM_SERVICE}/authService/getNonce?address=${address}`,
+    `${process.env.ITRM_SERVICE}/authservice-mgh/authService/getNonce?address=${address}`,
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -13,7 +13,7 @@ export const fetchNonce = async (address: string) => {
 
 export const sendSignedNonce = async (signedNonce: string, address: string) => {
   const loginRes = await axios.post(
-    `${process.env.ITRM_SERVICE}/authService/loginWallet?address=${address}&signature=${signedNonce}`, {},
+    `${process.env.ITRM_SERVICE}/authservice-mgh/authService/loginWallet?address=${address}&signature=${signedNonce}`, {},
     {
       withCredentials: true,
       headers: { 'Content-Type': 'application/json' },
@@ -23,7 +23,7 @@ export const sendSignedNonce = async (signedNonce: string, address: string) => {
   const accessToken = await loginRes.data
   const { token } = accessToken
   const decodeRes = await axios.get(
-    `${process.env.ITRM_SERVICE}/authService/decodeToken`,
+    `${process.env.ITRM_SERVICE}/authservice-mgh/authService/decodeToken`,
     {
       headers: {
         'Content-Type': 'application/json',
