@@ -50,7 +50,6 @@ export async function addMissingWatchlist(
     watchlist: string
 ) {
     const users = collection(db, 'users')
-    console.log(watchlist)
     await updateDoc(doc(users, walletAddress), {
         [watchlist]: [],
     })
@@ -63,10 +62,10 @@ export async function addLandToWatchList(
     metaverse: Metaverse,
     token:string
 ) {
-    const addToWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`, land, {
+    const addToWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`, land, {
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': `Bearer ${token}`
+            'Authentication': `${token}`
         }
     })
 }
@@ -77,10 +76,10 @@ export async function removeLandFromWatchList(
     address: string,
     metaverse: Metaverse, token: string
 ) {
-    const removeFromWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`, land, {
+    const removeFromWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`, land, {
         headers: {
             'Content-Type': 'application/json',
-            'Authentication': `Bearer ${token}`
+            'Authentication': `${token}`
         }
     })
 }
@@ -175,7 +174,6 @@ async function calls(URL: string, body: object) {
         .then((res) => (data = res.data))
         .catch((err) => console.log(err))
 
-    console.log('>>api is working', data)
     return data
 }
 

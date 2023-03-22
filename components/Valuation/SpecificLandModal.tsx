@@ -107,7 +107,7 @@ const SpecificLandModal = ({
 
   const getWatchList = async () => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`
     )
     const watchlist = watchlistRequest.data
     setWatchlist(watchlist)

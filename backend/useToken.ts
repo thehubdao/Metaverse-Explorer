@@ -56,7 +56,7 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, 
         axiosBase.interceptors.request.use(
             (config: AxiosRequestConfig): AxiosRequestConfig => {
                 if (!config.headers) return config
-                config.headers.authorization = `Bearer ${accessToken.current}`;
+                config.headers.authorization = `${accessToken.current}`;
                 return config;
             },
         );

@@ -27,11 +27,10 @@ export const sendSignedNonce = async (signedNonce: string, address: string) => {
     {
       headers: {
         'Content-Type': 'application/json',
-        'Authentication': `Bearer ${token}`
+        'Authentication': `${token}`
       },
     }
   )
-  console.log(decodeRes)
   const decodedToken = await decodeRes.data
 
   return { accessToken, decodedToken }

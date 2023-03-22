@@ -415,6 +415,7 @@ const Heatmap2D = ({
     const child = chunkContainer?.children.find(
       (child: any) => child.x === x && child.y === y
     )
+    if(!child) return
     const prevColor = child.tint
     const prevWidth = child.width
 

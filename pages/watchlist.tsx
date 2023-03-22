@@ -66,11 +66,11 @@ const Watchlist: NextPage = () => {
 
   const getWatchList = async () => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`,
+      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`,
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authentication': `Bearer ${token}`
+          'Authentication': `${token}`
         }
       }
     )

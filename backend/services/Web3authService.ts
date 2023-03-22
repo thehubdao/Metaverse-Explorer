@@ -95,6 +95,7 @@ class Web3authService {
             return accessToken
         } catch (e) {
             console.log(e)
+            return ''
         }
 
     }

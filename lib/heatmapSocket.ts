@@ -2,7 +2,6 @@ import { Metaverse } from "./metaverse"
 
 export const formatLand = (pureLandData: string, metaverse: Metaverse) => {
     const dataArray = pureLandData.split(';')
-    console.log(pureLandData)
     const [x, y, eth_predicted_price, floor_adjusted_predicted_price, current_price_eth, history_amount, max_history_price, tokenId] = dataArray
     let land: any = {
         [metaverse == 'somnium-space' ? 'center' : 'coords']: { x, y },

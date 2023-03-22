@@ -11,6 +11,7 @@ import { IAPIData, IPredictions } from "../../lib/types";
 import { getState } from "../../lib/utilities";
 import { handleLandName } from "../../lib/valuation/valuationUtils";
 import { ValuationState } from "../../pages/valuation";
+import { useAppSelector } from "../../state/hooks";
 import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
@@ -45,6 +46,7 @@ const MapCard = ({
   const imgSize = 250
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
+  const { token }: any = useAppSelector((state) => state.account)
 
   const options = SocialMediaOptions(
     apiData?.tokenId,
@@ -67,9 +69,15 @@ const MapCard = ({
     }
   }
 
-  const getWatchList = async () => {
+  const getWatchList = async (token: string) => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authentication': `${token}`
+        }
+      }
     )
     const watchlist = watchlistRequest.data
     setWatchlist(watchlist)
@@ -77,7 +85,7 @@ const MapCard = ({
 
   useEffect(() => {
     if (!address) return
-    getWatchList()
+    getWatchList(token)
   }, [address])
 
 
@@ -169,13 +177,13 @@ const MapCard = ({
                 watchlist[metaverse] &&
                 watchlist[metaverse][apiData?.tokenId])
                 ? (
-                  <div onClick={() => getWatchList()}><WatchlistButton
+                  <div onClick={() => getWatchList(token)}><WatchlistButton
                     land={apiData}
                     metaverse={apiData.metaverse}
                     action={'remove'}
                   /></div>
                 ) : (
-                  <div onClick={() => getWatchList()}><WatchlistButton
+                  <div onClick={() => getWatchList(token)}><WatchlistButton
                     land={apiData}
                     metaverse={apiData.metaverse}
                     action={'add'}

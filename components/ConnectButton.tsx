@@ -54,10 +54,18 @@ export default function ConnectButton() {
     if (!signer) return
     const initAuth = async () => {
       const isLoggedIn = await refreshToken()
-      console.log(isLoggedIn)
       if (isLoggedIn) return
       const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
+      if (!accessToken) {
+        logout()
+        setToken('')
+        return
+      }
       setToken(accessToken)
+
+
+
+
       /* await initContract(signer as Signer) */
     }
     initAuth()
