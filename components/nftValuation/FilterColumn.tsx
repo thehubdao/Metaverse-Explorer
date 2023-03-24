@@ -54,7 +54,7 @@ export default function FilterColumn({
 	const [currency, setCurrency] = useState<Currencies>("eth");
 
 	const handleListed = (keyword: string, isntChecked: boolean) => {
-		isntChecked ? setIsFilteredByListed(true) : setIsFilteredByListed(false)
+		setIsFilteredByListed(isntChecked)
 	}
 
 	return (
