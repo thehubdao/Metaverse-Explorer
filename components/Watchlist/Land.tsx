@@ -37,7 +37,7 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
     // SocialMediaOptions contains all options with their texts, icons, etc..
     /*   const options = SocialMediaOptions(landId, metaverse, predictions, address) */
     return (
-        <div className="flex justify-between relative nm-flat-medium rounded-2xl bg-grey-bone space-x-3 min-w-max h-full hover:nm-flat-soft cursor-pointer overflow-hidden">
+        <div className="flex justify-between relative nm-flat-medium rounded-2xl bg-grey-bone space-x-3 max-w-[373px] h-full hover:nm-flat-soft cursor-pointer overflow-hidden">
             {/* LEFT/TOP */}
             <ExternalAssetLink
                 metaverse={metaverse}
@@ -51,8 +51,9 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
                         {/* Name and Id */}
                         <div>
                             {/* Asset Name */}
-                            <h3 className="text-base xs:text-xl  2xl:text-2xl lg:text-2xl md:text-lg text-gray-400 truncate" title={handleLandName(metaverse, land.coords)}>
-                                {land.coords &&
+                            <h3 className="text-base xs:text-xl  2xl:text-2xl lg:text-2xl md:text-lg text-gray-400 truncate" title={metaverse === 'somnium-space'? handleLandName(metaverse, land.center) : handleLandName(metaverse, land.coords)}>
+                                {metaverse === 'somnium-space'?  land.center &&
+                                    handleLandName(metaverse, land.center) : land.coords &&
                                     handleLandName(metaverse, land.coords)}
                             </h3>
                             {/* Asset ID */}
