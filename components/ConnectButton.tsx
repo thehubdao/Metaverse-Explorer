@@ -3,7 +3,7 @@ import { Signer } from 'ethers'
 import { useEffect, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { FaWallet } from 'react-icons/fa'
-import { useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useSigner } from 'wagmi'
+import { useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useNetwork, useSigner } from 'wagmi'
 import { initContract } from '../backend/services/RoleContractService'
 
 // web3auth service
@@ -16,9 +16,10 @@ export default function ConnectButton() {
   const { connect, connectors } = useConnect()
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
-  const { data: ensAvatar } = useEnsAvatar({ address })
+  const { data: ensAvatar, isError, isLoading } = useEnsAvatar({ address })
   const { data: ensName } = useEnsName({ address })
   const { data: signer } = useSigner()
+  const { chain } = useNetwork()
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
@@ -60,6 +61,8 @@ export default function ConnectButton() {
       buyer = `${buyer.substring(0, 9)}...${buyer.substring(buyer.length - 4, buyer.length)}`
     } return buyer
   }
+
+  //this function dont be complete
   const switchWallet = async () => {
     const walletAddress = await window.ethereum.request({
       method: "eth_requestAccounts",
@@ -69,8 +72,6 @@ export default function ConnectButton() {
         }
       ]
     });
-
-    console.log('wallet request:', walletAddress)
   }
 
   return (
@@ -91,15 +92,15 @@ export default function ConnectButton() {
           </div>
         )}
         {modalIsOpen && <div className='w-full flex flex-col justify-center items-center mt-5 gap-3'>
-          <p className=''>Network: ...</p>
+          <p className=''>Network: {chain?.name}</p>
           <OvalButton
             buttonFunction={() => { copyToClipboard() }}
             label={'Copy Address'}
           />
-          <OvalButton
+          {/* <OvalButton
             buttonFunction={() => { switchWallet() }}
             label={'Switch Wallet'}
-          />
+          /> */}
           <OvalButton
             buttonFunction={() => { logout() }}
             label={'Disconnect'}
