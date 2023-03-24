@@ -5,6 +5,7 @@ interface OvalButtonProps {
   label: string
   icon?: ReactNode
   backgroundColorClass?: string
+  fullWidth?: boolean
 }
 
 const buyerControl = (buyer: string | undefined) => {
@@ -14,14 +15,14 @@ const buyerControl = (buyer: string | undefined) => {
   } return buyer
 }
 
-export default function OvalButton({ buttonFunction, label, icon, backgroundColorClass }: OvalButtonProps) {
+export default function OvalButton({ buttonFunction, label, icon, backgroundColorClass, fullWidth }: OvalButtonProps) {
   return (
     <div
-      className={`${backgroundColorClass} flex flex-row px-12 py-3 rounded-2xl nm-flat-soft duration-300 gap-2 cursor-pointer`}
+      className={`${backgroundColorClass} flex flex-row px-12 py-3 rounded-2xl nm-flat-soft duration-300 gap-2 cursor-pointer ${fullWidth && 'w-full'}`}
       onClick={() => buttonFunction()}
     >
       {icon && icon}
-      <p className="font-bold">{buyerControl(label)}</p>
+      <p className="font-bold text-center w-full">{buyerControl(label)}</p>
     </div>
   )
 }

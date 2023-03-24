@@ -1,5 +1,6 @@
 import { Alert, Snackbar } from '@mui/material'
 import { Signer } from 'ethers'
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { FaWallet } from 'react-icons/fa'
@@ -16,8 +17,8 @@ export default function ConnectButton() {
   const { connect, connectors } = useConnect()
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
-  const { data: ensAvatar, isError, isLoading } = useEnsAvatar({ address })
-  const { data: ensName } = useEnsName({ address })
+  const { data: ensAvatar } = useEnsAvatar({ address })
+  const { data: ensName } = useEnsName({ address, chainId: 1 })
   const { data: signer } = useSigner()
   const { chain } = useNetwork()
 
@@ -61,49 +62,53 @@ export default function ConnectButton() {
       buyer = `${buyer.substring(0, 9)}...${buyer.substring(buyer.length - 4, buyer.length)}`
     } return buyer
   }
-
-  //this function dont be complete
   const switchWallet = async () => {
-    const walletAddress = await window.ethereum.request({
-      method: "eth_requestAccounts",
-      params: [
-        {
-          eth_accounts: {}
-        }
-      ]
-    });
+    logout()
+    setTimeout(login, 500);
   }
 
   return (
     <>
       <div
-        className={`relative w-[390px] h-full mx-8 mt-6 rounded-2xl nm-flat-soft duration-300 cursor-pointer bg-white flex flex-col items-center px-12 py-3 gap-2`}
+        className={`relative ${address ? 'w-[370px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl nm-flat-soft duration-300 cursor-pointer bg-white flex flex-col items-center px-12 py-3 gap-2 select-none`}
       >
         {address ? (
           <div className='flex justify-center items-center gap-5 w-full h-full' onClick={() => openDropdownMenu()}>
-            {ensAvatar && <img src={ensAvatar} alt="ENS Avatar" />}
+            {<Image src={ensAvatar ? ensAvatar : '/images/icons/user.svg'} width={40} height={40} alt="ENS Avatar" className='rounded-full bg-grey-content'/>}
             <p className='font-bold'>{buyerControl(ensName ? `${ensName}` : `${address}`)}</p>
-            <BiChevronDown className={modalIsOpen ? 'rotate-180' : ''} />
+            <BiChevronDown className={`${modalIsOpen ? 'rotate-180' : ''} text-xl`} />
           </div>
         ) : (
-          <div onClick={() => login()} className='flex font-bold'>
+          <div onClick={() => login()} className='flex font-bold gap-1'>
             <FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />
             <p>Login</p>
           </div>
         )}
         {modalIsOpen && <div className='w-full flex flex-col justify-center items-center mt-5 gap-3'>
-          <p className=''>Network: {chain?.name}</p>
+          <div className='flex gap-2'>
+            <p className=''>Network: {chain?.name} </p>
+            {(navigator.onLine) ? <div className='flex gap-[2px] py-[5px]'>
+              <div className='w-1 h-full bg-green-400'></div>
+              <div className='w-1 h-full bg-green-400'></div>
+              <div className='w-1 h-full bg-green-400'></div>
+            </div> : <div className='flex gap-[2px] py-[5px]'>
+              <div className='w-1 h-full bg-grey-content'></div>
+            </div>}
+          </div>
           <OvalButton
             buttonFunction={() => { copyToClipboard() }}
             label={'Copy Address'}
+            fullWidth
           />
-          {/* <OvalButton
+          <OvalButton
             buttonFunction={() => { switchWallet() }}
             label={'Switch Wallet'}
-          /> */}
+            fullWidth
+          />
           <OvalButton
             buttonFunction={() => { logout() }}
             label={'Disconnect'}
+            fullWidth
           />
         </div>}
         <Snackbar
