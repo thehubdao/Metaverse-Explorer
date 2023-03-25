@@ -48,14 +48,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                 [publicProvider()]
             )
             const wagmiClientInstance = createClient({
-                autoConnect: true,
+                autoConnect: false,
                 connectors: [
                     new Web3AuthConnector({
                         chains,
                         options: {
                             web3AuthInstance:
                                 web3authService.getWeb3Auth as Web3Auth,
-
                         },
                     }),
                 ],

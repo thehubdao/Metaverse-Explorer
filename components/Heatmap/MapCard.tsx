@@ -170,12 +170,14 @@ const MapCard = ({
                 watchlist[metaverse][apiData?.tokenId])
                 ? (
                   <div onClick={() => getWatchList()}><WatchlistButton
+                    getWatchList={getWatchList}
                     land={apiData}
                     metaverse={apiData.metaverse}
                     action={'remove'}
                   /></div>
                 ) : (
                   <div onClick={() => getWatchList()}><WatchlistButton
+                    getWatchList={getWatchList}
                     land={apiData}
                     metaverse={apiData.metaverse}
                     action={'add'}
