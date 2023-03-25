@@ -18,11 +18,11 @@ const buyerControl = (buyer: string | undefined) => {
 export default function OvalButton({ buttonFunction, label, icon, backgroundColorClass, fullWidth }: OvalButtonProps) {
   return (
     <div
-      className={`${backgroundColorClass} flex flex-row px-12 py-3 rounded-2xl nm-flat-soft duration-300 gap-2 cursor-pointer ${fullWidth && 'w-full'}`}
+      className={`${backgroundColorClass} flex flex-row px-12 py-3 rounded-xl nm-flat-soft duration-300 gap-2 cursor-pointer bg-grey-bone ${fullWidth && 'w-full'}`}
       onClick={() => buttonFunction()}
     >
       {icon && icon}
-      <p className="font-bold text-center w-full">{buyerControl(label)}</p>
+      <p className="font-normal text-center w-full">{buyerControl(label)}</p>
     </div>
   )
 }

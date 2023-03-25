@@ -70,10 +70,10 @@ export default function ConnectButton() {
   return (
     <>
       <div
-        className={`relative ${address ? 'w-[370px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl nm-flat-soft duration-300 cursor-pointer bg-white flex flex-col items-center px-12 py-3 gap-2 select-none`}
+        className={`relative ${address ? 'w-[350px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-7 py-3 gap-2 select-none font-normal`}
       >
         {address ? (
-          <div className='flex justify-center items-center gap-5 w-full h-full' onClick={() => openDropdownMenu()}>
+          <div className='flex justify-between items-center gap-5 w-full h-full' onClick={() => openDropdownMenu()}>
             {<Image src={ensAvatar ? ensAvatar : '/images/icons/user.svg'} width={40} height={40} alt="ENS Avatar" className='rounded-full bg-grey-content'/>}
             <p className='font-bold'>{buyerControl(ensName ? `${ensName}` : `${address}`)}</p>
             <BiChevronDown className={`${modalIsOpen ? 'rotate-180' : ''} text-xl`} />
@@ -84,8 +84,8 @@ export default function ConnectButton() {
             <p>Login</p>
           </div>
         )}
-        {modalIsOpen && <div className='w-full flex flex-col justify-center items-center mt-5 gap-3'>
-          <div className='flex gap-2'>
+        {modalIsOpen && <div className='w-full flex flex-col justify-center items-center my-5 gap-4'>
+          <div className='flex gap-2 pb-3'>
             <p className=''>Network: {chain?.name} </p>
             {(navigator.onLine) ? <div className='flex gap-[2px] py-[5px]'>
               <div className='w-1 h-full bg-green-400'></div>
