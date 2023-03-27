@@ -95,7 +95,7 @@ export default function Layout({ children }: LayoutProps) {
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
 				<div className="absolute top-0 right-0 z-50">
-					<ConnectButton />
+					<ConnectButton/>
 				</div>
 				<div >
 					{children}

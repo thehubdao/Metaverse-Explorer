@@ -57,7 +57,7 @@ class Web3authService {
                 web3AuthNetwork: 'cyan',
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x89',
+                    chainId: '0x13881',
                     rpcTarget: Chains.MATIC_TESTNET.rpcUrl, // This is the private RPC
                 },
             })
@@ -84,9 +84,10 @@ class Web3authService {
             }
             // JWT request to API
             const tokenData = await sendSignedNonce(signedNonce, signedAddress)
-            console.log(tokenData)
+            
             const { accessToken, decodedToken } = tokenData
             // Decode JWT and set Global State
+            console.log(decodedToken)
             const { B2BRoles, B2CRoles } = decodedToken
             console.log(accessToken)
             this.B2BRoles = B2BRoles
@@ -101,14 +102,14 @@ class Web3authService {
     }
 
     refreshToken = async () => {
-        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authservice-mgh/authService/refreshToken`, { withCredentials: true, })
+        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authService/refreshToken`, { withCredentials: true, })
         const { data: accesToken } = refreshRes
         return accesToken
     }
 
     disconnectWeb3Auth = async () => {
         if (!this.web3auth) return
-        axios.get(`${process.env.ITRM_SERVICE}/authservice-mgh/authService/logout`, { withCredentials: true })
+        axios.get(`${process.env.ITRM_SERVICE}/authService/logout`, { withCredentials: true })
     }
 }
 

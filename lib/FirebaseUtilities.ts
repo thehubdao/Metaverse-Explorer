@@ -62,7 +62,7 @@ export async function addLandToWatchList(
     metaverse: Metaverse,
     token:string
 ) {
-    const addToWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`, land, {
+    const addToWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`, land, {
         headers: {
             'Content-Type': 'application/json',
             'Authentication': `${token}`
@@ -76,12 +76,32 @@ export async function removeLandFromWatchList(
     address: string,
     metaverse: Metaverse, token: string
 ) {
-    const removeFromWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`, land, {
+    const removeFromWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`, land, {
         headers: {
             'Content-Type': 'application/json',
             'Authentication': `${token}`
         }
     })
+}
+
+export async function updateCallsCount(address:any, callsCountAdd:number,token: string){
+    const updateCallsCount = await axios.post(`${process.env.ITRM_SERVICE}/watchlistService/updateCallsCount?address=${address}&callsCountAdd=${callsCountAdd}`,{ }, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': `${token}`
+        }
+    })
+}
+
+export async function getCallsCount(address:any, token: string){
+    const getCallsCount = await axios.get(`${process.env.ITRM_SERVICE}/watchlistService/getCallsCount?address=${address}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': `${token}`
+        }
+    })
+    console.log(getCallsCount.data)
+    return getCallsCount.data
 }
 
 /* Valuation scores  */

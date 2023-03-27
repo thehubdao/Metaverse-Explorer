@@ -27,7 +27,6 @@ export const formatLand = (pureLandData: string, metaverse: Metaverse) => {
     if (metaverse != 'decentraland') return land
 
     const [, , , , , , , , type, top, left, topLeft] = dataArray
-    console.log(pureLandData)
     land.tile = {
         type,
         ...(top ? { top } : {}),

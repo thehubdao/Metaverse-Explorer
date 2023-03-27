@@ -16,7 +16,6 @@ import { Viewport } from 'pixi-viewport'
 import { Container, Texture } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
-import { useAccount } from 'wagmi'
 import { formatLand } from '../../lib/heatmapSocket'
 
 
@@ -30,6 +29,7 @@ let landIndex = 0
 
 let tempLands: any[] = []
 let mapData: any = {}
+
 
 interface IHeatmap2D {
   width: number | undefined

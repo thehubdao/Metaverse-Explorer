@@ -5,7 +5,7 @@ import { setAccountToken } from "../state/account";
 import { useAppDispatch } from "../state/hooks";
 import { useTokenExpiration } from "./useTokenExpiration";
 
-const REQ_URL = `${process.env.ITRM_SERVICE}/authservice-mgh/authService/`
+const REQ_URL = `${process.env.ITRM_SERVICE}/authService/`
 
 export const axiosBase = axios.create({
     baseURL: REQ_URL,

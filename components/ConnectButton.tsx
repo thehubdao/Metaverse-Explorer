@@ -8,17 +8,17 @@ import { initContract } from '../backend/services/RoleContractService'
 import web3authService from '../backend/services/Web3authService'
 import { useToken } from '../backend/useToken'
 import { ellipseAddress } from '../lib/utilities'
-import { useAppDispatch } from '../state/hooks'
+import { useAppDispatch, useAppSelector } from '../state/hooks'
 
 // Components
 import OvalButton from './General/Buttons/OvalButton'
 
 export default function ConnectButton() {
-
-  const { connect, connectors } = useConnect()
+  const { token }: any = useAppSelector((state) => state.account);
+  const { connectors, connectAsync } = useConnect()
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
-  const { data: signer } = useSigner()
+  const { data: globalSigner, refetch } = useSigner()
 
 
 
@@ -30,47 +30,49 @@ export default function ConnectButton() {
     try {
       const accessToken = await web3authService.refreshToken()
       console.log(accessToken)
-      setToken(accessToken)
-      return true
+      if (accessToken) {
+        setToken(accessToken)
+        return true
+      }
     } catch (err) {
       console.log(err)
-      return false
     }
+    if (address) {
+      logout()
+      setToken('')
+    }
+    return false
+
 
 
   }
+  useEffect(() => {
+    refreshToken()
+  }, [])
 
   const login = async () => {
-    connect({ connector: connectors[0] })
+    console.log("LOGIN")
+    await connectAsync({ connector: connectors[0] })
+    const { data: signer } = await refetch()
+    await initAuth(signer)
   }
+
   const logout = async () => {
     await web3authService.disconnectWeb3Auth()
     disconnect()
+    setToken('')
   }
 
   const { setToken, clearToken } = useToken(onTokenInvalid, refreshToken, logout);
 
-  useEffect(() => {
-    if (!signer) return
-    const initAuth = async () => {
-      const isLoggedIn = await refreshToken()
-      if (isLoggedIn) return
-      const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
-      if (!accessToken) {
-        logout()
-        setToken('')
-        return
-      }
-      setToken(accessToken)
+  const initAuth = async (signer: any) => {
+    const isLoggedIn = await refreshToken()
+    if (isLoggedIn) return
+    const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
 
-
-
-
-      /* await initContract(signer as Signer) */
-    }
-    initAuth()
-  }, [signer])
-
+    setToken(accessToken)
+    await initContract(signer as Signer)
+  }
 
 
   return (
