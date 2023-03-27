@@ -23,6 +23,7 @@ import GeneralSection from '../components/GeneralSection'
 import FilterButton from '../components/Analytics/FilterButton'
 import OptimizedImage from '../components/General/OptimizedImage'
 import FilterColumn from '../components/Analytics/FilterColumn'
+import NoData from '../components/General/NoData'
 const analyticsState = ['loading', 'loaded', 'firstLoad'] as const
 type AnalyticsState = typeof analyticsState[number]
 
@@ -132,8 +133,6 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                         )) as ChartInfo[]
                     }),
                 )
-
-                console.log(allMetaverse,'kejestooooo');
                 
                 if (allMetaverse[name].data == undefined && allMetaverse[name].active == true)
                     setAllMetaverse((prevState: any) => ({
@@ -162,8 +161,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
         setInterval(interval)
     },[mosaicButton])
     
-    console.log(isData, 'qwe');
-    
+
     return (
         <>
             <Head>
@@ -183,9 +181,9 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 
                 {
                 isData ?
-                <p className="px-11 py-24 flex gap-1 font-bold justify-center text-base tracking-[0.375em]">
-                Error while loading data, please try again later
-                </p>
+                <div className="mb-28">
+                    <NoData label="This service is currently experimenting some issues. Please come back later" />
+                </div>
                 :
                 <>
                 <p className="px-11 py-24 flex gap-1 font-bold justify-center text-base tracking-[0.375em]">
