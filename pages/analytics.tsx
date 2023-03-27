@@ -96,6 +96,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     const [richList, setRichList] = useState<RichList>()
     const [interval, setInterval] = useState<TimeInterval>("month");
     const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>("ETH");
+    const [isData, setIsData] = useState<boolean>(false);
     // buttons mosaic
     const [mosaicButton, setMosaicButton] = useState<keyof typeof mosaicOp>("twoCol");
     // filters
@@ -132,6 +133,8 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     }),
                 )
 
+                console.log(allMetaverse,'kejestooooo');
+                
                 if (allMetaverse[name].data == undefined && allMetaverse[name].active == true)
                     setAllMetaverse((prevState: any) => ({
                         ...prevState,
@@ -140,6 +143,10 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             data: routesValues
                         },
                     }))
+                else if (allMetaverse[name].data.avgPriceParcel
+                    == undefined) {
+                        setIsData(true)
+                }
 
                 setMarkCap((await fetchChartData(name, 'mCap')) as number)
                 setRichList(
@@ -154,6 +161,8 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     useEffect(() =>{
         setInterval(interval)
     },[mosaicButton])
+    
+    console.log(isData, 'qwe');
     
     return (
         <>
@@ -171,6 +180,14 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     children={undefined}
                 />
                 {/* Market Cap - Owners Land % */}
+                
+                {
+                isData ?
+                <p className="px-11 py-24 flex gap-1 font-bold justify-center text-base tracking-[0.375em]">
+                Error while loading data, please try again later
+                </p>
+                :
+                <>
                 <p className="px-11 py-24 flex gap-1 font-bold justify-center text-base tracking-[0.375em]">
                     LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
                     {loaded ? (
@@ -309,6 +326,8 @@ const Analytics: NextPage<Props> = ({ prices }) => {
 
                     </div>
                 </div>
+                </>
+                }
             </div>
         </>
     )
