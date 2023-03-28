@@ -18,7 +18,6 @@ class SocketService {
         this.onDisconnect((ev: any) => { console.log(ev.reason) })
         this.pingPong()
         this.onNewLand(onNewLand)
-        console.log(this.socket)
 
 
     }
@@ -74,7 +73,6 @@ class SocketService {
     }
 
     getLand(metaverse:Metaverse,tokenId: string) { 
-        console.log(this.socket,metaverse,tokenId)
         this.socket?.send(`get-land|${metaverse};${tokenId}`)
     }
 
