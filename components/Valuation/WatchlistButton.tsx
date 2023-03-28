@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useConnect } from 'wagmi'
 import { addLandToWatchList, removeLandFromWatchList } from '../../lib/FirebaseUtilities'
 import { Metaverse } from '../../lib/metaverse'
 import { handleLandName } from '../../lib/valuation/valuationUtils'
@@ -10,15 +10,17 @@ interface Props {
   land: any
   metaverse: Metaverse
   action: 'add' | 'remove'
+  getWatchList: Function
 }
 
-const WatchlistButton = ({ land, metaverse, action }: Props) => {
+const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
   const { address } = useAccount()
   const { token }: any = useAppSelector((state) => state.account)
   const [openAdd, setOpenAdd] = useState(false);
   const [openRemove, setOpenRemove] = useState(false)
   const [openWarning, setOpenWarning] = useState(false)
   let [landName, setLandName] = useState('')
+  const { connect, connectors } = useConnect()
 
   useEffect(() => {
     let landName = handleLandName(
@@ -36,26 +38,32 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     if (reason === 'clickaway') return;
 
     setOpenRemove(false);
-    setOpenAdd(false)
+    setOpenAdd(false);
+    setOpenWarning(false);
   };
 
-  const addToWatchList = async () => {
-    if (!address) return
-    try {
-      await addLandToWatchList(land, address, metaverse, token)
-      handleClose()
-      setOpenAdd(true);
-    } catch (error) {
-      setOpenWarning(true)
-    }
+
+  const login = async () => {
+    connect({ connector: connectors[0] })
   }
 
-  const removeLand = async () => {
+  const handleWatchslist = async ({ action }: { action: 'add' | 'remove' }) => {
     if (!address) return
+
     try {
-      await removeLandFromWatchList(land, address, metaverse, token)
-      handleClose()
-      setOpenRemove(true)
+      let response
+      if (action === 'add') {
+        response = await addLandToWatchList(land, address, metaverse,token)
+        handleClose()
+        setOpenAdd(true);
+      } else if (action === 'remove') {
+        response = await removeLandFromWatchList(land, address, metaverse,token)
+        handleClose()
+        setOpenRemove(true)
+      } else {
+        throw "invalid parameter"
+      }
+      getWatchList()
     } catch (error) {
       setOpenWarning(true)
     }
@@ -65,9 +73,9 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     return (
       <button
         className="w-full bg-grey-icon text-white rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold"
-        onClick={addToWatchList}
+        onClick={() => login()}
       >
-        {'LOGIN TO WATCHLIST'}
+        {'LOGIN TO SEE WATCHLIST'}
       </button>
     )
   }
@@ -76,13 +84,13 @@ const WatchlistButton = ({ land, metaverse, action }: Props) => {
     <>
       {action === 'add' && <button
         className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-flat-medium hover:nm-flat-soft"
-        onClick={addToWatchList}
+        onClick={() => handleWatchslist({ action: 'add' })}
       >
         {'ADD TO WATCHLIST'}
       </button>}
       {action === 'remove' && <button
         className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-inset-medium"
-        onClick={() => removeLand()}
+        onClick={() => handleWatchslist({ action: 'remove' })}
       >
         {'REMOVE FROM WATCHLIST'}
       </button>}

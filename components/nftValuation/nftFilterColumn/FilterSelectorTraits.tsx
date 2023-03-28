@@ -27,17 +27,13 @@ export default function FilterSelectorTraits({
 		let auxNoFilters = 0
 		if (isntChecked) {
 			auxSelectedFilters[title].push(keyword)
-			Object.entries(auxSelectedFilters).forEach(([key, value]: any) => {
-				if (value.length > 0)
-					auxNoFilters = auxNoFilters + 1
-			});
 		} else {
 			auxSelectedFilters[title] = auxSelectedFilters[title].filter((item: any) => item != keyword)
-			Object.entries(auxSelectedFilters).forEach(([key, value]: any) => {
-				if (value.length > 0)
-					auxNoFilters = auxNoFilters + 1
-			});
 		}
+		Object.entries(auxSelectedFilters).forEach(([key, value]: any) => {
+			if (value.length > 0)
+				auxNoFilters = auxNoFilters + 1
+		});
 		handleTraitFilter(auxSelectedFilters, auxNoFilters)
 	};
 

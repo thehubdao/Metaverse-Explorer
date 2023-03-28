@@ -29,12 +29,12 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
 
   return !historicFloorPrice /* || metaverse =="axie-infinity" */ ? (
     <>
-      <div className='flex flex-col items-start border-t border-l border-white/10 rounded-xl p-5 mt-10 w-full bg-grey-panel'>
+      <div className='flex flex-col justify-center border-t border-l border-white/10 rounded-xl p-5 w-full h-full bg-grey-panel'>
         <p className={`text-lg font-medium text-grey-content`}>
           We couldn't obtain Chart data
           Check{' '}
           <a
-            href='https://opensea.io/collection'
+            href='https://opensea.io'
             target='_blank'
             className='hover:underline text-grey-content'
           >

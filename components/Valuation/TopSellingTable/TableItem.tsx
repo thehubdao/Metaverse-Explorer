@@ -2,10 +2,6 @@ import { Tooltip } from "@mui/material"
 import { Metaverse } from "../../../lib/metaverse"
 import { TopSellingDataTable, TopSellingRequestItem } from "../../../types/valuation/TopSelling"
 
-const getExternalLink = (metaverse: Metaverse, dataTable: TopSellingDataTable) => {
-  return metaverse === 'somnium-space' ? ("https://somniumspace.com/parcel/" + dataTable.landId) : dataTable.external_link
-}
-
 const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse: Metaverse }) => {
   let dataTable: TopSellingDataTable | any = item.dataTable || null
 
@@ -30,19 +26,30 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
 
     return buyer
   }
+  const assetControl = (asset: string | undefined) => {
+    if (!asset) return
+
+    if (asset.length > 17) {
+      asset = `${asset.substring(0, 17)}...`
+    }
+
+    return asset
+  }
 
   const tdStyle = "border-t-0 px-4 border-l-0 border-r-0 text-md lg:text-lg whitespace-nowrap p-4 text-center"
 
   return (
     <tr>
       <td className={tdStyle}>{item.position}</td>
-      <th className={`${tdStyle} text-left flex items-center font-plus`}>
-        <img src={dataTable.image} className="h-12 w-12 bg-white rounded-full border" alt={`Land ${dataTable.asset} image`} />
-        <span className="ml-3 font-normal text-grey-content">
-          <a className="hover:underline text-grey-content" href={getExternalLink(metaverse, dataTable)} target='_blank'>
-            {dataTable.asset}
+      <th className={`${tdStyle} text-left flex items-center justify-center font-plus`}>
+        <Tooltip title={dataTable.asset} placement='bottom'>
+          <a className="hover:underline flex items-center text-grey-content w-48" href={dataTable.external_link} target='_blank'>
+            <img src={dataTable.image} className="h-12 w-12 bg-white rounded-full border" alt={`Land ${dataTable.asset} image`} />
+            <span className="ml-3 font-normal text-grey-content">
+              {assetControl(dataTable.asset)}
+            </span>
           </a>
-        </span>
+        </Tooltip>
       </th>
       <td className={tdStyle} >
         {priceLoader()}
@@ -58,7 +65,7 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
       <td className={tdStyle} >
         <span>{dataTable.date}</span>
       </td>
-    </tr>
+    </tr >
   )
 }
 
