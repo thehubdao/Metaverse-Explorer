@@ -28,6 +28,7 @@
     "alchemy-sdk": "^2.6.1",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",
+    "axios-hooks": "^4.0.0",
     "ethers": "^5.7.2",
     "firebase": "^9.6.5",
     "firebase-admin": "^10.0.2",

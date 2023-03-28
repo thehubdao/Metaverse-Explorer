@@ -7,6 +7,9 @@ import { Chains } from '../../lib/chains'
 const clientId = `${process.env.WEB3AUTH_CLIENT_ID}`
 import RPC from '../api/etherRPC' // for using web3.js
 import { Signer } from 'ethers'
+import { fetchNonce, sendSignedNonce } from '../login'
+import { verifyMessage } from 'ethers/lib/utils.js'
+import axios from 'axios'
 
 class Web3authService {
     private web3auth: Web3Auth | null = null
@@ -54,7 +57,7 @@ class Web3authService {
                 web3AuthNetwork: 'cyan',
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x89',
+                    chainId: '0x13881',
                     rpcTarget: Chains.MATIC_TESTNET.rpcUrl, // This is the private RPC
                 },
             })
@@ -68,8 +71,7 @@ class Web3authService {
 
     connectWeb3Auth = async (signer: Signer) => {
         const address = await signer.getAddress()
-
-/*         try {
+        try {
             const { nonce } = await fetchNonce(address)
             // Create Msg
             const msgToSign = `${nonce}`
@@ -81,24 +83,33 @@ class Web3authService {
                 return
             }
             // JWT request to API
-            const { token } = await sendSignedNonce(signedNonce, signedAddress)
+            const tokenData = await sendSignedNonce(signedNonce, signedAddress)
+            
+            const { accessToken, decodedToken } = tokenData
             // Decode JWT and set Global State
-            const { B2BRoles, B2CRoles } = jwtDecode<{
-                B2BRoles: any
-                B2CRoles: any
-            }>(token)
-            this.token = token
+            console.log(decodedToken)
+            const { B2BRoles, B2CRoles } = decodedToken
+            console.log(accessToken)
             this.B2BRoles = B2BRoles
             this.B2CRoles = B2CRoles
+
+            return accessToken
         } catch (e) {
             console.log(e)
-        } */
+            return ''
+        }
+
+    }
+
+    refreshToken = async () => {
+        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authservice-mgh/authService/refreshToken`, { withCredentials: true, })
+        const { data: accesToken } = refreshRes
+        return accesToken
     }
 
     disconnectWeb3Auth = async () => {
         if (!this.web3auth) return
-
-        await this.web3auth.logout()
+        axios.get(`${process.env.ITRM_SERVICE}/authService/logout`, { withCredentials: true })
     }
 }
 

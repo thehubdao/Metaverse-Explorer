@@ -4,6 +4,7 @@ import { useAccount, useConnect } from 'wagmi'
 import { addLandToWatchList, removeLandFromWatchList } from '../../lib/FirebaseUtilities'
 import { Metaverse } from '../../lib/metaverse'
 import { handleLandName } from '../../lib/valuation/valuationUtils'
+import { useAppSelector } from '../../state/hooks'
 
 interface Props {
   land: any
@@ -14,6 +15,7 @@ interface Props {
 
 const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
   const { address } = useAccount()
+  const { token }: any = useAppSelector((state) => state.account)
   const [openAdd, setOpenAdd] = useState(false);
   const [openRemove, setOpenRemove] = useState(false)
   const [openWarning, setOpenWarning] = useState(false)
@@ -40,6 +42,7 @@ const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
     setOpenWarning(false);
   };
 
+
   const login = async () => {
     connect({ connector: connectors[0] })
   }
@@ -50,11 +53,11 @@ const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
     try {
       let response
       if (action === 'add') {
-        response = await addLandToWatchList(land, address, metaverse)
+        response = await addLandToWatchList(land, address, metaverse,token)
         handleClose()
         setOpenAdd(true);
       } else if (action === 'remove') {
-        response = await removeLandFromWatchList(land, address, metaverse)
+        response = await removeLandFromWatchList(land, address, metaverse,token)
         handleClose()
         setOpenRemove(true)
       } else {

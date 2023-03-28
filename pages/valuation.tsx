@@ -41,6 +41,10 @@ import Footer from "../components/General/Footer";
 import Image from "next/image";
 import HistoricalFloorPrice from "../components/Valuation/HistoricalFloorPrice";
 import SpecificLandModal from "../components/Valuation/SpecificLandModal";
+import { getCallsCount, updateCallsCount } from "../lib/FirebaseUtilities";
+import { useAccount } from "wagmi";
+import router from "next/router";
+import ConnectButton from "../components/ConnectButton";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -52,6 +56,8 @@ export const VALUATION_STATE_OPTIONS = [
 	"errorQuery",
 ] as const;
 export type ValuationState = typeof VALUATION_STATE_OPTIONS[number];
+
+const MAX_FREE_VALUATIONS = 10
 
 interface CardData {
 	apiData: IAPIData;
@@ -91,10 +97,13 @@ const metaverseLabels: Record<Metaverse, string> = {
 	"somnium-space": "Somnium Space"
 }
 
+
+
 const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [globalData, setglobalData] = useState<AnyObject>({})
 
-	const { address } = useAppSelector((state) => state.account);
+	const { token }: any = useAppSelector((state) => state.account);
+	const { address } = useAccount()
 
 	const [mapState, setMapState] = useState<ValuationState>("loading");
 	/* const [loading] = getState(mapState, ['loading']) */
@@ -119,6 +128,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
 	const [openMapFilter, setOpenMapFilter] = useState(false)
 	const [openSearchFilter, setOpenSearchFilter] = useState(false)
+	const valuationCount = useRef<number>()
 
 	function isSelected(x: number, y: number) {
 		return selected?.x === x && selected?.y === y;
@@ -175,6 +185,18 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			return setTimeout(() => setIsVisible(false), 1100);
 		}
 	};
+
+	useEffect(() => {
+		if (!token) return
+		const getValuationCount = async () => {
+			const callsCount = await getCallsCount(address, token)
+			valuationCount.current = callsCount as number
+			console.log(valuationCount)
+		}
+		getValuationCount()
+
+
+	}, [token])
 
 	useEffect(() => {
 		setIsVisible(false);
@@ -325,14 +347,28 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 				{/* Heatmap */}
 				<div className="relative py-8 h-full">
-					{!metaverse && (
+				{!token && (
+					<div className="flex flex-col justify-center items-center mt-28">
+						{/* Auth Button */}
+						<Image
+							src="/images/mgh_logo/mgh_logo.svg"
+							width={136}
+							height={131}
+							loading='lazy'
+							objectFit='cover'
+						/>
+						<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to use the valuation tool</p>
+						<ConnectButton/>
+					</div>
+				)}
+					{!metaverse &&  token &&(
 						<MapInitMvChoice
 							metaverse={metaverse}
 							setMetaverse={setMetaverse}
 						/>
 					)}
-
-					{metaverse && (
+					
+					{metaverse  && token &&(
 						<div className="rounded-[30px] p-7 nm-flat-medium h-[80vh]">
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
@@ -438,7 +474,18 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												setSelected(undefined);
 											} else {
 												const isntFullScreen = document.fullscreenElement ? false : true
+												if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													router.push("/purchase")
+													return
+												}
 												handleMapSelection(land, x, y, undefined);
+												updateCallsCount(address, 1, token)
+												console.log(valuationCount)
+												if (valuationCount.current != undefined)
+													valuationCount.current += 1
+
+												console.log(valuationCount)
+
 											}
 										}}
 										metaverse={metaverse}
@@ -473,7 +520,18 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												setSelected(undefined);
 											} else {
 												const isntFullScreen = document.fullscreenElement ? false : true
+												if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													router.push("/purchase")
+													return
+												}
 												handleMapSelection(land, x, y, undefined);
+												updateCallsCount(address, 1, token)
+												if (valuationCount.current != undefined)
+													valuationCount.current += 1
+
+
+												console.log(valuationCount)
+
 											}
 										}}
 										metaverse={metaverse}

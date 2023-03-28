@@ -50,7 +50,6 @@ export async function addMissingWatchlist(
     watchlist: string
 ) {
     const users = collection(db, 'users')
-    console.log(watchlist)
     await updateDoc(doc(users, walletAddress), {
         [watchlist]: [],
     })
@@ -60,22 +59,49 @@ export async function addMissingWatchlist(
 export async function addLandToWatchList(
     land: any,
     address: string,
-    metaverse: Metaverse
+    metaverse: Metaverse,
+    token:string
 ) {
-    const addToWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`,land)
-
-    return addToWatchListRequest
+    const addToWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`, land, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': `${token}`
+        }
+    })
 }
 
 // Remove Land from User's WatchList
 export async function removeLandFromWatchList(
-    land:any,
+    land: any,
     address: string,
-    metaverse: Metaverse
+    metaverse: Metaverse, token: string
 ) {
-    const removeFromWatchListRequest = axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`,land)
-    
-    return removeFromWatchListRequest
+    const removeFromWatchListRequest = await axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`, land, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': `${token}`
+        }
+    })
+}
+
+export async function updateCallsCount(address:any, callsCountAdd:number,token: string){
+    const updateCallsCount = await axios.post(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/updateCallsCount?address=${address}&callsCountAdd=${callsCountAdd}`,{ }, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': `${token}`
+        }
+    })
+}
+
+export async function getCallsCount(address:any, token: string){
+    const getCallsCount = await axios.get(`${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getCallsCount?address=${address}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authentication': `${token}`
+        }
+    })
+    console.log(getCallsCount.data)
+    return getCallsCount.data
 }
 
 /* Valuation scores  */
@@ -168,7 +194,6 @@ async function calls(URL: string, body: object) {
         .then((res) => (data = res.data))
         .catch((err) => console.log(err))
 
-    console.log('>>api is working', data)
     return data
 }
 
