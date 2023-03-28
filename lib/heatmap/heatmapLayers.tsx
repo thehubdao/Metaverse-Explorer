@@ -40,6 +40,11 @@ export const filteredLayer: Layer = (
             : (color = FILTER_COLORS[0]) // if land is not on sale make color to gray
 
         // If legend filter on bottom right is set on watchlist
+    }
+    else if (legendFilter === 'premium-lands') {
+        if (land?.land_type == 1) {
+            color = LEGEND_COLORS['premium-lands']
+        } else { color = FILTER_COLORS[0] }
     } else if (legendFilter === 'watchlist') {
         //if the land is on users watchlist it will have a .watchlist attribute
         land.watchlist
@@ -83,10 +88,10 @@ export const filteredLayer: Layer = (
             // if mapFilter is basic and land is on sale set color to fixed color and scale to mid
         } else if (land?.current_price_eth) {
             color = LEGEND_COLORS['on-sale']
-        }else if(land?.land_type == 1){
-            color = '#1AABF4'
+        } else if (land?.land_type == 1) {
+            color = LEGEND_COLORS['premium-lands']
         }
-        
+
         else {
             color = land.tile?.type ? '#19202A' : '#7EFDE4' //'#26EC75' // Green color for basic view with no filters and lands that are not on sale or watchlist or portfolio
         }

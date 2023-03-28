@@ -268,7 +268,7 @@ export const FILTER_COLORS = {
 // Colors for dictionary filters
 export const LEGEND_COLORS = {
     'on-sale': '#FFE5A3', // On sale
-
+    'premium-lands':'#47E298',
     // Decentraland Only
     roads: '#5775A5', // roads
     plazas: '#32D2FF', // plazas
