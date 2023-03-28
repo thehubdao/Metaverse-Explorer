@@ -4,7 +4,7 @@ import { BiCheck } from "react-icons/bi";
 
 interface optionList {
   name: string;
-  description: string;
+  description?: string;
 }
 
 interface CheckBoxProps {
