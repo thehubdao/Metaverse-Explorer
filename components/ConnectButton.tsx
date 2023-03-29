@@ -70,7 +70,7 @@ export default function ConnectButton() {
   return (
     <>
       <div
-        className={`relative ${address ? 'w-[350px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-7 py-3 gap-2 select-none font-normal`}
+        className={`relative ${address ? 'w-[350px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-7 py-3 gap-2 select-none font-normal shadow-xl`}
       >
         {address ? (
           <div className='flex justify-between items-center gap-5 w-full h-full' onClick={() => openDropdownMenu()}>

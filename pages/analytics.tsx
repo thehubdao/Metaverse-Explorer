@@ -161,7 +161,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 <title>MGH | Analytics</title>
                 <meta name="description" content="Analytics Dashboard" />
             </Head>
-            <div className="pt-24 w-full">
+            <div className="pt-32 w-full">
                 {/* Main Header */}
                 {/* General Section Layout */}
                 <GeneralSection

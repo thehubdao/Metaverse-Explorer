@@ -24,7 +24,7 @@ function ShoppingCart() {
 
   return (
     <>
-      <button onClick={handleClick} className='flex flex-col  mx-8 mt-6 items-center justify-center rounded-2xl cursor-pointer p-2 w-16 h-16 group focus:outline-none bg-[#F9FAFB]'>
+      <button onClick={handleClick} className='flex flex-col  mx-8 mt-6 items-center justify-center rounded-2xl cursor-pointer p-2 w-16 h-16 group focus:outline-none bg-[#F9FAFB] shadow-xl'>
         <Image src={ '/images/shopping-cart.svg'} width={30} height={26} alt="shopping cart" className=''/>
         {/* {numItems} */}
       </button>
@@ -35,7 +35,7 @@ function ShoppingCart() {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
       <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }} >
-        This service is currently experimenting some issues. Please come back later
+        This function is currently on development
       </Alert>
     </Snackbar>
     </>
