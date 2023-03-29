@@ -347,7 +347,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 				{/* Heatmap */}
 				<div className="relative py-8 h-full">
-				{!token && (
+				{/* !token */ false && (
 					<div className="flex flex-col justify-center items-center mt-28">
 						{/* Auth Button */}
 						<Image
@@ -361,14 +361,14 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						<ConnectButton/>
 					</div>
 				)}
-					{!metaverse &&  token &&(
+					{!metaverse && /* token && */(
 						<MapInitMvChoice
 							metaverse={metaverse}
 							setMetaverse={setMetaverse}
 						/>
 					)}
 					
-					{metaverse  && token &&(
+					{metaverse  && /* token && */(
 						<div className="rounded-[30px] p-7 nm-flat-medium h-[80vh]">
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
