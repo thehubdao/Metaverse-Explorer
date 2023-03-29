@@ -26,7 +26,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
 }) => {
 
   const [endDate, setEndDate] = useState("12.12.2022")
-  const [activePlan, setActivePlan] = useState(Plans.PREMIUM)
+  const [activePlan, setActivePlan] = useState(Plans.BASIC)
   const [selection, setSelection] = useState<Plans | undefined>(undefined)
 
 
@@ -55,10 +55,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
                 {
                   <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl mb-10">
                     <p>
-                      Suscription Status:
                       <span className="font-bold">
-                        {' '}
-                        Active until xx.xx.xxxx
                       </span>
                     </p>
                   </div>

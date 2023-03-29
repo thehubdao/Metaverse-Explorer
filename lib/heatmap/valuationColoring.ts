@@ -358,8 +358,8 @@ export const DECENTRALAND_API_COLORS: Record<number, string> = Object.freeze({
  * eth_predicted_price.
  */
 const filterPercentages: any = {
-    predictedPricePercentage: [0, 12, 24, 36, 100],
-    normal: [0, 12, 24, 36, 100],
+    predictedPricePercentage: [0, 8, 16, 24, 100],
+    normal: [0, 8, 16, 24, 100],
     colours: [
         'rgb(0,0,255)',
         'rgb(0,255,255)',
@@ -400,33 +400,33 @@ export const generateColor = (percent: number, mapFilter?: MapFilter) => {
     if (between(percent, 100, 0)) {
         if (percent < filterPercentages.predictedPricePercentage[1])
             color = `rgb(0, ${Math.ceil(
-                255 * (percent / filterPercentages.predictedPricePercentage[1])
-            )}, 255)`
+                127 * (percent / filterPercentages.predictedPricePercentage[1])
+            )},  ${Math.ceil(
+                127 * (percent / filterPercentages.predictedPricePercentage[1])
+            )})`
         else if (percent < filterPercentages.predictedPricePercentage[2])
-            color = `rgb(0, 255, ${Math.floor(
-                255 *
-                (1 -
-                    (percent -
-                        filterPercentages.predictedPricePercentage[1]) /
-                    (filterPercentages.predictedPricePercentage[2] -
-                        filterPercentages.predictedPricePercentage[1]))
+            color = `rgb(0, ${Math.ceil(
+                127 + (128*((percent -
+                        filterPercentages.predictedPricePercentage[1])/(filterPercentages.predictedPricePercentage[2] -
+                            filterPercentages.predictedPricePercentage[1]))) 
+            )},  ${Math.ceil(
+                127 + (128*((percent -
+                        filterPercentages.predictedPricePercentage[1])/(filterPercentages.predictedPricePercentage[2] -
+                            filterPercentages.predictedPricePercentage[1]))) 
             )})`
         else if (percent < filterPercentages.predictedPricePercentage[3])
             color = `rgb(${Math.ceil(
-                255 *
+                127 *
                 ((percent - filterPercentages.predictedPricePercentage[2]) /
                     (filterPercentages.predictedPricePercentage[3] -
                         filterPercentages.predictedPricePercentage[2]))
-            )}, 255, 0)`
+            )}, 255, 255)`
         else {
-            color = `rgb(255, ${Math.floor(
-                255 *
-                (1 -
-                    (percent -
-                        filterPercentages.predictedPricePercentage[2]) /
-                    (100 -
-                        filterPercentages.predictedPricePercentage[2]))
-            )}, 0)`
+            color = `rgb(${Math.ceil(
+                127 + (128*((percent -
+                        filterPercentages.predictedPricePercentage[3])/(filterPercentages.predictedPricePercentage[4] -
+                            filterPercentages.predictedPricePercentage[3]))) 
+            )}, 255, 255)`
         }
     } else color = FILTER_COLORS[6] // GRAY
     if (!color) console.log(color)
