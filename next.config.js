@@ -43,6 +43,7 @@ module.exports = {
 		BADGES_CONTRACT_ADDRESS: process.env.BADGES_CONTRACT_ADDRESS,
 		CHANNEL_PUSH_ADDRESS: process.env.CHANNEL_PUSH_ADDRESS,
 		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
+		ROLE_CONTRACT_ADDRESS:process.env.ROLE_CONTRACT_ADDRESS
 	},
 	typescript: {
 		// !! WARN !!

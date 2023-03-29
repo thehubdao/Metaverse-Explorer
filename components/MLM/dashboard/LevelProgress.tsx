@@ -101,7 +101,6 @@ export const LevelProgress = () => {
     }, [account.isConnected])
 
     useEffect(() => {
-        console.log('INFINITE LOOP')
         const setData = async () => {
             setBalance(await getBalance(account.address, provider))
             setLevel(await getMLPLevel(account.address, provider))

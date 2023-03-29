@@ -1,6 +1,7 @@
+import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { AiOutlineExpand } from "react-icons/ai";
+import { AiFillHeart, AiOutlineExpand } from "react-icons/ai";
 import { BsTwitter } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
@@ -11,6 +12,7 @@ import { IAPIData, IPredictions } from "../../lib/types";
 import { getState } from "../../lib/utilities";
 import { handleLandName } from "../../lib/valuation/valuationUtils";
 import { ValuationState } from "../../pages/valuation";
+import { useAppSelector } from "../../state/hooks";
 import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
@@ -25,6 +27,50 @@ interface Props {
   mapState: ValuationState
   name?: string
   watchlist?: any
+}
+
+const FeedbackButtons = () => {
+  const [openAlert, setOpenAlert] = useState(false)
+  const handleFeedback = () => {
+    setOpenAlert(true)
+  }
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') return;
+    setOpenAlert(false);
+  };
+
+  return (
+    <>
+      <p className="text-center text-grey-icon font-normal text-sm">Do you like this price estimation?</p>
+      <div className="flex justify-between py-3 gap-1">
+        <button className="bg-[#1AB3F3] text-white rounded-lg text-xs p-2 w-full" onClick={() => handleFeedback()}>
+          Perfect
+        </button>
+        <button className="bg-[#FF4949] text-white rounded-lg text-xs p-2 w-full" onClick={() => handleFeedback()}>
+          Overvalued
+        </button>
+        <button className="bg-[#47E298] text-white rounded-lg text-xs p-2 w-full" onClick={() => handleFeedback()}>
+          Undervalued
+        </button>
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="info"
+            sx={{ width: '100%' }}
+            icon={<AiFillHeart />}
+          >
+            Thanks for your feedback
+          </Alert>
+        </Snackbar>
+      </div>
+    </>
+  )
 }
 
 const MapCard = ({
@@ -45,6 +91,7 @@ const MapCard = ({
   const imgSize = 250
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
+  const { token }: any = useAppSelector((state) => state.account)
 
   const options = SocialMediaOptions(
     apiData?.tokenId,
@@ -67,9 +114,15 @@ const MapCard = ({
     }
   }
 
-  const getWatchList = async () => {
+  const getWatchList = async (token: string) => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/authservice-mgh/watchlistService/getWatchlist?address=${address}`
+      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authentication': `${token}`
+        }
+      }
     )
     const watchlist = watchlistRequest.data
     setWatchlist(watchlist)
@@ -77,7 +130,7 @@ const MapCard = ({
 
   useEffect(() => {
     if (!address) return
-    getWatchList()
+    getWatchList(token)
   }, [address])
 
 
@@ -151,32 +204,21 @@ const MapCard = ({
                   />
                 </div>
               </div>
-              <p className="text-center text-grey-icon font-normal text-sm">Do you like this price estimation?</p>
-              <div className="flex justify-between py-3 gap-1">
-                <button className="bg-[#1AB3F3] text-white rounded-lg text-xs p-2 w-full">
-                  Perfect
-                </button>
-                <button className="bg-[#FF4949] text-white rounded-lg text-xs p-2 w-full">
-                  Overvalued
-                </button>
-                <button className="bg-[#47E298] text-white rounded-lg text-xs p-2 w-full">
-                  Undervalued
-                </button>
-              </div>
+              <FeedbackButtons />
 
               {/* Add To Watchlist Button */}
               {(watchlist &&
                 watchlist[metaverse] &&
                 watchlist[metaverse][apiData?.tokenId])
                 ? (
-                  <div onClick={() => getWatchList()}><WatchlistButton
+                  <div onClick={() => getWatchList(token)}><WatchlistButton
                     getWatchList={getWatchList}
                     land={apiData}
                     metaverse={apiData.metaverse}
                     action={'remove'}
                   /></div>
                 ) : (
-                  <div onClick={() => getWatchList()}><WatchlistButton
+                  <div onClick={() => getWatchList(token)}><WatchlistButton
                     getWatchList={getWatchList}
                     land={apiData}
                     metaverse={apiData.metaverse}

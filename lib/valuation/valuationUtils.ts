@@ -259,6 +259,5 @@ export const fetchLandList = async (metaverse: Metaverse, lands: string[]) => {
 export const getFloorPriceByItrm = async (metaverse: Metaverse) => {
     const res = await fetch(process.env.ITRM_SERVICE + '/val-analytics/generalFloorPrice?metaverse=' + metaverse)
     const floorPrice = await res.json()
-    console.log(floorPrice)
     return floorPrice.value
 }

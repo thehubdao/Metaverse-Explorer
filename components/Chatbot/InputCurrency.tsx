@@ -3,6 +3,7 @@ import { useSigner } from 'wagmi'
 import {
   approveTokens,
   buyRoleB2B,
+  buyRoleB2C,
 } from '../../backend/services/RoleContractService'
 import Button from './Button'
 
@@ -30,7 +31,7 @@ const InputCurrency = (props: any) => {
   const { setState } = props
   const { data: signer } = useSigner()
 
-  const handleSubmitCurrency = async (amount: number) => {
+  const handleB2BSubmitCurrency = async (amount: number) => {
     if (amount < props.min) return
     await approveTokens(props.currency, signer!, amount)
     await buyRoleB2B(1001, 'USDC', signer!)
@@ -38,6 +39,15 @@ const InputCurrency = (props: any) => {
     setState((state: any) => ({ ...state, amount: amount }))
   }
 
+  const handleB2CSubmitCurrency = async (amount: number) => {
+    if (amount < props.min) return
+    await approveTokens(props.currency, signer!, amount)
+    await buyRoleB2C(1, 'USDC', signer!)
+    props.actionProvider.handleLastMessage(`$${amount}`)
+    setState((state: any) => ({ ...state, amount: amount }))
+  }
+
+  const handleSubmitCurrency = props.buyType =='B2B' ? handleB2BSubmitCurrency: handleB2CSubmitCurrency
 
   const handleChange = (event: any) => {
     setInputValue(event.target.value)
