@@ -336,7 +336,7 @@ export async function getServerSideProps() {
     }
     try {
         const coin = await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd_sadas"
+            "https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd"
         );
         prices = await coin.json();
     } catch (error) {
