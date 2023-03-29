@@ -143,6 +143,12 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                         },
                     }))
                 else if (allMetaverse[name].data.avgPriceParcel
+                    == undefined && allMetaverse[name].data.avgPriceParcelPerArea
+                    == undefined && allMetaverse[name].data.floorPrice
+                    == undefined && allMetaverse[name].data.maxPrice
+                    == undefined && allMetaverse[name].data.salesVolume
+                    == undefined && allMetaverse[name].data.stdSalesPrices
+                    == undefined && allMetaverse[name].data.totalNumberOfSales
                     == undefined) {
                         setIsData(true)
                 }
@@ -156,7 +162,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
         }
         salesVolumeCall()
     }, [allMetaverse])
-
+    
     useEffect(() =>{
         setInterval(interval)
     },[mosaicButton])
