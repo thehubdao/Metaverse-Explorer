@@ -38,7 +38,6 @@ export default function ConnectButton() {
   const refreshToken = async () => {
     try {
       const accessToken = await web3authService.refreshToken()
-      console.log(accessToken)
       if (accessToken) {
         setToken(accessToken)
         return true
