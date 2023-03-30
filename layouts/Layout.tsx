@@ -101,10 +101,10 @@ export default function Layout({ children }: LayoutProps) {
 
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
-				<div className={`absolute top-0 z-50 pr-8 right-44`}>
+				<div className={`absolute top-0 z-50 pr-8 ${address ? 'right-44' : 'right-26'}` }>
 					<ConnectButton />
 				</div>
-				<div className={`absolute top-0 right-26 z-50 pr-8 `}>
+				<div className={`absolute top-0 right-26 z-50 pr-8  ${!address ? 'hidden' : ''}`}>
 					<ShoppingCart />
 				</div>
 				<div className='absolute top-0 right-0 z-50 pr-8'>

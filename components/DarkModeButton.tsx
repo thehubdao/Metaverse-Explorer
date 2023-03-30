@@ -25,14 +25,14 @@ function DarkModeButton({ setSwitchState, switchState }: DarkModeButtonProps) {
     />
   ))(({ theme }) => ({
     width: 104,
-    height: 42,
+    height: 64,
     padding: 0,
     '& .MuiSwitch-switchBase': {
       padding: 0,
       margin: 2,
       transitionDuration: '300ms',
       '&.Mui-checked': {
-        transform: 'translateX(63px)',
+        transform: 'translateX(41px)',
         color: '#fff',
         '& + .MuiSwitch-track': {
           backgroundColor: theme.palette.mode === 'dark' ? '#34373D' : '#D4DBE7',
@@ -59,11 +59,11 @@ function DarkModeButton({ setSwitchState, switchState }: DarkModeButtonProps) {
     },
     '& .MuiSwitch-thumb': {
       boxSizing: 'border-box',
-      width: 37,
-      height: 37,
+      width: 59,
+      height: 59,
     },
     '& .MuiSwitch-track': {
-      borderRadius: 42 / 2,
+      borderRadius: 64 / 2,
       border: '1px solid #fff',
       backgroundColor: theme.palette.mode === 'light' ? '#34373D' : '#D4DBE7',
       opacity: 1,
