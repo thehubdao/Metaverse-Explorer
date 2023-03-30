@@ -36,7 +36,7 @@ export default function ConnectButton() {
   };
 
   const refreshToken = async () => {
-    try {
+    /* try {
       const accessToken = await web3authService.refreshToken()
       if (accessToken) {
         setToken(accessToken)
@@ -45,7 +45,14 @@ export default function ConnectButton() {
     } catch (err) {
       console.log(err)
       
-    }
+    } */
+    try {
+      const accessToken = JSON.parse(localStorage.getItem('accessToken') as string)
+      setToken(accessToken)
+      return true
+    } catch { }
+
+
     setToken('')
     await logout()
     return false
@@ -68,6 +75,7 @@ export default function ConnectButton() {
 
   const logout = async () => {
     console.log('logout')
+    localStorage.removeItem('accessToken')
     await web3authService.disconnectWeb3Auth()
     disconnect()
     setToken('')
@@ -96,10 +104,11 @@ export default function ConnectButton() {
     setTimeout(login, 500);
   }
 
-  const { setToken, clearToken } = useToken(onTokenInvalid, refreshToken, logout);
+  const { setToken, clearToken } = useToken(onTokenInvalid, /* refreshToken */() => { }, logout);
 
   const initAuth = async (signer: any) => {
-    const accessToken:any = await web3authService.connectWeb3Auth(signer as Signer)
+    const accessToken: any = await web3authService.connectWeb3Auth(signer as Signer)
+    localStorage.setItem('accessToken', JSON.stringify(accessToken))
     setToken(accessToken)
     await initContract(signer as Signer)
   }
@@ -112,7 +121,7 @@ export default function ConnectButton() {
       >
         {address ? (
           <div className='flex justify-between items-center gap-5 w-full h-full' onClick={() => openDropdownMenu()}>
-            {<Image src={ensAvatar ? ensAvatar : '/images/icons/user.svg'} width={40} height={40} alt="ENS Avatar" className='rounded-full bg-grey-content'/>}
+            {<Image src={ensAvatar ? ensAvatar : '/images/icons/user.svg'} width={40} height={40} alt="ENS Avatar" className='rounded-full bg-grey-content' />}
             <p className='font-bold'>{buyerControl(ensName ? `${ensName}` : `${address}`)}</p>
             <BiChevronDown className={`${modalIsOpen ? 'rotate-180' : ''} text-xl`} />
           </div>
