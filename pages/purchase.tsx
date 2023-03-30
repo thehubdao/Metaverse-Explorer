@@ -176,10 +176,43 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
 }
 export async function getServerSideProps() {
   // Using wmatic instead of matic cause coingecko isn't working for matic..
-  const coinRes = await fetch(
-    `https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Cocean-protocol%2Cmetagamehub-dao%2Cwmatic%2Cusd-coin%2Ctether%2Csomnium-space-cubes&vs_currencies=usd`
-  )
-  const coinValues = (await coinRes.json()) as PurchaseCoinValues
+  let coinValues: any = {
+    "decentraland": {
+      "usd": 0
+    },
+    "ethereum": {
+      "usd": 0
+    },
+    "metagamehub-dao": {
+      "usd": 0
+    },
+    "ocean-protocol": {
+      "usd": 0
+    },
+    "somnium-space-cubes": {
+      "usd": 0
+    },
+    "tether": {
+      "usd": 0
+    },
+    "the-sandbox": {
+      "usd": 0
+    },
+    "usd-coin": {
+      "usd": 0
+    },
+    "wmatic": {
+      "usd": 0
+    }
+  }
+  try {
+    const coin = await fetch(
+      `https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Cocean-protocol%2Cmetagamehub-dao%2Cwmatic%2Cusd-coin%2Ctether%2Csomnium-space-cubes&vs_currencies=usd`
+    );
+    coinValues = await coin.json() as PurchaseCoinValues;
+  } catch (error) {
+    console.log(error)
+  }
   return {
     props: {
       coinValues,
