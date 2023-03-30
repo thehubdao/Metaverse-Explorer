@@ -21,6 +21,7 @@ export const getMax = (array: (number | undefined)[]) => {
 
 export const getLimits = (array: (number | undefined)[]) => {
     let arr: number[] = []
+    
     for (let value of array) if (value) arr.push(value)
     arr.sort(function (a, b) {
         return a - b
@@ -28,11 +29,15 @@ export const getLimits = (array: (number | undefined)[]) => {
     let values: number[] = [],
         minimum = Number.MAX_VALUE,
         maximum = 0
-    for (let i = 30; i < arr.length - 30; i++) {
-        values.push(arr[i])
-        maximum = arr[i] > maximum ? arr[i] : maximum
-        minimum = arr[i] < minimum ? arr[i] : minimum
-    }
+        if (values.length > 60) {
+            for (let i = 30; i < arr.length - 30; i++) {
+                values.push(arr[i])
+                maximum = arr[i] > maximum ? arr[i] : maximum
+                minimum = arr[i] < minimum ? arr[i] : minimum
+            }
+        } else {
+            values = arr;
+        }
     let mid = Math.floor(values.length - 1)
     let median =
         values.length % 2 == 0
@@ -57,27 +62,6 @@ export const getPercentage = (
     return percentage > 0 ? (percentage < 100 ? percentage : 100) : 0
 }
 
-const CalculateMaxPriceOnHistoryDependGivenDays = (
-    landFromAtlas: ValuationTile,
-    givenDays: number
-) => {
-    let maxPrice = 0
-    let now = new Date()
-    let deathLine = now.setDate(now.getDate() - givenDays)
-    landFromAtlas.history?.map((historyPoint) => {
-        let historyTime = new Date(historyPoint.timestamp).getTime()
-        if (historyTime > deathLine) {
-            historyPoint
-                ? (maxPrice =
-                    historyPoint.eth_price > maxPrice
-                        ? historyPoint.eth_price
-                        : maxPrice)
-                : 0
-        }
-    })
-
-    return maxPrice
-}
 
 /* export const setLandColour = async (
     land: any,
@@ -149,28 +133,7 @@ const CalculateMaxPriceOnHistoryDependGivenDays = (
 export const getGeneralData = (
     valuationAtlas: Record<string, any>
 ) => {
-    const getLandDependingOnGivenNumberOfDays = (
-        valuation: any,
-        givenDays: number
-    ) => {
-        let counter = 0
-        let now = new Date()
-        let deathLine = now.setDate(now.getDate() - givenDays)
-        valuationAtlas[valuation].history?.map((dataHistory: any) => {
-            let historyTime = new Date(dataHistory.timestamp).getTime()
-            if (historyTime > deathLine) counter = counter + 1
-        })
-        return counter
-    }
-
-    /**
-    * Some Lands are listed for way too high prices.
-    * To keep the price_difference filter consistent, we will consider
-    that have a price difference of less than the number below
-    */
     const MAX_DIFF = 400
-
-    // GENERATE MAX
     const elementOptions: any = {
 
         price_difference: {
@@ -215,6 +178,7 @@ export const getGeneralData = (
     }
 
     Object.keys(elementOptions).forEach((key) => {
+        
         let predictions =
             elementOptions[key as keyof typeof elementOptions].predictions
         elementOptions[key] = {
@@ -229,19 +193,6 @@ export const setColours = async (
     valuationAtlas: Record<string, any>,
     filter: MapFilter,
 ) => {
-    const getLandDependingOnGivenNumberOfDays = (
-        land: any,
-        givenDays: number
-    ) => {
-        let counter = 0
-        let now = new Date()
-        let deathLine = now.setDate(now.getDate() - givenDays)
-        land.history?.map((dataHistory: any) => {
-            let historyTime = new Date(dataHistory.timestamp).getTime()
-            if (historyTime > deathLine) counter = counter + 1
-        })
-        return counter
-    }
     const wholeData = getGeneralData(valuationAtlas)
 
     const limits = wholeData[filter].limits
@@ -266,10 +217,10 @@ export const setColours = async (
                 valuationAtlas[valuation]?.floor_adjusted_predicted_price,
                 limits
             ),
-            last_month_sells:  getPercentage(
+            last_month_sells:  valuationAtlas[valuation].max_history_price ? getPercentage(
                     valuationAtlas[valuation].max_history_price,
                     limits
-                )
+                ):NaN
                 ,
             transfers: getPercentage(
                 valuationAtlas[valuation].history_amount,
@@ -289,7 +240,7 @@ export const setColours = async (
                 limits
             )
         }
-
+        
         valuationAtlas[valuation] = {
             ...valuationAtlas[valuation],
             percent,
@@ -317,7 +268,7 @@ export const FILTER_COLORS = {
 // Colors for dictionary filters
 export const LEGEND_COLORS = {
     'on-sale': '#FFE5A3', // On sale
-
+    'premium-lands':'#47E298',
     // Decentraland Only
     roads: '#5775A5', // roads
     plazas: '#32D2FF', // plazas
@@ -429,7 +380,6 @@ export const generateColor = (percent: number, mapFilter?: MapFilter) => {
             )}, 255, 255)`
         }
     } else color = FILTER_COLORS[6] // GRAY
-    if (!color) console.log(color)
     return color
 }
 
