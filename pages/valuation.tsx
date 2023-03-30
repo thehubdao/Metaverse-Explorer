@@ -347,28 +347,28 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 				{/* Heatmap */}
 				<div className="relative py-8 h-full">
-				{!token && (
-					<div className="flex flex-col justify-center items-center mt-28">
-						{/* Auth Button */}
-						<Image
-							src="/images/mgh_logo/mgh_logo.svg"
-							width={136}
-							height={131}
-							loading='lazy'
-							objectFit='cover'
-						/>
-						<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to use the valuation tool</p>
-						<ConnectButton/>
-					</div>
-				)}
-					{!metaverse &&  token &&(
+					{/* !token */ false && (
+						<div className="flex flex-col justify-center items-center mt-28">
+							{/* Auth Button */}
+							<Image
+								src="/images/mgh_logo/mgh_logo.svg"
+								width={136}
+								height={131}
+								loading='lazy'
+								objectFit='cover'
+							/>
+							<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to use the valuation tool</p>
+							<ConnectButton />
+						</div>
+					)}
+					{!metaverse && /* token && */(
 						<MapInitMvChoice
 							metaverse={metaverse}
 							setMetaverse={setMetaverse}
 						/>
 					)}
-					
-					{metaverse  && token &&(
+
+					{metaverse && /* token && */(
 						<div className="rounded-[30px] p-7 nm-flat-medium h-[80vh]">
 							<div className="w-full h-full relative" ref={mapDivRef}>
 
@@ -639,14 +639,36 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 };
 
 export async function getServerSideProps() {
-	const coin = await fetch(
-		"https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd"
-	);
-	const prices = await coin.json();
+	let prices = {
+		"axie-infinity": {
+			"usd": 0
+		},
+		"decentraland": {
+			"usd": 0
+		},
+		"ethereum": {
+			"usd": 0
+		},
+		"somnium-space-cubes": {
+			"usd": 0
+		},
+		"the-sandbox": {
+			"usd": 0
+		}
+	}
+	try {
+		const coin = await fetch(
+			"https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd"
+		);
+		prices = await coin.json();
+	} catch (error) {
+		console.log(error)
+	}
 	return {
 		props: {
 			prices,
 		},
 	};
 }
+
 export default Valuation;
