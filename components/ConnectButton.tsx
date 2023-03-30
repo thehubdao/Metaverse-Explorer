@@ -44,11 +44,10 @@ export default function ConnectButton() {
       }
     } catch (err) {
       console.log(err)
+      
     }
-    if (address) {
-      logout()
-      setToken('')
-    }
+    setToken('')
+    await logout()
     return false
 
 
@@ -68,6 +67,7 @@ export default function ConnectButton() {
   }
 
   const logout = async () => {
+    console.log('logout')
     await web3authService.disconnectWeb3Auth()
     disconnect()
     setToken('')
@@ -99,10 +99,7 @@ export default function ConnectButton() {
   const { setToken, clearToken } = useToken(onTokenInvalid, refreshToken, logout);
 
   const initAuth = async (signer: any) => {
-    const isLoggedIn = await refreshToken()
-    if (isLoggedIn) return
-    const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
-
+    const accessToken:any = await web3authService.connectWeb3Auth(signer as Signer)
     setToken(accessToken)
     await initContract(signer as Signer)
   }
