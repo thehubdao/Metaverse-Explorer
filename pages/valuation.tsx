@@ -638,15 +638,4 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	);
 };
 
-export async function getServerSideProps() {
-	const coin = await fetch(
-		"https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd"
-	);
-	const prices = await coin.json();
-	return {
-		props: {
-			prices,
-		},
-	};
-}
 export default Valuation;
