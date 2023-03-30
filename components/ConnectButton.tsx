@@ -108,6 +108,11 @@ export default function ConnectButton() {
 
   const initAuth = async (signer: any) => {
     const accessToken: any = await web3authService.connectWeb3Auth(signer as Signer)
+    if (!accessToken) {
+      await logout()
+      return
+    }
+
     localStorage.setItem('accessToken', JSON.stringify(accessToken))
     setToken(accessToken)
     await initContract(signer as Signer)
