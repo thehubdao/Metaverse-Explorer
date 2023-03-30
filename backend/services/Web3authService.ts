@@ -102,14 +102,14 @@ class Web3authService {
     }
 
     refreshToken = async () => {
-        const refreshRes = await axios.get(`${process.env.ITRM_SERVICE}/authservice-mgh/authService/refreshToken`, { withCredentials: true, })
+        const refreshRes = await axios.get(`${process.env.AUTH_SERVICE}/authService/refreshToken`, { withCredentials: true, })
         const { data: accesToken } = refreshRes
         return accesToken
     }
 
     disconnectWeb3Auth = async () => {
         if (!this.web3auth) return
-        axios.get(`${process.env.ITRM_SERVICE}/authService/logout`, { withCredentials: true })
+        axios.get(`${process.env.AUTH_SERVICE}/authService/logout`, { withCredentials: true })
     }
 }
 
