@@ -106,7 +106,7 @@ export type PercentFilter = typeof PERCENT_FILTER_ARRAY[number] | undefined
  * Legend Filter triggers when a user clicks on a colored squared on the Legend (bottom Right).
  * Once clicked, only the lands inside that legend (portfolio,watchlist, ...etc) will display
  */
-export type LegendFilter = 'portfolio' | 'watchlist' | 'on-sale' | undefined
+export type LegendFilter = 'portfolio' | 'watchlist' | 'on-sale' | 'premium-lands'|undefined
 
 // For Clicks and Searches
 export type LandCoords = { x?: string | number; y?: string | number }
