@@ -46,10 +46,10 @@ export default function ConnectButton() {
     } catch (err) {
       console.log(err)
     }
-    if (address) {
+    /* if (!address) {
       logout()
       setToken('')
-    }
+    } */
     return false
 
 
@@ -69,6 +69,7 @@ export default function ConnectButton() {
   }
 
   const logout = async () => {
+    console.log('logout')
     await web3authService.disconnectWeb3Auth()
     disconnect()
     setToken('')
