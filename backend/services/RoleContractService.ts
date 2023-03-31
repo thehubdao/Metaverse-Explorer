@@ -1,13 +1,8 @@
-import { Contract, Signer } from 'ethers'
+import { Contract, Signer, BigNumber } from 'ethers'
+
+import ROLE_CONTRACT_ABI from '../abi/SimpleRolesABI.json'
 
 const ROLE_CONTRACT_ADDRESS = process.env.ROLE_CONTRACT_ADDRESS!
-
-const ROLE_CONTRACT_ABI = [
-    'function startB2BSubscription(uint16 role, address currency) external',
-    'function USDC() external pure returns(address)',
-    'function USDT() external pure returns(address)',
-    'function rolePrices(uint16, uint256) external view returns(uint256)',
-]
 
 let ROLE_CONTRACT: any = null
 
@@ -26,6 +21,7 @@ const initContract = async (signer: Signer) => {
         ROLE_CONTRACT_ABI,
         signer
     )
+    console.log(await contract_currencies.USDC(),await contract_currencies.USDT())
 }
 
 const buyRoleB2B = async (role: number, currency: string, signer: Signer) => {
@@ -35,11 +31,12 @@ const buyRoleB2B = async (role: number, currency: string, signer: Signer) => {
     await ROLE_CONTRACT.startB2BSubscription(role, currency_contract_address)
 }
 
-const buyRoleB2C = async (role: number, currency: string, signer: Signer) => {
+const buyRoleB2C = async (role: number, intervals: number, currency: string, signer: Signer) => {
+    const address = await signer.getAddress()
     const currency_contract_address = await contract_currencies[
         currency as keyof typeof contract_currencies
     ]()
-    await ROLE_CONTRACT.startB2BSubscription(role, currency_contract_address)
+    await ROLE_CONTRACT.buyRoleB2C(address, role, intervals, currency_contract_address)
 }
 
 const approveTokens = async (
@@ -59,7 +56,8 @@ const approveTokens = async (
         approve_abi,
         signer
     )
-    return token_contract.approve(ROLE_CONTRACT_ADDRESS, token_amount * 1000000 )
+    console.log(Number(BigNumber.from(token_amount).mul(1000000)))
+    return token_contract.approve(ROLE_CONTRACT_ADDRESS, BigNumber.from(token_amount).mul(1000000))
 }
 
-export { initContract,approveTokens,buyRoleB2B,buyRoleB2C }
+export { initContract, approveTokens, buyRoleB2B, buyRoleB2C }

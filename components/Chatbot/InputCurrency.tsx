@@ -34,7 +34,7 @@ const InputCurrency = (props: any) => {
   const handleB2BSubmitCurrency = async (amount: number) => {
     if (amount < props.min) return
     await approveTokens(props.currency, signer!, amount)
-    await buyRoleB2B(1001, 'USDC', signer!)
+    await buyRoleB2B(1001, props.currency, signer!)
     props.actionProvider.handleLastMessage(`$${amount}`)
     setState((state: any) => ({ ...state, amount: amount }))
   }
@@ -42,7 +42,7 @@ const InputCurrency = (props: any) => {
   const handleB2CSubmitCurrency = async (amount: number) => {
     if (amount < props.min) return
     await approveTokens(props.currency, signer!, amount)
-    await buyRoleB2C(1, 'USDC', signer!)
+    await buyRoleB2C(1, props.intervals, props.currency, signer!)
     props.actionProvider.handleLastMessage(`$${amount}`)
     setState((state: any) => ({ ...state, amount: amount }))
   }

@@ -23,7 +23,6 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, 
             accessToken.current = token;
             const expirationDate = new Date();
             expirationDate.setSeconds(expirationDate.getSeconds() + expiry / 1000)
-            console.log(expiry, expirationDate)
             dispatch(setAccountToken(token))
             setTokenExpiration(expirationDate);
         },

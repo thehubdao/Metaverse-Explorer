@@ -57,7 +57,7 @@ class Web3authService {
                 web3AuthNetwork: 'cyan',
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x89',
+                    chainId: '0x13881',
                     rpcTarget: Chains.MATIC_MAINNET.rpcUrl, // This is the private RPC
                 },
             })
@@ -89,7 +89,8 @@ class Web3authService {
             // Decode JWT and set Global State
             console.log(decodedToken)
             const { B2BRoles, B2CRoles } = decodedToken
-            console.log(accessToken)
+
+            console.log(B2CRoles)
             this.B2BRoles = B2BRoles
             this.B2CRoles = B2CRoles
 

@@ -21,7 +21,7 @@ export default function ConnectButton() {
   const { connectors, connectAsync } = useConnect()
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
-  const { data: globalSigner, refetch } = useSigner()
+  const { data: globalSigner, refetch } = useSigner({ async onSettled(data) { await initContract(data as Signer) } })
   const { data: ensAvatar } = useEnsAvatar({ address })
   const { data: ensName } = useEnsName({ address, chainId: 1 })
   const { chain } = useNetwork()
@@ -74,7 +74,6 @@ export default function ConnectButton() {
   }
 
   const logout = async () => {
-    console.log('logout')
     localStorage.removeItem('accessToken')
     await web3authService.disconnectWeb3Auth()
     disconnect()
@@ -115,7 +114,7 @@ export default function ConnectButton() {
 
     localStorage.setItem('accessToken', JSON.stringify(accessToken))
     setToken(accessToken)
-    await initContract(signer as Signer)
+
   }
 
 
