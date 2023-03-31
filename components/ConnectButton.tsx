@@ -35,19 +35,13 @@ export default function ConnectButton() {
 
   const refreshToken = async () => {
     try {
-      const accessToken = await web3authService.refreshToken()
-      console.log(accessToken)
-      if (accessToken) {
-        setToken(accessToken)
-        return true
-      }
-    } catch (err) {
-      console.log(err)
-    }
-    if (address) {
-      logout()
-      setToken('')
-    }
+      const accessToken = JSON.parse(localStorage.getItem('accessToken') as string)
+      setToken(accessToken)
+      return true
+    } catch { }
+
+    setToken('')
+    await logout()
     return false
   }
   useEffect(() => {
@@ -64,6 +58,8 @@ export default function ConnectButton() {
   }
 
   const logout = async () => {
+    console.log('logout')
+    localStorage.removeItem('accessToken')
     await web3authService.disconnectWeb3Auth()
     disconnect()
     setToken('')
@@ -92,13 +88,16 @@ export default function ConnectButton() {
     setTimeout(login, 500);
   }
 
-  const { setToken, clearToken } = useToken(onTokenInvalid, refreshToken, logout);
+  const { setToken, clearToken } = useToken(onTokenInvalid, /* refreshToken */() => { }, logout);
 
   const initAuth = async (signer: any) => {
-    const isLoggedIn = await refreshToken()
-    if (isLoggedIn) return
-    const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
+    const accessToken: any = await web3authService.connectWeb3Auth(signer as Signer)
+    if (!accessToken) {
+      await logout()
+      return
+    }
 
+    localStorage.setItem('accessToken', JSON.stringify(accessToken))
     setToken(accessToken)
     await initContract(signer as Signer)
   }
@@ -113,7 +112,7 @@ export default function ConnectButton() {
   return (
     <>
       <div
-        className={`relative ${address ? 'w-[350px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-7 py-3 gap-2 select-none font-normal`}
+        className={`relative ${address ? 'w-[350px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-7 py-3 gap-2 select-none font-normal shadow-xl`}
       >
         {address ? (
           <div className='flex justify-between items-center gap-5 w-full h-full' onClick={() => openDropdownMenu()}>

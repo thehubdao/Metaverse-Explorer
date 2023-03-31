@@ -23,6 +23,7 @@ import GeneralSection from '../components/GeneralSection'
 import FilterButton from '../components/Analytics/FilterButton'
 import OptimizedImage from '../components/General/OptimizedImage'
 import FilterColumn from '../components/Analytics/FilterColumn'
+import NoData from '../components/General/NoData'
 const analyticsState = ['loading', 'loaded', 'firstLoad'] as const
 type AnalyticsState = typeof analyticsState[number]
 
@@ -32,9 +33,9 @@ interface Props {
 
 const headerList = [
     {
-		name: "Land Valuation",
-		route: "valuation",
-	},
+        name: "Land Valuation",
+        route: "valuation",
+    },
     {
         name: "Portfolio",
         route: "portfolio",
@@ -52,7 +53,7 @@ const headerList = [
 const mosaicOp = {
     twoCol: { logo: '/images/two-col.svg' },
     oneCol: { logo: '/images/one-col.svg' },
-  }
+}
 
 /* Time intervals options*/
 const intervalLabels = {
@@ -66,13 +67,13 @@ const intervalLabels = {
 
 // array grahps filters
 const Graphs = [
-    { name: "Average Sale Price per Parcel"},
-    { name: "Cheapest sale"},
-    { name: "Average Price Per m^2"},
-    { name: "Total Sales"},
-    { name: "Standard Deviation"},
-    { name: "Daily Sales Volume"},
-    { name: "Max Price"},
+    { name: "Average Sale Price per Parcel" },
+    { name: "Cheapest sale" },
+    { name: "Average Price Per m^2" },
+    { name: "Total Sales" },
+    { name: "Standard Deviation" },
+    { name: "Daily Sales Volume" },
+    { name: "Max Price" },
 ]
 
 const arrayMetaverses: Metaverse[] = [
@@ -96,6 +97,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     const [richList, setRichList] = useState<RichList>()
     const [interval, setInterval] = useState<TimeInterval>("month");
     const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>("ETH");
+    const [isData, setIsData] = useState<boolean>(false);
     // buttons mosaic
     const [mosaicButton, setMosaicButton] = useState<keyof typeof mosaicOp>("twoCol");
     // filters
@@ -104,9 +106,9 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     const [noFilters, setNoFilters] = useState<number>(0)
 
     const handleGraphFilter = (selectedFilter: string[], noFilter: number) => {
-		setSelectedFilters(selectedFilter)
-        setNoFilters(noFilter)    
-	}
+        setSelectedFilters(selectedFilter)
+        setNoFilters(noFilter)
+    }
 
     type TimeInterval = keyof typeof intervalLabels;
 
@@ -131,7 +133,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                         )) as ChartInfo[]
                     }),
                 )
-
+                
                 if (allMetaverse[name].data == undefined && allMetaverse[name].active == true)
                     setAllMetaverse((prevState: any) => ({
                         ...prevState,
@@ -140,6 +142,16 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             data: routesValues
                         },
                     }))
+                else if (allMetaverse[name].data.avgPriceParcel
+                    == undefined && allMetaverse[name].data.avgPriceParcelPerArea
+                    == undefined && allMetaverse[name].data.floorPrice
+                    == undefined && allMetaverse[name].data.maxPrice
+                    == undefined && allMetaverse[name].data.salesVolume
+                    == undefined && allMetaverse[name].data.stdSalesPrices
+                    == undefined && allMetaverse[name].data.totalNumberOfSales
+                    == undefined) {
+                        setIsData(true)
+                }
 
                 setMarkCap((await fetchChartData(name, 'mCap')) as number)
                 setRichList(
@@ -151,17 +163,17 @@ const Analytics: NextPage<Props> = ({ prices }) => {
         salesVolumeCall()
     }, [allMetaverse])
 
-    useEffect(() =>{
+    useEffect(() => {
         setInterval(interval)
-    },[mosaicButton])
-    
+    }, [mosaicButton])
+
     return (
         <>
             <Head>
                 <title>MGH | Analytics</title>
                 <meta name="description" content="Analytics Dashboard" />
             </Head>
-            <div className="pt-24 w-full">
+            <div className="pt-32 w-full">
                 {/* Main Header */}
                 {/* General Section Layout */}
                 <GeneralSection
@@ -171,6 +183,14 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     children={undefined}
                 />
                 {/* Market Cap - Owners Land % */}
+                
+                {
+                isData ?
+                <div className="mb-28">
+                    <NoData label="This service is currently experimenting some issues. Please come back later" />
+                </div>
+                :
+                <>
                 <p className="px-11 py-24 flex gap-1 font-bold justify-center text-base tracking-[0.375em]">
                     LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
                     {loaded ? (
@@ -234,12 +254,12 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                     {typedKeys(mosaicOp).map((arrMosaic) => (
                                         <button
                                             key={arrMosaic}
-                                            
+
                                             className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-12 h-12 group focus:outline-none bg-[#F9FAFB] ${mosaicButton === arrMosaic
                                                 ? 'border-opacity-20 nm-inset-medium'
                                                 : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
                                                 } border border-white transition duration-300 ease-in-out`}
-                                                onClick={() => setMosaicButton(arrMosaic)}
+                                            onClick={() => setMosaicButton(arrMosaic)}
                                         >
                                             <OptimizedImage
                                                 src={mosaicOp[arrMosaic].logo}
@@ -263,7 +283,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             graphFilter={Graphs}
                         />
                     )}
-                    
+
                     <div className={`${openedFilters ? "col-span-3" : "col-span-full"} `}>
                         {/* Loader for Initial Fetch */}
                         {firstLoad ? (
@@ -276,8 +296,8 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                 } `}>
                                 {/* Charts */}
                                 {chartRoutes.map((element, index) => {
-                                    if (selectedFilters.includes(element.label) || noFilters === 0)
-                                        {return (
+                                    if (selectedFilters.includes(element.label) || noFilters === 0) {
+                                        return (
                                             <li key={index} className='nm-flat-medium p-8 break-inside-avoid rounded-xl bg-[#F9FAFB]'>
                                                 <div className='flex flex-row flex-nowrap items-baseline'>
                                                     <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
@@ -302,13 +322,16 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                                     openedFilters={openedFilters}
                                                 />
                                             </li>
-                                        )}
+                                        )
+                                    }
                                 })}
                             </ul>
                         )}
 
                     </div>
                 </div>
+                </>
+                }
             </div>
         </>
     )
@@ -316,10 +339,31 @@ const Analytics: NextPage<Props> = ({ prices }) => {
 }
 
 export async function getServerSideProps() {
-    const coin = await fetch(
-        'https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd'
-    )
-    const prices = await coin.json()
+    let prices = {
+        "axie-infinity": {
+            "usd": 0
+        },
+        "decentraland": {
+            "usd": 0
+        },
+        "ethereum": {
+            "usd": 0
+        },
+        "somnium-space-cubes": {
+            "usd": 0
+        },
+        "the-sandbox": {
+            "usd": 0
+        }
+    }
+    try {
+        const coin = await fetch(
+            "https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd"
+        );
+        prices = await coin.json();
+    } catch (error) {
+        console.log(error)
+    }
     return {
         props: {
             prices,
