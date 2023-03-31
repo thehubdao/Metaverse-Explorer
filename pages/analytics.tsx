@@ -23,6 +23,7 @@ import GeneralSection from '../components/GeneralSection'
 import FilterButton from '../components/Analytics/FilterButton'
 import OptimizedImage from '../components/General/OptimizedImage'
 import FilterColumn from '../components/Analytics/FilterColumn'
+import NoData from '../components/General/NoData'
 const analyticsState = ['loading', 'loaded', 'firstLoad'] as const
 type AnalyticsState = typeof analyticsState[number]
 
@@ -96,6 +97,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
     const [richList, setRichList] = useState<RichList>()
     const [interval, setInterval] = useState<TimeInterval>("month");
     const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>("ETH");
+    const [isData, setIsData] = useState<boolean>(false);
     // buttons mosaic
     const [mosaicButton, setMosaicButton] = useState<keyof typeof mosaicOp>("twoCol");
     // filters
@@ -131,7 +133,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                         )) as ChartInfo[]
                     }),
                 )
-
+                
                 if (allMetaverse[name].data == undefined && allMetaverse[name].active == true)
                     setAllMetaverse((prevState: any) => ({
                         ...prevState,
@@ -140,6 +142,16 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             data: routesValues
                         },
                     }))
+                else if (allMetaverse[name].data.avgPriceParcel
+                    == undefined && allMetaverse[name].data.avgPriceParcelPerArea
+                    == undefined && allMetaverse[name].data.floorPrice
+                    == undefined && allMetaverse[name].data.maxPrice
+                    == undefined && allMetaverse[name].data.salesVolume
+                    == undefined && allMetaverse[name].data.stdSalesPrices
+                    == undefined && allMetaverse[name].data.totalNumberOfSales
+                    == undefined) {
+                        setIsData(true)
+                }
 
                 setMarkCap((await fetchChartData(name, 'mCap')) as number)
                 setRichList(
@@ -161,7 +173,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                 <title>MGH | Analytics</title>
                 <meta name="description" content="Analytics Dashboard" />
             </Head>
-            <div className="pt-24 w-full">
+            <div className="pt-32 w-full">
                 {/* Main Header */}
                 {/* General Section Layout */}
                 <GeneralSection
@@ -171,6 +183,14 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                     children={undefined}
                 />
                 {/* Market Cap - Owners Land % */}
+                
+                {
+                isData ?
+                <div className="mb-28">
+                    <NoData label="This service is currently experimenting some issues. Please come back later" />
+                </div>
+                :
+                <>
                 <p className="px-11 py-24 flex gap-1 font-bold justify-center text-base tracking-[0.375em]">
                     LANDS HELD BY THE TOP 1% OF HOLDERS:{' '}
                     {loaded ? (
@@ -310,6 +330,8 @@ const Analytics: NextPage<Props> = ({ prices }) => {
 
                     </div>
                 </div>
+                </>
+                }
             </div>
         </>
     )
