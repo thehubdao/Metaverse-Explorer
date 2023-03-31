@@ -1,11 +1,13 @@
 import "animate.css";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { useAccount } from 'wagmi'
 
 // Components
 const ConnectButton = dynamic(() => import('../components/ConnectButton'), { ssr: false })
 import ScrollBar from "../components/ScrollBar";
 import Sidebar from "../components/Sidebar";
+import ShoppingCart from "../components/ShoppingCart";
 
 interface LayoutProps {
 	children: React.ReactNode;
@@ -83,6 +85,7 @@ export default function Layout({ children }: LayoutProps) {
 	// Scrollbar Controller
 	const parentRef = useRef<HTMLDivElement>(null)
 	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
+	const { address } = useAccount()
 
 	useEffect(() => {
 		setParentDom(parentRef.current)
@@ -94,8 +97,11 @@ export default function Layout({ children }: LayoutProps) {
 
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
-				<div className="absolute top-0 right-0 z-50">
-					<ConnectButton/>
+				<div className={`absolute top-0 z-50 pr-8 ${address ? 'right-20' : 'right-0'}`}>
+					<ConnectButton />
+				</div>
+				<div className={`absolute top-0 right-0 z-50 pr-8 ${!address ? 'hidden' : ''}`}>
+					<ShoppingCart />
 				</div>
 				<div >
 					{children}

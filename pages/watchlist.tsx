@@ -90,7 +90,7 @@ const Watchlist: NextPage = () => {
         <meta name="description" content="" />
       </Head>
 
-      <div className="pt-24 w-full" />
+      <div className="pt-32 w-full" />
 
       <GeneralSection
         sectionTitle="Your Watchlist"
