@@ -87,18 +87,20 @@ const HotDealsCard = ({
                   <p className="w-3/4 font-normal text-sm truncate bg-green-400 text-white rounded-md px-2 py-1">{`${(apiData.gap?.toFixed(2))*(-1)} % Underpriced`}</p>
                 </Tooltip>
                 </div>
-                <Tooltip title={name} placement="bottom">
-                  <h3 className="font-semibold text-md truncate" title={name}>
-                    {handleLandName(
-                      metaverse,
-                      {
-                        x: landCoords.x,
-                        y: landCoords.y,
-                      },
-                      name ? name : undefined
-                    )}
-                  </h3>
-                </Tooltip>
+                <div className=" flex justify-center">
+                  <Tooltip title={name} placement="bottom">
+                    <h3 className="font-semibold text-md truncate max-w-[160px]" title={name}>
+                      {handleLandName(
+                        metaverse,
+                        {
+                          x: landCoords.x,
+                          y: landCoords.y,
+                        },
+                        name ? name : undefined
+                      )}
+                    </h3>
+                  </Tooltip>
+                </div>
                 <div className="flex items-center justify-center">
                   <p className="text-sm text-grey-icon pt-2">Listed Price: </p>
                 </div>
