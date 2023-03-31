@@ -69,7 +69,7 @@ const HotDealsCard = ({
     <>
       {apiData &&
         landCoords && (
-          <div className="bg-grey-bone rounded-2xl  flex w-[full] h-[full] shadow-lg">
+          <div className="bg-grey-bone rounded-2xl  flex w-[full] h-[full] shadow-lg mb-6">
 
             <div className='w-full'>
               <div className={`h-fit relative`}>
@@ -111,11 +111,11 @@ const HotDealsCard = ({
                 <div className="flex items-center justify-center">
                   <p className="font-semibold text-sm  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
                 </div>
-                <div className="flex items-center justify-center mt-3">
+                <div className=" items-center justify-center mt-3">
                   <CartButton />
                 </div>
 
-                <div className="flex justify-center my-5 gap-5 font-bold">
+                <div className="flex justify-center my-3 gap-5 font-bold">
                   <button
                     onClick={() => { window.open(apiData.external_link) }}
                     className="flex justify-center gap-1"

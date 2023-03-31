@@ -18,8 +18,8 @@ const CartButton = () => {
         onClick={handleClick}
         className="w-3/4 text-black rounded-3xl  text-sm font-normal nm-flat-medium hover:nm-flat-soft"
       >
-        <Image src={ '/images/shopping-cart.svg'} width={10} height={8} alt="shopping cart" className=''/>
-        {'Add To Cart'}
+        <Image src={ '/images/shopping-cart.svg'} width={15} height={12} alt="shopping cart"/>
+        {' Add To Cart'}
       </button>
       <div className='w-full flex justify-center'>
         <Snackbar
