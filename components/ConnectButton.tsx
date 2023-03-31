@@ -10,8 +10,8 @@ import { initContract } from '../backend/services/RoleContractService'
 // web3auth service
 import web3authService from '../backend/services/Web3authService'
 import { useToken } from '../backend/useToken'
-import { ellipseAddress } from '../lib/utilities'
-import { useAppDispatch, useAppSelector } from '../state/hooks'
+import * as blockies from 'blockies-ts';
+import { useAppSelector } from '../state/hooks'
 
 // Components
 import OvalButton from './General/Buttons/OvalButton'
@@ -22,14 +22,12 @@ export default function ConnectButton() {
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
   const { data: globalSigner, refetch } = useSigner()
-  const { data: ensAvatar } = useEnsAvatar({ address })
   const { data: ensName } = useEnsName({ address, chainId: 1 })
   const { chain } = useNetwork()
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
-
-
+  const [addressImage, setAddressImage] = useState<string>();
 
   const onTokenInvalid = async () => {
     await web3authService.disconnectWeb3Auth()
@@ -37,23 +35,14 @@ export default function ConnectButton() {
 
   const refreshToken = async () => {
     try {
-      const accessToken = await web3authService.refreshToken()
-      console.log(accessToken)
-      if (accessToken) {
-        setToken(accessToken)
-        return true
-      }
-    } catch (err) {
-      console.log(err)
-    }
-    if (address) {
-      logout()
-      setToken('')
-    }
+      const accessToken = JSON.parse(localStorage.getItem('accessToken') as string)
+      setToken(accessToken)
+      return true
+    } catch { }
+
+    setToken('')
+    await logout()
     return false
-
-
-
   }
   useEffect(() => {
     refreshToken()
@@ -69,6 +58,8 @@ export default function ConnectButton() {
   }
 
   const logout = async () => {
+    console.log('logout')
+    localStorage.removeItem('accessToken')
     await web3authService.disconnectWeb3Auth()
     disconnect()
     setToken('')
@@ -97,17 +88,26 @@ export default function ConnectButton() {
     setTimeout(login, 500);
   }
 
-  const { setToken, clearToken } = useToken(onTokenInvalid, refreshToken, logout);
+  const { setToken, clearToken } = useToken(onTokenInvalid, /* refreshToken */() => { }, logout);
 
   const initAuth = async (signer: any) => {
-    const isLoggedIn = await refreshToken()
-    if (isLoggedIn) return
-    const accessToken = await web3authService.connectWeb3Auth(signer as Signer)
+    const accessToken: any = await web3authService.connectWeb3Auth(signer as Signer)
+    if (!accessToken) {
+      await logout()
+      return
+    }
 
+    localStorage.setItem('accessToken', JSON.stringify(accessToken))
     setToken(accessToken)
     await initContract(signer as Signer)
   }
 
+  useEffect(() => {
+    if (!address) return
+    const imgSrc = blockies.create({ seed: address }).toDataURL();
+    console.log('image src: ', imgSrc)
+    setAddressImage(imgSrc)
+  }, [address])
 
   return (
     <>
@@ -116,7 +116,7 @@ export default function ConnectButton() {
       >
         {address ? (
           <div className='flex justify-between items-center gap-5 w-full h-full' onClick={() => openDropdownMenu()}>
-            {<Image src={ensAvatar ? ensAvatar : '/images/icons/user.svg'} width={40} height={40} alt="ENS Avatar" className='rounded-full bg-grey-content'/>}
+            {<Image src={addressImage ? addressImage : '/images/icons/user.svg'} width={40} height={40} alt="ENS Avatar" className='rounded-full bg-grey-content' />}
             <p className='font-bold'>{buyerControl(ensName ? `${ensName}` : `${address}`)}</p>
             <BiChevronDown className={`${modalIsOpen ? 'rotate-180' : ''} text-xl`} />
           </div>

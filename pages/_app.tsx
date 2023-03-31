@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 [publicProvider()]
             )
             const wagmiClientInstance = createClient({
-                autoConnect: false,
+                autoConnect: true,
                 connectors: [
                     new Web3AuthConnector({
                         chains,

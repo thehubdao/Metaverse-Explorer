@@ -11,6 +11,7 @@ import { convertETHPrediction } from '../../lib/valuation/valuationUtils'
 import { Metaverse } from '../../lib/metaverse'
 import { useAppSelector } from '../../state/hooks'
 import { createOpenSeaLink } from '../../backend/services/openSeaDataManager'
+import Tooltip from "@mui/material/Tooltip";
 
 import {
   handleLandName,
@@ -63,9 +64,11 @@ const HorizontalPriceCard = ({
           {/* Name and Id */}
           <div className='w-[200px]'>
             {/* Asset Name */}
-            <h3 className='text-2xl text-grey-icon truncate' title={handleLandName(metaverse, land.coords, land.name)}>
-              {handleLandName(metaverse, land.coords, land.name)}
-            </h3>
+            <Tooltip title={handleLandName(metaverse, land.coords, land.name)} placement='bottom'>
+              <h3 className='text-2xl text-grey-icon truncate' title={handleLandName(metaverse, land.coords, land.name)}>
+                {handleLandName(metaverse, land.coords, land.name)}
+              </h3>
+            </Tooltip>
             {/* Asset ID */}
             <p className='text-base font-medium text-grey-content'>
               Token ID: {handleTokenID(landId)}

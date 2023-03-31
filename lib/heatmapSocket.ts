@@ -3,6 +3,7 @@ import { Metaverse } from "./metaverse"
 export const formatLand = (pureLandData: string, metaverse: Metaverse) => {
     const dataArray = pureLandData.split(';')
     const [x, y, eth_predicted_price, floor_adjusted_predicted_price, current_price_eth, history_amount, max_history_price, tokenId] = dataArray
+    /* console.log(max_history_price?Number(max_history_price):'') */
     let land: any = {
         [metaverse == 'somnium-space' ? 'center' : 'coords']: { x, y },
         eth_predicted_price: Number(eth_predicted_price),
@@ -13,18 +14,22 @@ export const formatLand = (pureLandData: string, metaverse: Metaverse) => {
 
     }
 
+    if (metaverse == 'sandbox') {
+        const [, , , , , , , , land_type] = dataArray
+        land.land_type = land_type
+    }
+
     if (metaverse == 'somnium-space') {
         const [, , , , , , , , geometryRawData] = dataArray
-        
+
         const geometryRawArray = geometryRawData.split('/')
         const geometry = geometryRawArray.map((coords) => {
             const [x, y] = coords.split(':')
             return { x: Number(x), y: Number(y) }
         })
         land.geometry = geometry
+        return land
     }
-
-    if (metaverse != 'decentraland') return land
 
     const [, , , , , , , , type, top, left, topLeft] = dataArray
     land.tile = {
