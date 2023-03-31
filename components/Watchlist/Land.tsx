@@ -22,7 +22,7 @@ interface Props {
     land: any
     landId: string
     metaverse: Metaverse
-    onTrashClick: any
+    onTrashClick?: any
 }
 
 const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
