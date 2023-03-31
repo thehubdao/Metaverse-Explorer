@@ -1,25 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useSigner } from 'wagmi'
+import { useAccount, useSigner } from 'wagmi'
 import {
   approveTokens,
   buyRoleB2B,
   buyRoleB2C,
 } from '../../backend/services/RoleContractService'
 import Button from './Button'
+import { useAppDispatch, useAppSelector } from '../../state/hooks'
+import { setAccountToken } from '../../state/account'
+import web3authService from '../../backend/services/Web3authService'
 
 
 interface PriceButtonProps {
   label: string
   amount: number
-  handleSubmitCurrency: Function
+  handleSubmitCurrency: Function,
+  intervals: number
 }
 
-const PriceButton = ({ label, amount, handleSubmitCurrency }: PriceButtonProps) => {
+const PriceButton = ({ label, amount, handleSubmitCurrency, intervals }: PriceButtonProps) => {
   return (
     <Button
       label={`${label}`}
       onClick={() => {
-        handleSubmitCurrency(350)
+        handleSubmitCurrency(amount, intervals)
       }}
     />
   )
@@ -30,24 +34,33 @@ const InputCurrency = (props: any) => {
   const element: any = useRef<any>(null)
   const { setState } = props
   const { data: signer } = useSigner()
+  const dispatch = useAppDispatch()
+  const { token }: any = useAppSelector((state) => state.account.accessToken);
+  const {address} = useAccount()
 
-  const handleB2BSubmitCurrency = async (amount: number) => {
+  const handleB2BSubmitCurrency = async (amount: number, intervals: number) => {
     if (amount < props.min) return
     await approveTokens(props.currency, signer!, amount)
     await buyRoleB2B(1001, props.currency, signer!)
-    props.actionProvider.handleLastMessage(`$${amount}`)
+    const newToken = await web3authService.updateToken(token)
+    dispatch(setAccountToken(newToken))
+    props.actionProvider.handleLastMessage(address,`$${amount}`,web3authService.getB2CRole?.endDate)
     setState((state: any) => ({ ...state, amount: amount }))
   }
 
-  const handleB2CSubmitCurrency = async (amount: number) => {
+  const handleB2CSubmitCurrency = async (amount: number, intervals: number) => {
     if (amount < props.min) return
     await approveTokens(props.currency, signer!, amount)
-    await buyRoleB2C(1, props.intervals, props.currency, signer!)
-    props.actionProvider.handleLastMessage(`$${amount}`)
+    console.log(1, intervals, props.currency)
+    await buyRoleB2C(1, intervals, props.currency, signer!)
+    const newToken = await web3authService.updateToken(token)
+    dispatch(setAccountToken(newToken))
+    console.log(web3authService.getB2CRole?.endDate)
+    props.actionProvider.handleLastMessage(address,`$${amount}`,web3authService.getB2CRole?.endDate)
     setState((state: any) => ({ ...state, amount: amount }))
   }
 
-  const handleSubmitCurrency = props.buyType =='B2B' ? handleB2BSubmitCurrency: handleB2CSubmitCurrency
+  const handleSubmitCurrency = props.buyType == 'B2B' ? handleB2BSubmitCurrency : handleB2CSubmitCurrency
 
   const handleChange = (event: any) => {
     setInputValue(event.target.value)
@@ -79,7 +92,7 @@ const InputCurrency = (props: any) => {
               <Button
                 label="Submit"
                 onClick={() => {
-                  handleSubmitCurrency(inputValue)
+                  handleSubmitCurrency(inputValue, 0)
                 }}
               />
             )}
@@ -87,12 +100,13 @@ const InputCurrency = (props: any) => {
         }
       </div>
       <div className="flex w-full justify-center gap-2 mt-4">
-        {props.buttonsInfo.map((item: { label: string, amount: number }, index: number) => {
+        {props.buttonsInfo.map((item: { label: string, amount: number, intervals: number }, index: number) => {
           return (
             <PriceButton
               key={index}
               amount={item.amount}
               label={item.label}
+              intervals={item.intervals}
               handleSubmitCurrency={handleSubmitCurrency}
             />
           )

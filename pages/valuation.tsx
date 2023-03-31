@@ -45,6 +45,7 @@ import { getCallsCount, updateCallsCount } from "../lib/FirebaseUtilities";
 import { useAccount } from "wagmi";
 import router from "next/router";
 import ConnectButton from "../components/ConnectButton";
+import web3authService from "../backend/services/Web3authService";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -100,7 +101,7 @@ const metaverseLabels: Record<Metaverse, string> = {
 const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [globalData, setglobalData] = useState<AnyObject>({})
 
-	const { token }: any = useAppSelector((state) => state.account);
+	const { token }: any = useAppSelector((state) => state.account.accessToken)
 	const { address } = useAccount()
 
 	const [mapState, setMapState] = useState<ValuationState>("loading");
@@ -108,7 +109,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 	const [selected, setSelected] = useState<LandCoords>();
 	const [hovered, setHovered] = useState<Hovered>({ coords: { x: NaN, y: NaN }, });
-	const [accessToken, setAccessToken] = useState()
 
 	// Hook for Popup
 	const { ref, isVisible, setIsVisible } = useVisible(false);
@@ -268,7 +268,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 	useEffect(() => {
 		if (!token || !address) {
-			setAccessToken(undefined)
 			return
 		}
 		const getValuationCount = async () => {
@@ -276,7 +275,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			valuationCount.current = callsCount as number
 		}
 		getValuationCount()
-		setAccessToken(token)
 	}, [token])
 
 	useEffect(() => {
@@ -311,7 +309,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				optionList={headerList}
 				backgroundClass={``}
 			>
-				{!accessToken ? (<div className="relative py-8 h-full">
+				{!token ? (<div className="relative py-8 h-full">
 					<div className="flex flex-col justify-center items-center mt-28">
 						{/* Auth Button */}
 						<Image
@@ -464,7 +462,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 													setSelected(undefined);
 												} else {
 													const isntFullScreen = document.fullscreenElement ? false : true
-													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS && !web3authService.isPremiumUser()) {
 														router.push("/purchase")
 														return
 													}
@@ -510,7 +508,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 													setSelected(undefined);
 												} else {
 													const isntFullScreen = document.fullscreenElement ? false : true
-													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													console.log(valuationCount.current)
+													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS && !web3authService.isPremiumUser()) {
 														router.push("/purchase")
 														return
 													}

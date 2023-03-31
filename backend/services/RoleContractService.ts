@@ -28,7 +28,7 @@ const buyRoleB2B = async (role: number, currency: string, signer: Signer) => {
     const currency_contract_address = await contract_currencies[
         currency as keyof typeof contract_currencies
     ]()
-    await ROLE_CONTRACT.startB2BSubscription(role, currency_contract_address)
+    await (await ROLE_CONTRACT.startB2BSubscription(role, currency_contract_address)).wait()
 }
 
 const buyRoleB2C = async (role: number, intervals: number, currency: string, signer: Signer) => {
@@ -36,7 +36,7 @@ const buyRoleB2C = async (role: number, intervals: number, currency: string, sig
     const currency_contract_address = await contract_currencies[
         currency as keyof typeof contract_currencies
     ]()
-    await ROLE_CONTRACT.buyRoleB2C(address, role, intervals, currency_contract_address)
+    await (await ROLE_CONTRACT.buyRoleB2C(address, role, intervals)).wait()
 }
 
 const approveTokens = async (
@@ -56,7 +56,6 @@ const approveTokens = async (
         approve_abi,
         signer
     )
-    console.log(Number(BigNumber.from(token_amount).mul(1000000)))
     return token_contract.approve(ROLE_CONTRACT_ADDRESS, BigNumber.from(token_amount).mul(1000000))
 }
 

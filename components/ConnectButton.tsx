@@ -1,7 +1,7 @@
 import { Alert, Snackbar } from '@mui/material'
 import { Signer } from 'ethers'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { FaWallet } from 'react-icons/fa'
 import { useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useNetwork, useSigner } from 'wagmi'
@@ -11,18 +11,20 @@ import { initContract } from '../backend/services/RoleContractService'
 import web3authService from '../backend/services/Web3authService'
 import { useToken } from '../backend/useToken'
 import * as blockies from 'blockies-ts';
-import { useAppSelector } from '../state/hooks'
+import { useAppDispatch, useAppSelector } from '../state/hooks'
 
 // Components
 import OvalButton from './General/Buttons/OvalButton'
+import { setAccountToken } from '../state/account'
 
 export default function ConnectButton() {
-  const { token }: any = useAppSelector((state) => state.account);
+  const dispatch = useAppDispatch()
+  const didMount = useRef(false);
+  const { accessToken }: any = useAppSelector((state) => state.account);
   const { connectors, connectAsync } = useConnect()
   const { disconnect } = useDisconnect()
   const { address } = useAccount()
-  const { data: globalSigner, refetch } = useSigner({ async onSettled(data) { await initContract(data as Signer) } })
-  const { data: ensAvatar } = useEnsAvatar({ address })
+  const { refetch } = useSigner()
   const { data: ensName } = useEnsName({ address, chainId: 1 })
   const { chain } = useNetwork()
 
@@ -31,27 +33,16 @@ export default function ConnectButton() {
   const [addressImage, setAddressImage] = useState<string>();
 
   const onTokenInvalid = async () => {
-    await web3authService.disconnectWeb3Auth()
+    dispatch(setAccountToken({}))
   };
 
+
   const refreshToken = async () => {
-    try {
-      const accessToken = JSON.parse(localStorage.getItem('accessToken') as string)
-      setToken(accessToken)
-      return true
-    } catch { }
-
-    setToken('')
-    await logout()
-    return false
+    const accessToken = JSON.parse(localStorage.getItem('accessToken') as string)
+    dispatch(setAccountToken(accessToken ?? {}))
   }
-  useEffect(() => {
-    refreshToken()
-  }, [])
-
   // handlers
   const login = async () => {
-    console.log("LOGIN")
     await connectAsync({ connector: connectors[0] })
     const { data: signer } = await refetch()
     await initAuth(signer)
@@ -59,11 +50,7 @@ export default function ConnectButton() {
   }
 
   const logout = async () => {
-    localStorage.removeItem('accessToken')
-    await web3authService.disconnectWeb3Auth()
-    disconnect()
-    setToken('')
-    setModalIsOpen(false)
+    dispatch(setAccountToken({}))
   }
   const copyToClipboard = () => {
     const textToCopy = `${address}`;
@@ -88,26 +75,45 @@ export default function ConnectButton() {
     setTimeout(login, 500);
   }
 
-  const { setToken, clearToken } = useToken(onTokenInvalid, /* refreshToken */() => { }, logout);
+  const { setToken } = useToken(onTokenInvalid, /* refreshToken */() => { }, logout);
 
   const initAuth = async (signer: any) => {
     const accessToken: any = await web3authService.connectWeb3Auth(signer as Signer)
-    if (!accessToken) {
-      await logout()
-      return
-    }
-
-    localStorage.setItem('accessToken', JSON.stringify(accessToken))
-    setToken(accessToken)
+    dispatch(setAccountToken(accessToken))
 
   }
 
   useEffect(() => {
     if (!address) return
     const imgSrc = blockies.create({ seed: address }).toDataURL();
-    console.log('image src: ', imgSrc)
     setAddressImage(imgSrc)
   }, [address])
+
+  useEffect(() => {
+    const onMount = async () => {
+      await refreshToken()
+      didMount.current = true
+    }
+    onMount()
+
+  }, [])
+
+  useEffect(() => {
+
+    if (!didMount.current) return
+    
+    if (!accessToken.token) {
+      localStorage.removeItem('accessToken')
+      web3authService.disconnectWeb3Auth()
+      setToken({})
+      disconnect()
+      setModalIsOpen(false)
+      return
+    }
+    localStorage.setItem('accessToken', JSON.stringify(accessToken))
+    web3authService.setUserData(accessToken.token)
+    setToken(accessToken)
+  }, [accessToken])
 
   return (
     <>

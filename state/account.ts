@@ -7,7 +7,7 @@ const initialState: AccountState = {
   address: undefined,
   chainId: 1,
   role: undefined,
-  token: undefined
+  accessToken: {}
 }
 
 export const accountSlice = createSlice({
@@ -30,7 +30,7 @@ export const accountSlice = createSlice({
       state.role = payload
     },
     setAccountToken:(state, { payload }) => {
-      state.token = payload
+      state.accessToken = payload
     },
   },
 })

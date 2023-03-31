@@ -14,7 +14,7 @@ export const axiosBase = axios.create({
 
 
 export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, logout: Function) {
-    const dispatch = useAppDispatch()
+
     const accessToken = useRef<string>();
     const { clearAutomaticTokenRefresh, setTokenExpiration } = useTokenExpiration(onRefreshRequired);
 
@@ -23,7 +23,6 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, 
             accessToken.current = token;
             const expirationDate = new Date();
             expirationDate.setSeconds(expirationDate.getSeconds() + expiry / 1000)
-            dispatch(setAccountToken(token))
             setTokenExpiration(expirationDate);
         },
         [setTokenExpiration],

@@ -16,7 +16,7 @@ class Web3authService {
     private web3authProvider: SafeEventEmitterProvider | null = null
     private token: string | null = null
     private B2BRoles: [any] | null = null
-    private B2CRoles: [any] | null = null
+    private B2CRole: any | null = null
 
     public get getWeb3Auth(): Web3Auth | null {
         return this.web3auth
@@ -24,8 +24,8 @@ class Web3authService {
     public get getB2Broles(): [any] | null {
         return this.B2BRoles
     }
-    public get getB2CRoles(): [any] | null {
-        return this.B2CRoles
+    public get getB2CRole(): any | null {
+        return this.B2CRole
     }
     public get getToken(): string | null {
         return this.token
@@ -49,6 +49,12 @@ class Web3authService {
         const signedMessage = await rpc.signMessage(message)
         return `${signedMessage}`
     }
+    isPremiumUser = () => {
+        if (!this.B2CRole) return false
+        if (this.B2CRole.role != 1) return false
+        if (this.B2CRole.endDate <= Math.floor(Date.now() / 1000)) return false
+        return true
+    }
 
     initWeb3auth = async () => {
         try {
@@ -69,6 +75,30 @@ class Web3authService {
         }
     }
 
+
+    setUserData = async (token: string) => {
+        const decodedToken = await this.decodeToken(token)
+        const { B2BRoles, B2CRoles } = decodedToken
+        console.log(B2CRoles)
+        this.B2BRoles = B2BRoles
+        this.B2CRole = B2CRoles
+
+    }
+
+    decodeToken = async (token: string) => {
+        const decodeRes = await axios.get(
+            `${process.env.AUTH_SERVICE}/authService/decodeToken`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authentication': `${token}`
+                },
+            }
+        )
+        const decodedToken = await decodeRes.data
+        return decodedToken
+    }
+
     connectWeb3Auth = async (signer: Signer) => {
         const address = await signer.getAddress()
         try {
@@ -85,28 +115,38 @@ class Web3authService {
             // JWT request to API
             const tokenData = await sendSignedNonce(signedNonce, signedAddress)
 
-            const { accessToken, decodedToken } = tokenData
+            const { accessToken } = tokenData
             // Decode JWT and set Global State
-            console.log(decodedToken)
-            const { B2BRoles, B2CRoles } = decodedToken
-
-            console.log(B2CRoles)
-            this.B2BRoles = B2BRoles
-            this.B2CRoles = B2CRoles
+            await this.setUserData(accessToken.token)
 
             return accessToken
         } catch (e) {
             console.log(e)
-            return ''
+            return {}
         }
 
     }
 
+    updateToken = async (token:string)=>{
+        const updateRes = await axios.get(
+            `${process.env.AUTH_SERVICE}/authService/updateToken`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authentication': `${token}`
+                },
+            }
+        )
+        const newAccessToken = updateRes.data
+        await this.setUserData(newAccessToken.token)
+        return newAccessToken
+    }
+
     refreshToken = async () => {
-            const refreshRes = await axios.get(`${process.env.AUTH_SERVICE}/authService/refreshToken`, { withCredentials: true, })
-            const { data: accesToken } = refreshRes
-            return accesToken
-        
+        const refreshRes = await axios.get(`${process.env.AUTH_SERVICE}/authService/refreshToken`, { withCredentials: true, })
+        const { data: accesToken } = refreshRes
+        return accesToken
+
 
 
     }
