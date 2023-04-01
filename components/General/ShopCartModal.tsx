@@ -82,7 +82,7 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink }: Sho
             OpenSea
           </button>
         </div>
-        <button className="nm-flat-medium p-2 rounded-lg">MOVE TO WATCHLIST</button>
+        <button className="nm-flat-medium p-2 rounded-lg font-bold text-sm">MOVE TO WATCHLIST</button>
       </div>
     </div>
   )
