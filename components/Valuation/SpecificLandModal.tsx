@@ -197,12 +197,7 @@ const SpecificLandModal = ({
             <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
               <BsTwitter
                 title="Share Valuation"
-                onClick={() =>
-                  window.open(
-                    options.twitter
-                      .valuationLink
-                  )
-                }
+                onClick={() => window.open(options.twitter.valuationLink)}
                 className="text-xl text-grey-conten"
               />
             </div>

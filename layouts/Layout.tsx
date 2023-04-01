@@ -8,6 +8,7 @@ const ConnectButton = dynamic(() => import('../components/ConnectButton'), { ssr
 import ScrollBar from "../components/ScrollBar";
 import Sidebar from "../components/Sidebar";
 import ShoppingCart from "../components/ShoppingCart";
+import ShopCartModal from "../components/General/ShopCartModal";
 
 interface LayoutProps {
 	children: React.ReactNode;
@@ -87,9 +88,10 @@ export default function Layout({ children }: LayoutProps) {
 	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
 	const { address } = useAccount()
 
+	const [openShopCartModal, setOpenShopCartModal] = useState<boolean>(false)
+
 	useEffect(() => {
 		setParentDom(parentRef.current)
-		//console.log(parentRef)
 	}, [parentRef.current])
 
 	return (
@@ -101,7 +103,7 @@ export default function Layout({ children }: LayoutProps) {
 					<ConnectButton />
 				</div>
 				<div className={`absolute top-0 right-0 z-50 pr-8 ${!address ? 'hidden' : ''}`}>
-					<ShoppingCart />
+					<ShoppingCart setOpenShopCartModal={setOpenShopCartModal} />
 				</div>
 				<div >
 					{children}
@@ -113,6 +115,8 @@ export default function Layout({ children }: LayoutProps) {
 				<Sidebar list={list} />
 			</div>
 			{parentDom && <ScrollBar parentDom={parentDom} />}
+
+			{openShopCartModal && <ShopCartModal setOpenSpecificModal={setOpenShopCartModal} />}
 		</div>
 	);
 }
