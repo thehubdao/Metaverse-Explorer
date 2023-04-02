@@ -88,6 +88,35 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink }: Sho
   )
 }
 
+interface ConfirmationCartProps {
+  metaverse: Metaverse
+  title: string
+  ethPrice: number
+}
+
+const ConfirmationCart = ({ metaverse, title, ethPrice }: ConfirmationCartProps) => {
+  return (
+    <div className="relative rounded-xl h-[230px] flex w-full justify-between">
+      <div className="flex justify-between w-2/4 gap-4">
+        <h1 className="text-lg">{title}</h1>
+      </div>
+      <div className="flex mb-2 gap-4">
+        <div className="flex justify-center items-center">
+          <Image
+            src={'/images/eth.svg'}
+            width={20}
+            height={20}
+            className='rounded-full'
+          />
+          <p className={`text-grey-content text-lg font-bold`}>
+            {`${ethPrice?.toFixed(2)} ETH`}
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 interface ShopCardModalProps {
   setOpenSpecificModal: Function
 }
@@ -106,6 +135,11 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   // just for print array
   const myArray = new Array(15).fill(null);
 
+  // Const process control
+  const [isOnListSection, setIsOnListSection] = useState<boolean>(true)
+
+  useEffect(() => { setIsOnListSection(true) }, [])
+
   return (
     <div className="z-50 fixed w-full h-screen top-0 left-0 flex justify-end items-center">
       <div className="z-30">
@@ -115,7 +149,7 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
         >
           {/* div header */}
           <div className="w-full flex justify-between items-center h-20 px-8 flex-none">
-            <h2 className="font-bold text-lg">Shopping Cart</h2>
+            <h2 className="font-bold text-lg">{isOnListSection ? 'Shopping Cart' : 'Checkout'}</h2>
             {/* Close button */}
             <div
               className="rounded-lg nm-flat-medium p-2 w-fit h-fit hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
@@ -128,13 +162,22 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
           {/* The list */}
           <div className="w-full grow p-8 overflow-scroll hidescroll flex flex-col gap-5" ref={parentRef}>
             {parentDom && <ScrollBar parentDom={parentDom} />}
-            {myArray.map(() => <ShopCartCard
-              imageUrl="https://lh3.googleusercontent.com/Xv74CeD2yQ0AEPQ9EExQbVqArSO8QyokrW6kgquO8OyLfrZ8weW-cmIkiIhHFvLrKCGj_rCw1tovhr64HDnrYUtj8o9UqNcowj-uJNk"
-              metaverse="sandbox"
-              title={'Extra Large #974 (XL) parcel in somnium space'}
-              ethPrice={0}
-              openseaLink={'https://opensea.io/'}
-            />)}
+            {isOnListSection ? (<>
+              {myArray.map(() => <ShopCartCard
+                imageUrl="https://lh3.googleusercontent.com/Xv74CeD2yQ0AEPQ9EExQbVqArSO8QyokrW6kgquO8OyLfrZ8weW-cmIkiIhHFvLrKCGj_rCw1tovhr64HDnrYUtj8o9UqNcowj-uJNk"
+                metaverse="sandbox"
+                title={'Extra Large #974 (XL) parcel in somnium space'}
+                ethPrice={0}
+                openseaLink={'https://opensea.io/'}
+              />)}
+            </>
+            ) : (
+              <>{myArray.map(() => <ConfirmationCart
+                metaverse="sandbox"
+                title={'Extra Large #974 (XL) parcel in somnium space'}
+                ethPrice={0}
+              />)}</>
+            )}
           </div>
 
           {/* Resume and purchase button */}
@@ -153,7 +196,9 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
                 </p>
               </div>
             </div>
-            <OvalButton buttonFunction={() => { }} label='Confirm purchase' fullWidth />
+            <OvalButton buttonFunction={() => {
+              isOnListSection ? setIsOnListSection(false) : setOpenSpecificModal(false)
+            }} label='Confirm purchase' fullWidth />
           </div>
 
           {/* Floating dividers */}
