@@ -5,7 +5,8 @@ import OvalButton from "./Buttons/OvalButton"
 import OptimizedImage from "./OptimizedImage"
 import { Metaverse } from "../../lib/metaverse"
 import ScrollBar from "../ScrollBar"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { removeFromCart } from "../../state/shopCartList"
 
 interface ShopCartCardProps {
   imageUrl: string,
@@ -13,9 +14,11 @@ interface ShopCartCardProps {
   title: string,
   ethPrice: number
   openseaLink: string
+  tokenId: number
 }
 
-const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink }: ShopCartCardProps) => {
+const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, tokenId }: ShopCartCardProps) => {
+  const dispatch = useDispatch();
   const metaverseInfo = {
     sandbox: {
       image: '/images/the-sandbox-sand-logo.png',
@@ -29,6 +32,11 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink }: Sho
       image: '/images/somnium-space-cube-logo.webp',
       label: 'Somnium Space'
     }
+  }
+
+  const handleShopCart = (action: 'add' | 'remove') => {
+    if (action === 'remove')
+      dispatch(removeFromCart({ tokenId }))
   }
 
   return (
@@ -53,7 +61,7 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink }: Sho
           <h1 className="font-bold text-lg">{title}</h1>
           <div
             className="rounded-lg nm-flat-medium p-2 w-fit h-fit hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
-            onClick={() => { }}
+            onClick={() => { handleShopCart('remove') }}
           >
             <IoClose className="text-xl text-grey-conten" />
           </div>
@@ -97,7 +105,7 @@ interface ConfirmationCartProps {
 
 const ConfirmationCart = ({ metaverse, title, ethPrice }: ConfirmationCartProps) => {
   return (
-    <div className="relative rounded-xl h-[230px] flex w-full justify-between">
+    <div className="relative rounded-xl h-[230px] flex w-full justify-between items-center">
       <div className="flex justify-between w-2/4 gap-4">
         <h1 className="text-lg">{title}</h1>
       </div>
@@ -136,11 +144,10 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   }, [parentRef.current])
 
   useEffect(() => {
-    console.log(shopList)
-  }, [])
-
-  // just for print array
-  const myArray = new Array(15).fill(null);
+    let sum = 0
+    shopList.list.map((data: any) => sum = sum + data.eth_predicted_price)
+    setAccumulatedEthereumPrices(sum)
+  }, [shopList.length])
 
   // Const process control
   const [isOnListSection, setIsOnListSection] = useState<boolean>(true)
@@ -170,21 +177,22 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
           <div className="w-full grow p-8 overflow-scroll hidescroll flex flex-col gap-5" ref={parentRef}>
             {parentDom && <ScrollBar parentDom={parentDom} />}
             {isOnListSection ? (<>
-              {myArray.map((data, index) => <ShopCartCard
-                imageUrl="https://lh3.googleusercontent.com/Xv74CeD2yQ0AEPQ9EExQbVqArSO8QyokrW6kgquO8OyLfrZ8weW-cmIkiIhHFvLrKCGj_rCw1tovhr64HDnrYUtj8o9UqNcowj-uJNk"
-                metaverse="sandbox"
-                title={'Extra Large #974 (XL) parcel in somnium space'}
-                ethPrice={0}
-                openseaLink={'https://opensea.io/'}
-                key={index}
+              {shopList.list.map((data: any) => <ShopCartCard
+                imageUrl={data.images.image_url}
+                metaverse={data.metaverse}
+                title={data.name ? data.name : data.tokenId}
+                ethPrice={data.eth_predicted_price}
+                key={data.tokenId}
+                openseaLink={data.market_links.opensea}
+                tokenId={data.tokenId}
               />)}
             </>
             ) : (
-              <>{myArray.map((data, index) => <ConfirmationCart
-                metaverse="sandbox"
-                title={'Extra Large #974 (XL) parcel in somnium space'}
-                ethPrice={0}
-                key={index}
+              <>{shopList.list.map((data: any) => <ConfirmationCart
+                metaverse={data.metaverse}
+                title={`${data.name ? data.name : data.tokenId} - ${data.metaverse}`}
+                ethPrice={data.eth_predicted_price}
+                key={data.tokenId}
               />)}</>
             )}
           </div>
