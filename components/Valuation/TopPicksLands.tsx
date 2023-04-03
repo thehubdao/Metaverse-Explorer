@@ -37,9 +37,10 @@ const TopPicksLands = ({ metaverse }: Props) => {
 				})
 				.then((response) => {
 					if (response.data) {
-						setPicks(response.data);
+						const thePositiveGapTopPicks = response.data.filter((pick: any) => pick.gap < 0)
+						setPicks(thePositiveGapTopPicks);
 						setStateData('successQuery');
-						setNumberOfPages(Math.ceil(response.data.length / pageLenght));
+						setNumberOfPages(Math.ceil(thePositiveGapTopPicks.length / pageLenght));
 						setControlPageIndex(0);
 					} else {
 						setStateData('errorQuery')
@@ -155,7 +156,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 					</tr>
 				</thead>
 				<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[30vh]" ref={parentRef}>
-					{rowData()}
+					{picks.length > 0 ? rowData() : <p className="w-full h-full flex justify-center items-center">At this moment we have no top picks from this metaverse.</p>}
 					{/* {parentDom && <ScrollBar parentDom={parentDom} />} */}
 				</tbody>
 			</table>
