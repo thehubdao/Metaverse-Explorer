@@ -105,7 +105,6 @@ export default function ConnectButton() {
   useEffect(() => {
     if (!address) return
     const imgSrc = blockies.create({ seed: address }).toDataURL();
-    console.log('image src: ', imgSrc)
     setAddressImage(imgSrc)
   }, [address])
 
