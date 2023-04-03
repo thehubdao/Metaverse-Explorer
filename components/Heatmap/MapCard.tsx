@@ -17,6 +17,8 @@ import { OptimizedImage, PriceList } from "../General";
 import OvalButton from "../General/Buttons/OvalButton";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../state/shopCartList";
 
 interface Props {
   apiData?: IAPIData
@@ -84,6 +86,7 @@ const MapCard = ({
   mapState,
   name,
 }: Props) => {
+  const dispatch = useDispatch();
   const [loadingQuery, loadedQuery, errorQuery] = getState(mapState, [
     'loadingQuery',
     'loadedQuery',
@@ -93,6 +96,16 @@ const MapCard = ({
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
   const { token }: any = useAppSelector((state) => state.account)
+
+  // Shop Cart List controller
+  const shopList = useSelector((state: any) => state.shopCartList)
+  const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
+  const handleShopCart = (action: 'add' | 'remove') => {
+    if (action === 'add')
+      dispatch(addToCart(apiData))
+    if (action === 'remove')
+      dispatch(removeFromCart(apiData))
+  }
 
   const options = SocialMediaOptions(
     apiData?.tokenId,
@@ -128,6 +141,11 @@ const MapCard = ({
     const watchlist = watchlistRequest.data
     setWatchlist(watchlist)
   }
+
+  useEffect(() => {
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === apiData?.tokenId)
+    setIsOnListSection(isOnShopCartListAux)
+  }, [shopList.length, apiData])
 
   useEffect(() => {
     if (!address) return
@@ -228,10 +246,10 @@ const MapCard = ({
                 )
               }
               <button
-                className="w-full text-black rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-extrabold nm-flat-medium hover:nm-flat-soft"
-                onClick={() => { }}
+                className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full text-black rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-extrabold`}
+                onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
               >
-                {'ADD TO CART'}
+                {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
               </button>
             </div>
             <div className="flex flex-col justify-between">
@@ -299,7 +317,7 @@ const MapCard = ({
                 </div>
               </div>
             </div>
-          </div>
+          </div >
         )}
     </>
   )

@@ -1,15 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-
-const initialState: any[] = []
+const initialState: { list: any[], length: number } = {
+  list: [],
+  length: 0
+}
 
 export const shopCartListSlice = createSlice({
   name: 'shopCartList',
   initialState,
   reducers: {
-    addToCart: (state, { payload }) => { },
-    removeFromCart: (state) => { },
-    resetCart: (state, { payload }) => initialState,
+    addToCart: (state, { payload }) => {
+      const isLandContained = state.list.find(land => land.tokenId === payload.tokenId)
+      if (!isLandContained) {
+        state.list = [...state.list, payload]
+        state.length = state.length + 1
+      }
+    },
+    removeFromCart: (state, { payload }) => {
+      const filteredList = state.list.filter(land => land.tokenId !== payload.tokenId)
+      state.list = filteredList
+      state.length = filteredList.length
+    },
+    resetCart: () => initialState,
   },
 })
 
