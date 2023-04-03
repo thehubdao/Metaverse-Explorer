@@ -37,7 +37,7 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink }: Sho
         width={180}
         src={imageUrl}
         rounded="xl"
-        className="w-[150px] flex-none"
+        className="w-[150px] flex-none rounded-r-none"
       />
       <div className='absolute bottom-4 left-3 bg-grey-panel rounded-full flex justify-center items-center p-1'>
         <OptimizedImage
@@ -141,11 +141,11 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   useEffect(() => { setIsOnListSection(true) }, [])
 
   return (
-    <div className="z-50 fixed w-full h-screen top-0 left-0 flex justify-end items-center">
+    <div className={`z-50 fixed w-full h-screen top-0 left-0 flex items-center ${isOnListSection ? 'justify-end' : 'justify-center'}`}>
       <div className="z-30">
         <div
           onClick={() => { }}
-          className="relative flex flex-col justify-center m-20 bg-white w-[540px] h-[90vh] rounded-2xl"
+          className={`relative flex flex-col justify-center m-20 bg-white w-[540px] rounded-2xl ${isOnListSection ? 'h-[90vh]' : 'h-[60vh]'}`}
         >
           {/* div header */}
           <div className="w-full flex justify-between items-center h-20 px-8 flex-none">
