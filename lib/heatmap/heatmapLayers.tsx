@@ -14,7 +14,6 @@ export const filteredLayer: Layer = (
     legendFilter,
     land
 ) => {
-
     if (new Set([5, 6, 7, 8, 12]).has(Number(land?.tile?.type)))
         return decentralandAPILayer(x, y, land)
     /* Don't show a layer if user is tier0 and metaverse is decentraland. (we already have decentralands Map for that)  */
@@ -26,6 +25,7 @@ export const filteredLayer: Layer = (
     }
     let scale!: number
     // If the legend filter is on Sale (the one on the bottom right)
+
     if (legendFilter === 'on-sale') {
         // If land is on sale (therefore having the current_price_eth)
         land.current_price_eth
