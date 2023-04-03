@@ -5,6 +5,7 @@ import OvalButton from "./Buttons/OvalButton"
 import OptimizedImage from "./OptimizedImage"
 import { Metaverse } from "../../lib/metaverse"
 import ScrollBar from "../ScrollBar"
+import { useSelector } from "react-redux"
 
 interface ShopCartCardProps {
   imageUrl: string,
@@ -124,6 +125,8 @@ interface ShopCardModalProps {
 const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   const [accumulatedEthereumPrices, setAccumulatedEthereumPrices] = useState<number>(0);
 
+  const shopList = useSelector((state: any) => state.shopCartList)
+
   // Scrollbar Controller
   const parentRef = useRef<HTMLDivElement>(null)
   const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
@@ -131,6 +134,10 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   useEffect(() => {
     setParentDom(parentRef.current)
   }, [parentRef.current])
+
+  useEffect(() => {
+    console.log(shopList)
+  }, [])
 
   // just for print array
   const myArray = new Array(15).fill(null);
@@ -163,19 +170,21 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
           <div className="w-full grow p-8 overflow-scroll hidescroll flex flex-col gap-5" ref={parentRef}>
             {parentDom && <ScrollBar parentDom={parentDom} />}
             {isOnListSection ? (<>
-              {myArray.map(() => <ShopCartCard
+              {myArray.map((data, index) => <ShopCartCard
                 imageUrl="https://lh3.googleusercontent.com/Xv74CeD2yQ0AEPQ9EExQbVqArSO8QyokrW6kgquO8OyLfrZ8weW-cmIkiIhHFvLrKCGj_rCw1tovhr64HDnrYUtj8o9UqNcowj-uJNk"
                 metaverse="sandbox"
                 title={'Extra Large #974 (XL) parcel in somnium space'}
                 ethPrice={0}
                 openseaLink={'https://opensea.io/'}
+                key={index}
               />)}
             </>
             ) : (
-              <>{myArray.map(() => <ConfirmationCart
+              <>{myArray.map((data, index) => <ConfirmationCart
                 metaverse="sandbox"
                 title={'Extra Large #974 (XL) parcel in somnium space'}
                 ethPrice={0}
+                key={index}
               />)}</>
             )}
           </div>

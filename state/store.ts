@@ -2,11 +2,13 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import networkReducer from "./network"
 import accountReducer from "./account"
+import shopCartListReducer from './shopCartList'
 
-const store =  configureStore({
+const store = configureStore({
   reducer: {
     network: networkReducer,
-    account: accountReducer
+    account: accountReducer,
+    shopCartList: shopCartListReducer
   }
 })
 
