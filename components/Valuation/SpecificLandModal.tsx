@@ -143,6 +143,8 @@ const SpecificLandModal = ({
         }
       }
     )
+    const watchlist = watchlistRequest.data
+    setWatchlist(watchlist)
   }
 
   const SteticTimeString = (historyTime?: string) => {
