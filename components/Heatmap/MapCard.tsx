@@ -14,7 +14,6 @@ import { handleLandName } from "../../lib/valuation/valuationUtils";
 import { ValuationState } from "../../pages/valuation";
 import { useAppSelector } from "../../state/hooks";
 import { OptimizedImage, PriceList } from "../General";
-import OvalButton from "../General/Buttons/OvalButton";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
 import { useDispatch, useSelector } from "react-redux";

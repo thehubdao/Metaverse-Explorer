@@ -17,7 +17,6 @@ import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "./DataComparison/DataComparisonBox";
 import WatchlistButton from "./WatchlistButton";
 import dynamic from "next/dynamic";
-import { UTCTimestamp } from "lightweight-charts";
 import NoData from "../General/NoData";
 import { useAppSelector } from "../../state/hooks";
 import { useDispatch, useSelector } from "react-redux";

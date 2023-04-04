@@ -7,6 +7,10 @@ import { Metaverse } from "../../lib/metaverse"
 import ScrollBar from "../ScrollBar"
 import { useDispatch, useSelector } from "react-redux"
 import { removeFromCart } from "../../state/shopCartList"
+import { addLandToWatchList } from "../../lib/FirebaseUtilities"
+import { useAccount } from "wagmi"
+import { useAppSelector } from "../../state/hooks";
+import { Alert, Snackbar } from "@mui/material"
 
 interface ShopCartCardProps {
   imageUrl: string,
@@ -15,10 +19,17 @@ interface ShopCartCardProps {
   ethPrice: number
   openseaLink: string
   tokenId: number
+  landData: any
 }
 
-const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, tokenId }: ShopCartCardProps) => {
+const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, tokenId, landData }: ShopCartCardProps) => {
   const dispatch = useDispatch();
+  const { address } = useAccount()
+  const { token }: any = useAppSelector((state) => state.account.accessToken)
+
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openWarning, setOpenWarning] = useState(false)
+
   const metaverseInfo = {
     sandbox: {
       image: '/images/the-sandbox-sand-logo.png',
@@ -38,6 +49,25 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
     if (action === 'remove')
       dispatch(removeFromCart({ tokenId }))
   }
+
+  const handleWatchslist = async () => {
+    if (!address) return
+
+    try {
+      let response
+      response = await addLandToWatchList(landData, address, metaverse, token)
+      setOpenAdd(true);
+    } catch (error) {
+      setOpenWarning(true)
+    }
+  }
+
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') return;
+
+    setOpenAdd(false);
+    setOpenWarning(false);
+  };
 
   return (
     <div className="relative nm-flat-medium rounded-xl h-[230px] flex w-full">
@@ -91,7 +121,31 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
             OpenSea
           </button>
         </div>
-        <button className="nm-flat-medium p-2 rounded-lg font-bold text-sm">MOVE TO WATCHLIST</button>
+        <button
+          onClick={() => { handleWatchslist() }}
+          className="nm-flat-medium p-2 rounded-lg font-bold text-sm"
+        >MOVE TO WATCHLIST
+        </button>
+        <Snackbar
+          open={openAdd}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }} >
+            The Land {title} was added to your watchlist
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openWarning}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            We cant resolve the action with Land {title}
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   )
@@ -150,7 +204,6 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
 
   // Const process control
   const [isOnListSection, setIsOnListSection] = useState<boolean>(true)
-
   useEffect(() => { setIsOnListSection(true) }, [])
 
   return (
@@ -184,6 +237,7 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
                 key={data.tokenId}
                 openseaLink={data.market_links.opensea}
                 tokenId={data.tokenId}
+                landData={data}
               />)}
             </>
             ) : (
