@@ -98,12 +98,11 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
 }
 
 interface ConfirmationCartProps {
-  metaverse: Metaverse
   title: string
   ethPrice: number
 }
 
-const ConfirmationCart = ({ metaverse, title, ethPrice }: ConfirmationCartProps) => {
+const ConfirmationCart = ({ title, ethPrice }: ConfirmationCartProps) => {
   return (
     <div className="relative rounded-xl h-[230px] flex w-full justify-between items-center">
       <div className="flex justify-between w-2/4 gap-4">
@@ -189,7 +188,6 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
             </>
             ) : (
               <>{shopList.list.map((data: any) => <ConfirmationCart
-                metaverse={data.metaverse}
                 title={`${data.name ? data.name : data.tokenId} - ${data.metaverse}`}
                 ethPrice={data.eth_predicted_price}
                 key={data.tokenId}
