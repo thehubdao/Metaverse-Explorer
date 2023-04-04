@@ -45,6 +45,7 @@ import { getCallsCount, updateCallsCount } from "../lib/FirebaseUtilities";
 import { useAccount } from "wagmi";
 import router from "next/router";
 import ConnectButton from "../components/ConnectButton";
+import web3authService from "../backend/services/Web3authService";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -100,7 +101,7 @@ const metaverseLabels: Record<Metaverse, string> = {
 const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const [globalData, setglobalData] = useState<AnyObject>({})
 
-	const { token }: any = useAppSelector((state) => state.account);
+	const { token }: any = useAppSelector((state) => state.account.accessToken)
 	const { address } = useAccount()
 
 	const [mapState, setMapState] = useState<ValuationState>("loading");
@@ -108,7 +109,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 	const [selected, setSelected] = useState<LandCoords>();
 	const [hovered, setHovered] = useState<Hovered>({ coords: { x: NaN, y: NaN }, });
-	const [accessToken, setAccessToken] = useState()
 
 	// Hook for Popup
 	const { ref, isVisible, setIsVisible } = useVisible(false);
@@ -268,7 +268,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 	useEffect(() => {
 		if (!token || !address) {
-			setAccessToken(undefined)
 			return
 		}
 		const getValuationCount = async () => {
@@ -276,7 +275,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			valuationCount.current = callsCount as number
 		}
 		getValuationCount()
-		setAccessToken(token)
 	}, [token])
 
 	useEffect(() => {
@@ -311,7 +309,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				optionList={headerList}
 				backgroundClass={``}
 			>
-				{!accessToken ? (<div className="relative py-8 h-full">
+				{!token ? (<div className="relative py-8 h-full">
 					<div className="flex flex-col justify-center items-center mt-28">
 						{/* Auth Button */}
 						<Image
@@ -389,7 +387,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 
 									<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-xl m-4	">
-										Unlimited access until March 31st
+										Unlimited access until April 15th
 									</p>
 
 
@@ -464,17 +462,16 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 													setSelected(undefined);
 												} else {
 													const isntFullScreen = document.fullscreenElement ? false : true
-													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													//UNCOMMENT ON APRIL 15
+													/* if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
 														router.push("/purchase")
 														return
-													}
+													} */
 													handleMapSelection(undefined, x, y, undefined);
-													updateCallsCount(address, 1, token)
-													console.log(valuationCount)
+													/* updateCallsCount(address, 1, token)
 													if (valuationCount.current != undefined)
-														valuationCount.current += 1
+														valuationCount.current += 1 */
 
-													console.log(valuationCount)
 
 												}
 											}}
@@ -510,18 +507,15 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 													setSelected(undefined);
 												} else {
 													const isntFullScreen = document.fullscreenElement ? false : true
-													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													//UNCOMMENT ON APRIL 15
+													/* if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
 														router.push("/purchase")
 														return
-													}
+													} */
 													handleMapSelection(land, x, y, undefined);
-													updateCallsCount(address, 1, token)
+													/* updateCallsCount(address, 1, token)
 													if (valuationCount.current != undefined)
-														valuationCount.current += 1
-
-
-													console.log(valuationCount)
-
+														valuationCount.current += 1 */
 												}
 											}}
 											metaverse={metaverse}

@@ -26,15 +26,6 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
 
     return buyer
   }
-  const assetControl = (asset: string | undefined) => {
-    if (!asset) return
-
-    if (asset.length > 17) {
-      asset = `${asset.substring(0, 17)}...`
-    }
-
-    return asset
-  }
 
   const tdStyle = "border-t-0 px-4 border-l-0 border-r-0 text-md lg:text-lg whitespace-nowrap p-4 text-center"
 
@@ -45,9 +36,7 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
         <Tooltip title={dataTable.asset} placement='bottom'>
           <a className="hover:underline flex items-center text-grey-content w-48" href={dataTable.external_link} target='_blank'>
             <img src={dataTable.image} className="h-12 w-12 bg-white rounded-full border" alt={`Land ${dataTable.asset} image`} />
-            <span className="ml-3 font-normal text-grey-content">
-              {assetControl(dataTable.asset)}
-            </span>
+            <span className="ml-3 font-normal text-grey-content truncate">{dataTable.asset}</span>
           </a>
         </Tooltip>
       </th>

@@ -55,12 +55,12 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
       icon: <BiTransferAlt />,
       description: 'This filter shows how many times LANDs have exchanged owners throughout their trading history'
     },
-    last_month_sells: {
+    /* last_month_sells: {
       name: 'Sales of the last Month',
       shortName: undefined,
       icon: <GiStopwatch />,
       description: 'This filter shows to which price the LANDs were sold in the last month. green= low selling price, red = high selling price'
-    },
+    }, */
 
     // Not using this filters for now..Will delete if decision is permanent
     // variation_last_week: {
