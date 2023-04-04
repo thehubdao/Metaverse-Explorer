@@ -63,8 +63,8 @@ class Web3authService {
                 web3AuthNetwork: 'cyan',
                 chainConfig: {
                     chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x13881',
-                    rpcTarget: Chains.MATIC_TESTNET.rpcUrl, // This is the private RPC
+                    chainId: '0x89',
+                    rpcTarget: Chains.MATIC_MAINNET.rpcUrl, // This is the private RPC
                 },
             })
             await web3authInit.initModal()
@@ -127,7 +127,7 @@ class Web3authService {
 
     }
 
-    updateToken = async (token:string)=>{
+    updateToken = async (token: string) => {
         const updateRes = await axios.get(
             `${process.env.AUTH_SERVICE}/authService/updateToken`,
             {
