@@ -464,17 +464,16 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 													setSelected(undefined);
 												} else {
 													const isntFullScreen = document.fullscreenElement ? false : true
-													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													//UNCOMMENT ON APRIL 15
+													/* if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
 														router.push("/purchase")
 														return
-													}
+													} */
 													handleMapSelection(land, x, y, undefined);
-													updateCallsCount(address, 1, token)
-													console.log(valuationCount)
+													/* updateCallsCount(address, 1, token)
 													if (valuationCount.current != undefined)
-														valuationCount.current += 1
+														valuationCount.current += 1 */
 
-													console.log(valuationCount)
 
 												}
 											}}
@@ -510,18 +509,15 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 													setSelected(undefined);
 												} else {
 													const isntFullScreen = document.fullscreenElement ? false : true
-													if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
+													//UNCOMMENT ON APRIL 15
+													/* if (valuationCount.current && valuationCount.current >= MAX_FREE_VALUATIONS) {
 														router.push("/purchase")
 														return
-													}
+													} */
 													handleMapSelection(land, x, y, undefined);
-													updateCallsCount(address, 1, token)
+													/* updateCallsCount(address, 1, token)
 													if (valuationCount.current != undefined)
-														valuationCount.current += 1
-
-
-													console.log(valuationCount)
-
+														valuationCount.current += 1 */
 												}
 											}}
 											metaverse={metaverse}
