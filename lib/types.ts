@@ -11,7 +11,7 @@ export interface AccountState {
   address: string | undefined
   chainId: number | undefined
   role: Role | undefined
-  token: string | undefined
+  accessToken: {}
 }
 
 export interface AddEthereumChainParameter {

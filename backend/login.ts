@@ -21,17 +21,6 @@ export const sendSignedNonce = async (signedNonce: string, address: string) => {
     }
   )
   const accessToken = await loginRes.data
-  const { token } = accessToken
-  const decodeRes = await axios.get(
-    `${process.env.AUTH_SERVICE}/authService/decodeToken`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authentication': `${token}`
-      },
-    }
-  )
-  const decodedToken = await decodeRes.data
 
-  return { accessToken, decodedToken }
+  return { accessToken }
 }
