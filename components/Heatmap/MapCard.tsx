@@ -91,7 +91,7 @@ const MapCard = ({
   const imgSize = 250
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account)
+  const { token }: any = useAppSelector((state) => state.account.accessToken)
 
   const options = SocialMediaOptions(
     apiData?.tokenId,
@@ -116,7 +116,7 @@ const MapCard = ({
 
   const getWatchList = async (token: string) => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`,
+      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
       {
         headers: {
           'Content-Type': 'application/json',

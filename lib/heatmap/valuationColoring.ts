@@ -29,15 +29,12 @@ export const getLimits = (array: (number | undefined)[]) => {
     let values: number[] = [],
         minimum = Number.MAX_VALUE,
         maximum = 0
-        if (values.length > 60) {
             for (let i = 30; i < arr.length - 30; i++) {
                 values.push(arr[i])
                 maximum = arr[i] > maximum ? arr[i] : maximum
                 minimum = arr[i] < minimum ? arr[i] : minimum
             }
-        } else {
-            values = arr;
-        }
+        
     let mid = Math.floor(values.length - 1)
     let median =
         values.length % 2 == 0
@@ -240,7 +237,6 @@ export const setColours = async (
                 limits
             )
         }
-        
         valuationAtlas[valuation] = {
             ...valuationAtlas[valuation],
             percent,
@@ -333,18 +329,6 @@ const filterKey = (mapFilter: MapFilter | undefined) => {
         : 'normal'
 }
 
-/*
- *  We calculate percentages within a range with the formula ((X−Min%)/(Max%−Min%)) × 100
- * so If max number was 20 and min was 5 and we wanted to calculate what % is 10
- * we would do ((10-5)/(20-5)) * 100 = colorFromPercentage
- * we multiply by 255 if we wanted the result to be a number between 0 and 255 for RGB colors
- * and if we want it to end up being a number between Y = 255 and Z = 170 to fit a certain color,
- *              ((X−Min%)/(Max%−Min%)) * (Y - Z) + Z = colorFromPercentage
- * we could do  ((10-5)/(20-5)) * (255 - 170) + 170 = colorFromPercentage. The higher the number the closer to 255.
- * If we want to do it so that the lower the number the closer to 255 and the higher the closer to 170
- *                     Y - ((X−Min%)/(Max%−Min%)) * (Y - Z) = colorFromReversePercentage
- *  then we can do: 255 - ((10-5)/ (20-5)) * (255 - 170) = colorFromReversePercentage
- * */
 export const generateColor = (percent: number, mapFilter?: MapFilter) => {
     if (percent === 0 || !mapFilter) return FILTER_COLORS[6]
     let color!: string
@@ -396,6 +380,7 @@ export const getTileColor = (
     let color!: string
     // If land's percent is more than 100 then show dark-red
     if (percent > 100) {
+        
         color = filterIs(100, percentFilter) ? 'rgb(120,0,0)' : generateColor(0)
     } else if (between(percent, 100, 0)) {
         PERCENT_FILTER_ARRAY.map((percentFromArray, i) => {
