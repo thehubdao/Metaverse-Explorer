@@ -15,7 +15,7 @@ interface Props {
 
 const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account)
+  const { token }: any = useAppSelector((state) => state.account.accessToken)
   const [openAdd, setOpenAdd] = useState(false);
   const [openRemove, setOpenRemove] = useState(false)
   const [openWarning, setOpenWarning] = useState(false)
@@ -63,7 +63,7 @@ const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
       } else {
         throw "invalid parameter"
       }
-      getWatchList()
+      getWatchList(token)
     } catch (error) {
       setOpenWarning(true)
     }
