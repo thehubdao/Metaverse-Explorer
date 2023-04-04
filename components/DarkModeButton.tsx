@@ -74,7 +74,7 @@ function DarkModeButton({ setSwitchState, switchState }: DarkModeButtonProps) {
   }));
   
   return (
-    <div className='flex flex-col mx-8 mt-6 items-center justify-center cursor-pointer p-2 w-16 h-16 group focus:outline-none'>
+    <div className='flex flex-col mx-8 mt-4 items-center justify-center cursor-pointer p-2 w-16 h-16 group focus:outline-none'>
         <FormGroup>
           <FormControlLabel
             control={<IOSSwitch sx={{ m: 1 }}  />}
