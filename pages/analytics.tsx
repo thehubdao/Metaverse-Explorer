@@ -200,7 +200,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                     <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
                                 )}
                             </p> */}
-                            <div className="grid grid-cols-4 gap-5 w-full">
+                            <div className="grid grid-cols-4 gap-5 w-full mt-10">
                                 <FilterButton
                                     openedFilters={openedFilters}
                                     setOpenedFilters={setOpenedFilters}
