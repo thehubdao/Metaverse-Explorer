@@ -16,7 +16,7 @@ const CartButton = () => {
     <>
       <button
         onClick={handleClick}
-        className="w-3/4 text-black rounded-3xl  text-sm font-normal nm-flat-medium hover:nm-flat-soft"
+        className="w-3/4 text-black rounded-3xl py-2 text-xs font-normal nm-flat-medium hover:nm-flat-soft"
       >
         <Image src={ '/images/shopping-cart.svg'} width={15} height={12} alt="shopping cart"/>
         {' Add To Cart'}

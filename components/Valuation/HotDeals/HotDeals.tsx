@@ -43,7 +43,7 @@ const HotDeals = ({  metaverse }: Props) => {
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={10}
-      slidesPerView={7}
+      slidesPerView={6}
       navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}

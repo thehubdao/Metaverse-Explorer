@@ -66,7 +66,7 @@ const HotDealsCard = ({
     <>
       {apiData &&
         landCoords && (
-          <div className="bg-grey-bone rounded-2xl  flex w-[full] h-[full] shadow-lg mb-6">
+          <div className="bg-grey-bone rounded-2xl  flex w-[180px] h-[full] shadow-lg mb-6">
 
             <div className='w-full'>
               <div className={`h-fit relative`}>
@@ -86,7 +86,7 @@ const HotDealsCard = ({
                 </div>
                 <div className=" flex justify-center">
                   <Tooltip title={name} placement="bottom">
-                    <h3 className="font-semibold text-md truncate max-w-[160px]" title={name}>
+                    <h3 className="font-semibold text-sm truncate max-w-[160px]" title={name}>
                       {handleLandName(
                         metaverse,
                         {
@@ -99,16 +99,16 @@ const HotDealsCard = ({
                   </Tooltip>
                 </div>
                 <div className="flex items-center justify-center">
-                  <p className="text-sm text-grey-icon pt-2">Listed Price: </p>
+                  <p className="text-xs text-grey-icon pt-2">Listed Price: </p>
                 </div>
                 <div className="flex items-center justify-center">
-                  <p className="font-semibold text-sm  truncate">{`${apiData.current_price_eth?.toFixed(2)} ETH`}</p>
+                  <p className="font-semibold text-xs  truncate">{`${apiData.current_price_eth?.toFixed(2)} ETH`}</p>
                 </div>
                 <div className="flex items-center justify-center">
-                  <p className="text-sm text-grey-icon ">Estimated Price: </p>
+                  <p className="text-xs text-grey-icon ">Estimated Price: </p>
                 </div>
                 <div className="flex items-center justify-center">
-                  <p className="font-semibold text-sm  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
+                  <p className="font-semibold text-xs  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
                 </div>
                 <div className=" items-center justify-center mt-3">
                   <CartButton />
