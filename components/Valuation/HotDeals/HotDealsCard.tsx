@@ -67,14 +67,13 @@ const HotDealsCard = ({
       {apiData &&
         landCoords && (
           <div className="bg-grey-bone rounded-2xl  flex w-[180px] h-[full] shadow-lg mb-6">
-
             <div className='w-full'>
               <div className={`h-fit relative`}>
                 <OptimizedImage
                   height={182}
                   width={280}
                   src={apiData.images?.image_url}
-                  rounded="xl"
+                  rounded="t-xl"
                 />
               </div>
 

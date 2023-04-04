@@ -41,14 +41,11 @@ const HotDeals = ({  metaverse }: Props) => {
   
   return (
     <Swiper
-      modules={[Navigation, Pagination, Scrollbar, A11y]}
+      modules={[ Pagination, Scrollbar, A11y]}
       spaceBetween={10}
       slidesPerView={6}
-      navigation
       pagination={{ clickable: true }}
       scrollbar={{ draggable: true }}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log('slide change')}
     >
       <ul>
         {metaverse &&
