@@ -47,7 +47,7 @@ const Watchlist: NextPage = () => {
   const [metaverse, setMetaverse] = useState<Metaverse>()
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account)
+  const { token }: any = useAppSelector((state) => state.account.accessToken)
 
 
   const addLand = async (land: any, metaverse: Metaverse) => {
@@ -66,7 +66,7 @@ const Watchlist: NextPage = () => {
 
   const getWatchList = async () => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`,
+      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
       {
         headers: {
           'Content-Type': 'application/json',
