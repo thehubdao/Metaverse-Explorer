@@ -62,9 +62,6 @@ const HotDealsCard = ({
     getWatchList(token)
   }, [address])
 
-  console.log(apiData, 'data');
-  
-
   return (
     <>
       {apiData &&

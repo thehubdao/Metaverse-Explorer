@@ -82,9 +82,6 @@ const Watchlist: NextPage = () => {
     if (!address) return
     getWatchList()
   }, [address])
-  console.log(metaverse, 'meta en watch');
-  
-  console.log(watchlist, 'watsct');
   
   return (
     <>
