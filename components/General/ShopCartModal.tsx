@@ -191,6 +191,11 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   // Scrollbar Controller
   const parentRef = useRef<HTMLDivElement>(null)
   const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
+  
+  const [openNotification, setOpenNotification] = useState(false);
+  const handleClose = (event?: React.SyntheticEvent | Event,) => {
+    setOpenNotification(false);
+  };
 
   useEffect(() => {
     setParentDom(parentRef.current)
@@ -266,6 +271,7 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
               </div>
             </div>
             <OvalButton buttonFunction={() => {
+              setOpenNotification(true)
               isOnListSection ? setIsOnListSection(false) : setOpenSpecificModal(false)
             }} label='Confirm purchase' fullWidth />
           </div>
@@ -273,6 +279,17 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
           {/* Floating dividers */}
           <div className="absolute border-b border-grey-icon top-20 w-full"></div>
           <div className="absolute border-b border-grey-icon bottom-40 w-full"></div>
+
+          <Snackbar
+            open={openNotification}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          >
+            <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }} >
+              This function is currently on development
+            </Alert>
+          </Snackbar>
         </div>
       </div>
       <div

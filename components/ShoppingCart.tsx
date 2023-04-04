@@ -9,7 +9,7 @@ interface Props {
 
 const ShoppingCart = ({ setOpenShopCartModal }: Props) => {
   const [numItems, setNumItems] = useState(0);
-  const [openNotification, setOpenNotification] = useState(false);
+  
   const shopList = useSelector((state: any) => state.shopCartList)
 
   useEffect(() => {
@@ -17,13 +17,8 @@ const ShoppingCart = ({ setOpenShopCartModal }: Props) => {
   }, [shopList.length])
 
   function handleClick() {
-    setOpenNotification(true)
     setOpenShopCartModal(true)
   }
-
-  const handleClose = (event?: React.SyntheticEvent | Event,) => {
-    setOpenNotification(false);
-  };
 
   return (
     <>
@@ -32,16 +27,6 @@ const ShoppingCart = ({ setOpenShopCartModal }: Props) => {
         {/* {numItems} */}
         <p className="absolute bg-[#1AB3F3] text-white text-sm font-bold px-2 rounded-md bottom-2 right-2">{numItems ? numItems : ''}</p>
       </button>
-      <Snackbar
-        open={openNotification}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }} >
-          This function is currently on development
-        </Alert>
-      </Snackbar>
     </>
   );
 }
