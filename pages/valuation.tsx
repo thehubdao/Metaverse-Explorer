@@ -389,7 +389,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 
 									<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-xl m-4	">
-										Unlimited access until March 31st
+										Unlimited access until April 15th
 									</p>
 
 
