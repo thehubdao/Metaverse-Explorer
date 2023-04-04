@@ -19,6 +19,7 @@ import WatchlistButton from "./WatchlistButton";
 import dynamic from "next/dynamic";
 import { UTCTimestamp } from "lightweight-charts";
 import NoData from "../General/NoData";
+import { useAppSelector } from "../../state/hooks";
 
 export const LandChart = dynamic(() => import('./SpecificLandModal/LandChart'), {
   ssr: false,
@@ -99,7 +100,7 @@ const SpecificLandModal = ({
 }: SpecificLandModalProps) => {
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-
+  const { token }: any = useAppSelector((state) => state.account.accessToken)
   // chart variables
   const [loadingChart, setLoadingChart] = useState<boolean>(false)
   const [landChartData, setLandChartData] = useState<any[]>();
@@ -119,13 +120,16 @@ const SpecificLandModal = ({
     }
   }
 
-  const getWatchList = async () => {
+  const getWatchList = async (token: string) => {
     const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
-  }
+      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authentication': `${token}`
+        }
+      }
+    )}
 
   const SteticTimeString = (historyTime?: string) => {
     if (!historyTime) return 'No Data'
@@ -162,8 +166,8 @@ const SpecificLandModal = ({
   )
 
   useEffect(() => {
-    if (!address) return
-    getWatchList()
+    if (!token) return
+    getWatchList(token)
   }, [address])
 
   useEffect(() => {
@@ -360,14 +364,14 @@ const SpecificLandModal = ({
                     watchlist[metaverse] &&
                     watchlist[metaverse][specificAssetSelected?.tokenId])
                     ? (
-                      <div onClick={() => getWatchList()}><WatchlistButton
+                      <div onClick={() => getWatchList(token)}><WatchlistButton
                         land={specificAssetSelected}
                         metaverse={specificAssetSelected.metaverse}
                         action={'remove'}
                         getWatchList={getWatchList}
                       /></div>
                     ) : (
-                      <div onClick={() => getWatchList()}><WatchlistButton
+                      <div onClick={() => getWatchList(token)}><WatchlistButton
                         land={specificAssetSelected}
                         metaverse={specificAssetSelected.metaverse}
                         action={'add'}

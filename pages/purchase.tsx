@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { AiFillCheckCircle } from 'react-icons/ai'
@@ -14,6 +14,8 @@ import { PurchaseCoinValues } from '../types/Purchase/purchaseTypes'
 import { configB2c } from '../lib/chatbot/config-chatbot'
 import { ActionProviderB2c } from '../lib/chatbot/ActionProvider'
 import MessageParser from '../lib/chatbot/MessageParser'
+import { useAppSelector } from '../state/hooks'
+import web3authService from '../backend/services/Web3authService'
 
 const features = [
   "Unlimited Valuations",
@@ -24,12 +26,20 @@ const features = [
 const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
   coinValues,
 }) => {
-
-  const [endDate, setEndDate] = useState("12.12.2022")
+  const { accessToken }: any = useAppSelector((state) => state.account);
+  const [endDate, setEndDate] = useState("")
   const [activePlan, setActivePlan] = useState(Plans.BASIC)
   const [selection, setSelection] = useState<Plans | undefined>(undefined)
 
-
+useEffect(()=>{
+  if(!accessToken.token)return
+  const unixEndDate = web3authService?.getB2CRole?.endDate * 1000
+  const endDate = new Date(unixEndDate)
+  if(web3authService.getB2CRole?.role == 0) return
+  setEndDate(`${endDate.getDay()}.${endDate.getMonth() + 1}.${endDate.getFullYear()}`)
+  setActivePlan(Plans.PREMIUM)
+  
+},[accessToken])
   return (
     <>
       <Head>
@@ -56,7 +66,12 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
                   <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl mb-10">
                     <p>
                       <span className="font-bold">
+                      Your current plan is { activePlan }
                       </span>
+                      <br/>
+                      {endDate && <span className="font-bold">
+                      Active until {endDate}
+                      </span>}
                     </p>
                   </div>
                 }
