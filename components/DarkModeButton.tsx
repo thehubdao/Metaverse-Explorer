@@ -17,7 +17,7 @@ function DarkModeButton({ setSwitchState, switchState }: DarkModeButtonProps) {
   }
 
 
-  const IOSSwitch = styled((props: SwitchProps) => (
+  const DarkModeSwitch = styled((props: SwitchProps) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" 
     disableRipple {...props} 
     // checked={switchState} 
@@ -77,7 +77,7 @@ function DarkModeButton({ setSwitchState, switchState }: DarkModeButtonProps) {
     <div className='flex flex-col mx-8 mt-4 items-center justify-center cursor-pointer p-2 w-16 h-16 group focus:outline-none'>
         <FormGroup>
           <FormControlLabel
-            control={<IOSSwitch sx={{ m: 1 }}  />}
+            control={<DarkModeSwitch sx={{ m: 1 }}  />}
             label=""
           />
         </FormGroup>
