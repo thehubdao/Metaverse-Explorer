@@ -1,4 +1,4 @@
-import {  useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   LegendFilter,
   MapFilter,
@@ -109,6 +109,7 @@ const Heatmap2D = ({
     })
     return '0x' + a.join('')
   }
+
   const renderHandler = async ([land, landKeyIndex]: any) => {
     try {
       land = formatLand(land, metaverse)
@@ -121,7 +122,7 @@ const Heatmap2D = ({
         name = land.coords.x + ',' + land.coords.y
       }
       mapData[name] = land
-      
+
       let value = land
       let tile: any
       tile = filteredLayer(
@@ -175,7 +176,6 @@ const Heatmap2D = ({
       viewport.addChild(chunkContainer)
     } catch (e) { }
   }
-
 
   useEffect(() => {
     if (!viewport) return
@@ -259,6 +259,8 @@ const Heatmap2D = ({
     map.view.style.borderRadius = '24px'
 
     const viewport: any = new Viewport({
+      screenWidth: width,
+      screenHeight: height,
       interaction: map.renderer.plugins.interaction,
       passiveWheel: false,
     })
@@ -397,9 +399,7 @@ const Heatmap2D = ({
     if (!x || !y) return
 
     try {
-      document.fullscreenElement
-        ? viewport.moveCenter(x * TILE_SIZE, y * TILE_SIZE)
-        : 0
+      viewport.snap(x * TILE_SIZE, y * TILE_SIZE, {removeOnComplete: true});
     } catch (e) {
       return
     }
@@ -415,7 +415,7 @@ const Heatmap2D = ({
     const child = chunkContainer?.children.find(
       (child: any) => child.x === x && child.y === y
     )
-    if(!child) return
+    if (!child) return
     const prevColor = child.tint
     const prevWidth = child.width
 

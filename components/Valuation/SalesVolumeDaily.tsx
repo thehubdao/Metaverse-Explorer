@@ -5,6 +5,8 @@ import { IPredictions } from '../../lib/types'
 import { formatName } from '../../lib/utilities'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
 import { PriceList } from '../General'
+import { Tooltip } from '@mui/material'
+import { AiFillQuestionCircle } from 'react-icons/ai'
 
 interface Props {
   metaverse: Metaverse
@@ -69,9 +71,16 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
   ) : (
     <>
       <div className='flex flex-col h-full'>
-        <p className={`text-lg font-semibold text-grey-content font-plus mb-4 ml-2`}>
-          Daily Volume:{' '}
-        </p>
+        <div className='flex items-center gap-x-2 mb-4'>
+          <Tooltip title={'Daily volume description'} placement="bottom-start" arrow>
+            <div>
+              <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+            </div>
+          </Tooltip>
+          <p className={`text-lg font-semibold text-grey-content font-plus`}>
+            Daily Volume:
+          </p>
+        </div>
         <div className='flex flex-col justify-center items-start border-t border-l border-white/10 rounded-xl p-5 w-full bg-grey-panel h-full'>
           <div
             className={

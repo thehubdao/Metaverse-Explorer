@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { getEstimateAccuracy } from '../../backend/services/openSeaDataManager'
 import { Metaverse } from '../../lib/metaverse'
 import { ICoinPrices } from '../../lib/valuation/valuationTypes'
+import { Tooltip } from '@mui/material'
+import { AiFillQuestionCircle } from 'react-icons/ai'
 
 
 interface Props {
@@ -51,9 +53,16 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
   ) : (
     <>
       <div className='flex flex-col h-full'>
-        <p className={`text-lg font-semibold text-grey-content font-plus mb-4 ml-2`}>
-          Estimate Accuracy:{' '}
-        </p>
+        <div className='flex items-center gap-x-2 mb-4'>
+          <Tooltip title={'Estimate accuracy description'} placement="bottom-start" arrow>
+            <div>
+              <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+            </div>
+          </Tooltip>
+          <p className={`text-lg font-semibold text-grey-content font-plus`}>
+            Estimate Accuracy:{' '}
+          </p>
+        </div>
         <div
           className='flex border-t border-l border-white/10 shadow-blck rounded-xl justify-between items-center p-5 min-w-max h-full bg-grey-panel'
         >
