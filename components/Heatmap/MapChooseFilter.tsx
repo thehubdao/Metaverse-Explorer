@@ -7,6 +7,8 @@ import { GiStopwatch } from 'react-icons/gi'
 import { MapFilter } from '../../lib/heatmap/heatmapCommonTypes'
 import { typedKeys } from '../../lib/utilities'
 import Image from 'next/image'
+import { Tooltip } from '@mui/material'
+import { AiFillQuestionCircle } from 'react-icons/ai'
 
 interface Props {
   filterBy: MapFilter
@@ -120,6 +122,11 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
                         <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter].description}>
                           {filterOptions[filter].name}
                         </span>
+                        <Tooltip title={filterOptions[filter].description} placement="right" arrow className='-translate-x-2'>
+                          <div>
+                            <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                          </div>
+                        </Tooltip>
                       </button>
                     </div>
                   )

@@ -467,7 +467,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 														router.push("/purchase")
 														return
 													} */
-													handleMapSelection(land, x, y, undefined);
+													handleMapSelection(undefined, x, y, undefined);
 													/* updateCallsCount(address, 1, token)
 													if (valuationCount.current != undefined)
 														valuationCount.current += 1 */
