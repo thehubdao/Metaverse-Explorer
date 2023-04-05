@@ -5,6 +5,7 @@ import { getState, typedKeys } from '../../lib/utilities'
 import { ValuationState } from '../../pages/valuation'
 import SearchLandButton from './SearchLandButton'
 import Image from 'next/image'
+import { Tooltip } from '@mui/material'
 
 interface Props {
   mapState: ValuationState
@@ -41,11 +42,13 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
       search: searchByCoordinates,
       text: 'Go by Coordinates',
       hasGuide: false,
+      guide: '',
     },
     id: {
       search: searchById,
       text: 'Go by ID',
       hasGuide: true,
+      guide: 'Find LAND on Opensea > Details > Token ID',
     },
   }
   // const checkMobile = () => {
@@ -94,7 +97,7 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
               <div className='flex flex-col gap-2 mb-4'>
                 {/* Mapping through search options */}
                 {typedKeys(searchOptions).map((filter) => (
-                  <span key={filter} className='flex gap-2 items-center relative'>
+                  <div key={filter} className='flex gap-2 items-center relative'>
                     <input
                       type='radio'
                       name={filter}
@@ -105,15 +108,15 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
                     <label className='text-grey-content font-plus text-sm font-bold'>
                       {filter[0].toLocaleUpperCase() + filter.substring(1)}
                     </label>
-                    {searchOptions[filter].hasGuide && (
-                      <div className='items-center justify-center'>
-                        <AiFillQuestionCircle className='text-grey-content cursor-pointer peer relative bottom-[2px]' />
-                        <p className='absolute -top-7 border border-gray-500 -left-6 xs:left-0 p-2 rounded-lg bg-grey-bone bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs text-grey-content hidden peer-hover:block w-70'>
-                          Find LAND on Opensea &gt; Details &gt; Token ID
-                        </p>
-                      </div>
-                    )}
-                  </span>
+                    {
+                      searchOptions[filter].hasGuide &&
+                      <Tooltip title={searchOptions[filter].guide} placement="right" arrow>
+                        <div>
+                          <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                        </div>
+                      </Tooltip>
+                    }
+                  </div>
                 ))}
               </div>
               <div className='flex flex-col gap-4 relative'>
