@@ -46,6 +46,7 @@ import { useAccount } from "wagmi";
 import router from "next/router";
 import ConnectButton from "../components/ConnectButton";
 import web3authService from "../backend/services/Web3authService";
+import { getCoingeckoPrices } from "../backend/services/openSeaDataManager";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -624,31 +625,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 };
 
 export async function getServerSideProps() {
-	let prices = {
-		"axie-infinity": {
-			"usd": 0
-		},
-		"decentraland": {
-			"usd": 0
-		},
-		"ethereum": {
-			"usd": 0
-		},
-		"somnium-space-cubes": {
-			"usd": 0
-		},
-		"the-sandbox": {
-			"usd": 0
-		}
-	}
-	try {
-		const coin = await fetch(
-			"https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd"
-		);
-		prices = await coin.json();
-	} catch (error) {
-		console.log(error)
-	}
+	let prices = await getCoingeckoPrices()
 	return {
 		props: {
 			prices,
