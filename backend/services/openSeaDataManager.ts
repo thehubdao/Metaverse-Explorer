@@ -2,57 +2,14 @@ import { Contracts } from '../../lib/contracts'
 import { Metaverse } from '../../lib/metaverse'
 
 async function getCollectionStats(collectionName: string) {
-  /*   if (collectionName === 'axie-infinity') {
-      collectionName = 'axie'
-    } */
+/*   if (collectionName === 'axie-infinity') {
+    collectionName = 'axie'
+  } */
   const data = await fetch(
     `https://api.opensea.io/api/v1/collection/${collectionName}`
   )
   const data_json = await data.json()
   return data_json
-}
-
-export async function getCoingeckoPrices() {
-  let coinValues: any = {
-    "decentraland": {
-      "usd": 0
-    },
-    "ethereum": {
-      "usd": 0
-    },
-    "metagamehub-dao": {
-      "usd": 0
-    },
-    "ocean-protocol": {
-      "usd": 0
-    },
-    "somnium-space-cubes": {
-      "usd": 0
-    },
-    "tether": {
-      "usd": 0
-    },
-    "the-sandbox": {
-      "usd": 0
-    },
-    "usd-coin": {
-      "usd": 0
-    },
-    "wmatic": {
-      "usd": 0
-    }
-  }
-
-  try {
-    let coinITRM: any = await fetch(`${process.env.ITRM_SERVICE}/val-analytics/coingeckoResponse`)
-    coinITRM = await coinITRM.json()
-
-    if (coinITRM.success)
-      coinValues = coinITRM.success
-  } catch (error) {
-    console.log(error)
-  }
-  return coinValues
 }
 
 async function getEthExchangePrice() {
@@ -62,12 +19,12 @@ async function getEthExchangePrice() {
   const data_json = await data.json()
   return data_json
 }
-async function getEstimateAccuracyValues(collectionName: string) {
-  let test = '/test';
-  if (collectionName === 'axie-infinity') {
+async function getEstimateAccuracyValues(collectionName:string) {
+  let test='/test';
+  if (collectionName === 'axie-infinity' ) {
     collectionName = '--'
   }
-  if (collectionName === 'somnium-space') test = ''
+  if (collectionName === 'somnium-space') test='' 
   const data = await fetch(
     `https://services.itrmachines.com${test}/${collectionName}/performance`
   )
@@ -98,7 +55,7 @@ export async function getETHExchangeValue() {
   }
 }
 
-export async function getEstimateAccuracy(collectionName: string) {
+export async function getEstimateAccuracy(collectionName:string) {
   if (!collectionName) {
     return {}
   }
@@ -112,7 +69,7 @@ export async function getEstimateAccuracy(collectionName: string) {
 }
 
 export const createOpenSeaLink = (metaverse: Metaverse, landId: string) => {
-  /*   if (metaverse === 'axie-infinity') return */
+/*   if (metaverse === 'axie-infinity') return */
   const contracts = {
     decentraland: Contracts.PARCEL.ETHEREUM_MAINNET.address,
     sandbox: Contracts.LAND.ETHEREUM_MAINNET.newAddress,

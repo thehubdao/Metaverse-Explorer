@@ -31,7 +31,6 @@ import NoLands from '../components/Portfolio/NoLands';
 import { printAlchemy } from '../lib/alchemyProvider';
 import SpecificLandModal from '../components/Valuation/SpecificLandModal';
 import { findHeatmapLand } from '../lib/heatmap/findHeatmapLand';
-import { getCoingeckoPrices } from '../backend/services/openSeaDataManager';
 
 interface CardData {
 	apiData: IAPIData;
@@ -548,7 +547,10 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 }
 
 export async function getServerSideProps() {
-	let prices = await getCoingeckoPrices()
+	const coin = await fetch(
+		'https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd'
+	)
+	const prices: ICoinPrices = await coin.json()
 
 	return {
 		props: {
