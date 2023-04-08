@@ -24,6 +24,7 @@ import FilterButton from '../components/Analytics/FilterButton'
 import OptimizedImage from '../components/General/OptimizedImage'
 import FilterColumn from '../components/Analytics/FilterColumn'
 import NoData from '../components/General/NoData'
+import { getCoingeckoPrices } from '../backend/services/openSeaDataManager'
 const analyticsState = ['loading', 'loaded', 'firstLoad'] as const
 type AnalyticsState = typeof analyticsState[number]
 
@@ -339,31 +340,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
 }
 
 export async function getServerSideProps() {
-    let prices = {
-        "axie-infinity": {
-            "usd": 0
-        },
-        "decentraland": {
-            "usd": 0
-        },
-        "ethereum": {
-            "usd": 0
-        },
-        "somnium-space-cubes": {
-            "usd": 0
-        },
-        "the-sandbox": {
-            "usd": 0
-        }
-    }
-    try {
-        const coin = await fetch(
-            "https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Caxie-infinity%2Csomnium-space-cubes&vs_currencies=usd"
-        );
-        prices = await coin.json();
-    } catch (error) {
-        console.log(error)
-    }
+    let prices = await getCoingeckoPrices()
     return {
         props: {
             prices,
