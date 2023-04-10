@@ -54,11 +54,6 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
     <>
       <div className='flex flex-col h-full'>
         <div className='flex items-center gap-x-2 mb-4'>
-          <Tooltip title={'Estimate accuracy description'} placement="bottom-start" arrow>
-            <div>
-              <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
-            </div>
-          </Tooltip>
           <p className={`text-lg font-semibold text-grey-content font-plus`}>
             Estimate Accuracy:{' '}
           </p>
@@ -67,18 +62,46 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
           className='flex border-t border-l border-white/10 shadow-blck rounded-xl justify-between items-center p-5 min-w-max h-full bg-grey-panel'
         >
           <div className="flex flex-col space-y-1">
-            <p className={styleContent}>
-              MAPE :
-            </p>
-            <p className={styleContent}>
-              R-Squared :
-            </p>
-            <p className={styleContent}>
-              MAXIMUM :
-            </p>
-            <p className={styleContent}>
-              MINIMUM :
-            </p>
+            <div className='flex items-center gap-x-2 mb-4'>
+              <Tooltip title={'Mean Absolute Percentage Error'} placement="bottom-start" arrow>
+                <div>
+                  <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                </div>
+              </Tooltip>
+              <p className={styleContent}>
+                MAPE :
+              </p>
+            </div>
+            <div className='flex items-center gap-x-2 mb-4'>
+              <Tooltip title={'coefficient of determination'} placement="bottom-start" arrow>
+                <div>
+                  <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                </div>
+              </Tooltip>
+              <p className={styleContent}>
+                R-Squared :
+              </p>
+            </div>
+            <div className='flex items-center gap-x-2 mb-4'>
+              <Tooltip title={'Maximum forecasted value that the trained model returns'} placement="bottom-start" arrow>
+                <div>
+                  <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                </div>
+              </Tooltip>
+              <p className={styleContent}>
+                MAXIMUM :
+              </p>
+            </div>
+            <div className='flex items-center gap-x-2 mb-4'>
+              <Tooltip title={'Minimum forecasted value that the trained model returns'} placement="bottom-start" arrow>
+                <div>
+                  <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                </div>
+              </Tooltip>
+              <p className={styleContent}>
+                MINIMUM :
+              </p>
+            </div>
           </div>
           <div className="items-end space-y-1 text-right">
             <p className={styleContent}>
