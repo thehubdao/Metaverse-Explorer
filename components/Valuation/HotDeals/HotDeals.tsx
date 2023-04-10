@@ -1,8 +1,9 @@
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Metaverse } from '../../../lib/metaverse'
 import { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { fetchChartData } from "../../Analytics/fetchChartData";
+import Image from 'next/image';
 import  HotDealsCard  from "./HotDealsCard";
 
 // Import Swiper styles
@@ -13,6 +14,25 @@ import 'swiper/css/scrollbar';
 
 interface Props {
     metaverse: Metaverse
+}
+
+interface InextButton {
+  isLeft?: boolean
+}
+
+function NextButton({isLeft}: InextButton) {
+  const swiper = useSwiper();
+  return (
+    <div onClick={() => {
+      if (isLeft) {
+          swiper.slidePrev();
+      } else {
+          swiper.slideNext();
+      }
+    }} className={`absolute bottom-0 left-2/4 ${isLeft ? 'rotate-180 -translate-x-[590px]' : 'translate-x-[580px]'} -translate-y-2/4 z-10 cursor-pointer`}>
+      <Image src={'/images/icons/next.svg'} alt={'Next slide'} width={18} height={31} />
+    </div>
+  )
 }
 
 const HotDeals = ({  metaverse }: Props) => {
@@ -70,6 +90,8 @@ const HotDeals = ({  metaverse }: Props) => {
             )
           })}
       </ul>
+      <NextButton isLeft />
+      <NextButton />
     </Swiper>
   );
 };
