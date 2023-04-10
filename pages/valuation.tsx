@@ -165,7 +165,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const getglobalData = async () => {
 		if (!metaverse) return;
 		try {
-			const url = metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
+			const url = metaverse == "somnium-space"
 				? `https://services.itrmachines.com/mgh/v2/${metaverse}/globalData` : `https://services.itrmachines.com/test/${metaverse}/globalData`
 			const response = await fetch(
 				url,
