@@ -29,8 +29,8 @@ function NextButton({isLeft}: InextButton) {
       } else {
           swiper.slideNext();
       }
-    }} className={`absolute bottom-0 left-2/4 ${isLeft ? 'rotate-180 -translate-x-[590px]' : 'translate-x-[580px]'} -translate-y-2/4 z-10 cursor-pointer`}>
-      <Image src={'/images/icons/next.svg'} alt={'Next slide'} width={18} height={31} />
+    }} className={`absolute top-2/4 left-2/4 ${isLeft ? 'rotate-180 -translate-x-[595px]' : 'translate-x-[580px]'} -translate-y-2/4 z-10 cursor-pointer`}>
+      <Image src={'/images/icons/next.svg'} alt={'Next slide'} width={8} height={16} />
     </div>
   )
 }
@@ -55,44 +55,46 @@ const HotDeals = ({  metaverse }: Props) => {
 	}, [metaverse]);
 
   useEffect(() => {
-    console.log(topPicks, 'toppicks');
+    // console.log(topPicks, 'toppicks');
 	}, [topPicks]);
   
   
   return (
-    <Swiper
-      modules={[ Pagination, Scrollbar, A11y]}
-      spaceBetween={10}
-      slidesPerView={6}
-      pagination={{ clickable: true }}
-      scrollbar={{ draggable: true }}
-    >
-      <ul>
-        {metaverse &&
-        topPicks.map((land: any) => {
-            return (
-                <li
-                key={land.tokenId}
-                className="w-full gray-box shadowNormal"
-                >
-                    <SwiperSlide>
-                        <HotDealsCard 
-                          metaverse={metaverse}
-                          apiData={land}
-                          landCoords={{
-                            x: land.coords ? land?.coords.x : land?.center.x,
-                            y: land?.coords ? land?.coords.y : land?.center.y,
-                          }}
-                          name={land.name}
-                        />
-                    </SwiperSlide>
-                </li>
-            )
-          })}
-      </ul>
-      <NextButton isLeft />
-      <NextButton />
-    </Swiper>
+    <div className='relative w-full'>
+      <Swiper
+        modules={[Scrollbar, A11y]}
+        spaceBetween={10}
+        slidesPerView={6}
+        scrollbar={{ draggable: true }}
+      >
+        <ul>
+          {metaverse &&
+          topPicks.map((land: any) => {
+              return (
+                  <li
+                  key={land.tokenId}
+                  className="w-full gray-box shadowNormal"
+                  >
+                      <SwiperSlide>
+                          <HotDealsCard 
+                            metaverse={metaverse}
+                            apiData={land}
+                            landCoords={{
+                              x: land.coords ? land?.coords.x : land?.center.x,
+                              y: land?.coords ? land?.coords.y : land?.center.y,
+                            }}
+                            name={land.name}
+                          />
+                      </SwiperSlide>
+                  </li>
+              )
+            })}
+        </ul>
+        <NextButton isLeft />
+        <NextButton />
+      </Swiper>
+    </div>
+ 
   );
 };
 export default HotDeals
