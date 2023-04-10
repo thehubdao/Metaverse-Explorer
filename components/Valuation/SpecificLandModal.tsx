@@ -198,7 +198,7 @@ const SpecificLandModal = ({
         >
           <div className="absolute right-6 top-6 flex gap-3">
             {/* Twitter button */}
-            <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
+            <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out cursor-pointer">
               <BsTwitter
                 title="Share Valuation"
                 onClick={() =>
@@ -212,14 +212,14 @@ const SpecificLandModal = ({
             </div>
             {/* Open specific asset modal button */}
             <div
-              className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-sm"
+              className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-sm cursor-pointer"
               onClick={() => { setOpenSpecificModal(false) }}
             >
               <AiOutlineCompress />
             </div>
             {/* Close button */}
             <div
-              className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
+              className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out cursor-pointer"
               onClick={() => {
                 setOpenSpecificModal(false)
                 setIsVisible(false)
