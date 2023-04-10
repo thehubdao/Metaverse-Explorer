@@ -165,15 +165,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const getglobalData = async () => {
 		if (!metaverse) return;
 		try {
-			let data;
+			const url = metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
+				? `https://services.itrmachines.com/mgh/v2/${metaverse}/globalData` : `https://services.itrmachines.com/test/${metaverse}/globalData`
 			const response = await fetch(
-				`${process.env.ITRM_SERVICE}${metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
-					? ""
-					: "/test"
-				}/${metaverse}/globalData`,
+				url,
 				{
-					method: "GET",
-					body: JSON.stringify(data),
+					method: "GET"
 				}
 			);
 			setglobalData(await response.json());
