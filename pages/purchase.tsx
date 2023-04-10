@@ -16,6 +16,7 @@ import { ActionProviderB2c } from '../lib/chatbot/ActionProvider'
 import MessageParser from '../lib/chatbot/MessageParser'
 import { useAppSelector } from '../state/hooks'
 import web3authService from '../backend/services/Web3authService'
+import { getCoingeckoPrices } from '../backend/services/openSeaDataManager'
 
 const features = [
   "Unlimited Valuations",
@@ -31,15 +32,15 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
   const [activePlan, setActivePlan] = useState(Plans.BASIC)
   const [selection, setSelection] = useState<Plans | undefined>(undefined)
 
-useEffect(()=>{
-  if(!accessToken.token)return
-  const unixEndDate = web3authService?.getB2CRole?.endDate * 1000
-  const endDate = new Date(unixEndDate)
-  if(web3authService.getB2CRole?.role == 0) return
-  setEndDate(`${endDate.getDay()}.${endDate.getMonth() + 1}.${endDate.getFullYear()}`)
-  setActivePlan(Plans.PREMIUM)
-  
-},[accessToken])
+  useEffect(() => {
+    if (!accessToken.token) return
+    const unixEndDate = web3authService?.getB2CRole?.endDate * 1000
+    const endDate = new Date(unixEndDate)
+    if (web3authService.getB2CRole?.role == 0) return
+    setEndDate(`${endDate.getDay()}.${endDate.getMonth() + 1}.${endDate.getFullYear()}`)
+    setActivePlan(Plans.PREMIUM)
+
+  }, [accessToken])
   return (
     <>
       <Head>
@@ -66,11 +67,11 @@ useEffect(()=>{
                   <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl mb-10">
                     <p>
                       <span className="font-bold">
-                      Your current plan is { activePlan }
+                        Your current plan is {activePlan}
                       </span>
-                      <br/>
+                      <br />
                       {endDate && <span className="font-bold">
-                      Active until {endDate}
+                        Active until {endDate}
                       </span>}
                     </p>
                   </div>
@@ -191,46 +192,11 @@ useEffect(()=>{
 }
 export async function getServerSideProps() {
   // Using wmatic instead of matic cause coingecko isn't working for matic..
-  let coinValues: any = {
-    "decentraland": {
-      "usd": 0
-    },
-    "ethereum": {
-      "usd": 0
-    },
-    "metagamehub-dao": {
-      "usd": 0
-    },
-    "ocean-protocol": {
-      "usd": 0
-    },
-    "somnium-space-cubes": {
-      "usd": 0
-    },
-    "tether": {
-      "usd": 0
-    },
-    "the-sandbox": {
-      "usd": 0
-    },
-    "usd-coin": {
-      "usd": 0
-    },
-    "wmatic": {
-      "usd": 0
-    }
-  }
-  try {
-    const coin = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cthe-sandbox%2Cdecentraland%2Cocean-protocol%2Cmetagamehub-dao%2Cwmatic%2Cusd-coin%2Ctether%2Csomnium-space-cubes&vs_currencies=usd`
-    );
-    coinValues = await coin.json() as PurchaseCoinValues;
-  } catch (error) {
-    console.log(error)
-  }
+  let prices = await getCoingeckoPrices()
+
   return {
     props: {
-      coinValues,
+      prices,
     },
   }
 }
