@@ -80,7 +80,10 @@ export default function ConnectButton() {
   const initAuth = async (signer: any) => {
     const accessToken: any = await web3authService.connectWeb3Auth(signer as Signer)
     dispatch(setAccountToken(accessToken))
+  }
 
+  const handleBlur = () => {
+    setModalIsOpen(false);
   }
 
   useEffect(() => {
@@ -101,7 +104,7 @@ export default function ConnectButton() {
   useEffect(() => {
 
     if (!didMount.current) return
-    
+
     if (!accessToken.token) {
       localStorage.removeItem('accessToken')
       web3authService.disconnectWeb3Auth()
@@ -119,6 +122,8 @@ export default function ConnectButton() {
     <>
       <div
         className={`relative ${address ? 'w-[300px]' : 'w-fit'} h-full mx-8 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-4 py-3 gap-2 select-none font-normal shadow-xl`}
+        onBlur={handleBlur}
+        tabIndex={0}
       >
         {address ? (
           <div className='flex justify-between items-center gap-5 w-full h-6' onClick={() => openDropdownMenu()}>
