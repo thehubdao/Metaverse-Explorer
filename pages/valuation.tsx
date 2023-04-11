@@ -45,6 +45,7 @@ import { getCallsCount, updateCallsCount } from "../lib/FirebaseUtilities";
 import { useAccount } from "wagmi";
 import router from "next/router";
 import ConnectButton from "../components/ConnectButton";
+import HotDeals from "../components/Valuation/HotDeals/HotDeals";
 import web3authService from "../backend/services/Web3authService";
 import { getCoingeckoPrices } from "../backend/services/openSeaDataManager";
 
@@ -565,7 +566,22 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							</div>
 						)}
 					</div>
-
+					{/* Hot Deals Lands */}
+					{metaverse && (
+						<>
+							<div className="flex items-center justify-center p-8 mt-7">
+								<div className="flex flex-col justify-center space-y-3 max-w-xl text-center">
+									<p className="text-grey-content font-bold lg:text-3xl text-2xl text-center">{metaverseLabels[metaverse]} Hot Deals <Image src='/images/icons/hot-icon.svg' width={24} height={26} alt="Hot Deals" className=''/></p>
+									<p className="font-medium text-cente">Underpriced listings  on offer</p>
+								</div>
+							</div>
+							<div className="flex items-center justify-center p-8 mt-7">
+								<HotDeals 
+									metaverse={metaverse}
+								/>
+							</div>
+						</>
+					)}
 					{/* Daily Volume and Floor Price Wrapper */}
 					{metaverse && (
 						<>
