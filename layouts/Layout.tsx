@@ -23,7 +23,7 @@ const list = [
 		label: "LAND Valuation",
 		icon: "b",
 	},
-	{
+	/* {
 		url: {
 			ref: "/nftValuation",
 			isExternal: false,
@@ -46,7 +46,7 @@ const list = [
 		},
 		label: "Provide Liquidity",
 		icon: "f",
-	},
+	}, */
 	{
 		url: {
 			ref: "/stake",
@@ -63,7 +63,7 @@ const list = [
 		label: "Governance",
 		icon: "a",
 	},
-	{
+	/* {
 		url: {
 			ref: "/mlm",
 			isExternal: false,
@@ -72,14 +72,14 @@ const list = [
 		icon: "i",
 	},
 	{
-		/* url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland", */
+		// url: "https://avatar-generator-metagamehub.vercel.app/?campaign=decentraland",
 		url: {
 			ref: '/avatar',
 			isExternal: false,
 		},
 		label: "Avatar Generator",
 		icon: "g",
-	},
+	}, */
 ];
 
 export default function Layout({ children }: LayoutProps) {
