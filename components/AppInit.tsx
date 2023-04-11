@@ -8,13 +8,13 @@ import Layout from '../layouts/Layout'
 import MobileControl from '../components/MobileControl'
 import web3authService from '../backend/services/Web3authService'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { polygon } from 'wagmi/chains'
+import { polygon, mainnet } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { Web3Auth } from '@web3auth/modal'
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 
 const { chains, provider } = configureChains(
-    [polygon],
+    [mainnet,polygon],
     [publicProvider()]
 )
 

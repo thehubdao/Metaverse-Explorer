@@ -358,7 +358,15 @@ const Heatmap2D = ({
   }, [viewport])
 
   useEffect(() => {
-    if (map?.renderer) map?.renderer.resize(width || 0, height || 0)
+    if (map?.renderer) {
+      map?.renderer.resize(width || 0, height || 0);
+
+      try {
+        viewport.resize(width, height);
+      } catch {
+        console.log("error on viewport resize");
+      }
+    }
   }, [width, height])
 
   useEffect(() => {
