@@ -57,6 +57,10 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
       let response
       response = await addLandToWatchList(landData, address, metaverse, token)
       setOpenAdd(true);
+      /* setTimeout(() => {
+
+      }, [600])
+      handleShopCart('remove') */
     } catch (error) {
       setOpenWarning(true)
     }
@@ -70,13 +74,13 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
   };
 
   return (
-    <div className="relative nm-flat-medium rounded-xl h-[230px] flex w-full">
+    <div className="relative nm-flat-medium rounded-xl h-[140px] flex w-full">
       <OptimizedImage
-        height={230}
-        width={180}
+        height={140}
+        width={140}
         src={imageUrl}
         rounded="xl"
-        className="w-[150px] flex-none rounded-r-none"
+        className="flex-none rounded-r-none"
       />
       <div className='absolute bottom-4 left-3 bg-grey-panel rounded-full flex justify-center items-center p-1'>
         <OptimizedImage
@@ -88,7 +92,7 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
       </div>
       <div className="grow flex flex-col w-1/2 p-4 justify-between items-stretch">
         <div className="flex justify-between w-full gap-4">
-          <h1 className="font-bold text-lg">{title}</h1>
+          <h1 className="font-bold text-sm">{title}</h1>
           <div
             className="rounded-lg nm-flat-medium p-2 w-fit h-fit hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
             onClick={() => { handleShopCart('remove') }}
@@ -96,21 +100,21 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
             <IoClose className="text-xl text-grey-conten" />
           </div>
         </div>
-        <div className="flex mb-2 gap-4">
-          <div className="flex">
+        <div className="flex mb-2 gap-4 text-[10px]">
+          <div className="flex items-center">
             <Image
               src={'/images/eth.svg'}
               width={20}
               height={20}
               className='rounded-full'
             />
-            <p className={`text-grey-content text-lg font-bold`}>
+            <p className={`text-grey-content font-bold`}>
               {`${ethPrice?.toFixed(2)} ETH`}
             </p>
           </div>
           <button
             onClick={() => { window.open(openseaLink) }}
-            className="flex justify-center gap-1 font-bold"
+            className="flex items-center gap-1 font-bold"
           >
             <OptimizedImage
               src="/images/icons/markets/opensea.svg"
@@ -123,7 +127,7 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
         </div>
         <button
           onClick={() => { handleWatchslist() }}
-          className="nm-flat-medium p-2 rounded-lg font-bold text-sm"
+          className="nm-flat-medium p-2 rounded-lg font-bold text-xs mx-6"
         >MOVE TO WATCHLIST
         </button>
         <Snackbar
@@ -160,17 +164,17 @@ const ConfirmationCart = ({ title, ethPrice }: ConfirmationCartProps) => {
   return (
     <div className="relative rounded-xl h-[230px] flex w-full justify-between items-center">
       <div className="flex justify-between w-2/4 gap-4">
-        <h1 className="text-lg">{title}</h1>
+        <h1 className="text-sm">{title}</h1>
       </div>
       <div className="flex mb-2 gap-4">
-        <div className="flex justify-center items-center">
+        <div className="flex items-center w-16">
           <Image
             src={'/images/eth.svg'}
             width={20}
             height={20}
             className='rounded-full'
           />
-          <p className={`text-grey-content text-lg font-bold`}>
+          <p className={`text-grey-content text-[10px] font-bold`}>
             {`${ethPrice?.toFixed(2)} ETH`}
           </p>
         </div>
@@ -216,7 +220,7 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
       <div className="z-30">
         <div
           onClick={() => { }}
-          className={`relative flex flex-col justify-center m-20 bg-white w-[540px] rounded-2xl ${isOnListSection ? 'h-[90vh]' : 'h-[60vh]'}`}
+          className={`relative flex flex-col justify-center m-20 bg-white w-[470px] rounded-2xl ${isOnListSection ? 'h-[90vh]' : 'h-[60vh]'}`}
         >
           {/* div header */}
           <div className="w-full flex justify-between items-center h-20 px-8 flex-none">
@@ -273,7 +277,7 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
             <OvalButton buttonFunction={() => {
               setOpenNotification(true)
               isOnListSection ? setIsOnListSection(false) : setOpenSpecificModal(false)
-            }} label='Confirm purchase' fullWidth />
+            }} label='Confirm purchase' />
           </div>
 
           {/* Floating dividers */}

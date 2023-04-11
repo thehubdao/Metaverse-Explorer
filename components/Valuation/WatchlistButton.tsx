@@ -83,13 +83,13 @@ const WatchlistButton = ({ land, metaverse, action, getWatchList }: Props) => {
   return (
     <>
       {action === 'add' && <button
-        className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-flat-medium hover:nm-flat-soft"
+        className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-bold nm-flat-medium hover:nm-flat-soft"
         onClick={() => handleWatchslist({ action: 'add' })}
       >
         {'ADD TO WATCHLIST'}
       </button>}
       {action === 'remove' && <button
-        className="w-full text-black rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-extrabold nm-inset-medium"
+        className="w-full text-grey-content rounded-2xl py-3 transition duration-300 ease-in-out text-sm font-bold nm-inset-medium"
         onClick={() => handleWatchslist({ action: 'remove' })}
       >
         {'REMOVE FROM WATCHLIST'}
