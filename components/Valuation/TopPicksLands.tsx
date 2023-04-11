@@ -105,7 +105,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 						</span>
 					</td>
 					<td className={rowDataStyle}>
-						<span>{parseFloat(picks[index]["gap"]).toFixed(2)}%</span>
+						<span>{(parseFloat(picks[index]["gap"]) * (-1)).toFixed(2)}%</span>
 					</td>
 				</tr>
 			);
