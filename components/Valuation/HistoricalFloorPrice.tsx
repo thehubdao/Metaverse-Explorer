@@ -50,11 +50,6 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
     <>
       <div className='flex flex-col h-full'>
         <div className='flex items-center gap-x-2 mb-4'>
-          <Tooltip title={'Historic floor price description'} placement="bottom-start" arrow>
-            <div>
-              <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
-            </div>
-          </Tooltip>
           <p className={`text-lg font-semibold text-grey-content font-plus`}>
             Historic Floor Price:{' '}
           </p>
