@@ -6,7 +6,7 @@ import OptimizedImage from "./OptimizedImage"
 import { Metaverse } from "../../lib/metaverse"
 import ScrollBar from "../ScrollBar"
 import { useDispatch, useSelector } from "react-redux"
-import { removeFromCart } from "../../state/shopCartList"
+import { localStorageCharge, removeFromCart } from "../../state/shopCartList"
 import { addLandToWatchList } from "../../lib/FirebaseUtilities"
 import { useAccount } from "wagmi"
 import { useAppSelector } from "../../state/hooks";
@@ -57,10 +57,10 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
       let response
       response = await addLandToWatchList(landData, address, metaverse, token)
       setOpenAdd(true);
-      /* setTimeout(() => {
-
-      }, [600])
-      handleShopCart('remove') */
+      const timeoutId = setTimeout(() => {
+        handleShopCart('remove')
+      }, 600);
+      return () => clearTimeout(timeoutId);
     } catch (error) {
       setOpenWarning(true)
     }
@@ -191,11 +191,13 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   const [accumulatedEthereumPrices, setAccumulatedEthereumPrices] = useState<number>(0);
 
   const shopList = useSelector((state: any) => state.shopCartList)
+  const { address } = useAccount()
+  const dispatch = useDispatch();
 
   // Scrollbar Controller
   const parentRef = useRef<HTMLDivElement>(null)
   const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
-  
+
   const [openNotification, setOpenNotification] = useState(false);
   const handleClose = (event?: React.SyntheticEvent | Event,) => {
     setOpenNotification(false);
@@ -209,7 +211,15 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
     let sum = 0
     shopList.list.map((data: any) => sum = sum + data.eth_predicted_price)
     setAccumulatedEthereumPrices(sum)
+    localStorage.setItem(`shoplist_${address}`, JSON.stringify(shopList.list));
   }, [shopList.length])
+
+  useEffect(() => {
+    const savedShoplist = JSON.parse(localStorage.getItem(`shoplist_${address}`) || '');
+    if (savedShoplist) {
+      dispatch(localStorageCharge(savedShoplist))
+    }
+  }, [])
 
   // Const process control
   const [isOnListSection, setIsOnListSection] = useState<boolean>(true)

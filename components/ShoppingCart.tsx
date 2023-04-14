@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Alert, Snackbar } from '@mui/material'
 import Image from 'next/image'
 import { useSelector } from "react-redux";
 

@@ -121,7 +121,7 @@ export default function ConnectButton() {
   return (
     <>
       <div
-        className={`relative ${address ? 'w-[300px]' : 'w-fit'} h-full mr-4 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-4 py-3 gap-2 select-none font-normal shadow-xl`}
+        className={`relative ${address ? 'w-[300px]' : 'w-fit mr-12'} h-full mr-4 mt-6 rounded-2xl duration-300 cursor-pointer bg-white flex flex-col items-center px-4 py-3 gap-2 select-none font-normal shadow-xl`}
         onBlur={handleBlur}
         tabIndex={0}
       >

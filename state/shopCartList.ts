@@ -22,10 +22,14 @@ export const shopCartListSlice = createSlice({
       state.length = filteredList.length
     },
     resetCart: () => initialState,
+    localStorageCharge: (state, { payload }) => {
+      state.list = payload
+      state.length = payload.length
+    }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { addToCart, removeFromCart, resetCart } = shopCartListSlice.actions
+export const { addToCart, removeFromCart, resetCart, localStorageCharge } = shopCartListSlice.actions
 
 export default shopCartListSlice.reducer

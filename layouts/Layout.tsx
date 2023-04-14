@@ -103,7 +103,7 @@ export default function Layout({ children }: LayoutProps) {
 
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
-				<div className={`absolute flex top-0 z-50 pr-8 ${address ? 'right-8' : 'right-8'}`}>
+				<div className={`absolute flex top-0 z-50 pr-8 right-10`}>
 					<ConnectButton />
 					<div className={`${!address ? 'hidden' : ''}`}>
 						<ShoppingCart setOpenShopCartModal={setOpenShopCartModal} />
