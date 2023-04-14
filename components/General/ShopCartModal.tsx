@@ -204,6 +204,13 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   };
 
   useEffect(() => {
+    const savedShoplist = JSON.parse(localStorage.getItem(`shoplist_${address}`) || '');
+    if (savedShoplist) {
+      dispatch(localStorageCharge(savedShoplist))
+    }
+  }, [])
+
+  useEffect(() => {
     setParentDom(parentRef.current)
   }, [parentRef.current])
 
@@ -213,13 +220,6 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
     setAccumulatedEthereumPrices(sum)
     localStorage.setItem(`shoplist_${address}`, JSON.stringify(shopList.list));
   }, [shopList.length])
-
-  useEffect(() => {
-    const savedShoplist = JSON.parse(localStorage.getItem(`shoplist_${address}`) || '');
-    if (savedShoplist) {
-      dispatch(localStorageCharge(savedShoplist))
-    }
-  }, [])
 
   // Const process control
   const [isOnListSection, setIsOnListSection] = useState<boolean>(true)
