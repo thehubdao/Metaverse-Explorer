@@ -4,7 +4,7 @@ interface Props {
   width?: number
   height?: number
   layout?: 'intrinsic' | 'fixed' | 'fill' | 'responsive' | undefined
-  rounded?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full'
+  rounded?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full' | 't-xl'
   className?: string
   objectFit?:
     | 'contain'

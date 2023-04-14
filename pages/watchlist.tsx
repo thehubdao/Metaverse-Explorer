@@ -82,7 +82,7 @@ const Watchlist: NextPage = () => {
     if (!address) return
     getWatchList()
   }, [address])
-
+  
   return (
     <>
       <Head>

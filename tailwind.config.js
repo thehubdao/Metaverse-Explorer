@@ -1,5 +1,10 @@
 module.exports = {
   content: ['./layouts/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  safelist: [
+    {
+      pattern: /rounded-(t|b|r|l||tr|tl|br|bl)-(none|sm||md|lg|xl|2xl|3xl|full)/,
+    },
+  ],
   theme: {
     extend: {
       keyframes: {

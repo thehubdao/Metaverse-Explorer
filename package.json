@@ -57,7 +57,7 @@
     "react-use-scroll-direction": "^0.1.0",
     "recharts": "^2.1.9",
     "socket.io-client": "^4.5.2",
-    "swiper": "^8.4.5",
+    "swiper": "^8.4.7",
     "tippy.js": "^6.3.7",
     "touch-pinch": "^1.0.1",
     "touch-position": "^2.0.0",
