@@ -177,7 +177,7 @@ const MapCard = ({
           <div className="bg-grey-bone rounded-3xl p-6 flex w-[650px]">
             <div className="absolute right-6 top-6 flex gap-3">
               {/* Twitter button */}
-              <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
+              <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out cursor-pointer">
                 <BsTwitter
                   title="Share Valuation"
                   onClick={() =>
@@ -191,14 +191,14 @@ const MapCard = ({
               </div>
               {/* Open specific asset modal button */}
               <div
-                className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-xl"
+                className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-xl cursor-pointer"
                 onClick={() => { setOpenSpecificModal(true) }}
               >
                 <AiOutlineExpand className="text-grey-conten" />
               </div>
               {/* Close button */}
               <div
-                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
+                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out cursor-pointer"
                 onClick={() => setIsVisible(false)}
               >
                 <IoClose className="text-xl text-grey-conten" />
