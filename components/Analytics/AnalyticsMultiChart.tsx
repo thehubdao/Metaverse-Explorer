@@ -119,12 +119,12 @@ const AnalyticsMultiChart = ({
   }, [interval, dataMetaverse, symbol, updateMosaic, openedFilters]);
 
   return (
-    <div className="gray-box">
-      <div className="relative max-w-full h-full" ref={chartElement}>
-        {fetching && <div className="absolute">
-          <Loader color='blue' size={100} />
-        </div>}
+    <div className="w-full h.full">
+      <div className=" max-w-full h-full flex justify-center items-center" ref={chartElement}>
       </div>
+      {fetching && <div className="absolute z-50 -top-12 -right-12">
+        <Loader color='blue' size={50} />
+      </div>}
     </div>
   );
 };
