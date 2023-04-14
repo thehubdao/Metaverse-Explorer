@@ -62,6 +62,7 @@ const MapChooseMetaverse = ({ metaverse, setMetaverse, onClick, opened }: Props)
                       setMetaverse(mv)
                       onClick()
                     }}
+                    key={mv}
                   >
                     <OptimizedImage
                       height={25}

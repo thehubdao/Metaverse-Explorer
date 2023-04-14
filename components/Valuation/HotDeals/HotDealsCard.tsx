@@ -10,36 +10,36 @@ import CartButton from "../CartButton";
 import Tooltip from "@mui/material/Tooltip";
 
 interface Props {
-apiData: IAPIData
-landCoords?: { x: string | number; y: string | number }
-metaverse: Metaverse
-name?: string
+  apiData: any
+  landCoords?: { x: string | number; y: string | number }
+  metaverse: Metaverse
+  name?: string
 }
 
 const metaverseInfo = {
-    sandbox: {
-      image: '/images/the-sandbox-sand-logo.png',
-      label: 'The Sandbox'
-    },
-    decentraland: {
-      image: '/images/decentraland-mana-logo.png',
-      label: 'Decentraland'
-    },
-    "somnium-space": {
-      image: '/images/somnium-space-cube-logo.webp',
-      label: 'Somnium Space'
-    }
+  sandbox: {
+    image: '/images/the-sandbox-sand-logo.png',
+    label: 'The Sandbox'
+  },
+  decentraland: {
+    image: '/images/decentraland-mana-logo.png',
+    label: 'Decentraland'
+  },
+  "somnium-space": {
+    image: '/images/somnium-space-cube-logo.webp',
+    label: 'Somnium Space'
   }
+}
 
 const HotDealsCard = ({
-    apiData,
-    landCoords,
-    metaverse,
-    name,
-}: Props ) => {
-    const [watchlist, setWatchlist] = useState<any>()
-    const { address } = useAccount()
-    const { token }: any = useAppSelector((state) => state.account)
+  apiData,
+  landCoords,
+  metaverse,
+  name,
+}: Props) => {
+  const [watchlist, setWatchlist] = useState<any>()
+  const { address } = useAccount()
+  const { token }: any = useAppSelector((state) => state.account)
 
   const getWatchList = async (token: string) => {
 
@@ -79,13 +79,13 @@ const HotDealsCard = ({
 
               <div className="flex flex-col justify-center">
                 <div className="flex items-center justify-center relative -top-4">
-                <Tooltip title={`${(apiData.gap?.toFixed(2))*(-1)} % Underpriced`} placement="bottom">
-                  <p className="w-3/4 font-normal text-sm truncate bg-green-400 text-white rounded-md px-2 py-1">{`${(apiData.gap?.toFixed(2))*(-1)} % Underpriced`}</p>
-                </Tooltip>
+                  <Tooltip title={`${(apiData.gap?.toFixed(2)) * (-1)} % Underpriced`} placement="bottom">
+                    <p className="w-3/4 font-normal text-sm truncate bg-green-400 text-white rounded-md px-2 py-1">{`${(apiData.gap?.toFixed(2)) * (-1)} % Underpriced`}</p>
+                  </Tooltip>
                 </div>
                 <div className=" flex justify-center">
-                  <Tooltip title={name} placement="bottom">
-                    <h3 className="font-semibold text-sm truncate max-w-[160px]" title={name}>
+                  <Tooltip title={name || ''} placement="bottom">
+                    <h3 className="font-semibold text-sm truncate max-w-[160px]">
                       {handleLandName(
                         metaverse,
                         {
@@ -138,7 +138,7 @@ const HotDealsCard = ({
                   </button>
                 </div>
               </div>
-            </div>        
+            </div>
           </div>
         )}
     </>
