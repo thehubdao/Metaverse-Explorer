@@ -88,7 +88,7 @@ export default function Layout({ children }: LayoutProps) {
 	const parentRef = useRef<HTMLDivElement>(null)
 	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
 	const { address } = useAccount()
-	const [switchState, setSwitchState]  = useState<boolean>(false);
+	const [switchState, setSwitchState] = useState<boolean>(false);
 
 	const [openShopCartModal, setOpenShopCartModal] = useState<boolean>(false)
 
@@ -97,22 +97,20 @@ export default function Layout({ children }: LayoutProps) {
 	}, [parentRef.current])
 
 	console.log(switchState, 'state');
-	
+
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
 
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
-				<div className={`absolute top-0 z-50 pr-8 ${address ? 'right-44' : 'right-26'}` }>
+				<div className={`absolute flex top-0 z-50 pr-8 ${address ? 'right-8' : 'right-8'}`}>
 					<ConnectButton />
-				</div>
-				<div className={`absolute top-0 right-0 z-50 pr-8 ${!address ? 'hidden' : ''}`}>
-					<ShoppingCart setOpenShopCartModal={setOpenShopCartModal} />
-				</div>
-				<div className='absolute top-0 right-0 z-50 pr-8'>
-					<DarkModeButton 
-						// switchState={switchState}
-						// setSwitchState={setSwitchState}
+					<div className={`${!address ? 'hidden' : ''}`}>
+						<ShoppingCart setOpenShopCartModal={setOpenShopCartModal} />
+					</div>
+					<DarkModeButton
+					// switchState={switchState}
+					// setSwitchState={setSwitchState}
 					/>
 				</div>
 				<div >

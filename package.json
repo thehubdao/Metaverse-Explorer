@@ -56,6 +56,7 @@
     "react-tsparticles": "^2.5.3",
     "react-use-scroll-direction": "^0.1.0",
     "recharts": "^2.1.9",
+    "redux-persist": "^6.0.0",
     "socket.io-client": "^4.5.2",
     "swiper": "^8.4.7",
     "tippy.js": "^6.3.7",

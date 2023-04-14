@@ -4,6 +4,7 @@ import networkReducer from "./network"
 import accountReducer from "./account"
 import shopCartListReducer from './shopCartList'
 
+
 const store = configureStore({
   reducer: {
     network: networkReducer,
