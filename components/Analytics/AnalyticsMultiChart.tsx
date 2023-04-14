@@ -123,7 +123,7 @@ const AnalyticsMultiChart = ({
       <div className=" max-w-full h-full flex justify-center items-center" ref={chartElement}>
       </div>
       {/* fetching */ true && <div className="absolute z-50 -top-12 -right-12">
-        <Loader color='black' size={50} />
+        <Loader color='blue' size={50} />
       </div>}
     </div>
   );
