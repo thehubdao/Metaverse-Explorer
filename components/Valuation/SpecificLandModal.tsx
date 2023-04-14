@@ -17,9 +17,10 @@ import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "./DataComparison/DataComparisonBox";
 import WatchlistButton from "./WatchlistButton";
 import dynamic from "next/dynamic";
-import { UTCTimestamp } from "lightweight-charts";
 import NoData from "../General/NoData";
 import { useAppSelector } from "../../state/hooks";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../state/shopCartList";
 
 export const LandChart = dynamic(() => import('./SpecificLandModal/LandChart'), {
   ssr: false,
@@ -98,6 +99,7 @@ const SpecificLandModal = ({
   landCoords,
   coinPrices
 }: SpecificLandModalProps) => {
+  const dispatch = useDispatch();
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
   const { token }: any = useAppSelector((state) => state.account.accessToken)
@@ -120,6 +122,16 @@ const SpecificLandModal = ({
     }
   }
 
+  // Shop Cart List controller
+  const shopList = useSelector((state: any) => state.shopCartList)
+  const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
+  const handleShopCart = (action: 'add' | 'remove') => {
+    if (action === 'add')
+      dispatch(addToCart({ land: specificAssetSelected, address: address }))
+    if (action === 'remove')
+      dispatch(removeFromCart({ land: { specificAssetSelected }, address: address }))
+  }
+
   const getWatchList = async (token: string) => {
     const watchlistRequest = await axios.get(
       `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
@@ -129,7 +141,10 @@ const SpecificLandModal = ({
           'Authentication': `${token}`
         }
       }
-    )}
+    )
+    const watchlist = watchlistRequest.data
+    setWatchlist(watchlist)
+  }
 
   const SteticTimeString = (historyTime?: string) => {
     if (!historyTime) return 'No Data'
@@ -171,6 +186,11 @@ const SpecificLandModal = ({
   }, [address])
 
   useEffect(() => {
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === specificAssetSelected?.tokenId)
+    setIsOnListSection(isOnShopCartListAux)
+  }, [shopList.length, specificAssetSelected])
+
+  useEffect(() => {
     const fetchHistoricFloorPrice = async () => {
       setLoadingChart(true)
       if (specificAssetSelected.history && specificAssetSelected.history.length > 0) {
@@ -201,12 +221,7 @@ const SpecificLandModal = ({
             <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
               <BsTwitter
                 title="Share Valuation"
-                onClick={() =>
-                  window.open(
-                    options.twitter
-                      .valuationLink
-                  )
-                }
+                onClick={() => window.open(options.twitter.valuationLink)}
                 className="text-xl text-grey-conten"
               />
             </div>
@@ -379,6 +394,12 @@ const SpecificLandModal = ({
                       /></div>
                     )
                   }
+                  <button
+                    className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full text-black rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-extrabold`}
+                    onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
+                  >
+                    {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
+                  </button>
                 </div>
               </div>
             </div>)

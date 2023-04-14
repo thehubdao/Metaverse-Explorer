@@ -16,6 +16,8 @@ import { useAppSelector } from "../../state/hooks";
 import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../state/shopCartList";
 
 interface Props {
   apiData?: IAPIData
@@ -83,6 +85,7 @@ const MapCard = ({
   mapState,
   name,
 }: Props) => {
+  const dispatch = useDispatch();
   const [loadingQuery, loadedQuery, errorQuery] = getState(mapState, [
     'loadingQuery',
     'loadedQuery',
@@ -92,6 +95,16 @@ const MapCard = ({
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
   const { token }: any = useAppSelector((state) => state.account.accessToken)
+
+  // Shop Cart List controller
+  const shopList = useSelector((state: any) => state.shopCartList)
+  const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
+  const handleShopCart = (action: 'add' | 'remove') => {
+    if (action === 'add')
+      dispatch(addToCart({ land: apiData, address: address }))
+    if (action === 'remove')
+      dispatch(removeFromCart({ land: apiData, address: address }))
+  }
 
   const options = SocialMediaOptions(
     apiData?.tokenId,
@@ -127,6 +140,11 @@ const MapCard = ({
     const watchlist = watchlistRequest.data
     setWatchlist(watchlist)
   }
+
+  useEffect(() => {
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === apiData?.tokenId)
+    setIsOnListSection(isOnShopCartListAux)
+  }, [shopList.length, apiData])
 
   useEffect(() => {
     if (!address) return
@@ -190,7 +208,7 @@ const MapCard = ({
             <div className='w-full max-w-[250px] mr-6'>
               <div className={`h-fit relative`}>
                 <OptimizedImage
-                  height={imgSize}
+                  height={imgSize * 3 / 4}
                   width={imgSize}
                   src={apiData.images?.image_url}
                   rounded="xl"
@@ -226,6 +244,12 @@ const MapCard = ({
                   /></div>
                 )
               }
+              <button
+                className={`${isOnShopCartList ? 'nm-inset-medium text-grey-content' : 'nm-flat-medium hover:nm-flat-soft text-black'} w-full  rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold`}
+                onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
+              >
+                {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
+              </button>
             </div>
             <div className="flex flex-col justify-between">
               <h3 className="font-semibold text-2xl pt-10">
@@ -292,7 +316,7 @@ const MapCard = ({
                 </div>
               </div>
             </div>
-          </div>
+          </div >
         )}
     </>
   )

@@ -105,7 +105,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 						</span>
 					</td>
 					<td className={rowDataStyle}>
-						<span>{parseFloat(picks[index]["gap"]).toFixed(2)}%</span>
+						<span>{(parseFloat(picks[index]["gap"]) * (-1)).toFixed(2)}%</span>
 					</td>
 				</tr>
 			);
@@ -156,7 +156,11 @@ const TopPicksLands = ({ metaverse }: Props) => {
 					</tr>
 				</thead>
 				<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[30vh]" ref={parentRef}>
-					{picks.length > 0 ? rowData() : <p className="w-full h-full flex justify-center items-center">At this moment we have no top picks from this metaverse.</p>}
+					{picks.length > 0
+						? rowData()
+						: <tr className="w-full h-full flex justify-center items-center">
+							<th colSpan={5}>At this moment we have no top picks from this metaverse.</th>
+						</tr>}
 					{/* {parentDom && <ScrollBar parentDom={parentDom} />} */}
 				</tbody>
 			</table>

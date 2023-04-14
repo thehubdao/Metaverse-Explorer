@@ -87,30 +87,23 @@ export default function Layout({ children }: LayoutProps) {
 	const parentRef = useRef<HTMLDivElement>(null)
 	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
 	const { address } = useAccount()
-	const [switchState, setSwitchState]  = useState<boolean>(false);
+	//const [switchState, setSwitchState] = useState<boolean>(false);
 
 	useEffect(() => {
 		setParentDom(parentRef.current)
-		//console.log(parentRef)
 	}, [parentRef.current])
 
-	console.log(switchState, 'state');
-	
 	return (
 		<div className="font-plus text-grey-content w-full h-screen overflow-y-scroll hidescroll" ref={parentRef}>
 
 			{/* Page wrapper */}
 			<main className="w-full min-h-screen pl-32 relative">
-				<div className={`absolute top-0 z-50 pr-8 ${address ? 'right-44' : 'right-26'}` }>
+				<div className={`absolute flex top-0 z-50 pr-8 right-10`}>
 					<ConnectButton />
-				</div>
-				<div className={`absolute top-0 right-26 z-50 pr-8  ${!address ? 'hidden' : ''}`}>
-					<ShoppingCart />
-				</div>
-				<div className='absolute top-0 right-0 z-50 pr-8'>
-					<DarkModeButton 
-						// switchState={switchState}
-						// setSwitchState={setSwitchState}
+					{address && <ShoppingCart />}
+					<DarkModeButton
+					// switchState={switchState}
+					// setSwitchState={setSwitchState}
 					/>
 				</div>
 				<div >
