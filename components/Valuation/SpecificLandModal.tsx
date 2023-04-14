@@ -127,9 +127,9 @@ const SpecificLandModal = ({
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'add')
-      dispatch(addToCart(specificAssetSelected))
+      dispatch(addToCart({ land: specificAssetSelected, address: address }))
     if (action === 'remove')
-      dispatch(removeFromCart(specificAssetSelected))
+      dispatch(removeFromCart({ land: { specificAssetSelected }, address: address }))
   }
 
   const getWatchList = async (token: string) => {

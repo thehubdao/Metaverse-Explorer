@@ -10,16 +10,18 @@ export const shopCartListSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, { payload }) => {
-      const isLandContained = state.list.find(land => land.tokenId === payload.tokenId)
+      const isLandContained = state.list.find(land => land.tokenId === payload.land.tokenId)
       if (!isLandContained) {
-        state.list = [...state.list, payload]
+        state.list = [...state.list, payload.land]
         state.length = state.length + 1
       }
+      localStorage.setItem(`shoplist_${payload.address}`, JSON.stringify(state.list));
     },
     removeFromCart: (state, { payload }) => {
-      const filteredList = state.list.filter(land => land.tokenId !== payload.tokenId)
+      const filteredList = state.list.filter(land => land.tokenId !== payload.land.tokenId)
       state.list = filteredList
       state.length = filteredList.length
+      localStorage.setItem(`shoplist_${payload.address}`, JSON.stringify(state.list));
     },
     resetCart: () => initialState,
     localStorageCharge: (state, { payload }) => {

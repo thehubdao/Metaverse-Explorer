@@ -6,7 +6,7 @@ import OptimizedImage from "./OptimizedImage"
 import { Metaverse } from "../../lib/metaverse"
 import ScrollBar from "../ScrollBar"
 import { useDispatch, useSelector } from "react-redux"
-import { localStorageCharge, removeFromCart } from "../../state/shopCartList"
+import { removeFromCart } from "../../state/shopCartList"
 import { addLandToWatchList } from "../../lib/FirebaseUtilities"
 import { useAccount } from "wagmi"
 import { useAppSelector } from "../../state/hooks";
@@ -47,7 +47,7 @@ const ShopCartCard = ({ imageUrl, metaverse, title, ethPrice, openseaLink, token
 
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'remove')
-      dispatch(removeFromCart({ tokenId }))
+      dispatch(removeFromCart({ land: { tokenId }, address: address }))
   }
 
   const handleWatchslist = async () => {
@@ -192,7 +192,6 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
 
   const shopList = useSelector((state: any) => state.shopCartList)
   const { address } = useAccount()
-  const dispatch = useDispatch();
 
   // Scrollbar Controller
   const parentRef = useRef<HTMLDivElement>(null)
@@ -202,13 +201,6 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
   const handleClose = (event?: React.SyntheticEvent | Event,) => {
     setOpenNotification(false);
   };
-
-  useEffect(() => {
-    const savedShoplist = JSON.parse(localStorage.getItem(`shoplist_${address}`) || '');
-    if (savedShoplist) {
-      dispatch(localStorageCharge(savedShoplist))
-    }
-  }, [])
 
   useEffect(() => {
     setParentDom(parentRef.current)

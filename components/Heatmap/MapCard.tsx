@@ -101,9 +101,9 @@ const MapCard = ({
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'add')
-      dispatch(addToCart(apiData))
+      dispatch(addToCart({ land: apiData, address: address }))
     if (action === 'remove')
-      dispatch(removeFromCart(apiData))
+      dispatch(removeFromCart({ land: apiData, address: address }))
   }
 
   const options = SocialMediaOptions(
