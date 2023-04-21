@@ -83,16 +83,17 @@ const AnalyticsMultiChart = ({
       },
     });
 
-    const toolTipWidth = 80;
-    const toolTipHeight = 80;
+    const toolTipWidth = 150;
+    const toolTipHeight = 100;
     const toolTipMargin = 15;
 
     // Create and style the tooltip html element
     const toolTip = document.createElement('div');
-    toolTip.setAttribute('style', `width: 96px; height: 80px; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; border: 1px solid; border-radius: 2px;font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`);
-    toolTip.style.background = 'black';
-    toolTip.style.color = 'white';
-    toolTip.style.borderColor = 'rgba( 38, 166, 154, 1)';
+    toolTip.setAttribute('style', `width: 166px; height: fit; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`);
+    toolTip.style.background = '#F3F6FF';
+    toolTip.style.color = 'black';
+    //toolTip.style.borderColor = 'rgb(24, 175, 242)';
+    toolTip.style.borderRadius = '5px'
     chartElement.current.appendChild(toolTip);
 
     const series: any[] = []
@@ -123,6 +124,12 @@ const AnalyticsMultiChart = ({
       }
     }
 
+    function businessDayToString(businessDay: number | any) {
+      let businessDayDate = new Date(businessDay * 1000)
+      businessDayDate.setDate(businessDayDate.getDate() + 1);
+      return businessDayDate.getDate() + "/" + (businessDayDate.getMonth() + 1) + "/" + businessDayDate.getFullYear()
+    }
+
     const formatter = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,
@@ -133,7 +140,7 @@ const AnalyticsMultiChart = ({
 
       prices.map((item) => {
         const formatPrice = formatter.format(item.price)
-        auxiliarString = `<div style="font-size: 10px; margin: 4px 0px; color: ${'white'}">${item.name}: ${formatPrice == 'NaN' ? '0.0' : formatPrice}</div>`
+        auxiliarString = `${auxiliarString} <div style="font-size: 10px; margin: 4px 0px; color: ${item.color}">${item.name}: ${formatPrice == 'NaN' ? '0.0' : formatPrice} ${symbol}</div>`
       })
 
       return auxiliarString
@@ -154,15 +161,13 @@ const AnalyticsMultiChart = ({
       } else {
         // time will be in the same format that we supplied to setData.
         // thus it will be YYYY-MM-DD
-        const dateStr = param.time;
+        const dateStr = businessDayToString(param.time);
         toolTip.style.display = 'block';
         let prices: any = []
-        series.map((item) => { prices.push({ price: param.seriesPrices.get(item.price), name: item.name, color: item.color }) })
+        series.map((item) => { prices.push({ price: param.seriesPrices.get(item.price),name: item.name, color: item.color }) })
         toolTip.innerHTML = `<div style="font-size: 12px; margin: 4px 0px; color: ${'white'}">
+          <div style="color: #54575C">${dateStr}</div>
           ${pricesToString(prices)}
-            <div style="color: ${'white'}">
-            ${dateStr}
-            </div>
           </div>`;
 
         const y = param.point.y;
