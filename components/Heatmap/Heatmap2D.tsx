@@ -17,6 +17,7 @@ import { Container, Texture } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import { formatLand } from '../../lib/heatmapSocket'
+import { ValuationState } from '../../pages/valuation'
 
 
 
@@ -37,12 +38,6 @@ interface IHeatmap2D {
   filter: MapFilter
   percentFilter: PercentFilter
   legendFilter: LegendFilter
-  onHover: (
-    x: number,
-    y: number,
-    name: string | undefined,
-    owner: string | undefined
-  ) => void
   onClickLand: (landRawData: any) => void
   metaverse: Metaverse
   x: number | undefined
@@ -53,6 +48,7 @@ interface IHeatmap2D {
   maxY: number
   initialX: number
   initialY: number
+  mapState: ValuationState
 }
 
 const loadPhrases = [
@@ -72,14 +68,15 @@ const Heatmap2D = ({
   filter,
   percentFilter,
   legendFilter,
-  onHover,
   onClickLand,
   metaverse,
   x,
   y,
   initialX,
   initialY,
+  mapState
 }: IHeatmap2D) => {
+  const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
   const [map, setMap] = useState<any>()
   const [viewport, setViewport] = useState<any>()
   const [chunks, setChunks] = useState<any>({})
@@ -177,6 +174,49 @@ const Heatmap2D = ({
     } catch (e) { }
   }
 
+  const onMouseMove = (e: any, currentSprite: any, currentTint: any) => {
+    if (mapLoadingState) return;
+
+    let { x, y } = viewport.toLocal(e.data.global)
+
+    x = Math.floor(x / TILE_SIZE)
+    y = Math.floor(y / TILE_SIZE)
+
+    const chunkX = Math.floor(x / CHUNK_SIZE)
+    const chunkY = Math.floor(y / CHUNK_SIZE)
+    const chunkKey = `${chunkX}:${chunkY}`
+    let chunkContainer = chunks[chunkKey]
+
+    x = x * TILE_SIZE - chunkX * BLOCK_SIZE
+    y = y * TILE_SIZE - chunkY * BLOCK_SIZE
+
+    const child = chunkContainer?.children.find(
+      (child: any) => child.x === x && child.y === y
+    )
+
+    if (child) {
+      if (child.type == 'dead') {
+        if (currentSprite) {
+          currentSprite.tint = currentTint
+        }
+        return
+      }
+      if (currentSprite) {
+        currentSprite.tint = currentTint
+        currentTint = child.tint
+      }
+      if (!currentTint) currentTint = child.tint
+      currentSprite = child
+      //! HOVER COLOR
+      currentSprite.tint = 0xdb2777
+    }
+
+    return {
+      currentSprite,
+      currentTint
+    }
+  }
+
   useEffect(() => {
     if (!viewport) return
 
@@ -214,6 +254,7 @@ const Heatmap2D = ({
             const chunkY = Math.floor(y / CHUNK_SIZE)
             const chunkKey = `${chunkX}:${chunkY}`
             let chunkContainer = localChunks[chunkKey]
+            //! SANDBOX DEAD COLOR
             rectangle.tint = 0x2d4162
             rectangle.width = rectangle.height =
               TILE_SIZE
@@ -237,6 +278,7 @@ const Heatmap2D = ({
       }
 
       setIsLoading(false)
+      setMapLoadingState(false)
     })
     return () => {
       socketService.disconnect()
@@ -274,73 +316,38 @@ const Heatmap2D = ({
         maxHeight: TILE_SIZE * 800,
       })
       .zoom(TILE_SIZE * 200)
-    /* .clamp({
-        direction: 'all',
-        underflow: 'center'
-    }) */
     map.stage.addChild(viewport)
     document.getElementById('map')?.appendChild(map.view)
     setMap(map)
     setViewport(viewport)
+    viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE)
 
     return () => {
       try { document?.getElementById('map')?.removeChild(map?.view) } catch { }
 
       try { map?.destroy() } catch { }
       try { viewport?.destroy() } catch { }
-
-      onHover(0 / 0, 0 / 0, undefined, undefined)
     }
   }, [metaverse])
 
   useEffect(() => {
     if (!viewport) return
-    viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE)
+
     let currentTint: any
     let currentSprite: any
-    viewport?.on('mousemove', (e: any): any => {
-      let { x, y } = viewport.toLocal(e.data.global)
 
-      x = Math.floor(x / TILE_SIZE)
-      y = Math.floor(y / TILE_SIZE)
+    //* remove existing listeners to viewport before add new listeners
+    viewport.removeListener('mousemove');
+    viewport.removeListener('drag-start');
+    viewport.removeListener('drag-end');
+    viewport.removeListener('click');
 
-      const chunkX = Math.floor(x / CHUNK_SIZE)
-      const chunkY = Math.floor(y / CHUNK_SIZE)
-      const chunkKey = `${chunkX}:${chunkY}`
-      let chunkContainer = chunks[chunkKey]
-
-      x = x * TILE_SIZE - chunkX * BLOCK_SIZE
-      y = y * TILE_SIZE - chunkY * BLOCK_SIZE
-
-      const child = chunkContainer?.children.find(
-        (child: any) => child.x === x && child.y === y
-      )
-      if (child && child.type == 'dead') return
-      if (child) {
-        if (currentSprite) {
-          currentSprite.tint = currentTint
-          currentTint = child.tint
-        }
-        if (!currentTint) currentTint = child.tint
-        currentSprite = child
-        currentSprite.tint = 0xdb2777
-        let currentLand =
-          mapData[`${currentSprite.landX},${currentSprite.landY}`]
-        onHover(
-          currentSprite.landX,
-          currentSprite.landY * -1,
-          currentLand?.name,
-          currentLand?.owner
-        )
-      } else {
-        if (currentSprite && e.target != currentSprite) {
-          currentSprite.tint = currentTint
-          currentSprite = null
-          currentTint = null
-        }
-      }
+    //* add new listeners to viewport
+    viewport.on('mousemove', (e: any) => {
+      let mouseMoveData = onMouseMove(e, currentSprite, currentTint);
+      currentSprite = mouseMoveData?.currentSprite;
+      currentTint = mouseMoveData?.currentTint;
     })
-
     let isDragging = false
     viewport.on('drag-start', () => {
       isDragging = true
@@ -351,11 +358,11 @@ const Heatmap2D = ({
     viewport.on('click', () => {
       if (currentSprite && !isDragging) {
         const tokenId = currentSprite.tokenId
-        currentTint = 4 * 0xff9990
         socketService.getLand(metaverse, tokenId)
+        setMapLoadingState(true)
       }
     })
-  }, [viewport])
+  }, [viewport, mapLoadingState])
 
   useEffect(() => {
     if (map?.renderer) {
@@ -364,7 +371,7 @@ const Heatmap2D = ({
       try {
         viewport.resize(width, height);
       } catch {
-        console.log("error on viewport resize");
+        console.error("error on viewport resize");
       }
     }
   }, [width, height])
@@ -389,16 +396,20 @@ const Heatmap2D = ({
           lands[child.name]
         )
         let { color } = tile
-        child.tint = color.includes('rgb')
+        if (child.name === `${x},${y}`) {
+          //! SELECTED COLOR
+          child.tint = 0x0000FF
+        } else {
+          child.tint = color.includes('rgb')
           ? rgbToHex(color.split('(')[1].split(')')[0])
           : '0x' + color.split('#')[1]
+        }
       }
     }
   }
 
   useEffect(() => {
     if (!chunks || !mapData) return
-
 
     filterUpdate()
   }, [filter, percentFilter, legendFilter, x, y])
@@ -407,33 +418,21 @@ const Heatmap2D = ({
     if (!x || !y) return
 
     try {
-      viewport.snap(x * TILE_SIZE, y * TILE_SIZE, {removeOnComplete: true});
+      viewport.snap(x * TILE_SIZE, y * TILE_SIZE, { time: 2000, ease: 'easeOutCubic', removeOnComplete: true });
     } catch (e) {
       return
     }
-
-    const chunkX = Math.floor(x / CHUNK_SIZE)
-    const chunkY = Math.floor(y / CHUNK_SIZE)
-    const chunkKey = `${chunkX}:${chunkY}`
-    let chunkContainer = chunks[chunkKey]
-
-    x = x * TILE_SIZE - chunkX * BLOCK_SIZE
-    y = y * TILE_SIZE - chunkY * BLOCK_SIZE
-
-    const child = chunkContainer?.children.find(
-      (child: any) => child.x === x && child.y === y
-    )
-    if (!child) return
-    const prevColor = child.tint
-    const prevWidth = child.width
-
-    child.tint = 4 * 0xff9990
-    child.width = child.height = TILE_SIZE - BORDE_SIZE / 3
-    return () => {
-      child.tint = prevColor
-      child.width = child.height = prevWidth
-    }
   }, [x, y])
+
+  useEffect(() => {
+    if (isLoading) {
+      setMapLoadingState(true);
+    } else if (mapState === 'loadingQuery') {
+      setMapLoadingState(true);
+    } else {
+      setMapLoadingState(false);
+    }
+  }, [mapState, isLoading])
 
   return (
     <>
