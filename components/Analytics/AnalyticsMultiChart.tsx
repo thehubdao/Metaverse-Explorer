@@ -95,55 +95,14 @@ const AnalyticsMultiChart = ({
     toolTip.style.borderColor = 'rgba( 38, 166, 154, 1)';
     chartElement.current.appendChild(toolTip);
 
+    const series: any[] = []
     for (let i = 0; i < metaverses.length; i++) {
-
       let metaverse = dataMetaverse[metaverses[i]];
-
       if (metaverse.active) {
         let lineSeries = chart.addLineSeries({
           color: metaverse.color,
           lineWidth: 1,
           // title: window.innerWidth > 500 ? metaverse.name : undefined,
-        });
-
-        // update tooltip
-        chart.subscribeCrosshairMove(param => {
-          if (!chartElement.current) return
-          if (
-            param.point === undefined ||
-            !param.time ||
-            param.point.x < 0 ||
-            param.point.x > chartElement.current.clientWidth ||
-            param.point.y < 0 ||
-            param.point.y > chartElement.current.clientHeight
-          ) {
-            toolTip.style.display = 'none';
-          } else {
-            // time will be in the same format that we supplied to setData.
-            // thus it will be YYYY-MM-DD
-            const dateStr = param.time;
-            toolTip.style.display = 'block';
-            const data = param.seriesData.get(lineSeries);
-            const price = data.value !== undefined ? data.value : data.close;
-            toolTip.innerHTML = `<div style="color: ${'rgba( 38, 166, 154, 1)'}">ABC Inc.</div><div style="font-size: 24px; margin: 4px 0px; color: ${'white'}">
-			${Math.round(100 * price) / 100}
-			</div><div style="color: ${'white'}">
-			${dateStr}
-			</div>`;
-
-            const y = param.point.y;
-            let left = param.point.x + toolTipMargin;
-            if (left > chartElement.current.clientWidth - toolTipWidth) {
-              left = param.point.x - toolTipMargin - toolTipWidth;
-            }
-
-            let top = y + toolTipMargin;
-            if (top > chartElement.current.clientHeight - toolTipHeight) {
-              top = y - toolTipHeight - toolTipMargin;
-            }
-            toolTip.style.left = left + 'px';
-            toolTip.style.top = top + 'px';
-          }
         });
 
         let slicedData = sliceTimeData(metaverse.data[route], interval).map(
@@ -160,8 +119,66 @@ const AnalyticsMultiChart = ({
           }
         );
         lineSeries.setData(slicedData);
+        series.push({ price: lineSeries, name: metaverse.name, color: metaverse.color })
       }
     }
+
+    const formatter = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    });
+
+    function pricesToString(prices: any[]) {
+      let auxiliarString = ''
+
+      prices.map((item) => {
+        const formatPrice = formatter.format(item.price)
+        auxiliarString = `<div style="font-size: 10px; margin: 4px 0px; color: ${'white'}">${item.name}: ${formatPrice == 'NaN' ? '0.0' : formatPrice}</div>`
+      })
+
+      return auxiliarString
+    }
+
+    // update tooltip
+    chart.subscribeCrosshairMove(param => {
+      if (!chartElement.current) return
+      if (
+        param.point === undefined ||
+        !param.time ||
+        param.point.x < 0 ||
+        param.point.x > chartElement.current.clientWidth ||
+        param.point.y < 0 ||
+        param.point.y > chartElement.current.clientHeight
+      ) {
+        toolTip.style.display = 'none';
+      } else {
+        // time will be in the same format that we supplied to setData.
+        // thus it will be YYYY-MM-DD
+        const dateStr = param.time;
+        toolTip.style.display = 'block';
+        let prices: any = []
+        series.map((item) => { prices.push({ price: param.seriesPrices.get(item.price), name: item.name, color: item.color }) })
+        toolTip.innerHTML = `<div style="font-size: 12px; margin: 4px 0px; color: ${'white'}">
+          ${pricesToString(prices)}
+            <div style="color: ${'white'}">
+            ${dateStr}
+            </div>
+          </div>`;
+
+        const y = param.point.y;
+        let left = param.point.x + toolTipMargin;
+        if (left > chartElement.current.clientWidth - toolTipWidth) {
+          left = param.point.x - toolTipMargin - toolTipWidth;
+        }
+
+        let top = y + toolTipMargin;
+        if (top > chartElement.current.clientHeight - toolTipHeight) {
+          top = y - toolTipHeight - toolTipMargin;
+        }
+        toolTip.style.left = left + 'px';
+        toolTip.style.top = top + 'px';
+      }
+    });
 
     const resizeGraph = () => {
       chart.applyOptions({ width: chartElement.current?.clientWidth });
