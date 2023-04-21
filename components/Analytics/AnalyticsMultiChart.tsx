@@ -83,19 +83,6 @@ const AnalyticsMultiChart = ({
       },
     });
 
-    const toolTipWidth = 150;
-    const toolTipHeight = 100;
-    const toolTipMargin = 15;
-
-    // Create and style the tooltip html element
-    const toolTip = document.createElement('div');
-    toolTip.setAttribute('style', `width: 166px; height: fit; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`);
-    toolTip.style.background = '#F3F6FF';
-    toolTip.style.color = 'black';
-    //toolTip.style.borderColor = 'rgb(24, 175, 242)';
-    toolTip.style.borderRadius = '5px'
-    chartElement.current.appendChild(toolTip);
-
     const series: any[] = []
     for (let i = 0; i < metaverses.length; i++) {
       let metaverse = dataMetaverse[metaverses[i]];
@@ -146,6 +133,19 @@ const AnalyticsMultiChart = ({
       return auxiliarString
     }
 
+    const toolTipWidth = 150;
+    const toolTipHeight = 100;
+    const toolTipMargin = 15;
+
+    // Create and style the tooltip html element
+    const toolTip = document.createElement('div');
+    toolTip.setAttribute('style', `width: 166px; height: fit; position: absolute; display: none; padding: 8px; box-sizing: border-box; font-size: 12px; text-align: left; z-index: 1000; top: 12px; left: 12px; pointer-events: none; font-family: -apple-system, BlinkMacSystemFont, 'Trebuchet MS', Roboto, Ubuntu, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;`);
+    toolTip.style.background = '#F3F6FF';
+    toolTip.style.color = 'black';
+    //toolTip.style.borderColor = 'rgb(24, 175, 242)';
+    toolTip.style.borderRadius = '5px'
+    chartElement.current.appendChild(toolTip);
+
     // update tooltip
     chart.subscribeCrosshairMove(param => {
       if (!chartElement.current) return
@@ -164,7 +164,7 @@ const AnalyticsMultiChart = ({
         const dateStr = businessDayToString(param.time);
         toolTip.style.display = 'block';
         let prices: any = []
-        series.map((item) => { prices.push({ price: param.seriesPrices.get(item.price),name: item.name, color: item.color }) })
+        series.map((item) => { prices.push({ price: param.seriesPrices.get(item.price), name: item.name, color: item.color }) })
         toolTip.innerHTML = `<div style="font-size: 12px; margin: 4px 0px; color: ${'white'}">
           <div style="color: #54575C">${dateStr}</div>
           ${pricesToString(prices)}
