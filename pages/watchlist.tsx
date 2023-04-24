@@ -101,7 +101,7 @@ const Watchlist: NextPage = () => {
 
 
             {/* Metaverse Card selector */}
-            <div className="w-full grid justify-center items-center">
+            <div className="w-full grid justify-center items-center mb-16 pb-12">
               {/* Metaverse Buttons */}
               <div className='flex flex-wrap justify-center gap-16 pb-10'>
                 {typedKeys(mvOptions).map((landKey) => (

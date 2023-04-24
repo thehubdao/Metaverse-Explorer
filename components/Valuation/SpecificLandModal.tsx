@@ -248,7 +248,7 @@ const SpecificLandModal = ({
             ? (<div className={`w-full p-14 text-black`}>
               <div className={`grid grid-cols-2 gap-16`}>
 
-                <div className="p-5 nm-flat-medium rounded-3xl">
+                <div className="p-5 nm-flat-medium rounded-3xl w-[600px] h-[600px] self-center">
                   {/* Asset Video  or image */}
                   <div className="h-full relative flex justify-center items-center rounded-3xl">
                     {
