@@ -571,8 +571,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						<>
 							<div className="flex items-center justify-center p-8 mt-7">
 								<div className="flex flex-col justify-center space-y-3 max-w-xl text-center">
-									<p className="text-grey-content font-bold lg:text-3xl text-2xl text-center">{metaverseLabels[metaverse]} Hot Deals <Image src='/images/icons/hot-icon.svg' width={24} height={26} alt="Hot Deals" className=''/></p>
-									<p className="font-medium text-cente">Underpriced listings  on offer</p>
+									<p className="text-grey-content font-bold lg:text-3xl text-2xl text-center">{metaverseLabels[metaverse]} Floor Listings <Image src='/images/icons/hot-icon.svg' width={24} height={26} alt="Hot Deals" className=''/></p>
+									<p className="font-medium text-cente">Undervalued floor listings</p>
 								</div>
 							</div>
 							<div className="flex items-center justify-center p-8 mt-7">
