@@ -110,7 +110,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	/* const [loading] = getState(mapState, ['loading']) */
 
 	const [selected, setSelected] = useState<LandCoords>();
-	const [hovered, setHovered] = useState<Hovered>({ coords: { x: NaN, y: NaN }, });
 
 	// Hook for Popup
 	const { ref, isVisible, setIsVisible } = useVisible(false);
@@ -152,16 +151,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			height: mapDivRef.current.offsetHeight,
 			width: mapDivRef.current.offsetWidth,
 		});
-	};
-
-	const handleHover = (
-		x: number,
-		y: number,
-		name: string | undefined,
-		owner: string | undefined
-	) => {
-		const coords = { x, y };
-		setHovered({ coords, owner, name });
 	};
 
 	const getglobalData = async () => {
@@ -444,14 +433,6 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											legendFilter={legendFilter}
 											width={dims.width}
 											height={dims.height}
-											onHover={(
-												x: number,
-												y: number,
-												name?: string,
-												owner?: string
-											) => {
-												handleHover(x, y, name, owner);
-											}}
 											onClickLand={(
 												landRawData: any
 											) => {
@@ -475,6 +456,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												}
 											}}
 											metaverse={metaverse}
+											mapState={mapState}
 										/>
 									) : (
 										<MaptalksCanva
