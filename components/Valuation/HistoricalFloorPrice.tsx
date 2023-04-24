@@ -58,7 +58,7 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
           <AnalyticsChart
             data={historicFloorPrice}
             fetching={loadingChart}
-            label='Historic Floor Price:'
+            label='Historic Floor Price'
             metaverse={metaverse}
             prices={coinPrices}
             backgroundHexa={'#E9ECF6'}
