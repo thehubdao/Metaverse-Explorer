@@ -29,7 +29,7 @@ function NextButton({ isLeft }: InextButton) {
       } else {
         swiper.slideNext();
       }
-    }} className={`absolute top-2/4 left-2/4 ${isLeft ? 'rotate-180 -translate-x-[595px]' : 'translate-x-[580px]'} -translate-y-2/4 z-10 cursor-pointer`}>
+    }} className={`absolute top-2/4 ${isLeft ? 'rotate-180' : 'right-0'} -translate-y-2/4 z-10 cursor-pointer`}>
       <Image src={'/images/icons/next.svg'} alt={'Next slide'} width={8} height={16} />
     </div>
   )
