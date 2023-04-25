@@ -186,7 +186,7 @@ const SpecificLandModal = ({
   }, [address])
 
   useEffect(() => {
-    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === specificAssetSelected?.tokenId)
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === specificAssetSelected?.tokenId && land.metaverse === specificAssetSelected?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, specificAssetSelected])
 

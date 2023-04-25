@@ -66,7 +66,7 @@ const HotDealsCard = ({
     <>
       {apiData &&
         landCoords && (
-          <div className="bg-grey-bone rounded-2xl  flex w-[180px] h-[full] shadow-lg mb-6">
+          <div className="bg-grey-bone rounded-2xl flex w-[180px] h-[full] shadow-lg mb-6">
             <div className='w-full'>
               <div className={`h-fit relative`}>
                 <OptimizedImage
@@ -110,7 +110,7 @@ const HotDealsCard = ({
                   <p className="font-semibold text-xs  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
                 </div>
                 <div className=" items-center justify-center mt-3">
-                  <CartButton />
+                  <CartButton apiLand={apiData} />
                 </div>
 
                 <div className="flex justify-center my-3 gap-5 font-bold">

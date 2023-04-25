@@ -142,7 +142,7 @@ const MapCard = ({
   }
 
   useEffect(() => {
-    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === apiData?.tokenId)
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === apiData?.tokenId && land.metaverse === apiData?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, apiData])
 

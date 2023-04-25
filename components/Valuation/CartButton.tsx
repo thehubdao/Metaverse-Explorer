@@ -1,38 +1,44 @@
-import { Alert, Snackbar } from '@mui/material'
-import React, { useState, useEffect } from "react";
 import Image from 'next/image'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from '../../state/shopCartList';
+import { useAccount } from 'wagmi';
 
-const CartButton = () => {
-    const [openNotification, setOpenNotification] = useState(false);
+interface CartButtonProps {
+  apiLand: any
+}
 
-    function handleClick() {
-        setOpenNotification(true)
-    }
-    const handleClose = (event?: React.SyntheticEvent | Event,) => {
-        setOpenNotification(false);
-    };
+const CartButton = ({ apiLand }: CartButtonProps) => {
+  const dispatch = useDispatch();
+  const { address } = useAccount();
+
+  // Shop Cart List controller
+  const shopList = useSelector((state: any) => state.shopCartList)
+  const [isOnShopCartList, setIsOnListSection] = useState<boolean>();
+
+  const handleShopCart = (action: 'add' | 'remove') => {
+    if (action === 'add')
+      dispatch(addToCart({ land: apiLand, address: address }))
+    if (action === 'remove')
+      dispatch(removeFromCart({ land: { apiLand }, address: address }))
+  }
+
+  useEffect(() => {
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === apiLand?.tokenId && land.metaverse === apiLand?.metaverse))
+    setIsOnListSection(isOnShopCartListAux)
+  }, [shopList.length, apiLand])
 
   return (
     <>
       <button
-        onClick={handleClick}
-        className="w-3/4 text-black rounded-3xl py-2 text-xs font-normal nm-flat-medium hover:nm-flat-soft"
+        className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-[160px] rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-xs font-semibold`}
+        onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
       >
-        <Image src={ '/images/shopping-cart.svg'} width={15} height={12} alt="shopping cart"/>
-        {' Add To Cart'}
+        <Image src={'/images/shopping-cart.svg'} width={15} height={12} alt="shopping cart" className='mr-3' />
+        <span className='ml-3'>
+          {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
+        </span>
       </button>
-      <div className='w-full flex justify-center'>
-        <Snackbar
-          open={openNotification}
-          autoHideDuration={6000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          This function is currently on development
-          </Alert>
-        </Snackbar>
-      </div>
     </>
   )
 }
