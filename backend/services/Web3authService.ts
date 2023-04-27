@@ -56,26 +56,6 @@ class Web3authService {
         return true
     }
 
-    initWeb3auth = async () => {
-        try {
-            const web3authInit = new Web3Auth({
-                clientId,
-                web3AuthNetwork: 'cyan',
-                chainConfig: {
-                    chainNamespace: CHAIN_NAMESPACES.EIP155,
-                    chainId: '0x89',
-                    rpcTarget: Chains.MATIC_MAINNET.rpcUrl, // This is the private RPC
-                },
-            })
-            await web3authInit.initModal()
-
-            this.web3auth = web3authInit
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-
     setUserData = async (token: string) => {
         const decodedToken = await this.decodeToken(token)
         const { B2BRoles, B2CRoles } = decodedToken

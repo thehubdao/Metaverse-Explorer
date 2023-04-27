@@ -1,7 +1,12 @@
 import '/styles/MLMStyles.css'
 import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
-
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import { Router } from 'next/router'
@@ -28,7 +33,13 @@ Router.events.on('routeChangeError', () => NProgress.done())
 function MyApp({ Component, pageProps }: AppProps) {
     const [wagmiClient, setWagmiClient] = useState<any>()
     const [loadingTimeout, setLoadingTimeout] = useState(false)
-
+    const { chains, provider } = configureChains(
+        [mainnet, polygon],
+        [
+          alchemyProvider({ apiKey: process.env.ALCHEMY_ID! }),
+          publicProvider()
+        ]
+      )
     useEffect(() => {
         setTimeout(() => {
             setLoadingTimeout(true)
@@ -37,29 +48,16 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     useEffect(() => {
         const initWagmi = async () => {
-            await web3authService.initWeb3auth()
-            console.log(polygon, "POLYGON")
-            const { Web3AuthConnector } = await import(
-                '@web3auth/web3auth-wagmi-connector'
-            )
-            const { chains, provider, webSocketProvider } = configureChains(
-                [mainnet, polygon, polygonMumbai],
-                [publicProvider()]
-            )
+              const { connectors } = getDefaultWallets({
+                appName: 'MetaGameHub',
+                projectId: process.env.WALLETCONNECT_PROJECT_ID!,
+                chains
+              });
             const wagmiClientInstance = createClient({
                 autoConnect: true,
-                connectors: [
-                    new Web3AuthConnector({
-                        chains,
-                        options: {
-                            web3AuthInstance:
-                                web3authService.getWeb3Auth as Web3Auth,
-                        },
-                    }),
-                ],
-                provider,
-                webSocketProvider,
-            })
+                connectors,
+                provider
+              })
             setWagmiClient(wagmiClientInstance)
         }
         initWagmi()
@@ -70,6 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             {wagmiClient && loadingTimeout ? (
                 <Provider store={store}>
                     <WagmiConfig client={wagmiClient}>
+                    <RainbowKitProvider chains={chains}>
                         {/* Desktop View */}
                         <div className="hidden lg:block">
                             <Layout>
@@ -80,6 +79,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                         <div className="lg:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
                             <MobileControl />
                         </div>
+                        </RainbowKitProvider>
                     </WagmiConfig>
                 </Provider>
             ) : (
