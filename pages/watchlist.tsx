@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
@@ -15,7 +14,8 @@ import { addLandToWatchList, removeLandFromWatchList } from '../lib/FirebaseUtil
 import { formatName, typedKeys } from '../lib/utilities'
 import { OptimizedImage } from '../components/General'
 import Image from 'next/image'
-import { useAppSelector } from '../state/hooks'
+import { useAppDispatch, useAppSelector } from '../state/hooks'
+import { fetchWatchlist } from '../state/watchlist'
 
 const headerList = [
   {
@@ -44,44 +44,32 @@ const mvOptions = {
 }
 
 const Watchlist: NextPage = () => {
+  const dispatch = useAppDispatch()
   const [metaverse, setMetaverse] = useState<Metaverse>()
   const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account.accessToken)
+  const accessToken: any = useAppSelector((state) => state.account.accessToken)
+  const wList = useAppSelector((state) => state.watchlist.list)
 
 
   const addLand = async (land: any, metaverse: Metaverse) => {
-    await addLandToWatchList(land, address!, metaverse, token)
-    const newWatchlist = Object.assign({}, watchlist)
-    newWatchlist[metaverse][land.tokenId] = land
-    setWatchlist(newWatchlist)
+    await addLandToWatchList(land, address!, metaverse, accessToken.token)
+    dispatch(fetchWatchlist({address, accessToken}))
   }
 
   const removeLand = async (land: any, metaverse: Metaverse) => {
-    await removeLandFromWatchList(land, address!, metaverse, token)
-    const newWatchlist = Object.assign({}, watchlist)
-    delete newWatchlist[metaverse][land.tokenId]
-    setWatchlist(newWatchlist)
-  }
-
-  const getWatchList = async () => {
-    const watchlistRequest = await axios.get(
-      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
+    await removeLandFromWatchList(land, address!, metaverse, accessToken.token)
+    dispatch(fetchWatchlist({address, accessToken}))
   }
 
   useEffect(() => {
-    if (!address) return
-    getWatchList()
-  }, [address])
+    if (!address || !accessToken.token) return;
+    dispatch(fetchWatchlist({address, accessToken}))
+  }, [])
+
+  useEffect(() => {
+    setWatchlist(wList)
+  }, [wList])
   
   return (
     <>
