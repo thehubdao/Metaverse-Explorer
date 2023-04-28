@@ -248,7 +248,9 @@ const MapCard = ({
                 className={`${isOnShopCartList ? 'nm-inset-medium text-grey-content' : 'nm-flat-medium hover:nm-flat-soft text-black'} w-full  rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold`}
                 onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
               >
-                {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
+                {apiData.current_price_eth 
+                ? (isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART')
+                : ('NOT LISTED')}
               </button>
             </div>
             <div className="flex flex-col justify-between">

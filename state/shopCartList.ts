@@ -11,7 +11,7 @@ export const shopCartListSlice = createSlice({
   reducers: {
     addToCart: (state, { payload }) => {
       const isLandContained = state.list.find(land => land.tokenId === payload.land.tokenId)
-      if (!isLandContained) {
+      if (!isLandContained && payload.land.current_price_eth) {
         state.list = [...state.list, payload.land]
         state.length = state.length + 1
       }

@@ -125,11 +125,12 @@ const SpecificLandModal = ({
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
+
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'add')
       dispatch(addToCart({ land: specificAssetSelected, address: address }))
     if (action === 'remove')
-      dispatch(removeFromCart({ land: { specificAssetSelected }, address: address }))
+      dispatch(removeFromCart({ land: specificAssetSelected, address: address }))
   }
 
   const getWatchList = async (token: string) => {
@@ -398,7 +399,9 @@ const SpecificLandModal = ({
                     className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full text-black rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-extrabold`}
                     onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
                   >
-                    {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
+                    {specificAssetSelected.current_price_eth
+                      ? (isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART')
+                      : ('NOT LISTED')}
                   </button>
                 </div>
               </div>
