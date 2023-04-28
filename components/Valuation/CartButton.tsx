@@ -14,7 +14,7 @@ const CartButton = ({ apiLand }: CartButtonProps) => {
 
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
-  const [isOnShopCartList, setIsOnListSection] = useState<boolean>();
+  const [isOnShopCartList, setIsOnListSection] = useState<boolean>(false);
 
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'add')
@@ -25,8 +25,13 @@ const CartButton = ({ apiLand }: CartButtonProps) => {
 
   useEffect(() => {
     const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === apiLand?.tokenId && land.metaverse === apiLand?.metaverse))
+    console.log(`land: ${apiLand.tokenId} es: ${isOnShopCartListAux}`)
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, apiLand])
+
+  useEffect(() => {
+    console.log(apiLand)
+  }, [])
 
   return (
     <>
