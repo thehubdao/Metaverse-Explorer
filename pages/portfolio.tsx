@@ -54,17 +54,14 @@ const headerList = [
 const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const dispatch = useAppDispatch()
 	const { address } = useAccount()
-	
+
 	const prtfolio = useAppSelector((state) => state.portfolio)
 	const [metaverse, setMetaverse] = useState(Metaverses.ALL)
-	
+
 	const initialWorth = {
 		ethPrediction: 0,
 		usdPrediction: 0,
 	}
-	const [totalWorth, setTotalWorth] = useState<IPredictions>(initialWorth)
-	const [totalAssets, setTotalAssets] = useState(0)
-	const [lands, setLands] = useState<Record<Metaverse, LandListAPIResponse>>()
 
 	//Land Modal (and card data)
 	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
@@ -97,16 +94,8 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	}
 
 	useEffect(() => {
-		if (!address) return
 		dispatch(fetchPortfolio({ address }))
 	}, [address])
-
-	useEffect(() => {
-		setLands(prtfolio.list)
-		setTotalWorth(prtfolio.totalWorth)
-		setTotalAssets(prtfolio.length)
-		console.log('prtfolio:', prtfolio)
-	}, [prtfolio.list])
 
 	return (
 		<>
@@ -156,12 +145,12 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 					<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">
 						<div className="flex flex-col space-y-5 items-center justify-end nm-flat-hard py-3 px-7 rounded-3xl bg-grey-bone">
-							<p className=" font-black text-3xl">{totalAssets}</p>
+							<p className=" font-black text-3xl">{prtfolio.length | 0}</p>
 							<p className="text-sm">Total LANDs owned</p>
 						</div>
 
 						<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
-							<div className=" font-black text-2xl"><PriceList predictions={totalWorth} /></div>
+							<div className=" font-black text-2xl"><PriceList predictions={prtfolio.totalWorth || initialWorth} /></div>
 							<p className="text-sm">Total Value worth</p>
 						</div>
 
@@ -189,15 +178,15 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				</div>
 
 				{/* Lands Grid */}
-				{lands && metaverse === Metaverses.ALL &&
+				{prtfolio.list && metaverse === Metaverses.ALL &&
 					typedKeys(metaverseObject).map(
 						(metaverse, index) =>
-							lands[metaverse] &&
-							typedKeys(lands[metaverse]).length > 0 && (
+							prtfolio.list[metaverse] &&
+							typedKeys(prtfolio.list[metaverse]).length > 0 && (
 								<div key={metaverse} className="mb-8 sm:mb-12">
 									<PortfolioList
 										metaverse={metaverse}
-										lands={lands[metaverse]}
+										lands={prtfolio.list[metaverse]}
 										prices={prices}
 										handleSpecificLandData={handleSpecificLandData}
 									/>
@@ -205,13 +194,13 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							)
 					)}
 
-				{lands && metaverse === Metaverses.SANDBOX && (
-					lands["sandbox"]
+				{prtfolio.list && metaverse === Metaverses.SANDBOX && (
+					prtfolio.list["sandbox"]
 						? (
 							<div key={metaverse} className="mb-8 sm:mb-12">
 								<PortfolioList
 									metaverse={"sandbox"}
-									lands={lands["sandbox"]}
+									lands={prtfolio.list["sandbox"]}
 									prices={prices}
 									handleSpecificLandData={handleSpecificLandData}
 								/>
@@ -221,13 +210,13 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						)
 				)}
 
-				{lands && metaverse === Metaverses.DECENTRALAND && (
-					lands["decentraland"]
+				{prtfolio.list && metaverse === Metaverses.DECENTRALAND && (
+					prtfolio.list["decentraland"]
 						? (
 							<div key={metaverse} className="mb-8 sm:mb-12">
 								<PortfolioList
 									metaverse={"decentraland"}
-									lands={lands["decentraland"]}
+									lands={prtfolio.list["decentraland"]}
 									prices={prices}
 									handleSpecificLandData={handleSpecificLandData}
 								/>
@@ -237,13 +226,13 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						)
 				)}
 
-				{lands && metaverse === Metaverses.SOMNIUM && (
-					lands["somnium-space"]
+				{prtfolio.list && metaverse === Metaverses.SOMNIUM && (
+					prtfolio.list["somnium-space"]
 						? (
 							<div key={metaverse} className="mb-8 sm:mb-12">
 								<PortfolioList
 									metaverse={"somnium-space"}
-									lands={lands["somnium-space"]}
+									lands={prtfolio.list["somnium-space"]}
 									prices={prices}
 									handleSpecificLandData={handleSpecificLandData}
 								/>
