@@ -3,35 +3,26 @@ import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import Image from "next/image";
 import { useAccount } from 'wagmi'
-
-import {
-	convertETHPrediction,
-	fetchLandList,
-} from '../lib/valuation/valuationUtils'
 import {
 	ICoinPrices,
 	LandListAPIResponse,
 } from '../lib/valuation/valuationTypes'
 import { PriceList } from '../components/General'
 import { IAPIData, IPredictions } from '../lib/types'
-import { useRouter } from 'next/router'
 import { typedKeys } from '../lib/utilities'
 import PortfolioList from '../components/Portfolio/PortfolioList'
-import { SocialMediaOptions } from '../lib/socialMediaOptions'
-import { ethers } from 'ethers'
-import { Chains } from '../lib/chains'
 import { Metaverses } from "../lib/enums"
-import { getAxieLands, getUserNFTs } from '../lib/nftUtils'
-import { getAddress } from 'ethers/lib/utils'
 import { Metaverse, metaverseObject } from '../lib/metaverse'
 import GeneralSection from '../components/GeneralSection'
 import Footer from '../components/General/Footer'
 import ConnectButton from '../components/ConnectButton';
 import NoLands from '../components/Portfolio/NoLands';
-import { printAlchemy } from '../lib/alchemyProvider';
+// import { printAlchemy } from '../lib/alchemyProvider';
 import SpecificLandModal from '../components/Valuation/SpecificLandModal';
 import { findHeatmapLand } from '../lib/heatmap/findHeatmapLand';
 import { getCoingeckoPrices } from '../backend/services/openSeaDataManager';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { fetchPortfolio } from '../state/portfolio';
 
 interface CardData {
 	apiData: IAPIData;
@@ -61,70 +52,28 @@ const headerList = [
 ];
 
 const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
-	const { query, push } = useRouter()
-
+	const dispatch = useAppDispatch()
+	const { address } = useAccount()
+	
+	const prtfolio = useAppSelector((state) => state.portfolio)
+	const [metaverse, setMetaverse] = useState(Metaverses.ALL)
+	
 	const initialWorth = {
 		ethPrediction: 0,
 		usdPrediction: 0,
 	}
-	const { address } = useAccount()
-	/* const { address, chainId } = useAppSelector((state) => state.account) */
-	const [copiedText, setCopiedText] = useState(false)
-	const [metaverse, setMetaverse] = useState(Metaverses.ALL)
-
 	const [totalWorth, setTotalWorth] = useState<IPredictions>(initialWorth)
 	const [totalAssets, setTotalAssets] = useState(0)
-	const [alreadyFetched, setAlreadyFetched] = useState(false)
 	const [lands, setLands] = useState<Record<Metaverse, LandListAPIResponse>>()
-	const [loading, setLoading] = useState(true)
 
 	//Land Modal (and card data)
 	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
 	const [specificLandSelected, setSpecificLandSelected] = useState<CardData>();
 
-	const socialMedia = SocialMediaOptions(
-		undefined,
-		undefined,
-		undefined,
-		address
-	)
-
 	const metaverseLabels: Record<Metaverse, string> = {
 		sandbox: "The Sandbox",
 		decentraland: "Decentraland",
 		"somnium-space": "Somnium Space"
-	}
-
-	const externalWallet = query.wallet
-
-	/* 	const copyLink = () => {
-			navigator.clipboard.writeText(
-				'https://app.metagamehub.io/portfolio?wallet=' + address
-			)
-			// Display Feedback Text
-	
-			setCopiedText(true)
-			setTimeout(() => {
-				setCopiedText(false)
-			}, 1100)
-		} */
-
-	// Resetting state when Wallet Changes
-	const resetState = () => {
-		setCopiedText(false)
-		setLoading(true)
-		setTotalWorth(initialWorth)
-		setTotalAssets(0)
-		setLands(undefined)
-	}
-
-	const formatAddress = (address: string) => {
-		// If Ronin Address
-		if (address.startsWith('ronin:')) {
-			return getAddress(address.substring(address.indexOf(':') + 1))
-		}
-		if (address.startsWith('0x')) return getAddress(address)
-		return getAddress('0x0000000000000000000000000000000000000000')
 	}
 
 	const handleSpecificLandData = (
@@ -148,114 +97,16 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	}
 
 	useEffect(() => {
-		if (externalWallet && alreadyFetched) return
-		setAlreadyFetched(true)
-
-		const providerEthereum = new ethers.providers.InfuraProvider(
-			Chains.ETHEREUM_MAINNET.chainId,
-			'03bfd7b76f3749c8bb9f2c91bdba37f3'
-		)
-
-		const providerMatic = new ethers.providers.InfuraProvider(
-			Chains.MATIC_MAINNET.chainId,
-			'03bfd7b76f3749c8bb9f2c91bdba37f3'
-		)
-
-		// Requesting and Formatting Assets
-		const setPortfolioAssets = async () => {
-			resetState()
-			if (!address && !externalWallet) return setLoading(false)
-
-			// Infura/ Axie Market API Call
-			try {
-				await Promise.all(
-					typedKeys(metaverseObject).map(async (metaverse) => {
-						let rawIdsEthereum: string[] | undefined
-						let rawIdsMatic: string[] | undefined
-						if (/* metaverse === 'axie-infinity' */ false) {
-							rawIdsEthereum = await getAxieLands(
-								formatAddress(
-									(externalWallet as string) ?? address
-								)
-							)
-						} else {
-							rawIdsEthereum = await getUserNFTs(
-								providerEthereum,
-								'Ethereum',
-								formatAddress((externalWallet as string) ?? address),
-								metaverse
-							)
-
-							rawIdsMatic = await getUserNFTs(
-								providerMatic,
-								'Polygon',
-								formatAddress((externalWallet as string) ?? address),
-								metaverse
-							)
-						}
-						if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) return
-
-						// LandList Call
-						let metaverseLandsObjectEthereum = {}
-						let metaverseLandsObjectMatic = {}
-
-						if (rawIdsEthereum && rawIdsEthereum.length > 0)
-							metaverseLandsObjectEthereum = await fetchLandList(metaverse, rawIdsEthereum)
-
-						if (rawIdsMatic && rawIdsMatic.length > 0)
-							metaverseLandsObjectMatic = await fetchLandList(metaverse, rawIdsMatic)
-
-
-						const metaverseLandsObject: any = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic }
-
-						// Adding Total Worth
-						const totalMvWorth = { usd: 0, eth: 0 }
-						typedKeys(metaverseLandsObject).forEach((land) => {
-							totalMvWorth.usd += convertETHPrediction(
-								prices,
-								metaverseLandsObject[land].eth_predicted_price,
-								metaverse
-							).usdPrediction
-							totalMvWorth.eth +=
-								metaverseLandsObject[land].eth_predicted_price
-						})
-
-						// Setting Lands
-						setLands((previous) => {
-							return {
-								...previous!,
-								[metaverse]: metaverseLandsObject,
-							}
-						})
-						// Setting Asset Number
-						setTotalAssets(
-							(previous) =>
-								previous +
-								typedKeys(metaverseLandsObject).length
-						)
-
-						// Adding the worth of each metaverse into the totalWorth
-						setTotalWorth((previousWorth) => ({
-							ethPrediction:
-								previousWorth.ethPrediction + totalMvWorth.eth,
-							usdPrediction:
-								previousWorth.usdPrediction + totalMvWorth.usd,
-						}))
-					})
-				)
-				setLoading(false)
-			} catch (err) {
-				console.log(err)
-			}
-		}
-
-		setPortfolioAssets()
-	}, [externalWallet, address])
+		if (!address) return
+		dispatch(fetchPortfolio({ address }))
+	}, [address])
 
 	useEffect(() => {
-		if (address)
-			printAlchemy(address)
-	}, [])
+		setLands(prtfolio.list)
+		setTotalWorth(prtfolio.totalWorth)
+		setTotalAssets(prtfolio.length)
+		console.log('prtfolio:', prtfolio)
+	}, [prtfolio.list])
 
 	return (
 		<>
