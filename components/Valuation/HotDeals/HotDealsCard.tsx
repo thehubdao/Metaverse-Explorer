@@ -37,31 +37,6 @@ const HotDealsCard = ({
   metaverse,
   name,
 }: Props) => {
-  const [watchlist, setWatchlist] = useState<any>()
-  const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account)
-
-  const getWatchList = async (token: string) => {
-
-
-    const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
-  }
-
-  useEffect(() => {
-    if (!address) return
-    getWatchList(token)
-  }, [address])
-
   return (
     <>
       {apiData &&
