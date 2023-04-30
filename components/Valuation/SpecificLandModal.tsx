@@ -1,5 +1,4 @@
 import { Tooltip } from "@mui/material";
-import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineCompress } from "react-icons/ai";
@@ -100,9 +99,7 @@ const SpecificLandModal = ({
   coinPrices
 }: SpecificLandModalProps) => {
   const dispatch = useDispatch();
-  const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account.accessToken)
   // chart variables
   const [loadingChart, setLoadingChart] = useState<boolean>(false)
   const [landChartData, setLandChartData] = useState<any[]>();
@@ -130,20 +127,6 @@ const SpecificLandModal = ({
       dispatch(addToCart({ land: specificAssetSelected, address: address }))
     if (action === 'remove')
       dispatch(removeFromCart({ land: { specificAssetSelected }, address: address }))
-  }
-
-  const getWatchList = async (token: string) => {
-    const watchlistRequest = await axios.get(
-      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
   }
 
   const SteticTimeString = (historyTime?: string) => {
@@ -179,11 +162,6 @@ const SpecificLandModal = ({
     specificAssetSelected?.metaverse,
     predictions
   )
-
-  useEffect(() => {
-    if (!token) return
-    getWatchList(token)
-  }, [address])
 
   useEffect(() => {
     const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === specificAssetSelected?.tokenId)
@@ -375,25 +353,7 @@ const SpecificLandModal = ({
                   </div>
 
                   {/* Add To Watchlist Button */}
-                  {(watchlist &&
-                    watchlist[metaverse] &&
-                    watchlist[metaverse][specificAssetSelected?.tokenId])
-                    ? (
-                      <div onClick={() => getWatchList(token)}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action={'remove'}
-                        getWatchList={getWatchList}
-                      /></div>
-                    ) : (
-                      <div onClick={() => getWatchList(token)}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action={'add'}
-                        getWatchList={getWatchList}
-                      /></div>
-                    )
-                  }
+                  <WatchlistButton land={specificAssetSelected} />
                   <button
                     className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full text-black rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-extrabold`}
                     onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
