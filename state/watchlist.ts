@@ -1,6 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useAccount } from "wagmi";
-import { useAppSelector } from "./hooks";
 import axios from "axios";
 
 interface IState {
@@ -28,7 +26,6 @@ export const fetchWatchlist = createAsyncThunk(
       }
     )
     const watchlist = await watchlistRequest.data;
-    console.log('watchlist data: ', watchlist);
     return watchlist;
   }
 )
