@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useAccount } from 'wagmi'
 import {
 	ICoinPrices,
-	LandListAPIResponse,
 } from '../lib/valuation/valuationTypes'
 import { PriceList } from '../components/General'
 import { IAPIData, IPredictions } from '../lib/types'
@@ -23,6 +22,7 @@ import { findHeatmapLand } from '../lib/heatmap/findHeatmapLand';
 import { getCoingeckoPrices } from '../backend/services/openSeaDataManager';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import { fetchPortfolio } from '../state/portfolio';
+import { Loader } from '../components';
 
 interface CardData {
 	apiData: IAPIData;
@@ -145,105 +145,19 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 					<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">
 						<div className="flex flex-col space-y-5 items-center justify-end nm-flat-hard py-3 px-7 rounded-3xl bg-grey-bone">
-							<p className=" font-black text-3xl">{prtfolio.length | 0}</p>
+							<p className=" font-black text-3xl">{address ? prtfolio.length | 0 : 0}</p>
 							<p className="text-sm">Total LANDs owned</p>
 						</div>
 
 						<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
-							<div className=" font-black text-2xl"><PriceList predictions={prtfolio.totalWorth || initialWorth} /></div>
+							<div className=" font-black text-2xl"><PriceList predictions={address ? prtfolio.totalWorth || initialWorth : initialWorth} /></div>
 							<p className="text-sm">Total Value worth</p>
 						</div>
 
 					</div>
 				</div>
 
-				<div className='mx-16 mb-24'>
-					<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
-						{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
-							<button
-								key={key}
-								type="button"
-								className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
-								onClick={() => setMetaverse(Metaverses[key])}
-							>
-								{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
-								{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
-								{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
-								{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
-
-								{Metaverses[key].toUpperCase()}
-							</button>
-						))}
-					</div>
-				</div>
-
-				{/* Lands Grid */}
-				{prtfolio.list && metaverse === Metaverses.ALL &&
-					typedKeys(metaverseObject).map(
-						(metaverse, index) =>
-							prtfolio.list[metaverse] &&
-							typedKeys(prtfolio.list[metaverse]).length > 0 && (
-								<div key={metaverse} className="mb-8 sm:mb-12">
-									<PortfolioList
-										metaverse={metaverse}
-										lands={prtfolio.list[metaverse]}
-										prices={prices}
-										handleSpecificLandData={handleSpecificLandData}
-									/>
-								</div>
-							)
-					)}
-
-				{prtfolio.list && metaverse === Metaverses.SANDBOX && (
-					prtfolio.list["sandbox"]
-						? (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"sandbox"}
-									lands={prtfolio.list["sandbox"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
-						) : (
-							<NoLands />
-						)
-				)}
-
-				{prtfolio.list && metaverse === Metaverses.DECENTRALAND && (
-					prtfolio.list["decentraland"]
-						? (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"decentraland"}
-									lands={prtfolio.list["decentraland"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
-						) : (
-							<NoLands />
-						)
-				)}
-
-				{prtfolio.list && metaverse === Metaverses.SOMNIUM && (
-					prtfolio.list["somnium-space"]
-						? (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"somnium-space"}
-									lands={prtfolio.list["somnium-space"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
-
-						) : (
-							<NoLands />
-						)
-				)}
-
-				{!address && (
+				{!address ? (
 					<div className="flex flex-col justify-center items-center mt-28">
 						{/* Auth Button */}
 						<Image
@@ -256,7 +170,98 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to show your portfolio</p>
 						<ConnectButton />
 					</div>
-				)}
+				) : (<>
+					<div className='mx-16 mb-24'>
+						<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
+							{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
+								<button
+									key={key}
+									type="button"
+									className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
+									onClick={() => setMetaverse(Metaverses[key])}
+								>
+									{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
+									{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
+									{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
+									{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
+
+									{Metaverses[key].toUpperCase()}
+								</button>
+							))}
+						</div>
+					</div>
+
+					{/* Lands Grid */}
+					{prtfolio.list && metaverse === Metaverses.ALL &&
+						typedKeys(metaverseObject).map(
+							(metaverse, index) =>
+								prtfolio.list[metaverse] &&
+								typedKeys(prtfolio.list[metaverse]).length > 0 && (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={metaverse}
+											lands={prtfolio.list[metaverse]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+								)
+						)}
+
+					{prtfolio.list && metaverse === Metaverses.SANDBOX && (
+						prtfolio.list["sandbox"]
+							? (
+								<div key={metaverse} className="mb-8 sm:mb-12">
+									<PortfolioList
+										metaverse={"sandbox"}
+										lands={prtfolio.list["sandbox"]}
+										prices={prices}
+										handleSpecificLandData={handleSpecificLandData}
+									/>
+								</div>
+							) : (
+								<NoLands />
+							)
+					)}
+
+					{prtfolio.list && metaverse === Metaverses.DECENTRALAND && (
+						prtfolio.list["decentraland"]
+							? (
+								<div key={metaverse} className="mb-8 sm:mb-12">
+									<PortfolioList
+										metaverse={"decentraland"}
+										lands={prtfolio.list["decentraland"]}
+										prices={prices}
+										handleSpecificLandData={handleSpecificLandData}
+									/>
+								</div>
+							) : (
+								<NoLands />
+							)
+					)}
+
+					{prtfolio.list && metaverse === Metaverses.SOMNIUM && (
+						prtfolio.list["somnium-space"]
+							? (
+								<div key={metaverse} className="mb-8 sm:mb-12">
+									<PortfolioList
+										metaverse={"somnium-space"}
+										lands={prtfolio.list["somnium-space"]}
+										prices={prices}
+										handleSpecificLandData={handleSpecificLandData}
+									/>
+								</div>
+
+							) : (
+								<NoLands />
+							)
+					)}
+					{/* Loader component */}
+					{prtfolio.isLoading && prtfolio.length == 0 && <div className='w-full flex flex-col justify-center items-center'>
+						<Loader color='blue' size={60} />
+						<p className='text-grey-content'>Loading lands...</p>
+					</div>}
+				</>)}
 
 				<div className='mt-60'>
 					<Footer
