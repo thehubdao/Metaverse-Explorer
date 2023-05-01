@@ -18,6 +18,7 @@ interface IState {
 		ethPrediction: number
 		usdPrediction: number
 	}
+	currentAddress: string
 }
 
 const initialState: IState = {
@@ -25,7 +26,8 @@ const initialState: IState = {
 	isLoading: false,
 	length: 0,
 	error: null,
-	totalWorth: { ethPrediction: 0, usdPrediction: 0 }
+	totalWorth: { ethPrediction: 0, usdPrediction: 0 },
+	currentAddress: '0x0000000000000000000000000000000000000000'
 }
 
 const formatAddress = (address: string) => {
@@ -126,7 +128,7 @@ export const fetchPortfolio = createAsyncThunk(
 		} catch (err) {
 			console.log(err)
 		}
-		const portfolio = { lands, totalLandsCounter, totalWorth };
+		const portfolio = { lands, totalLandsCounter, totalWorth, address };
 		console.log('portfolio data: ', portfolio);
 		return portfolio;
 	}
@@ -145,6 +147,7 @@ export const portfolio = createSlice({
 			state.list = action.payload.lands;
 			state.length = action.payload.totalLandsCounter
 			state.totalWorth = action.payload.totalWorth
+			state.currentAddress = action.payload.address
 		})
 		builder.addCase(fetchPortfolio.rejected, (state, action) => {
 			state.isLoading = false;

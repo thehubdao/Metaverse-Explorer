@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from "next/image";
 import { useAccount } from 'wagmi'
 import {
-	ICoinPrices,
+	ICoinPrices, LandListAPIResponse,
 } from '../lib/valuation/valuationTypes'
 import { PriceList } from '../components/General'
 import { IAPIData, IPredictions } from '../lib/types'
@@ -52,7 +52,6 @@ const headerList = [
 ];
 
 const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
-	const dispatch = useAppDispatch()
 	const { address } = useAccount()
 
 	const prtfolio = useAppSelector((state) => state.portfolio)
@@ -62,6 +61,11 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		ethPrediction: 0,
 		usdPrediction: 0,
 	}
+
+	// Portfolio data
+	const [lands, setLands] = useState<Record<Metaverse, LandListAPIResponse>>()
+	const [totalLands, setTotalLands] = useState<number>(0)
+	const [totalWorth, setTotalWorth] = useState<{ ethPrediction: number, usdPrediction: number }>(initialWorth)
 
 	//Land Modal (and card data)
 	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
@@ -94,8 +98,15 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	}
 
 	useEffect(() => {
-		dispatch(fetchPortfolio({ address }))
-	}, [address])
+		setLands({ sandbox: {}, decentraland: {}, "somnium-space": {} })
+		setTotalLands(0)
+		setTotalWorth(initialWorth)
+		if (address === prtfolio.currentAddress) {
+			setLands(prtfolio.list)
+			setTotalLands(prtfolio.length)
+			setTotalWorth(prtfolio.totalWorth)
+		}
+	}, [address, prtfolio.length])
 
 	return (
 		<>
@@ -145,12 +156,12 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 					<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">
 						<div className="flex flex-col space-y-5 items-center justify-end nm-flat-hard py-3 px-7 rounded-3xl bg-grey-bone">
-							<p className=" font-black text-3xl">{address ? prtfolio.length | 0 : 0}</p>
+							<p className=" font-black text-3xl">{totalLands}</p>
 							<p className="text-sm">Total LANDs owned</p>
 						</div>
 
 						<div className="flex flex-col space-y-2 items-center nm-flat-hard py-3 px-10 rounded-3xl  bg-grey-bone">
-							<div className=" font-black text-2xl"><PriceList predictions={address ? prtfolio.totalWorth || initialWorth : initialWorth} /></div>
+							<div className=" font-black text-2xl"><PriceList predictions={totalWorth} /></div>
 							<p className="text-sm">Total Value worth</p>
 						</div>
 
@@ -192,15 +203,15 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 
 					{/* Lands Grid */}
-					{prtfolio.list && metaverse === Metaverses.ALL &&
+					{lands && metaverse === Metaverses.ALL &&
 						typedKeys(metaverseObject).map(
 							(metaverse, index) =>
-								prtfolio.list[metaverse] &&
-								typedKeys(prtfolio.list[metaverse]).length > 0 && (
+								lands[metaverse] &&
+								typedKeys(lands[metaverse]).length > 0 && (
 									<div key={metaverse} className="mb-8 sm:mb-12">
 										<PortfolioList
 											metaverse={metaverse}
-											lands={prtfolio.list[metaverse]}
+											lands={lands[metaverse]}
 											prices={prices}
 											handleSpecificLandData={handleSpecificLandData}
 										/>
@@ -208,13 +219,13 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								)
 						)}
 
-					{prtfolio.list && metaverse === Metaverses.SANDBOX && (
-						prtfolio.list["sandbox"]
+					{lands && metaverse === Metaverses.SANDBOX && (
+						lands["sandbox"]
 							? (
 								<div key={metaverse} className="mb-8 sm:mb-12">
 									<PortfolioList
 										metaverse={"sandbox"}
-										lands={prtfolio.list["sandbox"]}
+										lands={lands["sandbox"]}
 										prices={prices}
 										handleSpecificLandData={handleSpecificLandData}
 									/>
@@ -224,13 +235,13 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							)
 					)}
 
-					{prtfolio.list && metaverse === Metaverses.DECENTRALAND && (
-						prtfolio.list["decentraland"]
+					{lands && metaverse === Metaverses.DECENTRALAND && (
+						lands["decentraland"]
 							? (
 								<div key={metaverse} className="mb-8 sm:mb-12">
 									<PortfolioList
 										metaverse={"decentraland"}
-										lands={prtfolio.list["decentraland"]}
+										lands={lands["decentraland"]}
 										prices={prices}
 										handleSpecificLandData={handleSpecificLandData}
 									/>
@@ -240,13 +251,13 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							)
 					)}
 
-					{prtfolio.list && metaverse === Metaverses.SOMNIUM && (
-						prtfolio.list["somnium-space"]
+					{lands && metaverse === Metaverses.SOMNIUM && (
+						lands["somnium-space"]
 							? (
 								<div key={metaverse} className="mb-8 sm:mb-12">
 									<PortfolioList
 										metaverse={"somnium-space"}
-										lands={prtfolio.list["somnium-space"]}
+										lands={lands["somnium-space"]}
 										prices={prices}
 										handleSpecificLandData={handleSpecificLandData}
 									/>
@@ -257,9 +268,9 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							)
 					)}
 					{/* Loader component */}
-					{prtfolio.isLoading && prtfolio.length == 0 && <div className='w-full flex flex-col justify-center items-center'>
+					{prtfolio.isLoading && prtfolio.length == 0 && <div className='w-full flex flex-col justify-center items-center gap-3'>
 						<Loader color='blue' size={60} />
-						<p className='text-grey-content'>Loading lands...</p>
+						<p className='text-grey-content text-xs font-semibold'>Loading lands...</p>
 					</div>}
 				</>)}
 
