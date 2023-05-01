@@ -17,6 +17,7 @@ export const formatLand = (pureLandData: string, metaverse: Metaverse) => {
     if (metaverse == 'sandbox') {
         const [, , , , , , , , land_type] = dataArray
         land.land_type = land_type
+        return land
     }
 
     if (metaverse == 'somnium-space') {

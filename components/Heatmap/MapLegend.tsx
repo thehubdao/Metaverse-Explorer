@@ -18,7 +18,7 @@ const MapLegend = ({
   className,
 }: Props) => {
   const colors = typedKeys(LEGEND_COLORS).filter((element) => {
-    if (metaverse === 'sandbox') return ['on-sale', 'portfolio', 'premium-lands'].includes(element)
+    if (metaverse === 'sandbox') return ['on-sale', 'premium-lands', 'watchlist'].includes(element)
     if (metaverse === 'decentraland') return true
     return ['on-sale','portfolio'].includes(element)
   })

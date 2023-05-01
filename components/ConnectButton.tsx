@@ -11,6 +11,7 @@ import web3authService from '../backend/services/Web3authService'
 import { useToken } from '../backend/useToken'
 import * as blockies from 'blockies-ts';
 import { useAppDispatch, useAppSelector } from '../state/hooks'
+import { fetchWatchlist } from '../state/watchlist'
 
 // Components
 import OvalButton from './General/Buttons/OvalButton'
@@ -118,8 +119,10 @@ export default function ConnectButton() {
   }, [accessToken])
 
   useEffect(() => {
+    if (!address || !accessToken.token) return;
+    dispatch(fetchWatchlist({address, accessToken}))
     dispatch(fetchPortfolio({ address }))
-  }, [address])
+  }, [address, accessToken])
 
   return (
     <>
