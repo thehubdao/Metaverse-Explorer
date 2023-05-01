@@ -87,7 +87,7 @@ const HotDealsCard = ({
                 <div className=" items-center justify-center mt-3">
                   <CartButton
                     landData={apiData}
-                    classname="w-[160px]"
+                    classname="w-[160px] font-semibold py-2"
                     textSize="[10px]"
                     addIcon
                   />

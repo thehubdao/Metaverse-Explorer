@@ -33,7 +33,7 @@ const CartButton = ({ landData, addIcon, textSize, classname }: CartButtonProps)
 
   return (
     <button
-      className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full m-auto rounded-2xl py-2 flex justify-center items-center transition duration-300 ease-in-out font-semibold text-${textSize} ${classname}`}
+      className={`${isOnShopCartList ? 'nm-inset-medium text-grey-content' : 'nm-flat-medium hover:nm-flat-soft text-black'} w-full m-auto rounded-2xl flex justify-center items-center transition duration-300 ease-in-out text-${textSize} ${classname}`}
       onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
     >
       {addIcon && <Image src={'/images/shopping-cart.svg'} width={15} height={12} alt="shopping cart" className='mr-3' />}
