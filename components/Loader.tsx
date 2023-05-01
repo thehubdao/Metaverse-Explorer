@@ -95,7 +95,7 @@ const Logo = ({ color }: { color: iColors }) => {
 
 const Loader = ({ size, color }: { size: number, color: iColors }) => {
   return (
-    <div className="w-full h-full flex items-center justify-center p-20">
+    <div className="w-full h-full flex items-center justify-center">
       <div style={{ width: size, height: size }}>
         <Logo color={color} />
       </div>
