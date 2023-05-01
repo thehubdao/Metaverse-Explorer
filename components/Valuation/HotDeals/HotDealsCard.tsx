@@ -110,7 +110,12 @@ const HotDealsCard = ({
                   <p className="font-semibold text-xs  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
                 </div>
                 <div className=" items-center justify-center mt-3">
-                  <CartButton apiLand={apiData} />
+                  <CartButton
+                    landData={apiData}
+                    classname="w-[160px]"
+                    textSize="[10px]"
+                    addIcon
+                  />
                 </div>
 
                 <div className="flex justify-center my-3 gap-5 font-bold">

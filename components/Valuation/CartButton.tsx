@@ -5,10 +5,13 @@ import { addToCart, removeFromCart } from '../../state/shopCartList';
 import { useAccount } from 'wagmi';
 
 interface CartButtonProps {
-  apiLand: any
+  landData: any
+  textSize?: string | 'xs' | 'sm' | 'lg' | 'xl' | '2xl'
+  classname?: string
+  addIcon?: boolean
 }
 
-const CartButton = ({ apiLand }: CartButtonProps) => {
+const CartButton = ({ landData, addIcon, textSize, classname }: CartButtonProps) => {
   const dispatch = useDispatch();
   const { address } = useAccount();
 
@@ -18,33 +21,26 @@ const CartButton = ({ apiLand }: CartButtonProps) => {
 
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'add')
-      dispatch(addToCart({ land: apiLand, address: address }))
+      dispatch(addToCart({ land: landData, address: address }))
     if (action === 'remove')
-      dispatch(removeFromCart({ land: { apiLand }, address: address }))
+      dispatch(removeFromCart({ land: landData, address: address }))
   }
 
   useEffect(() => {
-    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === apiLand?.tokenId && land.metaverse === apiLand?.metaverse))
-    console.log(`land: ${apiLand.tokenId} es: ${isOnShopCartListAux}`)
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === landData?.tokenId && land.metaverse === landData?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
-  }, [shopList.length, apiLand])
-
-  useEffect(() => {
-    console.log(apiLand)
-  }, [])
+  }, [shopList.length, landData])
 
   return (
-    <>
-      <button
-        className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-[160px] rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-xs font-semibold`}
-        onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
-      >
-        <Image src={'/images/shopping-cart.svg'} width={15} height={12} alt="shopping cart" className='mr-3' />
-        <span className='ml-3'>
-          {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
-        </span>
-      </button>
-    </>
+    <button
+      className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full m-auto rounded-2xl py-2 flex justify-center items-center transition duration-300 ease-in-out font-semibold text-${textSize} ${classname}`}
+      onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
+    >
+      {addIcon && <Image src={'/images/shopping-cart.svg'} width={15} height={12} alt="shopping cart" className='mr-3' />}
+      <span className='ml-3'>
+        {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
+      </span>
+    </button>
   )
 }
 
