@@ -193,8 +193,8 @@ const AnalyticsChart = ({
   return (
     <div className=''>
       <div className="max-w-full h-full relative pt-14" ref={chartElement}>
-        {fetching && <div className='absolute'>
-          <Loader color='blue' size={100} />
+        {fetching && <div className='absolute top-0 left-2'>
+          <Loader color='blue' size={30} />
         </div>}
 
         {/* /* Chart Options Wrapper */}

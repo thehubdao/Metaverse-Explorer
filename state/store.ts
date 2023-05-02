@@ -4,14 +4,16 @@ import networkReducer from "./network"
 import accountReducer from "./account"
 import watchlistReducer from './watchlist'
 import shopCartListReducer from './shopCartList'
+import portfolioReducer from './portfolio'
 
 
 const store = configureStore({
   reducer: {
     network: networkReducer,
     account: accountReducer,
-    watchlist: watchlistReducer,
     shopCartList: shopCartListReducer,
+    portfolio: portfolioReducer,
+    watchlist: watchlistReducer,
   }
 })
 

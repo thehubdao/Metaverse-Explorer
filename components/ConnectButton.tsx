@@ -4,8 +4,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { FaWallet } from 'react-icons/fa'
-import { useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useNetwork, useSigner } from 'wagmi'
-import { initContract } from '../backend/services/RoleContractService'
+import { useAccount, useConnect, useDisconnect, useEnsName, useNetwork, useSigner } from 'wagmi'
 
 // web3auth service
 import web3authService from '../backend/services/Web3authService'
@@ -17,6 +16,7 @@ import { fetchWatchlist } from '../state/watchlist'
 // Components
 import OvalButton from './General/Buttons/OvalButton'
 import { setAccountToken } from '../state/account'
+import { fetchPortfolio } from '../state/portfolio'
 
 export default function ConnectButton() {
   const dispatch = useAppDispatch()
@@ -99,7 +99,6 @@ export default function ConnectButton() {
       didMount.current = true
     }
     onMount()
-
   }, [])
 
   useEffect(() => {
@@ -122,6 +121,7 @@ export default function ConnectButton() {
   useEffect(() => {
     if (!address || !accessToken.token) return;
     dispatch(fetchWatchlist({address, accessToken}))
+    dispatch(fetchPortfolio({ address }))
   }, [address, accessToken])
 
   return (
