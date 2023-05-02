@@ -17,6 +17,7 @@ import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../state/shopCartList";
+import CartButton from "../Valuation/CartButton";
 
 interface Props {
   apiData?: IAPIData
@@ -125,7 +126,7 @@ const MapCard = ({
   }
 
   useEffect(() => {
-    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === apiData?.tokenId)
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === apiData?.tokenId && land.metaverse === apiData?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, apiData])
 
@@ -203,12 +204,14 @@ const MapCard = ({
 
               {/* Add To Watchlist Button */}
               <WatchlistButton land={apiData} />
-              <button
-                className={`${isOnShopCartList ? 'nm-inset-medium text-grey-content' : 'nm-flat-medium hover:nm-flat-soft text-black'} w-full  rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold`}
-                onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
-              >
-                {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
-              </button>
+              {/* Add to Cart Button */}
+              {apiData.current_price_eth ? (
+                <CartButton landData={apiData} classname="mt-3 font-bold py-3" textSize="sm" />
+              ) : (
+                <button className={`nm-flat-soft text-black w-full rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold bg-grey-dark`}>
+                  {'NOT LISTED'}
+                </button>
+              )}
             </div>
             <div className="flex flex-col justify-between">
               <h3 className="font-semibold text-2xl pt-10">

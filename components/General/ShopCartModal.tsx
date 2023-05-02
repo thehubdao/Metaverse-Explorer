@@ -208,7 +208,10 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
 
   useEffect(() => {
     let sum = 0
-    shopList.list.map((data: any) => sum = sum + data.eth_predicted_price)
+    shopList.list.map((data: any) => {
+      let currentPrice = data.current_price_eth | 0
+      sum = sum + currentPrice
+    })
     setAccumulatedEthereumPrices(sum)
     localStorage.setItem(`shoplist_${address}`, JSON.stringify(shopList.list));
   }, [shopList.length])
@@ -244,7 +247,7 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
                 imageUrl={data.images.image_url}
                 metaverse={data.metaverse}
                 title={data.name ? data.name : data.tokenId}
-                ethPrice={data.eth_predicted_price}
+                ethPrice={data.current_price_eth | 0}
                 key={data.tokenId}
                 openseaLink={data.market_links.opensea}
                 tokenId={data.tokenId}
@@ -254,7 +257,7 @@ const ShopCartModal = ({ setOpenSpecificModal }: ShopCardModalProps) => {
             ) : (
               <>{shopList.list.map((data: any) => <ConfirmationCart
                 title={`${data.name ? data.name : data.tokenId} - ${data.metaverse}`}
-                ethPrice={data.eth_predicted_price}
+                ethPrice={data.current_price_eth | 0}
                 key={data.tokenId}
               />)}</>
             )}

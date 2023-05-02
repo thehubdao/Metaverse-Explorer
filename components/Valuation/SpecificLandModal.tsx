@@ -20,6 +20,7 @@ import NoData from "../General/NoData";
 import { useAppSelector } from "../../state/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../state/shopCartList";
+import CartButton from "./CartButton";
 
 export const LandChart = dynamic(() => import('./SpecificLandModal/LandChart'), {
   ssr: false,
@@ -122,11 +123,12 @@ const SpecificLandModal = ({
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
+
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'add')
       dispatch(addToCart({ land: specificAssetSelected, address: address }))
     if (action === 'remove')
-      dispatch(removeFromCart({ land: { specificAssetSelected }, address: address }))
+      dispatch(removeFromCart({ land: specificAssetSelected, address: address }))
   }
 
   const SteticTimeString = (historyTime?: string) => {
@@ -164,7 +166,7 @@ const SpecificLandModal = ({
   )
 
   useEffect(() => {
-    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === specificAssetSelected?.tokenId)
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === specificAssetSelected?.tokenId && land.metaverse === specificAssetSelected?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, specificAssetSelected])
 
@@ -354,12 +356,14 @@ const SpecificLandModal = ({
 
                   {/* Add To Watchlist Button */}
                   <WatchlistButton land={specificAssetSelected} />
-                  <button
-                    className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full text-black rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-extrabold`}
-                    onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
-                  >
-                    {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
-                  </button>
+                  {/* Add to Cart Button */}
+                  {specificAssetSelected.current_price_eth ? (
+                    <CartButton landData={specificAssetSelected} classname="mt-3 font-bold py-3" textSize="sm" />
+                  ) : (
+                    <button className={`nm-flat-soft text-black w-full rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold bg-grey-dark`}>
+                      {'NOT LISTED'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>)
