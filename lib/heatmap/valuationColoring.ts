@@ -271,7 +271,7 @@ export const LEGEND_COLORS = {
     districts: '#23334D', // districts
 
     watchlist: '#FF597B', // On User's Watchlist
-    portfolio: '#4Df0CF', // Owned by User (On their portfolio)
+    portfolio: '#0000FF'//'#4Df0CF', // Owned by User (On their portfolio)
 }
 
 // Colors for Tiles in Decentraland Api Basic Map
