@@ -5,6 +5,7 @@ import axios from "axios";
 import { RiLoader3Fill } from "react-icons/ri";
 import { Pagination } from "@mui/material";
 import NoData from "../General/NoData";
+import ScrollBar from "../ScrollBar";
 
 interface Props {
 	metaverse: Metaverse;
@@ -21,10 +22,10 @@ const TopPicksLands = ({ metaverse }: Props) => {
 
 	// Scrollbar Controller
 	const parentRef = useRef<HTMLTableSectionElement>(null)
-	const [parentDom, setParentDom] = useState<HTMLDivElement | null>(null)
+	const [parentDom, setParentDom] = useState<HTMLTableSectionElement>()
 
 	useEffect(() => {
-		setParentDom(parentRef.current)
+		if(parentRef.current !== null) setParentDom(parentRef.current)
 	}, [parentRef.current])
 
 	useEffect(() => {
@@ -155,14 +156,16 @@ const TopPicksLands = ({ metaverse }: Props) => {
 						</th>
 					</tr>
 				</thead>
-				<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[30vh]" ref={parentRef}>
-					{picks.length > 0
-						? rowData()
-						: <tr className="w-full h-full flex justify-center items-center">
-							<th colSpan={5}>At this moment we have no top picks from this metaverse.</th>
-						</tr>}
-					{/* {parentDom && <ScrollBar parentDom={parentDom} />} */}
-				</tbody>
+				<div className="relative">
+					<tbody className="bg-transparent flex flex-col items-center justify-between overflow-y-scroll w-full h-[30vh] hidescroll" ref={parentRef}>
+						{picks.length > 0
+							? rowData()
+							: <tr className="w-full h-full flex justify-center items-center">
+								<th colSpan={5}>At this moment we have no top picks from this metaverse.</th>
+							</tr>}
+						{parentDom && <ScrollBar parentDom={parentDom} />}
+					</tbody>
+				</div>
 			</table>
 			<div className="w-full flex justify-center">
 				{numberOfPages > 1 ? (

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 
 interface ScrollBarProps {
-  parentDom: HTMLDivElement
+  parentDom: HTMLElement
 }
 
 export default function ScrollBar({ parentDom }: ScrollBarProps) {
@@ -34,14 +34,19 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
   useEffect(() => {
     parentDom?.addEventListener('scroll', ScrollHandler)
     window?.addEventListener('resize', ResizeHandler)
+
+    return(() => {
+      parentDom?.removeEventListener('scroll', ScrollHandler)
+      window?.removeEventListener('resize', ResizeHandler)
+    })
   }, [parentDom])
 
   return (
     <div
-      className={`w-1 fixed`}
+      className={`w-5 absolute`}
       style={{
-        top: parentDom.getBoundingClientRect().top,
-        left: parentDom.getBoundingClientRect().right - 4,
+        top: 0,//parentDom.getBoundingClientRect().top,
+        right: 0, //parentDom.getBoundingClientRect().width - 20,
         height: parentDom.getBoundingClientRect().height,
         opacity: 0
       }}
@@ -49,13 +54,15 @@ export default function ScrollBar({ parentDom }: ScrollBarProps) {
     >
       {
         (heightBar < parentDom.getBoundingClientRect().height) &&
-        <div
-          className={`bg-grey-content w-full absolute rounded-full opacity-60`}
-          style={{
-            top: offsetScroll * (parentDom.getBoundingClientRect().height - heightBar),
-            height: heightBar
-          }}
-        />
+        <div className="relative w-full h-full">
+          <div
+            className={`bg-grey-content w-full absolute rounded-full opacity-60`}
+            style={{
+              top: offsetScroll * (parentDom.getBoundingClientRect().height - heightBar),
+              height: heightBar
+            }}
+          />
+          </div>
       }
     </div>
   )
