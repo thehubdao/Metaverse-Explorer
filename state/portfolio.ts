@@ -129,7 +129,6 @@ export const fetchPortfolio = createAsyncThunk(
 			console.log(err)
 		}
 		const portfolio = { lands, totalLandsCounter, totalWorth, address };
-		console.log('portfolio data: ', portfolio);
 		return portfolio;
 	}
 )
