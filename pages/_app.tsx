@@ -6,6 +6,8 @@ import {
   getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
+import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { metaMaskWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
@@ -22,6 +24,29 @@ import { Web3Auth } from '@web3auth/modal'
 import { } from '../backend/services/RoleContractService'
 import { Loader } from '../components'
 import MobileControl from '../components/MobileControl'
+import { ArcanaConnector } from "@arcana/auth-wagmi";
+
+const ArcanaRainbowConnector = ({ chains }:any) => {
+  return {
+    id: "arcana-auth",
+    name: "Arcana Wallet",
+    iconUrl: "",
+    iconBackground: "#101010",
+    createConnector: () => {
+      const connector = new ArcanaConnector({
+        chains,
+        options: {
+          //clientId : Arcana Unique App Identifier via Dashboard
+          clientId: "xar_test_17e83d8fcb745babdd5efe0ba26c2679b753257d", 
+        },
+      });
+      return {
+        connector,
+      };
+    },
+  };
+};
+
 
 NProgress.configure({ showSpinner: false })
 Router.events.on('routeChangeStart', () => {
@@ -48,16 +73,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     useEffect(() => {
         const initWagmi = async () => {
-              const { connectors } = getDefaultWallets({
-                appName: 'MetaGameHub',
-                projectId: process.env.WALLETCONNECT_PROJECT_ID!,
-                chains
-              });
+            const connectors = connectorsForWallets([
+                {
+                  groupName: "Recommended",
+                  wallets: [ArcanaRainbowConnector({ chains }) as any, metaMaskWallet({chains}), walletConnectWallet({chains, projectId: process.env.WALLETCONNECT_PROJECT_ID!})  ],
+                },
+              ])
             const wagmiClientInstance = createClient({
                 autoConnect: true,
                 connectors,
                 provider
               })
+              
             setWagmiClient(wagmiClientInstance)
         }
         initWagmi()
