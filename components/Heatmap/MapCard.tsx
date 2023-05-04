@@ -1,5 +1,4 @@
 import { Alert, Snackbar } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineExpand } from "react-icons/ai";
 import { BsTwitter } from "react-icons/bs";
@@ -18,6 +17,7 @@ import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../state/shopCartList";
+import CartButton from "../Valuation/CartButton";
 
 interface Props {
   apiData?: IAPIData
@@ -92,9 +92,7 @@ const MapCard = ({
     'errorQuery',
   ])
   const imgSize = 250
-  const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account.accessToken)
 
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
@@ -127,30 +125,10 @@ const MapCard = ({
     }
   }
 
-  const getWatchList = async (token: string) => {
-    const watchlistRequest = await axios.get(
-      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
-  }
-
   useEffect(() => {
-    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === apiData?.tokenId)
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === apiData?.tokenId && land.metaverse === apiData?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, apiData])
-
-  useEffect(() => {
-    if (!address) return
-    getWatchList(token)
-  }, [address])
-
 
   if (errorQuery) {
     return (
@@ -225,31 +203,15 @@ const MapCard = ({
               <FeedbackButtons />
 
               {/* Add To Watchlist Button */}
-              {(watchlist &&
-                watchlist[metaverse] &&
-                watchlist[metaverse][apiData?.tokenId])
-                ? (
-                  <div onClick={() => getWatchList(token)}><WatchlistButton
-                    getWatchList={getWatchList}
-                    land={apiData}
-                    metaverse={apiData.metaverse}
-                    action={'remove'}
-                  /></div>
-                ) : (
-                  <div onClick={() => getWatchList(token)}><WatchlistButton
-                    getWatchList={getWatchList}
-                    land={apiData}
-                    metaverse={apiData.metaverse}
-                    action={'add'}
-                  /></div>
-                )
-              }
-              <button
-                className={`${isOnShopCartList ? 'nm-inset-medium text-grey-content' : 'nm-flat-medium hover:nm-flat-soft text-black'} w-full  rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold`}
-                onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
-              >
-                {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
-              </button>
+              <WatchlistButton land={apiData} />
+              {/* Add to Cart Button */}
+              {apiData.current_price_eth ? (
+                <CartButton landData={apiData} classname="mt-3 font-bold py-3" textSize="sm" />
+              ) : (
+                <button className={`nm-flat-soft text-black w-full rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold bg-grey-dark`}>
+                  {'NOT LISTED'}
+                </button>
+              )}
             </div>
             <div className="flex flex-col justify-between">
               <h3 className="font-semibold text-2xl pt-10">

@@ -1,5 +1,4 @@
 import { Tooltip } from "@mui/material";
-import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineCompress } from "react-icons/ai";
@@ -21,6 +20,7 @@ import NoData from "../General/NoData";
 import { useAppSelector } from "../../state/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../state/shopCartList";
+import CartButton from "./CartButton";
 
 export const LandChart = dynamic(() => import('./SpecificLandModal/LandChart'), {
   ssr: false,
@@ -100,9 +100,7 @@ const SpecificLandModal = ({
   coinPrices
 }: SpecificLandModalProps) => {
   const dispatch = useDispatch();
-  const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account.accessToken)
   // chart variables
   const [loadingChart, setLoadingChart] = useState<boolean>(false)
   const [landChartData, setLandChartData] = useState<any[]>();
@@ -125,25 +123,12 @@ const SpecificLandModal = ({
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
+
   const handleShopCart = (action: 'add' | 'remove') => {
     if (action === 'add')
       dispatch(addToCart({ land: specificAssetSelected, address: address }))
     if (action === 'remove')
-      dispatch(removeFromCart({ land: { specificAssetSelected }, address: address }))
-  }
-
-  const getWatchList = async (token: string) => {
-    const watchlistRequest = await axios.get(
-      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
+      dispatch(removeFromCart({ land: specificAssetSelected, address: address }))
   }
 
   const SteticTimeString = (historyTime?: string) => {
@@ -181,12 +166,7 @@ const SpecificLandModal = ({
   )
 
   useEffect(() => {
-    if (!token) return
-    getWatchList(token)
-  }, [address])
-
-  useEffect(() => {
-    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => land.tokenId === specificAssetSelected?.tokenId)
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === specificAssetSelected?.tokenId && land.metaverse === specificAssetSelected?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, specificAssetSelected])
 
@@ -375,31 +355,15 @@ const SpecificLandModal = ({
                   </div>
 
                   {/* Add To Watchlist Button */}
-                  {(watchlist &&
-                    watchlist[metaverse] &&
-                    watchlist[metaverse][specificAssetSelected?.tokenId])
-                    ? (
-                      <div onClick={() => getWatchList(token)}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action={'remove'}
-                        getWatchList={getWatchList}
-                      /></div>
-                    ) : (
-                      <div onClick={() => getWatchList(token)}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action={'add'}
-                        getWatchList={getWatchList}
-                      /></div>
-                    )
-                  }
-                  <button
-                    className={`${isOnShopCartList ? 'nm-inset-medium' : 'nm-flat-medium hover:nm-flat-soft'} w-full text-black rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-extrabold`}
-                    onClick={() => { handleShopCart(isOnShopCartList ? 'remove' : 'add') }}
-                  >
-                    {isOnShopCartList ? 'REMOVE FROM CART' : 'ADD TO CART'}
-                  </button>
+                  <WatchlistButton land={specificAssetSelected} />
+                  {/* Add to Cart Button */}
+                  {specificAssetSelected.current_price_eth ? (
+                    <CartButton landData={specificAssetSelected} classname="mt-3 font-bold py-3" textSize="sm" />
+                  ) : (
+                    <button className={`nm-flat-soft text-black w-full rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold bg-grey-dark`}>
+                      {'NOT LISTED'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>)

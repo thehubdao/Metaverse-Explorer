@@ -37,36 +37,11 @@ const HotDealsCard = ({
   metaverse,
   name,
 }: Props) => {
-  const [watchlist, setWatchlist] = useState<any>()
-  const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account)
-
-  const getWatchList = async (token: string) => {
-
-
-    const watchlistRequest = await axios.get(
-      `${process.env.ITRM_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
-  }
-
-  useEffect(() => {
-    if (!address) return
-    getWatchList(token)
-  }, [address])
-
   return (
     <>
       {apiData &&
         landCoords && (
-          <div className="bg-grey-bone rounded-2xl  flex w-[180px] h-[full] shadow-lg mb-6">
+          <div className="bg-grey-bone rounded-2xl flex w-[180px] h-[full] shadow-lg mb-6">
             <div className='w-full'>
               <div className={`h-fit relative`}>
                 <OptimizedImage
@@ -110,7 +85,12 @@ const HotDealsCard = ({
                   <p className="font-semibold text-xs  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
                 </div>
                 <div className=" items-center justify-center mt-3">
-                  <CartButton />
+                  <CartButton
+                    landData={apiData}
+                    classname="w-[160px] font-semibold py-2"
+                    textSize="[10px]"
+                    addIcon
+                  />
                 </div>
 
                 <div className="flex justify-center my-3 gap-5 font-bold">

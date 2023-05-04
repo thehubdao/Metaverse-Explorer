@@ -3,35 +3,26 @@ import { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import Image from "next/image";
 import { useAccount } from 'wagmi'
-
 import {
-	convertETHPrediction,
-	fetchLandList,
-} from '../lib/valuation/valuationUtils'
-import {
-	ICoinPrices,
-	LandListAPIResponse,
+	ICoinPrices, LandListAPIResponse,
 } from '../lib/valuation/valuationTypes'
 import { PriceList } from '../components/General'
 import { IAPIData, IPredictions } from '../lib/types'
-import { useRouter } from 'next/router'
 import { typedKeys } from '../lib/utilities'
 import PortfolioList from '../components/Portfolio/PortfolioList'
-import { SocialMediaOptions } from '../lib/socialMediaOptions'
-import { ethers } from 'ethers'
-import { Chains } from '../lib/chains'
 import { Metaverses } from "../lib/enums"
-import { getAxieLands, getUserNFTs } from '../lib/nftUtils'
-import { getAddress } from 'ethers/lib/utils'
 import { Metaverse, metaverseObject } from '../lib/metaverse'
 import GeneralSection from '../components/GeneralSection'
 import Footer from '../components/General/Footer'
 import ConnectButton from '../components/ConnectButton';
 import NoLands from '../components/Portfolio/NoLands';
-import { printAlchemy } from '../lib/alchemyProvider';
+// import { printAlchemy } from '../lib/alchemyProvider';
 import SpecificLandModal from '../components/Valuation/SpecificLandModal';
 import { findHeatmapLand } from '../lib/heatmap/findHeatmapLand';
 import { getCoingeckoPrices } from '../backend/services/openSeaDataManager';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
+import { fetchPortfolio } from '../state/portfolio';
+import { Loader } from '../components';
 
 interface CardData {
 	apiData: IAPIData;
@@ -61,70 +52,29 @@ const headerList = [
 ];
 
 const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
-	const { query, push } = useRouter()
+	const { address } = useAccount()
+
+	const prtfolio = useAppSelector((state) => state.portfolio)
+	const [metaverse, setMetaverse] = useState(Metaverses.ALL)
 
 	const initialWorth = {
 		ethPrediction: 0,
 		usdPrediction: 0,
 	}
-	const { address } = useAccount()
-	/* const { address, chainId } = useAppSelector((state) => state.account) */
-	const [copiedText, setCopiedText] = useState(false)
-	const [metaverse, setMetaverse] = useState(Metaverses.ALL)
 
-	const [totalWorth, setTotalWorth] = useState<IPredictions>(initialWorth)
-	const [totalAssets, setTotalAssets] = useState(0)
-	const [alreadyFetched, setAlreadyFetched] = useState(false)
+	// Portfolio data
 	const [lands, setLands] = useState<Record<Metaverse, LandListAPIResponse>>()
-	const [loading, setLoading] = useState(true)
+	const [totalLands, setTotalLands] = useState<number>(0)
+	const [totalWorth, setTotalWorth] = useState<{ ethPrediction: number, usdPrediction: number }>(initialWorth)
 
 	//Land Modal (and card data)
 	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
 	const [specificLandSelected, setSpecificLandSelected] = useState<CardData>();
 
-	const socialMedia = SocialMediaOptions(
-		undefined,
-		undefined,
-		undefined,
-		address
-	)
-
 	const metaverseLabels: Record<Metaverse, string> = {
 		sandbox: "The Sandbox",
 		decentraland: "Decentraland",
 		"somnium-space": "Somnium Space"
-	}
-
-	const externalWallet = query.wallet
-
-	/* 	const copyLink = () => {
-			navigator.clipboard.writeText(
-				'https://app.metagamehub.io/portfolio?wallet=' + address
-			)
-			// Display Feedback Text
-	
-			setCopiedText(true)
-			setTimeout(() => {
-				setCopiedText(false)
-			}, 1100)
-		} */
-
-	// Resetting state when Wallet Changes
-	const resetState = () => {
-		setCopiedText(false)
-		setLoading(true)
-		setTotalWorth(initialWorth)
-		setTotalAssets(0)
-		setLands(undefined)
-	}
-
-	const formatAddress = (address: string) => {
-		// If Ronin Address
-		if (address.startsWith('ronin:')) {
-			return getAddress(address.substring(address.indexOf(':') + 1))
-		}
-		if (address.startsWith('0x')) return getAddress(address)
-		return getAddress('0x0000000000000000000000000000000000000000')
 	}
 
 	const handleSpecificLandData = (
@@ -148,114 +98,15 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	}
 
 	useEffect(() => {
-		if (externalWallet && alreadyFetched) return
-		setAlreadyFetched(true)
-
-		const providerEthereum = new ethers.providers.InfuraProvider(
-			Chains.ETHEREUM_MAINNET.chainId,
-			'03bfd7b76f3749c8bb9f2c91bdba37f3'
-		)
-
-		const providerMatic = new ethers.providers.InfuraProvider(
-			Chains.MATIC_MAINNET.chainId,
-			'03bfd7b76f3749c8bb9f2c91bdba37f3'
-		)
-
-		// Requesting and Formatting Assets
-		const setPortfolioAssets = async () => {
-			resetState()
-			if (!address && !externalWallet) return setLoading(false)
-
-			// Infura/ Axie Market API Call
-			try {
-				await Promise.all(
-					typedKeys(metaverseObject).map(async (metaverse) => {
-						let rawIdsEthereum: string[] | undefined
-						let rawIdsMatic: string[] | undefined
-						if (/* metaverse === 'axie-infinity' */ false) {
-							rawIdsEthereum = await getAxieLands(
-								formatAddress(
-									(externalWallet as string) ?? address
-								)
-							)
-						} else {
-							rawIdsEthereum = await getUserNFTs(
-								providerEthereum,
-								'Ethereum',
-								formatAddress((externalWallet as string) ?? address),
-								metaverse
-							)
-
-							rawIdsMatic = await getUserNFTs(
-								providerMatic,
-								'Polygon',
-								formatAddress((externalWallet as string) ?? address),
-								metaverse
-							)
-						}
-						if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) return
-
-						// LandList Call
-						let metaverseLandsObjectEthereum = {}
-						let metaverseLandsObjectMatic = {}
-
-						if (rawIdsEthereum && rawIdsEthereum.length > 0)
-							metaverseLandsObjectEthereum = await fetchLandList(metaverse, rawIdsEthereum)
-
-						if (rawIdsMatic && rawIdsMatic.length > 0)
-							metaverseLandsObjectMatic = await fetchLandList(metaverse, rawIdsMatic)
-
-
-						const metaverseLandsObject: any = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic }
-
-						// Adding Total Worth
-						const totalMvWorth = { usd: 0, eth: 0 }
-						typedKeys(metaverseLandsObject).forEach((land) => {
-							totalMvWorth.usd += convertETHPrediction(
-								prices,
-								metaverseLandsObject[land].eth_predicted_price,
-								metaverse
-							).usdPrediction
-							totalMvWorth.eth +=
-								metaverseLandsObject[land].eth_predicted_price
-						})
-
-						// Setting Lands
-						setLands((previous) => {
-							return {
-								...previous!,
-								[metaverse]: metaverseLandsObject,
-							}
-						})
-						// Setting Asset Number
-						setTotalAssets(
-							(previous) =>
-								previous +
-								typedKeys(metaverseLandsObject).length
-						)
-
-						// Adding the worth of each metaverse into the totalWorth
-						setTotalWorth((previousWorth) => ({
-							ethPrediction:
-								previousWorth.ethPrediction + totalMvWorth.eth,
-							usdPrediction:
-								previousWorth.usdPrediction + totalMvWorth.usd,
-						}))
-					})
-				)
-				setLoading(false)
-			} catch (err) {
-				console.log(err)
-			}
+		setLands({ sandbox: {}, decentraland: {}, "somnium-space": {} })
+		setTotalLands(0)
+		setTotalWorth(initialWorth)
+		if (address === prtfolio.currentAddress) {
+			setLands(prtfolio.list)
+			setTotalLands(prtfolio.length)
+			setTotalWorth(prtfolio.totalWorth)
 		}
-
-		setPortfolioAssets()
-	}, [externalWallet, address])
-
-	useEffect(() => {
-		if (address)
-			printAlchemy(address)
-	}, [])
+	}, [address, prtfolio.length])
 
 	return (
 		<>
@@ -305,7 +156,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 					<div className="flex space-x-8 w-full items-stretch justify-end max-w-2xl min-w-max">
 						<div className="flex flex-col space-y-5 items-center justify-end nm-flat-hard py-3 px-7 rounded-3xl bg-grey-bone">
-							<p className=" font-black text-3xl">{totalAssets}</p>
+							<p className=" font-black text-3xl">{totalLands}</p>
 							<p className="text-sm">Total LANDs owned</p>
 						</div>
 
@@ -317,93 +168,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 				</div>
 
-				<div className='mx-16 mb-24'>
-					<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
-						{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
-							<button
-								key={key}
-								type="button"
-								className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
-								onClick={() => setMetaverse(Metaverses[key])}
-							>
-								{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
-								{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
-								{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
-								{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
-
-								{Metaverses[key].toUpperCase()}
-							</button>
-						))}
-					</div>
-				</div>
-
-				{/* Lands Grid */}
-				{lands && metaverse === Metaverses.ALL &&
-					typedKeys(metaverseObject).map(
-						(metaverse, index) =>
-							lands[metaverse] &&
-							typedKeys(lands[metaverse]).length > 0 && (
-								<div key={metaverse} className="mb-8 sm:mb-12">
-									<PortfolioList
-										metaverse={metaverse}
-										lands={lands[metaverse]}
-										prices={prices}
-										handleSpecificLandData={handleSpecificLandData}
-									/>
-								</div>
-							)
-					)}
-
-				{lands && metaverse === Metaverses.SANDBOX && (
-					lands["sandbox"]
-						? (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"sandbox"}
-									lands={lands["sandbox"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
-						) : (
-							<NoLands />
-						)
-				)}
-
-				{lands && metaverse === Metaverses.DECENTRALAND && (
-					lands["decentraland"]
-						? (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"decentraland"}
-									lands={lands["decentraland"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
-						) : (
-							<NoLands />
-						)
-				)}
-
-				{lands && metaverse === Metaverses.SOMNIUM && (
-					lands["somnium-space"]
-						? (
-							<div key={metaverse} className="mb-8 sm:mb-12">
-								<PortfolioList
-									metaverse={"somnium-space"}
-									lands={lands["somnium-space"]}
-									prices={prices}
-									handleSpecificLandData={handleSpecificLandData}
-								/>
-							</div>
-
-						) : (
-							<NoLands />
-						)
-				)}
-
-				{!address && (
+				{!address ? (
 					<div className="flex flex-col justify-center items-center mt-28">
 						{/* Auth Button */}
 						<Image
@@ -416,7 +181,98 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						<p className='text-grey-icon font-light text-2xl pt-6'>Please log in to show your portfolio</p>
 						<ConnectButton />
 					</div>
-				)}
+				) : (<>
+					<div className='mx-16 mb-24'>
+						<div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-grey-panel'>
+							{(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
+								<button
+									key={key}
+									type="button"
+									className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
+									onClick={() => setMetaverse(Metaverses[key])}
+								>
+									{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
+									{Metaverses[key] === Metaverses.DECENTRALAND && <img src="/images/decentraland-mana-logo.png" className='h-6 w-6 mr-4' />}
+									{/* {Metaverses[key] === Metaverses.AXIE && <img src="/images/axie-infinity-axs-logo.png" className='h-6 w-6 mr-4' />} */}
+									{Metaverses[key] === Metaverses.SOMNIUM && <img src="/images/somnium-space-cube-logo.webp" className='h-6 w-6 mr-4' />}
+
+									{Metaverses[key].toUpperCase()}
+								</button>
+							))}
+						</div>
+					</div>
+
+					{/* Lands Grid */}
+					{lands && metaverse === Metaverses.ALL &&
+						typedKeys(metaverseObject).map(
+							(metaverse, index) =>
+								lands[metaverse] &&
+								typedKeys(lands[metaverse]).length > 0 && (
+									<div key={metaverse} className="mb-8 sm:mb-12">
+										<PortfolioList
+											metaverse={metaverse}
+											lands={lands[metaverse]}
+											prices={prices}
+											handleSpecificLandData={handleSpecificLandData}
+										/>
+									</div>
+								)
+						)}
+
+					{lands && metaverse === Metaverses.SANDBOX && (
+						lands["sandbox"]
+							? (
+								<div key={metaverse} className="mb-8 sm:mb-12">
+									<PortfolioList
+										metaverse={"sandbox"}
+										lands={lands["sandbox"]}
+										prices={prices}
+										handleSpecificLandData={handleSpecificLandData}
+									/>
+								</div>
+							) : (
+								<NoLands />
+							)
+					)}
+
+					{lands && metaverse === Metaverses.DECENTRALAND && (
+						lands["decentraland"]
+							? (
+								<div key={metaverse} className="mb-8 sm:mb-12">
+									<PortfolioList
+										metaverse={"decentraland"}
+										lands={lands["decentraland"]}
+										prices={prices}
+										handleSpecificLandData={handleSpecificLandData}
+									/>
+								</div>
+							) : (
+								<NoLands />
+							)
+					)}
+
+					{lands && metaverse === Metaverses.SOMNIUM && (
+						lands["somnium-space"]
+							? (
+								<div key={metaverse} className="mb-8 sm:mb-12">
+									<PortfolioList
+										metaverse={"somnium-space"}
+										lands={lands["somnium-space"]}
+										prices={prices}
+										handleSpecificLandData={handleSpecificLandData}
+									/>
+								</div>
+
+							) : (
+								<NoLands />
+							)
+					)}
+					{/* Loader component */}
+					{prtfolio.isLoading && prtfolio.length == 0 && <div className='w-full flex flex-col justify-center items-center gap-3'>
+						<Loader color='blue' size={60} />
+						<p className='text-grey-content text-xs font-semibold'>Loading lands...</p>
+					</div>}
+				</>)}
 
 				<div className='mt-60'>
 					<Footer

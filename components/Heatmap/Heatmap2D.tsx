@@ -18,6 +18,7 @@ import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import { formatLand } from '../../lib/heatmapSocket'
 import { ValuationState } from '../../pages/valuation'
+import { useAppSelector } from '../../state/hooks'
 
 
 
@@ -84,6 +85,9 @@ const Heatmap2D = ({
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
+  const wList = useAppSelector((state) => state.watchlist.list)
+  const portfolioLands = useAppSelector((state) => state.portfolio.list)
+
   const CHUNK_SIZE = 32
   const TILE_SIZE = 64
   const BORDE_SIZE = 0
@@ -115,6 +119,9 @@ const Heatmap2D = ({
       let name = ''
       land.coords.y *= -1
 
+      if(portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
+      if(wList[metaverse as keyof typeof wList][land.tokenId]) land.watchlist = true
+
       if (land.coords) {
         name = land.coords.x + ',' + land.coords.y
       }
@@ -122,6 +129,7 @@ const Heatmap2D = ({
 
       let value = land
       let tile: any
+
       tile = filteredLayer(
         value.coords.x,
         value.coords.y,
@@ -387,6 +395,12 @@ const Heatmap2D = ({
     for (const key in chunks) {
       for (const child of chunks[key].children) {
         if (!lands[child.name]) continue
+
+        if(portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
+        else if (lands[child.name].portfolio) delete lands[child.name].portfolio
+
+        if(wList[metaverse as keyof typeof wList][lands[child.name].tokenId]) lands[child.name].watchlist = true
+        else if (lands[child.name].watchlist) delete lands[child.name].watchlist
         let tile: any = filteredLayer(
           child.landX,
           child.landY,
@@ -398,7 +412,7 @@ const Heatmap2D = ({
         let { color } = tile
         if (child.name === `${x},${y}`) {
           //! SELECTED COLOR
-          child.tint = 0x0000FF
+          child.tint = 0xFFFFFF
         } else {
           child.tint = color.includes('rgb')
           ? rgbToHex(color.split('(')[1].split(')')[0])
