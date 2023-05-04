@@ -1,7 +1,7 @@
-import { useAccount } from 'wagmi'
-
+import { useAccount, useSwitchNetwork } from 'wagmi'
 import ConnectButton from "../ConnectButton"
 import Footer from '../General/Footer'
+import { useEffect } from 'react'
 
 const Card = ({ option }: { option: { title: string, apy: number, period: number } }) => {
   const { title, apy, period } = option
@@ -46,7 +46,13 @@ const stakeOptions = [
 ]
 
 const StakeEthereum = () => {
+  const { switchNetwork } = useSwitchNetwork({ throwForSwitchChainNotSupported: true })
   const { address } = useAccount()
+
+  useEffect(() => {
+      switchNetwork!(1)
+      return ()=>{switchNetwork!(137)}
+  }, [])
 
   return (
     <div className='flex flex-col justify-center items-center'>
