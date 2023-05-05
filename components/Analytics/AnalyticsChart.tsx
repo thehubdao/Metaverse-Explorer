@@ -18,6 +18,7 @@ interface Props {
   data: ChartData[]
   fetching: boolean
   label: string
+  smallSize?: boolean
   backgroundHexa?: string
 }
 
@@ -27,7 +28,8 @@ const AnalyticsChart = ({
   metaverse,
   prices,
   fetching,
-  backgroundHexa
+  backgroundHexa,
+  smallSize
 }: Props) => {
   const [symbol, setSymbol] = useState<keyof typeof chartSymbolOptions>('ETH')
   const intervalLabels = {
@@ -53,7 +55,7 @@ const AnalyticsChart = ({
     if (!chartElement.current) return
     const chart = createChart(chartElement.current, {
       width: chartElement.current.clientWidth,
-      height: 197,
+      height: smallSize ? 103 : 197,
       timeScale: {
         fixLeftEdge: true,
         fixRightEdge: true,
