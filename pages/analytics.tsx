@@ -299,7 +299,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                       {chartRoutes.map((element, index) => {
                         if (selectedFilters.includes(element.label) || noFilters === 0) {
                           return (
-                            <li key={index} className='relative nm-flat-medium p-8 break-inside-avoid rounded-xl bg-[#F9FAFB]'>
+                            <li key={index} className='relative p-8 break-inside-avoid rounded-xl bg-[#F9FAFB]'>
                               <div className='flex flex-row flex-nowrap items-baseline'>
                                 <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
                                 <h4 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-base font-bold flex h-[70px] align-middle">
