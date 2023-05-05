@@ -1,4 +1,4 @@
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Scrollbar, A11y } from 'swiper';
 import { Metaverse } from '../../../lib/metaverse'
 import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
@@ -29,7 +29,7 @@ function NextButton({ isLeft }: InextButton) {
       } else {
         swiper.slideNext();
       }
-    }} className={`absolute top-2/4 ${isLeft ? 'rotate-180' : 'right-0'} -translate-y-2/4 z-10 cursor-pointer`}>
+    }} className={`absolute top-2/4 ${isLeft ? 'rotate-180 left-0' : 'right-0'} -translate-y-2/4 z-10 cursor-pointer bg-white p-2 rounded-l-lg select-none`}>
       <Image src={'/images/icons/next.svg'} alt={'Next slide'} width={8} height={16} />
     </div>
   )
@@ -54,37 +54,35 @@ const HotDeals = ({ metaverse }: Props) => {
     waitingData(metaverse);
   }, [metaverse]);
 
-  useEffect(() => {
-    // console.log(topPicks, 'toppicks');
-  }, [topPicks]);
-
 
   return (
     <div className='relative w-full'>
       <Swiper
         modules={[Scrollbar, A11y]}
-        spaceBetween={10}
-        slidesPerView={6}
+        spaceBetween={25}
+        slidesPerView='auto'
         scrollbar={{ draggable: true }}
+        style={{ padding: '0px 10px' }}
       >
-        <ul>
-          {metaverse &&
-            topPicks.map((land: any, index: number) => {
-              return (
-                <SwiperSlide key={index}>
-                  <HotDealsCard
-                    metaverse={metaverse}
-                    apiData={land}
-                    landCoords={{
-                      x: land.coords ? land?.coords.x : land?.center.x,
-                      y: land?.coords ? land?.coords.y : land?.center.y,
-                    }}
-                    name={land.name}
-                  />
-                </SwiperSlide>
-              )
-            })}
-        </ul>
+        {metaverse &&
+          topPicks.map((land: any, index: number) => {
+            return (
+              <SwiperSlide
+                key={index}
+                style={{ width: '180px' }}
+              >
+                <HotDealsCard
+                  metaverse={metaverse}
+                  apiData={land}
+                  landCoords={{
+                    x: land.coords ? land?.coords.x : land?.center.x,
+                    y: land?.coords ? land?.coords.y : land?.center.y,
+                  }}
+                  name={land.name}
+                />
+              </SwiperSlide>
+            )
+          })}
         <NextButton isLeft />
         <NextButton />
       </Swiper>
