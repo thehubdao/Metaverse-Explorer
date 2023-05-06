@@ -41,7 +41,7 @@ const HotDealsCard = ({
     <>
       {apiData &&
         landCoords && (
-          <div className="bg-grey-bone rounded-2xl flex w-[180px] h-[full] shadow-lg mb-6">
+          <div className="bg-grey-bone rounded-2xl flex w-[180px] h-full shadow-lg mb-6">
             <div className='w-full'>
               <div className={`h-fit relative`}>
                 <OptimizedImage
@@ -87,7 +87,7 @@ const HotDealsCard = ({
                 <div className=" items-center justify-center mt-3">
                   <CartButton
                     landData={apiData}
-                    classname="w-[160px] font-semibold py-2"
+                    classname="w-[87%] font-semibold py-2"
                     textSize="[10px]"
                     addIcon
                   />
