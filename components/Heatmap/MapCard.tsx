@@ -1,6 +1,6 @@
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Snackbar, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineExpand } from "react-icons/ai";
+import { AiFillHeart, AiFillQuestionCircle, AiOutlineExpand } from "react-icons/ai";
 import { BsTwitter } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
@@ -97,12 +97,6 @@ const MapCard = ({
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
-  const handleShopCart = (action: 'add' | 'remove') => {
-    if (action === 'add')
-      dispatch(addToCart({ land: apiData, address: address }))
-    if (action === 'remove')
-      dispatch(removeFromCart({ land: apiData, address: address }))
-  }
 
   const options = SocialMediaOptions(
     apiData?.tokenId,
@@ -225,7 +219,28 @@ const MapCard = ({
                 )}
               </h3>
               <div>
-                <p className="text-sm text-grey-icon mb-3">Our Price Estimation:</p>
+                <div className="text-sm text-grey-icon mb-3 flex gap-2 items-center">
+                  Our Price Estimation:
+                  <Tooltip title={<span className="whitespace-pre-line">
+                    {`Stats
+										MAPE:
+										The Mean Absolute Percentage Error is the average forecast absolute error scaled to percentage units, where absolute errors allow to avoid the positive and negative errors cancelling.
+										R-Squared:
+										The R-Squared also known as coefficient of determination is the proportion of the variation between the forecasted valuations and actual selling prices. It ranges from 0 to 1 where 1 indicates the forcasted values match perfectly with actual values.
+										Maximum:
+										Maximum forecasted value that the trained model returns
+										Minimum:
+										Minimum forecasted value that the trained model returns
+									`}
+                  </span>}
+                    placement="bottom-start"
+                    arrow
+                  >
+                    <div>
+                      <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                    </div>
+                  </Tooltip>
+                </div>
                 {/* Price List */}
                 {predictions ? (
                   <div className="w-fit">

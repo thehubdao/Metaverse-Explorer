@@ -62,8 +62,8 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
           className='flex border-t border-l border-white/10 shadow-blck rounded-xl justify-between items-center p-5 min-w-max h-full bg-grey-panel'
         >
           <div className="flex flex-col space-y-1">
-            <div className='flex items-center gap-x-2 mb-4'>
-              <Tooltip title={'Mean Absolute Percentage Error'} placement="bottom-start" arrow>
+            <div className='flex items-center gap-x-2'>
+              <Tooltip title={'The Mean Absolute Percentage Error is the average forecast absolute error scaled to percentage units, where absolute errors allow to avoid the positive and negative errors cancelling.'} placement="bottom-start" arrow>
                 <div>
                   <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
                 </div>
@@ -72,8 +72,8 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
                 MAPE :
               </p>
             </div>
-            <div className='flex items-center gap-x-2 mb-4'>
-              <Tooltip title={'coefficient of determination'} placement="bottom-start" arrow>
+            <div className='flex items-center gap-x-2'>
+              <Tooltip title={'The R-Squared also known as coefficient of determination is the proportion of the variation between the forecasted valuations and actual selling prices. It ranges from 0 to 1 where 1 indicates the forcasted values match perfectly with actual values.'} placement="bottom-start" arrow>
                 <div>
                   <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
                 </div>
@@ -82,7 +82,7 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
                 R-Squared :
               </p>
             </div>
-            <div className='flex items-center gap-x-2 mb-4'>
+            <div className='flex items-center gap-x-2'>
               <Tooltip title={'Maximum forecasted value that the trained model returns'} placement="bottom-start" arrow>
                 <div>
                   <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
@@ -92,7 +92,7 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
                 MAXIMUM :
               </p>
             </div>
-            <div className='flex items-center gap-x-2 mb-4'>
+            <div className='flex items-center gap-x-2'>
               <Tooltip title={'Minimum forecasted value that the trained model returns'} placement="bottom-start" arrow>
                 <div>
                   <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
