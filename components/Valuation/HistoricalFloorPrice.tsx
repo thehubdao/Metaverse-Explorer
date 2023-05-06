@@ -5,8 +5,6 @@ import { ICoinPrices } from "../../lib/valuation/valuationTypes"
 
 import { AnalyticsChart } from "../Analytics"
 import { fetchChartData } from "../Analytics/fetchChartData"
-import { Tooltip } from "@mui/material"
-import { AiFillQuestionCircle } from "react-icons/ai"
 
 interface HistoricalFloorPriceProps {
   metaverse: Metaverse
@@ -62,6 +60,7 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
             metaverse={metaverse}
             prices={coinPrices}
             backgroundHexa={'#E9ECF6'}
+            smallSize
           />
         </div>
       </div>

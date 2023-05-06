@@ -282,14 +282,14 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			</Head>
 
 			{/* Top Padding or Image */}
-			<div className={`relative p-0 mb-24 w-full h-[400px]`}>
+			{metaverse ? <div className={`relative p-0 mb-24 w-full h-[400px]`}>
 				<Image
 					src="/images/land_header.png"
 					objectFit={'cover'}
 					alt='land header'
 					layout="fill"
 				/>
-			</div>
+			</div> : <div className="pt-32 w-full" />}
 
 			{/* General Section Layout */}
 			<GeneralSection
@@ -553,12 +553,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						<>
 							<div className="flex items-center justify-center p-8 mt-7">
 								<div className="flex flex-col justify-center space-y-3 max-w-xl text-center">
-									<p className="text-grey-content font-bold lg:text-3xl text-2xl text-center">{metaverseLabels[metaverse]} Floor Listings <Image src='/images/icons/hot-icon.svg' width={24} height={26} alt="Hot Deals" className=''/></p>
+									<p className="text-grey-content font-bold lg:text-3xl text-2xl text-center">{metaverseLabels[metaverse]} Floor Listings <Image src='/images/icons/hot-icon.svg' width={24} height={26} alt="Hot Deals" className='' /></p>
 									<p className="font-medium text-cente">Undervalued floor listings</p>
 								</div>
 							</div>
 							<div className="flex items-center justify-center p-8 mt-7">
-								<HotDeals metaverse={metaverse}/>
+								<HotDeals metaverse={metaverse} />
 							</div>
 						</>
 					)}
