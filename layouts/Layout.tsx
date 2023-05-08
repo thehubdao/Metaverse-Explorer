@@ -20,7 +20,7 @@ const list = [
 			ref: "/valuation",
 			isExternal: false,
 		},
-		label: "LAND Valuation",
+		label: "Metaverse explorer",
 		icon: "b",
 	},
 	/* {

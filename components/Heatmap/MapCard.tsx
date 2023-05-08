@@ -10,7 +10,7 @@ import { SocialMediaOptions } from "../../lib/socialMediaOptions";
 import { IAPIData, IPredictions } from "../../lib/types";
 import { getState } from "../../lib/utilities";
 import { handleLandName } from "../../lib/valuation/valuationUtils";
-import { ValuationState } from "../../pages/valuation";
+import { ValuationState } from "../../pages/metaverseexplorer";
 import { useAppSelector } from "../../state/hooks";
 import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
