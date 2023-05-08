@@ -17,7 +17,7 @@ import { Container, Texture } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import { formatLand } from '../../lib/heatmapSocket'
-import { ValuationState } from '../../pages/valuation'
+import { ValuationState } from '../../pages/metaverseexplorer'
 import { useAppSelector } from '../../state/hooks'
 
 

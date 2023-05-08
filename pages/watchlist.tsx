@@ -19,7 +19,7 @@ import { fetchWatchlist } from '../state/watchlist'
 
 const headerList = [
   {
-    name: "Land Valuation",
+    name: "Heatmap",
     route: "valuation",
   },
   {

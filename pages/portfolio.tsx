@@ -34,7 +34,7 @@ interface CardData {
 
 const headerList = [
 	{
-		name: "Land Valuation",
+		name: "Heatmap",
 		route: "valuation",
 	},
 	{

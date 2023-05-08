@@ -34,7 +34,7 @@ interface Props {
 
 const headerList = [
   {
-    name: "Land Valuation",
+    name: "Heatmap",
     route: "valuation",
   },
   {
