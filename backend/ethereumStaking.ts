@@ -91,12 +91,11 @@ export const stakeMGH = async (provider: providers.Web3Provider | undefined, add
     return transaction
 }
 
-export const unstakeMGH = async (provider: providers.Web3Provider | undefined, address: string | undefined, unstakeInput: string, poolId: number, max: boolean | undefined) => {
-    if (!provider || !address) {
+export const unstakeMGH = async (signer: providers.Web3Provider | undefined, address: string | undefined, unstakeInput: string, poolId: number, max: boolean | undefined) => {
+    if (!signer || !address) {
         return
     }
 
-    const signer = provider.getSigner()
 
     const contract = new ethers.Contract(
         StakingContract,
