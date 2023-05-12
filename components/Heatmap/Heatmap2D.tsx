@@ -19,6 +19,7 @@ import Loader from '../Loader'
 import { formatLand } from '../../lib/heatmapSocket'
 import { ValuationState } from '../../pages/metaverseexplorer'
 import { useAppSelector } from '../../state/hooks'
+import { useAccount } from "wagmi";
 
 
 
@@ -85,7 +86,7 @@ const Heatmap2D = ({
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
-  const userConnected = useAppSelector((state) => state.account.connected)
+  const { address } = useAccount()
   const wList = useAppSelector((state) => state.watchlist.list)
   const portfolioLands = useAppSelector((state) => state.portfolio.list)
 
@@ -119,7 +120,7 @@ const Heatmap2D = ({
     let name = ''
     land.coords.y *= -1
 
-    if (userConnected) {
+    if (address) {
       if (portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
       if (wList[metaverse as keyof typeof wList][land.tokenId]) land.watchlist = true
     }
@@ -397,7 +398,7 @@ const Heatmap2D = ({
       for (const child of chunks[key].children) {
         if (!lands[child.name]) continue
 
-        if (userConnected) {
+        if (address) {
           if (portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
           else if (lands[child.name].portfolio) delete lands[child.name].portfolio
 
