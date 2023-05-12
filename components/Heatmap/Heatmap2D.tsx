@@ -85,6 +85,7 @@ const Heatmap2D = ({
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
 
+  const userConnected = useAppSelector((state) => state.account.connected)
   const wList = useAppSelector((state) => state.watchlist.list)
   const portfolioLands = useAppSelector((state) => state.portfolio.list)
 
@@ -112,74 +113,74 @@ const Heatmap2D = ({
   }
 
   const renderHandler = async ([land, landKeyIndex]: any) => {
-    try {
-      land = formatLand(land, metaverse)
-      landIndex = Number(landKeyIndex)
-      let localChunks: any = chunks
-      let name = ''
-      land.coords.y *= -1
+    land = formatLand(land, metaverse)
+    landIndex = Number(landKeyIndex)
+    let localChunks: any = chunks
+    let name = ''
+    land.coords.y *= -1
 
-      if(portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
-      if(wList[metaverse as keyof typeof wList][land.tokenId]) land.watchlist = true
+    if (userConnected) {
+      if (portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
+      if (wList[metaverse as keyof typeof wList][land.tokenId]) land.watchlist = true
+    }
 
-      if (land.coords) {
-        name = land.coords.x + ',' + land.coords.y
-      }
-      mapData[name] = land
+    if (land.coords) {
+      name = land.coords.x + ',' + land.coords.y
+    }
+    mapData[name] = land
 
-      let value = land
-      let tile: any
+    let value = land
+    let tile: any
 
-      tile = filteredLayer(
-        value.coords.x,
-        value.coords.y,
-        globalFilter,
-        globalPercentFilter,
-        globalLegendFilter,
-        land
+    tile = filteredLayer(
+      value.coords.x,
+      value.coords.y,
+      globalFilter,
+      globalPercentFilter,
+      globalLegendFilter,
+      land
+    )
+    let { color } = tile
+
+    color = color.includes('rgb')
+      ? rgbToHex(color.split('(')[1].split(')')[0])
+      : '0x' + color.split('#')[1]
+    const border = getBorder(land, metaverse)
+    const border_url = `images/${border}`
+    const texture = border
+      ? await PIXI.Texture.fromURL(border_url, {
+        mipmap: PIXI.MIPMAP_MODES.ON,
+      })
+      : PIXI.Texture.WHITE
+    const rectangle: any = new PIXI.Sprite(texture)
+    const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
+    const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
+    const chunkKey = `${chunkX}:${chunkY}`
+    let chunkContainer = localChunks[chunkKey]
+    rectangle.tint = color
+    rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
+      land?.tile?.type
+    )
+      ? TILE_SIZE
+      : TILE_SIZE - BORDE_SIZE
+    rectangle.name = land.coords.x + ',' + land.coords.y
+    rectangle.landX = land.coords.x
+    rectangle.landY = land.coords.y
+    rectangle.tokenId = land.tokenId
+    rectangle.position.set(
+      land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
+      land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
+    )
+    if (!chunkContainer) {
+      chunkContainer = localChunks[chunkKey] = new Container()
+      chunkContainer.position.set(
+        chunkX * BLOCK_SIZE,
+        chunkY * BLOCK_SIZE
       )
-      let { color } = tile
-
-      color = color.includes('rgb')
-        ? rgbToHex(color.split('(')[1].split(')')[0])
-        : '0x' + color.split('#')[1]
-      const border = getBorder(land, metaverse)
-      const border_url = `images/${border}`
-      const texture = border
-        ? await PIXI.Texture.fromURL(border_url, {
-          mipmap: PIXI.MIPMAP_MODES.ON,
-        })
-        : PIXI.Texture.WHITE
-      const rectangle: any = new PIXI.Sprite(texture)
-      const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
-      const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
-      const chunkKey = `${chunkX}:${chunkY}`
-      let chunkContainer = localChunks[chunkKey]
-      rectangle.tint = color
-      rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
-        land?.tile?.type
-      )
-        ? TILE_SIZE
-        : TILE_SIZE - BORDE_SIZE
-      rectangle.name = land.coords.x + ',' + land.coords.y
-      rectangle.landX = land.coords.x
-      rectangle.landY = land.coords.y
-      rectangle.tokenId = land.tokenId
-      rectangle.position.set(
-        land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
-        land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
-      )
-      if (!chunkContainer) {
-        chunkContainer = localChunks[chunkKey] = new Container()
-        chunkContainer.position.set(
-          chunkX * BLOCK_SIZE,
-          chunkY * BLOCK_SIZE
-        )
-        setChunks(localChunks)
-      }
-      chunkContainer.addChild(rectangle)
-      viewport.addChild(chunkContainer)
-    } catch (e) { }
+      setChunks(localChunks)
+    }
+    chunkContainer.addChild(rectangle)
+    viewport.addChild(chunkContainer)
   }
 
   const onMouseMove = (e: any, currentSprite: any, currentTint: any) => {
@@ -396,11 +397,14 @@ const Heatmap2D = ({
       for (const child of chunks[key].children) {
         if (!lands[child.name]) continue
 
-        if(portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
-        else if (lands[child.name].portfolio) delete lands[child.name].portfolio
+        if (userConnected) {
+          if (portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
+          else if (lands[child.name].portfolio) delete lands[child.name].portfolio
 
-        if(wList[metaverse as keyof typeof wList][lands[child.name].tokenId]) lands[child.name].watchlist = true
-        else if (lands[child.name].watchlist) delete lands[child.name].watchlist
+          if (wList[metaverse as keyof typeof wList][lands[child.name].tokenId]) lands[child.name].watchlist = true
+          else if (lands[child.name].watchlist) delete lands[child.name].watchlist
+        }
+
         let tile: any = filteredLayer(
           child.landX,
           child.landY,
@@ -415,8 +419,8 @@ const Heatmap2D = ({
           child.tint = 0xFFFFFF
         } else {
           child.tint = color.includes('rgb')
-          ? rgbToHex(color.split('(')[1].split(')')[0])
-          : '0x' + color.split('#')[1]
+            ? rgbToHex(color.split('(')[1].split(')')[0])
+            : '0x' + color.split('#')[1]
         }
       }
     }
