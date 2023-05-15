@@ -121,7 +121,7 @@ const Heatmap2D = ({
     land.coords.y *= -1
 
     if (address) {
-      if (portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
+      //if (portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
       if (wList[metaverse as keyof typeof wList][land.tokenId]) land.watchlist = true
     }
 
@@ -399,8 +399,8 @@ const Heatmap2D = ({
         if (!lands[child.name]) continue
 
         if (address) {
-          if (portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
-          else if (lands[child.name].portfolio) delete lands[child.name].portfolio
+          /* if (portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
+          else if (lands[child.name].portfolio) delete lands[child.name].portfolio */
 
           if (wList[metaverse as keyof typeof wList][lands[child.name].tokenId]) lands[child.name].watchlist = true
           else if (lands[child.name].watchlist) delete lands[child.name].watchlist
