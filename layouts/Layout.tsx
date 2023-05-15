@@ -100,11 +100,11 @@ export default function Layout({ children }: LayoutProps) {
 			<main className="w-full min-h-screen pl-32 relative">
 				<div className={`absolute flex top-0 z-50 pr-8 right-10`}>
 					<ConnectButton />
-					{address && <ShoppingCart />}
+					{/* {address && <ShoppingCart />}
 					<DarkModeButton
 					// switchState={switchState}
 					// setSwitchState={setSwitchState}
-					/>
+					/> */}
 				</div>
 				<div >
 					{children}
