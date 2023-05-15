@@ -17,6 +17,9 @@ import { Container, Texture } from 'pixi.js'
 import { getSocketService } from '../../backend/services/SocketService'
 import Loader from '../Loader'
 import { formatLand } from '../../lib/heatmapSocket'
+import { ValuationState } from '../../pages/metaverseexplorer'
+import { useAppSelector } from '../../state/hooks'
+import { useAccount } from "wagmi";
 
 
 
@@ -37,12 +40,6 @@ interface IHeatmap2D {
   filter: MapFilter
   percentFilter: PercentFilter
   legendFilter: LegendFilter
-  onHover: (
-    x: number,
-    y: number,
-    name: string | undefined,
-    owner: string | undefined
-  ) => void
   onClickLand: (landRawData: any) => void
   metaverse: Metaverse
   x: number | undefined
@@ -53,6 +50,7 @@ interface IHeatmap2D {
   maxY: number
   initialX: number
   initialY: number
+  mapState: ValuationState
 }
 
 const loadPhrases = [
@@ -72,20 +70,25 @@ const Heatmap2D = ({
   filter,
   percentFilter,
   legendFilter,
-  onHover,
   onClickLand,
   metaverse,
   x,
   y,
   initialX,
   initialY,
+  mapState
 }: IHeatmap2D) => {
+  const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
   const [map, setMap] = useState<any>()
   const [viewport, setViewport] = useState<any>()
   const [chunks, setChunks] = useState<any>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
   function getRandomInt(max: number) { return Math.floor(Math.random() * max); }
   const [indexLoading, setIndexLoading] = useState<number>(getRandomInt(loadPhrases.length))
+
+  const { address } = useAccount()
+  const wList = useAppSelector((state) => state.watchlist.list)
+  const portfolioLands = useAppSelector((state) => state.portfolio.list)
 
   const CHUNK_SIZE = 32
   const TILE_SIZE = 64
@@ -111,70 +114,117 @@ const Heatmap2D = ({
   }
 
   const renderHandler = async ([land, landKeyIndex]: any) => {
-    try {
-      land = formatLand(land, metaverse)
-      landIndex = Number(landKeyIndex)
-      let localChunks: any = chunks
-      let name = ''
-      land.coords.y *= -1
+    land = formatLand(land, metaverse)
+    landIndex = Number(landKeyIndex)
+    let localChunks: any = chunks
+    let name = ''
+    land.coords.y *= -1
 
-      if (land.coords) {
-        name = land.coords.x + ',' + land.coords.y
+    if (address) {
+      if (portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
+      if (wList[metaverse as keyof typeof wList][land.tokenId]) land.watchlist = true
+    }
+
+    if (land.coords) {
+      name = land.coords.x + ',' + land.coords.y
+    }
+    mapData[name] = land
+
+    let value = land
+    let tile: any
+
+    tile = filteredLayer(
+      value.coords.x,
+      value.coords.y,
+      globalFilter,
+      globalPercentFilter,
+      globalLegendFilter,
+      land
+    )
+    let { color } = tile
+
+    color = color.includes('rgb')
+      ? rgbToHex(color.split('(')[1].split(')')[0])
+      : '0x' + color.split('#')[1]
+    const border = getBorder(land, metaverse)
+    const border_url = `images/${border}`
+    const texture = border
+      ? await PIXI.Texture.fromURL(border_url, {
+        mipmap: PIXI.MIPMAP_MODES.ON,
+      })
+      : PIXI.Texture.WHITE
+    const rectangle: any = new PIXI.Sprite(texture)
+    const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
+    const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
+    const chunkKey = `${chunkX}:${chunkY}`
+    let chunkContainer = localChunks[chunkKey]
+    rectangle.tint = color
+    rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
+      land?.tile?.type
+    )
+      ? TILE_SIZE
+      : TILE_SIZE - BORDE_SIZE
+    rectangle.name = land.coords.x + ',' + land.coords.y
+    rectangle.landX = land.coords.x
+    rectangle.landY = land.coords.y
+    rectangle.tokenId = land.tokenId
+    rectangle.position.set(
+      land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
+      land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
+    )
+    if (!chunkContainer) {
+      chunkContainer = localChunks[chunkKey] = new Container()
+      chunkContainer.position.set(
+        chunkX * BLOCK_SIZE,
+        chunkY * BLOCK_SIZE
+      )
+      setChunks(localChunks)
+    }
+    chunkContainer.addChild(rectangle)
+    viewport.addChild(chunkContainer)
+  }
+
+  const onMouseMove = (e: any, currentSprite: any, currentTint: any) => {
+    if (mapLoadingState) return;
+
+    let { x, y } = viewport.toLocal(e.data.global)
+
+    x = Math.floor(x / TILE_SIZE)
+    y = Math.floor(y / TILE_SIZE)
+
+    const chunkX = Math.floor(x / CHUNK_SIZE)
+    const chunkY = Math.floor(y / CHUNK_SIZE)
+    const chunkKey = `${chunkX}:${chunkY}`
+    let chunkContainer = chunks[chunkKey]
+
+    x = x * TILE_SIZE - chunkX * BLOCK_SIZE
+    y = y * TILE_SIZE - chunkY * BLOCK_SIZE
+
+    const child = chunkContainer?.children.find(
+      (child: any) => child.x === x && child.y === y
+    )
+
+    if (child) {
+      if (child.type == 'dead') {
+        if (currentSprite) {
+          currentSprite.tint = currentTint
+        }
+        return
       }
-      mapData[name] = land
-
-      let value = land
-      let tile: any
-      tile = filteredLayer(
-        value.coords.x,
-        value.coords.y,
-        globalFilter,
-        globalPercentFilter,
-        globalLegendFilter,
-        land
-      )
-      let { color } = tile
-
-      color = color.includes('rgb')
-        ? rgbToHex(color.split('(')[1].split(')')[0])
-        : '0x' + color.split('#')[1]
-      const border = getBorder(land, metaverse)
-      const border_url = `images/${border}`
-      const texture = border
-        ? await PIXI.Texture.fromURL(border_url, {
-          mipmap: PIXI.MIPMAP_MODES.ON,
-        })
-        : PIXI.Texture.WHITE
-      const rectangle: any = new PIXI.Sprite(texture)
-      const chunkX = Math.floor(land.coords.x / CHUNK_SIZE)
-      const chunkY = Math.floor(land.coords.y / CHUNK_SIZE)
-      const chunkKey = `${chunkX}:${chunkY}`
-      let chunkContainer = localChunks[chunkKey]
-      rectangle.tint = color
-      rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(
-        land?.tile?.type
-      )
-        ? TILE_SIZE
-        : TILE_SIZE - BORDE_SIZE
-      rectangle.name = land.coords.x + ',' + land.coords.y
-      rectangle.landX = land.coords.x
-      rectangle.landY = land.coords.y
-      rectangle.tokenId = land.tokenId
-      rectangle.position.set(
-        land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
-        land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
-      )
-      if (!chunkContainer) {
-        chunkContainer = localChunks[chunkKey] = new Container()
-        chunkContainer.position.set(
-          chunkX * BLOCK_SIZE,
-          chunkY * BLOCK_SIZE
-        )
-        setChunks(localChunks)
+      if (currentSprite) {
+        currentSprite.tint = currentTint
+        currentTint = child.tint
       }
-      chunkContainer.addChild(rectangle)
-      viewport.addChild(chunkContainer)
-    } catch (e) { }
+      if (!currentTint) currentTint = child.tint
+      currentSprite = child
+      //! HOVER COLOR
+      currentSprite.tint = 0xdb2777
+    }
+
+    return {
+      currentSprite,
+      currentTint
+    }
   }
 
   useEffect(() => {
@@ -214,6 +264,7 @@ const Heatmap2D = ({
             const chunkY = Math.floor(y / CHUNK_SIZE)
             const chunkKey = `${chunkX}:${chunkY}`
             let chunkContainer = localChunks[chunkKey]
+            //! SANDBOX DEAD COLOR
             rectangle.tint = 0x2d4162
             rectangle.width = rectangle.height =
               TILE_SIZE
@@ -237,6 +288,7 @@ const Heatmap2D = ({
       }
 
       setIsLoading(false)
+      setMapLoadingState(false)
     })
     return () => {
       socketService.disconnect()
@@ -274,73 +326,38 @@ const Heatmap2D = ({
         maxHeight: TILE_SIZE * 800,
       })
       .zoom(TILE_SIZE * 200)
-    /* .clamp({
-        direction: 'all',
-        underflow: 'center'
-    }) */
     map.stage.addChild(viewport)
     document.getElementById('map')?.appendChild(map.view)
     setMap(map)
     setViewport(viewport)
+    viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE)
 
     return () => {
       try { document?.getElementById('map')?.removeChild(map?.view) } catch { }
 
       try { map?.destroy() } catch { }
       try { viewport?.destroy() } catch { }
-
-      onHover(0 / 0, 0 / 0, undefined, undefined)
     }
   }, [metaverse])
 
   useEffect(() => {
     if (!viewport) return
-    viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE)
+
     let currentTint: any
     let currentSprite: any
-    viewport?.on('mousemove', (e: any): any => {
-      let { x, y } = viewport.toLocal(e.data.global)
 
-      x = Math.floor(x / TILE_SIZE)
-      y = Math.floor(y / TILE_SIZE)
+    //* remove existing listeners to viewport before add new listeners
+    viewport.removeListener('mousemove');
+    viewport.removeListener('drag-start');
+    viewport.removeListener('drag-end');
+    viewport.removeListener('click');
 
-      const chunkX = Math.floor(x / CHUNK_SIZE)
-      const chunkY = Math.floor(y / CHUNK_SIZE)
-      const chunkKey = `${chunkX}:${chunkY}`
-      let chunkContainer = chunks[chunkKey]
-
-      x = x * TILE_SIZE - chunkX * BLOCK_SIZE
-      y = y * TILE_SIZE - chunkY * BLOCK_SIZE
-
-      const child = chunkContainer?.children.find(
-        (child: any) => child.x === x && child.y === y
-      )
-      if (child && child.type == 'dead') return
-      if (child) {
-        if (currentSprite) {
-          currentSprite.tint = currentTint
-          currentTint = child.tint
-        }
-        if (!currentTint) currentTint = child.tint
-        currentSprite = child
-        currentSprite.tint = 0xdb2777
-        let currentLand =
-          mapData[`${currentSprite.landX},${currentSprite.landY}`]
-        onHover(
-          currentSprite.landX,
-          currentSprite.landY * -1,
-          currentLand?.name,
-          currentLand?.owner
-        )
-      } else {
-        if (currentSprite && e.target != currentSprite) {
-          currentSprite.tint = currentTint
-          currentSprite = null
-          currentTint = null
-        }
-      }
+    //* add new listeners to viewport
+    viewport.on('mousemove', (e: any) => {
+      let mouseMoveData = onMouseMove(e, currentSprite, currentTint);
+      currentSprite = mouseMoveData?.currentSprite;
+      currentTint = mouseMoveData?.currentTint;
     })
-
     let isDragging = false
     viewport.on('drag-start', () => {
       isDragging = true
@@ -351,11 +368,11 @@ const Heatmap2D = ({
     viewport.on('click', () => {
       if (currentSprite && !isDragging) {
         const tokenId = currentSprite.tokenId
-        currentTint = 4 * 0xff9990
         socketService.getLand(metaverse, tokenId)
+        setMapLoadingState(true)
       }
     })
-  }, [viewport])
+  }, [viewport, mapLoadingState])
 
   useEffect(() => {
     if (map?.renderer) {
@@ -364,7 +381,7 @@ const Heatmap2D = ({
       try {
         viewport.resize(width, height);
       } catch {
-        console.log("error on viewport resize");
+        console.error("error on viewport resize");
       }
     }
   }, [width, height])
@@ -380,6 +397,15 @@ const Heatmap2D = ({
     for (const key in chunks) {
       for (const child of chunks[key].children) {
         if (!lands[child.name]) continue
+
+        if (address) {
+          if (portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
+          else if (lands[child.name].portfolio) delete lands[child.name].portfolio
+
+          if (wList[metaverse as keyof typeof wList][lands[child.name].tokenId]) lands[child.name].watchlist = true
+          else if (lands[child.name].watchlist) delete lands[child.name].watchlist
+        }
+
         let tile: any = filteredLayer(
           child.landX,
           child.landY,
@@ -389,16 +415,20 @@ const Heatmap2D = ({
           lands[child.name]
         )
         let { color } = tile
-        child.tint = color.includes('rgb')
-          ? rgbToHex(color.split('(')[1].split(')')[0])
-          : '0x' + color.split('#')[1]
+        if (child.name === `${x},${y}`) {
+          //! SELECTED COLOR
+          child.tint = 0xFFFFFF
+        } else {
+          child.tint = color.includes('rgb')
+            ? rgbToHex(color.split('(')[1].split(')')[0])
+            : '0x' + color.split('#')[1]
+        }
       }
     }
   }
 
   useEffect(() => {
     if (!chunks || !mapData) return
-
 
     filterUpdate()
   }, [filter, percentFilter, legendFilter, x, y])
@@ -407,33 +437,21 @@ const Heatmap2D = ({
     if (!x || !y) return
 
     try {
-      viewport.snap(x * TILE_SIZE, y * TILE_SIZE, {removeOnComplete: true});
+      viewport.snap(x * TILE_SIZE, y * TILE_SIZE, { time: 2000, ease: 'easeOutCubic', removeOnComplete: true });
     } catch (e) {
       return
     }
-
-    const chunkX = Math.floor(x / CHUNK_SIZE)
-    const chunkY = Math.floor(y / CHUNK_SIZE)
-    const chunkKey = `${chunkX}:${chunkY}`
-    let chunkContainer = chunks[chunkKey]
-
-    x = x * TILE_SIZE - chunkX * BLOCK_SIZE
-    y = y * TILE_SIZE - chunkY * BLOCK_SIZE
-
-    const child = chunkContainer?.children.find(
-      (child: any) => child.x === x && child.y === y
-    )
-    if (!child) return
-    const prevColor = child.tint
-    const prevWidth = child.width
-
-    child.tint = 4 * 0xff9990
-    child.width = child.height = TILE_SIZE - BORDE_SIZE / 3
-    return () => {
-      child.tint = prevColor
-      child.width = child.height = prevWidth
-    }
   }, [x, y])
+
+  useEffect(() => {
+    if (isLoading) {
+      setMapLoadingState(true);
+    } else if (mapState === 'loadingQuery') {
+      setMapLoadingState(true);
+    } else {
+      setMapLoadingState(false);
+    }
+  }, [mapState, isLoading])
 
   return (
     <>

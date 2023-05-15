@@ -9,7 +9,7 @@ export const WalletModal = ({ onDismiss }: any) => {
     const disconnectWallet = useDisconnect()
     const router = useRouter()
     const network = useNetwork()
-    const { switchNetwork } = useSwitchNetwork()
+    const { switchNetwork } = useSwitchNetwork({ throwForSwitchChainNotSupported: true })
     const { open } = useWeb3Modal()
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export const WalletModal = ({ onDismiss }: any) => {
                     {network?.chain?.id !== 137 && (
                         <button
                             className="py-2 border-solid border-2 rounded-xl border-white hover:border-tahiti hover:text-tahiti"
-                            onClick={async () => {}}
+                            onClick={async () => {switchNetwork!(137)}}
                         >
                             Switch to Polygon
                         </button>

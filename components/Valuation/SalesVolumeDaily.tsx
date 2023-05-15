@@ -72,11 +72,6 @@ const SalesVolumeDaily = ({ coinPrices, metaverse }: Props) => {
     <>
       <div className='flex flex-col h-full'>
         <div className='flex items-center gap-x-2 mb-4'>
-          <Tooltip title={'Daily volume description'} placement="bottom-start" arrow>
-            <div>
-              <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
-            </div>
-          </Tooltip>
           <p className={`text-lg font-semibold text-grey-content font-plus`}>
             Daily Volume:
           </p>

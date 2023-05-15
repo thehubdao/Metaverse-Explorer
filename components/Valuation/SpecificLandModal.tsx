@@ -1,5 +1,4 @@
 import { Tooltip } from "@mui/material";
-import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AiOutlineCompress } from "react-icons/ai";
@@ -17,9 +16,11 @@ import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "./DataComparison/DataComparisonBox";
 import WatchlistButton from "./WatchlistButton";
 import dynamic from "next/dynamic";
-import { UTCTimestamp } from "lightweight-charts";
 import NoData from "../General/NoData";
 import { useAppSelector } from "../../state/hooks";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../state/shopCartList";
+import CartButton from "./CartButton";
 
 export const LandChart = dynamic(() => import('./SpecificLandModal/LandChart'), {
   ssr: false,
@@ -98,9 +99,8 @@ const SpecificLandModal = ({
   landCoords,
   coinPrices
 }: SpecificLandModalProps) => {
-  const [watchlist, setWatchlist] = useState<any>()
+  const dispatch = useDispatch();
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account.accessToken)
   // chart variables
   const [loadingChart, setLoadingChart] = useState<boolean>(false)
   const [landChartData, setLandChartData] = useState<any[]>();
@@ -120,16 +120,16 @@ const SpecificLandModal = ({
     }
   }
 
-  const getWatchList = async (token: string) => {
-    const watchlistRequest = await axios.get(
-      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )}
+  // Shop Cart List controller
+  const shopList = useSelector((state: any) => state.shopCartList)
+  const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
+
+  const handleShopCart = (action: 'add' | 'remove') => {
+    if (action === 'add')
+      dispatch(addToCart({ land: specificAssetSelected, address: address }))
+    if (action === 'remove')
+      dispatch(removeFromCart({ land: specificAssetSelected, address: address }))
+  }
 
   const SteticTimeString = (historyTime?: string) => {
     if (!historyTime) return 'No Data'
@@ -166,9 +166,9 @@ const SpecificLandModal = ({
   )
 
   useEffect(() => {
-    if (!token) return
-    getWatchList(token)
-  }, [address])
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === specificAssetSelected?.tokenId && land.metaverse === specificAssetSelected?.metaverse))
+    setIsOnListSection(isOnShopCartListAux)
+  }, [shopList.length, specificAssetSelected])
 
   useEffect(() => {
     const fetchHistoricFloorPrice = async () => {
@@ -198,28 +198,23 @@ const SpecificLandModal = ({
         >
           <div className="absolute right-6 top-6 flex gap-3">
             {/* Twitter button */}
-            <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
+            <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out cursor-pointer">
               <BsTwitter
                 title="Share Valuation"
-                onClick={() =>
-                  window.open(
-                    options.twitter
-                      .valuationLink
-                  )
-                }
+                onClick={() => window.open(options.twitter.valuationLink)}
                 className="text-xl text-grey-conten"
               />
             </div>
             {/* Open specific asset modal button */}
             <div
-              className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-sm"
+              className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-sm cursor-pointer"
               onClick={() => { setOpenSpecificModal(false) }}
             >
               <AiOutlineCompress />
             </div>
             {/* Close button */}
             <div
-              className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
+              className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out cursor-pointer"
               onClick={() => {
                 setOpenSpecificModal(false)
                 setIsVisible(false)
@@ -233,7 +228,7 @@ const SpecificLandModal = ({
             ? (<div className={`w-full p-14 text-black`}>
               <div className={`grid grid-cols-2 gap-16`}>
 
-                <div className="p-5 nm-flat-medium rounded-3xl">
+                <div className="p-5 nm-flat-medium rounded-3xl w-[600px] h-[600px] self-center">
                   {/* Asset Video  or image */}
                   <div className="h-full relative flex justify-center items-center rounded-3xl">
                     {
@@ -360,25 +355,15 @@ const SpecificLandModal = ({
                   </div>
 
                   {/* Add To Watchlist Button */}
-                  {(watchlist &&
-                    watchlist[metaverse] &&
-                    watchlist[metaverse][specificAssetSelected?.tokenId])
-                    ? (
-                      <div onClick={() => getWatchList(token)}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action={'remove'}
-                        getWatchList={getWatchList}
-                      /></div>
-                    ) : (
-                      <div onClick={() => getWatchList(token)}><WatchlistButton
-                        land={specificAssetSelected}
-                        metaverse={specificAssetSelected.metaverse}
-                        action={'add'}
-                        getWatchList={getWatchList}
-                      /></div>
-                    )
-                  }
+                  <WatchlistButton land={specificAssetSelected} />
+                  {/* Add to Cart Button */}
+                  {specificAssetSelected.current_price_eth ? (
+                    <CartButton landData={specificAssetSelected} classname="mt-3 font-bold py-3" textSize="sm" />
+                  ) : (
+                    <button className={`nm-flat-soft text-black w-full rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold bg-grey-dark`}>
+                      {'NOT LISTED'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>)

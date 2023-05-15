@@ -64,7 +64,7 @@ const HorizontalPriceCard = ({
           {/* Name and Id */}
           <div className='w-[200px]'>
             {/* Asset Name */}
-            <Tooltip title={handleLandName(metaverse, land.coords, land.name)} placement='bottom'>
+            <Tooltip title={handleLandName(metaverse, land.coords, land.name)} placement='top' arrow>
               <h3 className='text-2xl text-grey-icon truncate' title={handleLandName(metaverse, land.coords, land.name)}>
                 {handleLandName(metaverse, land.coords, land.name)}
               </h3>

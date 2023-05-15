@@ -1,7 +1,6 @@
-import { Alert, Snackbar } from "@mui/material";
-import axios from "axios";
+import { Alert, Snackbar, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineExpand } from "react-icons/ai";
+import { AiFillHeart, AiFillQuestionCircle, AiOutlineExpand } from "react-icons/ai";
 import { BsTwitter } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { RiLoader3Fill } from "react-icons/ri";
@@ -11,11 +10,14 @@ import { SocialMediaOptions } from "../../lib/socialMediaOptions";
 import { IAPIData, IPredictions } from "../../lib/types";
 import { getState } from "../../lib/utilities";
 import { handleLandName } from "../../lib/valuation/valuationUtils";
-import { ValuationState } from "../../pages/valuation";
+import { ValuationState } from "../../pages/metaverseexplorer";
 import { useAppSelector } from "../../state/hooks";
 import { OptimizedImage, PriceList } from "../General";
 import DataComparisonBox from "../Valuation/DataComparison/DataComparisonBox";
 import WatchlistButton from "../Valuation/WatchlistButton";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../state/shopCartList";
+import CartButton from "../Valuation/CartButton";
 
 interface Props {
   apiData?: IAPIData
@@ -83,15 +85,18 @@ const MapCard = ({
   mapState,
   name,
 }: Props) => {
+  const dispatch = useDispatch();
   const [loadingQuery, loadedQuery, errorQuery] = getState(mapState, [
     'loadingQuery',
     'loadedQuery',
     'errorQuery',
   ])
   const imgSize = 250
-  const [watchlist, setWatchlist] = useState<any>()
   const { address } = useAccount()
-  const { token }: any = useAppSelector((state) => state.account.accessToken)
+
+  // Shop Cart List controller
+  const shopList = useSelector((state: any) => state.shopCartList)
+  const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
 
   const options = SocialMediaOptions(
     apiData?.tokenId,
@@ -114,25 +119,10 @@ const MapCard = ({
     }
   }
 
-  const getWatchList = async (token: string) => {
-    const watchlistRequest = await axios.get(
-      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authentication': `${token}`
-        }
-      }
-    )
-    const watchlist = watchlistRequest.data
-    setWatchlist(watchlist)
-  }
-
   useEffect(() => {
-    if (!address) return
-    getWatchList(token)
-  }, [address])
-
+    const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === apiData?.tokenId && land.metaverse === apiData?.metaverse))
+    setIsOnListSection(isOnShopCartListAux)
+  }, [shopList.length, apiData])
 
   if (errorQuery) {
     return (
@@ -159,7 +149,7 @@ const MapCard = ({
           <div className="bg-grey-bone rounded-3xl p-6 flex w-[650px]">
             <div className="absolute right-6 top-6 flex gap-3">
               {/* Twitter button */}
-              <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out">
+              <div className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-blue-500 transition duration-300 ease-in-out cursor-pointer">
                 <BsTwitter
                   title="Share Valuation"
                   onClick={() =>
@@ -173,14 +163,14 @@ const MapCard = ({
               </div>
               {/* Open specific asset modal button */}
               <div
-                className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-xl"
+                className="w-9 h-9 rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-yellow-500 transition duration-300 ease-in-out flex justify-center items-center hover:text-xl cursor-pointer"
                 onClick={() => { setOpenSpecificModal(true) }}
               >
                 <AiOutlineExpand className="text-grey-conten" />
               </div>
               {/* Close button */}
               <div
-                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out"
+                className="rounded-lg nm-flat-medium p-2 hover:nm-flat-soft hover:text-red-500 transition duration-300 ease-in-out cursor-pointer"
                 onClick={() => setIsVisible(false)}
               >
                 <IoClose className="text-xl text-grey-conten" />
@@ -190,7 +180,7 @@ const MapCard = ({
             <div className='w-full max-w-[250px] mr-6'>
               <div className={`h-fit relative`}>
                 <OptimizedImage
-                  height={imgSize}
+                  height={imgSize * 3 / 4}
                   width={imgSize}
                   src={apiData.images?.image_url}
                   rounded="xl"
@@ -207,25 +197,15 @@ const MapCard = ({
               <FeedbackButtons />
 
               {/* Add To Watchlist Button */}
-              {(watchlist &&
-                watchlist[metaverse] &&
-                watchlist[metaverse][apiData?.tokenId])
-                ? (
-                  <div onClick={() => getWatchList(token)}><WatchlistButton
-                    getWatchList={getWatchList}
-                    land={apiData}
-                    metaverse={apiData.metaverse}
-                    action={'remove'}
-                  /></div>
-                ) : (
-                  <div onClick={() => getWatchList(token)}><WatchlistButton
-                    getWatchList={getWatchList}
-                    land={apiData}
-                    metaverse={apiData.metaverse}
-                    action={'add'}
-                  /></div>
-                )
-              }
+              <WatchlistButton land={apiData} />
+              {/* Add to Cart Button */}
+              {apiData.current_price_eth ? (
+                <CartButton landData={apiData} classname="mt-3 font-bold py-3" textSize="sm" />
+              ) : (
+                <button className={`nm-flat-soft text-black w-full rounded-2xl py-3 mt-2 transition duration-300 ease-in-out text-sm font-bold bg-grey-dark`}>
+                  {'NOT LISTED'}
+                </button>
+              )}
             </div>
             <div className="flex flex-col justify-between">
               <h3 className="font-semibold text-2xl pt-10">
@@ -239,7 +219,28 @@ const MapCard = ({
                 )}
               </h3>
               <div>
-                <p className="text-sm text-grey-icon mb-3">Our Price Estimation:</p>
+                <div className="text-sm text-grey-icon mb-3 flex gap-2 items-center">
+                  Our Price Estimation:
+                  <Tooltip title={<span className="whitespace-pre-line">
+                    {`Stats
+										MAPE:
+										The Mean Absolute Percentage Error is the average forecast absolute error scaled to percentage units, where absolute errors allow to avoid the positive and negative errors cancelling.
+										R-Squared:
+										The R-Squared also known as coefficient of determination is the proportion of the variation between the forecasted valuations and actual selling prices. It ranges from 0 to 1 where 1 indicates the forcasted values match perfectly with actual values.
+										Maximum:
+										Maximum forecasted value that the trained model returns
+										Minimum:
+										Minimum forecasted value that the trained model returns
+									`}
+                  </span>}
+                    placement="bottom-start"
+                    arrow
+                  >
+                    <div>
+                      <AiFillQuestionCircle className='text-grey-icon hover:text-grey-content cursor-pointer transition-all duration-300' />
+                    </div>
+                  </Tooltip>
+                </div>
                 {/* Price List */}
                 {predictions ? (
                   <div className="w-fit">
@@ -292,7 +293,7 @@ const MapCard = ({
                 </div>
               </div>
             </div>
-          </div>
+          </div >
         )}
     </>
   )

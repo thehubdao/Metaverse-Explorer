@@ -22,7 +22,7 @@ interface Props {
     land: any
     landId: string
     metaverse: Metaverse
-    onTrashClick: any
+    onTrashClick?: any
 }
 
 const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
@@ -37,7 +37,7 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
     // SocialMediaOptions contains all options with their texts, icons, etc..
     /*   const options = SocialMediaOptions(landId, metaverse, predictions, address) */
     return (
-        <div className="flex justify-between relative nm-flat-medium rounded-2xl bg-grey-bone space-x-3 max-w-[373px] h-full hover:nm-flat-soft cursor-pointer overflow-hidden">
+        <div className="flex justify-between relative nm-flat-medium rounded-2xl bg-grey-bone space-x-3 w-[520px] h-[300px] hover:nm-flat-soft cursor-pointer overflow-hidden">
             {/* LEFT/TOP */}
             <ExternalAssetLink
                 metaverse={metaverse}
@@ -57,7 +57,7 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
                                     handleLandName(metaverse, land.coords)}
                             </h3>
                             {/* Asset ID */}
-                            <p className="text-xs font-medium text-grey-content">
+                            <p className="text-base font-medium text-grey-content">
                                 Token ID: {handleTokenID(landId)}
                             </p>
                         </div>

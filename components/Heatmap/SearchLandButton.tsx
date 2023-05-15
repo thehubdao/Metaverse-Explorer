@@ -2,7 +2,7 @@ import React from 'react'
 import { MdAddLocationAlt } from 'react-icons/md'
 import { RiLoader3Fill } from 'react-icons/ri'
 import { getState } from '../../lib/utilities'
-import { ValuationState } from '../../pages/valuation'
+import { ValuationState } from '../../pages/metaverseexplorer'
 
 interface Props {
   mapState: ValuationState
