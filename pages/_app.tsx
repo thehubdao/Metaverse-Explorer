@@ -30,14 +30,13 @@ const ArcanaRainbowConnector = ({ chains }:any) => {
   return {
     id: "arcana-auth",
     name: "Arcana Wallet",
-    iconUrl: "",
+    iconUrl: "https://gateway.arcana.network/api/v2/app/447/logo?type=light&orientation=horizontal",
     iconBackground: "#101010",
     createConnector: () => {
       const connector = new ArcanaConnector({
         chains,
         options: {
-          //clientId : Arcana Unique App Identifier via Dashboard
-          clientId: "xar_test_17e83d8fcb745babdd5efe0ba26c2679b753257d", 
+          clientId: process.env.ARCANA_CLIENT_ID!, 
         },
       });
       return {
@@ -76,7 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             const connectors = connectorsForWallets([
                 {
                   groupName: "Recommended",
-                  wallets: [ArcanaRainbowConnector({ chains }) as any, metaMaskWallet({chains}), walletConnectWallet({chains, projectId: process.env.WALLETCONNECT_PROJECT_ID!})  ],
+                  wallets: [ArcanaRainbowConnector({ chains,  }) as any, metaMaskWallet({chains}), walletConnectWallet({chains, projectId: process.env.WALLETCONNECT_PROJECT_ID!})  ],
                 },
               ])
             const wagmiClientInstance = createClient({
