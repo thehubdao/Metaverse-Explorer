@@ -15,10 +15,16 @@ const SearchByCoords = ({ metaverse, addLand }: any) => {
 
     const onClick = async () => {
         if (!x || !y) return
-        const response = await axios.get(
-            `${process.env.ITRM_SERVICE}/test/${metaverse}/map?x=${x}&y=${y}`
-        )
-        const land:any = Object.values(await response.data)[0]
+        let link = ''
+        if (metaverse === 'sandbox') {
+            // We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
+            link = `${process.env.ITRM_SERVICE}/test/${metaverse}/map?x=${x}&y=${y}`
+        } else {
+            // For Decentraland and Somnium space if we use version 2 of the service.
+            link = `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/map?x=${x}&y=${y}`
+        }
+        const response = await axios.get(link)
+        const land: any = Object.values(await response.data)[0]
         if (!land?.tokenId) return
         addLand(land, metaverse)
     }
@@ -52,13 +58,19 @@ const SearchById = ({ metaverse, addLand }: any) => {
     const [tokenId, setTokenId] = useState<any>()
     const onClick = async () => {
         if (!tokenId) return
-        const response = await axios.get(
-            `${process.env.ITRM_SERVICE}/test/${metaverse}/map?tokenId=${tokenId}`
-        )
-        const land:any = Object.values(await response.data)[0]
-        
+        let link = ''
+        if (metaverse === 'sandbox') {
+            // We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
+            link = `${process.env.ITRM_SERVICE}/test/${metaverse}/map?tokenId=${tokenId}`
+        } else {
+            // For Decentraland and Somnium space if we use version 2 of the service.
+            link = `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/map?tokenId=${tokenId}`
+        }
+        const response = await axios.get(link)
+        const land: any = Object.values(await response.data)[0]
+
         if (!land?.tokenId) return
-        
+
         addLand(land, metaverse)
     }
 

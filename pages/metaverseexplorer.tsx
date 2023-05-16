@@ -156,14 +156,11 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	const getglobalData = async () => {
 		if (!metaverse) return;
 		try {
-			const url = metaverse == "somnium-space"
+			// For Decentraland and Somnium space if we use version 2 of the service.
+			// We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
+			const url = (metaverse == "somnium-space" || metaverse == "decentraland")
 				? `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/globalData` : `${process.env.ITRM_SERVICE}/test/${metaverse}/globalData`
-			const response = await fetch(
-				url,
-				{
-					method: "GET"
-				}
-			);
+			const response = await fetch(url, { method: "GET" });
 			setglobalData(await response.json());
 		} catch (e) {
 			console.log("error", e);
@@ -186,23 +183,19 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		if (!lands) {
 			try {
 				let data;
+				let link = ''
+				if (metaverse === 'sandbox') {
+					// We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
+					link = `${process.env.ITRM_SERVICE}/test/${metaverse}/map?`
+				} else {
+					// For Decentraland and Somnium space if we use version 2 of the service.
+					link = `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/map?`
+				}
 				const parameters = (x !== undefined && y !== undefined) ? `x=${x}&y=${y}` : tokenId ? `tokenId=${tokenId}` : null;
-				const response = await fetch(
-					`${process.env.ITRM_SERVICE}${metaverse == "somnium-space"/*  || metaverse == "axie-infinity" */
-						? ""
-						: "/test"
-					}/${metaverse}/${/* metaverse == "axie-infinity" */false ? "predict" : "map"
-					}?${parameters}`,
-					{
-						method: "GET",
-						body: JSON.stringify(data),
-					}
-				);
+				const response = await fetch(`${link}${parameters}`, { method: "GET", body: JSON.stringify(data) });
 				lands = await response.json();
 				let auxLands
-				Object.entries(lands).forEach(([key, value]) => {
-					auxLands = value
-				});
+				Object.entries(lands).forEach(([key, value]) => { auxLands = value });
 				lands = auxLands
 
 				if (metaverse !== 'somnium-space') {
