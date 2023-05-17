@@ -47,7 +47,7 @@ export const convertETHPrediction = (
 ) => {
     const ethUSD = coinPrices.ethereum.usd
     const usdPrediction = ethPrediction * ethUSD
-    const formattedMetaverse = 
+    const formattedMetaverse =
         metaverse === 'sandbox'
             ? 'the-sandbox'
             : metaverse === 'somnium-space'
@@ -217,12 +217,9 @@ export const getAxieFloorPrice = async () => {
 export const getSomniumSpaceFloorPrice = async () => {
     let res = { value: 0 }
     await axios
-        .get(process.env.ITRM_SERVICE + '/val-analytics/generalFloorPrice', {
-            params: { metaverse: 'somnium-space' },
-        })
-        .then((response) => {
-            res = response.data
-        }).catch((error) => { console.log(error) })
+        .get(process.env.ITRM_SERVICE + '/val-analytics/generalFloorPrice', { params: { metaverse: 'somnium-space' }, })
+        .then((response) => { res = response.data })
+        .catch((error) => { console.log(error) })
     const floorPrice = res.value
     return formatEther(floorPrice)
 
@@ -248,10 +245,14 @@ export const getAxieDailyTradeVolume = async () => {
 }
 
 export const fetchLandList = async (metaverse: Metaverse, lands: string[]) => {
-    let link = `${process.env.ITRM_SERVICE}${metaverse == "somnium-space" || /* metaverse == "axie-infinity"  */ false ? "" : "/test"}/${metaverse}/${/* metaverse == "axie-infinity"  */ false ? "predict" : "map"}?tokenId=`
-    lands.forEach((land, i) => {
-        link = link + land + (i !== lands.length - 1 ? ',' : '')
-    })
+    let link = ''
+    if (metaverse === 'sandbox') {
+        // We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
+        link = `${process.env.ITRM_SERVICE}/test/${metaverse}/map?tokenId=`
+    } else {
+        // For Decentraland and Somnium space if we use version 2 of the service.
+        link = `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/map?tokenId=`
+    } lands.forEach((land, i) => { link = link + land + (i !== lands.length - 1 ? ',' : '') })
     const res = await fetch(link)
     return (await res.json()) as LandListAPIResponse
 }

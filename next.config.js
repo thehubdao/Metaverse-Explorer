@@ -44,7 +44,8 @@ module.exports = {
 		CHANNEL_PUSH_ADDRESS: process.env.CHANNEL_PUSH_ADDRESS,
 		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
 		ROLE_CONTRACT_ADDRESS:process.env.ROLE_CONTRACT_ADDRESS,
-		AUTH_SERVICE:process.env.AUTH_SERVICE
+		AUTH_SERVICE:process.env.AUTH_SERVICE,
+		ARCANA_CLIENT_ID: process.env.ARCANA_CLIENT_ID
 	},
 	typescript: {
 		// !! WARN !!

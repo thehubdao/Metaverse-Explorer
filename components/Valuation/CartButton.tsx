@@ -15,6 +15,9 @@ const CartButton = ({ landData, addIcon, textSize, classname }: CartButtonProps)
   const dispatch = useDispatch();
   const { address } = useAccount();
 
+  // this component is hidden while the development of the buy lands function is being completed.
+  const hiddeCartButton = true
+
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>(false);
@@ -30,6 +33,9 @@ const CartButton = ({ landData, addIcon, textSize, classname }: CartButtonProps)
     const isOnShopCartListAux: boolean = shopList.list.find((land: any) => (land.tokenId === landData?.tokenId && land.metaverse === landData?.metaverse))
     setIsOnListSection(isOnShopCartListAux)
   }, [shopList.length, landData])
+
+  if (hiddeCartButton)
+    return <></>
 
   return (
     <button
