@@ -9,21 +9,19 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
                     <script
                         async
-                        src={`https://www.googletagmanager.com/gtag/js?id==UA-183649821-6`}
+                        src={`https://www.googletagmanager.com/gtag/js?id=G-3N11PRJM57`}
                     />
 
                     <script
                         dangerouslySetInnerHTML={{
                             __html: `
                             window.dataLayer = window.dataLayer || [];
-                            function gtag(){dataLayer.push(arguments);}
-                            gtag('js', new Date());
-                            gtag('config', 'UA-183649821-6', {
-                            page_path: window.location.pathname,
-                            });
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3N11PRJM57');
                         `,
                         }}
                     />
