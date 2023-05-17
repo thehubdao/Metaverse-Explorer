@@ -78,7 +78,7 @@ interface Hovered {
 const headerList = [
 	{
 		name: "Heatmap",
-		route: "valuation",
+		route: "metaverseexplorer",
 	},
 	{
 		name: "Portfolio",
@@ -305,26 +305,26 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 				</div>) : (<div >
 					{metaverse && <div className="flex items-center justify-between p-8 mt-7">
-						<div className="flex flex-col space-y-3 max-w-xl">
+						<div className="flex flex-col space-y-3 max-w-3xl">
 							<p className="text-3xl font-semibold">{metaverseLabels[metaverse]}</p>
-							<p className="font-medium">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+							<p className="font-normal">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 						</div>
-						<div className="flex space-x-8 w-full items-center justify-evenly max-w-2xl">
+						<div className="flex space-x-8 items-center justify-evenly max-w-2xl">
 							<div className="flex flex-col space-y-1 items-center">
 								<p className="font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.floor_price)} ETH</p>
-								<p className="text-sm">Floor</p>
+								<p className="text-sm font-bold">FLOOR</p>
 							</div>
 							<div className="flex flex-col space-y-1 items-center">
 								<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.total_volume))} ETH</p>
-								<p className="text-sm">Trading Volume</p>
+								<p className="text-sm font-bold">TRADING VOLUME</p>
 							</div>
 							<div className="flex flex-col space-y-1 items-center">
 								<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.market_cap))} ETH</p>
-								<p className="text-sm">MCAP</p>
+								<p className="text-sm font-bold">MCAP</p>
 							</div>
 							<div className="flex flex-col space-y-1 items-center">
 								<p className=" font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.num_owners)}</p>
-								<p className="text-sm">Owners</p>
+								<p className="text-sm font-bold">OWNERS</p>
 							</div>
 						</div>
 					</div>}

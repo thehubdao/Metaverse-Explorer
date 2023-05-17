@@ -105,7 +105,7 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
                       checked={searchBy === filter}
                       onChange={() => setSearchBy(filter)}
                     />
-                    <label className='text-grey-content font-plus text-sm font-bold'>
+                    <label className='text-grey-content text-sm font-bold'>
                       {filter[0].toLocaleUpperCase() + filter.substring(1)}
                     </label>
                     {
@@ -137,7 +137,7 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
                         }
                         value={coordinates[coord]}
                         placeholder={coord}
-                        className='font-light font-plus border-gray-300 shadowCoord placeholder-grey-content block w-16  text-grey-content p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
+                        className='font-light border-gray-300 shadowCoord placeholder-grey-content block w-16  text-grey-content p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                       />
                     ))
                   ) : (
@@ -149,7 +149,7 @@ const MapSearch = ({ mapState, handleMapSelection, onClick, opened }: Props) => 
                       onChange={(e) => setLandId(e.target.value)}
                       value={landId}
                       placeholder='14271'
-                      className='font-light font-plus border-gray-300 shadowCoord placeholder-grey-content block w-[8.5rem]  text-grey-content p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
+                      className='font-light border-gray-300 shadowCoord placeholder-grey-content block w-[8.5rem]  text-grey-content p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                     />
                   )}
                 </div>

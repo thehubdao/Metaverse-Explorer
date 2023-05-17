@@ -31,7 +31,7 @@ const SearchByCoords = ({ metaverse, addLand }: any) => {
 
     return (
         <>
-            <div className="flex font-normal font-plus justify-center text-grey-content placeholder-gray-300 gap-3 mb-4">
+            <div className="flex font-normal  justify-center text-grey-content placeholder-gray-300 gap-3 mb-4">
                 <input
                     type="number"
                     placeholder="X"
@@ -115,7 +115,7 @@ const SearchLandForm = ({
     return (
         <div className="flex justify-center items-center ">
             <div className="flex flex-col justify-center items-center">
-                <p className="w-full font-plus text-grey-icon py-2">{title}</p>
+                <p className="w-full  text-grey-icon py-2">{title}</p>
                 {searchBy === 'tokenId' && (
                     <SearchById metaverse={metaverse} addLand={addLand} />
                 )}

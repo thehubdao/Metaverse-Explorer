@@ -302,7 +302,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                             <li key={index} className='relative p-8 break-inside-avoid rounded-xl bg-[#F9FAFB]'>
                               <div className='flex flex-row flex-nowrap items-baseline'>
                                 <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
-                                <h4 className="text-grey-content font-plus relative text-xl md:text-xl lg:text-base font-bold flex h-[70px] align-middle">
+                                <h4 className="text-grey-content  relative text-xl md:text-xl lg:text-base font-bold flex h-[70px] align-middle">
                                   {element.label}{' '}
                                   <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
                                   <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">

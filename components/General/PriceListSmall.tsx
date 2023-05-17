@@ -71,7 +71,7 @@ const PriceListSmall = ({ predictions, className, metaverse }: Props) => {
                 loading='lazy'
               />
               {/* Coin Prediction Number */}
-              <p className='text-lg 2xl:text-xl font-bold font-plus text-grey-content pt-0.5'>
+              <p className='text-lg 2xl:text-xl font-bold  text-grey-content pt-0.5'>
                 {predictions[key]?.toLocaleString(undefined, {
                   maximumFractionDigits: 2,
                 })}

@@ -24,15 +24,15 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
   }
 
   return (
-    <div className='w-full h-full py-14 bg-[#f8f9fd] rounded-3xl'>
+    <div className='w-full h-full pb-14 bg-[#f8f9fd] rounded-3xl '>
       {/* Title */}
-      <h2 className='text-grey-content font-plus font-bold rounded-2xl lg:text-3xl text-2xl text-center my-8'>
+      <h2 className='text-grey-content  font-bold rounded-2xl lg:text-3xl text-2xl text-center py-8'>
         Choose a Metaverse
       </h2>
 
       <div className='flex space-x-2 items-center justify-center bg-[#eceef8] rounded-2xl w-fit m-auto py-2 px-24'>
         <BsExclamationCircleFill className={`text-2xl z-10 text-[#6196FF]`} />
-        <p className='flex text-xs xs:text-base xl:text-base font-normal font-plus text-grey-content pl-3'>
+        <p className='flex text-xs xs:text-base xl:text-base font-semibold  text-grey-content pl-3'>
           You can request up to &nbsp;<span className='font-bold'>10 free valuations</span>, after that pro version is needed
         </p>
       </div>
@@ -56,7 +56,7 @@ const MapInitMvChoice = ({ metaverse, setMetaverse }: Props) => {
               className={`w-10 ${metaverse === landKey ? 'grayscale-0' : 'grayscale'
                 } group-hover:grayscale-0 transition duration-300 ease-in-out`}
             />
-            <p className='text-grey-content font-plus font-normal text-lg md:text-lg pt-7'>
+            <p className='text-grey-content  font-semibold text-lg md:text-lg pt-7'>
               {mvTitle[landKey]}
             </p>
           </button>

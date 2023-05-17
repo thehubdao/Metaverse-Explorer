@@ -111,7 +111,7 @@ const MapChooseFilter = ({ filterBy, setFilterBy, onClick, opened }: Props) => {
                   filter !== filterBy && (
                     <div key={filter}>
                       <button
-                        className=' flex gray-box gap-4 bg-opacity-100 items-center  font-plus font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
+                        className=' flex gray-box gap-4 bg-opacity-100 items-center font-medium text-grey-content hover:text-[#7c7b7b] min-w-max text-sm md:text-base'
                         onClick={() => {
                           setFilterBy(filter)
                           onClick()

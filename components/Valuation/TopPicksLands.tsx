@@ -53,7 +53,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 		setData().catch((e) => console.log(e));
 	}, [metaverse]);
 
-	const rowDataStyle = "flex justify-center px-4 content-center items-center text-lg lg:text-xl font-medium font-plus md:text-base pt-0.5 w-1/5";
+	const rowDataStyle = "flex justify-center px-4 content-center items-center text-lg lg:text-xl font-medium  md:text-base pt-0.5 w-1/5";
 
 	const rowData = () => {
 		const rows: any = [];
@@ -66,7 +66,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 			rows.push(
 				<tr
 					key={index}
-					className="flex w-full mb-4 text-grey-content font-plus"
+					className="flex w-full mb-4 text-grey-content "
 				>
 					<td className="flex justify-center px-4 content-center w-1/5 relative">
 						<a className="w-fit h-fit" href={picks[index]["market_links"]['opensea']} target='_blank'>
@@ -83,7 +83,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 					</td>
 					<td className="flex justify-center px-4 content-center items-center text-grey-content pt-0.5 w-1/5 hover:underline">
 						<a
-							className="text-lg lg:text-xl font-medium font-plus md:text-base"
+							className="text-lg lg:text-xl font-medium  md:text-base"
 							href={picks[index]["market_links"]['opensea']}
 							target="_blank"
 						>
@@ -132,12 +132,12 @@ const TopPicksLands = ({ metaverse }: Props) => {
 
 	return (
 		<div className="flex flex-col items-start mb-10">
-			<h3 className="lg:text-2xl text-xl text-grey-content font-plus mb-0 sm:mb-5">
+			<h3 className="lg:text-2xl text-xl text-grey-content  mb-0 sm:mb-5">
 				Our Top Picks
 			</h3>
 			<table className="w-full table-fixed border-collapse">
 				<thead className="bg-transparent text-slate-200 w-full">
-					<tr className="flex w-full mb-4 text-center text-grey-content font-plus font-bold bg-grey-dark rounded-lg">
+					<tr className="flex w-full mb-4 text-center text-grey-content  font-bold bg-grey-dark rounded-lg">
 						<th className="p-4 w-1/5 text-xs lg:text-lg md:text-base ">
 							Land
 						</th>
