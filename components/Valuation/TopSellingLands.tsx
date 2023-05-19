@@ -50,7 +50,7 @@ const TopSellingLands = (props: { metaverse: Metaverse }) => {
 		<div className="flex flex-col items-start rounded-xl py-3 px-4 w-full text-left mb-10">
 			<div className="relative flex flex-col min-w-0 break-words w-full mb-6 rounded text-grey-content">
 				<div className="flex w-full justify-between mb-5 items-center">
-					<h3 className="lg:text-2xl text-xl text-grey-content  mb-0 sm:mb-2">
+					<h3 className="text-xl font-semibold text-grey-content  mb-0 sm:mb-2">
 						Top Selling LANDs
 					</h3>
 					<TopSellingFilter filterBy={filterBy} setFilterBy={setFilterBy} />

@@ -41,7 +41,7 @@ export default function FilterSelectorTraits({
 		<div className="flex flex-col">
 			<div
 				onClick={() => setOpened(!opened)}
-				className=" items-center tracking-wider p-5 font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all"
+				className=" items-center tracking-wider p-5  font-medium text-grey-content flex justify-between cursor-pointer transition-all"
 			>
 				<p className="font-bold text-base">{title}</p>
 				<IoIosArrowDown

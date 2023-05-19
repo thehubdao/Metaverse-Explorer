@@ -132,7 +132,7 @@ const TopPicksLands = ({ metaverse }: Props) => {
 
 	return (
 		<div className="flex flex-col items-start mb-10">
-			<h3 className="lg:text-2xl text-xl text-grey-content  mb-0 sm:mb-5">
+			<h3 className="text-lg font-semibold text-grey-content  mb-0 sm:mb-5">
 				Our Top Picks
 			</h3>
 			<table className="w-full table-fixed border-collapse">

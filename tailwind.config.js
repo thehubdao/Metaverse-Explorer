@@ -93,7 +93,6 @@ module.exports = {
       },
       fontFamily: {
         'plus': ['Plus Jakarta Sans', 'sans-serif'],
-        // 'plus': ['var(--font-plus)', 'sans-serif'],
         'icons': ['iconSet1'],
         title: ["Anton", "sans-serif"],
         anton: ["anton", "sans-serif"],
@@ -116,6 +115,8 @@ module.exports = {
           bone: '#F9FAFB',
           panel: '#E9ECF6',
           lightest: '#F8F9FD',
+          ultralight: '#DEE7E8',
+          title: '#C0C7CE',
         },
         'background': '#111111',
         'white': '#ffffff',

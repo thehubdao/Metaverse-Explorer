@@ -78,7 +78,7 @@ const Header = ({
           value={inputValue}
           placeholder="Search by ID"
           min={0}
-          className="font-normal font-plus justify-center text-grey-content nm-inset-soft focus:outline-none placeholder-gray-300 p-3 rounded-full w-full text-sm"
+          className="font-normal  justify-center text-grey-content nm-inset-soft focus:outline-none placeholder-gray-300 p-3 rounded-full w-full text-sm"
         />
         <button
           onClick={() => handleClick()}

@@ -48,6 +48,8 @@ import ConnectButton from "../components/ConnectButton";
 import HotDeals from "../components/Valuation/HotDeals/HotDeals";
 import web3authService from "../backend/services/Web3authService";
 import { getCoingeckoPrices } from "../backend/services/openSeaDataManager";
+import { Tooltip } from "@mui/material";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 // Making this state as an object in order to iterate easily through it
 export const VALUATION_STATE_OPTIONS = [
@@ -305,8 +307,27 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 				</div>) : (<div >
 					{metaverse && <div className="flex items-center justify-between p-8 mt-7">
-						<div className="flex flex-col space-y-3 max-w-3xl">
-							<p className="text-3xl font-semibold">{metaverseLabels[metaverse]}</p>
+						<div className="flex flex-col space-y-3 max-w-[789px]">
+							<div className='flex gap-x-2 items-end'>
+								<p className="text-3xl font-semibold leading-none">{metaverseLabels[metaverse]}</p>
+								<Tooltip title={<span className="whitespace-pre-line">
+                    				{`Stats
+										MAPE:
+										The Mean Absolute Percentage Error is the average forecast absolute error scaled to percentage units, where absolute errors allow to avoid the positive and negative errors cancelling.
+										R-Squared:
+										The R-Squared also known as coefficient of determination is the proportion of the variation between the forecasted valuations and actual selling prices. It ranges from 0 to 1 where 1 indicates the forcasted values match perfectly with actual values.
+										Maximum:
+										Maximum forecasted value that the trained model returns
+										Minimum:
+										Minimum forecasted value that the trained model returns
+									`}
+                  					</span>} placement="bottom-start" arrow>
+									
+									<div className="flex items-center justify-center">
+									<AiFillQuestionCircle className='text-grey-ultralight text-base hover:text-grey-content cursor-pointer transition-all duration-300' />
+									</div>
+								</Tooltip>
+							</div>
 							<p className="font-normal">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 						</div>
 						<div className="flex space-x-8 items-center justify-evenly max-w-2xl">

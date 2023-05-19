@@ -29,7 +29,7 @@ interface IFilterColumn {
 const OpenFilterSection = ({ title, children }: any) => {
 	return (
 		<div className="flex flex-col">
-			<div className="items-center tracking-wider p-5 font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all">
+			<div className="items-center tracking-wider p-5  font-medium text-grey-content flex justify-between cursor-pointer transition-all">
 				<p className="font-bold text-lg">{title}</p>
 			</div>
 			<div className='mb-1 md:mb-0 flex flex-col gap-2'>

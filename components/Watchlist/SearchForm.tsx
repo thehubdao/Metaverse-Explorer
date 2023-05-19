@@ -80,7 +80,7 @@ const SearchById = ({ metaverse, addLand }: any) => {
                 <input
                     type="number"
                     placeholder="Token ID"
-                    className="nm-inset-soft focus:outline-none p-4 rounded-full text-center"
+                    className="nm-inset-soft focus:outline-none p-4 rounded-full text-center w-full"
                     min={0}
                     onChange={(input) => {
                         setTokenId(input.target.value)

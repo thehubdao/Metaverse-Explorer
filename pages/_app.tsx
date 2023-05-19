@@ -1,13 +1,13 @@
 import '/styles/MLMStyles.css'
 import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
+
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
-import { Plus_Jakarta_Sans } from '@next/font/google'
 import { metaMaskWallet, walletConnectWallet } from "@rainbow-me/rainbowkit/wallets";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { useEffect, useState } from 'react'
@@ -26,8 +26,6 @@ import { } from '../backend/services/RoleContractService'
 import { Loader } from '../components'
 import MobileControl from '../components/MobileControl'
 import { ArcanaConnector } from "@arcana/auth-wagmi";
-
-// const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block' })
 
 const ArcanaRainbowConnector = ({ chains }:any) => {
   return {
@@ -94,13 +92,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
         <>
-          {/* <style jsx global>
-            {`
-              :root {
-                --font-plus: ${plusJakarta.style.fontFamily};
-              }
-            `}
-          </style> */}
             {wagmiClient && loadingTimeout ? (
                 <Provider store={store}>
                     <WagmiConfig client={wagmiClient}>

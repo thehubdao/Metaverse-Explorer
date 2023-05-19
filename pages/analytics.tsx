@@ -223,7 +223,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                         {typedKeys(chartSymbolOptions).map((arrSymbol, index) => (
                           <button
                             key={arrSymbol}
-                            className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-16 h-12 group focus:outline-none bg-[#F9FAFB] ${symbol === arrSymbol
+                            className={`flex flex-col items-center justify-center font-bold rounded-xl cursor-pointer p-2 w-16 h-12 group focus:outline-none bg-[#F9FAFB] ${symbol === arrSymbol
                               ? 'border-opacity-20 nm-inset-medium'
                               : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
                               } border border-white transition duration-300 ease-in-out`}
@@ -240,7 +240,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                         {typedKeys(intervalLabels).map((arrInterval) => (
                           <button
                             key={arrInterval}
-                            className={`flex flex-col items-center justify-center rounded-xl cursor-pointer p-2 w-12 h-12 group focus:outline-none bg-[#F9FAFB] ${interval === arrInterval
+                            className={`flex flex-col items-center justify-center font-bold rounded-xl cursor-pointer p-2 w-12 h-12 group focus:outline-none bg-[#F9FAFB] ${interval === arrInterval
                               ? 'border-opacity-20 nm-inset-medium'
                               : 'nm-flat-medium border-opacity-20 hover:border-opacity-100'
                               } border border-white transition duration-300 ease-in-out`}
@@ -304,7 +304,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
                                 <img src='/images/analytics-icon-charts.svg' className='pr-2'></img>
                                 <h4 className="text-grey-content  relative text-xl md:text-xl lg:text-base font-bold flex h-[70px] align-middle">
                                   {element.label}{' '}
-                                  <BsQuestionCircle className="text-black-300 cursor-pointer peer bottom-[2px] ml-[10px] " />
+                                  <BsQuestionCircle className="text-black cursor-pointer peer bottom-[2px] ml-[10px] " />
                                   <p className="relative -top-1 left-[1%] border border-black-500 p-2 rounded-lg bg-black bg-opacity-10 backdrop-filter backdrop-blur font-medium text-xs hidden peer-hover:block w-60 ">
                                     {element.description}
                                   </p>

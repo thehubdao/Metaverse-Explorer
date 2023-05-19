@@ -11,7 +11,7 @@ const NoLands = () => {
         loading='lazy'
         objectFit='cover'
       />
-      <p className='text-grey-icon font-bold text-2xl pt-6'>you have no LANDs on this metaverse</p>
+      <p className='text-grey-title font-normal text-3xl pt-6'>you have no LANDs on this metaverse</p>
     </div>
   )
 }

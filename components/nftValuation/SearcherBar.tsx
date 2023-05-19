@@ -18,7 +18,7 @@ export default function SearcherBar({
 				value={inputValue}
 				placeholder="Search by ID"
 				min={0}
-				className="font-normal font-plus justify-center text-grey-content nm-inset-soft focus:outline-none placeholder-gray-300 p-4 rounded-full w-full"
+				className="font-normal  justify-center text-grey-content nm-inset-soft focus:outline-none placeholder-gray-300 p-4 rounded-full w-full"
 			/>
 			<button
 				type="submit"
