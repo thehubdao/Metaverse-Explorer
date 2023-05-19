@@ -3,7 +3,6 @@ import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
 import '@rainbow-me/rainbowkit/styles.css';
 import {
-  getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
@@ -17,7 +16,6 @@ import { Provider } from 'react-redux'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import store from '../state/store'
 import Layout from '../layouts/Layout'
-import web3authService from '../backend/services/Web3authService'
 import { mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { Web3Auth } from '@web3auth/modal'

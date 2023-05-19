@@ -83,8 +83,7 @@ export default function ConnectWalletButton() {
   }
 
   const switchWallet = async () => {
-    logout()
-    setTimeout(login, 500);
+    //openConnectModal!()
   }
 
   const { setToken } = useToken(onTokenInvalid, /* refreshToken */() => { }, logout);
@@ -136,7 +135,7 @@ export default function ConnectWalletButton() {
 
   useEffect(() => {
     if (!address || !accessToken.token) return;
-    dispatch(fetchWatchlist({address, accessToken}))
+    dispatch(fetchWatchlist({ address, accessToken }))
     dispatch(fetchPortfolio({ address }))
   }, [address, accessToken])
 
@@ -154,10 +153,12 @@ export default function ConnectWalletButton() {
             <BiChevronDown className={`${modalIsOpen ? 'rotate-180' : ''} text-xl`} />
           </div>
         ) : (
-          <div onClick={() => {
-            openConnectModal!()
-          }} className='flex font-bold gap-1'><FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />
-            <p>Login</p></div>
+          <div
+            onClick={() => { openConnectModal!() }}
+            className='flex font-bold gap-1'>
+            <FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />
+            <p>Login</p>
+          </div>
         )}
         {modalIsOpen && <div className='w-full flex flex-col justify-center items-center my-5 gap-4'>
           <div className='flex gap-2 pb-3'>
