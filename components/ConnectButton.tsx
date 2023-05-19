@@ -176,11 +176,11 @@ export default function ConnectWalletButton() {
             label={'Copy Address'}
             fullWidth
           />
-          <OvalButton
+          {/* <OvalButton
             buttonFunction={() => { switchWallet() }}
             label={'Switch Wallet'}
             fullWidth
-          />
+          /> */}
           <OvalButton
             buttonFunction={() => { logout() }}
             label={'Disconnect'}
