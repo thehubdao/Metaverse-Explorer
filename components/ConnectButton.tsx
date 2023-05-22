@@ -42,12 +42,14 @@ export default function ConnectWalletButton() {
   }
 
   const login = async () => {
+    didSignerSet = false
     openConnectModal!()
   }
 
   const logout = async () => {
-    disconnect()
+    didSignerSet = true
     dispatch(setAccountToken({}))
+    disconnect()
   }
 
   const copyToClipboard = () => {
@@ -164,11 +166,11 @@ export default function ConnectWalletButton() {
             label={'Copy Address'}
             fullWidth
           />
-          <OvalButton
+          {/* <OvalButton
             buttonFunction={() => { switchWallet() }}
             label={'Switch Wallet'}
             fullWidth
-          />
+          /> */}
           <OvalButton
             buttonFunction={() => { logout() }}
             label={'Disconnect'}
