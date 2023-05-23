@@ -50,6 +50,7 @@ export default function ConnectWalletButton() {
     didSignerSet = true
     dispatch(setAccountToken({}))
     disconnect()
+    setModalIsOpen(false)
   }
 
   const copyToClipboard = () => {
