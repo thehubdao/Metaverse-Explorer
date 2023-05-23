@@ -311,7 +311,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<div className='flex gap-x-2 items-end'>
 								<p className="text-3xl font-semibold leading-none">{metaverseLabels[metaverse]}</p>
 								<Tooltip title={<span className="whitespace-pre-line">
-                    				{`Stats
+									{`Stats
 										MAPE:
 										The Mean Absolute Percentage Error is the average forecast absolute error scaled to percentage units, where absolute errors allow to avoid the positive and negative errors cancelling.
 										R-Squared:
@@ -321,10 +321,10 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 										Minimum:
 										Minimum forecasted value that the trained model returns
 									`}
-                  					</span>} placement="bottom-start" arrow>
-									
+								</span>} placement="bottom-start" arrow>
+
 									<div className="flex items-center justify-center">
-									<AiFillQuestionCircle className='text-grey-ultralight text-base hover:text-grey-content cursor-pointer transition-all duration-300' />
+										<AiFillQuestionCircle className='text-grey-ultralight text-base hover:text-grey-content cursor-pointer transition-all duration-300' />
 									</div>
 								</Tooltip>
 							</div>
@@ -389,7 +389,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 
 									<p className="flex bg-grey-dark px-4 py-2 absolute bottom-1 left-1 hover:scale-105 transition ease-in-out duration-300 rounded-xl m-4	">
-										Unlimited access until April 15th
+										Enjoy unlimited access
 									</p>
 
 
