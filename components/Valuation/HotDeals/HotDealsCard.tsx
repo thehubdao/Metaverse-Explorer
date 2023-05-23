@@ -76,13 +76,13 @@ const HotDealsCard = ({
                   <p className="text-xs text-grey-icon pt-2">Listed Price: </p>
                 </div>
                 <div className="flex items-center justify-center">
-                  <p className="font-semibold text-xs  truncate">{`${apiData.current_price_eth?.toFixed(2)} ETH`}</p>
+                  <p className="font-bold text-xs  truncate">{`${apiData.current_price_eth?.toFixed(2)} ETH`}</p>
                 </div>
                 <div className="flex items-center justify-center">
                   <p className="text-xs text-grey-icon ">Estimated Price: </p>
                 </div>
                 <div className="flex items-center justify-center">
-                  <p className="font-semibold text-xs  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
+                  <p className="font-bold text-xs  truncate">{`${apiData.eth_predicted_price?.toFixed(2)} ETH`}</p>
                 </div>
                 <div className=" items-center justify-center mt-3">
                   <CartButton

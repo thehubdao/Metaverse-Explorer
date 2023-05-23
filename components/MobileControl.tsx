@@ -18,7 +18,7 @@ export default function MobileControl() {
 
 
     return (
-        <div className="flex flex-col items-center justify-around font-plus text-grey-content w-screen h-screen">
+        <div className="flex flex-col items-center justify-around  text-grey-content w-screen h-screen">
             <div className="">
                 <Image
                     src="/images//mgh_logo/mgh_logo.svg"

@@ -32,7 +32,7 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
   return (
     <tr>
       <td className={tdStyle}>{item.position}</td>
-      <th className={`${tdStyle} text-left flex items-center justify-center font-plus`}>
+      <th className={`${tdStyle} text-left flex items-center justify-center `}>
         <Tooltip title={dataTable.asset} placement='right' arrow>
           <a className="hover:underline flex items-center text-grey-content w-48" href={dataTable.external_link} target='_blank'>
             <img src={dataTable.image} className="h-12 w-12 bg-white rounded-full border" alt={`Land ${dataTable.asset} image`} />

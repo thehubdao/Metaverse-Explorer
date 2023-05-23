@@ -19,7 +19,7 @@ const TableStructure = ({ filterby, metaverse }: { filterby: filterBy, metaverse
   const [response, setResponse] = useState<[key: TopSellingRequestItem]>(filterData(filterby.data))
   const [sortDir, setSortDir] = useState<boolean>(false)
 
-  const thStyle = " p-4 w-1/5 align-middle text-xs lg:text-lg border-l-0 border-r-0 whitespace-nowrap font-bold bg-grey-dark text-grey-content font-plus cursor-pointer"
+  const thStyle = " p-4 w-1/5 align-middle text-xs lg:text-lg border-l-0 border-r-0 whitespace-nowrap font-bold bg-grey-dark text-grey-content  cursor-pointer"
 
   useEffect(() => {
     setResponse(filterData(filterby.data))
@@ -29,7 +29,7 @@ const TableStructure = ({ filterby, metaverse }: { filterby: filterBy, metaverse
     <>
       {
         response[0] ?
-          <table className="items-center w-full bg-transparent border-collapse text-grey-content font-plus">
+          <table className="items-center w-full bg-transparent border-collapse text-grey-content ">
             <thead>
               <tr className="bg-grey-dark rounded-xl text-center">
                 <th className={thStyle} onClick={() => handleOrderRank(sortDir, setSortDir, response, setResponse)} >Rank</th>

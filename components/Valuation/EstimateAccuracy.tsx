@@ -14,7 +14,7 @@ interface Props {
 const EstimateAccuracy = ({ metaverse }: Props) => {
   const [values, setValues] = useState<any>()
   const [loading, setLoading] = useState(true)
-  const styleContent = 'text-base font-medium font-plus text-grey-content pt-0.5'
+  const styleContent = 'text-base font-medium  text-grey-content pt-0.5'
 
   const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
@@ -54,7 +54,7 @@ const EstimateAccuracy = ({ metaverse }: Props) => {
     <>
       <div className='flex flex-col h-full'>
         <div className='flex items-center gap-x-2 mb-4'>
-          <p className={`text-lg font-semibold text-grey-content font-plus`}>
+          <p className={`text-lg font-semibold text-grey-content `}>
             Estimate Accuracy:{' '}
           </p>
         </div>

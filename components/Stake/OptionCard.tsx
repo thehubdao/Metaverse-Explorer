@@ -23,8 +23,8 @@ const OptionCard = ({ item, setStakeSelected }: OptionCardProps) => {
         width={240}
         height={240}
       />
-      <h3 className="text-grey-content font-plus font-bold text-xl sm:text-3xl pt-5">{title}</h3>
-      <p className="text-grey-content font-plus font-light text-sm leading-5 sm:text-xl pt-3">{description}</p>
+      <h3 className="text-grey-content  font-bold text-xl sm:text-3xl pt-5">{title}</h3>
+      <p className="text-grey-content  font-light text-sm leading-5 sm:text-xl pt-3">{description}</p>
     </button >
 
   )
