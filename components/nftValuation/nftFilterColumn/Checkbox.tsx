@@ -26,7 +26,7 @@ export function CheckBox({
   }, [])
 
   return (
-    <div className="flex justify-between font-plus px-5 py-[1.6px] font-medium text-grey-content transition-all">
+    <div className="flex justify-between  px-5 py-[1.6px] font-medium text-grey-content transition-all">
       <p className="text-sm py">{filter.name}</p>
       <div
         className={`w-5 h-5 rounded-md cursor-pointer flex justify-center items-center ${isChecked ? 'nm-inset-soft' : 'nm-flat-soft'}`}

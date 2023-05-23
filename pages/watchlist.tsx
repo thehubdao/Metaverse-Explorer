@@ -109,7 +109,7 @@ const Watchlist: NextPage<{ prices: ICoinPrices }> = ({ prices }) =>  {
                       className={`w-10 ${metaverse === landKey ? 'grayscale-0' : 'grayscale'
                         } group-hover:grayscale-0 transition duration-300 ease-in-out`}
                     />
-                    <p className='text-grey-content font-plus font-normal text-lg md:text-lg pt-7'>
+                    <p className='text-grey-content  font-normal text-lg md:text-lg pt-7'>
                       {formatName(landKey)}
                     </p>
                   </button>

@@ -12,7 +12,7 @@ export default function ColumnOptionButton({ title, children }: Props) {
 		<div className="flex flex-col">
 			<div
 				onClick={() => setOpened(!opened)}
-				className="items-center tracking-wider p-5 font-plus font-medium text-grey-content flex justify-between cursor-pointer transition-all"
+				className="items-center tracking-wider p-5  font-medium text-grey-content flex justify-between cursor-pointer transition-all"
 			>
 				<p className="font-bold text-lg">{title}</p>
 				<IoIosArrowDown className={(opened ? "rotate-180 " : "") + "transition-all duration-500 relative bottom-[1px]"} />

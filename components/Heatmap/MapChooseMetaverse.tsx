@@ -57,7 +57,7 @@ const MapChooseMetaverse = ({ metaverse, setMetaverse, onClick, opened }: Props)
                 mv !== metaverse && (
 
                   <button
-                    className='flex gray-box gap-2 md:gap-4 bg-opacity-100 items-center font-plus font-medium text-grey-content hover:text-[#7c7b7b] whitespace-nowrap min-w-max bg-grey-bone rounded-xl'
+                    className='flex gray-box gap-2 md:gap-4 bg-opacity-100 items-center font-medium text-grey-content hover:text-[#7c7b7b] whitespace-nowrap min-w-max bg-grey-bone rounded-xl'
                     onClick={() => {
                       setMetaverse(mv)
                       onClick()

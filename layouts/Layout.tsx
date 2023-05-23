@@ -17,7 +17,7 @@ interface LayoutProps {
 const list = [
 	{
 		url: {
-			ref: "/valuation",
+			ref: "/metaverseexplorer",
 			isExternal: false,
 		},
 		label: "Metaverse explorer",

@@ -32,7 +32,7 @@ export default function FilterPrice({
 
 	return (
 		<div className="flex flex-col px-5">
-			<div className="flex gap-3 items-center font-normal font-plus text-grey-content">
+			<div className="flex gap-3 items-center font-normal  text-grey-content">
 				<input
 					type="number"
 					placeholder="MIN"
