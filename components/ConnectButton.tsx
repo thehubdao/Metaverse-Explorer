@@ -4,14 +4,8 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { FaWallet } from 'react-icons/fa'
-import { useAccount, useConnect, useDisconnect, useEnsAvatar, useEnsName, useNetwork, useSigner } from 'wagmi'
-import { initContract } from '../backend/services/RoleContractService'
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import {
-  useConnectModal,
-  useAccountModal,
-  useChainModal,
-} from '@rainbow-me/rainbowkit';
+import { useAccount, useDisconnect, useEnsName, useNetwork, useSigner } from 'wagmi'
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 // web3auth service
 import web3authService from '../backend/services/Web3authService'
 import { useToken } from '../backend/useToken'
@@ -31,11 +25,7 @@ export default function ConnectWalletButton() {
   const didMount = useRef(false)
   const { accessToken }: any = useAppSelector((state) => state.account);
   const { disconnect } = useDisconnect({ onSuccess: () => { } })
-  const { address } = useAccount({
-    onDisconnect() {
-      didSignerSet = false
-    },
-  })
+  const { address } = useAccount()
   const { data: signer } = useSigner()
   const { data: ensName } = useEnsName({ address, chainId: 1 })
   const { chain } = useNetwork()
@@ -44,37 +34,39 @@ export default function ConnectWalletButton() {
   const [openNotification, setOpenNotification] = useState(false)
   const [addressImage, setAddressImage] = useState<string>()
 
-  const onTokenInvalid = async () => {
-    dispatch(setAccountToken({}))
-  };
+  const onTokenInvalid = async () => { dispatch(setAccountToken({})) };
 
   const refreshToken = async () => {
     const accessToken = JSON.parse(localStorage.getItem('accessToken') as string)
     dispatch(setAccountToken(accessToken ?? {}))
   }
 
-  const login = async (signer: any) => {
-    /*     await connectAsync({ connector: connectors[0] })
-        const { data: signer } = await refetch() */
-    await initAuth(signer)
-    setModalIsOpen(false)
+  const login = async () => {
+    didSignerSet = false
+    openConnectModal!()
   }
 
   const logout = async () => {
+    didSignerSet = true
     dispatch(setAccountToken({}))
+    disconnect()
   }
+
   const copyToClipboard = () => {
     const textToCopy = `${address}`;
     navigator.clipboard.writeText(textToCopy);
     setOpenNotification(true)
   };
+
   const handleClose = (event?: React.SyntheticEvent | Event) => {
     setOpenNotification(false);
   };
+
   const openDropdownMenu = () => {
     if (!address) return
     setModalIsOpen(!modalIsOpen)
   }
+
   const buyerControl = (buyer: string | undefined) => {
     if (!buyer) return 'anonymous'
     if (buyer.length > 20) {
@@ -83,8 +75,8 @@ export default function ConnectWalletButton() {
   }
 
   const switchWallet = async () => {
-    logout()
-    setTimeout(login, 500);
+    await logout()
+    login()
   }
 
   const { setToken } = useToken(onTokenInvalid, /* refreshToken */() => { }, logout);
@@ -114,7 +106,7 @@ export default function ConnectWalletButton() {
 
   useEffect(() => {
     if (didSignerSet || !signer || accessToken.token) return
-    login(signer)
+    initAuth(signer)
     didSignerSet = true
   }, [signer])
 
@@ -123,20 +115,17 @@ export default function ConnectWalletButton() {
 
     if (!accessToken.token) {
       localStorage.removeItem('accessToken')
-      web3authService.disconnectWeb3Auth()
       setToken({})
       disconnect()
-      setModalIsOpen(false)
       return
     }
     localStorage.setItem('accessToken', JSON.stringify(accessToken))
-    web3authService.setUserData(accessToken.token)
     setToken(accessToken)
   }, [accessToken])
 
   useEffect(() => {
     if (!address || !accessToken.token) return;
-    dispatch(fetchWatchlist({address, accessToken}))
+    dispatch(fetchWatchlist({ address, accessToken }))
     dispatch(fetchPortfolio({ address }))
   }, [address, accessToken])
 
@@ -154,10 +143,12 @@ export default function ConnectWalletButton() {
             <BiChevronDown className={`${modalIsOpen ? 'rotate-180' : ''} text-xl`} />
           </div>
         ) : (
-          <div onClick={() => {
-            openConnectModal!()
-          }} className='flex font-bold gap-1'><FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />
-            <p>Login</p></div>
+          <div
+            onClick={() => { login() }}
+            className='flex font-bold gap-1'>
+            <FaWallet className={`text-2xl z-10 text-grey-content pr-1 font-bold`} />
+            <p>Login</p>
+          </div>
         )}
         {modalIsOpen && <div className='w-full flex flex-col justify-center items-center my-5 gap-4'>
           <div className='flex gap-2 pb-3'>
