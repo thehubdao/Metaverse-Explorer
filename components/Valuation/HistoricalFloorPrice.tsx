@@ -48,7 +48,7 @@ const HistoricalFloorPrice = ({ metaverse, coinPrices }: HistoricalFloorPricePro
     <>
       <div className='flex flex-col h-full'>
         <div className='flex items-center gap-x-2 mb-4'>
-          <p className={`text-lg font-semibold text-grey-content font-plus`}>
+          <p className={`text-lg font-semibold text-grey-content `}>
             Historic Floor Price:{' '}
           </p>
         </div>

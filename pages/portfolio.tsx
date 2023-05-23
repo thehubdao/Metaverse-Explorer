@@ -150,7 +150,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			>
 
 				<div className="flex items-center justify-between p-8 space-x-20">
-					<div className="flex flex-col space-y-3 max-w-lg">
+					<div className="flex flex-col space-y-3 max-w-2xl">
 						<p className="text-2xl font-semibold">Description</p>
 						<p className="text-sm">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 					</div>
@@ -188,7 +188,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								<button
 									key={key}
 									type="button"
-									className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl font-plus transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
+									className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-3xl  transition ease-in-out duration-300 bg-grey-bone ${metaverse === Metaverses[key] ? "nm-inset-medium text-grey-content" : "nm-flat-medium hover:nm-flat-soft border border-white text-grey-icon"}`}
 									onClick={() => setMetaverse(Metaverses[key])}
 								>
 									{Metaverses[key] === Metaverses.SANDBOX && <img src="/images/the-sandbox-sand-logo.png" className='h-6 w-6 mr-4' />}
@@ -305,7 +305,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
                             </>
                         ) : (
                             <div className="border-t border-l border-white/10 rounded-xl p-5 w-full bg-opacity-30; flex flex-col lg:flex-row justify-between items-center mb-8 bg-grey-dark">
-                                <h1 className='md:text-5xl lg:text-6xl text-4xl font-plus text-grey-content'>
+                                <h1 className='md:text-5xl lg:text-6xl text-4xl  text-grey-content'>
                                     Your Portfolio
                                 </h1>
                             </div>
@@ -323,7 +323,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
                         <div className="flex flex-col md:flex-row gap-4 lg:gap-12 md:gap-6 mb-0 sm:mb-12">
                   
                             <div className="flex flex-col w-1/2 justify-between gap-4 text-center transition-all gray-box relative shadowNormal">
-                                <h3 className="text-xl md:text-3xl xl:text-4xl font-plus text-grey-content">
+                                <h3 className="text-xl md:text-3xl xl:text-4xl  text-grey-content">
                                     Total LANDS Owned
                                 </h3>
                                 {loading ? (
@@ -383,7 +383,7 @@ const PortfolioPage: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
                        
                             <div className="flex flex-col w-1/2  transition-all justify-between text-center mb-8 sm:mb-0 gray-box shadowNormal">
-                                <h3 className="text-xl md:text-3xl xl:text-4xl mb-4 whitespace-nowrap font-plus text-grey-content">
+                                <h3 className="text-xl md:text-3xl xl:text-4xl mb-4 whitespace-nowrap  text-grey-content">
                                     Total Value Worth
                                 </h3>
                                 {loading ? (

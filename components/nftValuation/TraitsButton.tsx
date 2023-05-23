@@ -18,7 +18,7 @@ export default function TraitsButton({
 		>
 			<IoFilter />
 
-			<div className="font-bold font-plus">FILTERS</div>
+			<div className="font-bold ">FILTERS</div>
 			<IoIosArrowDown
           className={
             (!openedTraits ? 'rotate-180 ' : '') +

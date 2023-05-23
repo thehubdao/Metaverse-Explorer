@@ -1,6 +1,7 @@
 import '/styles/MLMStyles.css'
 import '/styles/nprogress.css' //styles of nprogress
 import '../styles/globals.css'
+
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   getDefaultWallets,
