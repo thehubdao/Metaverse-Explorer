@@ -1,11 +1,11 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-
+import { ICoinPrices } from '../lib/valuation/valuationTypes'
 // web3auth functions
 import { useAccount } from 'wagmi'
 import ConnectButton from '../components/ConnectButton'
-
+import { getCoingeckoPrices } from '../backend/services/openSeaDataManager';
 import GeneralSection from '../components/GeneralSection'
 import Land from '../components/Watchlist/Land'
 import SearchLandForm from '../components/Watchlist/SearchForm'
@@ -43,7 +43,7 @@ const mvOptions = {
   'somnium-space': { logo: '/images/somnium-space-cube-logo.webp' }
 }
 
-const Watchlist: NextPage = () => {
+const Watchlist: NextPage<{ prices: ICoinPrices }> = ({ prices }) =>  {
   const dispatch = useAppDispatch()
   const [metaverse, setMetaverse] = useState<Metaverse>()
   const [watchlist, setWatchlist] = useState<any>()
@@ -141,6 +141,7 @@ const Watchlist: NextPage = () => {
                           land={land}
                           landId={land.tokenId}
                           metaverse={metaverse}
+                          prices={prices}
                           onTrashClick={
                             removeLand
                           }
@@ -167,6 +168,16 @@ const Watchlist: NextPage = () => {
       </GeneralSection>
     </>
   )
+}
+
+export async function getServerSideProps() {
+	let prices = await getCoingeckoPrices()
+
+	return {
+		props: {
+			prices,
+		},
+	}
 }
 
 export default Watchlist

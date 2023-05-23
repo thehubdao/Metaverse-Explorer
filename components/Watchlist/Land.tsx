@@ -17,25 +17,30 @@ import {
 import { formatName } from '../../lib/utilities'
 import ExternalAssetLink from '../General/Links/ExternalAssetLink'
 import { FaTrash } from 'react-icons/fa'
+import { PriceListSmall } from '../General'
 
 interface Props {
     land: any
     landId: string
     metaverse: Metaverse
     onTrashClick?: any
+    prices: ICoinPrices
 }
 
-const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
-    /*   const predictions = convertETHPrediction(
-    prices,
-    land.eth_predicted_price,
-    metaverse
-  ) */
+const Land = ({ land, landId, metaverse, onTrashClick, prices }: Props) => {
+
+    const { address } = useAppSelector((state) => state.account)
+
+    const predictions = convertETHPrediction(
+        prices,
+        land.eth_predicted_price,
+        metaverse
+    ) 
 
     const openSeaLink = createOpenSeaLink(metaverse, landId)
 
     // SocialMediaOptions contains all options with their texts, icons, etc..
-    /*   const options = SocialMediaOptions(landId, metaverse, predictions, address) */
+    const options = SocialMediaOptions(landId, metaverse, predictions, address)
     return (
         <div className="flex justify-between relative nm-flat-medium rounded-2xl bg-grey-bone space-x-3 w-[520px] h-[300px] hover:nm-flat-soft cursor-pointer overflow-hidden">
             {/* LEFT/TOP */}
@@ -66,7 +71,7 @@ const Land = ({ land, landId, metaverse, onTrashClick }: Props) => {
                         Price Estimation:
                     </h4>
                 </div>
-                {/*        <PriceListSmall predictions={predictions} metaverse={metaverse} /> */}
+                       <PriceListSmall predictions={predictions} metaverse={metaverse} />
 
                 {/* External Links */}
                 <div className="flex flex-col lg:flex-row gap-5 lg:items-center justify-between pt-4">
