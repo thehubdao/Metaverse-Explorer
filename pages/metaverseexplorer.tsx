@@ -551,7 +551,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								</div>
 							</div>
 							<div className="flex items-center justify-center p-8 mt-7">
-								<HotDeals metaverse={metaverse} />
+								<HotDeals metaverse={metaverse} coinPrices={prices} />
 							</div>
 						</>
 					)}
