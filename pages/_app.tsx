@@ -89,6 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }, [])
 
     return (
+      
         <>
             {wagmiClient && loadingTimeout ? (
                 <Provider store={store}>
