@@ -5,6 +5,9 @@ import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import { fetchChartData } from "../../Analytics/fetchChartData";
 import Image from 'next/image';
 import HotDealsCard from "./HotDealsCard";
+import { ICoinPrices } from '../../../lib/valuation/valuationTypes'
+import { IPredictions } from '../../../lib/types';
+import { getCollectionData } from '../../../backend/services/openSeaDataManager';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -14,6 +17,7 @@ import 'swiper/css/scrollbar';
 
 interface Props {
   metaverse: Metaverse
+  coinPrices: ICoinPrices
 }
 
 interface InextButton {
@@ -35,16 +39,47 @@ function NextButton({ isLeft }: InextButton) {
   )
 }
 
-const HotDeals = ({ metaverse }: Props) => {
+const HotDeals = ({ metaverse, coinPrices }: Props) => {
   const [stateData, setStateData] = useState<'errorQuery' | 'loadingQuery' | 'successQuery'>('loadingQuery')
   const [topPicks, setTopPicks] = useState([]);
+  const [predictions, setPredictions] = useState<IPredictions>()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const setData = async () => {
+      setLoading(true)
+      // Fetch Data from OpenSea
+      const stats = await getCollectionData(metaverse)
+      const formattedMetaverse =
+        metaverse === 'sandbox'
+          ? 'the-sandbox'
+          : metaverse === 'somnium-space'
+            ? 'somnium-space-cubes'
+            : metaverse
+
+          const metaversePrediction =
+          (stats.floor_price * coinPrices.ethereum?.usd) /
+          coinPrices[formattedMetaverse].usd
+  
+        const predictions = {
+          ethPrediction: stats.floor_price,
+          usdPrediction: stats.floor_price * coinPrices.ethereum?.usd,
+          metaversePrediction: metaversePrediction,
+        }
+      setPredictions(predictions)
+      setLoading(false)
+    }
+    setData()
+  }, [metaverse])
 
   async function waitingData(metaverse: Metaverse) {
     const data: any = await fetchChartData(metaverse, "topPicks");
     if (data) {
-      const dataFilter = data.filter((land: any) => land.gap < 0).slice(0, 20)
-      setTopPicks(dataFilter);
-      setStateData('successQuery')
+      if(predictions !== undefined){
+        const dataFilter = data.filter((land: any) => ((land.gap < 0) && (land.current_price_eth < (predictions.ethPrediction + (predictions.ethPrediction * 0.1))))).slice(0, 20)
+        setTopPicks(dataFilter);
+        setStateData('successQuery')
+      }
     } else {
       setStateData('errorQuery')
     }
@@ -52,8 +87,8 @@ const HotDeals = ({ metaverse }: Props) => {
 
   useEffect(() => {
     waitingData(metaverse);
-  }, [metaverse]);
-
+  }, [metaverse, predictions]);
+  
 
   return (
     <div className='relative w-full'>

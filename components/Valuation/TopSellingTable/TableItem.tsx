@@ -6,8 +6,8 @@ const TableItem = ({ item, metaverse }: { item: TopSellingRequestItem, metaverse
   let dataTable: TopSellingDataTable | any = item.dataTable || null
 
   const priceLoader = () => {
-    if (dataTable.price == 0)
-      return <span className="mr-2">Loading...</span>
+    if (dataTable.price == 0 || !dataTable || isNaN(Number.parseFloat(dataTable.eth_price)))
+      return <span className="mr-2">not available</span>
     return <span className="mr-2">{`${Number.parseFloat(dataTable.eth_price).toFixed(3)} ${dataTable.symbol}`}</span>
   }
 
