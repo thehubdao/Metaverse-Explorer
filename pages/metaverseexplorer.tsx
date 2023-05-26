@@ -332,7 +332,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 						</div>
 						<div className="flex space-x-8 items-center justify-evenly max-w-2xl">
 							<div className="flex flex-col space-y-1 items-center">
-								<p className="font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.floor_price)} ETH</p>
+								<p className="font-bold text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.floor_price)} ETH</p>
 								<p className="text-sm font-bold">FLOOR</p>
 							</div>
 							<div className="flex flex-col space-y-1 items-center">
@@ -572,7 +572,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								</div>
 							</div>
 							<div className="flex items-center justify-center p-8 mt-7">
-								<HotDeals metaverse={metaverse} />
+								<HotDeals metaverse={metaverse} coinPrices={prices} />
 							</div>
 						</>
 					)}
