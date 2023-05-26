@@ -336,15 +336,15 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 								<p className="text-sm font-bold">FLOOR</p>
 							</div>
 							<div className="flex flex-col space-y-1 items-center">
-								<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.total_volume))} ETH</p>
+								<p className="font-bold text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.total_volume))} ETH</p>
 								<p className="text-sm font-bold">TRADING VOLUME</p>
 							</div>
 							<div className="flex flex-col space-y-1 items-center">
-								<p className="font-black text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.market_cap))} ETH</p>
+								<p className="font-bold text-3xl whitespace-nowrap">{formatter.format(Math.round(globalData.stats?.market_cap))} ETH</p>
 								<p className="text-sm font-bold">MCAP</p>
 							</div>
 							<div className="flex flex-col space-y-1 items-center">
-								<p className=" font-black text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.num_owners)}</p>
+								<p className=" font-bold text-3xl whitespace-nowrap">{formatter.format(globalData.stats?.num_owners)}</p>
 								<p className="text-sm font-bold">OWNERS</p>
 							</div>
 						</div>
