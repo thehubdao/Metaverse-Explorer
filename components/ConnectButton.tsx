@@ -36,11 +36,6 @@ export default function ConnectWalletButton() {
 
   const onTokenInvalid = async () => { dispatch(setAccountToken({})) };
 
-  const refreshToken = async () => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken') as string)
-    dispatch(setAccountToken(accessToken ?? {}))
-  }
-
   const login = async () => {
     didSignerSet = false
     openConnectModal!()
@@ -99,7 +94,6 @@ export default function ConnectWalletButton() {
 
   useEffect(() => {
     const onMount = async () => {
-      try { await refreshToken() } catch { }
       didMount.current = true
     }
     onMount()
@@ -115,12 +109,10 @@ export default function ConnectWalletButton() {
     if (!didMount.current) return
 
     if (!accessToken.token) {
-      localStorage.removeItem('accessToken')
       setToken({})
       disconnect()
       return
     }
-    localStorage.setItem('accessToken', JSON.stringify(accessToken))
     setToken(accessToken)
   }, [accessToken])
 
