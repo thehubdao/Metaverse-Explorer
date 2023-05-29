@@ -29,6 +29,7 @@ interface Props {
   mapState: ValuationState
   name?: string
   watchlist?: any
+  cardData2?: any
 }
 
 const FeedbackButtons = () => {
@@ -84,6 +85,7 @@ const MapCard = ({
   setOpenSpecificModal,
   mapState,
   name,
+  cardData2,
 }: Props) => {
   const dispatch = useDispatch();
   const [loadingQuery, loadedQuery, errorQuery] = getState(mapState, [
@@ -93,6 +95,14 @@ const MapCard = ({
   ])
   const imgSize = 250
   const { address } = useAccount()
+
+
+  useEffect(()=>{
+    console.log(cardData2, 'carddata on mapcard');  
+    console.log(apiData, 'apidata on mapcard');
+    
+  })
+
 
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
@@ -158,7 +168,7 @@ const MapCard = ({
                         .valuationLink
                     )
                   }
-                  className="text-xl text-grey-conten"
+                  className="text-xl text-grey-content"
                 />
               </div>
               {/* Open specific asset modal button */}
@@ -259,7 +269,7 @@ const MapCard = ({
               <div className="flex items-center gap-4">
                 <p className="text-sm text-grey-icon">Listing price: </p>
                 <DataComparisonBox
-                  currentPriceEth={apiData.current_price_eth}
+                  currentPriceEth={cardData2.current_price_eth}
                   predictions={predictions}
                 />
               </div>

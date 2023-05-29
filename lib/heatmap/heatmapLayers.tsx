@@ -87,7 +87,11 @@ export const filteredLayer: Layer = (
             scale = scaleOptions.mid
             // if mapFilter is basic and land is on sale set color to fixed color and scale to mid
         } else if (land?.current_price_eth) {
-            color = LEGEND_COLORS['on-sale']
+            // color = LEGEND_COLORS['on-sale']
+            // console.log(land, 'land in layer??');
+            // console.log(land.current_price_eth, 'qweqwe');
+            
+            color = '#FF33FF'
         } else if (land?.land_type == 1) {
             color = LEGEND_COLORS['premium-lands']
         }
