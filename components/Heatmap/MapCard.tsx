@@ -96,14 +96,6 @@ const MapCard = ({
   const imgSize = 250
   const { address } = useAccount()
 
-
-  useEffect(()=>{
-    console.log(cardData2, 'carddata on mapcard');  
-    console.log(apiData, 'apidata on mapcard');
-    
-  })
-
-
   // Shop Cart List controller
   const shopList = useSelector((state: any) => state.shopCartList)
   const [isOnShopCartList, setIsOnListSection] = useState<boolean>()
@@ -269,7 +261,7 @@ const MapCard = ({
               <div className="flex items-center gap-4">
                 <p className="text-sm text-grey-icon">Listing price: </p>
                 <DataComparisonBox
-                  currentPriceEth={cardData2.current_price_eth}
+                  currentPriceEth={cardData2 !== undefined? cardData2.current_price_eth: apiData.current_price_eth}
                   predictions={predictions}
                 />
               </div>

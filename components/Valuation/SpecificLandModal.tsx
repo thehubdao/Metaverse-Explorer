@@ -311,7 +311,7 @@ const SpecificLandModal = ({
                       <div>
                         <p className="text-sm text-grey-icon">Listing price: </p>
                         <DataComparisonBox
-                          currentPriceEth={cardData2.current_price_eth}
+                          currentPriceEth={cardData2 !== undefined? cardData2.current_price_eth: specificAssetSelected.current_price_eth}
                           predictions={predictions}
                         />
                       </div>
