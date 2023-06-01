@@ -36,6 +36,7 @@ interface SpecificLandModalProps {
   setOpenSpecificModal: Function
   specificAssetSelected?: any
   predictions?: IPredictions
+  cardData2?: any
   metaverse: Metaverse
   setIsVisible: Function
   landCoords?: { x: string | number; y: string | number }
@@ -91,6 +92,7 @@ const BoxData = ({ text, price, message, bigData, icon }: {
 
 const SpecificLandModal = ({
   specificAssetSelected,
+  cardData2,
   collectionName,
   setOpenSpecificModal,
   predictions,
@@ -309,7 +311,7 @@ const SpecificLandModal = ({
                       <div>
                         <p className="text-sm text-grey-icon">Listing price: </p>
                         <DataComparisonBox
-                          currentPriceEth={specificAssetSelected.current_price_eth}
+                          currentPriceEth={cardData2 !== undefined? cardData2.current_price_eth: specificAssetSelected.current_price_eth}
                           predictions={predictions}
                         />
                       </div>
