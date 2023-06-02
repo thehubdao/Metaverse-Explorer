@@ -124,6 +124,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	//Land Modal (and card data)
 	const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false)
 	const [cardData, setCardData] = useState<CardData>();
+	const [cardData2, setCardData2] = useState<any>();
 
 	//Heatmap options
 	const [openMetaverseFilter, setOpenMetaverseFilter] = useState(false)
@@ -188,7 +189,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				let link = ''
 				if (metaverse === 'sandbox') {
 					// We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
-					link = `${process.env.ITRM_SERVICE}/test/${metaverse}/map?`
+					link = `${process.env.ITRM_SERVICE}/test/${metaverse}/map?`				
 				} else {
 					// For Decentraland and Somnium space if we use version 2 of the service.
 					link = `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/map?`
@@ -233,7 +234,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			y = lands.coords ? lands.coords.y : lands.center.y;
 			setSelected({ x, y });
 			setMapState("loadedQuery");
-			setCardData(landData as CardData);
+			setCardData(landData as CardData);		
 		} catch (e) {
 			setMapState("errorQuery");
 			return setTimeout(() => setIsVisible(false), 1100);
@@ -394,7 +395,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 
 									{/* Color Guide - Hides when MapCard is showing (only mobile) */}
-									{filterBy !== "basic" && (
+									{/* {filterBy !== "basic" && (
 										<div
 											className={
 												(isVisible && "hidden") +
@@ -407,7 +408,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												setPercentFilter={setPercentFilter}
 											/>
 										</div>
-									)}
+									)} */}
 
 									{/* Full screen button - Hides when MapCard is showing (all screens) */}
 									{!isVisible && (
@@ -451,6 +452,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												landRawData: any
 											) => {
 												const land = JSON.parse(landRawData)
+												setCardData2(land)											
 												const { x, y } = land.coords
 												if (isSelected(x, y)) {
 													setSelected(undefined);
@@ -529,6 +531,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												landCoords={cardData?.landCoords}
 												name={cardData?.name}
 												mapState={mapState}
+												cardData2={cardData2}
 											/>
 										</div>
 									)}
@@ -551,6 +554,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									{openSpecificModal && metaverse && <SpecificLandModal
 										collectionName={metaverseLabels[metaverse]}
 										specificAssetSelected={cardData?.apiData}
+										cardData2={cardData2}
 										setOpenSpecificModal={setOpenSpecificModal}
 										predictions={cardData?.predictions}
 										landCoords={cardData?.landCoords}
