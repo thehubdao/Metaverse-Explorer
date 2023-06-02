@@ -395,7 +395,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 
 
 									{/* Color Guide - Hides when MapCard is showing (only mobile) */}
-									{filterBy !== "basic" && (
+									{/* {filterBy !== "basic" && (
 										<div
 											className={
 												(isVisible && "hidden") +
@@ -408,7 +408,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 												setPercentFilter={setPercentFilter}
 											/>
 										</div>
-									)}
+									)} */}
 
 									{/* Full screen button - Hides when MapCard is showing (all screens) */}
 									{!isVisible && (
