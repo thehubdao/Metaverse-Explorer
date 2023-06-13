@@ -27,7 +27,7 @@ const Stake: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>MGH - Staking</title>
+				<title>THE HUB DAO - Staking</title>
 				<meta name="description" content="Governance of metaverse related items, fair valuation and minting of NFT backed tokens and provision of metaverse market data." />
 			</Head>
 

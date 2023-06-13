@@ -270,7 +270,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	return (
 		<>
 			<Head>
-				<title>MGH | Valuation</title>
+				<title>THE HUB DAO | Valuation</title>
 				<meta
 					name="description"
 					content="Land Valuation with our Custom Heatmap"
@@ -329,7 +329,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 								</Tooltip>
 							</div>
-							<p className="font-normal">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+							<p className="font-normal">THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 						</div>
 						<div className="flex space-x-8 items-center justify-evenly max-w-2xl">
 							<div className="flex flex-col space-y-1 items-center">
@@ -615,13 +615,13 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				</div>)}
 
 				<Footer
-					label="The MGH DAO does not provide, personalized investment
+					label="THE HUB DAO does not provide, personalized investment
 							recommendations or advisory services. Any information provided
 							through the land evaluation tool and others is not, and should
 							not be, considered as advice of any kind and is for
 							information purposes only. That land is “valuated” does not
 							mean, that it is in any way approved, checked audited, and/or
-							has a real or correct value. In no event shall the MGH DAO be
+							has a real or correct value. In no event shall THE HUB DAO be
 							liable for any special, indirect, or consequential damages, or
 							any other damages of any kind, including but not limited to
 							loss of use, loss of profits, or loss of data, arising out of
