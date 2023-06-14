@@ -171,7 +171,7 @@ const Analytics: NextPage<Props> = ({ prices }) => {
   return (
     <>
       <Head>
-        <title>MGH | Analytics</title>
+        <title>THE HUB DAO | Analytics</title>
         <meta name="description" content="Analytics Dashboard" />
       </Head>
       <div className="pt-32 w-full">
