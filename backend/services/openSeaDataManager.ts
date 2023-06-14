@@ -67,7 +67,7 @@ async function getEstimateAccuracyValues(collectionName: string) {
   if (collectionName === 'axie-infinity') {
     collectionName = '--'
   }
-  if (collectionName === 'somnium-space') test = ''
+  if (collectionName === 'somnium-space' || collectionName === 'decentraland') test = '/mgh/v2'
   const data = await fetch(
     `https://services.itrmachines.com${test}/${collectionName}/performance`
   )
