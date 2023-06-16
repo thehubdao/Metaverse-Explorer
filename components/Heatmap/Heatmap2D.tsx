@@ -166,7 +166,7 @@ const Heatmap2D = ({
       : TILE_SIZE - BORDE_SIZE
     rectangle.name = land.coords.x + ',' + land.coords.y
     rectangle.landX = land.coords.x
-    rectangle.landY = land.coords.y
+    rectangle.landY = land.coords.y * -1
     rectangle.tokenId = land.tokenId
     rectangle.position.set(
       land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
@@ -186,7 +186,6 @@ const Heatmap2D = ({
 
   const onMouseMove = (e: any, currentSprite: any, currentTint: any) => {
     if (mapLoadingState) return;
-
     let { x, y } = viewport.toLocal(e.data.global)
 
     x = Math.floor(x / TILE_SIZE)
@@ -343,8 +342,7 @@ const Heatmap2D = ({
   useEffect(() => {
     if (!viewport) return
 
-    let currentTint: any
-    let currentSprite: any
+    let currentTint: any, currentSprite: any, currentClickedSprite: any, currentClickedTint: any
 
     //* remove existing listeners to viewport before add new listeners
     viewport.removeListener('mousemove');
@@ -357,6 +355,7 @@ const Heatmap2D = ({
       let mouseMoveData = onMouseMove(e, currentSprite, currentTint);
       currentSprite = mouseMoveData?.currentSprite;
       currentTint = mouseMoveData?.currentTint;
+
     })
     let isDragging = false
     viewport.on('drag-start', () => {
@@ -367,9 +366,13 @@ const Heatmap2D = ({
     })
     viewport.on('click', () => {
       if (currentSprite && !isDragging) {
+        if (currentClickedSprite) currentClickedSprite.tint = currentClickedTint
+        currentClickedTint = currentSprite.tint
+        currentClickedSprite = currentSprite
         const tokenId = currentSprite.tokenId
         socketService.getLand(metaverse, tokenId)
-        setMapLoadingState(true)
+        currentSprite.tint = 0xFFFFFF
+        currentTint = 0xFFFFFF
       }
     })
   }, [viewport, mapLoadingState])
@@ -415,14 +418,10 @@ const Heatmap2D = ({
           lands[child.name]
         )
         let { color } = tile
-        if (child.name === `${x},${y}`) {
-          //! SELECTED COLOR
-          child.tint = 0xFFFFFF
-        } else {
-          child.tint = color.includes('rgb')
-            ? rgbToHex(color.split('(')[1].split(')')[0])
-            : '0x' + color.split('#')[1]
-        }
+        child.tint = color.includes('rgb')
+          ? rgbToHex(color.split('(')[1].split(')')[0])
+          : '0x' + color.split('#')[1]
+
       }
     }
   }
@@ -431,7 +430,7 @@ const Heatmap2D = ({
     if (!chunks || !mapData) return
 
     filterUpdate()
-  }, [filter, percentFilter, legendFilter, x, y])
+  }, [filter, percentFilter, legendFilter])
 
   useEffect(() => {
     if (!x || !y) return

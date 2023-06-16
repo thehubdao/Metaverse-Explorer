@@ -179,44 +179,11 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		y: number = 0,
 		tokenId?: string,
 	) => {
+		y *= -1
 		setCardData(undefined);
 		setMapState("loadingQuery");
 		setIsVisible(true);
 		if (!metaverse) return;
-		if (!lands) {
-			try {
-				let data;
-				let link = ''
-				if (metaverse === 'sandbox') {
-					// We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
-					link = `${process.env.ITRM_SERVICE}/test/${metaverse}/map?`				
-				} else {
-					// For Decentraland and Somnium space if we use version 2 of the service.
-					link = `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/map?`
-				}
-				const parameters = (x !== undefined && y !== undefined) ? `x=${x}&y=${y}` : tokenId ? `tokenId=${tokenId}` : null;
-				const response = await fetch(`${link}${parameters}`, { method: "GET", body: JSON.stringify(data) });
-				lands = await response.json();
-				let auxLands
-				Object.entries(lands).forEach(([key, value]) => { auxLands = value });
-				lands = auxLands
-
-				if (metaverse !== 'somnium-space') {
-					const auxY = lands.coords.y
-					lands.coords.y = -auxY
-				}
-				/* 				if (metaverse !== "axie-infinity") {
-									Object.entries(lands).forEach(([key, value]) => {
-										lands = value;
-										lands.land_id = key;
-									});
-								} */
-			} catch (e) {
-				console.log("error");
-				setMapState("errorQuery");
-				return setTimeout(() => setIsVisible(false), 1100);
-			}
-		}
 		try {
 			if (!lands.name) throw "myException";
 			const landData: any = findHeatmapLand(
@@ -232,10 +199,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 			);
 			x = lands.coords ? lands.coords.x : lands.center.x;
 			y = lands.coords ? lands.coords.y : lands.center.y;
+			y *= -1
 			setSelected({ x, y });
 			setMapState("loadedQuery");
 			setCardData(landData as CardData);		
 		} catch (e) {
+			console.log(e)
 			setMapState("errorQuery");
 			return setTimeout(() => setIsVisible(false), 1100);
 		}
@@ -453,7 +422,8 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 											) => {
 												const land = JSON.parse(landRawData)
 												setCardData2(land)											
-												const { x, y } = land.coords
+												let { x, y } = land.coords
+												y*=-1
 												if (isSelected(x, y)) {
 													setSelected(undefined);
 												} else {
@@ -463,7 +433,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 														router.push("/purchase")
 														return
 													} */
-													handleMapSelection(undefined, x, y, undefined);
+													handleMapSelection(land, x, y, undefined);
 													/* updateCallsCount(address, 1, token)
 													if (valuationCount.current != undefined)
 														valuationCount.current += 1 */
