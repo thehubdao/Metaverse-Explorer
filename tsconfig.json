@@ -17,7 +17,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -29,7 +34,8 @@
     "backend/services/topSellingLands.ts",
     "lib/chatbot/MessageParser.js",
     "lib/chatbot/ActionProvider.js",
-    "lib/chatbot/MessageParser.js"
+    "lib/chatbot/MessageParser.js",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
