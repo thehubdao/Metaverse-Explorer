@@ -4,11 +4,6 @@ module.exports = {
 	async redirects() {
 		return [
 			{
-				source: '/',
-				destination: '/valuation',
-				permanent: false,
-			},
-			{
 				source: "/docs/mghdao_engl_whitepaper.pdf",
 				destination: "/docs/mgh_whitepaper_v3.pdf",
 				permanent: true,
