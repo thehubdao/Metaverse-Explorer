@@ -11,9 +11,9 @@ module.exports = {
     extend: {
       fontFamily: {
         'plus': ['Plus Jakarta Sans', 'sans-serif'],
+        'icons': ['var(--icons-font)', 'sans-serif'],
       },
       colors:{
-        'gray-medium': '#54575C',
         'bg-mnui': '#6D6D6D',
         'nm-highlight': '#FFFFFF',
         'nm-dm-highlight': '#27272D',
