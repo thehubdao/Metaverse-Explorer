@@ -1,11 +1,11 @@
-interface HeaderUIProps{
-    login: boolean
-}
+import { Login } from "../features/login/Login"
 
-export default function HeaderUI ({login}: HeaderUIProps){
+export default function HeaderUI (){
     return (
         <div className="header">
-            <p>{login ? 'Connected': 'Disconeted'}</p>
+            <Login />
         </div>
     )
 }
+
+//<p>{login ? 'Connected': 'Disconeted'}</p>

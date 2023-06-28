@@ -1,8 +1,15 @@
+'use client'
+
 import './global.css';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import HeaderUI from './ui/header.ui';
 
-const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font'});
+import { Providers } from './providers';
+
+import store from './store';
+import { Provider } from 'react-redux';
+
+const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 
 export const metadata = {
   title: 'Next.js',
@@ -15,22 +22,26 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${plusJakarta.variable}`}>
-      <body className='font-plus text-nm-dm-highlight bg-nm-highlight'>
-        <div className='w-full h-screen bg-yellow-100 grid grid-cols-[137px_1fr] grid-rows-[137px_1fr]'>
-          <nav className='bg-green-400 row-span-2'>
-            <div>
-              <p>menu</p>
-            </div>
-          </nav>
-          <header className='bg-blue-600 '>
-            <HeaderUI login={true} />
-          </header>
-          <main className='bg-red-200'>
-            {children}
-          </main>
-        </div>
-      </body>
-    </html>
+    <Provider store={store}>
+      <html lang="en" className={`${plusJakarta.variable}`}>
+        <body className='font-plus text-nm-dm-highlight bg-nm-highlight'>
+          <div className='w-full h-screen bg-yellow-100 grid grid-cols-[137px_1fr] grid-rows-[137px_1fr]'>
+            <nav className='bg-green-400 row-span-2'>
+              <div>
+                <p>menu</p>
+              </div>
+            </nav>
+            <header className='bg-blue-600 '>
+              <Providers>
+                <HeaderUI />
+              </Providers>
+            </header>
+            <main className='bg-red-200'>
+              {children}
+            </main>
+          </div>
+        </body>
+      </html>
+    </Provider>
   )
 }
