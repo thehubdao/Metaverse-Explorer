@@ -41,8 +41,7 @@ module.exports = {
         'dm-relief-16': '-6px -4px 16px #27272D, 8px 6px 16px #0C0D0F',
         'relief-32': '-12px -8px 32px #FFFFFF, 16px 12px 32px #D3D9E6',
         'dm-relief-32': '-12px -8px 32px #24262B, 16px 12px 32px #0C0D0F',
-        'asd': '2px 2px 4px #dadef0, -2px -2px 4px #ffffff',
-        'asd2': '7px 5px 7px #dadef0, -7px -5px 7px #ffffff'
+        'inset': '6px 4px 12px 0px rgba(9, 20, 36, 0.15) inset, -6px -4px 12px 0px #FFF inset'
       }
     },
   },
