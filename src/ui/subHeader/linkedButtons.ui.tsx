@@ -12,7 +12,7 @@ export default function LinkedButton({name, route, isActive}: OptionProps) {
     return (
       <Link key={name} href={`/${route}`}>
         {/* Oval Button */}
-        <div className={`${isActive ? 'shadow-relief-32' : 'shadow-relief-16 hover:shadow-relief-12'} px-8 py-3 flex items-center justify-center rounded-3xl cursor-pointer transition ease-in-out duration-300`}>
+        <div className={`${isActive ? 'shadow-inset' : 'shadow-relief-16 hover:shadow-relief-12'} px-8 py-3 flex items-center justify-center rounded-3xl cursor-pointer transition ease-in-out duration-300`}>
           <div className="font-bold text-nm-dm-icons text-base uppercase">
               {name}
           </div>

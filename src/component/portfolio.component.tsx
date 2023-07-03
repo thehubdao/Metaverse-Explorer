@@ -2,7 +2,7 @@ import FooterUI from "../ui/footer.ui";
 import IsLoginUI from "../ui/isLogin.ui";
 
 export default function PortfolioComponent (){
-    const isConnected = true
+    const isConnected = false
     return (
         <div className="px-16">
         

@@ -63,7 +63,7 @@ export default function RootLayout({
 }) {
   const [banner, setBanner] = useState<boolean>(false);
   const pathname = usePathname()
-  const isConnected = false;
+  const isConnected = true;
   
   useEffect(()=>{
     if(isConnected){
@@ -82,8 +82,10 @@ export default function RootLayout({
           <nav className="bg-nm-gray row-span-2">
             <NavbarUI list={list} route={pathname}/>
           </nav>
-          <header className={`${banner ? "bg-[url('/images/land_header.png')]" : ""} mr-12`} >
-            <ConnectButtonUI />
+          <header className={`${banner ? "bg-[url('/images/land_header.png')]" : ""}`} >
+            <div className='mr-12'>
+              <ConnectButtonUI />
+            </div>
           </header>
           <main>
           {pathname !== '/stake' ? <SubHeader optionList={subHeaderList}/> : ""}
