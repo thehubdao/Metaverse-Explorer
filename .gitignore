@@ -38,3 +38,7 @@ package-lock.json
 
 # Idea
 .idea
+
+# Test environments
+/src/app/test/*
+/src/app/api/test/*
