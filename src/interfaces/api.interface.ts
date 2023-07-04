@@ -6,14 +6,13 @@ export interface ApiResponse<T> {
   data?: T;
 }
 
-interface ExampleInterface {
+export interface GetExampleInterface {
   msg: string;
   param: string;
 }
 
-export interface GetExampleInterface extends ExampleInterface {
-}
-
-export interface PostExampleInterface extends ExampleInterface {
+export interface PostExampleInterface {
+  msg: string;
+  param: string;
   body: string;
 }

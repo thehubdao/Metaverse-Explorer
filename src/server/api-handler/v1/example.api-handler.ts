@@ -6,7 +6,7 @@ enum GetParams {
   Title= 'title'
 }
 
-export async function GetExample(req: Request) {
+export function GetExample(req: Request) {
   const {searchParams} = new URL(req.url);
   const title = searchParams.get(GetParams.Title);
   

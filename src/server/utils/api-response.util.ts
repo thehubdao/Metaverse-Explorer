@@ -12,11 +12,10 @@ export function JsonResponse<T>(obj: ApiResponse<T>, status: RequestStatus) {
 
 export async function TryGetReqBody<T>(req: Request) {
   try {
-    const body = await req.json();
-    return body as T;
+    return await req.json() as T;
   }
   catch (e) {
-    void LogErrorServer(ServerModule.ExampleApi, DefErrorMsg.ErrorGettingBody, e);
+    LogErrorServer(ServerModule.ExampleApi, DefErrorMsg.ErrorGettingBody, e);
     return {} as T;
   }
 }
