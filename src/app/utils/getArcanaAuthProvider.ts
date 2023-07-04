@@ -5,7 +5,7 @@ let auth: AuthProvider | null;
 const getArcanaAuthProvider = () => {
   if (!auth) {
     auth = new AuthProvider(
-      "xar_test_b2dde12aad64eb35d72b2c80926338e178b1fa3f"
+      process.env.ARCANA_CLIENT_ID!
     );
   }
   return auth;

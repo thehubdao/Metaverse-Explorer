@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@arcana/auth": "^1.0.5",
-    "@arcana/auth-wagmi": "^1.0.0",
+    "@arcana/auth-wagmi": "^2.0.0-beta.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@ethersproject/providers": "^5.7.2",
@@ -67,6 +67,7 @@
     "touch-position": "^2.0.0",
     "tsparticles": "^2.10.1",
     "use-resize-observer": "^9.1.0",
+    "viem": "^1.2.6",
     "wagmi": "^1.2.0"
   },
   "devDependencies": {
