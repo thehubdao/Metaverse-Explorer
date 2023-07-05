@@ -568,7 +568,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 					{/* Hot Deals Lands */}
 					{metaverse && (
-						<>
+						<div className="hidden">
 							<div className="flex items-center justify-center p-8 mt-7">
 								<div className="flex flex-col justify-center space-y-3 max-w-xl text-center">
 									<p className="text-grey-content font-bold lg:text-3xl text-2xl text-center">{metaverseLabels[metaverse]} Floor Listings <Image src='/images/icons/hot-icon.svg' width={24} height={26} alt="Hot Deals" className='' /></p>
@@ -578,12 +578,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<div className="flex items-center justify-center p-8 mt-7">
 								<HotDeals metaverse={metaverse} coinPrices={prices} />
 							</div>
-						</>
+						</div>
 					)}
 					{/* Daily Volume and Floor Price Wrapper */}
 					{metaverse && (
 						<>
-							<div className="grid grid-cols-3 gap-5 mb-20 mt-10">
+							<div className=" grid-cols-3 gap-5 mb-20 mt-10 hidden">
 								<div>
 									{/* Daily Volume */}
 									<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
@@ -604,7 +604,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									<HistoricalFloorPrice metaverse={metaverse} coinPrices={prices} />
 								</div> */}
 							</div>
-							<div className="rounded-3xl bg-grey-bone p-5 mb-10 nm-flat-hard">
+							<div className="rounded-3xl bg-grey-bone p-5 my-10 nm-flat-hard">
 								<TopPicksLands metaverse={metaverse} />
 							</div>
 							<div className="rounded-3xl bg-grey-bone p-5 nm-flat-hard">
