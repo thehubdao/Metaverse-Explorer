@@ -9,6 +9,8 @@ import { useAccount, useWalletClient  } from 'wagmi';
 import { useToken } from '../backend/useToken';
 import web3authService from '../backend/services/Web3authService';
 
+import { fetchWatchlist } from '../state/watchlistSlice';
+
 export function Login() {
   const dispatch = useAppDispatch()
 
@@ -59,6 +61,11 @@ export function Login() {
     setToken(accessToken)
     console.log("TOKEN> ", accessToken);
   }, [accessToken])
+
+  useEffect(() => {
+    if (!address || !accessToken.token) return;
+    dispatch(fetchWatchlist({ address, accessToken }))
+  }, [address, accessToken])
 
   if (!hasMounted) {
     return null;
