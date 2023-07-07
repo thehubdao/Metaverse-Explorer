@@ -4,7 +4,6 @@ import "@rainbow-me/rainbowkit/styles.css";
 
 import {
   RainbowKitProvider,
-  Wallet,
   connectorsForWallets,
 } from "@rainbow-me/rainbowkit";
 

@@ -1,4 +1,4 @@
-import { Login } from "../../component/login.component."
+import { Login } from "../components/login.component."
 
 export default function HeaderUI (){
     return (
