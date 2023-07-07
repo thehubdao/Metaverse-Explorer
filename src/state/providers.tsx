@@ -1,9 +1,8 @@
-"use client";
-
 import "@rainbow-me/rainbowkit/styles.css";
 
 import {
   RainbowKitProvider,
+  Wallet,
   connectorsForWallets,
 } from "@rainbow-me/rainbowkit";
 
@@ -12,7 +11,7 @@ import {
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
+import { configureChains, Connector, createConfig, WagmiConfig } from "wagmi";
 
 import { mainnet, polygon } from "wagmi/chains";
 
@@ -56,7 +55,7 @@ const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      ArcanaRainbowConnector({ chains }) as any,
+      ArcanaRainbowConnector({ chains }) as Wallet<Connector<any, any>>,
       metaMaskWallet({
         chains,
         projectId: process.env.WALLETCONNECT_PROJECT_ID!,

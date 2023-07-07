@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react'
 
-import { useAppDispatch } from '../state/hooks'
+import { useAppDispatch, useAppSelector } from '../state/hooks'
 
 import * as loginActions from '../state/loginSlice'
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount,  } from 'wagmi';
+import { useAccount, useWalletClient  } from 'wagmi';
 import { useToken } from '../backend/useToken';
 import web3authService from '../backend/services/Web3authService';
 
 export function Login() {
   const dispatch = useAppDispatch()
 
+  const { accessToken }: any = useAppSelector((state) => state.login);
+
   const { address, isConnected } = useAccount()
+
+  const { data } = useWalletClient()
 
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -30,7 +34,7 @@ export function Login() {
   }
 
   const initAuth = async (signer: any) => {
-    const accessToken: any = await web3authService.connectWeb3Auth(signer as Signer)
+    const accessToken: any = await web3authService.connectWeb3Auth(signer)
     dispatch(loginActions.setAccountToken(accessToken))
   }
 
@@ -41,11 +45,20 @@ export function Login() {
   useEffect(() => {
     if (isConnected) {
       loginInit()
-      initAuth()
+      initAuth(data?.account)
     } else {
       dispatch(loginActions.disconnect())
     }
   }, [isConnected]);
+
+  useEffect(() => {
+    if (!accessToken.token) {
+      setToken({})
+      return
+    }
+    setToken(accessToken)
+    console.log("TOKEN> ", accessToken);
+  }, [accessToken])
 
   if (!hasMounted) {
     return null;

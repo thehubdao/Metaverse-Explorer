@@ -3,10 +3,10 @@ import { Web3Auth } from '@web3auth/modal'
 import { SafeEventEmitterProvider } from '@web3auth/base'
 
 import RPC from '../api/etherRPC' // for using web3.js
-import { Signer } from 'ethers'
 import { fetchNonce, sendSignedNonce } from '../login'
 import { verifyMessage } from 'ethers/lib/utils.js'
 import axios from 'axios'
+import { WalletClient } from 'viem'
 
 class Web3authService {
     private web3auth: Web3Auth | null = null
@@ -76,14 +76,17 @@ class Web3authService {
         return decodedToken
     }
 
-    connectWeb3Auth = async (signer: Signer) => {
-        const address = await signer.getAddress()
+    connectWeb3Auth = async (signer: WalletClient) => {
+        const [address] = await signer.getAddresses() 
         try {
             const { nonce } = await fetchNonce(address)
             // Create Msg
             const msgToSign = `${nonce}`
             // Make user Sign it (React Dev Mode makes component refresh twice, so it will make user sign twice, this shouldn't happen once in production)
-            const signedNonce = await signer.signMessage(msgToSign)
+            const signedNonce = await signer.signMessage({
+                account: address,
+                message: msgToSign,
+            })
             // Verify Msg in frontend first
             const signedAddress = verifyMessage(msgToSign, signedNonce)
             if (signedAddress !== address) {

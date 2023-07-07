@@ -2,11 +2,11 @@
 
 import './global.css';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import HeaderUI from './ui/header.ui';
+import HeaderUI from '../ui/header.ui';
 
-import { Providers } from './state/providers';
+import { Providers } from '../state/providers';
 
-import store from './state/store';
+import store from '../state/store';
 import { Provider } from 'react-redux';
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
