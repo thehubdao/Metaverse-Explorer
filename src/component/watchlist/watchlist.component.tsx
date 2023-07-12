@@ -1,4 +1,4 @@
-import IsLoginUI from "../ui/isLogin.ui";
+import IsLoginUI from "../../ui/common/isLogin.ui";
 
 export default function WatchlistComponent (){
     const isConnected = false

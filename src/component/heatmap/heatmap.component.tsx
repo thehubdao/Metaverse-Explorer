@@ -1,5 +1,5 @@
-import FooterUI from "../ui/footer.ui"
-import IsLoginUI from "../ui/isLogin.ui"
+import FooterUI from "../../ui/common/footer.ui"
+import IsLoginUI from "../../ui/common/isLogin.ui"
 
 export default function HeatmapComponent (){
     const isConnected = false

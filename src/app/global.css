@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* z-index order */
+/* z-50 SpecificLandModalUI */
+
 body{
   background-color: '#FFFFFF';
 }

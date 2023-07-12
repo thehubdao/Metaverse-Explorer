@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import NavbarUI from '../ui/navbar/navbar.ui';
 import FontIcons from 'next/font/local';
-import ConnectButtonUI from '../ui/connectButton.ui';
+import ConnectButtonUI from '../ui/common/connectButton.ui';
 import SubHeader from '../ui/subHeader/subHeader.ui';
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font'});

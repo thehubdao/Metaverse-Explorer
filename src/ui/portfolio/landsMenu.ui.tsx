@@ -1,12 +1,15 @@
-import { Metaverses } from "../enums/enums";
-import { useState } from 'react'
+import { Metaverses } from "../../enums/enums";
 import Image from "next/image";
 
-export default function LandsMenuUI (){
-    const [metaverse, setMetaverse] = useState(Metaverses.ALL)
+interface LandsMenuUIProps{
+    metaverse: Metaverses;
+    setMetaverse: React.Dispatch<React.SetStateAction<Metaverses>>;
+}
+
+export default function LandsMenuUI ({metaverse, setMetaverse}: LandsMenuUIProps){
 
     return(
-        <div className='w-full flex items-center justify-center space-x-5 py-16'>
+        <div className='w-full flex items-center justify-center space-x-5 py-16 border-b border-nm-remark'>
             {(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
                 <button
                     key={key}
