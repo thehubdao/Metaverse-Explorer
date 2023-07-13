@@ -6,8 +6,8 @@ import IsLoginUI from "../../ui/common/isLogin.ui";
 import LandsMenuUI from "../../ui/portfolio/landsMenu.ui";
 import { Metaverses } from "../../enums/enums";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes";
-import PortfolioCardUI from "../../ui/portfolio/portfolioCard.ui";
 import NolandsUI from "../../ui/common/noLands.ui";
+import LandCardUI from "../../ui/common/landCard.ui";
 
 const ilands: LandProps[] =[
     {
@@ -15,7 +15,7 @@ const ilands: LandProps[] =[
         tokenId: '45',
         name:"LAND (0,-1)",
         images:{
-            image_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=1024&w=1024&auto=format",
+            image_url: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
             image_thumbnail_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=250&w=250&auto=format",
             image_original_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=128&w=128&auto=format",
             image_preview_url: "https://api.sandbox.game/lands/afc9cb8b-c281-46ad-b1ba-ebfd1cce3de0/v2/preview-500px-x-500px.jpg"
@@ -54,7 +54,7 @@ const ilands: LandProps[] =[
         tokenId: '46',
         name:"LAND (0,-1)",
         images:{
-            image_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=1024&w=1024&auto=format",
+            image_url: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
             image_thumbnail_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=250&w=250&auto=format",
             image_original_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=128&w=128&auto=format",
             image_preview_url: "https://api.sandbox.game/lands/afc9cb8b-c281-46ad-b1ba-ebfd1cce3de0/v2/preview-500px-x-500px.jpg"
@@ -93,7 +93,7 @@ const ilands: LandProps[] =[
         tokenId: '47',
         name:"Extra Large #974 (XL) parcel in somnium space",
         images:{
-            image_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=1024&w=1024&auto=format",
+            image_url: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
             image_thumbnail_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=250&w=250&auto=format",
             image_original_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=128&w=128&auto=format",
             image_preview_url: "https://api.sandbox.game/lands/afc9cb8b-c281-46ad-b1ba-ebfd1cce3de0/v2/preview-500px-x-500px.jpg"
@@ -132,7 +132,7 @@ const ilands: LandProps[] =[
         tokenId: '48',
         name:"LAND (0,-1)",
         images:{
-            image_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=1024&w=1024&auto=format",
+            image_url: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
             image_thumbnail_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=250&w=250&auto=format",
             image_original_url: "https://img.seadn.io/files/d53cc5cfa5702c7d347fa9f19503e7d6.jpg?h=128&w=128&auto=format",
             image_preview_url: "https://api.sandbox.game/lands/afc9cb8b-c281-46ad-b1ba-ebfd1cce3de0/v2/preview-500px-x-500px.jpg"
@@ -243,7 +243,7 @@ export default function PortfolioComponent (){
                     :
                     <div className="mx-16">
                         <div className=" mb-24 flex flex-wrap w-full justify-between">
-                            <PortfolioCardUI lands={ilands} metaverse={metaverse} prices={coinPrices}/>
+                            <LandCardUI lands={ilands} metaverse={metaverse} prices={coinPrices}/>
                         </div>
                     </div>
                 }

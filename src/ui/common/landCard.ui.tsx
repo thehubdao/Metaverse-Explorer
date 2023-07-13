@@ -4,13 +4,13 @@ import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import InformationCardUI from "./informationCard.ui";
 
 
-interface PortfolioCardUIProps {
+interface LandCardUIProps {
   lands: LandProps[],
   metaverse: Metaverses;
   prices: ICoinPrices
 }
 
-export default function PortfolioCardUI({ lands, metaverse, prices }: PortfolioCardUIProps) {
+export default function LandCardUI({ lands, metaverse, prices }: LandCardUIProps) {
 
   let filteredLands = lands;
 

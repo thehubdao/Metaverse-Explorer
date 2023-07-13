@@ -1,7 +1,5 @@
-import { BsTwitter } from "react-icons/bs";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes"
 import Tooltip from "@mui/material/Tooltip";
-import Image from "next/image";
 import PriceListUI from "./priceList.ui";
 import SpecificPriceListUI from "./specificPriceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
