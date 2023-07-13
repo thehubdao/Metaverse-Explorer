@@ -1,64 +1,46 @@
-// WEB 3 AUTH imports
-import { Web3Auth } from '@web3auth/modal'
-import { SafeEventEmitterProvider } from '@web3auth/base'
-
-import RPC from '../api/etherRPC' // for using web3.js
-import { fetchNonce, sendSignedNonce } from '../login'
 import { verifyMessage } from 'ethers/lib/utils.js'
 import axios from 'axios'
 import { WalletClient } from 'viem'
 
 class Web3authService {
-    private web3auth: Web3Auth | null = null
-    private web3authProvider: SafeEventEmitterProvider | null = null
     private token: string | null = null
-    private B2BRoles: [any] | null = null
-    private B2CRole: any | null = null
 
-    public get getWeb3Auth(): Web3Auth | null {
-        return this.web3auth
-    }
-    public get getB2Broles(): [any] | null {
-        return this.B2BRoles
-    }
-    public get getB2CRole(): any | null {
-        return this.B2CRole
-    }
     public get getToken(): string | null {
         return this.token
     }
 
-    getUserInfo = async () => {
-        if (!this.web3auth) {
-            console.log('web3auth not initialized yet')
-            return
-        }
-        const user = await this.web3auth.getUserInfo()
-        return user
-    }
-
-    signMessage = async (message: string) => {
-        if (!this.web3authProvider) {
-            console.log('provider not initialized yet')
-            return
-        }
-        const rpc = new RPC(this.web3authProvider)
-        const signedMessage = await rpc.signMessage(message)
-        return `${signedMessage}`
-    }
-    isPremiumUser = () => {
-        if (!this.B2CRole) return false
-        if (this.B2CRole.role != 1) return false
-        if (this.B2CRole.endDate <= Math.floor(Date.now() / 1000)) return false
-        return true
-    }
-
     setUserData = async (token: string) => {
         const decodedToken = await this.decodeToken(token)
-        const { B2BRoles, B2CRoles } = decodedToken
-        console.log(B2CRoles)
-        this.B2BRoles = B2BRoles
-        this.B2CRole = B2CRoles
+    }
+
+    connectWeb3Auth = async (signer: WalletClient) => {
+        const [address] = await signer.getAddresses()
+        try {
+            const { nonce } = await this.fetchNonce(address)
+            // Create Msg
+            const msgToSign = `${nonce}`
+            // Make user Sign it (React Dev Mode makes component refresh twice, so it will make user sign twice, this shouldn't happen once in production)
+            const signedNonce = await signer.signMessage({
+                account: address,
+                message: msgToSign,
+            })
+            // Verify Msg in frontend first
+            const signedAddress = verifyMessage(msgToSign, signedNonce)
+            if (signedAddress !== address) {
+                return
+            }
+            // JWT request to API
+            const tokenData = await this.sendSignedNonce(signedNonce, signedAddress)
+
+            const { accessToken } = tokenData
+            // Decode JWT and set Global State
+            await this.setUserData(accessToken.token)
+
+            return accessToken
+        } catch (e) {
+            console.log(e)
+            return {}
+        }
 
     }
 
@@ -74,37 +56,6 @@ class Web3authService {
         )
         const decodedToken = await decodeRes.data
         return decodedToken
-    }
-
-    connectWeb3Auth = async (signer: WalletClient) => {
-        const [address] = await signer.getAddresses() 
-        try {
-            const { nonce } = await fetchNonce(address)
-            // Create Msg
-            const msgToSign = `${nonce}`
-            // Make user Sign it (React Dev Mode makes component refresh twice, so it will make user sign twice, this shouldn't happen once in production)
-            const signedNonce = await signer.signMessage({
-                account: address,
-                message: msgToSign,
-            })
-            // Verify Msg in frontend first
-            const signedAddress = verifyMessage(msgToSign, signedNonce)
-            if (signedAddress !== address) {
-                return
-            }
-            // JWT request to API
-            const tokenData = await sendSignedNonce(signedNonce, signedAddress)
-
-            const { accessToken } = tokenData
-            // Decode JWT and set Global State
-            await this.setUserData(accessToken.token)
-
-            return accessToken
-        } catch (e) {
-            console.log(e)
-            return {}
-        }
-
     }
 
     updateToken = async (token: string) => {
@@ -129,8 +80,32 @@ class Web3authService {
     }
 
     disconnectWeb3Auth = async () => {
-        if (!this.web3auth) return
         axios.get(`${process.env.AUTH_SERVICE}/authService/logout`, { withCredentials: true })
+    }
+
+    fetchNonce = async (address: string) => {
+        const nonceRes = await fetch(
+            `${process.env.AUTH_SERVICE}/authService/getNonce?address=${address}`,
+            {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            }
+        )
+        return await nonceRes.json()
+    }
+
+    sendSignedNonce = async (signedNonce: string, address: string) => {
+        const loginRes = await axios.post(
+            `${process.env.AUTH_SERVICE}/authService/loginWallet?address=${address}&signature=${signedNonce}`, {},
+            {
+                withCredentials: true,
+                headers: { 'Content-Type': 'application/json' },
+
+            }
+        )
+        const accessToken = await loginRes.data
+
+        return { accessToken }
     }
 }
 

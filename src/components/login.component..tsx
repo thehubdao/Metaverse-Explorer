@@ -11,6 +11,8 @@ import web3authService from '../backend/services/Web3authService';
 
 import { fetchWatchlist } from '../state/watchlistSlice';
 
+let didSignerSet = false
+
 export function Login() {
   const dispatch = useAppDispatch()
 
@@ -18,13 +20,14 @@ export function Login() {
 
   const { address, isConnected } = useAccount()
 
-  const { data } = useWalletClient()
-
   const [hasMounted, setHasMounted] = useState(false);
+
+  const { data: walletClient } = useWalletClient()
 
   const onTokenInvalid = async () => { dispatch(loginActions.setAccountToken({})) };
 
   const logout = async () => {
+    didSignerSet = true
     dispatch(loginActions.setAccountToken({}))
   }
 
@@ -45,9 +48,14 @@ export function Login() {
   }, []);
 
   useEffect(() => {
+    if (didSignerSet || !walletClient || accessToken.token) return
+    initAuth(walletClient)
+    didSignerSet = true
+  }, [walletClient])
+
+  useEffect(() => {
     if (isConnected) {
       loginInit()
-      initAuth(data?.account)
     } else {
       dispatch(loginActions.disconnect())
     }
@@ -59,7 +67,6 @@ export function Login() {
       return
     }
     setToken(accessToken)
-    console.log("TOKEN> ", accessToken);
   }, [accessToken])
 
   useEffect(() => {
