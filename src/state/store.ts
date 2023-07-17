@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import loginReducer from './loginSlice';
 import watchlistReducer from './watchlistSlice'
+import portfolioReducer from "./portfolioSlice";
 
 const store = configureStore(
     {
         reducer: {
             login: loginReducer,
-            watchlist: watchlistReducer
+            watchlist: watchlistReducer,
+            portfolio: portfolioReducer
         }
     }
 )

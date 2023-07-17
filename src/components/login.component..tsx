@@ -10,6 +10,7 @@ import { useToken } from '../backend/useToken';
 import web3authService from '../backend/services/Web3authService';
 
 import { fetchWatchlist } from '../state/watchlistSlice';
+import { fetchPortfolio } from '../state/portfolioSlice';
 
 let didSignerSet = false
 
@@ -72,6 +73,7 @@ export function Login() {
   useEffect(() => {
     if (!address || !accessToken.token) return;
     dispatch(fetchWatchlist({ address, accessToken }))
+    dispatch(fetchPortfolio({ address }))
   }, [address, accessToken])
 
   if (!hasMounted) {
