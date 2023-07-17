@@ -6,6 +6,7 @@ import LandsMenuUI from "../../ui/portfolio/landsMenu.ui";
 import { useState } from "react";
 import { Metaverses } from "../../enums/enums";
 import LandCardUI from "../../ui/common/landCard.ui";
+import SearhLandFormUI from "../../ui/watchlist/serchLandForm.ui";
 
 const ilands: LandProps[] =[
   {
@@ -215,7 +216,7 @@ const coinPrices: ICoinPrices = {
 };
 
 export default function WatchlistComponent() {
-  const [metaverse, setMetaverse] = useState(Metaverses.SANDBOX)
+  const [metaverse, setMetaverse] = useState(Metaverses.ALL)
   const isConnected = true
   return (
     <>
@@ -225,11 +226,16 @@ export default function WatchlistComponent() {
         <>
           <div className='mr-16 ml-8 mb-24 mt-10 rounded-2xl bg-nm-fill'>
             <LandsMenuUI metaverse={metaverse} setMetaverse={setMetaverse} isWatchlist={true}/>
-            <div>
-              
+            <div className="w-full flex items-center justify-center gap-x-32 pb-16">
+              <SearhLandFormUI metaverse={metaverse} />
             </div>
             <div className=" px-6 pb-20 flex flex-wrap w-full justify-between">
-              <LandCardUI lands={ilands} metaverse={metaverse} prices={coinPrices} />
+              {
+                metaverse !== "All Lands" ?
+                <LandCardUI lands={ilands} metaverse={metaverse} prices={coinPrices} />
+                :
+                <></>
+              }
             </div>
           </div>
         </>
