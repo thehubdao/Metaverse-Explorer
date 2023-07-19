@@ -1,5 +1,10 @@
-﻿export default function AppPage() {
+﻿import FooterUI from "../ui/footer.ui";
+
+export default function AppPage() {
   return (
-    <>Hello MGH!</>
+    <div>
+      <h1>content main page</h1>
+      <FooterUI/>
+    </div>
   )
 }

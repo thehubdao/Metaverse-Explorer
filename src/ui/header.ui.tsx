@@ -7,5 +7,3 @@ export default function HeaderUI (){
         </div>
     )
 }
-
-//<p>{login ? 'Connected': 'Disconeted'}</p>
