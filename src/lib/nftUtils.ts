@@ -17,53 +17,6 @@ const createNFTContract = (provider: Provider, contractAddress: string) => {
 }
 
 /**
- *  @dev Fetch User's Current Lands from the Axie Marketplace API
- *  @returns Array of tokenIds of User's Axie Lands
- * */
-/* export const getAxieLands = async (address: string) => {
-  let filteredIds: any[] = []
-  const requestLands = async (from = 0) => {
-    const res = await fetch(
-      'https://graphql-gateway.axieinfinity.com/graphql',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          operationName: 'GetLandsGrid',
-          variables: {
-            from: from,
-            size: 10000,
-            sort: 'PriceAsc',
-            auctionType: 'All',
-            owner: address,
-            criteria: {},
-          },
-          query:
-            'query GetLandsGrid($from: Int!, $size: Int!, $sort: SortBy!, $owner: String, $criteria: LandSearchCriteria, $auctionType: AuctionType) {\n  lands(criteria: $criteria, from: $from, size: $size, sort: $sort, owner: $owner, auctionType: $auctionType) {\n    total\n    results {\n      ...LandBriefV2\n      __typename\n    }\n    __typename\n  }\n}\n\nfragment LandBriefV2 on LandPlot {\n  tokenId\n  owner\n  landType\n  row\n  col\n  auction {\n    currentPrice\n    startingTimestamp\n    currentPriceUSD\n    __typename\n  }\n  ownerProfile {\n    name\n    __typename\n  }\n  __typename\n}\n',
-        }),
-      }
-    )
-    try {
-      const results = (await res.json()).data.lands.results as any[]
-      results.forEach((result) => filteredIds.push(result.tokenId))
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  // Current requests Caps at 100 Results.
-   // Looping and ofsetting in case user owns more than 100 lands
-  for (let i = 0; i < 90601;) {
-    await requestLands(i)
-    i += 100
-    if (filteredIds.length !== i) break
-  }
-  return filteredIds
-} */
-
-/**
  *  @dev Fetch User's Current NFTs. Should work with any Valid ERC-721
  *  @returns Array of tokenIds (as strings) of User's NFTs
  * */
@@ -127,18 +80,3 @@ export const getUserNFTs = async (
   }
   return filteredIds
 }
-
-/*export const getNftTransfersAmount = async (
-  provider: Provider,
-  contractAddress: string,
-  tokenId: string
-) => {
-  const contract = createNFTContract(provider, contractAddress)
-  const event = contract.filters.Transfer(
-    undefined,
-    undefined,
-    ethers.BigNumber.from(tokenId)
-  )
-  const transfers = await contract.queryFilter(event)
-  return transfers.length
-} */
