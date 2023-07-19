@@ -185,7 +185,7 @@ export default function NftValuation() {
 	return (
 		<>
 			<Head>
-				<title>MGH - NFT Valuation</title>
+				<title>THE HUB DAO - NFT Valuation</title>
 				<meta name="description" content="" />
 			</Head>
 
@@ -280,13 +280,13 @@ export default function NftValuation() {
 								</div>
 								{/* Footer */}
 								<Footer
-									label="The MGH DAO does not provide, personalized investment
+									label="THE HUB DAO does not provide, personalized investment
 									recommendations or advisory services. Any information provided
 									through the land evaluation tool and others is not, and should not
 									be, considered as advice of any kind and is for information
 									purposes only. That land is “valuated” does not mean, that it is
 									in any way approved, checked audited, and/or has a real or correct
-									value. In no event shall the MGH DAO be liable for any special,
+									value. In no event shall THE HUB DAO be liable for any special,
 									indirect, or consequential damages, or any other damages of any
 									kind, including but not limited to loss of use, loss of profits,
 									or loss of data, arising out of or in any way connected with the
