@@ -270,7 +270,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 	return (
 		<>
 			<Head>
-				<title>THE HUB DAO | Valuation</title>
+				<title>MGH | Valuation</title>
 				<meta
 					name="description"
 					content="Land Valuation with our Custom Heatmap"
@@ -329,7 +329,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									</div>
 								</Tooltip>
 							</div>
-							<p className="font-normal">THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+							<p className="font-normal">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of {metaverseLabels[metaverse]} Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
 						</div>
 						<div className="flex space-x-8 items-center justify-evenly max-w-2xl">
 							<div className="flex flex-col space-y-1 items-center">
@@ -568,7 +568,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 					</div>
 					{/* Hot Deals Lands */}
 					{metaverse && (
-						<div className="hidden">
+						<>
 							<div className="flex items-center justify-center p-8 mt-7">
 								<div className="flex flex-col justify-center space-y-3 max-w-xl text-center">
 									<p className="text-grey-content font-bold lg:text-3xl text-2xl text-center">{metaverseLabels[metaverse]} Floor Listings <Image src='/images/icons/hot-icon.svg' width={24} height={26} alt="Hot Deals" className='' /></p>
@@ -578,12 +578,12 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 							<div className="flex items-center justify-center p-8 mt-7">
 								<HotDeals metaverse={metaverse} coinPrices={prices} />
 							</div>
-						</div>
+						</>
 					)}
 					{/* Daily Volume and Floor Price Wrapper */}
 					{metaverse && (
 						<>
-							<div className=" grid-cols-3 gap-5 mb-20 mt-10 hidden">
+							<div className="grid grid-cols-3 gap-5 mb-20 mt-10">
 								<div>
 									{/* Daily Volume */}
 									<SalesVolumeDaily metaverse={metaverse} coinPrices={prices} />
@@ -604,7 +604,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 									<HistoricalFloorPrice metaverse={metaverse} coinPrices={prices} />
 								</div> */}
 							</div>
-							<div className="rounded-3xl bg-grey-bone p-5 my-10 nm-flat-hard">
+							<div className="rounded-3xl bg-grey-bone p-5 mb-10 nm-flat-hard">
 								<TopPicksLands metaverse={metaverse} />
 							</div>
 							<div className="rounded-3xl bg-grey-bone p-5 nm-flat-hard">
@@ -615,13 +615,13 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 				</div>)}
 
 				<Footer
-					label="THE HUB DAO does not provide, personalized investment
+					label="The MGH DAO does not provide, personalized investment
 							recommendations or advisory services. Any information provided
 							through the land evaluation tool and others is not, and should
 							not be, considered as advice of any kind and is for
 							information purposes only. That land is “valuated” does not
 							mean, that it is in any way approved, checked audited, and/or
-							has a real or correct value. In no event shall THE HUB DAO be
+							has a real or correct value. In no event shall the MGH DAO be
 							liable for any special, indirect, or consequential damages, or
 							any other damages of any kind, including but not limited to
 							loss of use, loss of profits, or loss of data, arising out of

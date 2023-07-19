@@ -12,7 +12,7 @@ const Swap: NextPage = () => {
     return (
         <>
             <Head>
-                <title>THE HUB DAO - Swap</title>
+                <title>MGH - Swap</title>
                 <meta name="description" content="Governance of metaverse related items, fair valuation and minting of NFT backed tokens and provision of metaverse market data." />
             </Head>
 

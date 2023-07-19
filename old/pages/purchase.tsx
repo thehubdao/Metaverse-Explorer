@@ -44,7 +44,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
   return (
     <>
       <Head>
-        <title>THE HUB | Purchase</title>
+        <title>MGH | Purchase</title>
         <meta name='description' content='Purchase VIP Status' />
       </Head>
 
@@ -61,7 +61,7 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
               </div>
               <div className="h-full w-full flex flex-col justify-center items-center text-black">
                 <h2 className="text-4xl text-center font-bold">
-                  Metaverse Analytics API powered by THE HUB DAO AI
+                  Metaverse Analytics API powered by the MGH DAO AI
                 </h2>
                 {
                   <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl mb-10">
@@ -169,13 +169,13 @@ const Purchase: NextPage<{ coinValues: PurchaseCoinValues }> = ({
               </div>
 
               <Footer
-                label='THE HUB DAO does not provide, personalized investment
+                label='The MGH DAO does not provide, personalized investment
         recommendations or advisory services. Any information provided
         through the land evaluation tool and others is not, and should not
         be, considered as advice of any kind and is for information
         purposes only. That land is “valuated” does not mean, that it is
         in any way approved, checked audited, and/or has a real or correct
-        value. In no event shall THE HUB DAO be liable for any special,
+        value. In no event shall the MGH DAO be liable for any special,
         indirect, or consequential damages, or any other damages of any
         kind, including but not limited to loss of use, loss of profits,
         or loss of data, arising out of or in any way connected with the

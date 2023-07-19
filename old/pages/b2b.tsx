@@ -45,7 +45,7 @@ const B2B: NextPage = () => {
                     </div>
                     <div className="h-full w-full flex flex-col justify-center items-center text-black">
                         <h2 className="text-4xl text-center font-bold">
-                            Metaverse Analytics API powered by THE HUB DAO AI
+                            Metaverse Analytics API powered by the MGH DAO AI
                         </h2>
                         {
                             <div className="py-3 px-14 my-3 nm-flat-soft rounded-2xl mb-10">

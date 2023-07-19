@@ -74,7 +74,7 @@ const Watchlist: NextPage<{ prices: ICoinPrices }> = ({ prices }) =>  {
   return (
     <>
       <Head>
-        <title>THE HUB DAO - NFT Valuation</title>
+        <title>MGH - NFT Valuation</title>
         <meta name="description" content="" />
       </Head>
 

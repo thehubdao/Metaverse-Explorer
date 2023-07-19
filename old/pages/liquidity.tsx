@@ -14,7 +14,7 @@ const Liquidity: NextPage = () => {
     return (
         <>
             <Head>
-                <title>THE HUB DAO - Liquidity</title>
+                <title>MGH - Liquidity</title>
                 <meta name="description" content="Governance of metaverse related items, fair valuation and minting of NFT backed tokens and provision of metaverse market data." />
             </Head>
 

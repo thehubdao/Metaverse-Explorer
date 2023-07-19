@@ -113,7 +113,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                     <div className='w-fit'>
                         <Loader size={100} color='blue' />
                     </div>
-                    <p className='absolute bottom-12 font-bold text-grey-content'>THE HUB DAO loves you!</p>
+                    <p className='absolute bottom-12 font-bold text-grey-content'>MGH loves you!</p>
                 </div>
             )}
         </>

@@ -117,7 +117,7 @@ export const Badges = () => {
                         <div className="tooltip flex mx-4 border-solid border-2 w-6 h-6 text-xs rounded-full cursor-help items-center justify-center place-self-center">i
                         <div className="tooltiptext text-base">
                         These badges are an important way to demonstrate one's reputation within the metaverse, and they can serve as a symbol of status and achievement.
-                        As non-fungible tokens (NFTs), THE HUB DAO Badges are unique and can be collected, traded, and displayed as a testament to a user's standing within the community.
+                        As non-fungible tokens (NFTs), the MGH Badges are unique and can be collected, traded, and displayed as a testament to a user's standing within the community.
                         In the metaverse, reputation is an essential currency, and these badges serve as a way to demonstrate and recognize the contributions and engagement of its holders.
                         </div>
                         </div>
