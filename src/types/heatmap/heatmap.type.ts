@@ -1,15 +1,5 @@
-import {Tile} from "../interfaces/heatmap.interface";
-import {MapFilterEnum} from "../enums/heatmap.enum";
-import {LEGEND_FILTER, PERCENT_FILTER} from "../constants/heatmap.constant";
-
-export type LayerFunction = (
-    x: number,
-    y: number,
-    filter?: MapFilter,
-    percentFilter?: PercentFilter,
-    legendFilter?: LegendFilter,
-    land?: any,
-) => Tile | null;
+import {MapFilterEnum} from "../../enums/heatmap.enum";
+import {LEGEND_FILTER, PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 
 export type MapFilter = keyof typeof MapFilterEnum;
 
@@ -23,3 +13,4 @@ export type PercentFilter = typeof PERCENT_FILTER[PercentFilterKeys] | undefined
 export type LegendFilterKeys = keyof typeof LEGEND_FILTER;
 export type LegendFilter = typeof LEGEND_FILTER[LegendFilterKeys] | undefined;
 
+export type LogoColors = 'black' | 'blue';

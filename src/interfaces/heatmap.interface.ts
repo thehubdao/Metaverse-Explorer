@@ -1,3 +1,5 @@
+import {Sprite} from "pixi.js";
+
 export interface TopLandsData {
   position?: number;
   image: string;
@@ -101,8 +103,9 @@ export interface HeatmapSize {
     initialX: number;
 }
 
-// For Clicks and Searches
-export interface LandCoords {
-    x?: string | number;
-    y?: string | number;
+export interface OtherSprite extends Sprite {
+    tokenId?: string;
+    landY?: number;
+    landX?: number;
+    type?: string;
 }
