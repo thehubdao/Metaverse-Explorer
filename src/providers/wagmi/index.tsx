@@ -1,3 +1,5 @@
+"use client"
+
 import "@rainbow-me/rainbowkit/styles.css";
 
 import {
@@ -11,18 +13,17 @@ import {
   walletConnectWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 
-import { configureChains, Connector, createConfig, WagmiConfig } from "wagmi";
+import { Chain, configureChains, Connector, createConfig, WagmiConfig } from "wagmi";
 
 import { mainnet, polygon } from "wagmi/chains";
 
-import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 
-import { getArcanaAuthProvider } from "../utils/getArcanaAuthProvider";
+import { getArcanaAuthProvider } from "../../utils/getArcanaAuthProvider";
 
 import { ArcanaConnector } from "@arcana/auth-wagmi";
 
-const ArcanaRainbowConnector = ({ chains }: any) => {
+const ArcanaRainbowConnector = (chains: Chain[] | undefined) => {
   return {
     id: "arcana-auth",
     name: "Arcana Wallet",
@@ -46,7 +47,6 @@ const ArcanaRainbowConnector = ({ chains }: any) => {
 const { chains, publicClient } = configureChains(
   [mainnet, polygon],
   [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ETHEREUM_KEY! }),
     publicProvider(),
   ]
 );
@@ -55,7 +55,7 @@ const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      ArcanaRainbowConnector({ chains }) as Wallet<Connector<any, any>>,
+      ArcanaRainbowConnector(chains) as Wallet<Connector<any, any>>,
       metaMaskWallet({
         chains,
         projectId: process.env.WALLETCONNECT_PROJECT_ID!,
@@ -73,10 +73,14 @@ const wagmiConfig = createConfig({
   publicClient,
 });
 
-export function Providers({ children }: any) {
+function WagmiProvider({ children }: { children: React.ReactNode }) {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+      <RainbowKitProvider chains={chains}>
+        {children}
+      </RainbowKitProvider>
     </WagmiConfig>
   );
 }
+
+export default WagmiProvider;

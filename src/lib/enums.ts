@@ -29,10 +29,3 @@ export enum Metaverses {
   // AXIE = "Axie Infinity",
   SOMNIUM = "Somnium Space"
 }
-
-// Commenting this out to use type from ./metaverse.ts If not we are constantly having to write "as Metaverse" when using this enum
-// export enum Metaverse {
-//     SANDBOX = "sandbox",
-//     DECENTRALAND = "decentraland",
-//     AXIE_INFINITY = "axie-infinity"
-// }

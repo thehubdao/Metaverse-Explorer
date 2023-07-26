@@ -1,35 +1,45 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { configure } from 'axios-hooks';
 import { useCallback, useEffect, useRef } from "react";
 import { useTokenExpiration } from "./useTokenExpiration";
+import { TokenData } from "../interfaces/common.interface";
 
-const REQ_URL = `${process.env.AUTH_SERVICE}/authService/`
+const REQ_URL = `${process.env.AUTH_SERVICE ?? ""}/authService/`
 
 export const axiosBase = axios.create({
     baseURL: REQ_URL,
 });
 
+export function useToken(
+    onTokenInvalid: () => void,
+    onRefreshRequired: () => void,
+    logout: () => Promise<void>
+) {
 
-
-export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, logout: Function) {
-
-    const accessToken = useRef<string>();
+    const accessToken = useRef<string | undefined>();
     const { clearAutomaticTokenRefresh, setTokenExpiration } = useTokenExpiration(onRefreshRequired);
 
+
+    /**
+     * Esta funcion solo se crea nuevamente si setTokenExpiration cambia
+     * 
+     * Deberiamos recibir un string | undefined
+     * eso, asignarlo al token de TokenData y al accessToken del LoginState
+     */
     const setToken = useCallback(
-        ({ expiry, token }: any) => {
-            accessToken.current = token;
+        (tokenData: TokenData) => {
+            accessToken.current = tokenData.token;
             const expirationDate = new Date();
-            expirationDate.setSeconds(expirationDate.getSeconds() + expiry / 1000)
+            //+ tokenData.expiry
+            expirationDate.setSeconds(expirationDate.getSeconds() / 1000)
             setTokenExpiration(expirationDate);
         },
         [setTokenExpiration],
     );
 
-    const isAuthenticated = useCallback(() => {
-        return !!accessToken.current;
-    }, []);
-
+    /**
+     * clearToken depende de clearAutomaticTokenRefresh, igual que setToken
+     */
     const clearToken = useCallback(
         (shouldClearCookie = true) => {
             // if we came from a different tab, we should not clear the cookie again
@@ -52,7 +62,7 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, 
         axiosBase.interceptors.request.use(
             (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
                 if (!config.headers) return config
-                config.headers.authorization = `${accessToken.current}`;
+                config.headers.authorization = `${accessToken.current ?? ""}`;
                 return config;
             },
         );
@@ -60,10 +70,9 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, 
         // if the current token is expired or invalid, logout the user
         axiosBase.interceptors.response.use(
             (response) => response,
-            (error) => {
-                if (error.response.status === 401 && accessToken.current) {
-                    clearToken();
-
+            async (error: AxiosError) => {
+                if (error.code === "401" && accessToken.current) {
+                    await clearToken();
                     // let the app know that the current token was cleared
                     onTokenInvalid();
                 }
@@ -76,7 +85,6 @@ export function useToken(onTokenInvalid: Function, onRefreshRequired: Function, 
 
     return {
         clearToken,
-        setToken,
-        isAuthenticated,
+        setToken
     };
 }

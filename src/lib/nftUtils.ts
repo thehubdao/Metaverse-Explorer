@@ -29,7 +29,13 @@ export const getUserNFTs = async (
   if (!address.startsWith('0x')) return
 
 
-  let contracts: any
+  let contracts: {
+    sandbox: string,
+    decentraland: string,
+    "axie-infinity": string,
+    "somnium-space": string
+  }
+
   if (providerChainName === 'Ethereum') {
     contracts = {
       sandbox: Contracts.LAND.ETHEREUM_MAINNET.newAddress,
@@ -47,7 +53,7 @@ export const getUserNFTs = async (
   }
 
 
-  const contract = createNFTContract(provider, (contracts as any)[metaverse])
+  const contract = createNFTContract(provider, contracts[metaverse])
   // Getting al transfer events that involve the user
   const event = contract.filters.Transfer(undefined, address)
 
@@ -68,8 +74,8 @@ export const getUserNFTs = async (
   )
 
   // Filtering promises
-  let filteredIds: string[] = []
-  for (let nft of currentOwners) {
+  const filteredIds: string[] = []
+  for (const nft of currentOwners) {
     if (
       nft.ownerAddress === getAddress(address) &&
       nft.tokenId &&

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export function useTokenExpiration(onTokenRefreshRequired: Function) {
+export function useTokenExpiration(onTokenRefreshRequired: () => void) {
   const clearAutomaticRefresh = useRef<number>();
   const [tokenExpiration, setTokenExpiration] = useState<Date>();
 
@@ -10,7 +10,7 @@ export function useTokenExpiration(onTokenRefreshRequired: Function) {
       const now = new Date();
       const triggerAfterMs = tokenExpiration.getTime() - now.getTime();
 
-      clearAutomaticRefresh.current = window.setTimeout(async () => {
+      clearAutomaticRefresh.current = window.setTimeout(() => {
         onTokenRefreshRequired();
       }, triggerAfterMs);
     }

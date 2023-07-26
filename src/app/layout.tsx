@@ -1,15 +1,14 @@
-'use client'
+"use client"
 
 import './global.css';
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import HeaderUI from '../ui/header.ui';
-
-import { Providers } from '../state/providers';
 
 import store from '../state/store';
 import { Provider } from 'react-redux';
+
+import RootProvider from '../providers/providers';
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 
@@ -88,25 +87,24 @@ export default function RootLayout({
     <Provider store={store}>
       <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
         <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
-          <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${banner ? 'grid-rows-[300px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
-            <nav className="bg-nm-gray row-span-2">
-              <NavbarUI list={list} route={pathname} />
-            </nav>
-            <header className={`${banner ? "bg-[url('/images/land_header.png')]" : ""}`} >
-              <div className='mr-12'>
-                <Providers>
+          <RootProvider>
+            <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${banner ? 'grid-rows-[300px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
+              <nav className="bg-nm-gray row-span-2">
+                <NavbarUI list={list} route={pathname} />
+              </nav>
+              <header className={`${banner ? "bg-[url('/images/land_header.png')]" : ""}`} >
+                <div className='mr-12'>
                   <ConnectButtonUI />
-                </Providers>
-
-              </div>
-            </header>
-            <main>
-              {pathname !== '/stake' ? <SubHeader optionList={subHeaderList} /> : ""}
-              {children}
-            </main>
-          </div>
+                </div>
+              </header>
+              <main>
+                {pathname !== '/stake' ? <SubHeader optionList={subHeaderList} /> : ""}
+                {children}
+              </main>
+            </div>
+          </RootProvider>
         </body>
       </html>
-    </Provider>
+    </Provider >
   )
 }

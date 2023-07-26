@@ -1,30 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { TokenData } from "../interfaces/common.interface";
 
 interface LoginState {
     connected: boolean
     address: string | undefined
-    accessToken: object
+    accessToken: TokenData | undefined
 }
 
 const initialState: LoginState = {
     connected: false,
     address: undefined,
-    accessToken: {}
+    accessToken: undefined
 }
 
 const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        connect: (state, { payload }) => {
-            state.connected = true
-            state.address = payload.address
+        connect: (state, action: PayloadAction<boolean>) => {
+            state.connected = action.payload
         },
-        disconnect: (state) => initialState,
-        setAddress: (state, { payload }) => {
+        disconnect: () => initialState,
+        setAddress: (state, { payload }: PayloadAction<`0x${string}` | undefined>) => {
             state.address = payload
         },
-        setAccountToken: (state, { payload }) => {
+        setAccountToken: (state, { payload }: PayloadAction<TokenData | undefined>) => {
             state.accessToken = payload
         },
     },

@@ -17,9 +17,6 @@ export interface IPriceCard {
 }
 
 export type LandsKey = 'sandbox' | 'decentraland' | 'axie-infinity' | 'somnium-space'
-export interface IWatchListCard extends IPriceCard {
-  currentPrice?: number
-}
 
 export type LandListAPIResponse = Record<string, SingleLandAPIResponse>
 

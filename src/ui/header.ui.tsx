@@ -1,9 +1,11 @@
-import { Login } from "../components/login.component."
+interface HeaderUIProps{
+    login: boolean
+}
 
-export default function HeaderUI (){
+export default function HeaderUI ({login}: HeaderUIProps){
     return (
         <div className="header">
-            <Login />
+            <p>{login ? 'Connected': 'Disconeted'}</p>
         </div>
     )
 }
