@@ -7,7 +7,6 @@ import {CleanHex, NumBetween} from "../common.util";
 import {FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
 import {PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
-import {Metaverse} from "../../../old/lib/metaverse";
 
 interface Limit {
   minimum: number;
@@ -20,7 +19,7 @@ interface ElementData {
 }
 
 // Calculating Percentages depending on the current chosen filter.
-export async function SetColors(valuationAtlas: Record<string, LandData>, filter: MapFilter | undefined) {
+export function SetColors(valuationAtlas: Record<string, LandData>, filter: MapFilter | undefined) {
   if (filter == undefined)
     return void LogError(Module.ValuationColoring, "Missing filter!");
   
@@ -107,7 +106,7 @@ export function GetGeneralData(valuationAtlas: Record<string, LandData>) {
 export function GetPercentage(partialValue: number | undefined, limits: Limit | undefined) {
   if (partialValue == undefined || limits == undefined) return 0;
   
-  let percentage = Math.ceil(
+  const percentage = Math.ceil(
     ((partialValue - limits.minimum) * 100) /
     (limits.maximum - limits.minimum)
   );
@@ -120,15 +119,15 @@ export function GetPercentage(partialValue: number | undefined, limits: Limit | 
 }
 
 function GetLimits(array: (number | undefined)[]): Limit {
-  let arr: number[] = [];
+  const arr: number[] = [];
 
-  for (let value of array)
+  for (const value of array)
     if (value != undefined)
       arr.push(value);
   
   arr.sort((a, b) => a - b);
   
-  let values: number[] = [];
+  const values: number[] = [];
   let minimum = Number.MAX_VALUE;
   let maximum = 0;
   
@@ -138,13 +137,12 @@ function GetLimits(array: (number | undefined)[]): Limit {
     minimum = arr[i] < minimum ? arr[i] : minimum;
   }
 
-  let mid = Math.floor(values.length - 1);
-  let median =
-    values.length % 2 == 0
+  const mid = Math.floor(values.length - 1);
+  const median = values.length % 2 == 0
       ? (values[mid] + values[mid - 1]) / 2.0
       : values[mid];
   
-  let distance = Math.min(
+  const distance = Math.min(
     Math.abs(minimum - median),
     Math.abs(maximum - median)
   );
@@ -242,10 +240,10 @@ function FilterKey(mapFilter: MapFilter | undefined): FilterPercentageStringKey 
     : "normal";
 }
 
-export function GetBorder(land: LandData, metaverse: Metaverse) {
+export function GetBorder(land: LandData) {
   if (land.tile == undefined) return '/full_border.jpg';
   if (land.tile.top != undefined && land.tile.left != undefined && land.tile.topLeft != undefined) return undefined;
-    
+  
   else if (land.tile.top == undefined && land.tile.left != undefined) return '/top_border.jpg';
   else if (land.tile.top != undefined && land.tile.left == undefined) return '/left_border.jpg';
   else if (land.tile.top == undefined && land.tile.left == undefined) return '/topLeft_border.jpg';

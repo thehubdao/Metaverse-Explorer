@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
-import {Application, Color, Container, FederatedPointerEvent, MIPMAP_MODES, Sprite, Texture} from 'pixi.js';
+import {Application, Container, FederatedPointerEvent, MIPMAP_MODES, Sprite, Texture} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
 import {useAccount} from "wagmi";
 import {LegendFilter, MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
@@ -30,7 +30,7 @@ let globalPercentFilter: PercentFilter | undefined;
 let globalLegendFilter: LegendFilter | undefined;
 
 let landIndex = 0;
-let mapData: Record<string, LandData> = {};
+const mapData: Record<string, LandData> = {};
 
 // let tempLands: any[] = []
 let socketService: SocketService;
@@ -43,14 +43,10 @@ interface Heatmap2DProps {
   filter: MapFilter;
   percentFilter: PercentFilter;
   legendFilter: LegendFilter;
-  onClickLand: (landRawData: any) => void;
+  onClickLand: (landRawData: unknown) => void;
   metaverse: Metaverse;
   x: number | undefined;
   y: number | undefined;
-  minX: number;
-  maxX: number;
-  minY: number;
-  maxY: number;
   initialX: number;
   initialY: number;
 }
@@ -82,13 +78,14 @@ export default function Heatmap2D({
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
 
-  const {address} = useAccount();
+  // const {address} = useAccount();
+  const address = undefined;
   // const wList = useAppSelector((state) => state.watchlist.list);
   const wList: Partial<Record<Metaverse, Record<string, unknown>>> = {};
   // const portfolioLands = useAppSelector((state) => state.portfolio.list)
 
   useEffect(() => {
-    if (!isLoading) return
+    if (!isLoading) return;
 
     const intervalFunction = setInterval(() => {
       setIndexLoading((prevIndex) => (prevIndex + 1) % LOAD_PHRASES_LENGHT)
@@ -97,6 +94,7 @@ export default function Heatmap2D({
     return () => {
       clearInterval(intervalFunction)
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Filter update
@@ -115,7 +113,7 @@ export default function Heatmap2D({
       return LogError(Module.Heatmap, "Missing coordinates to render!");
     
     landIndex = Number(landKeyIndex);
-    let localChunks: typeof chunks = {...chunks};
+    const localChunks: typeof chunks = {...chunks};
     let name = '';
     
     // if (landData.coords?.y != undefined)
@@ -127,29 +125,29 @@ export default function Heatmap2D({
       if (wMRef == undefined || wMRef[landData.tokenId] == undefined) landData.watchlist = true;
     }
     
-    name = landData.coords.x + ',' + landData.coords.y;
+    name = `${landData.coords.x},${landData.coords.y}`;
     
     mapData[name] = landData;
-
-    let value = landData;
+    
     const tile = await FilteredLayer(
-      value.coords?.x,
-      value.coords?.y,
+      landData.coords?.x,
+      landData.coords?.y,
       globalFilter,
       globalPercentFilter,
       globalLegendFilter,
       landData
     );
     
-    let {color} = tile;
+    const {color} = tile;
+    // eslint-disable-next-line no-console
     console.log("RenderHandler Color: ", color);
 
     // color = color.includes('rgb')
     //   ? ColorRgbToHex(color.split('(')[1].split(')')[0])
     //   : '0x' + color.split('#')[1];
 
-    const border = GetBorder(landData, metaverse);
-    const border_url = `images/${border}`;
+    const border = GetBorder(landData);
+    const border_url = `images/${border ?? ''}`;
     const texture = border != undefined
       ? await Texture.fromURL(border_url, { mipmap: MIPMAP_MODES.ON })
       : Texture.WHITE;
@@ -163,7 +161,7 @@ export default function Heatmap2D({
     rectangle.width = rectangle.height = new Set([5, 6, 7, 8, 12]).has(landData.tile?.type ?? 5)
       ? TILE_SIZE
       : TILE_SIZE - BOUND_SIZE;
-    rectangle.name = landData.coords.x + ',' + landData.coords.y;
+    rectangle.name = `${landData.coords.x},${landData.coords.y}`;
     rectangle.landX = landData.coords.x;
     rectangle.landY = landData.coords.y;
     rectangle.tokenId = landData.tokenId;
@@ -198,7 +196,7 @@ export default function Heatmap2D({
     const chunkX = Math.floor(x / CHUNK_SIZE);
     const chunkY = Math.floor(y / CHUNK_SIZE);
     const chunkKey = `${chunkX}:${chunkY}`;
-    let chunkContainer = chunks[chunkKey];
+    const chunkContainer = chunks[chunkKey];
 
     if (chunkContainer == undefined)
       return void LogError(Module.Heatmap, `Missing chunk on coords: ${chunkKey}`);
@@ -217,7 +215,8 @@ export default function Heatmap2D({
         }
         return {sprite: newCurrentSprite, tint: newCurrentTint};
       }
-      
+
+      // eslint-disable-next-line no-console
       console.log("Tint Value: ", child.tint);
       if (newCurrentSprite != undefined && newCurrentTint != undefined) {
         newCurrentSprite.tint = newCurrentTint;
@@ -240,6 +239,7 @@ export default function Heatmap2D({
     if (viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport!");
 
+    // eslint-disable-next-line no-console
     console.log('Creando socket', new Date().toISOString());
 
     const socketServiceUrl = process.env.SOCKET_SERVICE;
@@ -250,10 +250,12 @@ export default function Heatmap2D({
     socketService = GetSocketService(
       socketServiceUrl,
       () => {
+        // eslint-disable-next-line no-console
         console.log('Connected', new Date().toISOString());
         socketService.renderStart(metaverse, landIndex);
       },
-      (landRawData: any) => {
+      (landRawData: string[]) => {
+        // eslint-disable-next-line no-console
         console.log('Land Data: ', landRawData);
         tempLands.push(landRawData);
       }
@@ -271,7 +273,7 @@ export default function Heatmap2D({
         const x = i
         for (let j = -203; j <= 204; j++) {
           const y = j
-          if (!mapData[x + ',' + y]) {
+          if (!mapData[`${x},${y}`]) {
             const borderURL = 'images/full_border_dead.jpg'
             const rectangle: OtherSprite = new Sprite(await Texture.fromURL(borderURL, {
               mipmap: MIPMAP_MODES.ON,
@@ -306,13 +308,16 @@ export default function Heatmap2D({
       setIsLoading(false)
       setMapLoadingState(false)
     })
+    
     return () => {
       socketService.disconnect()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewport])
 
   useEffect(() => {
-    if (mapDivRef.current == null) return;
+    const mapDivRefCurrent = mapDivRef.current;
+    if (mapDivRefCurrent == null) return;
 
     landIndex = 0;
     setMap(undefined);
@@ -356,15 +361,15 @@ export default function Heatmap2D({
     mapApp.stage.addChild(viewport)
 
     // document.getElementById('map')?.appendChild(map.view)
-    mapDivRef.current.appendChild(mapApp.view);
+    mapDivRefCurrent.appendChild(mapApp.view);
     setMap(mapApp);
     setViewport(viewport)
     viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE)
 
     return () => {
       try {
-        if (mapDivRef.current != null)
-          mapDivRef.current.removeChild(mapApp.view);
+        if (mapDivRefCurrent != null)
+          mapDivRefCurrent.removeChild(mapApp.view);
 
         mapApp.destroy();
         viewport.destroy();
@@ -372,6 +377,7 @@ export default function Heatmap2D({
         LogError(Module.Heatmap, "Error disposing pixi items from view", e);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaverse]);
 
   useEffect(() => {
@@ -411,6 +417,7 @@ export default function Heatmap2D({
         setMapLoadingState(true);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewport, mapLoadingState]);
 
   // Resize
@@ -425,10 +432,11 @@ export default function Heatmap2D({
     } catch (e) {
       LogError(Module.Heatmap, "Error on viewport resize", e);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewportWidth, viewportHeight]);
 
   async function filterUpdate() {
-    const lands = await SetColors(mapData, globalFilter);
+    const lands = SetColors(mapData, globalFilter);
     if (lands == undefined)
       return LogError(Module.Heatmap, "Lands couldn't filter!");
 
@@ -449,7 +457,7 @@ export default function Heatmap2D({
             lands[child.name].watchlist = undefined;
         }
 
-        let tile = await FilteredLayer(
+        const tile = await FilteredLayer(
           child.landX,
           child.landY,
           filter,
@@ -457,8 +465,8 @@ export default function Heatmap2D({
           legendFilter,
           lands[child.name]
         );
-        let {color} = tile;
-        if (child.name === `${x},${y}`) {
+        const {color} = tile;
+        if (x != undefined && y != undefined && child.name === `${x},${y}`) {
           //! SELECTED COLOR
           child.tint = '#FFFFFF';
         } else {
@@ -476,6 +484,7 @@ export default function Heatmap2D({
     })().catch(err =>
       LogError(Module.Heatmap, "Error applying filters", err)
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, percentFilter, legendFilter, x, y]);
 
   useEffect(() => {
@@ -493,6 +502,7 @@ export default function Heatmap2D({
     } catch (e) {
       return LogError(Module.Heatmap, "Error snapping coordinates", e);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [x, y]);
 
   useEffect(() => {
