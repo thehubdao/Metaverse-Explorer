@@ -3,3 +3,8 @@ export enum Metaverses {
   Decentraland = 'decentraland',
   SomniumSpace = 'somnium-space'
 }
+
+export enum Currencies {
+  Ethereum = 'eth',
+  USDCoin = 'usdc'
+}
