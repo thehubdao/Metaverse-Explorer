@@ -18,14 +18,7 @@ export function useToken(
 
     const accessToken = useRef<string | undefined>();
     const { clearAutomaticTokenRefresh, setTokenExpiration } = useTokenExpiration(onRefreshRequired);
-
-
-    /**
-     * Esta funcion solo se crea nuevamente si setTokenExpiration cambia
-     * 
-     * Deberiamos recibir un string | undefined
-     * eso, asignarlo al token de TokenData y al accessToken del LoginState
-     */
+    
     const setToken = useCallback(
         (tokenData: TokenData) => {
             accessToken.current = tokenData.token;
@@ -37,9 +30,6 @@ export function useToken(
         [setTokenExpiration],
     );
 
-    /**
-     * clearToken depende de clearAutomaticTokenRefresh, igual que setToken
-     */
     const clearToken = useCallback(
         (shouldClearCookie = true) => {
             // if we came from a different tab, we should not clear the cookie again

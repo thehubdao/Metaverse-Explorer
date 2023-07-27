@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { WalletClient, verifyMessage, GetAddressesReturnType } from 'viem'
+import { WalletClient, verifyMessage } from 'viem'
 import { TokenData } from '../../interfaces/common.interface';
 
 class AuthService {
@@ -7,7 +7,7 @@ class AuthService {
     connect = async (client: WalletClient) => {
         const accounts = await client.getAddresses();
         try {
-            const { nonce } = await this.fetchNonce(accounts);
+            const { nonce } = await this.fetchNonce(accounts[0]);
             const message = `${nonce ?? ""}`;
             const signature = await client.signMessage({
                 account: accounts[0],
@@ -26,7 +26,7 @@ class AuthService {
         }
     }
 
-    fetchNonce = async (address: GetAddressesReturnType) => {
+    fetchNonce = async (address: string) => {
         const nonceRes = await fetch(
             `${process.env.AUTH_SERVICE ?? ""}/authService/getNonce?address=${address}`,
             {

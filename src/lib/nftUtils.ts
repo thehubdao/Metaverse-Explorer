@@ -23,11 +23,10 @@ const createNFTContract = (provider: Provider, contractAddress: string) => {
 export const getUserNFTs = async (
   provider: Provider,
   providerChainName: 'Ethereum' | 'Polygon' = 'Ethereum',
-  address: string,
+  address: string | undefined,
   metaverse: Metaverse,
 ) => {
-  if (!address.startsWith('0x')) return
-
+  if (!address?.startsWith('0x')) return;
 
   let contracts: {
     sandbox: string,
@@ -53,9 +52,9 @@ export const getUserNFTs = async (
   }
 
 
-  const contract = createNFTContract(provider, contracts[metaverse])
+  const contract = createNFTContract(provider, contracts[metaverse]);
   // Getting al transfer events that involve the user
-  const event = contract.filters.Transfer(undefined, address)
+  const event = contract.filters.Transfer(undefined, address);
 
   const transferEvents = (await contract.queryFilter(event)) as
     | never[]
@@ -84,5 +83,5 @@ export const getUserNFTs = async (
       filteredIds.push(nft.tokenId)
     }
   }
-  return filteredIds
+  return filteredIds;
 }

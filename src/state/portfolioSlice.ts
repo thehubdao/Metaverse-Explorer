@@ -9,25 +9,26 @@ import { convertETHPrediction, fetchLandList } from "../lib/valuation/valuationU
 import { LandListAPIResponse } from "../lib/valuation/valuationTypes";
 import { getCoingeckoPrices } from "../backend/services/ITRMService";
 
+interface TotalWorth {
+	ethPrediction: number
+	usdPrediction: number
+}
 interface IState {
 	list: Record<Metaverse, LandListAPIResponse> | undefined,
 	isLoading: boolean,
-	error: any,
+	error: string | undefined,
 	length: number | undefined,
-	totalWorth: {
-		ethPrediction: number
-		usdPrediction: number
-	} | undefined
+	totalWorth: TotalWorth | undefined
 	currentAddress: string | undefined
 }
 
 const initialState: IState = {
-	list: { sandbox: {}, decentraland: {}, "somnium-space": {} },
+	list: undefined,
 	isLoading: false,
 	length: 0,
-	error: null,
-	totalWorth: { ethPrediction: 0, usdPrediction: 0 },
-	currentAddress: '0x0000000000000000000000000000000000000000'
+	error: undefined,
+	totalWorth: undefined,
+	currentAddress: undefined
 }
 
 const formatAddress = (address: string) => {
@@ -35,7 +36,7 @@ const formatAddress = (address: string) => {
 		return getAddress(address.substring(address.indexOf(':') + 1))
 	}
 	if (address.startsWith('0x')) return getAddress(address)
-	return getAddress('0x0000000000000000000000000000000000000000')
+	return;
 }
 
 export const fetchPortfolio = createAsyncThunk(
@@ -54,9 +55,9 @@ export const fetchPortfolio = createAsyncThunk(
 
 		if (!address) return null;
 
-		const lands: any = {}
+		let lands: Record<Metaverse, LandListAPIResponse> | undefined;
 		let totalLandsCounter = 0;
-		const totalWorth = { ethPrediction: 0, usdPrediction: 0 };
+		let totalWorth: TotalWorth | undefined;
 
 		try {
 			await Promise.all(
@@ -75,20 +76,20 @@ export const fetchPortfolio = createAsyncThunk(
 						metaverse
 					)
 
-					if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) return
+					if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) return;
 
 					// LandList Call
-					let metaverseLandsObjectEthereum = {}
-					let metaverseLandsObjectMatic = {}
+					let metaverseLandsObjectEthereum: LandListAPIResponse = {};
+					let metaverseLandsObjectMatic: LandListAPIResponse = {};
 
 					if (rawIdsEthereum && rawIdsEthereum.length > 0)
-						metaverseLandsObjectEthereum = await fetchLandList(metaverse, rawIdsEthereum)
+						metaverseLandsObjectEthereum = await fetchLandList(metaverse, rawIdsEthereum);
 
 					if (rawIdsMatic && rawIdsMatic.length > 0)
-						metaverseLandsObjectMatic = await fetchLandList(metaverse, rawIdsMatic)
+						metaverseLandsObjectMatic = await fetchLandList(metaverse, rawIdsMatic);
 
 
-					const metaverseLandsObject: any = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic }
+					const metaverseLandsObject = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic }
 
 					const prices = await getCoingeckoPrices();
 
@@ -105,19 +106,22 @@ export const fetchPortfolio = createAsyncThunk(
 							metaverseLandsObject[land].eth_predicted_price
 					})
 
-					// Setting Lands
-					lands[metaverse] = metaverseLandsObject
-
+					if (lands != undefined) {
+						// Setting Lands
+						lands[metaverse] = metaverseLandsObject;
+					}
 					// Setting Asset Number
-					totalLandsCounter = totalLandsCounter + typedKeys(metaverseLandsObject).length
+					totalLandsCounter = totalLandsCounter + typedKeys(metaverseLandsObject).length;
 
 					// Adding the worth of each metaverse into the totalWorth
-					totalWorth.ethPrediction = totalWorth.ethPrediction + totalMvWorth.eth
-					totalWorth.usdPrediction = totalWorth.usdPrediction + totalMvWorth.usd
+					if (totalWorth != undefined) {
+						totalWorth.ethPrediction = totalWorth.ethPrediction + totalMvWorth.eth;
+						totalWorth.usdPrediction = totalWorth.usdPrediction + totalMvWorth.usd;
+					}
 				})
 			)
 		} catch (err) {
-			console.error(err)
+			console.error(err);
 		}
 		const portfolio = { lands, totalLandsCounter, totalWorth, address };
 		return portfolio;
@@ -141,7 +145,7 @@ export const portfolio = createSlice({
 		})
 		builder.addCase(fetchPortfolio.rejected, (state, action) => {
 			state.isLoading = false;
-			state.error = action.error;
+			state.error = action.error.message;
 		})
 	}
 })
