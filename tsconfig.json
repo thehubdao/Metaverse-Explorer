@@ -6,6 +6,14 @@
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "components/*": ["./src/app/components/*"],
+      "constants/*": ["./src/app/constants/*"],
+      "enums/*": ["./src/app/enums/*"],
+      "interfaces/*": ["./src/app/interfaces/*"],
+      "types/*": ["./src/app/types/*"],
+      "utils/*": ["./src/app/utils/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
