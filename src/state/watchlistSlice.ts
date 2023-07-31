@@ -26,7 +26,7 @@ export const fetchWatchlist = createAsyncThunk(
         }
       }
     )
-    const watchlist: WatchlistResponse = await watchlistRequest.data;
+    const watchlist = (await watchlistRequest.data) as WatchlistResponse;
     return watchlist;
   }
 )

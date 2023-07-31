@@ -44,7 +44,7 @@ export async function getCoingeckoPrices(): Promise<ICoinPrices> {
 
   try {
     const response = await fetch(`${process.env.ITRM_SERVICE??""}/val-analytics/coingeckoResponse`)
-    const coinITRM: CoinITRMResponse = await response.json()
+    const coinITRM = (await response.json()) as CoinITRMResponse;
 
     if (coinITRM.success) {
       coinValues = coinITRM.success

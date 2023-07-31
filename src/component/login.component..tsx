@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../state/hooks'
 import * as loginActions from '../state/loginSlice'
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount } from 'wagmi';
+import { useAccount, useWalletClient } from 'wagmi';
 
 import { getWalletClient } from "@wagmi/core";
 
@@ -20,6 +20,8 @@ import { WalletClient } from 'viem';
 
 import ClientOnly from '../state/clientOnly';
 
+let didSignerSet = false;
+
 export function Login() {
 
   const dispatch = useAppDispatch();
@@ -28,23 +30,11 @@ export function Login() {
 
   const { address, isConnected } = useAccount();
 
+  const { data: walletClient } = useWalletClient();
+
   const [hasMounted, setHasMounted] = useState(false);
 
-  const onTokenInvalid = () => {
-    dispatch(loginActions.setAccountToken({
-      expiry: undefined,
-      token: undefined
-    }));
-  }
-
-  const logout = async () => {
-    dispatch(loginActions.setAccountToken({
-      expiry: undefined,
-      token: undefined
-    }));
-  }
-
-  const { setToken } = useToken(onTokenInvalid, () => { }, logout);
+  const { setToken } = useToken(() => { });
 
   const loginInit = () => {
     dispatch(loginActions.connect(isConnected));
@@ -64,25 +54,28 @@ export function Login() {
   useEffect(() => {
     if (isConnected) {
       loginInit();
-      initAuth();
     } else {
       dispatch(loginActions.disconnect());
     }
   }, [isConnected])
 
   useEffect(() => {
+    if (didSignerSet || !walletClient || accessToken) return;
+    void initAuth();
+    didSignerSet = true
+  }, [walletClient])
+
+  useEffect(() => {
     if (!accessToken) {
-      return
+      return;
     }
-    setToken(accessToken)
+    setToken(accessToken);
   }, [accessToken])
 
   useEffect(() => {
     if (!address || !accessToken) return;
-    dispatch(fetchWatchlist({ address, accessToken }));
-    (async () => {
-      await dispatch(fetchPortfolio({ address }));
-    })();
+    void dispatch(fetchWatchlist({ address, accessToken }));
+    void dispatch(fetchPortfolio({ address }));
   }, [address, accessToken])
 
   if (!hasMounted) {
