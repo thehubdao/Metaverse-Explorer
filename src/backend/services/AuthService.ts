@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { WalletClient, verifyMessage } from 'viem'
 import { TokenData } from '../../interfaces/common.interface';
+import { Module } from '../../enums/logging.enum';
+import { LogError } from '../../utils/logging.util';
 
 interface nonceResponse {
     nonce: number
@@ -26,7 +28,7 @@ class AuthService {
             const tokenData = await this.sendSignedNonce(accounts[0], signature);
             return tokenData;
         } catch (e) {
-            console.error(e);
+            LogError(Module.AuthService, "Auth service connect has failed", e);
         }
     }
 

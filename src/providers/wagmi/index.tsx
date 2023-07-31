@@ -22,11 +22,13 @@ import { publicProvider } from "wagmi/providers/public";
 import { getArcanaAuthProvider } from "../../utils/getArcanaAuthProvider";
 
 import { ArcanaConnector } from "@arcana/auth-wagmi";
+import { LogError } from "../../utils/logging.util";
+import { Module } from "../../enums/logging.enum";
 
 const ArcanaRainbowConnector = (chains: Chain[] | undefined) => {
   const arcanaProvider = getArcanaAuthProvider();
   if (arcanaProvider == undefined) {
-    console.error("arcana provider is missing or undefined");
+    LogError(Module.WagmiConfig, "arcana provider is missing or undefined");
     return;
   }
   return {
@@ -59,7 +61,7 @@ const { chains, publicClient } = configureChains(
 const getConnectors = () => {
   const projectId = process.env.WALLETCONNECT_PROJECT_ID;
   if (projectId == undefined) {
-    console.error("wallet connect project id is undefined");
+    LogError(Module.WagmiConfig, "Wallet connect project id is undefined");
     return;
   }
   return connectorsForWallets([

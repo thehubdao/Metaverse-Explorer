@@ -8,6 +8,8 @@ import { Chains } from "../lib/chains";
 import { convertETHPrediction, fetchLandList } from "../lib/valuation/valuationUtils";
 import { LandListAPIResponse } from "../lib/valuation/valuationTypes";
 import { getCoingeckoPrices } from "../backend/services/ITRMService";
+import { LogError } from "../utils/logging.util";
+import { Module } from "../enums/logging.enum";
 
 interface TotalWorth {
 	ethPrediction: number
@@ -121,7 +123,7 @@ export const fetchPortfolio = createAsyncThunk(
 				})
 			)
 		} catch (err) {
-			console.error(err);
+			LogError(Module.PortfolioSlice, "A promise has failed", err);
 		}
 		const portfolio = { lands, totalLandsCounter, totalWorth, address };
 		return portfolio;

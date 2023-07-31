@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../state/hooks'
 
@@ -48,16 +48,16 @@ export function Login() {
 
   const { setToken } = useToken(onTokenInvalid, logout);
 
-  const loginInit = () => {
+  const loginInit = useCallback(() => {
     dispatch(loginActions.connect(isConnected));
     dispatch(loginActions.setAddress(address));
-  }
+  }, [address, dispatch, isConnected])
 
-  const initAuth = async () => {
+  const initAuth = useCallback(async () => {
     const client = await getWalletClient();
     const tokenData = await authService.connect(client as WalletClient);
     dispatch(loginActions.setAccountToken(tokenData));
-  }
+  }, [dispatch])
 
   useEffect(() => {
     setHasMounted(true);

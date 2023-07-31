@@ -1,4 +1,6 @@
+import { Module } from '../../enums/logging.enum';
 import { ICoinPrices } from '../../lib/valuation/valuationTypes';
+import { LogError } from '../../utils/logging.util';
 interface CoinValue {
   usd: number;
 }
@@ -50,7 +52,7 @@ export async function getCoingeckoPrices(): Promise<ICoinPrices> {
       coinValues = coinITRM.success
     }
   } catch (error) {
-    console.error(error);
+    LogError(Module.ITRMService, "fetch has failed", error);
   }
   return coinValues as unknown as ICoinPrices
 }
