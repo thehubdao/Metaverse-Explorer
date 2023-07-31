@@ -18,8 +18,6 @@ import { fetchWatchlist } from '../state/watchlistSlice';
 import { fetchPortfolio } from '../state/portfolioSlice';
 import { WalletClient } from 'viem';
 
-import ClientOnly from '../state/clientOnly';
-
 let didSignerSet = false;
 
 export function Login() {
@@ -34,7 +32,21 @@ export function Login() {
 
   const [hasMounted, setHasMounted] = useState(false);
 
-  const { setToken } = useToken(() => { });
+  const onTokenInvalid = () => {
+    dispatch(loginActions.setAccountToken({
+      expiry: undefined,
+      token: undefined
+    }));
+  }
+
+  const logout = () => {
+    dispatch(loginActions.setAccountToken({
+      expiry: undefined,
+      token: undefined
+    }));
+  }
+
+  const { setToken } = useToken(onTokenInvalid, logout);
 
   const loginInit = () => {
     dispatch(loginActions.connect(isConnected));
@@ -57,39 +69,30 @@ export function Login() {
     } else {
       dispatch(loginActions.disconnect());
     }
-  }, [isConnected])
+  }, [isConnected, loginInit, dispatch])
 
   useEffect(() => {
     if (didSignerSet || !walletClient || accessToken) return;
     void initAuth();
     didSignerSet = true
-  }, [walletClient])
+  }, [walletClient, initAuth, accessToken])
 
   useEffect(() => {
     if (!accessToken) {
       return;
     }
     setToken(accessToken);
-  }, [accessToken])
+  }, [accessToken, setToken])
 
   useEffect(() => {
     if (!address || !accessToken) return;
     void dispatch(fetchWatchlist({ address, accessToken }));
     void dispatch(fetchPortfolio({ address }));
-  }, [address, accessToken])
-
-  if (!hasMounted) {
-    return null;
-  }
+  }, [address, accessToken, dispatch])
 
   return (
     <div>
-      <ClientOnly>
-        <ConnectButton showBalance={false} />
-        {hasMounted ? (
-          isConnected ? <p>Connected</p> : <p>Disconnected</p>
-        ) : null}
-      </ClientOnly>
+      {hasMounted && <ConnectButton showBalance={false} />}
     </div>
   )
 }

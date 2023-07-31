@@ -24,6 +24,11 @@ import { getArcanaAuthProvider } from "../../utils/getArcanaAuthProvider";
 import { ArcanaConnector } from "@arcana/auth-wagmi";
 
 const ArcanaRainbowConnector = (chains: Chain[] | undefined) => {
+  const arcanaProvider = getArcanaAuthProvider();
+  if (arcanaProvider == undefined) {
+    console.error("arcana provider is missing or undefined");
+    return;
+  }
   return {
     id: "arcana-auth",
     name: "Arcana Wallet",
@@ -34,7 +39,7 @@ const ArcanaRainbowConnector = (chains: Chain[] | undefined) => {
       const connector = new ArcanaConnector({
         chains,
         options: {
-          auth: getArcanaAuthProvider(),
+          auth: arcanaProvider,
         },
       });
       return {
@@ -51,25 +56,32 @@ const { chains, publicClient } = configureChains(
   ]
 );
 
-const connectors = connectorsForWallets([
-  {
-    groupName: "Recommended",
-    wallets: [
-      ArcanaRainbowConnector(chains) as Wallet<Connector<any, any>>,
-      metaMaskWallet({
-        chains,
-        projectId: process.env.WALLETCONNECT_PROJECT_ID!,
-      }),
-      walletConnectWallet({
-        chains,
-        projectId: process.env.WALLETCONNECT_PROJECT_ID!,
-      }),
-    ],
-  },
-]);
+const getConnectors = () => {
+  const projectId = process.env.WALLETCONNECT_PROJECT_ID;
+  if (projectId == undefined) {
+    console.error("wallet connect project id is undefined");
+    return;
+  }
+  return connectorsForWallets([
+    {
+      groupName: "Recommended",
+      wallets: [
+        ArcanaRainbowConnector(chains) as Wallet<Connector<unknown, unknown>>,
+        metaMaskWallet({
+          chains,
+          projectId,
+        }),
+        walletConnectWallet({
+          chains,
+          projectId,
+        }),
+      ],
+    },
+  ]);
+}
 
 const wagmiConfig = createConfig({
-  connectors,
+  connectors: getConnectors(),
   publicClient,
 });
 

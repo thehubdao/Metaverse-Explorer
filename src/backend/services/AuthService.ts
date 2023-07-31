@@ -2,13 +2,17 @@ import axios from 'axios'
 import { WalletClient, verifyMessage } from 'viem'
 import { TokenData } from '../../interfaces/common.interface';
 
+interface nonceResponse {
+    nonce: number
+}
+
 class AuthService {
     
     connect = async (client: WalletClient) => {
         const accounts = await client.getAddresses();
         try {
-            const { nonce } = await this.fetchNonce(accounts[0]);
-            const message = `${nonce ?? ""}`;
+            const nonceResponse = await this.fetchNonce(accounts[0]);
+            const message = `${nonceResponse.nonce ?? ""}`;
             const signature = await client.signMessage({
                 account: accounts[0],
                 message: message,
@@ -34,7 +38,7 @@ class AuthService {
                 headers: { 'Content-Type': 'application/json' }
             }
         );
-        return await nonceRes.json();
+        return (await nonceRes.json()) as nonceResponse;
     }
 
     sendSignedNonce = async (address: string, signedNonce: string) => {
@@ -46,7 +50,7 @@ class AuthService {
                 headers: { 'Content-Type': 'application/json' }
             }
         );
-        const accessToken : TokenData = await loginRes.data;
+        const accessToken = (await loginRes.data) as TokenData;
         return accessToken;
     }
 }
