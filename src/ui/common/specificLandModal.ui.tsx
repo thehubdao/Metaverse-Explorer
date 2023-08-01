@@ -5,15 +5,14 @@ import SpecificInformationCardUI from "./specificInformationCard.ui";
 
 interface SpecificLandModalUIProps {
   onClose: () => void;
-  land: LandProps,
-  prices: ICoinPrices
+  land: LandProps;
+  prices: ICoinPrices;
 }
 
 export default function SpecificLandModalUI({ onClose, land, prices }: SpecificLandModalUIProps) {
 
   return (
     <div className="z-50 fixed w-full h-screen top-0 left-0 flex justify-center items-center bg-black/75" >
-
       <div className="w-[1440px] h-[728px] bg-lm-fill rounded-3xl relative " >
         <div className="absolute right-6 top-6 flex gap-3 z-10">
           <div

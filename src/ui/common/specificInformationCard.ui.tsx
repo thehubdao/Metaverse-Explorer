@@ -1,17 +1,16 @@
-import { ICoinPrices, LandProps } from "../../types/valuationTypes"
+import { ICoinPrices, LandProps } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import PriceListUI from "./priceList.ui";
 import SpecificPriceListUI from "./specificPriceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
 
 interface SpecificInformationCardUIProps {
-  land: LandProps,
-  prices: ICoinPrices
+  land: LandProps;
+  prices: ICoinPrices;
 }
 export default function SpecificInformationCardUI({ land, prices }: SpecificInformationCardUIProps) {
 
   return (
-
     <div className='h-full px-7 text-start'>
       <div className=' mt-5'>
         {/* Asset Name */}
@@ -61,17 +60,17 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
         </div>
       </div>
       <div className="w-[461px] h-[155px] bg-lm-fill rounded-xl shadow-relief-12 flex items-center justify-center mt-4">
-            <p>historical estimated price</p>
+        <p>historical estimated price</p>
       </div>
       {/* External Links */}
       <div className='flex flex-wrap mt-3'>
         <div>
           <p className="text-base text-nm-dm-remark font-normal">Find land on:</p>
           <div className="grid grid-cols-4 items-center my-2">
-            <ExternalLinkUI text="Sandbox" icon='/images/somnium-space-logo.png' externalLink={land.external_link ?? ''}/>
-            <ExternalLinkUI text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={land.external_link ?? ''}/>
-            <ExternalLinkUI text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={land.external_link ?? ''}/>
-            <ExternalLinkUI text="Looksrare" icon="/images/icons/markets/looksrare.svg" externalLink={land.external_link ?? ''}/>
+            <ExternalLinkUI text="Sandbox" icon='/images/somnium-space-logo.png' externalLink={land.external_link ?? ''} />
+            <ExternalLinkUI text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={land.external_link ?? ''} />
+            <ExternalLinkUI text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={land.external_link ?? ''} />
+            <ExternalLinkUI text="Looksrare" icon="/images/icons/markets/looksrare.svg" externalLink={land.external_link ?? ''} />
           </div>
         </div>
       </div>
@@ -79,7 +78,5 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
         <p className="uppercase text-lm-text font-bold text-sm">Add to Watchlist</p>
       </div>
     </div>
-
-
   )
 }

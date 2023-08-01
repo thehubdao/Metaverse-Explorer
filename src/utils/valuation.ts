@@ -1,4 +1,4 @@
-import { Metaverse } from "./metaverse"
+import { Metaverse } from "./metaverse";
 
 
 export const handleLandName = (

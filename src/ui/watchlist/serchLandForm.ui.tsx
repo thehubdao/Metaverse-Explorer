@@ -1,11 +1,11 @@
-import { Metaverses } from "../../enums/enums"
-import { LandProps } from "../../types/valuationTypes"
-import SearchByCoordsUI from "./searchByCoords.ui"
-import SearchByIdUI from "./searchById.ui"
+import { Metaverses } from "../../enums/enums";
+import { LandProps } from "../../types/valuationTypes";
+import SearchByCoordsUI from "./searchByCoords.ui";
+import SearchByIdUI from "./searchById.ui";
 
 interface SearchLandFormUIProps {
-  metaverse: Metaverses,
-  land?: LandProps
+  metaverse: Metaverses;
+  land?: LandProps;
 }
 
 export default function SearhLandFormUI({ metaverse, land }: SearchLandFormUIProps) {

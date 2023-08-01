@@ -1,9 +1,9 @@
 import Image from "next/image";
 
 interface ExternalLinkProps{
-  text: string,
-  icon: string,
-  externalLink: string
+  text: string;
+  icon: string;
+  externalLink: string;
 }
 
 export default function ExternalLinkUI({text, icon, externalLink}:ExternalLinkProps) {

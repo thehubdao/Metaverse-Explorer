@@ -1,24 +1,24 @@
 import { LandProps } from "../../types/valuationTypes";
-import { Metaverses } from "../../enums/enums"
+import { Metaverses } from "../../enums/enums";
 import { useState } from "react";
 import AddLandButtonUI from "./addLandButton.ui";
 interface SearchByCoordsUIProps {
-  land?: LandProps,
+  land?: LandProps;
   metaverse: Metaverses;
 }
 
 export default function SearchByCoordsUI({ land, metaverse }: SearchByCoordsUIProps) {
-  const [x, setX] = useState<number>();
-  const [y, setY] = useState<number>();
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
 
   const handleXChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(event.target.value);
-    setX(isNaN(value) ? undefined : value);
+    setX(isNaN(value) ? 0 : value);
   };
 
   const handleYChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(event.target.value);
-    setY(isNaN(value) ? undefined : value);
+    setY(isNaN(value) ? 0 : value);
   };
   
   return (

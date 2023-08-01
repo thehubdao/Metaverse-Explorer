@@ -1,18 +1,18 @@
-import FooterUI from "../../ui/common/footer.ui"
-import IsLoginUI from "../../ui/common/isLogin.ui"
+import FooterUI from "../../ui/common/footer.ui";
+import IsLoginUI from "../../ui/common/isLogin.ui";
 
-export default function HeatmapComponent (){
-    const isConnected = false
-    return(
-        <>
-        {!isConnected ?
-        <IsLoginUI message="Please log in to use the valuation tool"/>
+export default function HeatmapComponent() {
+  const isConnected = false; //TODO: connect variable from redux login state 
+  return (
+    <>
+      {!isConnected ?
+        <IsLoginUI message="Please log in to use the valuation tool" />
         :
         <>
-            <h1>this is heatmap</h1>
+          <h1>this is heatmap</h1>
         </>
-        }
-        <FooterUI/>
-        </>
-    )
+      }
+      <FooterUI />
+    </>
+  )
 }

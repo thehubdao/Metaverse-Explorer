@@ -5,15 +5,15 @@ import Link from "next/link";
 import NavButton from "./navbarButton.ui";
 
 interface ListProps {
-  url: string,
-  label: string,
-  icon: string,
-  isExternal: boolean
+  url: string;
+  label: string;
+  icon: string;
+  isExternal: boolean;
 }
 
 interface SidebarProps {
-  list: ListProps[]
-  route: string
+  list: ListProps[];
+  route: string;
 }
 
 export default function NavbarUI({ list, route }: SidebarProps){

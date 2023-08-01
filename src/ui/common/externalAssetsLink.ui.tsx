@@ -1,11 +1,11 @@
-import { FiExternalLink } from 'react-icons/fi'
-import { LandProps } from '../../types/valuationTypes'
+import { FiExternalLink } from 'react-icons/fi';
+import { LandProps } from '../../types/valuationTypes';
 import Image from "next/image";
 import Link from "next/link";
 
 interface ExternalAssetLinkUIProps {
-  land: LandProps,
-  isOpen: boolean
+  land: LandProps;
+  isOpen: boolean;
 }
 
 export default function ExternalAssetLinkUI ({land, isOpen}: ExternalAssetLinkUIProps){

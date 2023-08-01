@@ -1,8 +1,8 @@
-import { ICoinPrices } from "../../types/valuationTypes"
+import { ICoinPrices } from "../../types/valuationTypes";
 import Image from "next/image";
 
 interface SpecificPriceListUIProprs {
-  prices: ICoinPrices
+  prices: ICoinPrices;
 }
 export default function SpecificPriceListUI({ prices }: SpecificPriceListUIProprs) {
 

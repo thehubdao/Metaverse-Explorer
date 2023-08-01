@@ -3,7 +3,6 @@ export const metaverseObject = {
     decentraland: 'decentraland',
   /*   'axie-infinity': 'axie-infinity', */
     'somnium-space' : 'somnium-space'
-  
   }
   
-  export type Metaverse = keyof typeof metaverseObject
+  export type Metaverse = keyof typeof metaverseObject;

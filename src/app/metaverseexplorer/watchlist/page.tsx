@@ -1,7 +1,7 @@
-import WatchlistComponent from "../../../component/watchlist/watchlist.component"
+import WatchlistComponent from "../../../component/watchlist/watchlist.component";
 
-export default function Watchlist(){
-    return (
-        <WatchlistComponent/>
-    )
+export default function Watchlist() {
+  return (
+    <WatchlistComponent />
+  )
 }
