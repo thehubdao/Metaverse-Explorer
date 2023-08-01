@@ -13,7 +13,7 @@ export default function ExternalAssetLinkUI ({land, isOpen}: ExternalAssetLinkUI
     <div className='h-full relative flex flex-col gap-3'>
       {/* External Img Link */}
       <Link href={land.external_link || ''} target='blank' className='relative h-full w-full'> 
-        <Image src={land.images.image_url} fill alt='land image' className={!isOpen? 'rounded rounded-l-3xl' : 'rounded-3xl'}/>
+        <Image src={land.images.image_url} fill alt='land image' className={!isOpen? 'rounded rounded-l-xl' : 'rounded-2xl'}/>
         <FiExternalLink className='absolute top-0 right-0 text-white text-xs backdrop-filter backdrop-blur-sm rounded-xl w-6 h-6 p-1' />
 
         {land.metaverse === "The Sandbox" && <Image src='/images/the-sandbox-sand-logo.png' width={55} height={55} alt='sandabox' className='rounded-full p-2 bg-nm-highlight absolute bottom-3 left-3' />}

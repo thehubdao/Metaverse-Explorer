@@ -219,7 +219,7 @@ export default function PortfolioComponent() {
           <div className="flex justify-between p-8 space-x-20 mt-10">
             <div className="flex flex-col space-y-3 max-w-2xl text-lm-text pl-8">
               <p className="text-2xl font-semibold">Description</p>
-              <p className="text-sm mt-5">The MGH LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+              <p className="text-sm mt-5">The HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
             </div>
             <div className="flex space-x-4 w-full items-stretch justify-end pr-8">
               <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill">
