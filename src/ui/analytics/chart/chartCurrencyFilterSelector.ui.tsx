@@ -17,7 +17,7 @@ export default function ChartCurrencyFilterSelectorUI({ currencySelected, setCur
         return (
           <button
             key={currency.currency} // React key to identify each button uniquely
-            className={`rounded-lg h-12 bg-nm-fill px-2 ${currencySelected === currency.currency ? 'shadow-inset' : 'shadow-relief-12'}`}
+            className={`rounded-lg h-12 bg-lm-fill px-2 ${currencySelected === currency.currency ? 'shadow-hollow-8' : 'shadow-relief-12'}`}
             onClick={() => { setCurrencySelected(currency.currency) }}
           >
             {currency.name}

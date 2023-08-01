@@ -62,7 +62,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
   }, [chartOptions, currencyData]);
 
   return (
-    <div className={`relative w-full h-full shadow-inset rounded-3xl p-7 bg-nm-fill text-bg-mnui`}>
+    <div className={`relative w-full h-full shadow-hollow-8 rounded-3xl p-7 bg-lm-fill text-lm-text`}>
       <div className='flex items-center gap-1 font-bold mb-4'>
         <Image
           src='/images/icons/chart/ic_round-candlestick-chart.svg'
@@ -70,7 +70,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
           width={24}
           height={24}
         />
-        <h3>{chartApiData.label}</h3>
+        <h3 className='text-[0.938rem]'>{chartApiData.label}</h3>
         <Image
           src='/images/icons/chart/mdi_question-mark-circle-outline.svg'
           alt='question mark icon to obtain tooltip description of chart'
@@ -79,14 +79,14 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
           title={chartApiData.description}
         />
       </div>
-      <div className='flex w-full h-full justify-center items-center px-10 text-'>
+      <div className='flex w-full h-full justify-center items-center px-10 text-lm-text-gray'>
         {chartApiData.status !== 'error' ? (
           <>
-            <p className="absolute transform -rotate-90 origin-center whitespace-nowrap -left-0 text-sm font-light">
+            <p className="absolute transform -rotate-90 origin-center whitespace-nowrap -left-0 text-[0.813rem] font-normal">
               Volume ({chartOptions.currencySelected.toUpperCase()})
             </p>
             <div className="w-full h-60 flex justify-center items-center" ref={chartElement}></div>
-            <p className="absolute transform rotate-90 origin-center whitespace-nowrap -right-5 text-sm font-light">
+            <p className="absolute transform rotate-90 origin-center whitespace-nowrap -right-5 text-[0.813rem] font-normal">
               Average Price ({chartOptions.currencySelected.toUpperCase()})
             </p>
           </>

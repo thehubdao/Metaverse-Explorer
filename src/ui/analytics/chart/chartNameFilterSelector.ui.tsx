@@ -78,7 +78,7 @@ export default function ChartNameFilterSelectorUI({
   return (
     <div className="relative w-fit">
       {/* Button to toggle the dropdown */}
-      <button className="relative flex justify-center items-center rounded-lg h-12 shadow-relief-12 bg-nm-fill px-14 gap-2" ref={buttonRef}>
+      <button className="relative flex justify-center items-center rounded-lg h-12 shadow-relief-12 bg-lm-fill px-14 gap-2 font-bold" ref={buttonRef}>
         <p>FILTER CHARTS</p>
         {/* Dropdown icon */}
         <MdKeyboardArrowDown className={`absolute right-7 transition-all duration-200 ${isDropDownOpen && '-rotate-180'}`} size={24} />
@@ -86,7 +86,7 @@ export default function ChartNameFilterSelectorUI({
       {/* Dropdown content */}
       {isDropDownOpen && (
         <div
-          className="flex justify-center items-center flex-col absolute w-fit shadow-relief-12 bg-nm-fill px-8 pt-8 z-10 pb-5 mt-5 rounded-lg gap-2 -left-3"
+          className="flex justify-center items-center flex-col absolute w-fit shadow-relief-12 bg-lm-fill px-8 pt-8 z-10 pb-5 mt-5 rounded-lg gap-2 -left-3"
           ref={dropdownRef}
         >
           {/* Rendering filter items */}

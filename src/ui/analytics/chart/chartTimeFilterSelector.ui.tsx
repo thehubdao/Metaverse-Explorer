@@ -49,8 +49,8 @@ export default function ChartTimeFilterSelectorUI({ visibleDays, setVisibleDays 
         return (
           <button
             key={index} // React key to identify each button uniquely
-            className={`rounded-lg w-12 h-12 bg-nm-fill
-            ${visibleDays === item.daysOnNumber ? 'shadow-inset' : 'shadow-relief-12'}`} // Dynamically generated class based on the currently visible days
+            className={`rounded-lg w-12 h-12 bg-lm-fill
+            ${visibleDays === item.daysOnNumber ? 'shadow-hollow-8' : 'shadow-relief-12'}`} // Dynamically generated class based on the currently visible days
             onClick={() => { setVisibleDays(item.daysOnNumber) }} // Function called when the button is clicked to set the number of visible days
             title={item.title} // Tooltip title for the filter
           >

@@ -44,7 +44,7 @@ export class LightweightLinearChart {
       layout: {
         background: { color: 'transparent' },
         textColor: "#9B9B9B",
-        fontSize: 10, // Tamaño de letra deseado (puedes ajustar el valor según tus necesidades)
+        fontSize: 8, // Tamaño de letra deseado (puedes ajustar el valor según tus necesidades)
       },
       grid: {
         vertLines: {
