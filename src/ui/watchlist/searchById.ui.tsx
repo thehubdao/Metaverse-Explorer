@@ -17,7 +17,7 @@ export default function SearchByIdUI({ land, metaverse }: SearchByIdUIProps) {
         <input
           type="number"
           placeholder="Token ID"
-          className="shadow-inset focus:outline-none p-4 rounded-full text-center w-full"
+          className="shadow-hollow-8 focus:outline-none p-4 rounded-2xl text-center w-full bg-lm-fill"
           min={0}
           onChange={(input) => {
             setTokenId(input.target.value)

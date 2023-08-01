@@ -22,7 +22,7 @@ export default function LandCardUI({ lands, metaverse, prices }: LandCardUIProps
     filteredLands.map((land: LandProps) => {
       return (
         <div key={land.tokenId}>
-          <div className="w-[520px] h-[300px] bg-nm-fill rounded-3xl shadow-relief-16 hover:shadow-relief-12 my-3 flex">
+          <div className="w-[520px] h-[300px] bg-nm-fill rounded-xl shadow-relief-16 hover:shadow-relief-12 my-3 flex">
             <div className="w-1/2">
               <ExternalAssetLinkUI land={land} isOpen={false}/>
             </div>

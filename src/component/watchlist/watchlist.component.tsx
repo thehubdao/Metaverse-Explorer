@@ -224,7 +224,7 @@ export default function WatchlistComponent() {
         <IsLoginUI message="Please log in to show your watchlist" />
         :
         <>
-          <div className='mr-16 ml-8 mb-24 mt-10 rounded-2xl bg-nm-fill'>
+          <div className='mr-16 ml-8 mb-24 mt-10 rounded-2xl bg-lm-fill'>
             <LandsMenuUI metaverse={metaverse} setMetaverse={setMetaverse} isWatchlist={true}/>
             <div className="w-full flex items-center justify-center gap-x-32 pb-16">
               <SearhLandFormUI metaverse={metaverse} />

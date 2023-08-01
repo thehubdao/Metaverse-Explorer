@@ -6,14 +6,14 @@ interface IsLoginUIPros{
 }
 export default function IsLoginUI({message}: IsLoginUIPros) {
     return(
-        <div className="flex flex-col justify-center items-center mt-28">
+        <div className="flex flex-col justify-center items-center mt-28 rounded-2xl bg-lm-fill ml-8 mr-16 py-40">
             <Image
                 src="/images/mgh_logo/mgh_logo.svg"
                 width={136}
                 height={131}
                 alt="the hub dao logo"
             />
-            <p className='text-nm-dm-remark font-light text-2xl pt-6'>{message}</p>
+            <p className='text-nm-dm-remark font-semibold text-2xl pt-6'>{message}</p>
             <ConnectButtonUI />
         </div>
     )

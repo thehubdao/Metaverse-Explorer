@@ -16,7 +16,7 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
       <div className=' mt-5'>
         {/* Asset Name */}
         <Tooltip title={land.name} placement='top' arrow>
-          <p className='text-3xl text-nm-dm-highlight font-medium'>
+          <p className='text-3xl text-lm-text font-semibold'>
             {land.name}
           </p>
         </Tooltip>
@@ -60,7 +60,7 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
           <SpecificPriceListUI prices={prices} />
         </div>
       </div>
-      <div className="w-[461px] h-[155px] bg-nm-fill rounded-3xl shadow-relief-12 flex items-center justify-center mt-4">
+      <div className="w-[461px] h-[155px] bg-lm-fill rounded-xl shadow-relief-12 flex items-center justify-center mt-4">
             <p>historical estimated price</p>
       </div>
       {/* External Links */}
@@ -75,8 +75,8 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
           </div>
         </div>
       </div>
-      <div className="w-[234px] h-12 rounded-3xl bg-nm-dm-icons flex items-center justify-center mt-3">
-            <p className="uppercase text-nm-highlight font-bold text-sm">Add to Watchlist</p>
+      <div className="w-[234px] h-12 rounded-2xl bg-lm-fill flex items-center justify-center mt-3 shadow-relief-12 hover:shadow-relief-32 transition-all duration-300 cursor-pointer">
+        <p className="uppercase text-lm-text font-bold text-sm">Add to Watchlist</p>
       </div>
     </div>
 

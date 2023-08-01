@@ -11,21 +11,21 @@ export default function SpecificPriceListUI({ prices }: SpecificPriceListUIPropr
       <div>
         <p className="text-nm-dm-remark font-normal text-sm">Listing Price:</p>
         <div className="flex items-center">
-          <Image src='/images/eth.svg' width={20} height={20} alt='eth' className='cursor-pointer' />
+          <Image src='/images/eth.svg' width={20} height={20} alt='eth' />
           <p className='text-md font-bold pt-0.5 px-1'>{prices.ethereum} <span className='text-md font-bold pt-0.5'>ETH</span></p>
         </div>
       </div>
       <div>
         <p className="text-nm-dm-remark font-normal text-sm">Last Sale Price:</p>
         <div className="flex items-center">
-          <Image src='/images/eth.svg' width={20} height={20} alt='eth' className='cursor-pointer' />
+          <Image src='/images/eth.svg' width={20} height={20} alt='eth' />
           <p className='text-md font-bold pt-0.5 px-1'>{prices['the-sandbox']} <span className='text-md font-bold pt-0.5'>USDC</span></p>
         </div>
       </div>
       <div>
         <p className="text-nm-dm-remark font-normal text-sm">Last bought on:</p>
         <div className="flex items-center">
-          <Image src='/images/eth.svg' width={20} height={20} alt='eth' className='cursor-pointer' />
+          <Image src='/images/eth.svg' width={20} height={20} alt='eth' />
           <p className='text-md font-bold pt-0.5 px-1'>{prices['somnium-space-cubes']} <span className='text-md font-bold pt-0.5'>CUBE</span></p>
         </div>
       </div>

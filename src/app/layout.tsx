@@ -77,11 +77,9 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
-      <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
-        <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${banner ? 'grid-rows-[300px_1fr]': 'grid-rows-[70px_1fr]'} `}>
-          <nav className="bg-nm-gray row-span-2">
-            <NavbarUI list={list} route={pathname}/>
-          </nav>
+      <body className="font-plus text-lm-text bg-nm-highlight">
+        <div className={`w-full h-screen grid pl-[143px] ${banner ? 'grid-rows-[300px_1fr]': 'grid-rows-[70px_1fr]'} `}>
+          <NavbarUI list={list} route={pathname}/>
           <header className={`${banner ? "bg-[url('/images/land_header.png')]" : ""}`} >
             <div className='mr-12'>
               <ConnectButtonUI />

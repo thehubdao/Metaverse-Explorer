@@ -12,8 +12,8 @@ export default function LinkedButton({name, route, isActive}: OptionProps) {
     return (
       <Link key={name} href={`/${route}`}>
         {/* Oval Button */}
-        <div className={`${isActive ? 'shadow-inset' : 'shadow-relief-16 hover:shadow-relief-12'} px-8 py-3 flex items-center justify-center rounded-3xl cursor-pointer transition ease-in-out duration-300`}>
-          <div className="font-bold text-nm-dm-icons text-base uppercase">
+        <div className={`${isActive ? 'shadow-hollow-8' : 'shadow-relief-16 hover:shadow-relief-12'} px-8 py-3 flex items-center justify-center rounded-xl cursor-pointer transition ease-in-out duration-300`}>
+          <div className="font-bold text-lm-text text-base uppercase">
               {name}
           </div>
         </div>
