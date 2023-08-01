@@ -4,6 +4,7 @@
     "project": ["tsconfig.json"]
   },
   "rules": {
+    "no-debugger": "error",
     "no-console": ["error", {
       "allow": ["warn", "error"]
     }]
