@@ -7,7 +7,6 @@ import { LogError } from '../../utils/logging.util';
 interface nonceResponse {
     nonce: number
 }
-
 class AuthService {
     
     connect = async (client: WalletClient) => {
@@ -25,8 +24,7 @@ class AuthService {
                 signature: signature
             });
             if (!signedAddress) return;
-            const tokenData = await this.sendSignedNonce(accounts[0], signature);
-            return tokenData;
+            return await this.sendSignedNonce(accounts[0], signature);
         } catch (e) {
             LogError(Module.AuthService, "Auth service connect has failed", e);
         }
@@ -52,11 +50,9 @@ class AuthService {
                 headers: { 'Content-Type': 'application/json' }
             }
         );
-        const accessToken = (await loginRes.data) as TokenData;
-        return accessToken;
+        return (await loginRes.data) as TokenData;
     }
 }
 
-const authService = new AuthService()
-
-export default authService
+const authService = new AuthService();
+export default authService;

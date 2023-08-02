@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useTokenExpiration } from "./useTokenExpiration";
 import { TokenData } from "../interfaces/common.interface";
 
-const REQ_URL = `${process.env.AUTH_SERVICE ?? ""}/authService/`
+const REQ_URL = `${process.env.AUTH_SERVICE ?? ""}/authService/`;
 
 export const axiosBase = axios.create({
     baseURL: REQ_URL,
@@ -20,11 +20,10 @@ export function useToken(
     const { clearAutomaticTokenRefresh, setTokenExpiration } = useTokenExpiration(onRefreshRequired ?? (() => undefined));
 
     const setToken = useCallback(
-        (tokenData: TokenData) => {
-            accessToken.current = tokenData.token;
+        ({token, expiry}: TokenData) => {
+            accessToken.current = token;
             const expirationDate = new Date();
-            //+ tokenData.expiry
-            expirationDate.setSeconds(expirationDate.getSeconds() / 1000)
+            expirationDate.setSeconds(expirationDate.getSeconds() + (expiry ?? 0) / 1000);
             setTokenExpiration(expirationDate);
         },
         [setTokenExpiration],

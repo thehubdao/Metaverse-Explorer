@@ -26,8 +26,7 @@ export const fetchWatchlist = createAsyncThunk(
         }
       }
     )
-    const watchlist = (await watchlistRequest.data) as WatchlistResponse;
-    return watchlist;
+    return (await watchlistRequest.data) as WatchlistResponse;
   }
 )
 
@@ -38,16 +37,16 @@ export const watchlist = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchWatchlist.pending, (state) => {
       state.isLoading = true;
-    })
+    });
     builder.addCase(fetchWatchlist.fulfilled, (state, action) => {
       state.isLoading = false;
       state.list = action.payload;
-    })
+    });
     builder.addCase(fetchWatchlist.rejected, (state, action) => {
       state.isLoading = false;
-      state.error = action.error.message
-    })
+      state.error = action.error.message;
+    });
   }
 })
 
-export default watchlist.reducer
+export default watchlist.reducer;

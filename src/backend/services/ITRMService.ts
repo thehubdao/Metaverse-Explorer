@@ -45,14 +45,14 @@ export async function getCoingeckoPrices(): Promise<ICoinPrices> {
   }
 
   try {
-    const response = await fetch(`${process.env.ITRM_SERVICE??""}/val-analytics/coingeckoResponse`)
+    const response = await fetch(`${process.env.ITRM_SERVICE??""}/val-analytics/coingeckoResponse`);
     const coinITRM = (await response.json()) as CoinITRMResponse;
 
     if (coinITRM.success) {
-      coinValues = coinITRM.success
+      coinValues = coinITRM.success;
     }
   } catch (error) {
     LogError(Module.ITRMService, "fetch has failed", error);
   }
-  return coinValues as unknown as ICoinPrices
+  return coinValues as unknown as ICoinPrices;
 }

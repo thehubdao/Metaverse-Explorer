@@ -4,7 +4,7 @@ import ERC721ABI from '../backend/abi/ERC721.json'
 import { getAddress, Interface } from 'ethers/lib/utils'
 import { Contracts } from './contracts'
 import { Metaverse } from './metaverse'
-type Provider = ethers.providers.BaseProvider
+type Provider = ethers.providers.BaseProvider;
 
 // Using a Generic ERC721 ABI!!
 const createNFTContract = (provider: Provider, contractAddress: string) => {
@@ -12,8 +12,8 @@ const createNFTContract = (provider: Provider, contractAddress: string) => {
     contractAddress,
     new Interface(ERC721ABI),
     provider
-  )
-  return contract as ERC721
+  );
+  return contract as ERC721;
 }
 
 /**
@@ -66,9 +66,9 @@ export const getUserNFTs = async (
     transferEvents.map(async (event) => {
       const tokenId = ethers.BigNumber.from(
         event?.topics[3] || event?.args.tokenId
-      ).toString()
-      const ownerAddress = tokenId && (await contract.ownerOf(tokenId))
-      return { ownerAddress, tokenId }
+      ).toString();
+      const ownerAddress = tokenId && (await contract.ownerOf(tokenId));
+      return { ownerAddress, tokenId };
     })
   )
 
@@ -80,7 +80,7 @@ export const getUserNFTs = async (
       nft.tokenId &&
       !filteredIds.includes(nft.tokenId)
     ) {
-      filteredIds.push(nft.tokenId)
+      filteredIds.push(nft.tokenId);
     }
   }
   return filteredIds;

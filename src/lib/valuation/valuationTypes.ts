@@ -16,9 +16,9 @@ export interface IPriceCard {
   predictions: IPredictions
 }
 
-export type LandsKey = 'sandbox' | 'decentraland' | 'axie-infinity' | 'somnium-space'
+export type LandsKey = 'sandbox' | 'decentraland' | 'axie-infinity' | 'somnium-space';
 
-export type LandListAPIResponse = Record<string, SingleLandAPIResponse>
+export type LandListAPIResponse = Record<string, SingleLandAPIResponse>;
 
 export interface SingleLandAPIResponse {
   current_price?: number
