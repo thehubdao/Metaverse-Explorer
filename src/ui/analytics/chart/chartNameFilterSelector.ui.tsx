@@ -2,43 +2,13 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { CHART_ROUTES } from "../../../utils/analyticsChart";
 import { useEffect, useRef, useState } from "react";
 import { AnalyticsChartRoutes } from "../../../enums/charts";
+import FilterItem from "./filterNameOption";
 
-// Interface for props used in the ChartNameFilterSelectorUI component.
 interface ChartNameFilterSelectorUIProps {
   visibleCharts: AnalyticsChartRoutes[]; // Array of currently visible chart routes
   setVisibleCharts: React.Dispatch<React.SetStateAction<AnalyticsChartRoutes[]>>; // Function to set the array of visible chart routes
 }
 
-
-// Interface for props used in the FilterItem component.
-interface FilterItemProps {
-  label: string; // Label for the filter item
-  isChecked: boolean; // Flag indicating if the checkbox is checked or not
-  handleChange: Function; // Function to handle checkbox state changes
-}
-
-//* FilterItem component represents a single filter item with a label and checkbox.
-const FilterItem = ({ label, isChecked, handleChange }: FilterItemProps) => {
-  const [checked, setChecked] = useState<boolean>(isChecked);
-
-  return (
-    <button className="w-full flex justify-between items-center gap-3 cursor-default">
-      <p className="truncate">{label}</p>
-      <input
-        type="checkbox"
-        checked={checked}
-        className="cursor-pointer"
-        onChange={(e) => {
-          e.stopPropagation();
-          setChecked(!checked);
-          handleChange();
-        }}
-      />
-    </button>
-  );
-};
-
-//* Main component for the chart name filter selector.
 export default function ChartNameFilterSelectorUI({
   visibleCharts,
   setVisibleCharts,
