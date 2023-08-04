@@ -1,10 +1,8 @@
-// Interface for props used in the ChartTimeFilterSelectorUI component.
 interface ChartTimeFilterSelectorUIProps {
   setVisibleDays: React.Dispatch<React.SetStateAction<7 | 30 | 60 | 183 | 365>>; // Function to set the number of visible days
   visibleDays: number; // Number representing the currently visible days
 }
 
-// Interface for the TimeFilterProps used in the ChartTimeFilterSelectorUI component.
 interface TimeFilterProps {
   label: string; // Label to display on the button (e.g., 'W', 'M', 'Q', 'H', 'Y')
   title: string; // Title for the filter (e.g., 'Filter for a week', 'Filter for a month')
@@ -48,14 +46,12 @@ export default function ChartTimeFilterSelectorUI({ visibleDays, setVisibleDays 
       {timeFilters.map((item: TimeFilterProps, index: number) => {
         return (
           <button
-            key={index} // React key to identify each button uniquely
+            key={index}
             className={`rounded-lg w-12 h-12 bg-lm-fill
-            ${visibleDays === item.daysOnNumber ? 'shadow-hollow-8' : 'shadow-relief-12'}`} // Dynamically generated class based on the currently visible days
-            onClick={() => { setVisibleDays(item.daysOnNumber) }} // Function called when the button is clicked to set the number of visible days
-            title={item.title} // Tooltip title for the filter
-          >
-            {item.label} {/* Displaying the label on the button */}
-          </button>
+            ${visibleDays === item.daysOnNumber ? 'shadow-hollow-8' : 'shadow-relief-12'}`}
+            onClick={() => { setVisibleDays(item.daysOnNumber) }}
+            title={item.title}
+          >{item.label}</button>
         );
       })}
     </div>
