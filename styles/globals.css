@@ -20,6 +20,10 @@ html {
   /* Firefox */
 }
 
+body {
+  background: #ffffff;
+}
+
 
 @layer base {
   @font-face {
