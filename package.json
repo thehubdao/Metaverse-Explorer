@@ -10,13 +10,14 @@
     "gen:types": "typechain --target=ethers-v5 ./backend/abi/*.json"
   },
   "dependencies": {
+    "@arcana/auth": "^1.0.5",
+    "@arcana/auth-wagmi": "^2.0.0-beta.1",
     "next": "^13.4.6",
     "pixi-viewport": "^5.0.1",
     "pixi.js": "^7.2.4",
     "gsap": "^3.12.1",
     "react": "18",
     
-    "@arcana/auth-wagmi": "^1.0.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@ethersproject/providers": "^5.7.2",
@@ -24,7 +25,8 @@
     "@metamask/detect-provider": "^2.0.0",
     "@mui/material": "^5.13.5",
     "@pushprotocol/restapi": "^1.3.8",
-    "@rainbow-me/rainbowkit": "^1.0.2",
+    "@rainbow-me/rainbowkit": "^1.0.4",
+    "@rainbow-me/rainbowkit-siwe-next-auth": "^0.2.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@wagmi/chains": "^1.1.1",
     "@walletconnect/web3-provider": "^1.6.6",
@@ -38,6 +40,7 @@
     "axios-hooks": "^4.0.0",
     "blockies-ts": "^1.0.0",
     "chart.js": "^4.3.0",
+    "eslint-config-next": "^13.4.7",
     "ethers": "^5.7.2",
     "firebase": "^9.22.2",
     "firebase-admin": "^11.9.0",
@@ -61,6 +64,7 @@
     "react-use-scroll-direction": "^0.1.0",
     "recharts": "^2.7.1",
     "redux-persist": "^6.0.0",
+    "siwe": "^2.1.4",
     "socket.io-client": "^4.6.2",
     "swiper": "^9.4.1",
     "tippy.js": "^6.3.7",
@@ -68,7 +72,8 @@
     "touch-position": "^2.0.0",
     "tsparticles": "^2.10.1",
     "use-resize-observer": "^9.1.0",
-    "wagmi": "^1.2.0"
+    "viem": "1.4.1",
+    "wagmi": "1.3.9"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.60.0",

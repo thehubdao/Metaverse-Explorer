@@ -8,7 +8,6 @@ import { convertCurrency } from '../../../utils/currencyConverter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/store';
 
-// Interface for props used in the LinearChartUI component.
 interface LinearChartUIProps {
   chartApiData: AnalyticChartData; // Data for the linear chart
   chartOptions: {
@@ -57,7 +56,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
     LinearChart.ChangeVisibleTimelapsRange(chartOptions.visibleDays);
     LinearChart.createTooltip(chartElement);
 
-    // Cleanup function to remove the chart when the component unmounts
+    // Cleanup function to remove the chart when the component unmounts or update
     return () => { LinearChart.remove(); };
   }, [chartOptions, currencyData]);
 
