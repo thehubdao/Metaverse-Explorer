@@ -1,7 +1,7 @@
 "use client"
 
 import { FaWallet } from "react-icons/fa"
-import { Login } from "../component/login.component."
+import { Login } from "../component/login.component"
 
 export default function ConnectButtonUI (){
     return (
