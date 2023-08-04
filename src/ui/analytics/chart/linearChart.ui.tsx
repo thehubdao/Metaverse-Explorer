@@ -18,7 +18,6 @@ interface LinearChartUIProps {
   };
 }
 
-//* Main component for the linear chart.
 export default function LinearChartUI({ chartApiData, chartOptions }: LinearChartUIProps) {
   const chartElement = useRef<HTMLDivElement>(null);
   const currencyData = useSelector((state: RootState) => state.currency.currencies);
