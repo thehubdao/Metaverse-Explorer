@@ -27,17 +27,12 @@ export default function AnalyticsUI({ analyticsData }: AnalyticsUIProps) {
     <div className="w-full px-16 mt-16 text-lm-text font-bold text-sm">
       <div className="h-12 flex justify-between items-center">
         <div className="flex gap-6 ">
-          {/* Component for chart name filter selector */}
           <ChartNameFilterSelectorUI visibleCharts={visibleCharts} setVisibleCharts={setVisibleCharts} />
-          {/* Component for chart metaverse filter selector */}
           <ChartMetaverseFilterSelectorUI visibleMetaverses={visibleMetaverses} setVisibleMetaverses={setVisibleMetaverses} />
         </div>
         <div className="flex gap-6">
-          {/* Component for chart currency filter selector */}
           <ChartCurrencyFilterSelectorUI currencySelected={currencySelected} setCurrencySelected={setCurrencySelected} />
-          {/* Component for chart time filter selector */}
           <ChartTimeFilterSelectorUI visibleDays={visibleDays} setVisibleDays={setVisibleDays} />
-          {/* Component for chart grid selector */}
           <ChartGridSelectorUI setGridChartCols={setGridChartCols} gridChartCols={gridChartCols} />
         </div>
       </div>
@@ -48,7 +43,6 @@ export default function AnalyticsUI({ analyticsData }: AnalyticsUIProps) {
         {analyticsData.map((chart, index) => {
           return (visibleCharts.length === 0 || visibleCharts.includes(chart.chartEnum)) && (
             <div key={index} className={`w-full h-full ${gridChartCols}`}>
-              {/* Component for the linear chart */}
               <LinearChartUI chartApiData={chart} chartOptions={{ cols: gridChartCols, visibleDays, visibleMetaverses, currencySelected }} />
             </div>
           );
