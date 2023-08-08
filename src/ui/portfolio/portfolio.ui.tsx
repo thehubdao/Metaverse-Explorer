@@ -8,6 +8,7 @@ import IsLoginUI from "../common/isLogin.ui";
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
 import LandsMenuUI from "./landsMenu.ui";
+import { useAppSelector } from "../../state/hooks";
 
 const ilands: LandProps[] = [
   {
@@ -177,6 +178,7 @@ const coinPrices: ICoinPrices = {
   'somnium-space-cubes': 0.9876
 };
 
+
 export default function PortfolioUI() {
   const isConnected = true; //TODO: connect variable from redux login state 
   const landsOwned = ilands.length; //TODO: connect variable from redux portfolio state 
@@ -185,7 +187,8 @@ export default function PortfolioUI() {
   const [metaverseSelected, setMetaverseSelected] = useState(Metaverses.ALL);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [filteredLands, setFilteredLands] = useState<LandProps[]>(ilands);
-
+  const list = useAppSelector((state)=>{state.portfolio.list})
+  
   const filterLands = (metaverse: Metaverses)=>{
     setMetaverseSelected(metaverse);
     if (metaverse !== Metaverses.ALL) {
