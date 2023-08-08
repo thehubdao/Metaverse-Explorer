@@ -1,4 +1,4 @@
-﻿import FooterUI from "../ui/footer.ui";
+﻿import FooterUI from "../ui/common/footer.ui";
 
 export default function AppPage() {
   return (
