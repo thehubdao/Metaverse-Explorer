@@ -2,7 +2,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { CHART_ROUTES } from "../../../utils/analyticsChart";
 import { useEffect, useRef, useState } from "react";
 import { AnalyticsChartRoutes } from "../../../enums/charts";
-import FilterItem from "./filterNameOption";
+import FilterItemUI from "./filterNameOption.ui";
 
 interface ChartNameFilterSelectorUIProps {
   visibleCharts: AnalyticsChartRoutes[]; // Array of currently visible chart routes
@@ -62,7 +62,7 @@ export default function ChartNameFilterSelectorUI({
           {/* Rendering filter items */}
           {CHART_ROUTES.map(chart => {
             return (
-              <FilterItem
+              <FilterItemUI
                 key={chart[0]}
                 label={chart[1].label}
                 isChecked={visibleCharts.includes(chart[0])}

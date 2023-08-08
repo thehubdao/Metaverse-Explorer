@@ -7,7 +7,7 @@ interface FilterItemProps {
 }
 
 //* FilterItem component represents a single filter item with a label and checkbox.
-export default function FilterItem({ label, isChecked, handleChange }: FilterItemProps) {
+export default function FilterItemUI({ label, isChecked, handleChange }: FilterItemProps) {
   const [checked, setChecked] = useState<boolean>(isChecked);
 
   return (
