@@ -1,7 +1,7 @@
-import AnalyticsComponent from "../../../component/analytics.component";
+import AnalyticsComponent from "../../../component/analytics/analytics.component";
 
-export default function Analytics () {
-    return(
-        <AnalyticsComponent/>
-    )
+export default function Analytics() {
+  return (
+    <AnalyticsComponent />
+  )
 }

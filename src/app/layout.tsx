@@ -1,22 +1,18 @@
 "use client"
 
 import './global.css';
-import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-
 import store from '../state/store';
 import { Provider } from 'react-redux';
-
 import RootProvider from '../providers/providers';
-
-const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
-
 import NavbarUI from '../ui/navbar/navbar.ui';
 import FontIcons from 'next/font/local';
-import ConnectButtonUI from '../ui/connectButton.ui';
 import SubHeader from '../ui/subHeader/subHeader.ui';
+import ConnectButtonUI from '../ui/common/connectButton.ui';
 
+const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 const fontIcons = FontIcons({ src: '../../public/fonts/fonts-icons/iconSet01.ttf', display: 'block', variable: '--icons-font' })
 
 const list = [
@@ -62,10 +58,10 @@ const subHeaderList = [
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   const [banner, setBanner] = useState<boolean>(false);
-  const pathname = usePathname()
+  const pathname = usePathname();
   const isConnected = true;
 
   useEffect(() => {
@@ -73,10 +69,10 @@ export default function RootLayout({
       if (pathname !== '/metaverseexplorer/watchlist' && pathname !== '/metaverseexplorer/analytics') {
         setBanner(true);
       } else {
-        setBanner(false)
+        setBanner(false);
       }
     }
-  }, [pathname, isConnected])
+  }, [pathname, isConnected]);
 
   return (
     <Provider store={store}>

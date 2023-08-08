@@ -31,6 +31,8 @@ module.exports = {
         'nm-gradient-bot': '#197FF3',
         'nm-black': '#121212',
         'nm-blue-light': '#F1F9FF',
+        'lm-text': '#54575C',
+        'lm-fill': '#F5F7FF'
       },
       boxShadow:{
         'relief-12': '-6px -4px 12px #FFFFFF, 6px 4px 12px rgba(9, 20, 36, 0.15)',
@@ -39,7 +41,8 @@ module.exports = {
         'dm-relief-16': '-6px -4px 16px #27272D, 8px 6px 16px #0C0D0F',
         'relief-32': '-12px -8px 32px #FFFFFF, 16px 12px 32px #D3D9E6',
         'dm-relief-32': '-12px -8px 32px #24262B, 16px 12px 32px #0C0D0F',
-        'inset': '6px 4px 12px 0px rgba(9, 20, 36, 0.15) inset, -6px -4px 12px 0px #FFF inset'
+        'inset': '6px 4px 12px 0px rgba(9, 20, 36, 0.15) inset, -6px -4px 12px 0px #FFF inset',
+        'hollow-8': '4px 6px 8px 0px #D7DEEB inset, -2px -2px 8px 0px #FFF inset'
       }
     },
   },
