@@ -59,7 +59,7 @@ const { chains, publicClient } = configureChains(
 );
 
 const getConnectors = () => {
-  const projectId = process.env.WALLETCONNECT_PROJECT_ID;
+  const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
   if (projectId == undefined) {
     LogError(Module.WagmiConfig, "Wallet connect project id is undefined");
     return;
