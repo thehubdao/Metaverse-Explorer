@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Metaverses } from "../../enums/enums";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes";
-import FooterUI from "../common/footer.ui";
 import IsLoginUI from "../common/isLogin.ui";
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
@@ -241,7 +240,6 @@ export default function PortfolioUI() {
           </>
         </>
       }
-      <FooterUI />
     </>
   )
 }

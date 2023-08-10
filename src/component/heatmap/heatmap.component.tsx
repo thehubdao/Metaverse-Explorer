@@ -1,4 +1,3 @@
-import FooterUI from "../../ui/common/footer.ui";
 import IsLoginUI from "../../ui/common/isLogin.ui";
 
 export default function HeatmapComponent() {
@@ -12,7 +11,6 @@ export default function HeatmapComponent() {
           <h1>this is heatmap</h1>
         </>
       }
-      <FooterUI />
     </>
   )
 }
