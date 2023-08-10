@@ -1,18 +1,20 @@
+import { ButtonForm } from "../../enums/common.enum";
 import { Metaverses } from "../../enums/enums";
 import Image from "next/image";
 
 interface LandsMenuUIProps {
   metaverse: Metaverses;
   setMetaverse: (metaverse: Metaverses) => void;
-  isWatchlist: boolean;
+  form: ButtonForm;
+  isBorder: boolean
 }
 
-export default function LandsMenuUI({ metaverse, setMetaverse, isWatchlist }: LandsMenuUIProps) {
+export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }: LandsMenuUIProps) {
 
   return (
-    <div className={`w-full flex items-center justify-center  py-16 ${!isWatchlist ? "border-b border-nm-remark" : ""}`}>
+    <div className={`w-full flex items-center justify-center  py-16 ${isBorder ? "border-b border-nm-remark" : ""}`}>
       {
-        !isWatchlist ?
+        form == ButtonForm.Horizontal ?
           <>
             {(Object.keys(Metaverses) as Array<keyof typeof Metaverses>).map((key) => (
               <button
