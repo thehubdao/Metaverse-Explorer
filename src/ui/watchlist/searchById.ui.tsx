@@ -12,12 +12,12 @@ export default function SearchByIdUI({ land, metaverse }: SearchByIdUIProps) {
 
   const [tokenId, setTokenId] = useState<string>('');
   return (
-    <div className="flex flex-col">
-      <div className="w-full mb-4">
+    <div className="flex">
+      <div className="mr-6">
         <input
           type="number"
           placeholder="Token ID"
-          className="shadow-hollow-8 focus:outline-none p-4 rounded-2xl text-center w-full bg-lm-fill"
+          className="shadow-hollow-2 rounded-2xl text-center w-[352px] h-[63px] bg-nm-highlight"
           min={0}
           onChange={(event) => {
             setTokenId(event.target.value)
