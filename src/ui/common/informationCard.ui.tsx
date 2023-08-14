@@ -5,6 +5,7 @@ import Image from "next/image";
 import PriceListUI from "./priceList.ui";
 import { useState } from "react";
 import SpecificLandModalUI from "./specificLandModal.ui";
+import { PriceListForm } from "../../enums/common.enum";
 
 interface InformationCardUIProps {
   land: LandProps;
@@ -33,7 +34,7 @@ export default function InformationCardUI({ land, prices }: InformationCardUIPro
             <p className="text-nm-dm-remark font-normal text-sm my-2">
               Price Estimation:
             </p>
-            <PriceListUI prices={prices} />
+            <PriceListUI prices={prices} form={PriceListForm.Bold}/>
           </div>
           {/* External Links */}
           <div className='flex flex-col lg:flex-row gap-5 lg:items-center justify-start pt-4'>

@@ -15,7 +15,7 @@ interface GeneralSectionProps {
 export default function SubHeader({ optionList }: GeneralSectionProps) {
   const pathname = usePathname();
   return (
-    <div className="pr-16 pl-8 mt-14 ">
+    <div className="px-20 mt-14">
       <div className="rounded-xl">
         {/* Menu Header */}
         <div className="rounded-3xl px-5 py-7 w-full flex flex-col lg:flex-row justify-between items-center bg-lm-fill">

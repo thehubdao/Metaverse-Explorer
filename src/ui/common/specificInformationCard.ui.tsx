@@ -3,6 +3,7 @@ import Tooltip from "@mui/material/Tooltip";
 import PriceListUI from "./priceList.ui";
 import SpecificPriceListUI from "./specificPriceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
+import { PriceListForm } from "../../enums/common.enum";
 
 interface SpecificInformationCardUIProps {
   land: LandProps;
@@ -53,7 +54,7 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
           <p className="text-nm-dm-remark font-normal text-sm my-2">
             Estimated Price:
           </p>
-          <PriceListUI prices={prices} />
+          <PriceListUI prices={prices} form={PriceListForm.Bold}/>
         </div>
         <div className="mt-4 ml-20">
           <SpecificPriceListUI prices={prices} />
