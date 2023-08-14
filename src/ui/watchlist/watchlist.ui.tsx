@@ -224,12 +224,6 @@ export default function WatchlistUI() {
   const lands = ilands;
   const [filteredLands, setFilteredLands] = useState<LandProps[]>(ilands);
   const [metaverseSelected, setMetaverseSelected] = useState(Metaverses.ALL);
-  const isConnected2 = useAppSelector((state) => { state.login.connected })
-
-  useEffect(() => {
-    // console.log(isConnected2, 'asd');
-
-  }, [isConnected2]);
 
   const filterLands = (metaverse: Metaverses) => {
     setMetaverseSelected(metaverse);
