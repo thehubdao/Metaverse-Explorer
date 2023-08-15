@@ -22,3 +22,9 @@ export interface TopLandsData {
   buyer?: string;
   date?: string;
 }
+
+export interface IPredictions {
+  ethPrediction: number
+  usdPrediction: number
+  metaversePrediction?: number
+}

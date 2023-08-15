@@ -13,6 +13,7 @@ import BoxInformationUI from "./boxInformation";
 import { ICoinPrices } from "../../types/valuationTypes";
 import TopLandsUI from "./topLands";
 import { TopLandsData } from "../../interfaces/common.interface";
+import HotDealsUI from "./hotDeals/hotDeals";
 
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,
@@ -267,6 +268,13 @@ export default function HeatmapUI() {
                     <div className="w-full h-[678px] bg-lm-fill rounded-3xl flex justify-center items-center">
                       <h1 className="text-3xl font-bold">heatmap</h1>
                     </div>
+                    <div className="flex items-center justify-center mt-10">
+                      <div className="flex flex-col justify-center space-y-3 max-w-xl text-center">
+                        <p className="text-lm-text font-bold lg:text-3xl text-2xl text-center">{metaverseSelected} Hot Deals</p>
+                        <p className="font-medium text-center">Underpriced listings  on offer</p>
+                        <HotDealsUI metaverseSelected={metaverseSelected} prices={coinPrices} />
+                      </div>
+                    </div>
                     <div className="mt-10 flex justify-between w-full items-end">
                       <div className="flex gap-x-4">
                         <BoxInformationUI title={"Daily Volume:"} prices={coinPrices} />
@@ -282,7 +290,7 @@ export default function HeatmapUI() {
                       <TopLandsUI tableData={tableDataPicks} title="Our Top Picks" headers={headersPicks} form={TopLandForm.Picks} />
                     </div>
                     <div className="bg-lm-fill rounded-3xl w-full mt-10 py-10 px-12">
-                      
+
                       <TopLandsUI tableData={tableDataSells} title="Our Top Sells" headers={headersSells} form={TopLandForm.Sells} />
                     </div>
                   </>
