@@ -2,13 +2,13 @@
  * Percent Filter triggers when a user clicks on a colored squared.
  * Once clicked, only the lands on that percentage/number range will display
  */
-export const PERCENT_FILTER = {
-    p20: 20,
-    p40: 40,
-    p60: 60,
-    p80: 80,
-    p100: 100,
-} as const;
+export const PERCENT_FILTER = [
+    20,
+    40,
+    60,
+    80,
+    100
+] as const;
 
 export const LEGEND_FILTER = {
     Portfolio: 'portfolio',
