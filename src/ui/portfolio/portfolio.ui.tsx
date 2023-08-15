@@ -7,8 +7,9 @@ import FooterUI from "../common/footer.ui";
 import IsLoginUI from "../common/isLogin.ui";
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
-import LandsMenuUI from "./landsMenu.ui";
+import LandsMenuUI from "../common/landsMenu.ui";
 import { useAppSelector } from "../../state/hooks";
+import { ButtonForm } from "../../enums/common.enum";
 
 const ilands: LandProps[] = [
   {
@@ -224,7 +225,7 @@ export default function PortfolioUI() {
           </div>
 
           <div className='mx-16 mb-24'>
-            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses)=> filterLands(metaverse)} isWatchlist={false} />
+            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses)=> filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={true} />
           </div>
           <>
             {
