@@ -1,4 +1,4 @@
-import {Sprite} from "pixi.js";
+import {Container, Sprite} from "pixi.js";
 
 export interface TopLandsData {
   position?: number;
@@ -107,5 +107,15 @@ export interface OtherSprite extends Sprite {
     tokenId?: string;
     landY?: number;
     landX?: number;
+    type?: string;
+}
+
+export interface LandRectangle {
+    tokenId: string;
+    landY: number;
+    landX: number;
+    spriteRef: Sprite;
+    containerRef: Container;
+
     type?: string;
 }
