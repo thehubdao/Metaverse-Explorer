@@ -84,11 +84,11 @@ export default function RootLayout({
                 <NavbarUI list={list} route={pathname} />
               </nav>
               <header className={`${banner ? "bg-[url('/images/land_header.png')]" : ""}`} >
-                <div className='mr-12'>
+                <div className='pr-12'>
                   <ConnectButtonUI />
                 </div>
               </header>
-              <main>
+              <main className='bg-green-300'>
                 {pathname !== '/stake' ? <SubHeader optionList={subHeaderList} /> : ""}
                 {children}
               </main>

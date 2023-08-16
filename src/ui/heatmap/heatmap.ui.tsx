@@ -242,7 +242,7 @@ export default function HeatmapUI() {
       {!isConnected ?
         <IsLoginUI message="Please log in to use the valuation tool" />
         :
-        <div className={`mx-20 mb-24 mt-10 rounded-2xl ${metaverseSelected === Metaverses.ALL ? 'bg-lm-fill' : ''}`}>
+        <div className={`px-20 mb-24 mt-10 rounded-2xl ${metaverseSelected === Metaverses.ALL ? 'bg-lm-fill' : ''}`}>
           {
             metaverseSelected === Metaverses.ALL ?
               <div >
@@ -268,10 +268,14 @@ export default function HeatmapUI() {
                     <div className="w-full h-[678px] bg-lm-fill rounded-3xl flex justify-center items-center">
                       <h1 className="text-3xl font-bold">heatmap</h1>
                     </div>
-                    <div className="flex items-center justify-center mt-10">
-                      <div className="flex flex-col justify-center space-y-3 max-w-xl text-center">
-                        <p className="text-lm-text font-bold lg:text-3xl text-2xl text-center">{metaverseSelected} Hot Deals</p>
-                        <p className="font-medium text-center">Underpriced listings  on offer</p>
+                    <div>
+                      <div className="flex items-center justify-center mt-7">
+                        <div className="flex flex-col justify-center text-center">
+                          <p className="text-lm-text font-bold lg:text-3xl text-2xl text-center">{metaverseSelected} Hot Deals</p>
+                          <p className="font-medium text-center">Underpriced listings  on offer</p>
+                        </div>
+                      </div>
+                      <div className="mt-7">
                         <HotDealsUI metaverseSelected={metaverseSelected} prices={coinPrices} />
                       </div>
                     </div>
