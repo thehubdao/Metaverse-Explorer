@@ -88,7 +88,7 @@ export default function RootLayout({
                   <ConnectButtonUI />
                 </div>
               </header>
-              <main className='bg-green-300'>
+              <main>
                 {pathname !== '/stake' ? <SubHeader optionList={subHeaderList} /> : ""}
                 {children}
               </main>

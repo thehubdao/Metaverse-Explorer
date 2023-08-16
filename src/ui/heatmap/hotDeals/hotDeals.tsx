@@ -178,7 +178,7 @@ const cardData: HotDealsCard[] = [
 
 export default function HotDealsUI({ metaverseSelected, prices }: HotDealsUIProps) {
   return (
-    <div className='max-w-[1600px] bg-red-300'>
+    <div className='max-w-[1600px]'>
       <Swiper
         modules={[Scrollbar, A11y]}
         spaceBetween={25}

@@ -276,7 +276,7 @@ export default function HeatmapUI() {
                         </div>
                       </div>
                       <div className="mt-7">
-                        <HotDealsUI metaverseSelected={metaverseSelected} prices={coinPrices} />
+                        {/* <HotDealsUI metaverseSelected={metaverseSelected} prices={coinPrices} /> */}
                       </div>
                     </div>
                     <div className="mt-10 flex justify-between w-full items-end">
