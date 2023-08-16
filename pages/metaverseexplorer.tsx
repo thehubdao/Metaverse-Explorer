@@ -161,8 +161,7 @@ const Valuation: NextPage<{ prices: ICoinPrices }> = ({ prices }) => {
 		try {
 			// For Decentraland and Somnium space if we use version 2 of the service.
 			// We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
-			const url = (metaverse == "somnium-space" || metaverse == "decentraland")
-				? `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/globalData` : `${process.env.ITRM_SERVICE}/test/${metaverse}/globalData`
+			const url =  `${process.env.ITRM_SERVICE}/mgh/v2/${metaverse}/globalData` 
 			const response = await fetch(url, { method: "GET" });
 			setglobalData(await response.json());
 		} catch (e) {
