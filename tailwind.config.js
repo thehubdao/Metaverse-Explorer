@@ -11,7 +11,7 @@ module.exports = {
         'plus': ['Plus Jakarta Sans', 'sans-serif'],
         'icons': ['var(--icons-font)', 'sans-serif'],
       },
-      colors:{
+      colors: {
         'bg-mnui': '#6D6D6D',
         'nm-highlight': '#FFFFFF',
         'nm-dm-highlight': '#27272D',
@@ -35,7 +35,7 @@ module.exports = {
         'lm-text-gray': '#9B9B9B',
         'lm-fill': '#F5F7FF',
       },
-      boxShadow:{
+      boxShadow: {
         'relief-12': '-6px -4px 12px #FFFFFF, 6px 4px 12px rgba(9, 20, 36, 0.15)',
         'dm-relief-12': '-6px -4px 12px #27272D, 6px 4px 12px #0C0D0F',
         'relief-16': '-6px -4px 16px #FFFFFF, 8px 6px 16px #D3D9E6',

@@ -13,7 +13,7 @@ export default function SearchByIdUI({ land, metaverse }: SearchByIdUIProps) {
   const [tokenId, setTokenId] = useState<string>('');
   return (
     <div className="flex">
-      <div className="mr-6">
+      <div>
         <input
           type="number"
           placeholder="Token ID"
@@ -24,7 +24,9 @@ export default function SearchByIdUI({ land, metaverse }: SearchByIdUIProps) {
           }}
         />
       </div>
-      <AddLandButtonUI/>
+      <div className="pl-6">
+        <AddLandButtonUI/>
+      </div>
     </div>
   )
 }

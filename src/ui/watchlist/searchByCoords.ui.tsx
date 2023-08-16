@@ -23,11 +23,11 @@ export default function SearchByCoordsUI({ land, metaverse }: SearchByCoordsUIPr
   
   return (
     <div className="flex">
-      <div className="flex font-normal justify-between text-lm-text gap-3 mr-7">
+      <div className="flex font-normal justify-between text-lm-text gap-3">
         <input
           type="number"
           placeholder="X"
-          className="shadow-hollow-2  rounded-2xl text-center bg-nm-highlight w-[164px] h-[63px] mr-4"
+          className="shadow-hollow-2  rounded-2xl text-center bg-nm-highlight w-[164px] h-[63px] mr-3"
           onChange={handleXChange}
         />
         <input
@@ -37,7 +37,9 @@ export default function SearchByCoordsUI({ land, metaverse }: SearchByCoordsUIPr
           onChange={handleYChange}
         />
       </div>
-      <AddLandButtonUI/>
+      <div className="pl-6">
+        <AddLandButtonUI/>
+      </div>
     </div>
   )
 }

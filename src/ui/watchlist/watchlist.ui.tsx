@@ -1,14 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes";
 import IsLoginUI from "../common/isLogin.ui";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
-import SearhLandFormUI from "./serchLandForm.ui";
 import { Metaverses } from "../../enums/enums";
-import { useAppSelector } from "../../state/hooks";
 import { ButtonForm } from "../../enums/common.enum";
+import SearchLandFormUI from "./searchLandForm.ui";
 
 const ilands: LandProps[] = [
   {
@@ -224,12 +223,6 @@ export default function WatchlistUI() {
   const lands = ilands;
   const [filteredLands, setFilteredLands] = useState<LandProps[]>(ilands);
   const [metaverseSelected, setMetaverseSelected] = useState(Metaverses.ALL);
-  const isConnected2 = useAppSelector((state) => { state.login.connected })
-
-  useEffect(() => {
-    // console.log(isConnected2, 'asd');
-
-  }, [isConnected2]);
 
   const filterLands = (metaverse: Metaverses) => {
     setMetaverseSelected(metaverse);
@@ -250,7 +243,7 @@ export default function WatchlistUI() {
           <div className='mr-16 ml-8 mb-24 mt-10 rounded-2xl'>
             <div className="flex w-full justify-between">
               <div className="w-full">
-                <SearhLandFormUI metaverse={metaverseSelected} />
+                <SearchLandFormUI metaverse={metaverseSelected} />
               </div>
               <div>
                 <div className="flex space-x-4 w-full items-stretch justify-end">
