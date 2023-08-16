@@ -47,6 +47,7 @@ class Web3authService {
         }
         const rpc = new RPC(this.web3authProvider)
         const signedMessage = await rpc.signMessage(message)
+        console.log(signedMessage, message)
         return `${signedMessage}`
     }
     isPremiumUser = () => {
