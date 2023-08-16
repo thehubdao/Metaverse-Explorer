@@ -20,7 +20,7 @@ export default function InformationCardUI({ land, prices }: InformationCardUIPro
           <div className='w-52  mt-5'>
             {/* Asset Name */}
             <Tooltip title={land.name} placement='top' arrow>
-              <p className='text-2xl text-nm-dm-remark font-normal truncate' title={land.name}>
+              <p className='text-2xl text-nm-dm-remark font-normal truncate'>
                 {land.name}
               </p>
             </Tooltip>

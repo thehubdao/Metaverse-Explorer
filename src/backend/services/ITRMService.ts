@@ -45,7 +45,7 @@ export async function getCoingeckoPrices(): Promise<ICoinPrices> {
   }
 
   try {
-    const response = await fetch(`${process.env.ITRM_SERVICE??""}/val-analytics/coingeckoResponse`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_ITRM_SERVICE??""}/val-analytics/coingeckoResponse`);
     const coinITRM = (await response.json()) as CoinITRMResponse;
 
     if (coinITRM.success) {

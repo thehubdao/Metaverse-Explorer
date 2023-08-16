@@ -23,13 +23,8 @@ export const convertETHPrediction = (
 
 export const fetchLandList = async (metaverse: Metaverse, lands: string[]) => {
     let link = '';
-    if (metaverse === 'sandbox') {
-        // We use itrm V1 service for Sandbox (upgrade to version 2 when it is ready from ITRM).
-        link = `${process.env.ITRM_SERVICE??""}/test/${metaverse}/map?tokenId=`;
-    } else {
-        // For Decentraland and Somnium space if we use version 2 of the service.
-        link = `${process.env.ITRM_SERVICE??""}/mgh/v2/${metaverse}/map?tokenId=`;
-    } lands.forEach((land, i) => { link = link + land + (i !== lands.length - 1 ? ',' : '') });
+    link = `${process.env.NEXT_PUBLIC_ITRM_SERVICE??""}/mgh/v2/${metaverse}/map?tokenId=`;
+    lands.forEach((land, i) => { link = link + land + (i !== lands.length - 1 ? ',' : '') });
     const res = await fetch(link);
     return (await res.json()) as LandListAPIResponse;
 }

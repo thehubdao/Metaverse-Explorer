@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Metaverses } from "../../enums/enums";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes";
 import FooterUI from "../common/footer.ui";
@@ -189,6 +189,12 @@ export default function PortfolioUI() {
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [filteredLands, setFilteredLands] = useState<LandProps[]>(ilands);
   const list = useAppSelector((state)=>{state.portfolio.list})
+  const list2 = useAppSelector((state)=>{state.watchlist.list})
+  const isConnected2 = useAppSelector((state) => { state.login.accessToken })
+
+  console.log(isConnected2,);
+  
+  
   
   const filterLands = (metaverse: Metaverses)=>{
     setMetaverseSelected(metaverse);
