@@ -1,5 +1,3 @@
-import React from 'react';
-
 const filterOptions = {
   yesterdayTop: { title: 'FILTERED BY YESTERDAY', label: '2D' },
   monthTop: { title: 'FILTERED BY LAST MONTH', label: '1M' },
@@ -9,12 +7,12 @@ const filterOptions = {
 
 export type TopSellingFilterBy = keyof typeof filterOptions;
 
-interface TopSellsFilterProps {
+interface TopSellsFilterUIProps {
   filterBy: TopSellingFilterBy;
   setFilterBy: (filter: TopSellingFilterBy) => void;
 }
 
-export default function TopSellsFilter({ filterBy, setFilterBy }: TopSellsFilterProps) {
+export default function TopSellsFilterUI({ filterBy, setFilterBy }: TopSellsFilterUIProps) {
   return (
     <div className="w-fit inline-flex gap-3">
       {Object.keys(filterOptions).map((filterKey) => {

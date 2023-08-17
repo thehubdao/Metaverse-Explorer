@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, Pagination } from "@mui/material";
 import Image from "next/image";
 import { TopLandForm } from "../../enums/common.enum";
-import TopSellsFilter, { TopSellingFilterBy } from "./topSellsFilter.ui";
+import { TopSellingFilterBy } from "./topSellsFilter.ui";
 import { TopLandsData } from "../../interfaces/heatmap.interface";
+import TopSellsFilterUI from "./topSellsFilter.ui";
 
 const pageLength = 5;
 
@@ -32,7 +33,7 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
       <div className="flex justify-between">
         <p className="text-lm-text text-lg font-semibold mb-9">{title}</p>
         {
-          form === TopLandForm.Sells && <TopSellsFilter filterBy={filterBy} setFilterBy={setFilterBy} />
+          form === TopLandForm.Sells && <TopSellsFilterUI filterBy={filterBy} setFilterBy={setFilterBy} />
         }
       </div>
       <table className="w-full table-fixed border-collapse">
