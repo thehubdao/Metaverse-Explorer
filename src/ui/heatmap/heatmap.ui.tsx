@@ -204,15 +204,15 @@ const tableDataSells: TopLandsData[] = [
     buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
     date: "Thu Jan 27 2022",
   },
-  {
-    position: 11,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
+  // {
+  //   position: 11,
+  //   image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
+  //   external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
+  //   asset: "(x:-74, y:20)",
+  //   current_price_eth: 0.38,
+  //   buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
+  //   date: "Thu Jan 27 2022",
+  // },
 ];
 
 const headersPicks = [

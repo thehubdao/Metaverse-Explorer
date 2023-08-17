@@ -5,6 +5,8 @@ import Image from "next/image";
 import { TopLandForm } from "../../enums/common.enum";
 import TopSellsFilter, { TopSellingFilterBy } from "./topSellsFilter.ui";
 
+const pageLength = 5;
+
 interface TopLandsProps {
   tableData: TopLandsData[];
   title: string;
@@ -13,17 +15,16 @@ interface TopLandsProps {
 }
 
 export default function TopLandsUI({ tableData, title, headers, form }: TopLandsProps) {
-  const pageLength = 5;
-  const [numberOfPages, setNumberOfPages] = useState<number>(1);
-  const [controlPageIndex, setControlPageIndex] = useState<number>(0);
-  const startIndex = controlPageIndex * pageLength;
-  const endIndex = startIndex + pageLength;
-  const currentPageData = tableData.slice(startIndex, endIndex);
+  const [numberOfPages, setNumberOfPages] = useState<number>(Math.ceil(tableData.length / pageLength));
+  const [controlPageIndex, setControlPageIndex] = useState<number>(1);
+  const [currentPageData, setCurrentPageData] = useState<TopLandsData[]>(tableData.slice(controlPageIndex - 1, pageLength));
   const [filterBy, setFilterBy] = useState<TopSellingFilterBy>("totalTop");
-  
-  // calculate the total number of pages to display table elements
-  if (numberOfPages !== Math.ceil(tableData.length / pageLength)) {
-    setNumberOfPages(Math.ceil(tableData.length / pageLength));
+
+  const changePage = (newPage: number) => {
+    const startIndex = (newPage - 1) * pageLength;
+    const endIndex = startIndex + pageLength;
+    setControlPageIndex(newPage);
+    setCurrentPageData(tableData.slice(startIndex, endIndex));
   }
 
   return (
@@ -31,9 +32,7 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
       <div className="flex justify-between">
         <p className="text-lm-text text-lg font-semibold mb-9">{title}</p>
         {
-          form === TopLandForm.Sells ?
-          <TopSellsFilter filterBy={filterBy} setFilterBy={setFilterBy} />
-          :<></>
+          form === TopLandForm.Sells && <TopSellsFilter filterBy={filterBy} setFilterBy={setFilterBy} />
         }
       </div>
       <table className="w-full table-fixed border-collapse">
@@ -68,7 +67,7 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
                         {item.asset}
                       </td>
                       <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth}</td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.buyer === "" || item.buyer === undefined ? "anonymous": item.buyer}</td>
+                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.buyer === "" || item.buyer === undefined ? "anonymous" : item.buyer}</td>
                       <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.date}</td>
                     </>
                     :
@@ -103,16 +102,15 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
         </tbody>
       </table>
       <div className="w-full flex justify-center">
-        {numberOfPages > 1 ?
+        {numberOfPages > 1 &&
           <Pagination
             count={numberOfPages}
-            defaultPage={controlPageIndex + 1}
+            defaultPage={controlPageIndex}
             siblingCount={3} boundaryCount={2}
             shape="rounded"
             size="large"
-            onChange={(e, page) => { setControlPageIndex(page - 1) }}
+            onChange={(e, page) => changePage(page)}
           />
-          : <></>
         }
       </div>
     </>
