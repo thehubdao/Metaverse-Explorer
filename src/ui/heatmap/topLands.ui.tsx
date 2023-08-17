@@ -72,24 +72,22 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
                     </>
                     :
                     <>
-                      <tr key={index} className="flex w-full items-center">
-                        <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">
-                          <Link key={index} href={item.external_link}>
-                            <div className="relative h-12 w-12 rounded-full">
-                              <Image
-                                src={item.image}
-                                fill
-                                className="rounded-full"
-                                alt="land image"
-                              />
-                            </div>
-                          </Link>
-                        </td>
-                        <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.coords}</td>
-                        <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth}</td>
-                        <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.eth_predicted_price}</td>
-                        <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.gap}%</td>
-                      </tr>
+                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">
+                        <Link key={index} href={item.external_link}>
+                          <div className="relative h-12 w-12 rounded-full">
+                            <Image
+                              src={item.image}
+                              fill
+                              className="rounded-full"
+                              alt="land image"
+                            />
+                          </div>
+                        </Link>
+                      </td>
+                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.coords}</td>
+                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth}</td>
+                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.eth_predicted_price}</td>
+                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.gap}%</td>
                     </>
                 }
               </tr>
