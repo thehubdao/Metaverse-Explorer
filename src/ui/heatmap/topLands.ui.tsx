@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { TopLandsData } from "../../interfaces/common.interface";
 import { Link, Pagination } from "@mui/material";
 import Image from "next/image";
 import { TopLandForm } from "../../enums/common.enum";
 import TopSellsFilter, { TopSellingFilterBy } from "./topSellsFilter.ui";
+import { TopLandsData } from "../../interfaces/heatmap.interface";
 
 const pageLength = 5;
 

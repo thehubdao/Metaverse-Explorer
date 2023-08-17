@@ -1,9 +1,9 @@
 import { Metaverses } from "../../../enums/enums";
-import { HotDealsCard } from "../../../lib/valuation/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import Image from "next/image";
 import CartButtonUI from "./cartButton.ui";
 import Link from "next/link";
+import { HotDealsCard } from "../../../interfaces/heatmap.interface";
 
 interface HotDealsCardUIProps {
   cardData: HotDealsCard;

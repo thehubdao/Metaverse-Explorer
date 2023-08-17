@@ -6,12 +6,13 @@ import NextButton from "./nextButton.ui";
 
 
 import HotDealsCardUI from "./hotDealsCard.ui";
-import { HotDealsCard } from "../../../lib/valuation/valuationTypes";
+
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { HotDealsCard } from "../../../interfaces/heatmap.interface";
 
 interface HotDealsUIProps {
   metaverseSelected: Metaverses;

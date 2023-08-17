@@ -45,17 +45,3 @@ export interface SingleLandAPIResponse {
   name?: string
   metaverse?: Metaverse
 }
-
-export interface HotDealsCard {
-  images: {
-    image_url: string;
-  };
-  gap: number;
-  current_price_eth: number;
-  eth_predicted_price: number;
-  external_link: string;
-  market_links: {
-    opensea: string;
-  };
-  name: string;
-}

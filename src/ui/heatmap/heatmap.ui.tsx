@@ -12,8 +12,8 @@ import EstimatorValuesUI from "./estimatorValues.ui";
 import BoxInformationUI from "./boxInformation.ui";
 import { ICoinPrices } from "../../types/valuationTypes";
 import TopLandsUI from "./topLands.ui";
-import { TopLandsData } from "../../interfaces/common.interface";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
+import { TopLandsData } from "../../interfaces/heatmap.interface";
 
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,
