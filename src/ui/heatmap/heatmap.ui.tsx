@@ -8,12 +8,12 @@ import { BsExclamationCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import LandsMenuUI from "../common/landsMenu.ui";
 import { ButtonForm, TopLandForm } from "../../enums/common.enum";
-import EstimatorValuesUI from "./estimatorValues";
-import BoxInformationUI from "./boxInformation";
+import EstimatorValuesUI from "./estimatorValues.ui";
+import BoxInformationUI from "./boxInformation.ui";
 import { ICoinPrices } from "../../types/valuationTypes";
-import TopLandsUI from "./topLands";
+import TopLandsUI from "./topLands.ui";
 import { TopLandsData } from "../../interfaces/common.interface";
-import HotDealsUI from "./hotDeals/hotDeals";
+import HotDealsUI from "./hotDeals/hotDeals.ui";
 
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,
@@ -223,6 +223,13 @@ const headersSells = [
   "Rank", "Asset", "Price", "Buyer", "Purchased"
 ];
 
+const globalData = {
+  floor: 0.084,
+  tradingVolume: 20.475,
+  mcap: 8.834,
+  owners: 4446
+};
+
 export default function HeatmapUI() {
   const isConnected = true; //TODO: connect variable from redux login state 
   const [metaverseSelected, setMetaverseSelected] = useState(Metaverses.ALL);
@@ -230,12 +237,6 @@ export default function HeatmapUI() {
     setMetaverseSelected(metaverse);
   }
 
-  const globalData = {
-    floor: 0.084,
-    tradingVolume: 20.475,
-    mcap: 8.834,
-    owners: 4446
-  };
 
   return (
     <>

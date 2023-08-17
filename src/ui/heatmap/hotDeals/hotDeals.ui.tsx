@@ -2,10 +2,10 @@ import { Metaverses } from "../../../enums/enums";
 import { ICoinPrices } from "../../../types/valuationTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar, A11y } from 'swiper';
-import NextButton from "./nextButton";
+import NextButton from "./nextButton.ui";
 
 
-import HotDealsCardUI from "./hotDealsCard";
+import HotDealsCardUI from "./hotDealsCard.ui";
 import { HotDealsCard } from "../../../lib/valuation/valuationTypes";
 // Import Swiper styles
 import 'swiper/css';

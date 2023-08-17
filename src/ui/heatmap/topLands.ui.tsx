@@ -3,7 +3,7 @@ import { TopLandsData } from "../../interfaces/common.interface";
 import { Link, Pagination } from "@mui/material";
 import Image from "next/image";
 import { TopLandForm } from "../../enums/common.enum";
-import TopSellsFilter, { TopSellingFilterBy } from "./topSellsFilter";
+import TopSellsFilter, { TopSellingFilterBy } from "./topSellsFilter.ui";
 
 interface TopLandsProps {
   tableData: TopLandsData[];
@@ -13,22 +13,19 @@ interface TopLandsProps {
 }
 
 export default function TopLandsUI({ tableData, title, headers, form }: TopLandsProps) {
-  // calculate the total number of pages to display table elements
   const pageLength = 5;
-  const calculateTotalPages = () => {
-    return Math.ceil(tableData.length / pageLength);
-  };
-
-  const [numberOfPages, setNumberOfPages] = useState<number>(calculateTotalPages());
+  const [numberOfPages, setNumberOfPages] = useState<number>(1);
   const [controlPageIndex, setControlPageIndex] = useState<number>(0);
   const startIndex = controlPageIndex * pageLength;
   const endIndex = startIndex + pageLength;
   const currentPageData = tableData.slice(startIndex, endIndex);
   const [filterBy, setFilterBy] = useState<TopSellingFilterBy>("totalTop");
-
-  if (numberOfPages !== calculateTotalPages()) {
-    setNumberOfPages(calculateTotalPages());
+  
+  // calculate the total number of pages to display table elements
+  if (numberOfPages !== Math.ceil(tableData.length / pageLength)) {
+    setNumberOfPages(Math.ceil(tableData.length / pageLength));
   }
+
   return (
     <>
       <div className="flex justify-between">
