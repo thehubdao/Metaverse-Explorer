@@ -5,7 +5,7 @@ import IsLoginUI from "../../ui/common/isLogin.ui";
 import PortfolioUI from "../../ui/portfolio/portfolio.ui";
 
 export default function PortfolioComponent() {
-  const isConnected = useAppSelector(state => state.login.connected)
+  const isConnected = useAppSelector(state => state.login.connected);
 
   return (
     <>
