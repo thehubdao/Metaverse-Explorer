@@ -1,15 +1,15 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {ethers} from "ethers";
-import {getAddress} from 'ethers/lib/utils'
-import {Metaverse, metaverseObject} from '../lib/metaverse'
-import {typedKeys} from "../lib/utilities";
-import {getUserNFTs} from "../lib/nftUtils";
-import {Chains} from "../lib/chains";
-import {convertETHPrediction, fetchLandList} from "../lib/valuation/valuationUtils";
-import {LandListAPIResponse} from "../lib/valuation/valuationTypes";
-import {getCoingeckoPrices} from "../backend/services/ITRMService";
-import {LogError} from "../utils/logging.util";
-import {Module} from "../enums/logging.enum";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { ethers } from "ethers";
+import { getAddress } from 'ethers/lib/utils'
+import { Metaverse, metaverseObject } from '../lib/metaverse'
+import { typedKeys } from "../lib/utilities";
+import { getUserNFTs } from "../lib/nftUtils";
+import { Chains } from "../lib/chains";
+import { convertETHPrediction, fetchLandList } from "../lib/valuation/valuationUtils";
+import { LandListAPIResponse } from "../lib/valuation/valuationTypes";
+import { getCoingeckoPrices } from "../backend/services/ITRMService";
+import { LogError } from "../utils/logging.util";
+import { Module } from "../enums/logging.enum";
 
 interface TotalWorth {
     ethPrediction: number
@@ -44,7 +44,7 @@ const formatAddress = (address: string) => {
 
 export const fetchPortfolio = createAsyncThunk(
     'portfolio/fetchPortfolio',
-    async ({address}: { address: string }) => {
+    async ({ address }: { address: string }) => {
 
         const providerEthereum = new ethers.providers.InfuraProvider(
             Chains.ETHEREUM_MAINNET.chainId,
@@ -58,9 +58,9 @@ export const fetchPortfolio = createAsyncThunk(
 
         if (!address) return null;
 
-        let lands: Record<Metaverse, LandListAPIResponse> | undefined;
+        let lands: Record<Metaverse, LandListAPIResponse> | undefined = { sandbox: {}, decentraland: {}, "somnium-space": {} };
         let totalLandsCounter = 0;
-        let totalWorth: TotalWorth | undefined;
+        let totalWorth: TotalWorth | undefined = { ethPrediction: 0, usdPrediction: 0};
 
         try {
             await Promise.all(
@@ -86,19 +86,20 @@ export const fetchPortfolio = createAsyncThunk(
                     let metaverseLandsObjectEthereum: LandListAPIResponse = {};
                     let metaverseLandsObjectMatic: LandListAPIResponse = {};
 
-                    if (rawIdsEthereum && rawIdsEthereum.length > 0)
+                    if (rawIdsEthereum && rawIdsEthereum.length > 0) {
                         metaverseLandsObjectEthereum = await fetchLandList(metaverse, rawIdsEthereum);
+                    }
 
-                    if (rawIdsMatic && rawIdsMatic.length > 0)
+                    if (rawIdsMatic && rawIdsMatic.length > 0) {
                         metaverseLandsObjectMatic = await fetchLandList(metaverse, rawIdsMatic);
+                    }
 
-
-                    const metaverseLandsObject = {...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic};
+                    const metaverseLandsObject = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic };
 
                     const prices = await getCoingeckoPrices();
 
                     // Adding Total Worth
-                    const totalMvWorth = {usd: 0, eth: 0};
+                    const totalMvWorth = { usd: 0, eth: 0 };
                     //TODO: use Object.keys instead
                     typedKeys(metaverseLandsObject).forEach((land) => {
                         totalMvWorth.usd += convertETHPrediction(
@@ -128,7 +129,7 @@ export const fetchPortfolio = createAsyncThunk(
         } catch (err) {
             LogError(Module.PortfolioSlice, "A promise has failed", err);
         }
-        return {lands, totalLandsCounter, totalWorth, address};
+        return { lands, totalLandsCounter, totalWorth, address };
     }
 )
 
