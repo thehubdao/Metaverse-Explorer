@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { TokenData, WatchlistResponse } from "../interfaces/common.interface";
+import { TokenData } from "../interfaces/common.interface";
+import { WatchlistResponse } from "../interfaces/watchlist.interface";
 
 interface IState {
   list: WatchlistResponse | undefined,
