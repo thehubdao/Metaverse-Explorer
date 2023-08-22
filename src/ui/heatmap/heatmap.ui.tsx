@@ -238,7 +238,7 @@ export default function HeatmapUI() {
 
   return (
     <>
-      <div className={`px-20 mb-24 mt-10 rounded-2xl ${metaverseSelected === Metaverses.ALL ? 'bg-lm-fill' : ''}`}>
+      <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected === Metaverses.ALL ? 'bg-lm-fill' : ''}`}>
         {
           metaverseSelected === Metaverses.ALL ?
             <div >
