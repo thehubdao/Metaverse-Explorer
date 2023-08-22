@@ -85,8 +85,8 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
                 <NavbarUI list={list} route={pathname} />
               </nav>
               <HeaderComponent setIsConnected={(isConnectedChild: boolean)=> setIsConnected(isConnectedChild)} />
-              <main>
-                {pathname !== '/stake' ? <SubHeader optionList={subHeaderList} /> : ""}
+              <main className='px-16'>
+                {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
                 {children}
               </main>
             </div>
