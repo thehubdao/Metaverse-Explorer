@@ -1,11 +1,9 @@
 'use client' // This is a client component 👈🏽
 
 import { useEffect, useState } from "react";
-
 import { CHART_ROUTES, generateTestApiData } from "../../utils/analyticsChart";
 import { AnalyticChartData } from "../../interfaces/charts";
 import AnalyticsUI from "../../ui/analytics/analytics.ui";
-import FooterUI from "../../ui/common/footer.ui";
 
 export default function AnalyticsComponent() {
   // State to hold the fetched analytics data for different charts
@@ -69,8 +67,6 @@ export default function AnalyticsComponent() {
     <>
       {/* Render the AnalyticsUI component with the fetched analyticsData */}
       <AnalyticsUI analyticsData={analyticsData} />
-      {/* Render the FooterUI component */}
-      <FooterUI />
     </>
   )
 }
