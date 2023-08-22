@@ -80,7 +80,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
       <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
         <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
           <RootProvider>
-            <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected && pathname !== '/metaverseexplorer/watchlist' && pathname !== '/metaverseexplorer/analytics' ? 'grid-rows-[300px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
+            <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
               <nav className="bg-nm-gray row-span-2">
                 <NavbarUI list={list} route={pathname} />
               </nav>
