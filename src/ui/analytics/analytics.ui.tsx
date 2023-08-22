@@ -24,7 +24,7 @@ export default function AnalyticsUI({ analyticsData }: AnalyticsUIProps) {
   const [currencySelected, setCurrencySelected] = useState<Currencies>(Currencies.Ethereum);
 
   return (
-    <div className="w-full px-16 mt-16 text-lm-text font-bold text-sm">
+    <div className="w-full mt-16 text-lm-text font-bold text-sm">
       <div className="h-12 flex justify-between items-center">
         <div className="flex gap-6 ">
           <ChartNameFilterSelectorUI visibleCharts={visibleCharts} setVisibleCharts={setVisibleCharts} />
