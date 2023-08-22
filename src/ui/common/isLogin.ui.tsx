@@ -6,7 +6,7 @@ interface IsLoginUIPros {
 }
 export default function IsLoginUI({ message }: IsLoginUIPros) {
   return (
-    <div className="flex flex-col justify-center items-center mt-28 rounded-2xl bg-lm-fill ml-8 mr-16 py-40">
+    <div className="flex flex-col justify-center items-center mt-28 rounded-2xl bg-lm-fill  py-40">
       <Image
         src="/images/mgh_logo/mgh_logo.svg"
         width={136}
