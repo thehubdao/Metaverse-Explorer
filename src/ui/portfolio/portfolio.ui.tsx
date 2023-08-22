@@ -8,7 +8,6 @@ import NolandsUI from "../common/noLands.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
 import { useAppSelector } from "../../state/hooks";
 import { ButtonForm } from "../../enums/common.enum";
-import FooterUI from "../common/footer.ui";
 
 const ilands: LandProps[] = [
   {
@@ -233,7 +232,6 @@ export default function PortfolioUI() {
             </div>
         }
       </>
-      <FooterUI />
     </>
   )
 }
