@@ -3,13 +3,12 @@
 import { useState } from "react";
 import { Metaverses } from "../../enums/enums";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes";
-import FooterUI from "../common/footer.ui";
-import IsLoginUI from "../common/isLogin.ui";
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
 import { useAppSelector } from "../../state/hooks";
 import { ButtonForm } from "../../enums/common.enum";
+import FooterUI from "../common/footer.ui";
 
 const ilands: LandProps[] = [
   {
@@ -181,66 +180,59 @@ const coinPrices: ICoinPrices = {
 
 
 export default function PortfolioUI() {
-  const isConnected = true; //TODO: connect variable from redux login state 
   const landsOwned = ilands.length; //TODO: connect variable from redux portfolio state 
   const valueWorth = 1.52; //TODO: connect variable from redux portfolio state 
   const lands = ilands;
   const [metaverseSelected, setMetaverseSelected] = useState(Metaverses.ALL);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [filteredLands, setFilteredLands] = useState<LandProps[]>(ilands);
-  const list = useAppSelector((state)=>{state.portfolio.list})
-  
-  const filterLands = (metaverse: Metaverses)=>{
+  const list = useAppSelector((state) => { state.portfolio.list })
+
+  const filterLands = (metaverse: Metaverses) => {
     setMetaverseSelected(metaverse);
     if (metaverse !== Metaverses.ALL) {
       setFilteredLands(lands.filter((land) => land.metaverse === metaverse));
-      filterLands.length>0? setIsEmpty(false): setIsEmpty(true);
+      filterLands.length > 0 ? setIsEmpty(false) : setIsEmpty(true);
     } else {
       setFilteredLands(lands);
-      filterLands.length>0? setIsEmpty(false): setIsEmpty(true);
+      filterLands.length > 0 ? setIsEmpty(false) : setIsEmpty(true);
     }
   }
 
   return (
     <>
-      {!isConnected ?
-        <IsLoginUI message="Please log in to show your portfolio" />
-        :
-        <>
-          <div className="flex justify-between p-8 space-x-20 mt-10">
-            <div className="flex flex-col space-y-3 max-w-2xl text-lm-text pl-8">
-              <p className="text-2xl font-semibold">Description</p>
-              <p className="text-sm mt-5">The HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
-            </div>
-            <div className="flex space-x-4 w-full items-stretch justify-end pr-8">
-              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill">
-                <p className=" font-extrabold text-3xl">{landsOwned}</p>
-                <p className="text-sm font-bold pt-8">Total LANDs owned</p>
-              </div>
-              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill">
-                <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
-                <p className="text-sm font-bold pt-8">Total Value worth</p>
-              </div>
-            </div>
+      <div className="flex justify-between p-8 space-x-20 mt-10">
+        <div className="flex flex-col space-y-3 max-w-2xl text-lm-text pl-8">
+          <p className="text-2xl font-semibold">Description</p>
+          <p className="text-sm mt-5">The HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
+        </div>
+        <div className="flex space-x-4 w-full items-stretch justify-end pr-8">
+          <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill">
+            <p className=" font-extrabold text-3xl">{landsOwned}</p>
+            <p className="text-sm font-bold pt-8">Total LANDs owned</p>
           </div>
+          <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill">
+            <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
+            <p className="text-sm font-bold pt-8">Total Value worth</p>
+          </div>
+        </div>
+      </div>
 
-          <div className='mx-16 mb-24'>
-            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses)=> filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={true} />
-          </div>
-          <>
-            {
-              isEmpty ?
-                <NolandsUI />
-                :
-                <div className="mx-16">
-                  <div className=" mb-24 flex flex-wrap w-full justify-between">
-                    <LandCardListUI lands={filteredLands} prices={coinPrices} />
-                  </div>
-                </div>
-            }
-          </>
-        </>
-      }
+      <div className='mx-16 mb-24'>
+        <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={true} />
+      </div>
+      <>
+        {
+          isEmpty ?
+            <NolandsUI />
+            :
+            <div className="mx-16">
+              <div className=" mb-24 flex flex-wrap w-full justify-between">
+                <LandCardListUI lands={filteredLands} prices={coinPrices} />
+              </div>
+            </div>
+        }
+      </>
       <FooterUI />
     </>
   )

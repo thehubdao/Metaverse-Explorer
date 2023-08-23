@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useTokenExpiration } from "./useTokenExpiration";
 import { TokenData } from "../interfaces/common.interface";
 
-const REQ_URL = `${process.env.AUTH_SERVICE ?? ""}/authService/`;
+const REQ_URL = `${process.env.NEXT_PUBLIC_AUTH_SERVICE ?? ""}/authService/`;
 
 export const axiosBase = axios.create({
     baseURL: REQ_URL,

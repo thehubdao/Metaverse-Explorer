@@ -32,7 +32,7 @@ class AuthService {
 
     fetchNonce = async (address: string) => {
         const nonceRes = await fetch(
-            `${process.env.AUTH_SERVICE ?? ""}/authService/getNonce?address=${address}`,
+            `${process.env.NEXT_PUBLIC_AUTH_SERVICE ?? ""}/authService/getNonce?address=${address}`,
             {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
@@ -43,7 +43,7 @@ class AuthService {
 
     sendSignedNonce = async (address: string, signedNonce: string) => {
         const loginRes = await axios.post(
-            `${process.env.AUTH_SERVICE ?? ""}/authService/loginWallet?address=${address}&signature=${signedNonce}`,
+            `${process.env.NEXT_PUBLIC_AUTH_SERVICE ?? ""}/authService/loginWallet?address=${address}&signature=${signedNonce}`,
             {},
             {
                 withCredentials: true,

@@ -1,8 +1,7 @@
 "use client"
 
-import {  useState } from "react";
+import { useState } from "react";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes";
-import IsLoginUI from "../common/isLogin.ui";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
 import { Metaverses } from "../../enums/enums";
@@ -217,7 +216,6 @@ const coinPrices: ICoinPrices = {
 };
 
 export default function WatchlistUI() {
-  const isConnected = true; //TODO: connect variable from redux login state 
   const landsOwned = ilands.length; //TODO: connect variable from redux portfolio state 
   const valueWorth = 1.52;
   const lands = ilands;
@@ -234,37 +232,33 @@ export default function WatchlistUI() {
   }
 
   return (
+
     <>
-      {!isConnected ?
-        <IsLoginUI message="Please log in to show your watchlist" />
-        :
-        <>
-          <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false}/>
-          <div className='mr-16 ml-8 mb-24 mt-10 rounded-2xl'>
-            <div className="flex w-full justify-between">
-              <div className="w-full">
-                <SearchLandFormUI metaverse={metaverseSelected} />
+      <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
+      <div className='mr-16 ml-8 mb-24 mt-10 rounded-2xl'>
+        <div className="flex w-full justify-between">
+          <div className="w-full">
+            <SearchLandFormUI metaverse={metaverseSelected} />
+          </div>
+          <div>
+            <div className="flex space-x-4 w-full items-stretch justify-end">
+              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
+                <p className=" font-extrabold text-3xl">{landsOwned}</p>
+                <p className="text-sm font-bold pt-8">Total LANDs owned</p>
               </div>
-              <div>
-                <div className="flex space-x-4 w-full items-stretch justify-end">
-                  <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
-                    <p className=" font-extrabold text-3xl">{landsOwned}</p>
-                    <p className="text-sm font-bold pt-8">Total LANDs owned</p>
-                  </div>
-                  <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
-                    <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
-                    <p className="text-sm font-bold pt-8">Total Value worth</p>
-                  </div>
-                </div>
+              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
+                <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
+                <p className="text-sm font-bold pt-8">Total Value worth</p>
               </div>
-            </div>
-            <div className="border-b border-nm-remark h-[2px] my-10"></div>
-            <div className="pb-20 flex flex-wrap w-full justify-between">
-              <LandCardListUI lands={filteredLands} prices={coinPrices} />
             </div>
           </div>
-        </>
-      }
+        </div>
+        <div className="border-b border-nm-remark h-[2px] my-10"></div>
+        <div className="pb-20 flex flex-wrap w-full justify-between">
+          <LandCardListUI lands={filteredLands} prices={coinPrices} />
+        </div>
+      </div>
     </>
+
   )
 }
