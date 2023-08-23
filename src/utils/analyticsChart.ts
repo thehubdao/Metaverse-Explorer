@@ -61,7 +61,7 @@ export const CURRENCY_FILTERS: Array<{ currency: Currencies, name: string }> = [
 
 //* A test function used for generating dummy API data for testing purposes.
 //! Note: This function should be removed when connecting analytics charts to their respective API.
-export function generateTestApiData(nData: number, route: string): Promise<any[]> {
+export function generateTestApiData(nData: number, route: string): Promise<ApiData[]> {
   return new Promise((resolve, reject) => {
     const API_DATA: ApiData[] = [];
 

@@ -72,7 +72,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
       if (currencyData) store.dispatch(setCurrencyValues(currencyData));
     };
 
-    updateCurrencyData();
+    void updateCurrencyData();
   }, []);
 
   return (

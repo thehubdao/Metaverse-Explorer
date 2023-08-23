@@ -26,7 +26,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
     if (chartApiData.status === 'error') return;
 
     // Create a new instance of LightweightLinearChart
-    let LinearChart = new LightweightLinearChart(chartElement);
+    const LinearChart = new LightweightLinearChart(chartElement);
 
     // Iterate through the data and add lines to the chart
     for (const [key, value] of Object.entries(chartApiData.data)) {
@@ -57,6 +57,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
 
     // Cleanup function to remove the chart when the component unmounts or update
     return () => { LinearChart.remove(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chartOptions, currencyData]);
 
   return (

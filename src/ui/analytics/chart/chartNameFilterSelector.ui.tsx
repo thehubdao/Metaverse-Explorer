@@ -43,6 +43,7 @@ export default function ChartNameFilterSelectorUI({
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -51,7 +52,7 @@ export default function ChartNameFilterSelectorUI({
       <button className="relative flex justify-center items-center rounded-lg h-12 shadow-relief-12 bg-lm-fill px-14 gap-2 font-bold" ref={buttonRef}>
         <p>FILTER CHARTS</p>
         {/* Dropdown icon */}
-        <MdKeyboardArrowDown className={`absolute right-7 transition-all duration-200 ${isDropDownOpen && '-rotate-180'}`} size={24} />
+        <MdKeyboardArrowDown className={`absolute right-7 transition-all duration-200 ${isDropDownOpen ? '-rotate-180' : ''}`} size={24} />
       </button>
       {/* Dropdown content */}
       {isDropDownOpen && (
