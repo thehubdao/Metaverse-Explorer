@@ -5,9 +5,11 @@ import ChartMetaverseFilterSelectorUI from "./chart/chartMetaverseFilterSelector
 import ChartNameFilterSelectorUI from "./chart/chartNameFilterSelector.ui";
 import ChartTimeFilterSelectorUI from "./chart/chartTimeFilterSelector.ui";
 import LinearChartUI from "./chart/linearChart.ui";
-import { Currencies, Metaverses } from "../../enums/common";
+
 import { AnalyticChartData } from "../../interfaces/charts";
 import { AnalyticsChartRoutes } from "../../enums/charts";
+import { Metaverses } from "../../enums/metaverses.enum";
+import { Currencies } from "../../enums/common.enum";
 
 // Interface for props used in the AnalyticsUI component.
 interface AnalyticsUIProps {
