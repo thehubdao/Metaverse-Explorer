@@ -12,7 +12,7 @@ import { ICoinPrices } from "../../types/valuationTypes";
 import TopLandsUI from "./topLands.ui";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
 import { TopLandsData } from "../../interfaces/heatmap.interface";
-import { MetaverseOptions } from "../../enums/metaverses.enum";
+import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,
@@ -231,8 +231,8 @@ const globalData = {
 
 export default function HeatmapUI() {
   const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
-  const filterLands = (metaverse: MetaverseOptions) => {
-    setMetaverseSelected(metaverse);
+  const filterLands = (metaverse: MetaverseOptionsKey) => {
+    setMetaverseSelected(MetaverseOptions[metaverse]);
   }
 
 
@@ -250,7 +250,7 @@ export default function HeatmapUI() {
               <p className='flex text-base font-semibold  text-lm-text'>You can have 5 free valuations, after that pro version is needed</p>
             </div>
 
-            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptions) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
+            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptionsKey) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
             <div className="flex justify-center items-center pb-6">
               <Image src='/images/icons/magic-store.png' width={196} height={44} alt="magic store" />
             </div>

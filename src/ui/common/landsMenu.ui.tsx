@@ -46,7 +46,7 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                   key={key}
                   type="button"
                   className={`flex flex-col items-center justify-center rounded-3xl cursor-pointer w-[240px] h-[320px] mx-10 focus:outline-none shadow-relief-32 hover:shadow-relief-12 transition ease-in-out duration-300 grayscale hover:grayscale-0 ${metaverse === MetaverseOptions[key] ? "grayscale-0" : ""}`}
-                  onClick={() => setMetaverse(MetaverseOptions[key])}
+                  onClick={() => setMetaverse(key)}
                 >
                   {MetaverseOptions[key] === MetaverseOptions.sandbox && <Image src="/images/the-sandbox-sand-logo.png" width={100} height={100} alt="sandbox" />}
                   {MetaverseOptions[key] === MetaverseOptions.decentraland && <Image src="/images/decentraland-mana-logo.png" width={100} height={100} alt="sandbox" />}

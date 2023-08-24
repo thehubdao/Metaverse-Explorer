@@ -1,10 +1,10 @@
 import { LandProps } from "../../types/valuationTypes";
-import { Metaverses } from "../../enums/enums";
 import { useState } from "react";
 import AddLandButtonUI from "./addLandButton.ui";
+import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 interface SearchByCoordsUIProps {
   land?: LandProps;
-  metaverse: Metaverses;
+  metaverse: MetaverseOptionsKey;
 }
 
 export default function SearchByCoordsUI({ land, metaverse }: SearchByCoordsUIProps) {
