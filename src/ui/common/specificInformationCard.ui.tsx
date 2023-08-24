@@ -1,12 +1,13 @@
-import { ICoinPrices, LandProps } from "../../types/valuationTypes";
+import { ICoinPrices } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import PriceListUI from "./priceList.ui";
 import SpecificPriceListUI from "./specificPriceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
 import { PriceListForm } from "../../enums/common.enum";
+import { SingleLandAPIResponse } from "../../lib/valuation/valuationTypes";
 
 interface SpecificInformationCardUIProps {
-  land: LandProps;
+  land: SingleLandAPIResponse;
   prices: ICoinPrices;
 }
 export default function SpecificInformationCardUI({ land, prices }: SpecificInformationCardUIProps) {

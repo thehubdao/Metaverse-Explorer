@@ -1,4 +1,4 @@
-import { ICoinPrices, LandProps } from "../../types/valuationTypes";
+import { ICoinPrices } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import { BsTwitter } from "react-icons/bs";
 import Image from "next/image";
@@ -6,12 +6,15 @@ import PriceListUI from "./priceList.ui";
 import { useState } from "react";
 import SpecificLandModalUI from "./specificLandModal.ui";
 import { PriceListForm } from "../../enums/common.enum";
+import { SingleLandAPIResponse } from "../../lib/valuation/valuationTypes";
+import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 interface InformationCardUIProps {
-  land: LandProps;
+  land: SingleLandAPIResponse;
   prices: ICoinPrices;
+  metaverse: MetaverseOptionsKey;
 }
-export default function InformationCardUI({ land, prices }: InformationCardUIProps) {
+export default function InformationCardUI({ land, prices, metaverse }: InformationCardUIProps) {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   return (
@@ -46,7 +49,7 @@ export default function InformationCardUI({ land, prices }: InformationCardUIPro
           </div>
         </div>
       </button>
-      {isModalOpen && (<SpecificLandModalUI onClose={() =>setModalOpen(false)} land={land} prices={prices} />)}
+      {isModalOpen && (<SpecificLandModalUI onClose={() =>setModalOpen(false)} land={land} prices={prices} metaverse={metaverse}/>)}
     </>
   )
 }

@@ -4,9 +4,9 @@ import { useState } from "react";
 import { ICoinPrices, LandProps } from "../../types/valuationTypes";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
-import { Metaverses } from "../../enums/enums";
 import { ButtonForm } from "../../enums/common.enum";
 import SearchLandFormUI from "./searchLandForm.ui";
+import { MetaverseOptions } from "../../enums/metaverses.enum";
 
 const ilands: LandProps[] = [
   {
@@ -220,11 +220,11 @@ export default function WatchlistUI() {
   const valueWorth = 1.52;
   const lands = ilands;
   const [filteredLands, setFilteredLands] = useState<LandProps[]>(ilands);
-  const [metaverseSelected, setMetaverseSelected] = useState(Metaverses.ALL);
+  const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
 
-  const filterLands = (metaverse: Metaverses) => {
+  const filterLands = (metaverse: MetaverseOptions) => {
     setMetaverseSelected(metaverse);
-    if (metaverse !== Metaverses.ALL) {
+    if (metaverse !== MetaverseOptions.all) {
       setFilteredLands(lands.filter((land) => land.metaverse === metaverse));
     } else {
       setFilteredLands(lands);
@@ -234,7 +234,7 @@ export default function WatchlistUI() {
   return (
 
     <>
-      <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
+      <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptions) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
       <div className='mb-24 mt-10 rounded-2xl'>
         <div className="flex w-full justify-between">
           <div className="w-full">
