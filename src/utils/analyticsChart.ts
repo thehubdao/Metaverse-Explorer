@@ -47,7 +47,7 @@ export const METAVERSE_FILTERS: Array<{ metaverse: Metaverses, name: string, ima
   imageUrl: '/images/decentraland-mana-logo.png'
 }, {
   metaverse: Metaverses["somnium-space"],
-  name: MetaverseOptions["somniumSpace"],
+  name: MetaverseOptions["somnium-space"],
   imageUrl: '/images/somnium-space-cube-logo.webp'
 }]
 
