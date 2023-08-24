@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { METAVERSE_FILTERS } from "../../../utils/analyticsChart";
-import { Metaverses } from "../../../enums/common";
+import { Metaverses } from "../../../enums/metaverses.enum";
+
 
 interface ChartMetaverseFilterSelectorUIProps {
   visibleMetaverses: Metaverses[]; // Array of currently visible metaverses
