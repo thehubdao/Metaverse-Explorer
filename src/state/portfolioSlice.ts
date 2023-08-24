@@ -58,9 +58,9 @@ export const fetchPortfolio = createAsyncThunk(
 
         if (!address) return null;
 
-        let lands: Record<Metaverse, LandListAPIResponse> | undefined = { sandbox: {}, decentraland: {}, "somnium-space": {} };
+        const lands: Record<Metaverse, LandListAPIResponse> = { sandbox: {}, decentraland: {}, "somnium-space": {} };
         let totalLandsCounter = 0;
-        let totalWorth: TotalWorth | undefined = { ethPrediction: 0, usdPrediction: 0};
+        const totalWorth: TotalWorth = { ethPrediction: 0, usdPrediction: 0};
 
         try {
             await Promise.all(
