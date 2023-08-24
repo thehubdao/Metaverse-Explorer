@@ -1,13 +1,15 @@
 "use client"
 
 import { useState } from "react";
-import { ICoinPrices, LandListAPIResponse, LandProps } from "../../types/valuationTypes";
+import { ICoinPrices,  } from "../../types/valuationTypes";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
 import { ButtonForm } from "../../enums/common.enum";
 import SearchLandFormUI from "./searchLandForm.ui";
 import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
 import { GetKeyByValue } from "../../utils/common.util";
+import { Metaverse } from "../../lib/metaverse";
+import { LandListAPIResponse } from "../../lib/valuation/valuationTypes";
 
 // const ilands: LandProps[] = [
 //   {
@@ -216,19 +218,28 @@ const coinPrices: ICoinPrices = {
   'somnium-space-cubes': 0.9876
 };
 
-export default function WatchlistUI() {
-  // const landsOwned = ilands.length; //TODO: connect variable from redux portfolio state 
+interface WatchlistUIProps {
+  allLands: Record<Metaverse, LandListAPIResponse> | undefined;
+  landsOwned: number;
+}
+
+export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
   const valueWorth = 1.52;
-  // const lands = ilands;
-  const [filteredLands, setFilteredLands] = useState<[MetaverseOptionsKey, LandListAPIResponse][]>();
+  const [filteredLands, setFilteredLands] = useState<[MetaverseOptionsKey, LandListAPIResponse][]>([]);
   const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
 
   const filterLands = (metaverse: MetaverseOptionsKey) => {
     setMetaverseSelected(MetaverseOptions[metaverse]);
-    if (metaverse !== "all") {
-      setFilteredLands(lands.filter((land) => land.metaverse === metaverse));
-    } else {
-      setFilteredLands(lands);
+    if (allLands !== undefined) {
+      let auxLands;
+      if (metaverse !== "all") {
+        auxLands = Object.entries(allLands).filter((specificLands) => specificLands[0] === metaverse) as [MetaverseOptionsKey, LandListAPIResponse][];
+        setFilteredLands(auxLands);
+      }
+      else {
+        auxLands = Object.entries(allLands) as [MetaverseOptionsKey, LandListAPIResponse][];
+        setFilteredLands(auxLands);
+      }
     }
   }
 
