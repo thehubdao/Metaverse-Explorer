@@ -1,4 +1,5 @@
-import { Currencies } from "../../../enums/common";
+
+import { Currencies } from "../../../enums/common.enum";
 import { CURRENCY_FILTERS } from "../../../utils/analyticsChart";
 
 interface ChartCurrencyFilterSelectorUI {
