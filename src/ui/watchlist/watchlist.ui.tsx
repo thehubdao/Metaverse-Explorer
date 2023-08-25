@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ICoinPrices,  } from "../../types/valuationTypes";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
@@ -210,6 +210,7 @@ import { LandListAPIResponse } from "../../lib/valuation/valuationTypes";
 
 // ]
 
+//TODO replace with redux state (coingecko)
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,
   ethereum: 2897.65,
@@ -224,10 +225,12 @@ interface WatchlistUIProps {
 }
 
 export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
-  const valueWorth = 1.52;
+
+  const valueWorth = 1.52; //TODO: connect variable from redux watchlist state 
   const [filteredLands, setFilteredLands] = useState<[MetaverseOptionsKey, LandListAPIResponse][]>([]);
   const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
 
+  //Filter lands by metaverse selected
   const filterLands = (metaverse: MetaverseOptionsKey) => {
     setMetaverseSelected(MetaverseOptions[metaverse]);
     if (allLands !== undefined) {
@@ -243,6 +246,10 @@ export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
     }
   }
 
+  useEffect(() => {
+    filterLands("all");
+  }, [])
+
   return (
 
     <>
@@ -256,11 +263,11 @@ export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
             <div className="flex space-x-4 w-full items-stretch justify-end">
               <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
                 <p className=" font-extrabold text-3xl">{landsOwned}</p>
-                <p className="text-sm font-bold pt-8">Total LANDs owned</p>
+                <p className="text-sm font-bold">Total LANDs owned</p>
               </div>
               <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
                 <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
-                <p className="text-sm font-bold pt-8">Total Value worth</p>
+                <p className="text-sm font-bold">Total Value worth</p>
               </div>
             </div>
           </div>
