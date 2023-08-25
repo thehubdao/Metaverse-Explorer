@@ -72,11 +72,11 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
         <div className="flex space-x-4 w-full items-stretch justify-end">
           <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill">
             <p className=" font-extrabold text-3xl">{landsOwned}</p>
-            <p className="text-sm font-bold pt-8">Total LANDs owned</p>
+            <p className="text-sm font-bold">Total LANDs owned</p>
           </div>
           <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill">
             <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
-            <p className="text-sm font-bold pt-8">Total Value worth</p>
+            <p className="text-sm font-bold">Total Value worth</p>
           </div>
         </div>
       </div>
