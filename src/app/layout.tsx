@@ -14,6 +14,7 @@ import SubHeader from '../ui/subHeader/subHeader.ui';
 import { fetchCurrencyData } from '../utils/api';
 import { setCurrencyValues } from '../state/currencySlice';
 import FooterUI from '../ui/common/footer.ui';
+import MobileUI from '../ui/mobile/mobile.ui';
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 const fontIcons = FontIcons({ src: '../../public/fonts/fonts-icons/iconSet01.ttf', display: 'block', variable: '--icons-font' });
@@ -79,13 +80,13 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
   return (
     <Provider store={store}>
       <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
-        <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
+        <body className="hidden xl:block font-plus text-nm-dm-highlight bg-nm-highlight">
           <RootProvider>
             <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
               <nav className="bg-nm-gray row-span-2">
                 <NavbarUI list={list} route={pathname} />
               </nav>
-              <HeaderComponent setIsConnected={(isConnectedChild: boolean)=> setIsConnected(isConnectedChild)} />
+              <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
               <main className='px-16'>
                 {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
                 {children}
@@ -94,6 +95,9 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
             </div>
           </RootProvider>
         </body>
+        <div className="xl:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
+          <MobileUI />
+        </div>
       </html>
     </Provider >
   )
