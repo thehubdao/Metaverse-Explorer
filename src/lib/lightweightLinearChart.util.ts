@@ -82,9 +82,11 @@ export class LightweightLinearChart {
    * @param businessDay A timestamp in numeric format or any other type.
    * @returns A string representing the date in "DD/MM/YYYY" format.
    */
-  private businessDayToString(businessDay: number | any) {
-    let businessDayDate = new Date(businessDay * 1000)
-    return businessDayDate.getDate() + "/" + (businessDayDate.getMonth() + 1) + "/" + businessDayDate.getFullYear()
+  private businessDayToString(businessDay: Time) {
+    const businessDayNumber = parseInt(businessDay.toLocaleString());
+
+    const businessDayDate = new Date(businessDayNumber * 1000);
+    return businessDayDate.getDate().toString() + "/" + (businessDayDate.getMonth() + 1).toString() + "/" + businessDayDate.getFullYear().toString();
   }
 
   /**
@@ -140,7 +142,7 @@ export class LightweightLinearChart {
         // thus it will be YYYY-MM-DD
         const dateStr = this.businessDayToString(param.time);
         toolTip.style.display = 'block';
-        let prices: { price: { time: Time, value: number } | undefined, name: string, color: string }[] = []
+        const prices: { price: { time: Time, value: number } | undefined, name: string, color: string }[] = [];
         this._series.map((item) => { prices.push({ price: param.seriesData.get(item.price) as { time: Time, value: number } | undefined, name: item.name, color: item.color }) })
         toolTip.innerHTML = `<div style="font-size: 12px; margin: 4px 0px; color: ${'white'}">
           <div style="color: #54575C">${dateStr}</div>
@@ -157,8 +159,8 @@ export class LightweightLinearChart {
         if (top > chartElement.current.clientHeight - toolTipHeight) {
           top = y - toolTipHeight - toolTipMargin;
         }
-        toolTip.style.left = left + 'px';
-        toolTip.style.top = top + 'px';
+        toolTip.style.left = left.toString() + 'px';
+        toolTip.style.top = top.toString() + 'px';
       }
     });
   }

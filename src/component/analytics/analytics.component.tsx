@@ -19,21 +19,21 @@ export default function AnalyticsComponent() {
           // Fetch data for sandbox platform
           const sandboxFetch = await generateTestApiData(1000, chart[1].route).then((API_DATA) => {
             return { API_DATA, status: 'ready' }
-          }).catch(error => {
+          }).catch(() => {
             return { API_DATA: [], status: 'error' }
           })
 
           // Fetch data for decentraland platform
           const decentralandFetch = await generateTestApiData(1000, chart[1].route).then((API_DATA) => {
             return { API_DATA, status: 'ready' }
-          }).catch(error => {
+          }).catch(() => {
             return { API_DATA: [], status: 'error' }
           })
 
           // Fetch data for somnium space platform
           const somniumSpaceFetch = await generateTestApiData(1000, chart[1].route).then((API_DATA) => {
             return { API_DATA, status: 'ready' }
-          }).catch(error => {
+          }).catch(() => {
             return { API_DATA: [], status: 'error' }
           })
 
@@ -60,7 +60,7 @@ export default function AnalyticsComponent() {
     }
 
     // Fetch the data when the component mounts
-    fetch();
+    void fetch();
   }, [])
 
   return (

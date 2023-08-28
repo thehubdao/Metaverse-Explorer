@@ -7,12 +7,16 @@ export const fetchCurrencyData = async () => {
 
   try {
     // Fetch currency data for Ethereum and USDCoin against USD
-    const response = await fetch(`${API_BASE_URL}/simple/price?ids=ethereum,usd-coin&vs_currencies=usd`);
-    const data = await response.json();
+    const response: Response = await fetch(`${API_BASE_URL}/simple/price?ids=ethereum,usd-coin&vs_currencies=usd`);
+
+    // Check if the response status indicates success (HTTP 200 OK)
+    if (!response.ok) throw new Error('Failed to fetch currency data');
+
+    const data = await response.json() as { ethereum: { usd: number }, 'usd-coin': { usd: number } };
 
     // Extract the values for Ethereum and USDCoin
-    const ethereumValue = data.ethereum.usd;
-    const usdCoinValue = data['usd-coin'].usd;
+    const ethereumValue: number = data.ethereum.usd;
+    const usdCoinValue: number = data['usd-coin'].usd;
 
     // Return an object with the currency values
     return {
@@ -20,7 +24,7 @@ export const fetchCurrencyData = async () => {
       [Currencies.USDCoin]: usdCoinValue,
     };
   } catch (error) {
-    // If an error occurs during the fetch, log the error and return null
+    // If an error occurs during the fetch or data is missing, log the error and return null
     console.error('Error fetching currency data:', error);
     return null;
   }
