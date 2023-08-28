@@ -1,4 +1,5 @@
 import {Container, Sprite} from "pixi.js";
+import {LandType} from "../types/heatmap/land.type";
 
 export interface TopLandsData {
   position?: number;
@@ -111,9 +112,11 @@ export interface OtherSprite extends Sprite {
 }
 
 export interface LandRectangle {
+    name: string;
     tokenId: string;
     landY: number;
     landX: number;
+    land: LandType;
     spriteRef: Sprite;
     containerRef: Container;
 

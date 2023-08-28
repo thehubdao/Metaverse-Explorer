@@ -1,10 +1,20 @@
 import {useEffect, useRef, useState} from 'react';
-import {Application, Container, FederatedPointerEvent, MIPMAP_MODES, Sprite, Texture} from 'pixi.js';
+import {Application, Container, Sprite} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
+import Loader from './loader.component';
 import {PercentFilter} from "../../types/heatmap/heatmap.type";
+import {LandType} from "../../types/heatmap/land.type";
+import {LandRectangle} from "../../interfaces/heatmap.interface";
 import {Metaverse} from "../../enums/heatmap.enum";
-import {FilterColor, ValuationState} from "../../enums/valuation.enum";
+import {ValuationState} from "../../enums/valuation.enum";
+import {LegendFilter, MapFilter} from "../../enums/heatmap/filter.enum";
+import {Module} from "../../enums/logging.enum";
+import {LogError, LogWarning} from "../../utils/logging.util";
 import {RandomIntMax} from "../../utils/common.util";
+import {FreeSocket, InitLandSocket, RenderStart, SetOnNewLand} from "../../utils/itrm/land-socket.util";
+import {GetLandBorder, GetTileColorByFilter} from "../../utils/heatmap/land-color.util";
+import {GetBorderTexture} from "../../utils/pixi/texture.util";
+import {IsLandDecentraland} from "../../utils/heatmap/land.util";
 import {
   BLOCK_SIZE,
   BOUND_SIZE,
@@ -13,39 +23,15 @@ import {
   LOAD_PHRASES_LENGHT,
   TILE_SIZE
 } from "../../constants/heatmap/heatmap.constant";
-import Loader from './loader.component';
-import {LogError, LogWarning} from "../../utils/logging.util";
-import {Module} from "../../enums/logging.enum";
-import {LandData} from "../../interfaces/land.interface";
-import {GetBorder, SetColors} from "../../utils/heatmap/valuation-coloring.util";
-import {GetSocketService, SocketService} from "../../utils/socket/socket-service.util";
-import {FormatLand} from "../../utils/heatmap/heatmap-socket.util";
-import {FilteredLayer} from "../../utils/heatmap/heatmap-layers.util";
-import {LandRectangle, OtherSprite} from "../../interfaces/heatmap.interface";
-import {IsOtherSprite} from "../../utils/heatmap/heatmap.util";
-import {FreeSocket, InitLandSocket, RenderStart, SetOnNewLand} from "../../utils/itrm/land-socket.util";
-import {LandType} from "../../types/heatmap/land.type";
-import {GetLandBorder, GetTileColorByFilter} from "../../utils/heatmap/land-color.util";
-import {GetBorderTexture} from "../../utils/pixi/texture.util";
-import {IsLandDecentraland} from "../../utils/heatmap/land.util";
-import {LegendFilter, MapFilter} from "../../enums/heatmap/filter.enum";
 // import {useAccount} from "wagmi";
-
-// let globalFilter: MapFilter | undefined;
-// let globalPercentFilter: PercentFilter | undefined;
-// let globalLegendFilter: LegendFilter | undefined;
 
 //#region Logic
 
 let _mapApp: Application<HTMLCanvasElement> | undefined;
 let _viewport: Viewport | undefined;
-let _landIndex = 0;
 
-const _mapData: Record<string, LandType | undefined> = {};
+const _mapData: Record<string, LandRectangle | undefined> = {};
 const _chunks: Record<string, Container | undefined> = {};
-
-// let tempLands: any[] = []
-let socketService: SocketService;
 
 //#endregion
 
@@ -68,6 +54,7 @@ interface Heatmap2DProps {
 }
 
 export default function Heatmap2D({
+                                    metaverse,
                                     viewportWidth,
                                     viewportHeight,
                                     mapState,
@@ -76,7 +63,6 @@ export default function Heatmap2D({
                                     percentFilter,
                                     legendFilter,
                                     onClickLand,
-                                    metaverse,
                                     x,
                                     y,
                                     initialX,
@@ -84,19 +70,18 @@ export default function Heatmap2D({
                                   }: Heatmap2DProps) {
   
   const mapDivRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
   const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
-  // const [chunks, setChunks] = useState<Partial<Record<string, Container>>>({});
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-
+  
+  
   // const {address} = useAccount();
   const address = undefined;
   // const wList = useAppSelector((state) => state.watchlist.list);
   const wList: Partial<Record<Metaverse, Record<string, unknown>>> = {};
   // const portfolioLands = useAppSelector((state) => state.portfolio.list)
-
+  
   useEffect(() => {
     // Init pixi variables
     initPixiViews();
@@ -124,17 +109,18 @@ export default function Heatmap2D({
     if (mapDivRefCurrent == null)
       return void LogWarning(Module.Heatmap, "Missing PixiDiv please checkout!");
     
-    _landIndex = 0;
     _mapApp = new Application<HTMLCanvasElement>({
       width: viewportWidth,
       height: viewportHeight,
       resolution: 1,
       backgroundAlpha: 0,
       backgroundColor: '#42425d',
-      powerPreference: "low-power"
+      powerPreference: "low-power",
+      eventMode: "auto"
     });
-    
     _mapApp.view.style.borderRadius = '24px';
+
+    // _mapApp.ticker.maxFPS = 2;
 
     _viewport = new Viewport({
       screenWidth: viewportWidth,
@@ -176,20 +162,17 @@ export default function Heatmap2D({
       }
     } catch (e) {
       LogError(Module.Heatmap, "Error disposing pixi items from view", e);
-      console.error(e);
     }
   }
 
-  async function doRender(land: LandType) {
+  async function generateLandSprite(land: LandType) {
     if (_viewport == undefined)
-      return LogError(Module.Heatmap, "Missing viewport while trying to render some land!");
+      return void LogError(Module.Heatmap, "Missing viewport while trying to render some land!");
 
     if (land.coords == undefined || land.coords.x == undefined || land.coords.y == undefined)
-      return LogError(Module.Heatmap, "Missing coordinates to render!");
+      return void LogError(Module.Heatmap, "Missing coordinates to render!");
 
     land.coords.y *= -1;
-    const landName = `${land.coords.x},${land.coords.y}`;
-    _mapData[landName] = land;
 
     // TODO: Some address watchlist
     // if (address != undefined) {
@@ -253,15 +236,19 @@ export default function Heatmap2D({
     );
 
     const landRectangle: LandRectangle = {
+      name: `${land.coords.x},${land.coords.y}`,
       landX: land.coords.x,
       landY: land.coords.y,
       tokenId: land.tokenId,
+      land: land,
       spriteRef: rectangle,
       containerRef: chunkContainer,
     };
 
     chunkContainer.addChild(rectangle);
     _viewport.addChild(chunkContainer);
+    
+    return landRectangle;
   }
   
   function socketWork() {
@@ -271,8 +258,12 @@ export default function Heatmap2D({
       return LogError(Module.Heatmap, "Missing viewport!");
 
     SetOnNewLand(Metaverse.Decentraland, async (newLand) => {
-      await doRender(newLand);
+      const land = await generateLandSprite(newLand);
+      if (land != undefined)
+        _mapData[land.name] = land;
     });
+    
+    
     
     InitLandSocket(() => {
       RenderStart(Metaverse.Decentraland, 20);
