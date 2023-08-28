@@ -13,6 +13,7 @@ import FontIcons from 'next/font/local';
 import SubHeader from '../ui/subHeader/subHeader.ui';
 import { fetchCurrencyData } from '../utils/api';
 import { setCurrencyValues } from '../state/currencySlice';
+import FooterUI from '../ui/common/footer.ui';
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 const fontIcons = FontIcons({ src: '../../public/fonts/fonts-icons/iconSet01.ttf', display: 'block', variable: '--icons-font' });
@@ -80,14 +81,15 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
       <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
         <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
           <RootProvider>
-            <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected && pathname !== '/metaverseexplorer/watchlist' && pathname !== '/metaverseexplorer/analytics' ? 'grid-rows-[300px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
+            <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
               <nav className="bg-nm-gray row-span-2">
                 <NavbarUI list={list} route={pathname} />
               </nav>
               <HeaderComponent setIsConnected={(isConnectedChild: boolean)=> setIsConnected(isConnectedChild)} />
-              <main>
-                {pathname !== '/stake' ? <SubHeader optionList={subHeaderList} /> : ""}
+              <main className='px-16'>
+                {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
                 {children}
+                {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
               </main>
             </div>
           </RootProvider>

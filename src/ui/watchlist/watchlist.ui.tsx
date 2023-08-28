@@ -235,7 +235,7 @@ export default function WatchlistUI() {
 
     <>
       <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
-      <div className='mr-16 ml-8 mb-24 mt-10 rounded-2xl'>
+      <div className='mb-24 mt-10 rounded-2xl'>
         <div className="flex w-full justify-between">
           <div className="w-full">
             <SearchLandFormUI metaverse={metaverseSelected} />
