@@ -8,10 +8,11 @@ import {LandRectangle} from "../../interfaces/heatmap.interface";
 import {Metaverse} from "../../enums/heatmap.enum";
 import {ValuationState} from "../../enums/valuation.enum";
 import {LegendFilter, MapFilter} from "../../enums/heatmap/filter.enum";
+import {LandBorderTexture} from "../../enums/heatmap/land.enum";
 import {Module} from "../../enums/logging.enum";
 import {LogError, LogWarning} from "../../utils/logging.util";
 import {RandomIntMax} from "../../utils/common.util";
-import {FreeSocket, InitLandSocket, RenderStart, SetOnNewLand} from "../../utils/itrm/land-socket.util";
+import {FreeSocket, InitLandSocket, RenderStart, SetOnFinish, SetOnNewLand} from "../../utils/itrm/land-socket.util";
 import {GetLandBorder, GetTileColorByFilter} from "../../utils/heatmap/land-color.util";
 import {GetBorderTexture} from "../../utils/pixi/texture.util";
 import {IsLandDecentraland} from "../../utils/heatmap/land.util";
@@ -115,7 +116,6 @@ export default function Heatmap2D({
       resolution: 1,
       backgroundAlpha: 0,
       backgroundColor: '#42425d',
-      powerPreference: "low-power",
       eventMode: "auto"
     });
     _mapApp.view.style.borderRadius = '24px';
@@ -208,7 +208,7 @@ export default function Heatmap2D({
     const border = GetLandBorder(land);
     const texture = await GetBorderTexture(border);
     const rectangle = new Sprite(texture);
-    
+
     // rectangle.tint = '#ffffff';
     rectangle.tint = color;
     // rectangle.tint = (() => {
@@ -250,6 +250,46 @@ export default function Heatmap2D({
     
     return landRectangle;
   }
+
+  async function fillDeadSpaces() {
+    if (_viewport == undefined)
+      return LogError(Module.Heatmap, "Missing viewport trying to fill dead space!");
+    
+    for (let x = -204; x <= 203; x++) {
+      for (let y = -203; y <= 204; y++) {
+        const landKey = `${x},${y}`;
+
+        const chunkX = Math.floor(x / CHUNK_SIZE);
+        const chunkY = Math.floor(y / CHUNK_SIZE);
+        const chunkKey = `${chunkX}:${chunkY}`
+        let chunkContainer = _chunks[chunkKey];
+
+        if (chunkContainer == undefined) {
+          chunkContainer = _chunks[chunkKey] = new Container();
+          chunkContainer.position.set(
+            chunkX * BLOCK_SIZE,
+            chunkY * BLOCK_SIZE
+          );
+          _viewport.addChild(chunkContainer)
+        }
+        
+        if (_mapData[landKey] == undefined) {
+          const sprite = new Sprite(await GetBorderTexture(LandBorderTexture.FullBorderDead));
+          
+          sprite.tint = '#2d4162';
+          sprite.width = TILE_SIZE;
+          sprite.height = TILE_SIZE;
+
+          sprite.position.set(
+            x * TILE_SIZE - chunkX * BLOCK_SIZE,
+            y * TILE_SIZE - chunkY * BLOCK_SIZE
+          );
+          
+          chunkContainer.addChild(sprite);
+        }
+      }
+    }
+  }
   
   function socketWork() {
     console.log('Socket implementation');
@@ -257,71 +297,28 @@ export default function Heatmap2D({
     if (_viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport!");
 
-    SetOnNewLand(Metaverse.Decentraland, async (newLand) => {
+    // setIsLoading(true);
+
+    SetOnNewLand(metaverse, async (newLand) => {
       const land = await generateLandSprite(newLand);
       if (land != undefined)
         _mapData[land.name] = land;
     });
     
-    
+    SetOnFinish(async () => {
+      console.log("Finished!");
+      // If sandbox fill the empty spaces
+      if (metaverse === Metaverse.Sandbox)
+        await fillDeadSpaces();
+      
+      setIsLoading(false);
+      // TODO: check
+      setMapLoadingState(false);
+    });
     
     InitLandSocket(() => {
-      RenderStart(Metaverse.Decentraland, 20);
+      RenderStart(metaverse, 0);
     });
-
-    // setIsLoading(true);
-
-    // socketService.onGiveLand(onClickLand);
-    // socketService.onRenderFinish(async () => {
-    //   try {
-    //     for (const land of tempLands) {
-    //       console.log(land);
-    //       await renderHandler(land)
-    //     }
-    //     const localChunks = chunks
-    //     if (metaverse == "sandbox") for (let i = -204; i <= 203; i++) {
-    //       const x = i
-    //       for (let j = -203; j <= 204; j++) {
-    //         const y = j
-    //         if (!_mapData[`${x},${y}`]) {
-    //           const borderURL = 'images/full_border_dead.jpg'
-    //           const rectangle: OtherSprite = new Sprite(await Texture.fromURL(borderURL, {
-    //             mipmap: MIPMAP_MODES.ON,
-    //           }));
-    //           const chunkX = Math.floor(x / CHUNK_SIZE)
-    //           const chunkY = Math.floor(y / CHUNK_SIZE)
-    //           const chunkKey = `${chunkX}:${chunkY}`
-    //           let chunkContainer = localChunks[chunkKey]
-    //           //! SANDBOX DEAD COLOR
-    //           rectangle.tint = '#2d4162';
-    //           rectangle.width = rectangle.height =
-    //             TILE_SIZE
-    //           rectangle.position.set(
-    //             x * TILE_SIZE - chunkX * BLOCK_SIZE,
-    //             y * TILE_SIZE - chunkY * BLOCK_SIZE
-    //           )
-    //           rectangle.type = 'dead'
-    //           if (!chunkContainer) {
-    //             chunkContainer = localChunks[chunkKey] = new Container()
-    //             chunkContainer.position.set(
-    //               chunkX * BLOCK_SIZE,
-    //               chunkY * BLOCK_SIZE
-    //             )
-    //             setChunks(localChunks)
-    //           }
-    //           chunkContainer.addChild(rectangle)
-    //           viewport.addChild(chunkContainer)
-    //         }
-    //       }
-    //     }
-    //   }
-    //   catch (e) {
-    //     console.error(e);
-    //   }
-    //
-    //   setIsLoading(false)
-    //   setMapLoadingState(false)
-    // })
   }
   
   // useEffect(() => {
