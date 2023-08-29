@@ -8,11 +8,11 @@ import {CleanHex, GetKeyByValue, NumBetween} from "../common.util";
 import {PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {DECENTRALAND_API_COLORS, FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
-import {LandData, LandDecentraland} from "../../interfaces/land.interface";
+import {LandDecentraland} from "../../interfaces/land.interface";
 
 export function GetLandBorder(land: LandType): LandBorderTexture | undefined {
   if (!IsLandDecentraland(land))
-    return LandBorderTexture.TopBorder;
+    return LandBorderTexture.FullBorderDead;
 
   const {top, left, topLeft} = land.tile;
 
