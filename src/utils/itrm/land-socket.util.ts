@@ -100,7 +100,7 @@ function SetOnMessage(socket: WebSocket) {
       return LogWarning(Module.LandSocket, "Not function found for event!", `Missing "${message}" event function!`);
     
     if (realData == undefined) {
-      messageHandler();
+      void messageHandler();
       return;
     }
       
@@ -109,7 +109,7 @@ function SetOnMessage(socket: WebSocket) {
     if (landIndexNum == undefined)
       return LogWarning(Module.LandSocket, "Land index not a number!");
     
-    messageHandler(landRawData, landIndexNum);
+    void messageHandler(landRawData, landIndexNum);
   }
 }
 

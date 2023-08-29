@@ -1,3 +1,5 @@
+"use client";
+
 import {useEffect, useRef, useState} from 'react';
 import {Application, Container, Sprite} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
@@ -91,6 +93,8 @@ export default function Heatmap2D({
     return () => {
       cleanPixiViews();
     }
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   useEffect(() => {
@@ -101,10 +105,12 @@ export default function Heatmap2D({
     return () => {
       FreeSocket();
     }
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaverse]);
   
   function initPixiViews() {
-    console.log('Init Pixi');
+    console.warn('Init Pixi');
     
     const mapDivRefCurrent = mapDivRef.current;
     if (mapDivRefCurrent == null)
@@ -251,7 +257,7 @@ export default function Heatmap2D({
     return landRectangle;
   }
 
-  async function fillDeadSpaces() {
+  async function fillSandboxDeadSpaces() {
     if (_viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport trying to fill dead space!");
     
@@ -292,7 +298,7 @@ export default function Heatmap2D({
   }
   
   function socketWork() {
-    console.log('Socket implementation');
+    console.warn('Socket implementation');
 
     if (_viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport!");
@@ -306,10 +312,10 @@ export default function Heatmap2D({
     });
     
     SetOnFinish(async () => {
-      console.log("Finished!");
+      console.warn("Finished!");
       // If sandbox fill the empty spaces
       if (metaverse === Metaverse.Sandbox)
-        await fillDeadSpaces();
+        await fillSandboxDeadSpaces();
       
       setIsLoading(false);
       // TODO: check
