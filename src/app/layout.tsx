@@ -80,24 +80,26 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
   return (
     <Provider store={store}>
       <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
-        <body className="hidden xl:block font-plus text-nm-dm-highlight bg-nm-highlight">
-          <RootProvider>
-            <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
-              <nav className="bg-nm-gray row-span-2">
-                <NavbarUI list={list} route={pathname} />
-              </nav>
-              <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
-              <main className='px-16'>
-                {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
-                {children}
-                {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
-              </main>
-            </div>
-          </RootProvider>
+        <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
+          <div className='hidden xl:block'>
+            <RootProvider>
+              <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
+                <nav className="bg-nm-gray row-span-2">
+                  <NavbarUI list={list} route={pathname} />
+                </nav>
+                <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
+                <main className='px-16'>
+                  {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
+                  {children}
+                  {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
+                </main>
+              </div>
+            </RootProvider>
+          </div>
+          <div className="xl:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
+            <MobileUI />
+          </div>
         </body>
-        <div className="xl:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
-          <MobileUI />
-        </div>
       </html>
     </Provider >
   )
