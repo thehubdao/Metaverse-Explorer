@@ -236,20 +236,18 @@ export default function WatchlistUI() {
     <>
       <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
       <div className='mb-24 mt-10 rounded-2xl'>
-        <div className="flex w-full justify-between">
-          <div className="w-full">
+        <div className="flex flex-wrap w-full justify-center space-x-10">
+          <div className="w-[1000px] 2xl:w-[1125px] pb-10">
             <SearchLandFormUI metaverse={metaverseSelected} />
           </div>
-          <div>
-            <div className="flex space-x-4 w-full items-stretch justify-end">
-              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
-                <p className=" font-extrabold text-3xl">{landsOwned}</p>
-                <p className="text-sm font-bold pt-8">Total LANDs owned</p>
-              </div>
-              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
-                <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
-                <p className="text-sm font-bold pt-8">Total Value worth</p>
-              </div>
+          <div className="flex space-x-4">
+            <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
+              <p className=" font-extrabold text-3xl">{landsOwned}</p>
+              <p className="text-sm font-bold pt-8">Total LANDs owned</p>
+            </div>
+            <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
+              <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
+              <p className="text-sm font-bold pt-8">Total Value worth</p>
             </div>
           </div>
         </div>

@@ -10,7 +10,7 @@ interface SearchLandFormUIProps {
 
 export default function SearchLandFormUI({ metaverse, land }: SearchLandFormUIProps) {
   return (
-    <div className="bg-lm-fill rounded-xl flex flex-wrap w-[1125px] h-52 items-center px-20">
+    <div className="bg-lm-fill rounded-xl flex flex-wrap w-full h-52 items-center px-20">
       <div className="flex w-full justify-between items-center">
         <p className="text-lm-text">Add by Token ID:</p>
         <SearchByIdUI metaverse={metaverse} land={land} />
