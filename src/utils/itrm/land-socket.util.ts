@@ -94,11 +94,16 @@ function SetOnMessage(socket: WebSocket) {
   socket.onmessage = (messageEvent) => {
     const data = messageEvent.data as string;
     const [message, realData] = data.split('|');
-        
+    
     const messageHandler = LandSocket.Instance().Handler()[message as LandSocketEvent];
     if (messageHandler == undefined)
-      return LogWarning(Module.LandSocket, "Not function found for event!");
+      return LogWarning(Module.LandSocket, "Not function found for event!", `Missing "${message}" event function!`);
     
+    if (realData == undefined) {
+      messageHandler();
+      return;
+    }
+      
     const [landRawData, landKeyIndex] = realData.split(',');
     const landIndexNum = CastStringToInteger(landKeyIndex);
     if (landIndexNum == undefined)
@@ -114,6 +119,10 @@ export function RenderStart(metaverse: Metaverse, landIndex: number) {
     return void LogError(Module.LandSocket, "Missing socket on RenderStart!");
   
   socket.send(`render-start|${metaverse};${landIndex}`);
+}
+
+export function SetOnFinish(onFinish: LandSocketFunction) {
+  LandSocket.Instance().SetEventHandler(LandSocketEvent.RenderFinish, onFinish);
 }
 
 export function SetOnNewLand(metaverse: Metaverse, onNewLand: (newLand: LandType) => Promise<void>) {
