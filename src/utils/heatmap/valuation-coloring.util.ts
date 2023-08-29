@@ -239,14 +239,3 @@ function FilterKey(mapFilter: MapFilter | undefined): FilterPercentageStringKey 
     ? "predictedPricePercentage"
     : "normal";
 }
-
-export function GetBorder(land: LandData) {
-  if (land.tile == undefined) return '/full_border.jpg';
-  if (land.tile.top != undefined && land.tile.left != undefined && land.tile.topLeft != undefined) return undefined;
-  
-  else if (land.tile.top == undefined && land.tile.left != undefined) return '/top_border.jpg';
-  else if (land.tile.top != undefined && land.tile.left == undefined) return '/left_border.jpg';
-  else if (land.tile.top == undefined && land.tile.left == undefined) return '/topLeft_border.jpg';
-  else if (land.tile.top != undefined && land.tile.left != undefined && land.tile.topLeft ==  undefined)
-    return '/fill_border.jpg';
-}
