@@ -33,8 +33,8 @@ import {
 let _mapApp: Application<HTMLCanvasElement> | undefined;
 let _viewport: Viewport | undefined;
 
-const _mapData: Record<string, LandRectangle | undefined> = {};
-const _chunks: Record<string, Container | undefined> = {};
+let _mapData: Record<string, LandRectangle | undefined> = {};
+let _chunks: Record<string, Container | undefined> = {};
 
 //#endregion
 
@@ -86,24 +86,20 @@ export default function Heatmap2D({
   // const portfolioLands = useAppSelector((state) => state.portfolio.list)
   
   useEffect(() => {
+    // setIsLoading(true);
+    
     // Init pixi variables
     initPixiViews();
     
-    // onUnMount remove pixi stuff
-    return () => {
-      cleanPixiViews();
-    }
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  
-  useEffect(() => {
     // Start and work with the socket
     socketWork();
 
     // free socket
     return () => {
       FreeSocket();
+      cleanPixiViews();
+      _mapData = {};
+      _chunks = {};
     }
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -302,8 +298,6 @@ export default function Heatmap2D({
 
     if (_viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport!");
-
-    // setIsLoading(true);
 
     SetOnNewLand(metaverse, async (newLand) => {
       const land = await generateLandSprite(newLand);
