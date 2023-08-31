@@ -6,8 +6,7 @@ import WatchlistUI from "../../ui/watchlist/watchlist.ui";
 
 export default function WatchlistComponent() {
   const isConnected = useAppSelector(state => state.login.connected);
-  //TODO replace portfolio state with watchlist state
-  const portfolio = useAppSelector(state=> state.portfolio);
+  const watchlist = useAppSelector(state=> state.watchlist);
   return (
     <>
       {!isConnected ?
@@ -15,7 +14,7 @@ export default function WatchlistComponent() {
         :
         <>
         {
-          portfolio.list !== undefined ? <WatchlistUI allLands={portfolio.list} landsOwned={portfolio.length ?? 0}/> 
+          watchlist.list !== undefined ? <WatchlistUI allLands={watchlist.list} /> 
           :
           <p>Loading...</p>
         }

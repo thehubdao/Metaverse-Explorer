@@ -5,7 +5,7 @@ import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 interface SearchByIdUIProps {
   land?: LandProps;
-  metaverse: MetaverseOptionsKey;
+  metaverse?: MetaverseOptionsKey;
 }
 
 export default function SearchByIdUI({ land, metaverse }: SearchByIdUIProps) {

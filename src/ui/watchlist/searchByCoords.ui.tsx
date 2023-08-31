@@ -4,7 +4,7 @@ import AddLandButtonUI from "./addLandButton.ui";
 import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 interface SearchByCoordsUIProps {
   land?: LandProps;
-  metaverse: MetaverseOptionsKey;
+  metaverse?: MetaverseOptionsKey;
 }
 
 export default function SearchByCoordsUI({ land, metaverse }: SearchByCoordsUIProps) {
