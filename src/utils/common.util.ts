@@ -65,3 +65,9 @@ export function RemoveUndefinedProperties<T>(obj: T)  {
 export function NumBetween(num: number, min: number, max: number) {
   return num <= max && num > min;
 }
+
+export function Delay(ms: number) {
+  return new Promise<void>(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
