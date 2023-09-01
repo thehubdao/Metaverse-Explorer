@@ -321,14 +321,14 @@ export default function Heatmap2D({
     SetOnFinish(async () => {
       // console.warn("Finished!");
       
-      _landRawData.map(async ({landKeyIndex, landData}) => {
+      for (const {landKeyIndex, landData} of _landRawData) {
         const formattedLand = FormatLand(landData, landKeyIndex, metaverse);
         if (formattedLand == undefined) return;
-        
+
         const land = await generateLandSprite(formattedLand);
         if (land != undefined)
           _mapData[land.name] = land;
-      });
+      }
       
       // If sandbox fill the empty spaces
       if (metaverse === Metaverse.Sandbox)
