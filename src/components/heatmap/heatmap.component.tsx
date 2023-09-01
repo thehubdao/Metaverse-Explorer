@@ -4,12 +4,12 @@ import {useEffect, useRef, useState} from 'react';
 import {Application, Container, Sprite} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
 import Loader from './loader.component';
-import {PercentFilter} from "../../types/heatmap/heatmap.type";
+import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
 import {LandRectangle} from "../../interfaces/heatmap.interface";
 import {Metaverse} from "../../enums/heatmap.enum";
 import {ValuationState} from "../../enums/valuation.enum";
-import {LegendFilter, MapFilter} from "../../enums/heatmap/filter.enum";
+import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {LandBorderTexture} from "../../enums/heatmap/land.enum";
 import {Module} from "../../enums/logging.enum";
 import {LogError, LogWarning} from "../../utils/logging.util";
@@ -17,7 +17,7 @@ import {RandomIntMax} from "../../utils/common.util";
 import {FreeSocket, InitLandSocket, RenderStart, SetOnFinish, SetOnNewLand} from "../../utils/itrm/land-socket.util";
 import {GetLandBorder, GetTileColorByFilter} from "../../utils/heatmap/land-color.util";
 import {GetBorderTexture} from "../../utils/pixi/texture.util";
-import {IsLandDecentraland} from "../../utils/heatmap/land.util";
+import {FormatLand, IsLandDecentraland} from "../../utils/heatmap/land.util";
 import {
   BLOCK_SIZE,
   BOUND_SIZE,
@@ -26,6 +26,7 @@ import {
   LOAD_PHRASES_LENGHT,
   TILE_SIZE
 } from "../../constants/heatmap/heatmap.constant";
+import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
 // import {useAccount} from "wagmi";
 
 //#region Logic
@@ -33,6 +34,7 @@ import {
 let _mapApp: Application<HTMLCanvasElement> | undefined;
 let _viewport: Viewport | undefined;
 
+let _landRawData: {landKeyIndex: number, landData: string}[] = [];
 let _mapData: Record<string, LandRectangle | undefined> = {};
 let _chunks: Record<string, Container | undefined> = {};
 
@@ -65,6 +67,7 @@ export default function Heatmap2D({
                                     filter,
                                     percentFilter,
                                     legendFilter,
+  
                                     onClickLand,
                                     x,
                                     y,
@@ -73,7 +76,7 @@ export default function Heatmap2D({
                                   }: Heatmap2DProps) {
   
   const mapDivRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
   
   const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
@@ -86,7 +89,7 @@ export default function Heatmap2D({
   // const portfolioLands = useAppSelector((state) => state.portfolio.list)
   
   useEffect(() => {
-    console.warn('Set interval function');
+    // console.warn('Set interval function');
     if (!isLoading) return;
 
     const intervalFunction = setInterval(() => {
@@ -100,7 +103,7 @@ export default function Heatmap2D({
   }, [isLoading]);
   
   useEffect(() => {
-    setIsLoading(true);
+    // setIsLoading(true);
     
     // Init pixi variables
     initPixiViews();
@@ -114,13 +117,19 @@ export default function Heatmap2D({
       cleanPixiViews();
       _mapData = {};
       _chunks = {};
+      _landRawData = [];
     }
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaverse]);
+
+  // Filtering
+  // useEffect(() => {
+  //   doFilter();
+  // }, [filter, percentFilter, legendFilter]);
   
   function initPixiViews() {
-    console.warn('Init Pixi');
+    // console.warn('Init Pixi');
     
     const mapDivRefCurrent = mapDivRef.current;
     if (mapDivRefCurrent == null)
@@ -137,6 +146,7 @@ export default function Heatmap2D({
     _mapApp.view.style.borderRadius = '24px';
 
     // _mapApp.ticker.maxFPS = 2;
+    // (globalThis as any).__PIXI_APP__ = _mapApp;
 
     _viewport = new Viewport({
       screenWidth: viewportWidth,
@@ -225,19 +235,7 @@ export default function Heatmap2D({
     const texture = await GetBorderTexture(border);
     const rectangle = new Sprite(texture);
 
-    // rectangle.tint = '#ffffff';
     rectangle.tint = color;
-    // rectangle.tint = (() => {
-    //   const array = [
-    //     FilterColor.Red,
-    //     FilterColor.DarkBlue,
-    //     FilterColor.Green,
-    //     FilterColor.Orange,
-    //     FilterColor.Yellow
-    //   ];
-    //
-    //   return array[Math.floor(Math.random() * array.length)];
-    // })();
 
     const side = [5, 6, 7, 8, 12].some(x => {
       if (IsLandDecentraland(land)) return x === land.tile.type ?? 5;
@@ -308,19 +306,30 @@ export default function Heatmap2D({
   }
   
   function socketWork() {
-    console.warn('Socket implementation');
+    // console.warn('Socket implementation');
 
     if (_viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport!");
 
-    SetOnNewLand(metaverse, async (newLand) => {
-      const land = await generateLandSprite(newLand);
-      if (land != undefined)
-        _mapData[land.name] = land;
+    SetOnNewLand(metaverse, (landData, landKeyIndex) => {
+      if (landKeyIndex == undefined || landData == undefined)
+        return;
+      
+      _landRawData.push({landKeyIndex, landData});
     });
     
     SetOnFinish(async () => {
-      console.warn("Finished!");
+      // console.warn("Finished!");
+      
+      _landRawData.map(async ({landKeyIndex, landData}) => {
+        const formattedLand = FormatLand(landData, landKeyIndex, metaverse);
+        if (formattedLand == undefined) return;
+        
+        const land = await generateLandSprite(formattedLand);
+        if (land != undefined)
+          _mapData[land.name] = land;
+      });
+      
       // If sandbox fill the empty spaces
       if (metaverse === Metaverse.Sandbox)
         await fillSandboxDeadSpaces();
@@ -332,7 +341,34 @@ export default function Heatmap2D({
     
     InitLandSocket(() => {
       RenderStart(metaverse, 0);
-    });
+    }); 
+  }
+
+  function doFilter() {
+    // SetColors(_mapData, filter);
+    
+    for (const land of Object.values(_mapData)) {
+      if (land == undefined) continue;
+
+      // if (address) {
+      //   /* if (portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
+      //   else if (lands[child.name].portfolio) delete lands[child.name].portfolio */
+      //   const wMRef = wList[metaverse];
+      //   if (wMRef != undefined && wMRef[lands[child.name].tokenId] != undefined)
+      //     lands[child.name].watchlist = true;
+      //   else if (lands[child.name].watchlist)
+      //     lands[child.name].watchlist = undefined;
+      // }
+
+      const tile = GetTileColorByFilter(
+        filter,
+        percentFilter,
+        legendFilter,
+        land.land
+      );
+      
+      land.spriteRef.tint = tile.color;
+    }
   }
 
   // Filter update
@@ -493,18 +529,6 @@ export default function Heatmap2D({
   //     }
   //   }
   // }
-  //
-  //
-  // // Filtering
-  // useEffect(() => {
-  //   console.log('filter');
-  //   (async () => {
-  //     await filterUpdate();
-  //   })().catch(err =>
-  //     LogError(Module.Heatmap, "Error applying filters", err)
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [filter, percentFilter, legendFilter, x, y]);
   //
   // useEffect(() => {
   //   console.log('Snap heatmap')
