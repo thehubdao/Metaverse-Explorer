@@ -2,8 +2,8 @@
 import {LandBorderTexture} from "../../enums/heatmap/land.enum";
 import {IsLandDecentraland, IsLandSandBox} from "./land.util";
 import {DecentralandApiColor, FilterColor, LegendColor} from "../../enums/valuation.enum";
-import {PercentFilter} from "../../types/heatmap/heatmap.type";
-import {LegendFilter, MapFilter} from "../../enums/heatmap/filter.enum";
+import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
+import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {CleanHex, GetKeyByValue, NumBetween} from "../common.util";
 import {PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {DECENTRALAND_API_COLORS, FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
@@ -56,7 +56,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
   switch (legendFilter) {
     case LegendFilter.OnSale:
       if (land.current_price_eth > -1) {
-        if (mapFilter === MapFilter.basic)
+        if (mapFilter === "basic")
           color = LegendColor.OnSale;
         else
           color = GetTileColor(land.percent ?? 0, percentFilter, mapFilter);
@@ -74,7 +74,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
       break;
     case LegendFilter.Watchlist:
       if (land.watchlist) {
-        if (mapFilter === MapFilter.basic) {
+        if (mapFilter === "basic") {
           color = LegendColor.Watchlist;
           scale = SCALE_OPTIONS.big;
         } else {
@@ -87,7 +87,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
       break;
     case LegendFilter.Portfolio:
       if (land.portfolio != undefined) {
-        if (mapFilter === MapFilter.basic) {
+        if (mapFilter === "basic") {
           color = LegendColor.Portfolio;
           scale = SCALE_OPTIONS.big;
         } else {
@@ -100,14 +100,14 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
     
       break;
     default:
-      if (mapFilter === MapFilter.basic) {
+      if (mapFilter === "basic") {
         if (land.portfolio != undefined) {
           color = LegendColor.Portfolio;
           scale = SCALE_OPTIONS.mid;
         } else if (land.watchlist) {
           color = LegendColor.Watchlist;
           scale = SCALE_OPTIONS.mid;
-        } else if (land.current_price_eth > -1) {
+        } else if (land.current_price_eth > 0) {
           color = LegendColor.OnSale;
         } else if (IsLandSandBox(land) && land.land_type == 1) {
           color = LegendColor.PremiumLands;
@@ -186,12 +186,14 @@ function GenerateColor(percent: number, mapFilter?: MapFilter) {
 }
 
 function FilterKey(mapFilter: MapFilter | undefined): FilterPercentageStringKey {
-  return mapFilter != undefined && [
-    MapFilter.eth_predicted_price,
-    MapFilter.listed_lands,
-    MapFilter.floor_adjusted_predicted_price,
-    MapFilter.last_month_sells,
-  ].includes(mapFilter)
+  const filterArray: MapFilter[] = [
+    "eth_predicted_price",
+    "listed_lands",
+    "floor_adjusted_predicted_price",
+    "last_month_sells"
+  ];
+  
+  return mapFilter != undefined && filterArray.includes(mapFilter)
     ? "predictedPricePercentage"
     : "normal";
 }
