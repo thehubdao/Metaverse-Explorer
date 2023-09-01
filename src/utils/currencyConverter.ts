@@ -1,4 +1,5 @@
-import { Currencies } from "../enums/common";
+import { Currencies } from "../enums/common.enum";
+
 
 /**
  ** Function to convert a currency value from one currency to another based on currency exchange rates.

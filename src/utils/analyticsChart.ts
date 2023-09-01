@@ -1,5 +1,6 @@
 import { AnalyticsChartRoutes } from "../enums/charts";
-import { Currencies, Metaverses } from "../enums/common";
+import { Currencies } from "../enums/common.enum";
+import { MetaverseOptions, Metaverses } from "../enums/metaverses.enum";
 import { ApiData, ChartInfo } from "../interfaces/charts";
 
 //* Array of tuples representing chart routes and their corresponding chart information.
@@ -37,16 +38,16 @@ export const CHART_ROUTES: Array<[AnalyticsChartRoutes, ChartInfo]> = [
 
 //* Array of metaverse filters, each containing metaverse, name, and imageUrl properties.
 export const METAVERSE_FILTERS: Array<{ metaverse: Metaverses, name: string, imageUrl: string }> = [{
-  metaverse: Metaverses.Sandbox,
-  name: 'The Sandbox',
+  metaverse: Metaverses.sandbox,
+  name: MetaverseOptions.sandbox,
   imageUrl: '/images/the-sandbox-sand-logo.png'
 }, {
-  metaverse: Metaverses.Decentraland,
-  name: 'Decentraland',
+  metaverse: Metaverses.decentraland,
+  name: MetaverseOptions.decentraland,
   imageUrl: '/images/decentraland-mana-logo.png'
 }, {
-  metaverse: Metaverses.SomniumSpace,
-  name: 'Somnium Soace',
+  metaverse: Metaverses["somnium-space"],
+  name: MetaverseOptions["somnium-space"],
   imageUrl: '/images/somnium-space-cube-logo.webp'
 }]
 

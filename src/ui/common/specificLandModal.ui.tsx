@@ -1,15 +1,18 @@
 import { IoClose } from "react-icons/io5";
-import { ICoinPrices, LandProps } from "../../types/valuationTypes";
+import { ICoinPrices } from "../../types/valuationTypes";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import SpecificInformationCardUI from "./specificInformationCard.ui";
+import { SingleLandAPIResponse } from "../../lib/valuation/valuationTypes";
+import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 interface SpecificLandModalUIProps {
   onClose: () => void;
-  land: LandProps;
+  land: SingleLandAPIResponse;
   prices: ICoinPrices;
+  metaverse: MetaverseOptionsKey;
 }
 
-export default function SpecificLandModalUI({ onClose, land, prices }: SpecificLandModalUIProps) {
+export default function SpecificLandModalUI({ onClose, land, prices, metaverse }: SpecificLandModalUIProps) {
 
   return (
     <div className="z-50 fixed w-full h-screen top-0 left-0 flex justify-center items-center bg-black/75" >
@@ -25,7 +28,7 @@ export default function SpecificLandModalUI({ onClose, land, prices }: SpecificL
         <div className="flex relative h-full w-full">
           <div className="w-1/2 flex justify-center items-center ">
             <div className="w-[600px] h-[600px] rounded-3xl p-5 bg-lm-fill shadow-relief-12">
-              <ExternalAssetLinkUI land={land}  isOpen={true}/>
+              <ExternalAssetLinkUI land={land}  isOpen={true} metaverse={metaverse}/>
             </div>
           </div>
           <div className="w-1/2 flex justify-center items-center">

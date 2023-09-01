@@ -1,5 +1,5 @@
 import { AnalyticsChartRoutes } from "../enums/charts"
-import { Metaverses } from "../enums/common"
+import { Metaverses } from "../enums/metaverses.enum"
 
 export interface ChartInfo {
   route: string,

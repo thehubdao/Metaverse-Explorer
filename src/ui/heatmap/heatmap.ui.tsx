@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Metaverses } from "../../enums/enums";
+
 import { BsExclamationCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import LandsMenuUI from "../common/landsMenu.ui";
@@ -12,6 +12,7 @@ import { ICoinPrices } from "../../types/valuationTypes";
 import TopLandsUI from "./topLands.ui";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
 import { TopLandsData } from "../../interfaces/heatmap.interface";
+import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,
@@ -229,16 +230,16 @@ const globalData = {
 };
 
 export default function HeatmapUI() {
-  const [metaverseSelected, setMetaverseSelected] = useState(Metaverses.ALL);
-  const filterLands = (metaverse: Metaverses) => {
-    setMetaverseSelected(metaverse);
+  const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
+  const filterLands = (metaverse: MetaverseOptionsKey) => {
+    setMetaverseSelected(MetaverseOptions[metaverse]);
   }
 
 
   return (
-    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected === Metaverses.ALL ? 'bg-lm-fill' : ''}`}>
+    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected === MetaverseOptions.all ? 'bg-lm-fill' : ''}`}>
       {
-        metaverseSelected === Metaverses.ALL ?
+        metaverseSelected === MetaverseOptions.all ?
           <div >
             <h2 className='text-lm-text font-bold text-2xl lg:text-3xl text-center py-8'>
               Choose a Metaverse
@@ -249,7 +250,7 @@ export default function HeatmapUI() {
               <p className='flex text-base font-semibold  text-lm-text'>You can have 5 free valuations, after that pro version is needed</p>
             </div>
 
-            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
+            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptionsKey) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
             <div className="flex justify-center items-center pb-6">
               <Image src='/images/icons/magic-store.png' width={196} height={44} alt="magic store" />
             </div>

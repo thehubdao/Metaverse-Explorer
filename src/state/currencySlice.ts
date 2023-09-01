@@ -1,9 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export enum Currencies {
-  Ethereum = 'eth',
-  USDCoin = 'usdc'
-}
+import { Currencies } from '../enums/common.enum';
 
 interface CurrencyState {
   currencies: { [key in Currencies]: number };

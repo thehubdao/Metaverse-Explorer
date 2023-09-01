@@ -1,4 +1,3 @@
-import { Metaverses } from "../../../enums/enums";
 import { ICoinPrices } from "../../../types/valuationTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar, A11y } from 'swiper';
@@ -13,11 +12,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { HotDealsCard } from "../../../interfaces/heatmap.interface";
+import { MetaverseOptionsKey } from "../../../enums/metaverses.enum";
 
-interface HotDealsUIProps {
-  metaverseSelected: Metaverses;
-  prices: ICoinPrices;
-}
+
 
 const cardData: HotDealsCard[] = [
   {
@@ -176,6 +173,10 @@ const cardData: HotDealsCard[] = [
 
 ];
 
+interface HotDealsUIProps {
+  metaverseSelected: MetaverseOptionsKey;
+  prices: ICoinPrices;
+}
 
 export default function HotDealsUI({ metaverseSelected, prices }: HotDealsUIProps) {
   return (

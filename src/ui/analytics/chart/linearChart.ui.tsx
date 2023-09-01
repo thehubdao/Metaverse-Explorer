@@ -2,11 +2,12 @@ import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 import { getMetaverseColor } from '../../../utils/analyticsChart';
 import { LightweightLinearChart } from '../../../lib/lightweightLinearChart.util';
-import { Currencies, Metaverses } from '../../../enums/common';
 import { AnalyticChartData } from '../../../interfaces/charts';
 import { convertCurrency } from '../../../utils/currencyConverter';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/store';
+import { Currencies } from '../../../enums/common.enum';
+import { Metaverses } from '../../../enums/metaverses.enum';
 
 interface LinearChartUIProps {
   chartApiData: AnalyticChartData; // Data for the linear chart

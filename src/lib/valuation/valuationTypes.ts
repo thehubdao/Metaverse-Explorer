@@ -21,6 +21,7 @@ export type LandsKey = 'sandbox' | 'decentraland' | 'axie-infinity' | 'somnium-s
 export type LandListAPIResponse = Record<string, SingleLandAPIResponse>;
 
 export interface SingleLandAPIResponse {
+  
   current_price?: number
   predicted_price: number
   eth_predicted_price: number
@@ -35,13 +36,14 @@ export interface SingleLandAPIResponse {
   variation_last_week: number
   variation_last_four_weeks: number
   variation_last_six_months: number
-  manipulation_index: number
-  suggested_operation: string
+  manipulation_index?: number
+  suggested_operation?: string
   coords: {
     x: number
     y: number
   }
-  owner: string
+  owner?: string
   name?: string
   metaverse?: Metaverse
+  tokenId?: string
 }

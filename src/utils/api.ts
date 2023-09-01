@@ -1,4 +1,4 @@
-import { Currencies } from "../enums/common";
+import { Currencies } from "../enums/common.enum";
 
 //* Function to fetch currency data from the Coingecko API.
 export const fetchCurrencyData = async () => {
