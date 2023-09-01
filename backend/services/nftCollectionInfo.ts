@@ -1,6 +1,6 @@
 export async function getNftGlobalData(collection: string) { //Should be collection
   try {
-    const data = await fetch(`${process.env.ITRM_SERVICE}/${collection}/globalData`)
+    const data = await fetch(`${process.env.ITRM_SERVICE}/mgh/v2/${collection}/globalData`)
     const collectionData = await data.json()
     return collectionData
   } catch (error) {
@@ -23,7 +23,7 @@ export async function getNftCollection(collection: string) {
   try {
     let collectionArray = {}
     do {
-      const response = await fetch(`${process.env.ITRM_SERVICE}/${collection}/collection?from=${from}&size=2000`)
+      const response = await fetch(`${process.env.ITRM_SERVICE}/mgh/v2/${collection}/collection?from=${from}&size=2000`)
       collectionArray = await response.json()
       Object.entries(collectionArray).forEach(([key, value]) => {
         const object: any = value
@@ -41,7 +41,7 @@ export async function getNftCollection(collection: string) {
 }
 export async function getDataTraits(collection: string) {
   try {
-    const response = await fetch(`${process.env.ITRM_SERVICE}/${collection}/traits`)
+    const response = await fetch(`${process.env.ITRM_SERVICE}/mgh/v2/${collection}/traits`)
     const traits = await response.json()
     return traits
   } catch (error) {
