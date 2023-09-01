@@ -1,8 +1,7 @@
 import { ButtonForm } from "../../enums/common.enum";
-
 import Image from "next/image";
 import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
-import { typedKeys } from "../../utils/common.util";
+
 
 interface LandsMenuUIProps {
   metaverse: MetaverseOptions;
@@ -17,7 +16,7 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
       {
         form == ButtonForm.Horizontal ?
           <>
-            {typedKeys(MetaverseOptions).map((key) => {
+            {(Object.keys(MetaverseOptions) as Array<MetaverseOptionsKey>).map((key) => {
               return <button
                 key={key}
                 type="button"
@@ -37,7 +36,7 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
           </>
           :
           <>
-            {(Object.keys(MetaverseOptions) as Array<keyof typeof MetaverseOptions>).map((key) => {
+            {(Object.keys(MetaverseOptions) as Array<MetaverseOptionsKey>).map((key) => {
               if (MetaverseOptions[key] === MetaverseOptions.all) {
                 return null;
               }
