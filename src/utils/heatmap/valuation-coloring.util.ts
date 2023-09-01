@@ -1,5 +1,4 @@
 ﻿import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
-import {LandData} from "../../interfaces/land.interface";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {FilterColor} from "../../enums/valuation.enum";
@@ -7,100 +6,71 @@ import {CleanHex, NumBetween} from "../common.util";
 import {FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
 import {PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
+import {LandRectangle} from "../../interfaces/heatmap.interface";
+import {LandType} from "../../types/heatmap/land.type";
 
 interface Limit {
   minimum: number;
   maximum: number;
 }
 
-interface ElementData {
-  predictions: (number | undefined)[];
-  limits?: Limit;
-}
-
 // Calculating Percentages depending on the current chosen filter.
-export function SetColors(valuationAtlas: Record<string, LandData>, filter: MapFilter | undefined) {
+export function SetColors(lands: Record<string, LandRectangle | undefined>, filter: MapFilter | undefined) {
   if (filter == undefined)
     return void LogError(Module.ValuationColoring, "Missing filter!");
   
-  const wholeData = GetGeneralData(valuationAtlas);
-  const limits = wholeData[filter].limits;
-
-  // GENERATE PERCENTAGE FOR EACH TILE.
-  Object.keys(valuationAtlas).map(valuation => {
-    const valuationOptions: Partial<Record<MapFilter, number>> = {
-      price_difference:
-        valuationAtlas[valuation].current_price_eth > valuationAtlas[valuation].eth_predicted_price 
-          ? 100
-          : 30
-      , // If land's price difference is higher than MAX_DIFF make their percentage 101, this will show them as dark red.
-      basic: 20,
-      listed_lands:
-        valuationAtlas[valuation].current_price_eth
-        ? GetPercentage(valuationAtlas[valuation].eth_predicted_price, limits)
-        : undefined
-      ,
-      floor_adjusted_predicted_price:
-        GetPercentage(valuationAtlas[valuation].floor_adjusted_predicted_price, limits),
-      last_month_sells:
-        valuationAtlas[valuation].max_history_price
-          ? GetPercentage(valuationAtlas[valuation].max_history_price, limits)
-          : undefined
-      ,
-      transfers:
-        GetPercentage(valuationAtlas[valuation].history_amount, limits),
-    };
-    
-    valuationAtlas[valuation].percent = valuationOptions[filter]
-      ?? GetPercentage(valuationAtlas[valuation][filter], limits);
-  });
+  const limits = GetGeneralData(lands, filter);
   
-  return valuationAtlas;
+  Object.values(lands).map(landRectangle => {
+    if (landRectangle == undefined) return;
+    const land = landRectangle.land;
+    
+    const valuationOptions = GetValuationOption(land, filter, limits);
+    
+    land.percent = valuationOptions ?? GetPercentage(land[filter], limits);
+  });
 }
 
-export function GetGeneralData(valuationAtlas: Record<string, LandData>) {
-  const elementOptions: Record<MapFilter, ElementData> = {
-    price_difference: {
-      predictions: Object.keys(valuationAtlas).map(valuation => {
-        if (valuationAtlas[valuation].current_price_eth == undefined)
-          return;
-        
-        return (valuationAtlas[valuation].current_price_eth / valuationAtlas[valuation].eth_predicted_price) - 1;
-      }),
-    },
-    listed_lands: {
-      predictions: Object.keys(valuationAtlas).map(valuation =>
-        valuationAtlas[valuation].eth_predicted_price
-      ),
-    },
-    basic: {predictions: []},
-    eth_predicted_price: {
-      predictions: Object.keys(valuationAtlas).map(
-        valuation =>
-          valuationAtlas[valuation].eth_predicted_price
-      )
-    },
-    floor_adjusted_predicted_price: {
-      predictions: Object.keys(valuationAtlas).map(
-        valuation =>
-          valuationAtlas[valuation]?.floor_adjusted_predicted_price
-      ),
-    },
-    transfers: {
-      predictions: Object.keys(valuationAtlas).map(
-        valuation => valuationAtlas[valuation].history_amount
-      ),
-    },
-    last_month_sells: {
-      predictions: Object.keys(valuationAtlas).map(valuation => valuationAtlas[valuation].max_history_price),
-    }
-  };
+function GetValuationOption(land: LandType, filter: MapFilter, limits: Limit) {
+  switch(filter) {
+    case "price_difference":
+      return land.current_price_eth > land.eth_predicted_price ? 100 : 30;
+    case "listed_lands":
+      return land.current_price_eth > -1 ? GetPercentage(land.eth_predicted_price, limits) : undefined;
+    case "floor_adjusted_predicted_price":
+      return GetPercentage(land.eth_predicted_price, limits);
+    case "last_month_sells":
+      return land.max_history_price > 0 ? GetPercentage(land.max_history_price, limits) : undefined;
+    case "transfers":
+      return GetPercentage(land.history_amount, limits);
+    default: // basic
+      return 20;
+  }
+}
 
-  Object.values(elementOptions).forEach((value) => {
-    value.limits = GetLimits(value.predictions);
+export function GetGeneralData(landData: Record<string, LandRectangle | undefined>, filter: MapFilter) {
+  const predictions = Object.values(landData).map(landSprite => {
+    const land = landSprite?.land;
+    if (land == undefined) return;
+    
+    switch(filter) {
+      case "price_difference":
+        return (land.current_price_eth / land.eth_predicted_price) - 1;
+      case "eth_predicted_price":
+      case "listed_lands":
+        return land.eth_predicted_price;
+      case "floor_adjusted_predicted_price":
+        return land.floor_adjusted_predicted_price;
+      case "transfers":
+        return land.history_amount;
+      case "last_month_sells":
+        return land.max_history_price;
+      default: // basic
+        return;
+    }
   });
 
-  return elementOptions;
+  return GetLimits(predictions);
 }
 
 export function GetPercentage(partialValue: number | undefined, limits: Limit | undefined) {
