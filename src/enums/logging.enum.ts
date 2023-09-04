@@ -6,5 +6,6 @@
   PortfolioSlice = 'PortfolioSliceFetch',
   WagmiConfig = 'WagmiConfig',
   ITRMService = 'ITRMService',
-  AuthService = 'AuthService'
+  AuthService = 'AuthService',
+  TextureUtil = 'TextureUtil',
 }

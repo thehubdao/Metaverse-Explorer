@@ -1,3 +1,6 @@
+import {Container, Sprite} from "pixi.js";
+import {LandType} from "../types/heatmap/land.type";
+
 export interface TopLandsData {
   position?: number;
   image: string;
@@ -23,4 +26,15 @@ export interface HotDealsCard {
     opensea: string;
   };
   name: string;
+}
+
+// TODO: use a better name, this interface refers to the different information related to land sprites rendered on the heatmap
+export interface LandRectangle {
+    name: string;
+    tokenId: string;
+    landY: number;
+    landX: number;
+    land: LandType;
+    spriteRef: Sprite;
+    containerRef: Container;    // TODO: check usability
 }
