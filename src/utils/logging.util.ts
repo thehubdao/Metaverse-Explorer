@@ -1,11 +1,9 @@
 ﻿import {Module} from "../enums/logging.enum";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function LogError(origin: Module, msg: string, err?: unknown) {
-  console.error(origin, '-', msg);
+  console.error(origin, '-', msg, err != undefined && {error: err});
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function LogWarning(origin: Module, msg: string, err?: unknown) {
-  console.warn(origin, '-', msg);
+  console.warn(origin, '-', msg, err != undefined && {error: err});
 }
