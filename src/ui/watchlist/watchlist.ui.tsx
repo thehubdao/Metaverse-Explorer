@@ -260,7 +260,7 @@ export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
           <div className="w-full">
             <SearchLandFormUI />
           </div>
-          <div>
+          <div className="pl-10">
             <div className="flex space-x-4 w-full items-stretch justify-end">
               <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
                 <p className=" font-extrabold text-3xl">{landsOwned ?? 0}</p>
