@@ -8,7 +8,7 @@ export function typedKeys<O extends object, K extends keyof O = keyof O>(
   }
 
 
-export function GetKeyByValue<TEnum extends object>(value: string, enumRef: TEnum): keyof TEnum | undefined {
+export function GetKeyByValue<TEnum extends object>(value: string | number, enumRef: TEnum): keyof TEnum | undefined {
   const indexOfS = Object.values(enumRef).indexOf(value);
   const key = Object.keys(enumRef)[indexOfS];
   return key as unknown as keyof TEnum;
