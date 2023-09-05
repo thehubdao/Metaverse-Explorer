@@ -4,6 +4,10 @@ const nextConfig = {
 		dirs: ['src']
 	},
 	reactStrictMode: true,
+	webpack: (config) => {
+		config.externals.push("encoding", "lokijs", "pino-pretty");
+		return config;
+	},
 	async redirects() {
 		return [
 			{
