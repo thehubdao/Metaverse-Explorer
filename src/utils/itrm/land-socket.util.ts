@@ -2,8 +2,6 @@
 import {Module} from "../../enums/logging.enum";
 import {Metaverse} from "../../enums/heatmap.enum";
 import {CastStringToInteger} from "../common.util";
-import {Coords, LandData} from "../../interfaces/land.interface";
-import {LandType} from "../../types/heatmap/land.type";
 
 type LandSocketFunction = (landData?: string, landKeyIndex?: number) => (void | Promise<void>);
 
@@ -125,6 +123,6 @@ export function SetOnFinish(onFinish: LandSocketFunction) {
   LandSocket.Instance().SetEventHandler(LandSocketEvent.RenderFinish, onFinish);
 }
 
-export function SetOnNewLand(metaverse: Metaverse, onNewLand: LandSocketFunction) {
+export function SetOnNewLand(onNewLand: LandSocketFunction) {
   LandSocket.Instance().SetEventHandler(LandSocketEvent.NewLand, onNewLand);
 }

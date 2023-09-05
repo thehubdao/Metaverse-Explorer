@@ -1,3 +1,4 @@
-interface QueryStatus {
-  status: 'error' | 'loading' | 'ready'
-}
+// TODO: Check usage or remove
+// interface QueryStatus {
+//   status: 'error' | 'loading' | 'ready'
+// }

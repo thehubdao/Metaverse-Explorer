@@ -1,26 +1,12 @@
 "use client"
 
 import "@rainbow-me/rainbowkit/styles.css";
-
-import {
-  RainbowKitProvider,
-  Wallet,
-  connectorsForWallets,
-} from "@rainbow-me/rainbowkit";
-
-import {
-  metaMaskWallet,
-  walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets";
-
+import {RainbowKitProvider, Wallet, connectorsForWallets} from "@rainbow-me/rainbowkit";
+import {metaMaskWallet, walletConnectWallet} from "@rainbow-me/rainbowkit/wallets";
 import { Chain, configureChains, Connector, createConfig, WagmiConfig } from "wagmi";
-
 import { mainnet, polygon } from "wagmi/chains";
-
 import { publicProvider } from "wagmi/providers/public";
-
 import { getArcanaAuthProvider } from "../../utils/getArcanaAuthProvider";
-
 import { ArcanaConnector } from "@arcana/auth-wagmi";
 import { LogError } from "../../utils/logging.util";
 import { Module } from "../../enums/logging.enum";

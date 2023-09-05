@@ -1,9 +1,7 @@
 import { ICoinPrices } from "../../../types/valuationTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Scrollbar, A11y } from 'swiper';
+import { Scrollbar, A11y } from 'swiper/modules';
 import NextButton from "./nextButton.ui";
-
-
 import HotDealsCardUI from "./hotDealsCard.ui";
 
 // Import Swiper styles
@@ -178,7 +176,7 @@ interface HotDealsUIProps {
   prices: ICoinPrices;
 }
 
-export default function HotDealsUI({ metaverseSelected, prices }: HotDealsUIProps) {
+export default function HotDealsUI({ metaverseSelected }: HotDealsUIProps) {
   return (
     <div className='max-w-[1600px]'>
       <Swiper

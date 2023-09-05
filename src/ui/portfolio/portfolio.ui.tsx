@@ -52,7 +52,7 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
   //Valide if metaverse lands is empty
   const validateEmpty = (metaverses: [MetaverseOptionsKey, LandListAPIResponse][]) => {
     let landsLength = 0;
-    for (const [key, specificLands] of Object.entries(metaverses)) {
+    for (const [, specificLands] of Object.entries(metaverses)) {
       landsLength += typedKeys(specificLands[1]).length;
     }
     setIsEmpty(landsLength == 0);

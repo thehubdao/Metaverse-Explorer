@@ -2,6 +2,7 @@ import { AnalyticsChartRoutes } from "../enums/charts";
 import { Currencies } from "../enums/common.enum";
 import { MetaverseOptions, Metaverses } from "../enums/metaverses.enum";
 import { ApiData, ChartInfo } from "../interfaces/charts";
+import {TypedKeys} from "./common.util";
 
 //* Array of tuples representing chart routes and their corresponding chart information.
 export const CHART_ROUTES: Array<[AnalyticsChartRoutes, ChartInfo]> = [
@@ -63,6 +64,9 @@ export const CURRENCY_FILTERS: Array<{ currency: Currencies, name: string }> = [
 //* A test function used for generating dummy API data for testing purposes.
 //! Note: This function should be removed when connecting analytics charts to their respective API.
 export function generateTestApiData(nData: number, route: string): Promise<ApiData[]> {
+  // TODO: remove
+  console.warn(`Generating data for ${route}`);
+  
   return new Promise((resolve, reject) => {
     const API_DATA: ApiData[] = [];
 
@@ -99,11 +103,11 @@ const metaverseColor = {
   sandbox: '#00AFFF',
   decentraland: '#FF2D55',
   'somnium-space': '#54575C'
-}
+} as const;
 
 //* Function to get the color for a specific metaverse based on its name.
 export function getMetaverseColor(inputMetaverse: string) {
-  const metaverseValues = Object.values(Metaverses);
+  const metaverseValues = TypedKeys(Metaverses);
 
   for (const metaverse of metaverseValues) {
     if (inputMetaverse === metaverse) return metaverseColor[metaverse];

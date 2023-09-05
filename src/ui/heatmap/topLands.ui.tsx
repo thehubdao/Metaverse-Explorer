@@ -16,10 +16,11 @@ interface TopLandsProps {
 }
 
 export default function TopLandsUI({ tableData, title, headers, form }: TopLandsProps) {
-  const [numberOfPages, setNumberOfPages] = useState<number>(Math.ceil(tableData.length / pageLength));
   const [controlPageIndex, setControlPageIndex] = useState<number>(1);
   const [currentPageData, setCurrentPageData] = useState<TopLandsData[]>(tableData.slice(controlPageIndex - 1, pageLength));
   const [filterBy, setFilterBy] = useState<TopSellingFilterBy>("totalTop");
+
+  const numberOfPages = Math.ceil(tableData.length / pageLength);
 
   const changePage = (newPage: number) => {
     const startIndex = (newPage - 1) * pageLength;
