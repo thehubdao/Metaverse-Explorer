@@ -5,7 +5,7 @@ import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 interface SearchByCoordsUIProps {
   land?: LandProps;
-  metaverse: MetaverseOptionsKey;
+  metaverse?: MetaverseOptionsKey;
 }
 
 export default function SearchByCoordsUI(props: SearchByCoordsUIProps) {

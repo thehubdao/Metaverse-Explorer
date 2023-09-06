@@ -10,6 +10,7 @@ import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.en
 import { GetKeyByValue } from "../../utils/common.util";
 import { Metaverse } from "../../lib/metaverse";
 import { LandListAPIResponse } from "../../lib/valuation/valuationTypes";
+import { WatchlistResponse } from "../../interfaces/watchlist.interface";
 
 // const ilands: LandProps[] = [
 //   {
@@ -220,8 +221,8 @@ const coinPrices: ICoinPrices = {
 };
 
 interface WatchlistUIProps {
-  allLands: Record<Metaverse, LandListAPIResponse> | undefined;
-  landsOwned: number;
+  allLands: WatchlistResponse | undefined;
+  landsOwned?: number;
 }
 
 export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
@@ -257,12 +258,12 @@ export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
       <div className='mb-24 mt-10 rounded-2xl'>
         <div className="flex w-full justify-between">
           <div className="w-full">
-            <SearchLandFormUI metaverse={GetKeyByValue(metaverseSelected, MetaverseOptions)?? "all"} />
+            <SearchLandFormUI />
           </div>
-          <div>
+          <div className="pl-10">
             <div className="flex space-x-4 w-full items-stretch justify-end">
               <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
-                <p className=" font-extrabold text-3xl">{landsOwned}</p>
+                <p className=" font-extrabold text-3xl">{landsOwned ?? 0}</p>
                 <p className="text-sm font-bold">Total LANDs owned</p>
               </div>
               <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">

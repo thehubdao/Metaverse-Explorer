@@ -4,7 +4,7 @@ import SearchByCoordsUI from "./searchByCoords.ui";
 import SearchByIdUI from "./searchById.ui";
 
 interface SearchLandFormUIProps {
-  metaverse: MetaverseOptionsKey;
+  metaverse?: MetaverseOptionsKey;
   land?: LandProps;
 }
 

@@ -21,22 +21,22 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
             {land.name}
           </p>
         </Tooltip>
-        <div className="my-3 flex flex-wrap gap-5">
+        <div className="my-3 flex gap-5">
           {
             land.owner &&
-            <div>
+            <div className="max-w-[200px]">
               <p className='text-sm text-nm-dm-remark font-normal'>Owner</p>
               <Tooltip title={land.owner} placement='bottom'>
-                <p className="text-base font-bold">{land.owner}</p>
+                <p className="text-base font-bold truncate">{land.owner}</p>
               </Tooltip>
             </div>
           }
           {
             land.tokenId &&
-            <div>
+            <div className="max-w-[200px]">
               <p className='text-sm text-nm-dm-remark font-normal'>Token ID</p>
               <Tooltip title={land.tokenId} placement='bottom'>
-                <p className="text-base font-bold">{land.tokenId}</p>
+                <p className="text-base font-bold truncate">{land.tokenId}</p>
               </Tooltip>
             </div>
           }
@@ -44,7 +44,7 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
             <div>
               <p className='text-sm text-nm-dm-remark font-normal'>Coordinate</p>
               <Tooltip title={`${land.coords?.x}, ${land.coords?.y}`} placement='bottom'>
-                <p className="text-base font-bold">{land.coords?.x}, {land.coords?.y}</p>
+                <p className="text-base font-bold truncate">{land.coords?.x}, {land.coords?.y}</p>
               </Tooltip>
             </div>
           )}

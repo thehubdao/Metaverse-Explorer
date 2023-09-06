@@ -29,9 +29,11 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
               </p>
             </Tooltip>
             {/* Asset ID */}
-            <p className='text-base font-normal'>
-              Token ID: {land.tokenId}
-            </p>
+            <Tooltip title={land.tokenId} placement='top' arrow>
+              <p className='text-base font-normal truncate'>
+                Token ID:{land.tokenId}
+              </p>
+            </Tooltip>
           </div>
           <div className="mt-10">
             <p className="text-nm-dm-remark font-normal text-sm my-2">
