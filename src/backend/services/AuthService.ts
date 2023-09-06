@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { WalletClient, verifyMessage } from 'viem'
+import { WalletClient, verifyMessage } from 'viem';
 import { TokenData } from '../../interfaces/common.interface';
 import { Module } from '../../enums/logging.enum';
 import { LogError } from '../../utils/logging.util';
@@ -7,6 +7,7 @@ import { LogError } from '../../utils/logging.util';
 interface nonceResponse {
     nonce: number
 }
+
 class AuthService {
     
     connect = async (client: WalletClient) => {

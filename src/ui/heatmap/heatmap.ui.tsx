@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react";
-
 import { BsExclamationCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import LandsMenuUI from "../common/landsMenu.ui";
@@ -10,9 +9,9 @@ import EstimatorValuesUI from "./estimatorValues.ui";
 import BoxInformationUI from "./boxInformation.ui";
 import { ICoinPrices } from "../../types/valuationTypes";
 import TopLandsUI from "./topLands.ui";
-import HotDealsUI from "./hotDeals/hotDeals.ui";
 import { TopLandsData } from "../../interfaces/heatmap.interface";
 import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
+// import HotDealsUI from "./hotDeals/hotDeals.ui";
 
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,

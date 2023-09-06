@@ -26,7 +26,7 @@ import {
   LOAD_PHRASES_LENGHT,
   TILE_SIZE
 } from "../../constants/heatmap/heatmap.constant";
-import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
+// import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
 // import {useAccount} from "wagmi";
 
 //#region Logic
@@ -62,34 +62,33 @@ export default function Heatmap2D({
                                     metaverse,
                                     viewportWidth,
                                     viewportHeight,
-                                    mapState,
-
+                                    
                                     filter,
                                     percentFilter,
                                     legendFilter,
   
-                                    onClickLand,
-                                    x,
-                                    y,
                                     initialX,
                                     initialY,
+                                    // TODO: Check if needed
+                                    // mapState,
+                                    // onClickLand,
+                                    // x,
+                                    // y,
                                   }: Heatmap2DProps) {
   
   const mapDivRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
   
-  const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
+  // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
   
-  
+  // TODO: add
   // const {address} = useAccount();
-  const address = undefined;
   // const wList = useAppSelector((state) => state.watchlist.list);
-  const wList: Partial<Record<Metaverse, Record<string, unknown>>> = {};
   // const portfolioLands = useAppSelector((state) => state.portfolio.list)
   
+  // Interval function (changes the loading message)
   useEffect(() => {
-    // console.warn('Set interval function');
     if (!isLoading) return;
 
     const intervalFunction = setInterval(() => {
@@ -124,13 +123,11 @@ export default function Heatmap2D({
   }, [metaverse]);
 
   // Filtering
-  // useEffect(() => {
-  //   doFilter();
-  // }, [filter, percentFilter, legendFilter]);
+  useEffect(() => {
+    doFilter();
+  }, [filter, percentFilter, legendFilter]);
   
   function initPixiViews() {
-    // console.warn('Init Pixi');
-    
     const mapDivRefCurrent = mapDivRef.current;
     if (mapDivRefCurrent == null)
       return void LogWarning(Module.Heatmap, "Missing PixiDiv please checkout!");
@@ -306,12 +303,10 @@ export default function Heatmap2D({
   }
   
   function socketWork() {
-    // console.warn('Socket implementation');
-
     if (_viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport!");
 
-    SetOnNewLand(metaverse, (landData, landKeyIndex) => {
+    SetOnNewLand((landData, landKeyIndex) => {
       if (landKeyIndex == undefined || landData == undefined)
         return;
       
@@ -319,8 +314,6 @@ export default function Heatmap2D({
     });
     
     SetOnFinish(async () => {
-      // console.warn("Finished!");
-      
       for (const {landKeyIndex, landData} of _landRawData) {
         const formattedLand = FormatLand(landData, landKeyIndex, metaverse);
         if (formattedLand == undefined) return;
@@ -336,7 +329,7 @@ export default function Heatmap2D({
       
       setIsLoading(false);
       // TODO: check
-      setMapLoadingState(false);
+      // setMapLoadingState(false);
     });
     
     InitLandSocket(() => {
