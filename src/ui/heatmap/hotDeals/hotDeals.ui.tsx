@@ -1,16 +1,15 @@
-import { ICoinPrices } from "../../../types/valuationTypes";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar, A11y } from 'swiper/modules';
 import NextButton from "./nextButton.ui";
 import HotDealsCardUI from "./hotDealsCard.ui";
+import { HotDealsCard } from "../../../interfaces/heatmap.interface";
+import { MetaverseOptions } from "../../../enums/metaverses.enum";
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { HotDealsCard } from "../../../interfaces/heatmap.interface";
-import { MetaverseOptionsKey } from "../../../enums/metaverses.enum";
 
 
 
@@ -172,19 +171,18 @@ const cardData: HotDealsCard[] = [
 ];
 
 interface HotDealsUIProps {
-  metaverseSelected: MetaverseOptionsKey;
-  prices: ICoinPrices;
+  metaverseSelected: MetaverseOptions;
 }
 
 export default function HotDealsUI({ metaverseSelected }: HotDealsUIProps) {
   return (
-    <div className='max-w-[1600px]'>
+    <div>
       <Swiper
         modules={[Scrollbar, A11y]}
         spaceBetween={25}
         slidesPerView='auto'
         scrollbar={{ draggable: true }}
-        style={{ padding: '0px 10px' }}
+        style={{ padding: '0px 40px' }}
       >
         {cardData.map((land: HotDealsCard, index: number) => {
           return (
