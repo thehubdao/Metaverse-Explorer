@@ -8,4 +8,5 @@
   ITRMService = 'ITRMService',
   AuthService = 'AuthService',
   TextureUtil = 'TextureUtil',
+  ArcanaAuth = 'ArcanaAuthUtil',
 }
