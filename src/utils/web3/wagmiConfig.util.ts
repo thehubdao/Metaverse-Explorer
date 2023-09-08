@@ -1,4 +1,4 @@
-﻿import {Chain, configureChains, createConfig} from "wagmi";
+﻿import {Chain, configureChains, Connector, createConfig} from "wagmi";
 import {mainnet, polygon} from "wagmi/chains";
 import {publicProvider} from "wagmi/providers/public";
 import {connectorsForWallets, Wallet} from "@rainbow-me/rainbowkit";
@@ -22,10 +22,8 @@ function ArcanaRainbowConnector(chains: Chain[]): Wallet {
         options: {
           auth: GetArcanaAuthProvider(),
         },
-      });
-      return {
-        connector,
-      };
+      }) as unknown as Connector;
+      return {connector};
     },
   };
 }
@@ -58,13 +56,12 @@ function GetConnectors(chains: Chain[]) {
 export function GetWagmiConfig() {
   const { chains, publicClient } = configureChains(
     [mainnet, polygon],
-    [
-      publicProvider(),
-    ]
+    [publicProvider()]
   );
 
   const wagmiConfig = createConfig({
     connectors: GetConnectors(chains),
+    autoConnect: true,
     publicClient,
   });
   
