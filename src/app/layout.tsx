@@ -7,7 +7,6 @@ import { Plus_Jakarta_Sans } from 'next/font/google';
 import HeaderComponent from '../component/header/header.component';
 import store from '../state/store';
 import { Provider } from 'react-redux';
-import RootProvider from '../providers/providers';
 import NavbarUI from '../ui/navbar/navbar.ui';
 import FontIcons from 'next/font/local';
 import SubHeader from '../ui/subHeader/subHeader.ui';
@@ -15,6 +14,7 @@ import { fetchCurrencyData } from '../utils/api';
 import { setCurrencyValues } from '../state/currencySlice';
 import FooterUI from '../ui/common/footer.ui';
 import MobileUI from '../ui/mobile/mobile.ui';
+import WagmiProvider from "../providers/wagmi.provider";
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 const fontIcons = FontIcons({ src: '../../public/fonts/fonts-icons/iconSet01.ttf', display: 'block', variable: '--icons-font' });
@@ -83,7 +83,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
       <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
         <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
           <div className='hidden xl:block'>
-            <RootProvider>
+            <WagmiProvider>
               <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
                 <nav className="bg-nm-gray row-span-2">
                   <NavbarUI list={list} route={pathname} />
@@ -95,7 +95,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
                   {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
                 </main>
               </div>
-            </RootProvider>
+            </WagmiProvider>
           </div>
           <div className="xl:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
             <MobileUI />
