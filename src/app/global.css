@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import url('../styles/swiper.css');
 @import url('../styles/scroll.css');
+@import url('../styles/buttonLogin.css');
 
 /* z-index order */
 /* z-50 SpecificLandModalUI */
