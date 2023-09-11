@@ -72,3 +72,7 @@ export function Delay(ms: number) {
     setTimeout(resolve, ms);
   });
 }
+
+export function Raise(msg: string): never {
+  throw new Error(msg);
+}
