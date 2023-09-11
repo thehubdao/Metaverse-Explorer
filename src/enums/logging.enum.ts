@@ -9,4 +9,5 @@
   AuthService = 'AuthService',
   TextureUtil = 'TextureUtil',
   ArcanaAuth = 'ArcanaAuthUtil',
+  CoinGecko = "CoinGeckoUtil",
 }
