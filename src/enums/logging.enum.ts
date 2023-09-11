@@ -10,4 +10,5 @@
   TextureUtil = 'TextureUtil',
   ArcanaAuth = 'ArcanaAuthUtil',
   CoinGecko = "CoinGeckoUtil",
+  ITRMChart = "ChartUtil",
 }
