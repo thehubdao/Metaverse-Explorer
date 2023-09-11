@@ -12,7 +12,8 @@ type ChartRoutes =
   | 'totalNumberOfSales'
   | 'stdSalesPrices'
   | 'salesVolume'
-  | 'maxPrice';
+  | 'maxPrice'
+  | 'mCap';
 
 export interface ChartInfo {
   data: number;
