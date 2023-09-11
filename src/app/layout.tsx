@@ -84,7 +84,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
         <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
           <div className='hidden xl:block'>
             <WagmiProvider>
-              <div className={`w-full h-screen grid grid-cols-[137px_1fr] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
+              <div className={`w-full h-screen grid grid-cols-[137px_calc(100%-137px)] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
                 <nav className="bg-nm-gray row-span-2">
                   <NavbarUI list={list} route={pathname} />
                 </nav>
