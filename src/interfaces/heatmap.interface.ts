@@ -28,8 +28,7 @@ export interface HotDealsCard {
   name: string;
 }
 
-// TODO: use a better name, this interface refers to the different information related to land sprites rendered on the heatmap
-export interface LandRectangle {
+export interface LandTileData {
     name: string;
     tokenId: string;
     landY: number;
