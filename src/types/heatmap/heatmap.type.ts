@@ -1,4 +1,4 @@
-import {MapFilterEnum} from "../../enums/heatmap.enum";
+import {MapFilterEnum} from "../../enums/heatmap/filter.enum";
 import {LEGEND_FILTER, PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 
 export type MapFilter = keyof typeof MapFilterEnum;

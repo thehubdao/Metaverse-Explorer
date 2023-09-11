@@ -6,7 +6,7 @@ import {Viewport} from 'pixi-viewport';
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
 import {LandTileData} from "../../interfaces/heatmap.interface";
-import {Metaverse} from "../../enums/heatmap.enum";
+import {Metaverses} from "../../enums/metaverses.enum";
 import {ValuationState} from "../../enums/valuation.enum";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {LandBorderTexture} from "../../enums/heatmap/land.enum";
@@ -44,7 +44,7 @@ interface Heatmap2DProps {
   viewportWidth: number | undefined;
   viewportHeight: number | undefined;
   mapState: ValuationState;
-  metaverse: Metaverse;
+  metaverse: Metaverses;
 
   x: number | undefined;
   y: number | undefined;
@@ -324,7 +324,7 @@ export default function Heatmap2D({
       }
       
       // If sandbox fill the empty spaces
-      if (metaverse === Metaverse.Sandbox)
+      if (metaverse === Metaverses.sandbox)
         await fillSandboxDeadSpaces();
       
       setIsLoading(false);
