@@ -3,7 +3,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {Application, Container, Sprite} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
-import Loader from './loader.component';
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
 import {LandRectangle} from "../../interfaces/heatmap.interface";
@@ -26,6 +25,7 @@ import {
   LOAD_PHRASES_LENGHT,
   TILE_SIZE
 } from "../../constants/heatmap/heatmap.constant";
+import LoaderUI from '../../ui/common/loader.ui';
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
 // import {useAccount} from "wagmi";
 
@@ -561,7 +561,7 @@ export default function Heatmap2D({
       {/* HEATMAP VIEWPORT */}
       <>{/* LOADER */}
         <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
-          <Loader color='blue' size={100}/>
+          <LoaderUI size={100}/>
           <p className='absolute bottom-20 max-w-lg text-center'>{LOAD_PHRASES_ARRAY[indexLoading]}</p>
         </div>
       </>

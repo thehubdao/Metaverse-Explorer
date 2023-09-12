@@ -10,6 +10,7 @@ import { AnalyticChartData } from "../../interfaces/charts";
 import { AnalyticsChartRoutes } from "../../enums/charts";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { Currencies } from "../../enums/common.enum";
+import LoaderUI from "../common/loader.ui";
 
 // Interface for props used in the AnalyticsUI component.
 interface AnalyticsUIProps {
@@ -38,9 +39,15 @@ export default function AnalyticsUI({ analyticsData }: AnalyticsUIProps) {
           <ChartGridSelectorUI setGridChartCols={setGridChartCols} gridChartCols={gridChartCols} />
         </div>
       </div>
+      {/* Display a message while the chart data is loading */}
+      {
+        analyticsData.length === 0 && 
+        <div className="flex justify-center items-center w-full h-96 my-6">
+          <LoaderUI size={100} text={"Loading charts..."}/>
+        </div>
+      }
       <div className="grid grid-cols-2 gap-5 my-6">
-        {/* Display a message while the chart data is loading */}
-        {analyticsData.length === 0 && <p>loading charts...</p>}
+        {/* {analyticsData.length === 0 && <LoaderUI size={100} text={"Loading charts..."}/>} */}
         {/* Render each chart based on the selected filters */}
         {analyticsData.map((chart, index) => {
           return (visibleCharts.length === 0 || visibleCharts.includes(chart.chartEnum)) && (

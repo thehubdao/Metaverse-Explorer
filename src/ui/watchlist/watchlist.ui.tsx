@@ -55,8 +55,8 @@ export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
     <>
       <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptionsKey) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
       <div className='mb-24 mt-10 rounded-2xl'>
-        <div className="flex w-full justify-between">
-          <div className="w-full">
+        <div className="flex flex-wrap w-full justify-center ">
+          <div className="max-w-[1125px] pb-10">
             <SearchLandFormUI />
           </div>
           <div className="pl-10">
