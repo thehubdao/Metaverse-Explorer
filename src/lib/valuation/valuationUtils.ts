@@ -1,5 +1,5 @@
 import { Metaverse } from '../metaverse'
-import { ICoinPrices, LandListAPIResponse } from './valuationTypes'
+    import { ICoinPrices, LandListAPIResponse } from './valuationTypes'
 
 export const convertETHPrediction = (
     coinPrices: ICoinPrices,

@@ -9,4 +9,7 @@
   AuthService = 'AuthService',
   TextureUtil = 'TextureUtil',
   ArcanaAuth = 'ArcanaAuthUtil',
+  CoinGecko = "CoinGeckoUtil",
+  ITRMChart = "ChartUtil",
+  ITRMLandValuation = "LandValuationUtil",
 }

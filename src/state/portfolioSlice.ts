@@ -64,7 +64,6 @@ export const fetchPortfolio = createAsyncThunk(
 
         try {
             await Promise.all(
-                //TODO: use Object.keys instead
                 typedKeys(metaverseObject).map(async (metaverse) => {
                     const rawIdsEthereum: string[] | undefined = await getUserNFTs(
                         providerEthereum,
@@ -100,7 +99,6 @@ export const fetchPortfolio = createAsyncThunk(
 
                     // Adding Total Worth
                     const totalMvWorth = { usd: 0, eth: 0 };
-                    //TODO: use Object.keys instead
                     typedKeys(metaverseLandsObject).forEach((land) => {
                         totalMvWorth.usd += convertETHPrediction(
                             prices,
@@ -116,7 +114,6 @@ export const fetchPortfolio = createAsyncThunk(
                         lands[metaverse] = metaverseLandsObject;
                     }
                     // Setting Asset Number
-                    //TODO: use Object.keys instead
                     totalLandsCounter = totalLandsCounter + typedKeys(metaverseLandsObject).length;
 
                     // Adding the worth of each metaverse into the totalWorth

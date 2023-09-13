@@ -1,6 +1,6 @@
 ﻿import {LogError, LogWarning} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
-import {Metaverse} from "../../enums/heatmap.enum";
+import {Metaverses} from "../../enums/metaverses.enum";
 import {CastStringToInteger} from "../common.util";
 
 type LandSocketFunction = (landData?: string, landKeyIndex?: number) => (void | Promise<void>);
@@ -111,7 +111,7 @@ function SetOnMessage(socket: WebSocket) {
   }
 }
 
-export function RenderStart(metaverse: Metaverse, landIndex: number) {
+export function RenderStart(metaverse: Metaverses, landIndex: number) {
   const socket = LandSocket.Instance().Socket();
   if (socket == undefined)
     return void LogError(Module.LandSocket, "Missing socket on RenderStart!");

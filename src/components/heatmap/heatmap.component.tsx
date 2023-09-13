@@ -5,8 +5,8 @@ import {Application, Container, Sprite} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
-import {LandRectangle} from "../../interfaces/heatmap.interface";
-import {Metaverse} from "../../enums/heatmap.enum";
+import {LandTileData} from "../../interfaces/heatmap.interface";
+import {Metaverses} from "../../enums/metaverses.enum";
 import {ValuationState} from "../../enums/valuation.enum";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {LandBorderTexture} from "../../enums/heatmap/land.enum";
@@ -35,7 +35,7 @@ let _mapApp: Application<HTMLCanvasElement> | undefined;
 let _viewport: Viewport | undefined;
 
 let _landRawData: {landKeyIndex: number, landData: string}[] = [];
-let _mapData: Record<string, LandRectangle | undefined> = {};
+let _mapData: Record<string, LandTileData | undefined> = {};
 let _chunks: Record<string, Container | undefined> = {};
 
 //#endregion
@@ -44,7 +44,7 @@ interface Heatmap2DProps {
   viewportWidth: number | undefined;
   viewportHeight: number | undefined;
   mapState: ValuationState;
-  metaverse: Metaverse;
+  metaverse: Metaverses;
 
   x: number | undefined;
   y: number | undefined;
@@ -246,7 +246,7 @@ export default function Heatmap2D({
       land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
     );
 
-    const landRectangle: LandRectangle = {
+    const landRectangle: LandTileData = {
       name: `${land.coords.x},${land.coords.y}`,
       landX: land.coords.x,
       landY: land.coords.y,
@@ -324,7 +324,7 @@ export default function Heatmap2D({
       }
       
       // If sandbox fill the empty spaces
-      if (metaverse === Metaverse.Sandbox)
+      if (metaverse === Metaverses.sandbox)
         await fillSandboxDeadSpaces();
       
       setIsLoading(false);
