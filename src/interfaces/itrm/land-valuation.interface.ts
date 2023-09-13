@@ -3,15 +3,9 @@
   name: string;
   images: {
     image_url: string;
-    image_preview_url?: string;
-    image_thumbnail_url?: string;
-    image_original_url?: string;
-
-    // only fluf
-    animation_url?: string;
-    image_small?: string;
-    image_medium?: string;
-    image_large?: string;
+    image_preview_url: string;
+    image_thumbnail_url: string;
+    image_original_url: string;
   };
   predicted_price: number;
   eth_predicted_price: number;
@@ -28,9 +22,8 @@
     eth_price: number;
     symbol: string;
     market: string;
-    owner?: string;
-    chain?: string;
-    buyer?: string;
+    owner: string;
+    chain: string;
   }[];
   variation_last_week: number;
   variation_last_four_weeks: number;
@@ -48,7 +41,7 @@
   };
   owner?: string;
 
-  // only somnium-space & cryptovoxels
+  // only somnium-space
   center?: {
     x: number;
     y: number;
@@ -56,24 +49,6 @@
   geometry?: {
     x: number;
     y: number;
-  }[];
-
-  traits?: {
-    // only fluf 
-    Sex?: string;
-    Fur?: string;
-    Eyes?: string;
-    Eyewear?: string;
-    Neck?: string;
-    Head?: string;
-    Nose?: string;
-    Ears?: string;
-    Expression?: string;
-    Background?: string;
-  } | {
-    // only otherside
-    traitType: string;
-    value: string;
   }[];
 }
 
