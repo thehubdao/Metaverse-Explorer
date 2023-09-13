@@ -1,6 +1,5 @@
-import { Interface } from 'ethers/lib/utils'
-
-import AxieLandAbi from '../backend/abi/AxieLand.json'
+import {Interface} from 'ethers/lib/utils';
+import AxieLandAbi from '../backend/abi/AxieLand.json';
 
 export const Contracts = {
   // Sandbox
@@ -40,4 +39,4 @@ export const Contracts = {
       address: ''
     }
   }
-}
+} as const;
