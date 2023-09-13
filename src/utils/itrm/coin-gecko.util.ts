@@ -42,7 +42,7 @@ interface CoinGeckoResponse {
 export async function GetCoinGeckoPrices(): Promise<CoinValuesType> {
   try {
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
-    
+
     const response = await axios.get<CoinGeckoResponse>(`${itrmServiceUrl}/val-analytics/coingeckoResponse`);
     return response.data.success;
   } catch (err) {
