@@ -6,7 +6,7 @@ import {CleanHex, NumBetween} from "../common.util";
 import {FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
 import {PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
-import {LandRectangle} from "../../interfaces/heatmap.interface";
+import {LandTileData} from "../../interfaces/heatmap.interface";
 import {LandType} from "../../types/heatmap/land.type";
 
 interface Limit {
@@ -15,7 +15,7 @@ interface Limit {
 }
 
 // Calculating Percentages depending on the current chosen filter.
-export function SetColors(lands: Record<string, LandRectangle | undefined>, filter: MapFilter | undefined) {
+export function SetColors(lands: Record<string, LandTileData | undefined>, filter: MapFilter | undefined) {
   if (filter == undefined)
     return void LogError(Module.ValuationColoring, "Missing filter!");
   
@@ -48,7 +48,7 @@ function GetValuationOption(land: LandType, filter: MapFilter, limits: Limit) {
   }
 }
 
-export function GetGeneralData(landData: Record<string, LandRectangle | undefined>, filter: MapFilter) {
+export function GetGeneralData(landData: Record<string, LandTileData | undefined>, filter: MapFilter) {
   const predictions = Object.values(landData).map(landSprite => {
     const land = landSprite?.land;
     if (land == undefined) return;

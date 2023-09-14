@@ -1,6 +1,6 @@
 ﻿import {LandType} from "../../types/heatmap/land.type";
 import {Coords, LandData, LandDecentraland, LandSandbox} from "../../interfaces/land.interface";
-import {Metaverse} from "../../enums/heatmap.enum";
+import {Metaverses} from "../../enums/metaverses.enum";
 import {LogWarning} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {CastStringToInteger} from "../common.util";
@@ -13,7 +13,7 @@ export function IsLandSandBox(land: LandType): land is LandSandbox {
   return (land as LandSandbox).isSandbox;
 }
 
-export function FormatLand(landRawData: string | undefined, landKeyIndex: number | undefined, metaverse: Metaverse): LandType | undefined {
+export function FormatLand(landRawData: string | undefined, landKeyIndex: number | undefined, metaverse: Metaverses): LandType | undefined {
   if (landRawData == undefined || landKeyIndex == undefined)
     return void LogWarning(Module.LandSocket, "Empty land from socket!");
 
@@ -44,7 +44,7 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
     coords: { x: CastStringToInteger(x), y: CastStringToInteger(y) }
   };
 
-  if (metaverse === Metaverse.Sandbox) {
+  if (metaverse === Metaverses.sandbox) {
     land.coords = {
       x: CastStringToInteger(x),
       y: CastStringToInteger(y)
@@ -56,7 +56,7 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
     };
   }
 
-  if (metaverse == Metaverse.SomniumSpace) {
+  if (metaverse == Metaverses["somnium-space"]) {
     const geometryRawArray = wildcard.split('/');
     const geometry: Coords[] = geometryRawArray.map((coords) => {
       const [x, y] = coords.split(':');

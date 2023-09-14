@@ -5,7 +5,7 @@
   PremiumLands = 'premium-lands',
 }
 
-export const enum MapFilter {
+export const enum MapFilterEnum {
   eth_predicted_price,
   price_difference,
   transfers,
@@ -17,8 +17,4 @@ export const enum MapFilter {
   // variation_last_week,
   // variation_last_four_weeks,
   // variation_last_six_months
-}
-
-export const enum FilterPredictedPrice {
-  
 }
