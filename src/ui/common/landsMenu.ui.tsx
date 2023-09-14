@@ -12,8 +12,9 @@ interface LandsMenuUIProps {
 }
 
 export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }: LandsMenuUIProps) {
+  
   return (
-    <div className={`w-full flex items-center justify-center  py-16 ${isBorder ? "border-b border-nm-remark" : ""}`}>
+    <div className={`w-full flex items-center justify-center  py-16 ${isBorder ? "border-b border-nm-remark dark:border-nm-dm-fill" : ""}`}>
       {
         form == ButtonForm.Horizontal ?
           <>
@@ -21,7 +22,7 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
               return <button
                 key={key}
                 type="button"
-                className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-xl mx-3 transition ease-in-out duration-300 bg-lm-fill  ${metaverse === MetaverseOptions[key] ? "shadow-hollow-8  text-nm-dm-icons" : " shadow-relief-12 hover:shadow-relief-32 text-nm-dm-remark"}`}
+                className={`flex items-center py-3 px-10 text-sm font-bold focus:outline-none rounded-xl mx-3 transition ease-in-out duration-300 bg-lm-fill dark:bg-nm-dm-fill  ${metaverse === MetaverseOptions[key] ? "shadow-hollow-8 dark:shadow-dm-hollow-8  text-nm-dm-icons dark:text-nm-fill" : " shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 text-nm-dm-remark dark:text-nm-fill"}`}
                 onClick={() => {
                   setMetaverse(key)}}
               >
@@ -31,7 +32,6 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                 {MetaverseOptions[key] === MetaverseOptions["somnium-space"] && <Image src="/images/somnium-space-cube-logo.webp" width={24} height={24} alt="sandbox" className={`mr-4 ${metaverse === MetaverseOptions[key] ? 'grayscale-0' : 'grayscale'}`} />}
                 {MetaverseOptions[key].toUpperCase()}
               </button>
-
             }
             )}
           </>
@@ -45,14 +45,14 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                 <button
                   key={key}
                   type="button"
-                  className={`flex flex-col items-center justify-center rounded-3xl cursor-pointer w-[240px] h-[320px] mx-10 focus:outline-none shadow-relief-32 hover:shadow-relief-12 transition ease-in-out duration-300 grayscale hover:grayscale-0 ${metaverse === MetaverseOptions[key] ? "grayscale-0" : ""}`}
+                  className={`flex flex-col items-center justify-center rounded-3xl cursor-pointer w-[240px] h-[320px] mx-10 focus:outline-none transition ease-in-out duration-300 grayscale hover:grayscale-0 shadow-relief-32 hover:shadow-relief-12 dark:shadow-dm-relief-32 dark:hover:shadow-dm-relief-12 ${metaverse === MetaverseOptions[key] ? "grayscale-0" : ""}`}
                   onClick={() => setMetaverse(key)}
                 >
                   {MetaverseOptions[key] === MetaverseOptions.sandbox && <Image src="/images/the-sandbox-sand-logo.png" width={100} height={100} alt="sandbox" />}
                   {MetaverseOptions[key] === MetaverseOptions.decentraland && <Image src="/images/decentraland-mana-logo.png" width={100} height={100} alt="sandbox" />}
                   {/* {MetaverseOptions[key] === MetaverseOptions.AXIE && <Image src="/images/axie-infinity-axs-logo.png" width={100} height={100} alt="sandbox"/>} */}
                   {MetaverseOptions[key] === MetaverseOptions["somnium-space"] && <Image src="/images/somnium-space-cube-logo.webp" width={100} height={100} alt="sandbox" />}
-                  <p className="mt-14 text-lg font-semibold text-lm-text">
+                  <p className="mt-14 text-lg font-semibold text-lm-text dark:text-nm-fill">
                     {MetaverseOptions[key].toUpperCase()}
                   </p>
                 </button>

@@ -23,7 +23,7 @@ export default function HotDealsCardUI({ cardData, name, metaverseSelected }: Ho
   }
 
   return (
-    <div className="bg-lm-fill rounded-xl flex w-[180px] h-full">
+    <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-xl flex w-[180px] h-full">
       <div className="w-full">
         <Image height={100} width={180} src={cardData.images?.image_url} className="rounded-t-xl" alt="hot deals land image" />
         <div className="flex flex-col justify-center">
@@ -40,13 +40,13 @@ export default function HotDealsCardUI({ cardData, name, metaverseSelected }: Ho
             </Tooltip>
           </div>
           <div className="flex items-center justify-center">
-            <p className="text-xs font-normal text-lm-text-gray">Listed Price: </p>
+            <p className="text-xs font-normal text-lm-text-gray dark:text-nm-highlight">Listed Price: </p>
           </div>
           <div className="flex items-center justify-center">
             <p className="font-bold text-xs  truncate">{`${cardData.current_price_eth?.toFixed(2)} ETH`}</p>
           </div>
           <div className="flex items-center justify-center">
-            <p className="text-xs font-normal text-lm-text-gray">Estimated Price: </p>
+            <p className="text-xs font-normal text-lm-text-gray dark:text-nm-highlight">Estimated Price: </p>
           </div>
           <div className="flex items-center justify-center">
             <p className="font-bold text-xs  truncate">{`${cardData.eth_predicted_price?.toFixed(2)} ETH`}</p>
@@ -54,7 +54,7 @@ export default function HotDealsCardUI({ cardData, name, metaverseSelected }: Ho
           <div className="flex items-center justify-center mt-3">
             <CartButtonUI />
           </div>
-          <div className="flex justify-center my-3 font-bold text-lm-text px-4">
+          <div className="flex justify-center my-3 font-bold text-lm-text dark:text-nm-fill px-4">
             <Link href={cardData.external_link} target={'_blank'} className="flex items-center w-1/2">
               <Image height={12} width={10} src={metaverseImage} className="rounded-full" alt="land icon" />
               <p className="text-[10px] pl-1 truncate">{metaverseSelected}</p>

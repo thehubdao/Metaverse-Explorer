@@ -61,18 +61,18 @@ export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
           </div>
           <div className="pl-10">
             <div className="flex space-x-4 w-full items-stretch justify-end">
-              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
+              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray dark:bg-nm-black dark:shadow-dm-relief-12">
                 <p className=" font-extrabold text-3xl">{landsOwned ?? 0}</p>
-                <p className="text-sm font-bold">Total LANDs owned</p>
+                <p className="text-sm font-bold dark:text-lm-text-gray mt-6">Total LANDs owned</p>
               </div>
-              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray">
+              <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-gray dark:bg-nm-black dark:shadow-dm-relief-12">
                 <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
-                <p className="text-sm font-bold">Total Value worth</p>
+                <p className="text-sm font-bold dark:text-lm-text-gray mt-6">Total Value worth</p>
               </div>
             </div>
           </div>
         </div>
-        <div className="border-b border-nm-remark h-[2px] my-10"></div>
+        <div className="border-b border-nm-remark dark:border-nm-dm-fill h-[2px] my-10"></div>
         <div className="pb-20 flex flex-wrap w-full justify-between">
           <LandCardListUI lands={filteredLands} prices={coinPrices} />
         </div>

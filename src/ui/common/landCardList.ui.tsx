@@ -20,7 +20,7 @@ export default function LandCardListUI({ lands, prices }: LandCardListUIProps) {
           return Object.values(landsMetaverse).map((land) => {
             return (
               <div key={land.tokenId}>
-                <div className="w-[520px] h-[300px] bg-nm-fill rounded-xl shadow-relief-16 hover:shadow-relief-12 my-3 flex">
+                <div className="w-[520px] h-[300px] bg-nm-fill dark:bg-nm-dm-fill rounded-xl shadow-relief-16 dark:shadow-dm-relief-32 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12 my-3 flex">
                   <div className="w-1/2">
                     <ExternalAssetLinkUI land={land} isOpen={false} metaverse={metavese} />
                   </div>

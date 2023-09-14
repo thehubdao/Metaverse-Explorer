@@ -1,3 +1,4 @@
+/* these styles are for the login button without using tailwind */
 button[data-testid="rk-connect-button"]::before {
   content: "";
   display: inline-block;
@@ -6,6 +7,16 @@ button[data-testid="rk-connect-button"]::before {
   background-image: url('/images/icons/wallet.svg'); 
   background-size: contain;
   margin-right: 8px; 
+}
+
+.dark-connect button[data-testid="rk-connect-button"]::before {
+  background-image: url('/images/icons/dm-wallet.svg'); 
+}
+
+.dark-connect button[data-testid="rk-connect-button"]{
+  background-color: #1B1B1D !important;
+  color: #F1F5F9 !important ;
+  box-shadow: 4px 4px 15px #06080B, -0.5px -0.5px 1px rgba(206, 232, 255, 0.25);
 }
 
 button[data-testid="rk-connect-button"] {
@@ -21,6 +32,11 @@ button[data-testid="rk-connect-button"] {
   justify-content: center;
   align-items: center;
   box-shadow: 6px 4px 12px 0px #D3D9E6, -6px -4px 12px 0px #FFF;
+}
+
+.dark-connect button[data-testid="rk-chain-button"]{
+  background-color: #1B1B1D !important;
+  color: #F1F5F9 !important ;
 }
 
 button[data-testid="rk-chain-button"] {
@@ -42,6 +58,13 @@ button[data-testid="rk-chain-button"] {
   }
 }
 
+.dark-connect button[data-testid="rk-account-button"]{
+  .iekbcc0.ju367v70.ju367v7l.ju367v85.ju367v6e.ju367v9x.ju367vcf.ju367vn.ju367vt.ju367vw.ju367vfo.ju367v11.ju367v1c.ju367v8o{
+    background-color: #1B1B1D !important;
+    color: #F1F5F9 !important ;
+  }
+}
+
 button[data-testid="rk-account-button"] {  
   .iekbcc0.ju367v70.ju367v7l.ju367v85.ju367v6e.ju367v9x.ju367vcf.ju367vn.ju367vt.ju367vw.ju367vfo.ju367v11.ju367v1c.ju367v8o{
     width: 290px;
@@ -50,7 +73,6 @@ button[data-testid="rk-account-button"] {
     font-family: var(--jakarta-font) !important;
     font-size: 15px !important;
     background-color: #F5F7FF !important;
-    border-radius: none;
     border-color: transparent;
     font-weight: 700;
     border-radius: 12px;

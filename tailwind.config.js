@@ -44,7 +44,10 @@ module.exports = {
         'dm-relief-32': '-12px -8px 32px #24262B, 16px 12px 32px #0C0D0F',
         'inset': '6px 4px 12px 0px rgba(9, 20, 36, 0.15) inset, -6px -4px 12px 0px #FFF inset',
         'hollow-8': '4px 6px 8px 0px #D7DEEB inset, -2px -2px 8px 0px #FFF inset',
-        'hollow-2': '1px 1px 2px 0px #D7DEEB inset, -1px -1px 2px 0px #FFF inset'
+        'hollow-2': '1px 1px 2px 0px #D7DEEB inset, -1px -1px 2px 0px #FFF inset',
+        'dm-hollow-8': '4px 6px 8px 0px rgba(9, 12, 17, 0.65) inset, -2px -2px 8px 0px rgba(241, 249, 255, 0.15) inset;',
+        'toogle': '3.76364px 2.50909px 7.52727px 0px rgba(9, 20, 36, 0.15), -3.76364px -2.50909px 7.52727px 0px #FFF',
+        'dark-toogle': '4px 4px 15px #06080B, -0.5px -0.5px 1px rgba(206, 232, 255, 0.25)'
       }
     },
   },

@@ -5,6 +5,7 @@ import { TopLandForm } from "../../enums/common.enum";
 import { TopSellingFilterBy } from "./topSellsFilter.ui";
 import { TopLandsData } from "../../interfaces/heatmap.interface";
 import TopSellsFilterUI from "./topSellsFilter.ui";
+import { useTheme } from "next-themes";
 
 const pageLength = 5;
 
@@ -19,6 +20,7 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
   const [controlPageIndex, setControlPageIndex] = useState<number>(1);
   const [currentPageData, setCurrentPageData] = useState<TopLandsData[]>(tableData.slice(controlPageIndex - 1, pageLength));
   const [filterBy, setFilterBy] = useState<TopSellingFilterBy>("totalTop");
+  const { resolvedTheme } = useTheme();
 
   const numberOfPages = Math.ceil(tableData.length / pageLength);
 
@@ -32,14 +34,14 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
   return (
     <>
       <div className="flex justify-between">
-        <p className="text-lm-text text-lg font-semibold mb-9">{title}</p>
+        <p className="text-lm-text dark:text-nm-fill text-lg font-semibold mb-9">{title}</p>
         {
           form === TopLandForm.Sells && <TopSellsFilterUI filterBy={filterBy} setFilterBy={setFilterBy} />
         }
       </div>
       <table className="w-full table-fixed border-collapse">
         <thead className="w-full">
-          <tr className="flex w-full items-center text-lm-text font-bold bg-nm-gray rounded-xl">
+          <tr className="flex w-full items-center text-lm-text dark:text-nm-fill font-bold bg-nm-gray dark:bg-[#32363C] rounded-xl">
             {headers.map((header, index) => (
               <th key={index} className="p-4 w-1/5 text-lg rounded-2xl">
                 {header}
@@ -110,6 +112,8 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
             shape="rounded"
             size="large"
             onChange={(e, page) => changePage(page)}
+            id="pagination"
+            className={`${resolvedTheme === 'dark' ? "dark-paginator" : ""}`}
           />
         }
       </div>

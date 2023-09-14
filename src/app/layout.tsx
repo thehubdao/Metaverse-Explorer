@@ -15,6 +15,7 @@ import { setCurrencyValues } from '../state/currencySlice';
 import FooterUI from '../ui/common/footer.ui';
 import MobileUI from '../ui/mobile/mobile.ui';
 import WagmiProvider from "../providers/wagmi.provider";
+import { ThemeProvider } from 'next-themes';
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 const fontIcons = FontIcons({ src: '../../public/fonts/fonts-icons/iconSet01.ttf', display: 'block', variable: '--icons-font' });
@@ -81,25 +82,27 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
   return (
     <Provider store={store}>
       <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
-        <body className="font-plus text-nm-dm-highlight bg-nm-highlight">
-          <div className='hidden xl:block'>
-            <WagmiProvider>
-              <div className={`w-full h-screen grid grid-cols-[137px_calc(100%-137px)] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
-                <nav className="bg-nm-gray row-span-2">
-                  <NavbarUI list={list} route={pathname} />
-                </nav>
-                <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
-                <main className='px-16'>
-                  {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
-                  {children}
-                  {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
-                </main>
-              </div>
-            </WagmiProvider>
-          </div>
-          <div className="xl:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
-            <MobileUI />
-          </div>
+        <body className="font-plus text-nm-dm-highlight dark:text-nm-fill">
+          <ThemeProvider attribute="class">
+            <div className='hidden xl:block'>
+              <WagmiProvider>
+                <div className={`w-full h-screen grid grid-cols-[137px_calc(100%-137px)] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
+                  <nav className="row-span-2">
+                    <NavbarUI list={list} route={pathname} />
+                  </nav>
+                  <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
+                  <main className='px-16'>
+                    {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
+                    {children}
+                    {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
+                  </main>
+                </div>
+              </WagmiProvider>
+            </div>
+            <div className="xl:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
+              <MobileUI />
+            </div>
+          </ThemeProvider>
         </body>
       </html>
     </Provider >

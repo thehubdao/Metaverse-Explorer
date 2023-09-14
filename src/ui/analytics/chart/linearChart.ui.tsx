@@ -62,7 +62,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
   }, [chartOptions, currencyData]);
 
   return (
-    <div className={`relative w-full h-full shadow-hollow-8 rounded-3xl p-7 bg-lm-fill text-lm-text`}>
+    <div className={`relative w-full h-full shadow-hollow-8 dark:shadow-dm-hollow-8 rounded-3xl p-7 bg-lm-fill dark:bg-nm-dm-fill text-lm-text dark:text-nm-fill`}>
       <div className='flex items-center gap-1 font-bold mb-4'>
         <Image
           src='/images/icons/chart/ic_round-candlestick-chart.svg'

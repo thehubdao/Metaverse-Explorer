@@ -24,14 +24,14 @@ export default function SearchByCoordsUI(props: SearchByCoordsUIProps) {
           type="number"
           placeholder="X"
           value={x}
-          className="shadow-hollow-2  rounded-2xl text-center bg-nm-highlight w-[164px] h-[63px] mr-3"
+          className="shadow-hollow-2  rounded-2xl text-center bg-nm-highlight dark:bg-nm-black dark:shadow-dm-hollow-8 dark:text-nm-fill w-[164px] h-[63px] mr-3"
           onChange={(e) => setX(e.target.valueAsNumber)}
         />
         <input
           type="number"
           placeholder="Y"
           value={y}
-          className="shadow-hollow-2  rounded-2xl text-center bg-nm-highlight w-[164px] h-[63px]"
+          className="shadow-hollow-2  rounded-2xl text-center bg-nm-highlight dark:bg-nm-black dark:shadow-dm-hollow-8 dark:text-nm-fill w-[164px] h-[63px]"
           onChange={(e) => setY(e.target.valueAsNumber)}
         />
       </div>

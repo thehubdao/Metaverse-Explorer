@@ -47,8 +47,8 @@ export default function ChartTimeFilterSelectorUI({ visibleDays, setVisibleDays 
         return (
           <button
             key={index}
-            className={`rounded-lg w-12 h-12 bg-lm-fill
-            ${visibleDays === item.daysOnNumber ? 'shadow-hollow-8' : 'shadow-relief-12'}`}
+            className={`rounded-lg w-12 h-12 bg-lm-fill dark:bg-nm-dm-fill
+            ${visibleDays === item.daysOnNumber ? 'shadow-hollow-8 dark:shadow-dm-hollow-8' : 'shadow-relief-12 dark:shadow-dm-relief-12'}`}
             onClick={() => { setVisibleDays(item.daysOnNumber) }}
             title={item.title}
           >{item.label}</button>

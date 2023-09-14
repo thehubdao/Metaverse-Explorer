@@ -4,6 +4,7 @@
 @import url('../styles/swiper.css');
 @import url('../styles/scroll.css');
 @import url('../styles/buttonLogin.css');
+@import url('../styles/pagination.css');
 
 /* z-index order */
 /* z-50 SpecificLandModalUI */
@@ -14,6 +15,11 @@ body{
 
 [data-theme ="dark"] body{
   background-color: '#121212';
+}
+
+[data-theme ="dark"] #pagination {
+  color: #6196FF;
+  background-color: red;
 }
 
 /* Chrome, Safari, Edge, Opera */
