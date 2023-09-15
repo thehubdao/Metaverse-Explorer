@@ -1,5 +1,4 @@
 import { Metaverse } from '../metaverse'
-import { IAPIData, IPredictions } from '../types'
 
 export interface ICoinPrices {
   decentraland: { usd: number }
@@ -8,15 +7,6 @@ export interface ICoinPrices {
   'axie-infinity': { usd: number }
   'somnium-space-cubes': { usd: number }
 }
-
-export interface IPriceCard {
-  showCard?: boolean
-  processing?: boolean
-  apiData: IAPIData
-  predictions: IPredictions
-}
-
-export type LandsKey = 'sandbox' | 'decentraland' | 'axie-infinity' | 'somnium-space';
 
 export type LandListAPIResponse = Record<string, SingleLandAPIResponse>;
 
