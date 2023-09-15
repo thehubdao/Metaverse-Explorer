@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
 import { getAddress } from 'ethers/lib/utils'
 import { Metaverse, metaverseObject } from '../lib/metaverse'
-import { typedKeys } from "../lib/utilities";
 import { getUserNFTs } from "../lib/nftUtils";
 import { Chains } from "../lib/chains";
 import { convertETHPrediction, fetchLandList } from "../lib/valuation/valuationUtils";
@@ -10,6 +9,7 @@ import { LandListAPIResponse } from "../lib/valuation/valuationTypes";
 import { getCoingeckoPrices } from "../backend/services/ITRMService";
 import { LogError } from "../utils/logging.util";
 import { Module } from "../enums/logging.enum";
+import { typedKeys } from "../utils/common.util";
 
 interface TotalWorth {
     ethPrediction: number
