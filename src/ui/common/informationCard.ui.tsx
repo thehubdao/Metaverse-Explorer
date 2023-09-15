@@ -1,4 +1,4 @@
-import { ICoinPrices } from "../../types/valuationTypes";
+import { ICoinPrices, SingleLandAPIResponse } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import { BsTwitter } from "react-icons/bs";
 import Image from "next/image";
@@ -6,7 +6,6 @@ import PriceListUI from "./priceList.ui";
 import { useState } from "react";
 import SpecificLandModalUI from "./specificLandModal.ui";
 import { PriceListForm } from "../../enums/common.enum";
-import { SingleLandAPIResponse } from "../../lib/valuation/valuationTypes";
 import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 import { useTheme } from "next-themes";
 import Link from "next/link";

@@ -1,11 +1,11 @@
 import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
-import { LandProps } from "../../types/valuationTypes";
+import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import SearchByCoordsUI from "./searchByCoords.ui";
 import SearchByIdUI from "./searchById.ui";
 
 interface SearchLandFormUIProps {
   metaverse?: MetaverseOptionsKey;
-  land?: LandProps;
+  land?: SingleLandAPIResponse;
 }
 
 export default function SearchLandFormUI({ metaverse, land }: SearchLandFormUIProps) {

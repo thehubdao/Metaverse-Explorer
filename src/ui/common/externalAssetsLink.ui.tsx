@@ -1,7 +1,7 @@
 import { FiExternalLink } from 'react-icons/fi';
 import Image from "next/image";
 import Link from "next/link";
-import { SingleLandAPIResponse } from '../../lib/valuation/valuationTypes';
+import { SingleLandAPIResponse } from '../../types/valuationTypes';
 import { MetaverseOptionsKey, Metaverses } from '../../enums/metaverses.enum';
 
 interface ExternalAssetLinkUIProps {

@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import AddLandButtonUI from "./addLandButton.ui";
-import { LandProps } from "../../types/valuationTypes";
+import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 interface SearchByIdUIProps {
-  land?: LandProps;
+  land?: SingleLandAPIResponse;
   metaverse?: MetaverseOptionsKey;
 }
 

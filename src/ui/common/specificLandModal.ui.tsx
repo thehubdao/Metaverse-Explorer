@@ -1,8 +1,7 @@
 import { IoClose } from "react-icons/io5";
-import { ICoinPrices } from "../../types/valuationTypes";
+import { ICoinPrices, SingleLandAPIResponse } from "../../types/valuationTypes";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import SpecificInformationCardUI from "./specificInformationCard.ui";
-import { SingleLandAPIResponse } from "../../lib/valuation/valuationTypes";
 import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
 
 interface SpecificLandModalUIProps {
