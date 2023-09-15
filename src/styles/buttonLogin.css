@@ -13,7 +13,7 @@ button[data-testid="rk-connect-button"] {
   height: 62px !important;
   background-color: #F5F7FF !important;
   color: #54575C !important;
-  font-family: var(--jakarta-font) !important;
+  font-family: theme('fontFamily.plus') !important;
   font-size: 15px !important;
   font-weight: 700;
   border-radius: 12px;
@@ -28,7 +28,7 @@ button[data-testid="rk-chain-button"] {
   height: 62px !important;
   background-color: #F5F7FF !important;
   color: #54575C !important;
-  font-family: var(--jakarta-font) !important;
+  font-family: theme('fontFamily.plus') !important;
   font-size: 15px !important;
   font-weight: 700;
   border-radius: 12px;
@@ -47,7 +47,7 @@ button[data-testid="rk-account-button"] {
     width: 290px;
     height: 62px !important;
     color: #54575C !important;
-    font-family: var(--jakarta-font) !important;
+    font-family: theme('fontFamily.plus') !important;
     font-size: 15px !important;
     background-color: #F5F7FF !important;
     border-radius: none;
@@ -67,17 +67,17 @@ button[data-testid="rk-account-button"] {
 }
 
 h1[id="rk_profile_title"], [id="rk_chain_modal_title"]{
-  font-family: var(--jakarta-font) !important;
+  font-family: theme('fontFamily.plus') !important;
 }
 
 
 .iekbcc0.ju367vgo.ju367v11.ju367v13.ju367v1b.ju367v2q{
   color: #54575C !important;
-  font-family: var(--jakarta-font) !important;
+  font-family: theme('fontFamily.plus') !important;
 }
 
 button[data-testid="rk-chain-option-1"],[data-testid="rk-chain-option-137"]{
   .iekbcc0.ju367v11.ju367v15.ju367v1c{
-    font-family: var(--jakarta-font) !important;
+    font-family: theme('fontFamily.plus') !important;
   }
 }
