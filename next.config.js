@@ -11,6 +11,11 @@ const nextConfig = {
 	async redirects() {
 		return [
 			{
+				source: '/',
+				destination: '/metaverseexplorer',
+				permanent: false,
+			},
+			{
 				source: "/docs/mghdao_engl_whitepaper.pdf",
 				destination: "/docs/mgh_whitepaper_v3.pdf",
 				permanent: true,
