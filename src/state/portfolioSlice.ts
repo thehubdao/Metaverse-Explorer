@@ -1,15 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
 import { getAddress } from 'ethers/lib/utils'
-import { Metaverse, metaverseObject } from '../lib/metaverse'
 import { getUserNFTs } from "../lib/nftUtils";
 import { Chains } from "../lib/chains";
 import { convertETHPrediction, fetchLandList } from "../lib/valuation/valuationUtils";
-import { LandListAPIResponse } from "../lib/valuation/valuationTypes";
 import { getCoingeckoPrices } from "../backend/services/ITRMService";
 import { LogError } from "../utils/logging.util";
 import { Module } from "../enums/logging.enum";
 import { typedKeys } from "../utils/common.util";
+import { LandListAPIResponse } from "../types/valuationTypes";
+import { Metaverses } from "../enums/metaverses.enum";
 
 interface TotalWorth {
     ethPrediction: number
@@ -17,7 +17,7 @@ interface TotalWorth {
 }
 
 interface IState {
-    list: Record<Metaverse, LandListAPIResponse> | undefined,
+    list: Record<Metaverses, LandListAPIResponse> | undefined,
     isLoading: boolean,
     error: string | undefined,
     length: number | undefined,
@@ -58,13 +58,13 @@ export const fetchPortfolio = createAsyncThunk(
 
         if (!address) return null;
 
-        const lands: Record<Metaverse, LandListAPIResponse> = { sandbox: {}, decentraland: {}, "somnium-space": {} };
+        const lands: Record<Metaverses, LandListAPIResponse> = { sandbox: {}, decentraland: {}, "somnium-space": {} };
         let totalLandsCounter = 0;
         const totalWorth: TotalWorth = { ethPrediction: 0, usdPrediction: 0};
 
         try {
             await Promise.all(
-                typedKeys(metaverseObject).map(async (metaverse) => {
+                Object.values(Metaverses).map(async (metaverse) => {
                     const rawIdsEthereum: string[] | undefined = await getUserNFTs(
                         providerEthereum,
                         'Ethereum',

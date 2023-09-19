@@ -3,12 +3,12 @@ import Image from "next/image";
 import CartButtonUI from "./cartButton.ui";
 import Link from "next/link";
 import { HotDealsCard } from "../../../interfaces/heatmap.interface";
-import { MetaverseOptions } from "../../../enums/metaverses.enum";
+import { Metaverses } from "../../../enums/metaverses.enum";
 
 interface HotDealsCardUIProps {
   cardData: HotDealsCard;
   name?: string;
-  metaverseSelected: MetaverseOptions;
+  metaverseSelected: Metaverses;
 }
 
 export default function HotDealsCardUI({ cardData, name, metaverseSelected }: HotDealsCardUIProps) {
@@ -16,9 +16,9 @@ export default function HotDealsCardUI({ cardData, name, metaverseSelected }: Ho
   const metaverseImage = (getMetaverseImg());
 
   function getMetaverseImg() {
-    if (metaverseSelected == MetaverseOptions.sandbox) return '/images/the-sandbox-sand-logo.png';
-    if (metaverseSelected == MetaverseOptions.decentraland) return '/images/decentraland-mana-logo.png';
-    if (metaverseSelected == MetaverseOptions["somnium-space"]) return '/images/somnium-space-cube-logo.webp';
+    if (metaverseSelected == Metaverses.SandBox) return '/images/the-sandbox-sand-logo.png';
+    if (metaverseSelected == Metaverses.Decentraland) return '/images/decentraland-mana-logo.png';
+    if (metaverseSelected == Metaverses.SomniumSpace) return '/images/somnium-space-cube-logo.webp';
     return '';
   }
 

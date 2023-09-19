@@ -1,14 +1,12 @@
 export enum Metaverses {
-  sandbox = 'sandbox',
-  decentraland= 'decentraland',
-  'somnium-space' = 'somnium-space',
+  SandBox = 'sandbox',
+  Decentraland = 'decentraland',
+  SomniumSpace = 'somnium-space',
 }
 
-export type MetaverseOptionsKey = keyof typeof MetaverseOptions;
-
-export enum MetaverseOptions {
-  all = "All Lands",
-  sandbox = "The Sandbox",
-  decentraland = "Decentraland",
-  'somnium-space' = "Somnium Space"
-}
+export const METAVERSE_LABEL: Record<Metaverses | "All", string> = {
+  All: "All Lands",
+  [Metaverses.SandBox]: "The Sandbox",
+  [Metaverses.Decentraland]: "Decentraland",
+  [Metaverses.SomniumSpace]: "Somnium Space"
+} as const;

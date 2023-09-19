@@ -59,10 +59,10 @@ const subHeaderList = [
     name: "Watchlist",
     route: "metaverseexplorer/watchlist",
   },
-  {
-    name: "Analytics",
-    route: "metaverseexplorer/analytics",
-  },
+  // {
+  //   name: "Analytics",
+  //   route: "metaverseexplorer/analytics",
+  // },
 ];
 
 export default function RootLayout({ children, }: { children: React.ReactNode }) {

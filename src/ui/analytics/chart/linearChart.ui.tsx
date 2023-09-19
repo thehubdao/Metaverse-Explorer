@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../state/store';
 import { Currencies } from '../../../enums/common.enum';
 import { Metaverses } from '../../../enums/metaverses.enum';
+import { ObjectEntries } from '../../../utils/common.util';
 
 interface LinearChartUIProps {
   chartApiData: AnalyticChartData; // Data for the linear chart
@@ -30,7 +31,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
     const LinearChart = new LightweightLinearChart(chartElement);
 
     // Iterate through the data and add lines to the chart
-    for (const [key, value] of Object.entries(chartApiData.data)) {
+    for (const [key, value] of ObjectEntries(chartApiData.data)) {
       if (chartOptions.visibleMetaverses.length === 0) {
         LinearChart.addNewLine(
           value.map(item => {
@@ -47,7 +48,7 @@ export default function LinearChartUI({ chartApiData, chartOptions }: LinearChar
           getMetaverseColor(key),
           key
         );
-      } else if (chartOptions.visibleMetaverses.includes(key as Metaverses)) {
+      } else if (chartOptions.visibleMetaverses.includes(key)) {
         LinearChart.addNewLine(value, getMetaverseColor(key), key);
       }
     }

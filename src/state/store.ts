@@ -3,13 +3,15 @@ import currencyReducer from './currencySlice';
 import loginReducer from './loginSlice';
 import watchlistReducer from './watchlistSlice';
 import portfolioReducer from "./portfolioSlice";
+import coinGeckoReducer from "./coin-gecko.slice";
 
 const store = configureStore({
   reducer: {
     currency: currencyReducer,
     login: loginReducer,
     watchlist: watchlistReducer,
-    portfolio: portfolioReducer
+    portfolio: portfolioReducer,
+    coinGecko: coinGeckoReducer,
   }
 });
 

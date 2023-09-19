@@ -44,7 +44,7 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
     coords: { x: CastStringToInteger(x), y: CastStringToInteger(y) }
   };
 
-  if (metaverse === Metaverses.sandbox) {
+  if (metaverse === Metaverses.SandBox) {
     land.coords = {
       x: CastStringToInteger(x),
       y: CastStringToInteger(y)
@@ -56,7 +56,7 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
     };
   }
 
-  if (metaverse == Metaverses["somnium-space"]) {
+  if (metaverse == Metaverses.SomniumSpace) {
     const geometryRawArray = wildcard.split('/');
     const geometry: Coords[] = geometryRawArray.map((coords) => {
       const [x, y] = coords.split(':');

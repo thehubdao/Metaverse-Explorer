@@ -3,7 +3,8 @@ import { ERC721, TransferEvent } from '../types/ethers-contracts/ERC721'
 import ERC721ABI from '../backend/abi/ERC721.json'
 import { getAddress, Interface } from 'ethers/lib/utils'
 import { Contracts } from './contracts'
-import { Metaverse } from './metaverse'
+import { Metaverses } from '../enums/metaverses.enum'
+
 type Provider = ethers.providers.BaseProvider;
 
 // Using a Generic ERC721 ABI!!
@@ -24,7 +25,7 @@ export const getUserNFTs = async (
   provider: Provider,
   providerChainName: 'Ethereum' | 'Polygon' = 'Ethereum',
   address: string | undefined,
-  metaverse: Metaverse,
+  metaverse: Metaverses,
 ) => {
   if (!address?.startsWith('0x')) return;
 

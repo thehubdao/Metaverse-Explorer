@@ -3,7 +3,7 @@ import {Raise} from "../common.util";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 
-const defaultCoinValues = {
+export const defaultCoinValues = {
   decentraland: {
     usd: 0
   },
@@ -33,7 +33,7 @@ const defaultCoinValues = {
   }
 } as const;
 
-type CoinValuesType = typeof defaultCoinValues;
+export type CoinValuesType = typeof defaultCoinValues;
 
 interface CoinGeckoResponse {
   success: CoinValuesType;

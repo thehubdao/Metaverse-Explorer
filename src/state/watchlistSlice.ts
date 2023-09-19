@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { TokenData } from "../interfaces/common.interface";
-import { WatchlistResponse } from "../interfaces/watchlist.interface";
+import { Metaverses } from "../enums/metaverses.enum";
+import { LandListAPIResponse } from "../types/valuationTypes";
 
 interface IState {
-  list: WatchlistResponse | undefined,
+  list: Record<Metaverses, LandListAPIResponse> | undefined,
   isLoading: boolean,
   error: string | undefined
 }
@@ -27,7 +28,7 @@ export const fetchWatchlist = createAsyncThunk(
         }
       }
     )
-    return (await watchlistRequest.data) as WatchlistResponse;
+    return (await watchlistRequest.data) as Record<Metaverses, LandListAPIResponse>;
   }
 )
 

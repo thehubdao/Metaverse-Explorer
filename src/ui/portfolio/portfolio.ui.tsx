@@ -1,65 +1,54 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { ICoinPrices } from "../../types/valuationTypes";
+import { LandListAPIResponse } from "../../types/valuationTypes";
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
 import { ButtonForm } from "../../enums/common.enum";
-import { LandListAPIResponse } from "../../lib/valuation/valuationTypes";
-import { Metaverse } from "../../lib/metaverse";
-import { typedKeys } from "../../utils/common.util";
-import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
-
-//TODO replace with redux state (coingecko)
-const coinPrices: ICoinPrices = {
-  decentraland: 0.0456,
-  ethereum: 2897.65,
-  'the-sandbox': 12.34,
-  'axie-infinity': 67.89,
-  'somnium-space-cubes': 0.9876
-};
+import { TypedKeys, ObjectEntries } from "../../utils/common.util";
+import { Metaverses } from "../../enums/metaverses.enum";
+import { useAppSelector } from "../../state/hooks";
 
 interface PortfolioUIProps {
-  allLands: Record<Metaverse, LandListAPIResponse> | undefined;
+  allLands: Record<Metaverses, LandListAPIResponse> | undefined;
   landsOwned: number;
 }
 
 export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) {
-
-  const valueWorth = 1.52; //TODO: connect variable from redux portfolio state 
-  const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
+  const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
   const [isEmpty, setIsEmpty] = useState<boolean>(true);
-  const [filteredLands, setFilteredLands] = useState<[MetaverseOptionsKey, LandListAPIResponse][]>([]);
+  const [filteredLands, setFilteredLands] = useState<[Metaverses, LandListAPIResponse][]>([]);
+
+  const coinPrices = useAppSelector(state => state.coinGecko.coins);
+  const valueWorth = 1.52; //TODO: connect variable from redux portfolio state 
 
   //Filter lands by metaverse selected
-  const filterLands = (metaverse: MetaverseOptionsKey) => {
-    setMetaverseSelected(MetaverseOptions[metaverse]);
+  const filterLands = (metaverse: Metaverses | undefined) => {
+    setMetaverseSelected(metaverse);
     if (allLands !== undefined) {
       let auxLands;
-      if (metaverse !== "all") {
-        auxLands = Object.entries(allLands).filter((specificLands) => specificLands[0] === metaverse) as [MetaverseOptionsKey, LandListAPIResponse][];
-        setFilteredLands(auxLands);
-      }
-      else {
-        auxLands = Object.entries(allLands) as [MetaverseOptionsKey, LandListAPIResponse][];
-        setFilteredLands(auxLands);
-      }
+      if (metaverse != undefined)
+        auxLands = ObjectEntries(allLands).filter((specificLands) => specificLands[0] === metaverse);
+      else
+        auxLands = ObjectEntries(allLands);
+
+      setFilteredLands(auxLands);
       validateEmpty(auxLands);
     }
   }
 
   //Valide if metaverse lands is empty
-  const validateEmpty = (metaverses: [MetaverseOptionsKey, LandListAPIResponse][]) => {
+  const validateEmpty = (metaverses: [Metaverses, LandListAPIResponse][]) => {
     let landsLength = 0;
-    for (const [, specificLands] of Object.entries(metaverses)) {
-      landsLength += typedKeys(specificLands[1]).length;
+    for (const [, specificLands] of metaverses) {
+      landsLength += TypedKeys(specificLands).length;
     }
     setIsEmpty(landsLength == 0);
   }
 
   useEffect(() => {
-    filterLands("all");
+    filterLands(undefined);
   }, [])
 
   return (
@@ -82,7 +71,7 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
       </div>
 
       <div className='mb-24'>
-        <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptionsKey) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={true} />
+        <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={true} />
       </div>
       <>
         {

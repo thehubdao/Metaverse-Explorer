@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import AddLandButtonUI from "./addLandButton.ui";
 import { SingleLandAPIResponse } from "../../types/valuationTypes";
-import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
 
 interface SearchByCoordsUIProps {
   land?: SingleLandAPIResponse;
-  metaverse?: MetaverseOptionsKey;
+  metaverse?: Metaverses;
 }
 
 export default function SearchByCoordsUI(props: SearchByCoordsUIProps) {
