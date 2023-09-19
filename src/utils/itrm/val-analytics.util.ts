@@ -4,6 +4,7 @@ import axios from "axios";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {Result} from "../../types/common.type";
+import {ChartInfo, TopPickLand} from "../../interfaces/itrm/val-analytics.interface";
 
 type ChartRoutes =
   'avgPriceParcel'
@@ -15,12 +16,6 @@ type ChartRoutes =
   | 'maxPrice'
   | 'mCap';
 
-export interface ChartInfo {
-  data: number;
-  time: string;
-  timestamp?: number;
-}
-
 export async function FetchChartData(metaverse: Metaverses, route: ChartRoutes): Promise<Result<ChartInfo[]>> {
   try {
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
@@ -29,7 +24,25 @@ export async function FetchChartData(metaverse: Metaverses, route: ChartRoutes):
     return {success: true, value: response.data};
   } catch (err) {
     const msg = "Error while getting chart data!";
-    LogError(Module.ITRMChart, msg, err);
+    LogError(Module.ITRMValAnalytics, msg, err);
+    return {success: false, errMessage: msg};
+  }
+}
+
+export async function GetTopLands(metaverse: Metaverses): Promise<Result<TopPickLand[]>> {
+  try {
+    const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
+    
+    const response = await axios.get<TopPickLand[]>(`${itrmServiceUrl}/val-analytics/topPicks`, {
+      params: {
+        metaverse
+      }
+    });
+    
+    return {success: true, value: response.data};
+  } catch (err) {
+    const msg = "Error while getting TopLands!";
+    LogError(Module.ITRMValAnalytics, msg, err);
     return {success: false, errMessage: msg};
   }
 }
