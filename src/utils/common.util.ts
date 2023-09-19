@@ -9,6 +9,10 @@ export function TypedKeys<TObj extends object>(obj: TObj) {
   return Object.keys(obj) as (keyof TObj)[];
 }
 
+export function ObjectEntries<K extends (string | number | symbol), V>(obj: Record<K, V>) {
+  return Object.entries(obj) as unknown as [K, V][];
+}
+
 export function GetKeyByValue<TEnum extends object>(value: string | number, enumRef: TEnum): keyof TEnum | undefined {
   const indexOfS = Object.values(enumRef).indexOf(value);
   const key = Object.keys(enumRef)[indexOfS];

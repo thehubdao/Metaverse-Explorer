@@ -1,10 +1,10 @@
-import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
 import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import SearchByCoordsUI from "./searchByCoords.ui";
 import SearchByIdUI from "./searchById.ui";
 
 interface SearchLandFormUIProps {
-  metaverse?: MetaverseOptionsKey;
+  metaverse?: Metaverses;
   land?: SingleLandAPIResponse;
 }
 

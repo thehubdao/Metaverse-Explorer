@@ -1,14 +1,15 @@
 import { IoClose } from "react-icons/io5";
-import { ICoinPrices, SingleLandAPIResponse } from "../../types/valuationTypes";
+import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import SpecificInformationCardUI from "./specificInformationCard.ui";
-import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
+import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
 
 interface SpecificLandModalUIProps {
   onClose: () => void;
   land: SingleLandAPIResponse;
-  prices: ICoinPrices;
-  metaverse: MetaverseOptionsKey;
+  prices: CoinValuesType;
+  metaverse: Metaverses;
 }
 
 export default function SpecificLandModalUI({ onClose, land, prices, metaverse }: SpecificLandModalUIProps) {

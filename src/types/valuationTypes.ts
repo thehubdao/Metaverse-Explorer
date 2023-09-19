@@ -1,12 +1,13 @@
 import { Metaverse } from "../utils/metaverse";
 
 export interface ICoinPrices {
-  decentraland: number;
-  ethereum: number;
-  'the-sandbox': number;
-  'axie-infinity': number;
-  'somnium-space-cubes': number;
+  decentraland: { usd: number }
+  ethereum: { usd: number }
+  'the-sandbox': { usd: number }
+  'axie-infinity': { usd: number }
+  'somnium-space-cubes': { usd: number }
 }
+
 
 export type LandsKey = 'sandbox' | 'decentraland' | 'axie-infinity' | 'somnium-space';
 

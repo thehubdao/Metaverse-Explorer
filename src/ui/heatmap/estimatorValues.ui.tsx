@@ -1,7 +1,7 @@
-import { MetaverseOptions } from "../../enums/metaverses.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
 
 interface EstimatorValuesUIProps {
-  metaverseSelected: MetaverseOptions;
+  metaverseSelected: Metaverses;
   info: string;
   floor: number;
   tradingVolume: number;

@@ -3,7 +3,7 @@ import { Scrollbar, A11y } from 'swiper/modules';
 import NextButton from "./nextButton.ui";
 import HotDealsCardUI from "./hotDealsCard.ui";
 import { HotDealsCard } from "../../../interfaces/heatmap.interface";
-import { MetaverseOptions } from "../../../enums/metaverses.enum";
+import { Metaverses } from "../../../enums/metaverses.enum";
 
 // Import Swiper styles
 import 'swiper/css';
@@ -171,7 +171,7 @@ const cardData: HotDealsCard[] = [
 ];
 
 interface HotDealsUIProps {
-  metaverseSelected: MetaverseOptions;
+  metaverseSelected: Metaverses;
 }
 
 export default function HotDealsUI({ metaverseSelected }: HotDealsUIProps) {

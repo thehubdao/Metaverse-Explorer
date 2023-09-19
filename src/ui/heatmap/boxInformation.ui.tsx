@@ -1,10 +1,10 @@
 import { PriceListForm } from "../../enums/common.enum";
-import { ICoinPrices } from "../../types/valuationTypes";
+import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
 import PriceListUI from "../common/priceList.ui";
 
 interface BoxInformationUIProps{
   title: string;
-  prices: ICoinPrices;
+  prices: CoinValuesType;
 }
 
 export default function BoxInformationUI({title, prices}:BoxInformationUIProps) {

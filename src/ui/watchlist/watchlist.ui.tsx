@@ -1,59 +1,49 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { ICoinPrices,  } from "../../types/valuationTypes";
+import { LandListAPIResponse } from "../../types/valuationTypes";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
 import { ButtonForm } from "../../enums/common.enum";
 import SearchLandFormUI from "./searchLandForm.ui";
-import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
-import { LandListAPIResponse } from "../../lib/valuation/valuationTypes";
-import { WatchlistResponse } from "../../interfaces/watchlist.interface";
-
-//TODO replace with redux state (coingecko)
-const coinPrices: ICoinPrices = {
-  decentraland: 0.0456,
-  ethereum: 2897.65,
-  'the-sandbox': 12.34,
-  'axie-infinity': 67.89,
-  'somnium-space-cubes': 0.9876
-};
+import { Metaverses } from "../../enums/metaverses.enum";
+import { ObjectEntries } from "../../utils/common.util";
+import { useAppSelector } from "../../state/hooks";
 
 interface WatchlistUIProps {
-  allLands: WatchlistResponse | undefined;
+  allLands: Record<Metaverses, LandListAPIResponse> | undefined;
   landsOwned?: number;
 }
 
-export default function WatchlistUI({allLands, landsOwned}:WatchlistUIProps) {
+export default function WatchlistUI({allLands, landsOwned}: WatchlistUIProps) {
+  const [filteredLands, setFilteredLands] = useState<[Metaverses, LandListAPIResponse][]>([]);
+  const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
 
+  const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const valueWorth = 1.52; //TODO: connect variable from redux watchlist state 
-  const [filteredLands, setFilteredLands] = useState<[MetaverseOptionsKey, LandListAPIResponse][]>([]);
-  const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
 
   //Filter lands by metaverse selected
-  const filterLands = (metaverse: MetaverseOptionsKey) => {
-    setMetaverseSelected(MetaverseOptions[metaverse]);
+  const filterLands = (metaverse: Metaverses | undefined) => {
+    setMetaverseSelected(metaverse);
     if (allLands !== undefined) {
       let auxLands;
-      if (metaverse !== "all") {
-        auxLands = Object.entries(allLands).filter((specificLands) => specificLands[0] === metaverse) as [MetaverseOptionsKey, LandListAPIResponse][];
-        setFilteredLands(auxLands);
-      }
-      else {
-        auxLands = Object.entries(allLands) as [MetaverseOptionsKey, LandListAPIResponse][];
-        setFilteredLands(auxLands);
-      }
+      if (metaverse != undefined)
+        auxLands = ObjectEntries(allLands).filter((specificLands) => specificLands[0] === metaverse);
+      else
+        auxLands = ObjectEntries(allLands);
+
+      setFilteredLands(auxLands);
     }
   }
 
   useEffect(() => {
-    filterLands("all");
+    filterLands(undefined);
   }, [])
 
   return (
 
     <>
-      <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptionsKey) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
+      <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} form={ButtonForm.Horizontal} isBorder={false} />
       <div className='mb-24 mt-10 rounded-2xl'>
         <div className="flex flex-wrap w-full justify-center ">
           <div className="max-w-[1125px] pb-10">

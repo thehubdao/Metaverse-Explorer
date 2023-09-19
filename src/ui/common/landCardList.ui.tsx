@@ -1,14 +1,15 @@
 
-import { MetaverseOptionsKey } from "../../enums/metaverses.enum";
-import { LandListAPIResponse } from "../../lib/valuation/valuationTypes";
-import { ICoinPrices } from "../../types/valuationTypes";
+import { Metaverses } from "../../enums/metaverses.enum";
+
+import { LandListAPIResponse } from "../../types/valuationTypes";
+import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import InformationCardUI from "./informationCard.ui";
 
 
 interface LandCardListUIProps {
-  lands: [MetaverseOptionsKey, LandListAPIResponse][];
-  prices: ICoinPrices;
+  lands: [Metaverses, LandListAPIResponse][];
+  prices: CoinValuesType;
 }
 
 export default function LandCardListUI({ lands, prices }: LandCardListUIProps) {

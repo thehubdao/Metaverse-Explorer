@@ -324,7 +324,7 @@ export default function Heatmap2D({
       }
       
       // If sandbox fill the empty spaces
-      if (metaverse === Metaverses.sandbox)
+      if (metaverse === Metaverses.SandBox)
         await fillSandboxDeadSpaces();
       
       setIsLoading(false);

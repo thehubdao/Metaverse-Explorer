@@ -7,20 +7,13 @@ import LandsMenuUI from "../common/landsMenu.ui";
 import { ButtonForm, TopLandForm } from "../../enums/common.enum";
 import EstimatorValuesUI from "./estimatorValues.ui";
 import BoxInformationUI from "./boxInformation.ui";
-import { ICoinPrices } from "../../types/valuationTypes";
 import TopLandsUI from "./topLands.ui";
 import { TopLandsData } from "../../interfaces/heatmap.interface";
-import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
 import { useTheme } from "next-themes";
+import { useAppSelector } from "../../state/hooks";
 
-const coinPrices: ICoinPrices = {
-  decentraland: 0.0456,
-  ethereum: 2897.65,
-  'the-sandbox': 12.34,
-  'axie-infinity': 67.89,
-  'somnium-space-cubes': 0.9876
-};
 
 const tableDataPicks: TopLandsData[] = [
   {
@@ -230,17 +223,18 @@ const globalData = {
 };
 
 export default function HeatmapUI() {
-  const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
+  const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
   const { theme } = useTheme();
-  const filterLands = (metaverse: MetaverseOptionsKey) => {
-    setMetaverseSelected(MetaverseOptions[metaverse]);
+  const coinPrices = useAppSelector(state => state.coinGecko.coins);
+  
+  const filterLands = (metaverse: Metaverses | undefined) => {
+    setMetaverseSelected(metaverse);
   }
 
-
   return (
-    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected === MetaverseOptions.all ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
+    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
       {
-        metaverseSelected === MetaverseOptions.all ?
+        metaverseSelected === undefined ?
           <div >
             <h2 className='text-lm-text dark:text-nm-highlight font-bold text-2xl lg:text-3xl text-center py-8'>
               Choose a Metaverse
@@ -251,7 +245,7 @@ export default function HeatmapUI() {
               <p className='flex text-base font-semibold  text-lm-text dark:text-nm-highlight'>You can have 5 free valuations, after that pro version is needed</p>
             </div>
 
-            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptionsKey) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
+            <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
             <div className="flex justify-center items-center pb-6">
               <Image src={`${theme !== 'dark' ? "/images/icons/magic-store.png" : "/images/icons/dm-magic-store.png"}`} width={196} height={44} alt="magic store" />
             </div>

@@ -1,8 +1,7 @@
 import { AnalyticsChartRoutes } from "../enums/charts";
 import { Currencies } from "../enums/common.enum";
-import { MetaverseOptions, Metaverses } from "../enums/metaverses.enum";
+import { METAVERSE_LABEL, Metaverses } from "../enums/metaverses.enum";
 import { ApiData, ChartInfo } from "../interfaces/charts";
-import {TypedKeys} from "./common.util";
 
 //* Array of tuples representing chart routes and their corresponding chart information.
 export const CHART_ROUTES: Array<[AnalyticsChartRoutes, ChartInfo]> = [
@@ -39,16 +38,16 @@ export const CHART_ROUTES: Array<[AnalyticsChartRoutes, ChartInfo]> = [
 
 //* Array of metaverse filters, each containing metaverse, name, and imageUrl properties.
 export const METAVERSE_FILTERS: Array<{ metaverse: Metaverses, name: string, imageUrl: string }> = [{
-  metaverse: Metaverses.sandbox,
-  name: MetaverseOptions.sandbox,
+  metaverse: Metaverses.SandBox,
+  name: METAVERSE_LABEL.sandbox,
   imageUrl: '/images/the-sandbox-sand-logo.png'
 }, {
-  metaverse: Metaverses.decentraland,
-  name: MetaverseOptions.decentraland,
+  metaverse: Metaverses.Decentraland,
+  name: METAVERSE_LABEL.decentraland,
   imageUrl: '/images/decentraland-mana-logo.png'
 }, {
-  metaverse: Metaverses["somnium-space"],
-  name: MetaverseOptions["somnium-space"],
+  metaverse: Metaverses.SomniumSpace,
+  name: METAVERSE_LABEL["somnium-space"],
   imageUrl: '/images/somnium-space-cube-logo.webp'
 }]
 
@@ -106,8 +105,8 @@ const metaverseColor = {
 } as const;
 
 //* Function to get the color for a specific metaverse based on its name.
-export function getMetaverseColor(inputMetaverse: string) {
-  const metaverseValues = TypedKeys(Metaverses);
+export function getMetaverseColor(inputMetaverse: Metaverses) {
+  const metaverseValues = Object.values(Metaverses);
 
   for (const metaverse of metaverseValues) {
     if (inputMetaverse === metaverse) return metaverseColor[metaverse];
