@@ -1,7 +1,7 @@
 export default function FooterUI() {
   return (
     <div className="px-20 xl:px-36 mt-40 mb-20">
-      <p className="text-nm-dm-remark text-center text-xs">
+      <p className="text-nm-dm-remark dark:text-lm-text-gray text-center text-xs">
         THE HUB DAO does not provide, personalized investment
         recommendations or advisory services. Any information provided
         through the land evaluation tool and others is not, and should

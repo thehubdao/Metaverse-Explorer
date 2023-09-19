@@ -15,7 +15,7 @@ export default function ChartCurrencyFilterSelectorUI({ currencySelected, setCur
         return (
           <button
             key={currency.currency}
-            className={`rounded-lg h-12 bg-lm-fill px-2 ${currencySelected === currency.currency ? 'shadow-hollow-8' : 'shadow-relief-12'}`}
+            className={`rounded-lg h-12 bg-lm-fill dark:bg-nm-dm-fill px-2 ${currencySelected === currency.currency ? 'shadow-hollow-8 dark:shadow-dm-hollow-8' : 'shadow-relief-12 dark:shadow-dm-relief-12'}`}
             onClick={() => { setCurrencySelected(currency.currency) }}
           >{currency.name}</button>
         );

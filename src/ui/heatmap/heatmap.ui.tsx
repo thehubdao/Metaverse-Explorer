@@ -12,6 +12,7 @@ import TopLandsUI from "./topLands.ui";
 import { TopLandsData } from "../../interfaces/heatmap.interface";
 import { MetaverseOptions, MetaverseOptionsKey } from "../../enums/metaverses.enum";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
+import { useTheme } from "next-themes";
 
 const coinPrices: ICoinPrices = {
   decentraland: 0.0456,
@@ -230,28 +231,29 @@ const globalData = {
 
 export default function HeatmapUI() {
   const [metaverseSelected, setMetaverseSelected] = useState(MetaverseOptions.all);
+  const { theme } = useTheme();
   const filterLands = (metaverse: MetaverseOptionsKey) => {
     setMetaverseSelected(MetaverseOptions[metaverse]);
   }
 
 
   return (
-    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected === MetaverseOptions.all ? 'bg-lm-fill' : ''}`}>
+    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected === MetaverseOptions.all ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
       {
         metaverseSelected === MetaverseOptions.all ?
           <div >
-            <h2 className='text-lm-text font-bold text-2xl lg:text-3xl text-center py-8'>
+            <h2 className='text-lm-text dark:text-nm-highlight font-bold text-2xl lg:text-3xl text-center py-8'>
               Choose a Metaverse
             </h2>
 
-            <div className='flex gap-x-2 items-center justify-center bg-nm-gray rounded-[32px] w-fit m-auto py-2 px-24'>
+            <div className='flex gap-x-2 items-center justify-center bg-nm-gray dark:bg-[#232323] rounded-[32px] w-fit m-auto py-2 px-24'>
               <BsExclamationCircleFill className={`text-2xl text-[#6196FF]`} />
-              <p className='flex text-base font-semibold  text-lm-text'>You can have 5 free valuations, after that pro version is needed</p>
+              <p className='flex text-base font-semibold  text-lm-text dark:text-nm-highlight'>You can have 5 free valuations, after that pro version is needed</p>
             </div>
 
             <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: MetaverseOptionsKey) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
             <div className="flex justify-center items-center pb-6">
-              <Image src='/images/icons/magic-store.png' width={196} height={44} alt="magic store" />
+              <Image src={`${theme !== 'dark' ? "/images/icons/magic-store.png" : "/images/icons/dm-magic-store.png"}`} width={196} height={44} alt="magic store" />
             </div>
           </div>
           :
@@ -259,13 +261,13 @@ export default function HeatmapUI() {
             {metaverseSelected &&
               <>
                 <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} floor={globalData.floor} tradingVolume={globalData.tradingVolume} mcap={globalData.mcap} owners={globalData.owners} />
-                <div className="w-full h-[678px] bg-lm-fill rounded-3xl flex justify-center items-center">
-                  <h1 className="text-3xl font-bold">heatmap</h1>
+                <div className="w-full h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex justify-center items-center">
+                  <h1 className="text-3xl font-bold dark:text-nm-highlight">heatmap</h1>
                 </div>
                 <div>
-                  <div className="flex items-center justify-center mt-7">
+                  <div className="flex items-center justify-center mt-7 text-lm-text dark:text-nm-highlight">
                     <div className="flex flex-col justify-center text-center">
-                      <p className="text-lm-text font-bold lg:text-3xl text-2xl text-center">{metaverseSelected} Hot Deals</p>
+                      <p className="font-bold lg:text-3xl text-2xl text-center">{metaverseSelected} Hot Deals</p>
                       <p className="font-medium text-center">Underpriced listings  on offer</p>
                     </div>
                   </div>
@@ -279,15 +281,15 @@ export default function HeatmapUI() {
                     <BoxInformationUI title={"Floor Price:"} prices={coinPrices} />
                     <BoxInformationUI title={"Estimate Accuracy:"} prices={coinPrices} />
                   </div>
-                  <div className="w-[580px] h-[205px] bg-lm-fill rounded-3xl flex flex-col items-center justify-center ml-4">
+                  <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center ml-4">
                     <h1>Graph</h1>
                     <p>coming soon</p>
                   </div>
                 </div>
-                <div className="bg-lm-fill rounded-3xl w-full mt-10 py-10 px-12">
+                <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
                   <TopLandsUI tableData={tableDataPicks} title="Our Top Picks" headers={headersPicks} form={TopLandForm.Picks} />
                 </div>
-                <div className="bg-lm-fill rounded-3xl w-full mt-10 py-10 px-12">
+                <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
                   <TopLandsUI tableData={tableDataSells} title="Our Top Sells" headers={headersSells} form={TopLandForm.Sells} />
                 </div>
               </>

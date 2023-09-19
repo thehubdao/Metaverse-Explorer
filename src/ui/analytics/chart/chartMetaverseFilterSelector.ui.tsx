@@ -31,8 +31,8 @@ export default function ChartMetaverseFilterSelectorUI({ visibleMetaverses, setV
         return (
           <button
             key={item.metaverse}
-            className={`rounded-lg w-12 h-12 bg-lm-fill flex justify-center items-center
-            ${(visibleMetaverses.includes(item.metaverse)) ? 'shadow-hollow-8' : 'shadow-relief-12'}
+            className={`rounded-lg w-12 h-12 bg-lm-fill dark:bg-nm-dm-fill flex justify-center items-center
+            ${(visibleMetaverses.includes(item.metaverse)) ? 'shadow-hollow-8 dark:shadow-dm-hollow-8' : 'shadow-relief-12 dark:shadow-dm-relief-12'}
             transition-all duration-300`}
             onClick={(e) => handleClick(e, item.metaverse)}
           >

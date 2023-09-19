@@ -17,9 +17,8 @@ interface SidebarProps {
 }
 
 export default function NavbarUI({ list, route }: SidebarProps){
-
   return(
-    <nav className="bg-lm-fill row-span-2 h-screen w-[143px] fixed inset-0">
+    <nav className={`bg-lm-fill dark:bg-nm-black row-span-2 h-screen w-[143px] fixed inset-0`}>
       <Link href={"/metaverseexplorer"}>
           <div className="w-full flex justify-center items-center mt-11">
               <Image src="/images/mgh_logo/mgh_logo.svg" width={65} height={61} alt="The Hub Dao logo"/>

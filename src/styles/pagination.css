@@ -1,0 +1,4 @@
+/* this style is for dark mode without using tailwind*/
+.dark-paginator ul li button{
+    color: #F1F5F9;
+}
