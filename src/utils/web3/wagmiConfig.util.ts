@@ -61,7 +61,7 @@ export function GetWagmiConfig() {
 
   const wagmiConfig = createConfig({
     connectors: GetConnectors(chains),
-    autoConnect: true,
+    // autoConnect: true,
     publicClient,
   });
   
