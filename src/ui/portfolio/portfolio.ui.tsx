@@ -8,7 +8,8 @@ import LandsMenuUI from "../common/landsMenu.ui";
 import { ButtonForm } from "../../enums/common.enum";
 import { TypedKeys, ObjectEntries } from "../../utils/common.util";
 import { Metaverses } from "../../enums/metaverses.enum";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { setPortfolioMetaverse } from "../../state/portfolioSlice";
 
 interface PortfolioUIProps {
   allLands: Record<Metaverses, LandListAPIResponse> | undefined;
@@ -16,16 +17,17 @@ interface PortfolioUIProps {
 }
 
 export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) {
-  const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
-  const [isEmpty, setIsEmpty] = useState<boolean>(true);
+  // const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [filteredLands, setFilteredLands] = useState<[Metaverses, LandListAPIResponse][]>([]);
-
+  const metaverseSelected = useAppSelector(state => state.portfolio.metaverseSelected); 
+  const dispatch = useAppDispatch();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const valueWorth = 1.52; //TODO: connect variable from redux portfolio state 
 
   //Filter lands by metaverse selected
   const filterLands = (metaverse: Metaverses | undefined) => {
-    setMetaverseSelected(metaverse);
+    dispatch(setPortfolioMetaverse(metaverse));
     if (allLands !== undefined) {
       let auxLands;
       if (metaverse != undefined)
@@ -48,7 +50,7 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
   }
 
   useEffect(() => {
-    filterLands(undefined);
+    filterLands(metaverseSelected);
   }, [])
 
   return (

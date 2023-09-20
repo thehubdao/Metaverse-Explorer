@@ -1,6 +1,3 @@
-"use client"
-
-import { useState } from "react";
 import { BsExclamationCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import LandsMenuUI from "../common/landsMenu.ui";
@@ -12,7 +9,8 @@ import { TopLandsData } from "../../interfaces/heatmap.interface";
 import { Metaverses } from "../../enums/metaverses.enum";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
 import { useTheme } from "next-themes";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { setHeatmapMetaverse } from "../../state/heatmapSlice";
 
 
 const tableDataPicks: TopLandsData[] = [
@@ -223,12 +221,13 @@ const globalData = {
 };
 
 export default function HeatmapUI() {
-  const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
   const { theme } = useTheme();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
+  const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected); 
   
+  const dispatch = useAppDispatch();
   const filterLands = (metaverse: Metaverses | undefined) => {
-    setMetaverseSelected(metaverse);
+    dispatch(setHeatmapMetaverse(metaverse));
   }
 
   return (

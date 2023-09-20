@@ -8,7 +8,8 @@ import { ButtonForm } from "../../enums/common.enum";
 import SearchLandFormUI from "./searchLandForm.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { ObjectEntries } from "../../utils/common.util";
-import { useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { setWatchlistMetaverse } from "../../state/watchlistSlice";
 
 interface WatchlistUIProps {
   allLands: Record<Metaverses, LandListAPIResponse> | undefined;
@@ -17,14 +18,14 @@ interface WatchlistUIProps {
 
 export default function WatchlistUI({allLands, landsOwned}: WatchlistUIProps) {
   const [filteredLands, setFilteredLands] = useState<[Metaverses, LandListAPIResponse][]>([]);
-  const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
-
+  const metaverseSelected = useAppSelector(state => state.watchlist.metaverseSelected); 
+  const dispatch = useAppDispatch();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const valueWorth = 1.52; //TODO: connect variable from redux watchlist state 
 
   //Filter lands by metaverse selected
   const filterLands = (metaverse: Metaverses | undefined) => {
-    setMetaverseSelected(metaverse);
+    dispatch(setWatchlistMetaverse(metaverse));
     if (allLands !== undefined) {
       let auxLands;
       if (metaverse != undefined)
@@ -37,7 +38,7 @@ export default function WatchlistUI({allLands, landsOwned}: WatchlistUIProps) {
   }
 
   useEffect(() => {
-    filterLands(undefined);
+    filterLands(metaverseSelected);
   }, [])
 
   return (

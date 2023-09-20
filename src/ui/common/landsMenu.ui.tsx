@@ -18,7 +18,7 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
   }
 
   return (
-    <div className={`w-full flex items-center justify-center  py-16 ${isBorder ? "border-b border-nm-remark dark:border-nm-dm-fill" : ""}`}>
+    <div key={metaverse} className={`w-full flex items-center justify-center  py-16 ${isBorder ? "border-b border-nm-remark dark:border-nm-dm-fill" : ""}`}>
       {
         form == ButtonForm.Horizontal ?
           <>
