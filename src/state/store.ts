@@ -4,11 +4,13 @@ import loginReducer from './loginSlice';
 import watchlistReducer from './watchlistSlice';
 import portfolioReducer from "./portfolioSlice";
 import coinGeckoReducer from "./coin-gecko.slice";
+import heatmapReducer from "./heatmapSlice";
 
 const store = configureStore({
   reducer: {
     currency: currencyReducer,
     login: loginReducer,
+    heatmap: heatmapReducer,
     watchlist: watchlistReducer,
     portfolio: portfolioReducer,
     coinGecko: coinGeckoReducer,
