@@ -1,11 +1,18 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
+const nextConfig = {
+	eslint: {
+		dirs: ['src']
+	},
 	reactStrictMode: true,
+	webpack: (config) => {
+		config.externals.push("encoding", "lokijs", "pino-pretty");
+		return config;
+	},
 	async redirects() {
 		return [
 			{
 				source: '/',
-				destination: '/valuation',
+				destination: '/metaverseexplorer',
 				permanent: false,
 			},
 			{
@@ -32,26 +39,21 @@ module.exports = {
 			"openseauserdata.com",
 			'ipfs.io'
 		],
-	},
-	env: {
-		ITRM_SERVICE: process.env.ITRM_SERVICE,
-		SOCKET_SERVICE: process.env.SOCKET_SERVICE,
-		WEB3AUTH_CLIENT_ID: process.env.WEB3AUTH_CLIENT_ID,
-		WALLETCONNECT_PROJECT_ID: process.env.WALLETCONNECT_PROJECT_ID,
-		MLM_BACKEND_URL: process.env.MLM_BACKEND_URL,
-		MLM_CONTRACT_ADDRESS: process.env.MLM_CONTRACT_ADDRESS,
-		BADGES_CONTRACT_ADDRESS: process.env.BADGES_CONTRACT_ADDRESS,
-		CHANNEL_PUSH_ADDRESS: process.env.CHANNEL_PUSH_ADDRESS,
-		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
-		ROLE_CONTRACT_ADDRESS:process.env.ROLE_CONTRACT_ADDRESS,
-		AUTH_SERVICE:process.env.AUTH_SERVICE,
-		ARCANA_CLIENT_ID: process.env.ARCANA_CLIENT_ID
-	},
-	typescript: {
-		// !! WARN !!
-		// Dangerously allow production builds to successfully complete even if
-		// your project has type errors.
-		// !! WARN !!
-		ignoreBuildErrors: true,
-	},
+	}
+	// env: {
+	// 	ITRM_SERVICE: process.env.ITRM_SERVICE,
+	// 	SOCKET_SERVICE: process.env.SOCKET_SERVICE,
+	// 	WEB3AUTH_CLIENT_ID: process.env.WEB3AUTH_CLIENT_ID,
+	// 	WALLETCONNECT_PROJECT_ID: process.env.WALLETCONNECT_PROJECT_ID,
+	// 	MLM_BACKEND_URL: process.env.MLM_BACKEND_URL,
+	// 	MLM_CONTRACT_ADDRESS: process.env.MLM_CONTRACT_ADDRESS,
+	// 	BADGES_CONTRACT_ADDRESS: process.env.BADGES_CONTRACT_ADDRESS,
+	// 	CHANNEL_PUSH_ADDRESS: process.env.CHANNEL_PUSH_ADDRESS,
+	// 	ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
+	// 	ROLE_CONTRACT_ADDRESS:process.env.ROLE_CONTRACT_ADDRESS,
+	// 	AUTH_SERVICE:process.env.AUTH_SERVICE,
+	// 	ARCANA_CLIENT_ID: process.env.ARCANA_CLIENT_ID
+	// }
 };
+
+module.exports = nextConfig;

@@ -1,11 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "components/*": ["./src/app/components/*"],
+      "constants/*": ["./src/app/constants/*"],
+      "enums/*": ["./src/app/enums/*"],
+      "interfaces/*": ["./src/app/interfaces/*"],
+      "types/*": ["./src/app/types/*"],
+      "utils/*": ["./src/app/utils/*"]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -17,7 +25,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",
@@ -29,9 +42,11 @@
     "backend/services/topSellingLands.ts",
     "lib/chatbot/MessageParser.js",
     "lib/chatbot/ActionProvider.js",
-    "lib/chatbot/MessageParser.js"
+    "lib/chatbot/MessageParser.js",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "old"
   ]
 }
