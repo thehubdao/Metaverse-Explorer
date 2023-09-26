@@ -1,209 +1,19 @@
 import { BsExclamationCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import LandsMenuUI from "../common/landsMenu.ui";
-import { ButtonForm, TopLandForm } from "../../enums/common.enum";
+import { ButtonForm } from "../../enums/common.enum";
 import EstimatorValuesUI from "./estimatorValues.ui";
 import BoxInformationUI from "./boxInformation.ui";
 import TopLandsUI from "./topLands.ui";
-import { TopLandsData } from "../../interfaces/heatmap.interface";
 import { Metaverses } from "../../enums/metaverses.enum";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setHeatmapMetaverse } from "../../state/heatmapSlice";
+import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interface";
+import { TopPickLand, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
+import TopSellsLandsUI from "./topSellsLands.ui";
 
-
-const tableDataPicks: TopLandsData[] = [
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-  {
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    coords: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    eth_predicted_price: 2.30,
-    gap: 80,
-  },
-];
-
-const tableDataSells: TopLandsData[] = [
-  {
-    position: 1,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 2,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 3,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 4,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 5,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 6,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 7,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 8,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 9,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  {
-    position: 10,
-    image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-    external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-    asset: "(x:-74, y:20)",
-    current_price_eth: 0.38,
-    buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-    date: "Thu Jan 27 2022",
-  },
-  // {
-  //   position: 11,
-  //   image: "/_next/image?url=https%3A%2F%2Flh3.googleusercontent.com%2FnJ-WwoTE-M-yBAUowoFEQvAGJNcL7WGhwA36nAqgSMXRdYQ2X-Zu6xXGEI6C3d6IiLqFSLkZR4YBCnx_wldNAx9JTu9tBg7r1cFW&w=3840&q=75",
-  //   external_link: "https://opensea.io/assets/ethereum/0xf87e31492faf9a91b02ee0deaad50d51d56d5d4d/115792089237316195423570985008687907828089089513491117743167863057962281992212",
-  //   asset: "(x:-74, y:20)",
-  //   current_price_eth: 0.38,
-  //   buyer: '0x6b9695bab373b5753d018f336a1b89ee27e89c9b',
-  //   date: "Thu Jan 27 2022",
-  // },
-];
 
 const headersPicks = [
   "Land", "Coords", "Current price", "Predicted price", "Gap"
@@ -213,18 +23,17 @@ const headersSells = [
   "Rank", "Asset", "Price", "Buyer", "Purchased"
 ];
 
-const globalData = {
-  floor: 0.084,
-  tradingVolume: 20.475,
-  mcap: 8.834,
-  owners: 4446
-};
 
-export default function HeatmapUI() {
+interface HeatmapUIProps{
+  globalData: MetaverseGlobalData | null;
+  topPicksLands: TopPickLand[] | null;
+  topSellingsLands: TopSellingLand | null;
+}
+
+export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:HeatmapUIProps) {
   const { theme } = useTheme();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected); 
-  
   const dispatch = useAppDispatch();
   const filterLands = (metaverse: Metaverses | undefined) => {
     dispatch(setHeatmapMetaverse(metaverse));
@@ -253,7 +62,7 @@ export default function HeatmapUI() {
           <div>
             {metaverseSelected &&
               <>
-                <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} floor={globalData.floor} tradingVolume={globalData.tradingVolume} mcap={globalData.mcap} owners={globalData.owners} />
+                <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} globalData={globalData} />
                 <div className="w-full h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex justify-center items-center">
                   <h1 className="text-3xl font-bold dark:text-nm-highlight">heatmap</h1>
                 </div>
@@ -280,10 +89,10 @@ export default function HeatmapUI() {
                   </div>
                 </div>
                 <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
-                  <TopLandsUI tableData={tableDataPicks} title="Our Top Picks" headers={headersPicks} form={TopLandForm.Picks} />
+                  <TopLandsUI tableData={topPicksLands} title="Our Top Picks" headers={headersPicks} />
                 </div>
                 <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
-                  <TopLandsUI tableData={tableDataSells} title="Our Top Sells" headers={headersSells} form={TopLandForm.Sells} />
+                  <TopSellsLandsUI tableData={topSellingsLands} title="Our Top Sells" headers={headersSells} />
                 </div>
               </>
             }

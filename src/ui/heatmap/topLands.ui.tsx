@@ -1,43 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Pagination } from "@mui/material";
 import Image from "next/image";
-import { TopLandForm } from "../../enums/common.enum";
-import { TopSellingFilterBy } from "./topSellsFilter.ui";
-import { TopLandsData } from "../../interfaces/heatmap.interface";
-import TopSellsFilterUI from "./topSellsFilter.ui";
 import { useTheme } from "next-themes";
+import { TopPickLand } from "../../interfaces/itrm/val-analytics.interface";
 
 const pageLength = 5;
 
 interface TopLandsProps {
-  tableData: TopLandsData[];
+  tableData: TopPickLand[] | null;
   title: string;
   headers: string[];
-  form: TopLandForm;
 }
 
-export default function TopLandsUI({ tableData, title, headers, form }: TopLandsProps) {
+export default function TopLandsUI({ tableData, title, headers }: TopLandsProps) {
   const [controlPageIndex, setControlPageIndex] = useState<number>(1);
-  const [currentPageData, setCurrentPageData] = useState<TopLandsData[]>(tableData.slice(controlPageIndex - 1, pageLength));
-  const [filterBy, setFilterBy] = useState<TopSellingFilterBy>("totalTop");
+  const [currentPageData, setCurrentPageData] = useState<TopPickLand[] | null>(tableData ? tableData.slice(controlPageIndex - 1, pageLength) : null);
   const { resolvedTheme } = useTheme();
-
-  const numberOfPages = Math.ceil(tableData.length / pageLength);
+  const numberOfPages = Math.ceil((tableData != null ? tableData.length : 0) / pageLength);
 
   const changePage = (newPage: number) => {
     const startIndex = (newPage - 1) * pageLength;
     const endIndex = startIndex + pageLength;
     setControlPageIndex(newPage);
-    setCurrentPageData(tableData.slice(startIndex, endIndex));
+    setCurrentPageData(tableData && tableData.slice(startIndex, endIndex));
   }
+
+  useEffect(() => {
+    if (tableData && tableData?.length > 0) changePage(controlPageIndex);
+  }, [tableData])
 
   return (
     <>
       <div className="flex justify-between">
         <p className="text-lm-text dark:text-nm-fill text-lg font-semibold mb-9">{title}</p>
-        {
-          form === TopLandForm.Sells && <TopSellsFilterUI filterBy={filterBy} setFilterBy={setFilterBy} />
-        }
       </div>
       <table className="w-full table-fixed border-collapse">
         <thead className="w-full">
@@ -50,50 +45,27 @@ export default function TopLandsUI({ tableData, title, headers, form }: TopLands
           </tr>
         </thead>
         <tbody className="flex-col items-center justify-between w-full">
-          {tableData.length > 0 ? (
-            currentPageData.map((item, index) => (
+          {tableData && tableData.length > 0 ? (
+            currentPageData && currentPageData.map((item, index) => (
               <tr key={index} className="flex w-full items-center">
-                {
-                  form === TopLandForm.Sells ?
-                    <>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.position}</td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-around items-center">
-                        <Link key={index} href={item.external_link}>
-                          <div className="relative h-12 w-12 rounded-full">
-                            <Image
-                              src={item.image}
-                              fill
-                              className="rounded-full"
-                              alt="land image"
-                            />
-                          </div>
-                        </Link>
-                        {item.asset}
-                      </td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth}</td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.buyer === "" || item.buyer === undefined ? "anonymous" : item.buyer}</td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.date}</td>
-                    </>
-                    :
-                    <>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">
-                        <Link key={index} href={item.external_link}>
-                          <div className="relative h-12 w-12 rounded-full">
-                            <Image
-                              src={item.image}
-                              fill
-                              className="rounded-full"
-                              alt="land image"
-                            />
-                          </div>
-                        </Link>
-                      </td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.coords}</td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth}</td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.eth_predicted_price}</td>
-                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.gap}%</td>
-                    </>
-                }
+                <>
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">
+                    <Link key={index} href={item.external_link}>
+                      <div className="relative h-12 w-12 rounded-full">
+                        <Image
+                          src={item.images.image_url}
+                          fill
+                          className="rounded-full"
+                          alt="land image"
+                        />
+                      </div>
+                    </Link>
+                  </td>
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{`(x:${item.coords.x}, y:${item.coords.y})`}</td>
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth.toLocaleString()}</td>
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.eth_predicted_price.toLocaleString()}</td>
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.gap.toLocaleString()}%</td>
+                </>
               </tr>
             ))
           ) : (
