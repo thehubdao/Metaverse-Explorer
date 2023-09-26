@@ -1,11 +1,4 @@
-const filterOptions = {
-  yesterdayTop: { title: 'FILTERED BY YESTERDAY', label: '2D' },
-  monthTop: { title: 'FILTERED BY LAST MONTH', label: '1M' },
-  yearTop: { title: 'FILTERED BY LAST YEAR', label: '1Y' },
-  totalTop: { title: '', label: 'Max' },
-};
-
-export type TopSellingFilterBy = keyof typeof filterOptions;
+import { TopSellingFilterBy, filterOptions } from "../../interfaces/itrm/val-analytics.interface";
 
 interface TopSellsFilterUIProps {
   filterBy: TopSellingFilterBy;
