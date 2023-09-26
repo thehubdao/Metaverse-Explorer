@@ -44,3 +44,32 @@ export interface TopPickLand {
   metaverse: string;
   gap: number;
 }
+
+interface TopDate {
+  position?: number;
+  dataTable?: {
+    landId?: string;
+    image?: string;
+    asset?: string;
+    valuation?: number;
+    date?: Date;
+    symbol?: string;
+    external_link?: string;
+  }
+}
+
+export interface TopSellingLand {
+  totalTop: TopDate[];
+  yesterdayTop: TopDate[];
+  monthTop: TopDate[];
+  yearTop: TopDate[];
+}
+
+export const filterOptions = {
+  yesterdayTop: { title: 'FILTERED BY YESTERDAY', label: '2D' },
+  monthTop: { title: 'FILTERED BY LAST MONTH', label: '1M' },
+  yearTop: { title: 'FILTERED BY LAST YEAR', label: '1Y' },
+  totalTop: { title: '', label: 'Max' },
+};
+
+export type TopSellingFilterBy = keyof typeof filterOptions;
