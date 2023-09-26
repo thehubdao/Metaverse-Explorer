@@ -4,7 +4,7 @@ import axios from "axios";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {Result} from "../../types/common.type";
-import {ChartInfo, TopPickLand} from "../../interfaces/itrm/val-analytics.interface";
+import {ChartInfo, TopPickLand, TopSellingLand} from "../../interfaces/itrm/val-analytics.interface";
 
 type ChartRoutes =
   'avgPriceParcel'
@@ -16,7 +16,8 @@ type ChartRoutes =
   | 'maxPrice'
   | 'mCap';
 
-export async function FetchChartData(metaverse: Metaverses, route: ChartRoutes): Promise<Result<ChartInfo[]>> {
+export async function FetchChartData(metaverse: Metaverses | undefined, route: ChartRoutes): Promise<Result<ChartInfo[]>> {
+  if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
   try {
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
 
@@ -29,7 +30,8 @@ export async function FetchChartData(metaverse: Metaverses, route: ChartRoutes):
   }
 }
 
-export async function GetTopLands(metaverse: Metaverses): Promise<Result<TopPickLand[]>> {
+export async function GetTopLands(metaverse: Metaverses | undefined): Promise<Result<TopPickLand[]>> {
+  if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
   try {
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
     
@@ -42,6 +44,24 @@ export async function GetTopLands(metaverse: Metaverses): Promise<Result<TopPick
     return {success: true, value: response.data};
   } catch (err) {
     const msg = "Error while getting TopLands!";
+    LogError(Module.ITRMValAnalytics, msg, err);
+    return {success: false, errMessage: msg};
+  }
+}
+
+export async function GetTopSellingLands(metaverse: Metaverses| undefined): Promise<Result<TopSellingLand>> {
+  try {
+    const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
+
+    const response = await axios.get<TopSellingLand>(`${itrmServiceUrl}/val-analytics/topSellingLands`, {
+      params: {
+        metaverse
+      }
+    });
+
+    return {success: true, value: response.data};
+  } catch (err) {
+    const msg = "Error while getting TopSellingLands!";
     LogError(Module.ITRMValAnalytics, msg, err);
     return {success: false, errMessage: msg};
   }

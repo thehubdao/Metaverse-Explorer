@@ -1,6 +1,6 @@
 ﻿import {Result} from "../../types/common.type";
 import {Raise} from "../common.util";
-import axios from "axios/index";
+import axios from "axios";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {
@@ -43,8 +43,9 @@ interface GlobalDataResponseV2 {
   stats: MetaverseGlobalData;
 }
 
-export async function GetMetaverseGlobalData(metaverse: Metaverses): Promise<Result<MetaverseGlobalData>> {
+export async function GetMetaverseGlobalData(metaverse: Metaverses | undefined): Promise<Result<MetaverseGlobalData>> {
   try {
+    if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
 
     const response = await axios.get<GlobalDataResponseV2>(`${itrmServiceUrl}/mgh/v2/${metaverse}/globalData`);
