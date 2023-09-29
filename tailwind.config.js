@@ -10,6 +10,7 @@ module.exports = {
       fontFamily: {
         'plus': ['var(--jakarta-font)', 'sans-serif'],
         'icons': ['var(--icons-font)', 'sans-serif'],
+        'toogle': ['var(--toogle-font)', 'sans-serif'],
       },
       colors: {
         'bg-mnui': '#6D6D6D',
