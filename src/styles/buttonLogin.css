@@ -32,6 +32,9 @@ button[data-testid="rk-connect-button"] {
   justify-content: center;
   align-items: center;
   box-shadow: 6px 4px 12px 0px #D3D9E6, -6px -4px 12px 0px #FFF;
+  @media (max-width: 1024px) {
+    width: 260px !important;
+  }
 }
 
 .dark-connect button[data-testid="rk-chain-button"]{
@@ -102,4 +105,10 @@ button[data-testid="rk-chain-option-1"],[data-testid="rk-chain-option-137"]{
   .iekbcc0.ju367v11.ju367v15.ju367v1c{
     font-family: theme('fontFamily.plus') !important;
   }
+}
+
+.ju367va{
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
 }
