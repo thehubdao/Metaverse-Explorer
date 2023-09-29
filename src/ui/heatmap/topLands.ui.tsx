@@ -3,6 +3,7 @@ import { Link, Pagination } from "@mui/material";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { TopPickLand } from "../../interfaces/itrm/val-analytics.interface";
+import Tooltip from "@mui/material/Tooltip";
 
 const pageLength = 5;
 
@@ -24,6 +25,7 @@ export default function TopLandsUI({ tableData, title, headers }: TopLandsProps)
     setControlPageIndex(newPage);
     setCurrentPageData(tableData && tableData.slice(startIndex, endIndex));
   }
+  console.log(currentPageData, 'curr daa');
 
   useEffect(() => {
     if (tableData && tableData?.length > 0) changePage(controlPageIndex);
@@ -61,10 +63,27 @@ export default function TopLandsUI({ tableData, title, headers }: TopLandsProps)
                       </div>
                     </Link>
                   </td>
-                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{`(x:${item.coords.x}, y:${item.coords.y})`}</td>
-                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth.toLocaleString()}</td>
-                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.eth_predicted_price.toLocaleString()}</td>
-                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.gap.toLocaleString()}%</td>
+                  {
+                    item.coords ?
+
+                      <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">
+                        <div className="truncate">
+                          {`(x:${item.coords.x}, y:${item.coords.y})`}
+                        </div>
+                      </td>
+                      : item.name ?
+                        <Tooltip title={item.name} placement="top">
+                          <td className="p-4 w-1/5 text-lg rounded-2xl flex">
+                            <div className="truncate">
+                              {item.name}
+                            </div>
+                          </td>
+                        </Tooltip>
+                        : <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">no coords</td>
+                  }
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center truncate">{item.current_price_eth.toLocaleString()}</td>
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center truncate">{item.eth_predicted_price.toLocaleString()}</td>
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center truncate">{item.gap.toLocaleString()}%</td>
                 </>
               </tr>
             ))

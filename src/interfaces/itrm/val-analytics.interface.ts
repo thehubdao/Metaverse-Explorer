@@ -45,7 +45,7 @@ export interface TopPickLand {
   gap: number;
 }
 
-interface TopDate {
+export interface TopDate {
   position?: number;
   dataTable?: {
     landId?: string;

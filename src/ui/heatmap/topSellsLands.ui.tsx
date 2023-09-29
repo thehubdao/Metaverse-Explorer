@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "@mui/material";
 import Image from "next/image";
-import { TopSellingFilterBy, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
+import { TopDate, TopSellingFilterBy, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
 import TopSellsFilterUI from "./topSellsFilter.ui";
+import Tooltip from "@mui/material/Tooltip";
 
 interface TopSellsLandsUIProps {
   tableData: TopSellingLand | null;
@@ -11,28 +12,30 @@ interface TopSellsLandsUIProps {
 }
 
 export default function TopSellsLandsUI({ tableData, title, headers }: TopSellsLandsUIProps) {
-  const [currentPageData, setCurrentPageData] = useState<TopSellingLand | null>(null);
+  const [currentPageData, setCurrentPageData] = useState<TopDate[] | null>(null);
   const [filterBy, setFilterBy] = useState<TopSellingFilterBy>("totalTop");
-
   const filterInfo = (topSells: TopSellingLand | null, filter: TopSellingFilterBy) => {
     if (!topSells) return null;
     switch (filter) {
       case "yesterdayTop":
-        return topSells.yesterdayTop;    
+        return topSells.yesterdayTop;
       case "monthTop":
-        return topSells.monthTop;      
+        return topSells.monthTop;
       case "yearTop":
-        return topSells.yearTop;     
+        return topSells.yearTop;
       case "totalTop":
         return topSells.totalTop;
-        
     }
   };
 
   useEffect(() => {
     if (tableData) {
       const filteredData = filterInfo(tableData, filterBy);
-      setCurrentPageData(filteredData);
+      if (filteredData && filteredData.length > 0) {
+        const result = filteredData.filter(data => data.dataTable)
+        if (result.length > 0) setCurrentPageData(filteredData);
+        else setCurrentPageData(null);
+      }
     }
   }, [tableData, filterBy]);
 
@@ -53,36 +56,38 @@ export default function TopSellsLandsUI({ tableData, title, headers }: TopSellsL
           </tr>
         </thead>
         <tbody className="flex-col items-center justify-between w-full">
-          {tableData ? (
-            <></>
-            // currentPageData && currentPageData.map((item, index) => (
-            //   <tr key={index} className="flex w-full items-center">
-            //     <>
-            //       <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.position}</td>
-            //       <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-around items-center">
-            //         <Link key={index} href={item.external_link}>
-            //           <div className="relative h-12 w-12 rounded-full">
-            //             <Image
-            //               src={item.image}
-            //               fill
-            //               className="rounded-full"
-            //               alt="land image"
-            //             />
-            //           </div>
-            //         </Link>
-            //         {item.asset}
-            //       </td>
-            //       <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.current_price_eth}</td>
-            //       <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.buyer === "" || item.buyer === undefined ? "anonymous" : item.buyer}</td>
-            //       <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.date}</td>
-            //     </>
-            //   </tr>
-            // ))
-          ) : (
+          {currentPageData ? currentPageData.map((item, index) => (
+            <tr key={index} className="flex w-full items-center">
+              <>
+                <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.position}</td>
+                <Tooltip title={item.dataTable?.asset} placement="top">
+                  <td className="p-4 w-1/5 text-lg rounded-2xl flex  items-center">
+                    <Link key={index} href={item.dataTable?.external_link}>
+                      <div className="relative h-12 w-12 rounded-full">
+                        <Image
+                          src={item.dataTable?.image ?? ""}
+                          fill
+                          className="rounded-full"
+                          alt="land image"
+                        />
+                      </div>
+                    </Link>
+                    <div className="truncate pl-2">
+                      {item.dataTable?.asset}
+                    </div>
+                  </td>
+                </Tooltip>
+                <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">not available</td>
+                <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">anonymous</td>
+                <td className="p-4 w-1/5 text-lg rounded-2xl flex justify-center">{item.dataTable?.date?.toString() ?? "no date available"}</td>
+              </>
+            </tr>
+          ))
+            :
             <tr className="w-full h-full flex justify-center items-center">
               <th className="my-20">At this moment we have no top from this metaverse.</th>
             </tr>
-          )}
+          }
         </tbody>
       </table>
     </>
