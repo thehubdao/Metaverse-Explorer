@@ -49,7 +49,7 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
   // }
 
   return (
-    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
+    <div className={`mb-24 mt-10 rounded-2xl px-5 lg:px-0 ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
       {
         metaverseSelected === undefined ?
           <div >
@@ -57,9 +57,9 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
               Choose a Metaverse
             </h2>
 
-            <div className='flex gap-x-2 items-center justify-center bg-nm-gray dark:bg-[#232323] rounded-[32px] w-fit m-auto py-2 px-24'>
+            <div className='flex flex-wrap gap-x-2 items-center justify-center bg-nm-gray dark:bg-[#232323] rounded-[32px] w-fit m-auto py-2 px-10 lg:px-24'>
               <BsExclamationCircleFill className={`text-2xl text-[#6196FF]`} />
-              <p className='flex text-base font-semibold  text-lm-text dark:text-nm-highlight'>You can have 5 free valuations, after that pro version is needed</p>
+              <p className='flex text-base font-semibold  text-lm-text dark:text-nm-highlight text-center md:text-start'>You can have 5 free valuations, after that pro version is needed</p>
             </div>
 
             <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
@@ -88,13 +88,13 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
                     <HotDealsUI metaverseSelected={metaverseSelected} />
                   </div>
                 </div>
-                <div className="mt-10 flex justify-between w-full items-end">
-                  <div className="flex gap-x-4">
+                <div className="mt-10 flex flex-wrap justify-center w-full items-end">
+                  <div className="flex flex-wrap justify-center gap-x-4">
                     <BoxInformationUI title={"Daily Volume:"} prices={coinPrices} />
                     <BoxInformationUI title={"Floor Price:"} prices={coinPrices} />
                     <BoxInformationUI title={"Estimate Accuracy:"} prices={coinPrices} />
                   </div>
-                  <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center ml-4">
+                  <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center my-2 ml-4">
                     <h1>Graph</h1>
                     <p>coming soon</p>
                   </div>

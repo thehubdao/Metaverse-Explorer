@@ -9,8 +9,8 @@ interface EstimatorValuesUIProps {
 
 export default function EstimatorValuesUI({ metaverseSelected, info, globalData }: EstimatorValuesUIProps) {
   return (
-    <div className="flex items-center justify-between py-8 mt-7">
-      <div className="flex flex-col gap-y-3 max-w-[789px] text-lm-text dark:text-nm-highlight">
+    <div className="flex flex-wrap items-center justify-between py-8 mt-7">
+      <div className="flex flex-col gap-y-3 w-full lg:w-1/2 lg:max-w-[789px] text-lm-text dark:text-nm-highlight">
         <div className='flex gap-x-2 items-end'>
           <p className="text-3xl font-semibold leading-none">{metaverseSelected}</p>
         </div>
