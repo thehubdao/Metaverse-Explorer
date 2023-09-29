@@ -46,7 +46,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
   return (
     <>
       <header className={`${isConnected ? "bg-[url('/images/banner.png')] dark:bg-[url('/images/dm-banner.png')]" : ""} hidden lg:block`}  >
-        <div className='mr-16 relative float-right flex'>
+        <div className='mr-16 relative float-right flex items-center'>
           <ConnectButtonUI />
           <DarkModeButtonUI />
         </div>
