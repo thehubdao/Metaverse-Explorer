@@ -22,7 +22,7 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
 
   return (
     <>
-      <div className='h-full px-7'>
+      <div className='h-full px-7 pb-2 md:pb-0'>
         <button onClick={() => setModalOpen(true)}>
           <div className="text-start">
             <div className='w-52  mt-5'>
@@ -39,7 +39,7 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
                 </p>
               </Tooltip>
             </div>
-            <div className="mt-10">
+            <div className="mt-4 md:mt-10">
               <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm my-2">
                 Price Estimation:
               </p>
@@ -48,7 +48,7 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
           </div>
         </button>
         {/* External Links */}
-        <div className='flex flex-col lg:flex-row gap-5 lg:items-center justify-start pt-4'>
+        <div className='flex flex-row gap-5 lg:items-center justify-start pt-4'>
           <Link href={land.market_links?.opensea ?? ''} target='blank'>
             <Image src={`${theme !== 'dark' ? "/images/opensea-logo.png" : "/images/dm-opensea-logo.png"}`} width={20} height={20} alt='openSea' className='grayscale hover:grayscale-0 cursor-pointer' />
           </Link>

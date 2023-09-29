@@ -13,11 +13,11 @@ interface SpecificInformationCardUIProps {
 export default function SpecificInformationCardUI({ land, prices }: SpecificInformationCardUIProps) {
 
   return (
-    <div className='h-full px-7 text-start'>
-      <div className=' mt-5'>
+    <div className='h-full px-7 flex flex-col items-center xl:items-start text-center '>
+      <div className=' mt-2 xl:mt-5'>
         {/* Asset Name */}
         <Tooltip title={land.name} placement='top' arrow>
-          <p className='text-3xl text-lm-text dark:text-nm-fill font-semibold'>
+          <p className='text-xl xl:text-3xl text-lm-text dark:text-nm-fill font-semibold'>
             {land.name}
           </p>
         </Tooltip>
@@ -51,24 +51,24 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
         </div>
       </div>
       <div className="flex flex-wrap">
-        <div className="mt-4 ml-4">
-          <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm my-2">
+        <div className="xl:mt-4 ml-0 xl:ml-4">
+          <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm mb-2">
             Estimated Price:
           </p>
           <PriceListUI prices={prices} form={PriceListForm.Bold}/>
         </div>
-        <div className="mt-4 ml-20">
+        <div className="xl:mt-4 ml-6 xl:ml-20">
           <SpecificPriceListUI prices={prices} />
         </div>
       </div>
-      <div className="w-[461px] h-[155px] bg-lm-fill dark:bg-nm-dm-fill rounded-xl shadow-relief-12 dark:shadow-dm-relief-12 flex items-center justify-center mt-4">
+      <div className="w-[250px] xl:w-[461px] h-[100px] xl:h-[155px] bg-lm-fill dark:bg-nm-dm-fill rounded-xl shadow-relief-12 dark:shadow-dm-relief-12 hidden xl:flex items-center justify-center mt-4">
         <p>historical estimated price</p>
       </div>
       {/* External Links */}
       <div className='flex flex-wrap mt-3'>
         <div>
           <p className="text-base text-nm-dm-remark dark:text-nm-fill font-normal">Find land on:</p>
-          <div className="grid grid-cols-4 items-center my-2">
+          <div className="flex flex-wrap  justify-center xl:grid xl:grid-cols-4 items-center xl:my-2">
             <ExternalLinkUI text="Sandbox" icon='/images/somnium-space-logo.png' externalLink={''} />
             <ExternalLinkUI text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={land.market_links?.opensea ?? ''} />
             <ExternalLinkUI text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={land.market_links?.X2Y2 ?? ''} />
@@ -76,7 +76,7 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
           </div>
         </div>
       </div>
-      <div className="w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill flex items-center justify-center mt-3 shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 transition-all duration-300 cursor-pointer">
+      <div className="w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill flex items-center justify-center xl:mt-3 shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 transition-all duration-300 cursor-pointer mb-4">
         <p className="uppercase text-lm-text dark:text-nm-fill font-bold text-sm">Add to Watchlist</p>
       </div>
     </div>

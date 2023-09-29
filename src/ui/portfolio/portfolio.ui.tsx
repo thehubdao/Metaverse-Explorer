@@ -53,19 +53,19 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
 
   return (
     <>
-      <div className="flex justify-between mt-10">
-        <div className="flex flex-col space-y-3 max-w-2xl text-lm-text dark:text-nm-fill">
+      <div className="w-full flex flex-wrap justify-between mt-10">
+        <div className="flex flex-col space-y-3 w-full xl:max-w-[60%] text-lm-text dark:text-nm-fill mb-3">
           <p className="text-2xl font-semibold">Description</p>
           <p className="text-sm mt-5">The HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of the Sandbox Map and get insights about current price trends. The valuations are updated at a daily basis.</p>
         </div>
-        <div className="flex space-x-4 w-full items-stretch justify-end">
-          <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill dark:bg-nm-black dark:shadow-dm-relief-12">
-            <p className=" font-extrabold text-3xl">{landsOwned}</p>
-            <p className="text-sm font-bold dark:text-lm-text-gray mt-6">Total LANDs owned</p>
+        <div className="flex gap-4 w-full xl:max-w-[40%] items-stretch justify-center xl:justify-end">
+          <div className="flex flex-col w-48 h-24 lg:h-52 items-center justify-center rounded-xl bg-nm-fill dark:bg-nm-black dark:shadow-dm-relief-12">
+            <p className=" font-extrabold text-xl lg:text-3xl">{landsOwned}</p>
+            <p className="text-sm font-bold dark:text-lm-text-gray mt-2 lg:mt-6">Total LANDs owned</p>
           </div>
-          <div className="flex flex-col w-48 h-52 items-center justify-center rounded-xl bg-nm-fill dark:bg-nm-black dark:shadow-dm-relief-12">
-            <p className=" font-extrabold text-3xl">{valueWorth} ETH</p>
-            <p className="text-sm font-bold dark:text-lm-text-gray mt-6">Total Value worth</p>
+          <div className="flex flex-col w-48 h-24 lg:h-52 items-center justify-center rounded-xl bg-nm-fill dark:bg-nm-black dark:shadow-dm-relief-12">
+            <p className=" font-extrabold text-xl lg:text-3xl">{valueWorth} ETH</p>
+            <p className="text-sm font-bold dark:text-lm-text-gray mt-2 lg:mt-6">Total Value worth</p>
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
             <NolandsUI />
             :
             <div>
-              <div className=" mb-24 flex flex-wrap w-full justify-between">
+              <div className=" mb-24 flex flex-wrap w-full justify-around 2xl:justify-between">
                 <LandCardListUI lands={filteredLands} prices={coinPrices} />
               </div>
             </div>

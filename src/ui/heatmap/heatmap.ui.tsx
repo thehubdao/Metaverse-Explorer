@@ -226,13 +226,13 @@ export default function HeatmapUI() {
   const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
   const { theme } = useTheme();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
-  
+
   const filterLands = (metaverse: Metaverses | undefined) => {
     setMetaverseSelected(metaverse);
   }
 
   return (
-    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
+    <div className={`mb-24 mt-10 rounded-2xl px-5 lg:px-0 ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
       {
         metaverseSelected === undefined ?
           <div >
@@ -240,9 +240,9 @@ export default function HeatmapUI() {
               Choose a Metaverse
             </h2>
 
-            <div className='flex gap-x-2 items-center justify-center bg-nm-gray dark:bg-[#232323] rounded-[32px] w-fit m-auto py-2 px-24'>
+            <div className='flex flex-wrap gap-x-2 items-center justify-center bg-nm-gray dark:bg-[#232323] rounded-[32px] w-fit m-auto py-2 px-10 lg:px-24'>
               <BsExclamationCircleFill className={`text-2xl text-[#6196FF]`} />
-              <p className='flex text-base font-semibold  text-lm-text dark:text-nm-highlight'>You can have 5 free valuations, after that pro version is needed</p>
+              <p className='flex text-base font-semibold  text-lm-text dark:text-nm-highlight text-center md:text-start'>You can have 5 free valuations, after that pro version is needed</p>
             </div>
 
             <LandsMenuUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} form={ButtonForm.Vertical} isBorder={false} />
@@ -255,8 +255,9 @@ export default function HeatmapUI() {
             {metaverseSelected &&
               <>
                 <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} floor={globalData.floor} tradingVolume={globalData.tradingVolume} mcap={globalData.mcap} owners={globalData.owners} />
-                <div className="w-full h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex justify-center items-center">
-                  <h1 className="text-3xl font-bold dark:text-nm-highlight">heatmap</h1>
+                <div className="w-full h-[200px] lg:h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex text-center justify-center items-center px-3">
+                  <h1 className="text-3xl font-bold dark:text-nm-highlight hidden lg:block">heatmap</h1>
+                  <h1 className="text-xl font-bold dark:text-nm-highlight block lg:hidden">To use heatmap go to desktop version</h1>
                 </div>
                 <div>
                   <div className="flex items-center justify-center mt-7 text-lm-text dark:text-nm-highlight">
@@ -269,23 +270,23 @@ export default function HeatmapUI() {
                     <HotDealsUI metaverseSelected={metaverseSelected} />
                   </div>
                 </div>
-                <div className="mt-10 flex justify-between w-full items-end">
-                  <div className="flex gap-x-4">
+                <div className="mt-10 flex flex-wrap justify-center w-full items-end">
+                  <div className="flex flex-wrap justify-center gap-x-4">
                     <BoxInformationUI title={"Daily Volume:"} prices={coinPrices} />
                     <BoxInformationUI title={"Floor Price:"} prices={coinPrices} />
                     <BoxInformationUI title={"Estimate Accuracy:"} prices={coinPrices} />
                   </div>
-                  <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center ml-4">
+                  <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center my-2 ml-4">
                     <h1>Graph</h1>
                     <p>coming soon</p>
                   </div>
                 </div>
-                <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
+                {/* <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
                   <TopLandsUI tableData={tableDataPicks} title="Our Top Picks" headers={headersPicks} form={TopLandForm.Picks} />
                 </div>
                 <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
                   <TopLandsUI tableData={tableDataSells} title="Our Top Sells" headers={headersSells} form={TopLandForm.Sells} />
-                </div>
+                </div> */}
               </>
             }
           </div>

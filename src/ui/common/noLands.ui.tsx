@@ -11,7 +11,7 @@ export default function NolandsUI() {
         height={131}
         alt="the hub dao logo"
       />
-      <p className='text-nm-dm-remark dark:text-lm-text-gray font-light text-2xl pt-6'>you have no LANDs on this metaverse</p>
+      <p className='text-nm-dm-remark dark:text-lm-text-gray font-light text-2xl pt-6 text-center'>you have no LANDs on this metaverse</p>
       <BuyButtonUI />
     </div>
   )

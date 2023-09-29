@@ -17,18 +17,16 @@ export default function SearchByIdUI(props: SearchByIdUIProps) {
   }, []);
   
   return (
-    <div className="flex">
-      <div>
+    <div className="flex flex-col sm:flex-row">
         <input
           type="number"
           placeholder="Token ID"
           value={tokenId}
-          className="shadow-hollow-2 rounded-2xl text-center w-[352px] h-[63px] bg-nm-highlight dark:bg-nm-black dark:shadow-dm-hollow-8"
+          className="shadow-hollow-2 rounded-2xl text-center w-[230px] lg:w-[352px] h-[63px] bg-nm-highlight dark:bg-nm-black dark:shadow-dm-hollow-8"
           min={0}
           onChange={(event) => setTokenId(event.target.value)}
         />
-      </div>
-      <div className="pl-6">
+      <div className="sm:pl-6 pt-5 sm:pt-0">
         <AddLandButtonUI/>
       </div>
     </div>
