@@ -15,26 +15,26 @@ export default function HeatmapComponent() {
   const [topSellings, setTopSellings] = useState<TopSellingLand | null>(null);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
   const [globalData, setglobalData] = useState<MetaverseGlobalData | null>(null);
-
-  useEffect(() => {
-    const fetch = async () => {
-      try{
-        const globalData = await GetMetaverseGlobalData(metaverseSelected);
-        if (globalData.success) {
-          setglobalData(globalData.value);
-        }
-        const topLands = await GetTopLands(metaverseSelected);
-        if (topLands.success) {
-          setPicks(topLands.value);
-        }
-        const topSellings = await GetTopSellingLands(metaverseSelected);
-        if (topSellings.success) {
-          setTopSellings(topSellings.value)
-        }
-      }catch (err) {
-        console.error(err);
+  const fetch = async () => {
+    try{
+      const globalData = await GetMetaverseGlobalData(metaverseSelected);
+      if (globalData.success) {
+        setglobalData(globalData.value);
       }
+      const topLands = await GetTopLands(metaverseSelected);
+      if (topLands.success) {
+        setPicks(topLands.value);
+      }
+      const topSellings = await GetTopSellingLands(metaverseSelected);
+      if (topSellings.success) {
+        setTopSellings(topSellings.value)
+      }
+    }catch (err) {
+      console.error(err);
     }
+  }
+  
+  useEffect(() => {
     void fetch();
   }, [metaverseSelected]);
 
