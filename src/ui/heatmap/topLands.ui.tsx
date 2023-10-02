@@ -25,7 +25,6 @@ export default function TopLandsUI({ tableData, title, headers }: TopLandsProps)
     setControlPageIndex(newPage);
     setCurrentPageData(tableData && tableData.slice(startIndex, endIndex));
   }
-  console.log(currentPageData, 'curr daa');
 
   useEffect(() => {
     if (tableData && tableData?.length > 0) changePage(controlPageIndex);
