@@ -13,40 +13,38 @@ export default function HeatmapComponent() {
   const isConnected = useAppSelector(state => state.login.connected);
   const [picks, setPicks] = useState<TopPickLand[]>([]);
   const [topSellings, setTopSellings] = useState<TopSellingLand | null>(null);
-  const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected); 
+  const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
   const [globalData, setglobalData] = useState<MetaverseGlobalData | null>(null);
-  
+
   useEffect(() => {
-    async function fetchMetaverseGlobalData() {
-      const result = await GetMetaverseGlobalData(metaverseSelected);
-      if (result.success) {
-        setglobalData(result.value);
+    const fetch = async () => {
+      try{
+        const globalData = await GetMetaverseGlobalData(metaverseSelected);
+        if (globalData.success) {
+          setglobalData(globalData.value);
+        }
+        const topLands = await GetTopLands(metaverseSelected);
+        if (topLands.success) {
+          setPicks(topLands.value);
+        }
+        const topSellings = await GetTopSellingLands(metaverseSelected);
+        if (topSellings.success) {
+          setTopSellings(topSellings.value)
+        }
+      }catch (err) {
+        console.error(err);
       }
     }
-    async function fetchTopLands() {
-      const result = await GetTopLands(metaverseSelected);
-      if (result.success){
-        setPicks(result.value);
-      }
-    }
-    async function fetchChartDataLands() {
-      const result = await GetTopSellingLands(metaverseSelected);
-      if (result.success){
-        setTopSellings(result.value)
-      }
-      
-    }
-    fetchMetaverseGlobalData().catch(err => console.error(err));
-    fetchTopLands().catch(err => console.error(err));
-    fetchChartDataLands().catch(err => console.error(err));
+    void fetch();
   }, [metaverseSelected]);
+
   return (
     <>
-      {!isConnected ?
+      {!isConnected ? 
         <IsLoginUI message="Please log in to use the valuation tool" />
-        :
-        <HeatmapUI globalData={globalData} topPicksLands={picks} topSellingsLands={topSellings}/>
+      : 
+        <HeatmapUI globalData={globalData} topPicksLands={picks} topSellingsLands={topSellings} />
       }
     </>
-  )
+  );
 }
