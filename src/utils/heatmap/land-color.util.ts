@@ -1,6 +1,5 @@
 ﻿import {LandType} from "../../types/heatmap/land.type";
 import {LandBorderTexture} from "../../enums/heatmap/land.enum";
-import {IsLandDecentraland, IsLandSandBox} from "./land.util";
 import {DecentralandApiColor, FilterColor, LegendColor} from "../../enums/valuation.enum";
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
@@ -9,9 +8,10 @@ import {PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {DECENTRALAND_API_COLORS, FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
 import {LandDecentraland} from "../../interfaces/land.interface";
+import {Metaverses} from "../../enums/metaverses.enum";
 
 export function GetLandBorder(land: LandType): LandBorderTexture | undefined {
-  if (!IsLandDecentraland(land))
+  if (land.metaverse !== Metaverses.Decentraland)
     return LandBorderTexture.FullBorderDead;
 
   const {top, left, topLeft} = land.tile;
@@ -43,7 +43,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
                                      percentFilter: PercentFilter,
                                      legendFilter: LegendFilter | undefined,
                                      land: LandType): FilteredLayer {
-  if (IsLandDecentraland(land) && [5, 6, 7, 8, 12].some(x => x === land.tile.type)) {
+  if (land.metaverse === Metaverses.Decentraland && [5, 6, 7, 8, 12].some(x => x === land.tile.type)) {
     return DecentralandAPILayer(land);
   }
 
@@ -66,7 +66,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
       
       break;
     case LegendFilter.PremiumLands:
-      if (IsLandSandBox(land) && land.land_type === 1)
+      if (land.metaverse === Metaverses.SandBox && land.land_type === 1)
         color = LegendColor.PremiumLands
       else
         color = FilterColor.Gray
@@ -109,10 +109,10 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
           scale = SCALE_OPTIONS.mid;
         } else if (land.current_price_eth > 0) {
           color = LegendColor.OnSale;
-        } else if (IsLandSandBox(land) && land.land_type == 1) {
+        } else if (land.metaverse === Metaverses.SandBox && land.land_type == 1) {
           color = LegendColor.PremiumLands;
         } else {
-          color = IsLandDecentraland(land) && land.tile.type > -1
+          color = land.metaverse === Metaverses.Decentraland && land.tile.type > -1
             ? '#19202A'
             : '#7EFDE4';
         }
