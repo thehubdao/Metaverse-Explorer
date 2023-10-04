@@ -6,3 +6,7 @@
   FillBorder = 'fill_border.png',
   FullBorderDead = 'full_border_dead.png',
 }
+
+export const enum LandColor {
+  SandboxDeadLand = '#2d4162',
+}
