@@ -16,33 +16,33 @@ export default function EstimatorValuesUI({ metaverseSelected, info, globalData 
         </div>
         <p className="text-base font-normal">{info}</p>
       </div>
-      <div className="flex gap-x-8 items-center justify-evenly max-w-2xl">
-        <div className="flex flex-col gap-y-1 items-center">
-          <p className="font-bold text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
+      <div className="flex flex-wrap gap-x-8 items-center justify-evenly w-full lg:w-1/2 lg:max-w-2xl">
+        <div className="flex flex-col gap-y-1 items-center my-2">
+          <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
             {globalData?.floor_price !== undefined ? globalData.floor_price.toLocaleString() : ''}
             {' ETH'}
           </p>
-          <p className="text-sm font-bold text-lm-text-gray">FLOOR</p>
+          <p className="text-xs lg:text-sm font-bold text-lm-text-gray">FLOOR</p>
         </div>
-        <div className="flex flex-col gap-y-1 items-center">
-          <p className="font-bold text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
+        <div className="flex flex-col gap-y-1 items-center my-2">
+          <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
             {globalData?.total_volume !== undefined ? Math.round(globalData.total_volume).toLocaleString() : ''}
             {' ETH'}
           </p>
-          <p className="text-sm font-bold text-lm-text-gray">TRADING VOLUME</p>
+          <p className="text-xs lg:text-sm font-bold text-lm-text-gray">TRADING VOLUME</p>
         </div>
-        <div className="flex flex-col gap-y-1 items-center">
-          <p className="font-bold text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
+        <div className="flex flex-col gap-y-1 items-center my-2">
+          <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
             {globalData?.market_cap !== undefined ? Math.round(globalData.market_cap).toLocaleString() : ''}
             {' ETH'}
           </p>
-          <p className="text-sm font-bold text-lm-text-gray">MCAP</p>
+          <p className="text-xs lg:text-sm font-bold text-lm-text-gray">MCAP</p>
         </div>
-        <div className="flex flex-col gap-y-1 items-center">
-          <p className="font-bold text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
+        <div className="flex flex-col gap-y-1 items-center my-2">
+          <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
             {globalData?.num_owners !== undefined ? globalData.num_owners.toLocaleString() : ''}
           </p>
-          <p className="text-sm font-bold text-lm-text-gray">OWNERS</p>
+          <p className="text-xs lg:text-sm font-bold text-lm-text-gray">OWNERS</p>
         </div>
       </div>
     </div>
