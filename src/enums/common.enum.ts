@@ -8,11 +8,6 @@ export const enum PriceListForm {
   Bold = 'bold'
 }
 
-export const enum TopLandForm{
-  Picks = 'picks',
-  Sells ='sells'
-}
-
 export enum Currencies {
   Ethereum = 'eth',
   USDCoin = 'usdc'

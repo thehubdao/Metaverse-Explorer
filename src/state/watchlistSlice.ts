@@ -1,19 +1,21 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { TokenData } from "../interfaces/common.interface";
 import { Metaverses } from "../enums/metaverses.enum";
 import { LandListAPIResponse } from "../types/valuationTypes";
 
 interface IState {
-  list: Record<Metaverses, LandListAPIResponse> | undefined,
-  isLoading: boolean,
-  error: string | undefined
+  list: Record<Metaverses, LandListAPIResponse> | undefined;
+  isLoading: boolean;
+  error: string | undefined;
+  metaverseSelected: Metaverses | undefined;
 }
 
 const initialState: IState = {
   list: undefined,
   isLoading: false,
-  error: undefined
+  error: undefined,
+  metaverseSelected: undefined
 }
 
 export const fetchWatchlist = createAsyncThunk(
@@ -35,7 +37,12 @@ export const fetchWatchlist = createAsyncThunk(
 export const watchlist = createSlice({
   name: 'watchlist',
   initialState,
-  reducers: {},
+  reducers: {
+    setWatchlistMetaverse(state, action:PayloadAction<Metaverses | undefined>) {
+      state.metaverseSelected = action.payload;
+  },
+  cleanWatchlistMetaverse: (state) => state.metaverseSelected = undefined
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchWatchlist.pending, (state) => {
       state.isLoading = true;
@@ -50,5 +57,7 @@ export const watchlist = createSlice({
     });
   }
 })
+
+export const { setWatchlistMetaverse, cleanWatchlistMetaverse } = watchlist.actions
 
 export default watchlist.reducer;

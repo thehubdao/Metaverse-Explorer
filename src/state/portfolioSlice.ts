@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { ethers } from "ethers";
 import { getAddress } from 'ethers/lib/utils'
 import { getUserNFTs } from "../lib/nftUtils";
@@ -12,17 +12,18 @@ import { LandListAPIResponse } from "../types/valuationTypes";
 import { Metaverses } from "../enums/metaverses.enum";
 
 interface TotalWorth {
-    ethPrediction: number
-    usdPrediction: number
+    ethPrediction: number;
+    usdPrediction: number;
 }
 
 interface IState {
     list: Record<Metaverses, LandListAPIResponse> | undefined,
-    isLoading: boolean,
-    error: string | undefined,
-    length: number | undefined,
-    totalWorth: TotalWorth | undefined
-    currentAddress: string | undefined
+    isLoading: boolean;
+    error: string | undefined;
+    length: number | undefined;
+    totalWorth: TotalWorth | undefined;
+    currentAddress: string | undefined;
+    metaverseSelected: Metaverses | undefined;
 }
 
 const initialState: IState = {
@@ -31,7 +32,8 @@ const initialState: IState = {
     length: 0,
     error: undefined,
     totalWorth: undefined,
-    currentAddress: undefined
+    currentAddress: undefined,
+    metaverseSelected: undefined
 }
 
 const formatAddress = (address: string) => {
@@ -133,7 +135,12 @@ export const fetchPortfolio = createAsyncThunk(
 export const portfolio = createSlice({
     name: 'portfolio',
     initialState,
-    reducers: {},
+    reducers: {
+        setPortfolioMetaverse(state, action:PayloadAction<Metaverses | undefined>) {
+            state.metaverseSelected = action.payload;
+        },
+        cleanPortfolioMetaverse: (state) => state.metaverseSelected = undefined
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchPortfolio.pending, (state) => {
             state.isLoading = true;
@@ -151,5 +158,7 @@ export const portfolio = createSlice({
         });
     }
 })
+
+export const { setPortfolioMetaverse, cleanPortfolioMetaverse } = portfolio.actions
 
 export default portfolio.reducer;
