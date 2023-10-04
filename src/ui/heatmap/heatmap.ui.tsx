@@ -94,7 +94,7 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
                     <BoxInformationUI title={"Floor Price:"} prices={coinPrices} />
                     <BoxInformationUI title={"Estimate Accuracy:"} prices={coinPrices} />
                   </div>
-                  <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center my-2 ml-4">
+                  <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center my-2 2xl:ml-4">
                     <h1>Graph</h1>
                     <p>coming soon</p>
                   </div>
