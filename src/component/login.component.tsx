@@ -10,6 +10,8 @@ import {useToken} from '../backend/useToken';
 import {fetchWatchlist} from '../state/watchlistSlice';
 import {fetchPortfolio} from '../state/portfolioSlice';
 import {AuthConnect} from "../utils/itrm/auth.util";
+import {LogError} from "../utils/logging.util";
+import {Module} from "../enums/logging.enum";
 
 
 let didSignerSet = false;
@@ -45,10 +47,9 @@ export function Login() {
   }, [address, dispatch, isConnected])
 
   const initAuth = useCallback(async () => {
-    console.log("WalletClient: ", walletClient);
     const client = await getWalletClient();
-    // TODO: add error control
-    if (client == null) return;
+    if (client == null)
+      return LogError(Module.LoginComponent, "Missing Wallet client!");
     
     const tokenData = await AuthConnect(client);
     if (!tokenData.success)

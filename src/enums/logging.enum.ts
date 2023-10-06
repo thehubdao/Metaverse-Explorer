@@ -13,4 +13,5 @@
   ITRMValAnalytics = "ValAnalyticsUtil",
   ITRMLandValuation = "LandValuationUtil",
   ITRMAuth = "AuthUtil",
+  LoginComponent = "LoginComponent",
 }
