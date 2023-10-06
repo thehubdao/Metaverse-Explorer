@@ -290,7 +290,7 @@ export default function Heatmap2D({
       onClickLand(landRectangle);
     });
     
-    rectangle.on("mouseenter", (e) => {
+    rectangle.on("mouseenter", () => {
       rectangle.tint = LandColor.Highlight;
     });
     

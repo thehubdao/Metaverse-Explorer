@@ -50,7 +50,7 @@ class LandSocket {
   }
 }
 
-export function InitLandSocket(onConnect: () => void) {
+export function InitLandSocket(onConnect: LandSocketFunction) {
   const socket = LandSocket.Instance().Socket();
   if (socket == undefined)
     return void LogError(Module.LandSocket, "Error initializing Socket!");
@@ -62,8 +62,10 @@ export function InitLandSocket(onConnect: () => void) {
   SetPingPong(socket);
 }
 
-function SetOnOpen(socket: WebSocket, callback: () => void) {
-  socket.onopen = callback;
+function SetOnOpen(socket: WebSocket, callback: LandSocketFunction) {
+  socket.onopen = () => {
+    void callback();
+  };
 }
 
 function SetOnError(socket: WebSocket) {
