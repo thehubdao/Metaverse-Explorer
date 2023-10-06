@@ -8,9 +8,9 @@ import {GetWagmiConfig} from "../utils/web3/wagmiConfig.util";
 
 const _providerData = GetWagmiConfig();
 
-type WagmiProviderProps = {
+interface WagmiProviderProps {
   children: ReactNode;
-};
+}
 
 export default function WagmiProvider({ children }: WagmiProviderProps) {
   return (

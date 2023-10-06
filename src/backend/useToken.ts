@@ -2,7 +2,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 import { configure } from 'axios-hooks';
 import { useCallback, useEffect, useRef } from "react";
 import { useTokenExpiration } from "./useTokenExpiration";
-import { TokenData } from "../interfaces/common.interface";
+import {TokenData} from "../interfaces/itrm/auth.interface";
 
 const REQ_URL = `${process.env.NEXT_PUBLIC_AUTH_SERVICE ?? ""}/authService/`;
 
