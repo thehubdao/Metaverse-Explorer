@@ -27,7 +27,7 @@ const headersSells = [
 ];
 
 
-interface HeatmapUIProps{
+interface HeatmapUIProps {
   globalData: MetaverseGlobalData | null;
   topPicksLands: TopPickLand[] | null;
   topSellingsLands: TopSellingLand | null;
@@ -38,7 +38,7 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
   
   const { theme } = useTheme();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
-  const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected); 
+  const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
   const dispatch = useAppDispatch();
   const filterLands = (metaverse: Metaverses | undefined) => {
     dispatch(setHeatmapMetaverse(metaverse));
@@ -49,7 +49,7 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
   // }
 
   return (
-    <div className={`mb-24 mt-10 rounded-2xl px-5 lg:px-0 ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
+    <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
       {
         metaverseSelected === undefined ?
           <div >
@@ -99,12 +99,8 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
                     <p>coming soon</p>
                   </div>
                 </div>
-                <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
-                  <TopLandsUI tableData={topPicksLands} title="Our Top Picks" headers={headersPicks} />
-                </div>
-                <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full mt-10 py-10 px-12">
-                  <TopSellsLandsUI tableData={topSellingsLands} title="Our Top Sells" headers={headersSells} />
-                </div>
+                <TopLandsUI tableData={topPicksLands} title="Our Top Picks" headers={headersPicks} />
+                <TopSellsLandsUI tableData={topSellingsLands} title="Our Top Sells" headers={headersSells} />
               </>
             }
           </div>
