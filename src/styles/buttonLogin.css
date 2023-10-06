@@ -1,3 +1,5 @@
+@tailwind components;
+
 /* these styles are for the login button without using tailwind */
 button[data-testid="rk-connect-button"]::before {
   content: "";
@@ -9,15 +11,30 @@ button[data-testid="rk-connect-button"]::before {
   margin-right: 8px; 
 }
 
-.dark-connect button[data-testid="rk-connect-button"]::before {
-  background-image: url('/images/icons/dm-wallet.svg'); 
+@layer components{
+  .dark-connect button[data-testid="rk-connect-button"]::before {
+    background-image: url('/images/icons/dm-wallet.svg'); 
+  }
+  
+  .dark-connect button[data-testid="rk-connect-button"]{
+    background-color: #1B1B1D !important;
+    color: #F1F5F9 !important ;
+    box-shadow: 4px 4px 15px #06080B, -0.5px -0.5px 1px rgba(206, 232, 255, 0.25);
+  }
+
+  .dark-connect button[data-testid="rk-account-button"]{
+    .iekbcc0.ju367v70.ju367v7l.ju367v85.ju367v6e.ju367v9x.ju367vcf.ju367vn.ju367vt.ju367vw.ju367vfo.ju367v11.ju367v1c.ju367v8o{
+      background-color: #1B1B1D !important;
+      color: #F1F5F9 !important ;
+    }
+  }
+
+  .dark-connect button[data-testid="rk-chain-button"]{
+    background-color: #1B1B1D !important;
+    color: #F1F5F9 !important ;
+  }
 }
 
-.dark-connect button[data-testid="rk-connect-button"]{
-  background-color: #1B1B1D !important;
-  color: #F1F5F9 !important ;
-  box-shadow: 4px 4px 15px #06080B, -0.5px -0.5px 1px rgba(206, 232, 255, 0.25);
-}
 
 button[data-testid="rk-connect-button"] {
   width: 290px;
@@ -37,10 +54,6 @@ button[data-testid="rk-connect-button"] {
   }
 }
 
-.dark-connect button[data-testid="rk-chain-button"]{
-  background-color: #1B1B1D !important;
-  color: #F1F5F9 !important ;
-}
 
 button[data-testid="rk-chain-button"] {
   width: auto;
@@ -61,12 +74,7 @@ button[data-testid="rk-chain-button"] {
   }
 }
 
-.dark-connect button[data-testid="rk-account-button"]{
-  .iekbcc0.ju367v70.ju367v7l.ju367v85.ju367v6e.ju367v9x.ju367vcf.ju367vn.ju367vt.ju367vw.ju367vfo.ju367v11.ju367v1c.ju367v8o{
-    background-color: #1B1B1D !important;
-    color: #F1F5F9 !important ;
-  }
-}
+
 
 button[data-testid="rk-account-button"] {  
   .iekbcc0.ju367v70.ju367v7l.ju367v85.ju367v6e.ju367v9x.ju367vcf.ju367vn.ju367vt.ju367vw.ju367vfo.ju367v11.ju367v1c.ju367v8o{
