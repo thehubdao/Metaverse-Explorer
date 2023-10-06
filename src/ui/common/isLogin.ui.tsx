@@ -13,7 +13,7 @@ export default function IsLoginUI({ message }: IsLoginUIPros) {
       height={131}
       alt="the hub dao logo"
     />
-    <p className='text-nm-dm-remark dark:text-nm-highlight font-semibold text-xl lg:text-2xl pt-6 px-5'>{message}</p>
+    <p className='text-nm-dm-remark dark:text-nm-highlight font-semibold text-xl lg:text-2xl py-6 px-5'>{message}</p>
     <ConnectButtonUI />
   </div>
   )
