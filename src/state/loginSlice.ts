@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TokenData } from "../interfaces/common.interface";
+import {TokenData} from "../interfaces/itrm/auth.interface";
 
 interface LoginState {
     connected: boolean
