@@ -1,62 +1,60 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from 'react'
+import {useState, useEffect, useCallback} from 'react';
+import {useAppDispatch, useAppSelector} from '../state/hooks';
+import {connect, disconnect, setAccountToken, setAddress} from "../state/loginSlice";
+import {ConnectButton} from '@rainbow-me/rainbowkit';
+import {useAccount, useWalletClient} from 'wagmi';
+import {getWalletClient} from 'wagmi/actions';
+import {useToken} from '../backend/useToken';
+import {fetchWatchlist} from '../state/watchlistSlice';
+import {fetchPortfolio} from '../state/portfolioSlice';
+import {AuthConnect} from "../utils/itrm/auth.util";
 
-import { useAppDispatch, useAppSelector } from '../state/hooks'
-
-import * as loginActions from '../state/loginSlice'
-
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useWalletClient } from 'wagmi';
-
-import { getWalletClient } from "@wagmi/core";
-
-import { useToken } from '../backend/useToken';
-import authService from '../backend/services/AuthService';
-
-import { fetchWatchlist } from '../state/watchlistSlice';
-import { fetchPortfolio } from '../state/portfolioSlice';
-import { WalletClient } from 'viem';
 
 let didSignerSet = false;
 
 export function Login() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  const {accessToken} = useAppSelector((state) => state.login);
+  const {address, isConnected} = useAccount();
+  const {data: walletClient} = useWalletClient();
 
   const dispatch = useAppDispatch();
 
-  const { accessToken } = useAppSelector((state) => state.login);
-
-  const { address, isConnected } = useAccount();
-
-  const { data: walletClient } = useWalletClient();
-
-  const [hasMounted, setHasMounted] = useState(false);
-
   const onTokenInvalid = () => {
-    dispatch(loginActions.setAccountToken({
+    dispatch(setAccountToken({
       expiry: undefined,
       token: undefined
     }));
   }
 
   const logout = () => {
-    dispatch(loginActions.setAccountToken({
+    dispatch(setAccountToken({
       expiry: undefined,
       token: undefined
     }));
   }
 
-  const { setToken } = useToken(onTokenInvalid, logout);
+  const {setToken} = useToken(onTokenInvalid, logout);
 
-  const loginInit = useCallback(() => {
-    dispatch(loginActions.connect(isConnected));
-    dispatch(loginActions.setAddress(address));
+  const loginInit = useCallback(() => { 
+    dispatch(connect(isConnected));
+    dispatch(setAddress(address));
   }, [address, dispatch, isConnected])
 
   const initAuth = useCallback(async () => {
+    console.log("WalletClient: ", walletClient);
     const client = await getWalletClient();
-    const tokenData = await authService.connect(client as WalletClient);
-    dispatch(loginActions.setAccountToken(tokenData));
+    // TODO: add error control
+    if (client == null) return;
+    
+    const tokenData = await AuthConnect(client);
+    if (!tokenData.success)
+      return;
+    
+    dispatch(setAccountToken(tokenData.value));
   }, [dispatch])
 
   useEffect(() => {
@@ -67,7 +65,7 @@ export function Login() {
     if (isConnected) {
       loginInit();
     } else {
-      dispatch(loginActions.disconnect());
+      dispatch(disconnect());
     }
   }, [isConnected, loginInit, dispatch])
 
@@ -86,13 +84,14 @@ export function Login() {
 
   useEffect(() => {
     if (!address || !accessToken) return;
-    void dispatch(fetchWatchlist({ address, accessToken }));
-    void dispatch(fetchPortfolio({ address }));
+
+    void dispatch(fetchWatchlist({address, accessToken}));
+    void dispatch(fetchPortfolio({address}));
   }, [address, accessToken, dispatch])
 
   return (
     <div>
-      {hasMounted && <ConnectButton showBalance={false} />}
+      {hasMounted && <ConnectButton showBalance={false}/>}
     </div>
   )
 }
