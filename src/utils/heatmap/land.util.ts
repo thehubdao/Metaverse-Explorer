@@ -1,9 +1,10 @@
 ﻿import {LandType} from "../../types/heatmap/land.type";
-import {Coords, LandData} from "../../interfaces/land.interface";
+import {Coords, LandData, LandSomniumSpace} from "../../interfaces/land.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
 import {LogWarning} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {CastStringToNum} from "../common.util";
+import {SOMNIUM_SCALE, TILE_SIZE} from "../../constants/heatmap/heatmap.constant";
 
 export function FormatLand(landRawData: string | undefined, landKeyIndex: number | undefined, metaverse: Metaverses): LandType | undefined {
   if (landRawData == undefined || landKeyIndex == undefined)
@@ -50,11 +51,11 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
 
   if (metaverse == Metaverses.SomniumSpace) {
     const geometryRawArray = wildcard.split('/');
-    const geometry: Coords[] = geometryRawArray.map((coords) => {
+    const geometry: Required<Coords>[] = geometryRawArray.map((coords) => {
       const [x, y] = coords.split(':');
-      return { x: CastStringToNum(x), y: CastStringToNum(y) };
+      return { x: CastStringToNum(x, SOMNIUM_SCALE) ?? -1, y: CastStringToNum(y, SOMNIUM_SCALE) ?? -1 };
     });
-    const coords: Coords = { x: CastStringToNum(x), y: CastStringToNum(y) };
+    const coords: Coords = { x: CastStringToNum(x, SOMNIUM_SCALE), y: CastStringToNum(y, SOMNIUM_SCALE) };
     
     return {
       ...land,
@@ -74,4 +75,23 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
     },
     metaverse: Metaverses.Decentraland,
   };
+}
+
+interface SomniumTile {
+  width: number;
+  height: number;
+  rotation: number;
+}
+
+export function SomniumValues(land: LandSomniumSpace): SomniumTile {
+  const [A, B, , D] = land.geometry;
+
+  const sideA = Math.abs(A.x - B.x);
+  const sideB = Math.abs(A.y - B.y);
+
+  const width = Math.sqrt(Math.pow(A.x - B.x, 2) + Math.pow(A.y - B.y, 2)) * TILE_SIZE;
+  const height = Math.sqrt(Math.pow(A.x - D.x, 2) + Math.pow(A.y - D.y, 2)) * TILE_SIZE;
+  const rotation = Math.atan(sideA / sideB) * (180 / Math.PI);
+
+  return {width, height, rotation};
 }
