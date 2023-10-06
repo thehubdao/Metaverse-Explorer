@@ -1,4 +1,4 @@
-import { Metaverses } from "../../enums/metaverses.enum";
+import { METAVERSE_LABEL, Metaverses } from "../../enums/metaverses.enum";
 import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interface";
 
 interface EstimatorValuesUIProps {
@@ -12,7 +12,7 @@ export default function EstimatorValuesUI({ metaverseSelected, info, globalData 
     <div className="flex flex-wrap items-center justify-between py-8 mt-7">
       <div className="flex flex-col gap-y-3 w-full lg:w-1/2 lg:max-w-[789px] text-lm-text dark:text-nm-highlight">
         <div className='flex gap-x-2 items-end'>
-          <p className="text-3xl font-semibold leading-none">{metaverseSelected}</p>
+          <p className="text-3xl font-semibold leading-none">{METAVERSE_LABEL[metaverseSelected]}</p>
         </div>
         <p className="text-base font-normal">{info}</p>
       </div>

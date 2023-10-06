@@ -5,7 +5,7 @@ import { ButtonForm } from "../../enums/common.enum";
 import EstimatorValuesUI from "./estimatorValues.ui";
 import BoxInformationUI from "./boxInformation.ui";
 import TopLandsUI from "./topLands.ui";
-import { Metaverses } from "../../enums/metaverses.enum";
+import { METAVERSE_LABEL, Metaverses } from "../../enums/metaverses.enum";
 import HotDealsUI from "./hotDeals/hotDeals.ui";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -80,7 +80,7 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
                 <div>
                   <div className="flex items-center justify-center mt-7 text-lm-text dark:text-nm-highlight">
                     <div className="flex flex-col justify-center text-center">
-                      <p className="font-bold lg:text-3xl text-2xl text-center">{metaverseSelected} Hot Deals</p>
+                      <p className="font-bold lg:text-3xl text-2xl text-center">{METAVERSE_LABEL[metaverseSelected]} Hot Deals</p>
                       <p className="font-medium text-center">Underpriced listings  on offer</p>
                     </div>
                   </div>
