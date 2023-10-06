@@ -74,8 +74,8 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
                 <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} globalData={globalData} />
                 <div ref={heatmapDivRef} className="w-full h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex justify-center items-center">
                   {/*<h1 className="text-3xl font-bold dark:text-nm-highlight">heatmap</h1>*/}
-                  <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth} viewportHeight={heatmapDivRef.current?.offsetHeight}
-                             metaverse={metaverseSelected} renderAfter={true} onClickLand={onClickLand} initialX={0} initialY={0} />
+                  <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth ?? window.innerWidth} viewportHeight={heatmapDivRef.current?.offsetHeight ?? window.innerHeight}
+                             metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} />
                 </div>
                 <div>
                   <div className="flex items-center justify-center mt-7 text-lm-text dark:text-nm-highlight">
