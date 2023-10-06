@@ -18,7 +18,12 @@ export function GetKeyByValue<TEnum extends object>(value: string | number, enum
   const key = Object.keys(enumRef)[indexOfS];
   return key as unknown as keyof TEnum;
 }
-  
+
+export function CastStringToNum(toCast: string, mult: number = 1) {
+  const num = +toCast;
+  return isNaN(num) ? undefined : num * mult;
+}
+
 export function CastStringToInteger(toCast: string) {
   const num = +toCast;
   return isNaN(num) ? undefined : num | 0;
