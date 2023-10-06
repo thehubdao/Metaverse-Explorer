@@ -13,6 +13,9 @@ import { setHeatmapMetaverse } from "../../state/heatmapSlice";
 import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interface";
 import { TopPickLand, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
 import TopSellsLandsUI from "./topSellsLands.ui";
+import Heatmap2D from "../../components/heatmap/heatmap.component";
+import {useRef} from "react";
+import {LandTileData} from "../../interfaces/heatmap.interface";
 
 
 const headersPicks = [
@@ -31,12 +34,18 @@ interface HeatmapUIProps{
 }
 
 export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:HeatmapUIProps) {
+  const heatmapDivRef = useRef<HTMLDivElement>(null);
+  
   const { theme } = useTheme();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected); 
   const dispatch = useAppDispatch();
   const filterLands = (metaverse: Metaverses | undefined) => {
     dispatch(setHeatmapMetaverse(metaverse));
+  }
+  
+  function onClickLand(land: LandTileData) {
+    console.warn(land);
   }
 
   return (
@@ -63,8 +72,10 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
             {metaverseSelected &&
               <>
                 <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} globalData={globalData} />
-                <div className="w-full h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex justify-center items-center">
-                  <h1 className="text-3xl font-bold dark:text-nm-highlight">heatmap</h1>
+                <div ref={heatmapDivRef} className="w-full h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex justify-center items-center">
+                  {/*<h1 className="text-3xl font-bold dark:text-nm-highlight">heatmap</h1>*/}
+                  <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth} viewportHeight={heatmapDivRef.current?.offsetHeight}
+                             metaverse={metaverseSelected} renderAfter={true} onClickLand={onClickLand} initialX={0} initialY={0} />
                 </div>
                 <div>
                   <div className="flex items-center justify-center mt-7 text-lm-text dark:text-nm-highlight">
