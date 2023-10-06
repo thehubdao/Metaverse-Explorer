@@ -285,7 +285,7 @@ export default function Heatmap2D({
       spriteRef: rectangle,
     };
 
-    rectangle.on("mouseup", () => {
+    rectangle.on("click", () => {
       rectangle.tint = LandColor.Clicked;
       onClickLand(landRectangle);
     });
