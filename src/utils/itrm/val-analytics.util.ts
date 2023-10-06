@@ -17,8 +17,8 @@ type ChartRoutes =
   | 'mCap';
 
 export async function FetchChartData(metaverse: Metaverses | undefined, route: ChartRoutes): Promise<Result<ChartInfo[]>> {
-  if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
   try {
+    if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
 
     const response = await axios.get<ChartInfo[]>(`${itrmServiceUrl}/val-analytics/${route}?metaverse=${metaverse}`);
@@ -31,8 +31,8 @@ export async function FetchChartData(metaverse: Metaverses | undefined, route: C
 }
 
 export async function GetTopLands(metaverse: Metaverses | undefined): Promise<Result<TopPickLand[]>> {
-  if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
   try {
+    if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
     
     const response = await axios.get<TopPickLand[]>(`${itrmServiceUrl}/val-analytics/topPicks`, {
@@ -51,6 +51,7 @@ export async function GetTopLands(metaverse: Metaverses | undefined): Promise<Re
 
 export async function GetTopSellingLands(metaverse: Metaverses| undefined): Promise<Result<TopSellingLand>> {
   try {
+    if(metaverse == undefined) Raise("The value of metaverse is undefined. Provide a valid value");
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
 
     const response = await axios.get<TopSellingLand>(`${itrmServiceUrl}/val-analytics/topSellingLands`, {
