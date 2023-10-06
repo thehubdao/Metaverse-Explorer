@@ -21,6 +21,7 @@ export interface LandTileData {
     landY: number;
     landX: number;
     land: LandType;
+    color: string;
     spriteRef: Sprite;
 }
 

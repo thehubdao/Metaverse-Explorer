@@ -1,5 +1,3 @@
-"use client";
-
 import {useEffect, useRef, useState} from 'react';
 import {Application, Container, Sprite, Texture} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
@@ -61,7 +59,7 @@ interface Heatmap2DProps {
   legendFilter?: LegendFilter;
   percentFilter?: PercentFilter;
   
-  onClickLand: (landRawData: unknown) => void;
+  onClickLand: (landRawData: LandTileData) => void;
   initialX: number;
   initialY: number;
 }
@@ -78,9 +76,10 @@ export default function Heatmap2D({
                                     initialX,
                                     initialY, 
                                     renderAfter,
+                                    onClickLand,
+  
                                     // TODO: Check if needed
                                     // mapState,
-                                    // onClickLand,
                                     // x,
                                     // y,
                                   }: Heatmap2DProps) {
@@ -157,7 +156,7 @@ export default function Heatmap2D({
       resolution: 1,
       backgroundAlpha: 0,
       backgroundColor: '#42425d',
-      eventMode: "auto",
+      eventMode: "passive",
     });
     _mapApp.view.style.borderRadius = '24px';
 
@@ -251,14 +250,15 @@ export default function Heatmap2D({
     const border = GetLandBorder(land);
     const texture = await GetBorderTexture(border);
     const rectangle = new Sprite(texture);
+    rectangle.eventMode = "static";
     
     if (isSomniumSpace) {
-      const {width, height, rotation} = SomniumValues(land as LandSomniumSpace);
+      const {width, height} = SomniumValues(land as LandSomniumSpace);
 
       rectangle.width = width;
       rectangle.height = height;
       rectangle.pivot.set(width / 2, height / 2);
-      rectangle.angle = rotation;
+      // rectangle.angle = rotation;
     } else {
       const side = DECENTRALAND_LANDS.some(x => {
         if (land.metaverse === Metaverses.Decentraland) return x === land.tile.type ?? 5;
@@ -281,8 +281,22 @@ export default function Heatmap2D({
       landY: land.coords.y,
       tokenId: land.tokenId,
       land: land,
+      color: color,
       spriteRef: rectangle,
     };
+
+    rectangle.on("mouseup", () => {
+      rectangle.tint = LandColor.Clicked;
+      onClickLand(landRectangle);
+    });
+    
+    rectangle.on("mouseenter", (e) => {
+      rectangle.tint = LandColor.Highlight;
+    });
+    
+    rectangle.on("mouseout", () => {
+      rectangle.tint = landRectangle.color;
+    });
 
     chunkContainer.addChild(rectangle);
     
@@ -411,6 +425,7 @@ export default function Heatmap2D({
       );
       
       land.spriteRef.tint = tile.color;
+      land.color = tile.color;
     }
   }
   
