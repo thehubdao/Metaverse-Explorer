@@ -4,6 +4,7 @@ import Image from 'next/image';
 import ConnectButtonUI from "../common/connectButton.ui";
 import DarkModeButtonUI from "../common/darkModeButton.ui";
 import NavButton from "../navbar/navbarButton.ui";
+import { useTheme } from "next-themes";
 
 interface ListProps {
   url: string;
@@ -39,6 +40,7 @@ interface HeaderUIProp {
 
 export default function HeaderUI({ isConnected }: HeaderUIProp) {
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
+  const { resolvedTheme } = useTheme();
   const handleToggleClick = () => {
     setIsNavOpen((prev) => !prev);
   };
@@ -46,7 +48,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
   return (
     <>
       <header className={`${isConnected ? "bg-[url('/images/banner.png')] dark:bg-[url('/images/dm-banner.png')]" : ""} hidden lg:block`}  >
-        <div className='mr-16 relative float-right flex items-center'>
+        <div className='mr-16 mt-6 relative float-right flex items-center justify-center'>
           <ConnectButtonUI />
           <DarkModeButtonUI />
         </div>
@@ -70,23 +72,32 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
           <>
             <div className="fixed w-full h-screen inset-0 z-20">
               <div className='absolute top-0 right-0 h-screen w-full bg-lm-fill dark:bg-nm-black flex flex-col justify-center px-8 items-center py-20'>
-              <div className="flex flex-col space-y-4 items-center">
+                <div className="absolute top-0 right-0 pr-7 pt-9">
+                  <DarkModeButtonUI />
+                </div>
+                <div className="absolute top-0 left-0 pl-7 pt-9 cursor-pointer" onClick={handleToggleClick}>
+                  <div className="w-12 h-12 bg-lm-fill dark:bg-nm-black shadow-relief-12 dark:shadow-dm-relief-12 flex justify-center items-center rounded-xl">
+                    <Image
+                      src={resolvedTheme === "dark" ? '/images/icons/back-white.svg':'/images/icons/back.svg'}
+                      alt={'back logo'}
+                      width={31}
+                      height={31}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap mt-20">
+                  <ConnectButtonUI />
+                </div>
+                <div className="flex flex-col space-y-8 mt-auto">
                   {
                     list.map((option: ListProps) => {
-                      return(
-                        <div key={option.label}>
-                          <NavButton url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal}/>
+                      return (
+                        <div key={option.label} onClick={handleToggleClick}>
+                          <NavButton url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} />
                         </div>
                       )
                     })
                   }
-                </div>
-                <div className="flex flex-wrap">
-                  <ConnectButtonUI />
-                </div>
-                <DarkModeButtonUI />
-                <div className="absolute top-0 right-0 pr-4 pt-9 font-toogle text-xl cursor-pointer" onClick={handleToggleClick}>
-                  x
                 </div>
               </div>
             </div>
