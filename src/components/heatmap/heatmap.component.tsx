@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useRef, useState} from 'react';
-import {Application, Container, Sprite} from 'pixi.js';
+import {Application, Container, Sprite, Texture} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
@@ -9,23 +9,26 @@ import {LandTileData} from "../../interfaces/heatmap.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
 import {ValuationState} from "../../enums/valuation.enum";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
-import {LandBorderTexture} from "../../enums/heatmap/land.enum";
+import {LandBorderTexture, LandColor} from "../../enums/heatmap/land.enum";
 import {Module} from "../../enums/logging.enum";
 import {LogError, LogWarning} from "../../utils/logging.util";
 import {RandomIntMax} from "../../utils/common.util";
 import {FreeSocket, InitLandSocket, RenderStart, SetOnFinish, SetOnNewLand} from "../../utils/itrm/land-socket.util";
 import {GetLandBorder, GetTileColorByFilter} from "../../utils/heatmap/land-color.util";
-import {GetBorderTexture} from "../../utils/pixi/texture.util";
-import {FormatLand, IsLandDecentraland} from "../../utils/heatmap/land.util";
+import {GetBorderTexture, GetSomniumSpaceMap} from "../../utils/pixi/texture.util";
+import {FormatLand, SomniumValues} from "../../utils/heatmap/land.util";
 import {
   BLOCK_SIZE,
   BOUND_SIZE,
   CHUNK_SIZE,
+  DECENTRALAND_LANDS,
   LOAD_PHRASES_ARRAY,
   LOAD_PHRASES_LENGHT,
   TILE_SIZE
 } from "../../constants/heatmap/heatmap.constant";
 import LoaderUI from '../../ui/common/loader.ui';
+import {Result} from "../../types/common.type";
+import {LandSomniumSpace} from "../../interfaces/land.interface";
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
 // import {useAccount} from "wagmi";
 
@@ -40,14 +43,19 @@ let _chunks: Record<string, Container | undefined> = {};
 
 //#endregion
 
+interface PreDataHeatmap {
+  somniumMap?: Promise<Result<Texture>>;
+}
+
 interface Heatmap2DProps {
   viewportWidth: number | undefined;
   viewportHeight: number | undefined;
   mapState: ValuationState;
   metaverse: Metaverses;
-
-  x: number | undefined;
-  y: number | undefined;
+  renderAfter: boolean;
+  
+  // x: number | undefined;
+  // y: number | undefined;
   
   filter?: MapFilter;
   legendFilter?: LegendFilter;
@@ -68,19 +76,22 @@ export default function Heatmap2D({
                                     legendFilter,
   
                                     initialX,
-                                    initialY,
+                                    initialY, 
+                                    renderAfter,
                                     // TODO: Check if needed
                                     // mapState,
                                     // onClickLand,
                                     // x,
                                     // y,
                                   }: Heatmap2DProps) {
-  
   const mapDivRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
-  
+
+  const preDataPromise = useRef<PreDataHeatmap>({});
   // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
+
+  const isSomniumSpace = metaverse === Metaverses.SomniumSpace;
   
   // TODO: add
   // const {address} = useAccount();
@@ -102,7 +113,9 @@ export default function Heatmap2D({
   }, [isLoading]);
   
   useEffect(() => {
-    // setIsLoading(true);
+    setIsLoading(renderAfter);
+    
+    preLoad();
     
     // Init pixi variables
     initPixiViews();
@@ -127,6 +140,12 @@ export default function Heatmap2D({
     doFilter();
   }, [filter, percentFilter, legendFilter]);
   
+  function preLoad() {
+    if (isSomniumSpace) {
+      preDataPromise.current.somniumMap = GetSomniumSpaceMap();
+    }
+  }
+  
   function initPixiViews() {
     const mapDivRefCurrent = mapDivRef.current;
     if (mapDivRefCurrent == null)
@@ -138,7 +157,7 @@ export default function Heatmap2D({
       resolution: 1,
       backgroundAlpha: 0,
       backgroundColor: '#42425d',
-      eventMode: "auto"
+      eventMode: "auto",
     });
     _mapApp.view.style.borderRadius = '24px';
 
@@ -158,10 +177,10 @@ export default function Heatmap2D({
       .clampZoom({
         minWidth: TILE_SIZE * 8,
         minHeight: TILE_SIZE * 8,
-        maxWidth: TILE_SIZE * 800,
-        maxHeight: TILE_SIZE * 800,
+        maxWidth: TILE_SIZE * 400,
+        maxHeight: TILE_SIZE * 400,
       })
-      .zoom(TILE_SIZE * 200)
+      .zoom(TILE_SIZE * 200);
 
     _mapApp.stage.addChild(_viewport);
     mapDivRefCurrent.appendChild(_mapApp.view);
@@ -188,7 +207,7 @@ export default function Heatmap2D({
     }
   }
 
-  async function generateLandSprite(land: LandType) {
+  async function generateLandRectangle(land: LandType) {
     if (_viewport == undefined)
       return void LogError(Module.Heatmap, "Missing viewport while trying to render some land!");
 
@@ -226,26 +245,36 @@ export default function Heatmap2D({
       );
 
       _chunks[chunkKey] = chunkContainer;
+      _viewport.addChild(chunkContainer);
     }
 
     const border = GetLandBorder(land);
     const texture = await GetBorderTexture(border);
     const rectangle = new Sprite(texture);
+    
+    if (isSomniumSpace) {
+      const {width, height, rotation} = SomniumValues(land as LandSomniumSpace);
+
+      rectangle.width = width;
+      rectangle.height = height;
+      rectangle.pivot.set(width / 2, height / 2);
+      rectangle.angle = rotation;
+    } else {
+      const side = DECENTRALAND_LANDS.some(x => {
+        if (land.metaverse === Metaverses.Decentraland) return x === land.tile.type ?? 5;
+        return true;
+      }) ? TILE_SIZE :
+        TILE_SIZE - BOUND_SIZE;
+      rectangle.width = rectangle.height = side;
+    }
 
     rectangle.tint = color;
-
-    const side = [5, 6, 7, 8, 12].some(x => {
-      if (IsLandDecentraland(land)) return x === land.tile.type ?? 5;
-      return true;
-    }) ? TILE_SIZE :
-      TILE_SIZE - BOUND_SIZE;
-    rectangle.width = rectangle.height = side;
     rectangle.name = `${land.coords.x},${land.coords.y}`;
     rectangle.position.set(
       land.coords.x * TILE_SIZE - chunkX * BLOCK_SIZE,
       land.coords.y * TILE_SIZE - chunkY * BLOCK_SIZE
     );
-
+    
     const landRectangle: LandTileData = {
       name: `${land.coords.x},${land.coords.y}`,
       landX: land.coords.x,
@@ -253,11 +282,9 @@ export default function Heatmap2D({
       tokenId: land.tokenId,
       land: land,
       spriteRef: rectangle,
-      containerRef: chunkContainer,
     };
 
     chunkContainer.addChild(rectangle);
-    _viewport.addChild(chunkContainer);
     
     return landRectangle;
   }
@@ -287,7 +314,7 @@ export default function Heatmap2D({
         if (_mapData[landKey] == undefined) {
           const sprite = new Sprite(await GetBorderTexture(LandBorderTexture.FullBorderDead));
           
-          sprite.tint = '#2d4162';
+          sprite.tint = LandColor.SandboxDeadLand;
           sprite.width = TILE_SIZE;
           sprite.height = TILE_SIZE;
 
@@ -302,25 +329,36 @@ export default function Heatmap2D({
     }
   }
   
+  async function processLand(landKeyIndex: number, landData: string) {
+    const formattedLand = FormatLand(landData, landKeyIndex, metaverse);
+    // console.log({ formattedLand, landData, landKeyIndex });
+
+    if (formattedLand == undefined) return;
+    const land = await generateLandRectangle(formattedLand);
+
+    if (land != undefined)
+      _mapData[land.name] = land;
+  }
+  
   function socketWork() {
     if (_viewport == undefined)
       return LogError(Module.Heatmap, "Missing viewport!");
 
-    SetOnNewLand((landData, landKeyIndex) => {
+    SetOnNewLand(async (landData, landKeyIndex) => {      
       if (landKeyIndex == undefined || landData == undefined)
         return;
       
-      _landRawData.push({landKeyIndex, landData});
+      if (renderAfter)
+        _landRawData.push({landKeyIndex, landData});
+      else 
+        await processLand(landKeyIndex, landData);
     });
     
     SetOnFinish(async () => {
+      
+      // Add LandTiles (if renderAfter is true)
       for (const {landKeyIndex, landData} of _landRawData) {
-        const formattedLand = FormatLand(landData, landKeyIndex, metaverse);
-        if (formattedLand == undefined) return;
-
-        const land = await generateLandSprite(formattedLand);
-        if (land != undefined)
-          _mapData[land.name] = land;
+        await processLand(landKeyIndex, landData);
       }
       
       // If sandbox fill the empty spaces
@@ -332,7 +370,19 @@ export default function Heatmap2D({
       // setMapLoadingState(false);
     });
     
-    InitLandSocket(() => {
+    InitLandSocket(async () => {
+      // Add Somnium space map
+      if (isSomniumSpace) {
+        const somniumMap = await preDataPromise.current.somniumMap;
+        if (somniumMap != undefined && somniumMap.success) {
+          const mapSprite = new Sprite(somniumMap.value);
+          const sideValue = (mapSprite.width / 2) * -1;
+          mapSprite.position.set(sideValue, sideValue);
+          
+          _viewport?.addChild(mapSprite);
+        }
+      }
+      
       RenderStart(metaverse, 0);
     }); 
   }
@@ -363,15 +413,6 @@ export default function Heatmap2D({
       land.spriteRef.tint = tile.color;
     }
   }
-
-  // Filter update
-  // useEffect(() => {
-  //   console.log('Set filters');
-  //  
-  //   globalFilter = filter;
-  //   globalPercentFilter = percentFilter;
-  //   globalLegendFilter = legendFilter;
-  // }, [filter, percentFilter, legendFilter]);
   
   // function onMouseMove(event: FederatedPointerEvent, currentSprite: OtherSprite | undefined, currentTint: string | undefined) {
   //   if (mapLoadingState) return;
