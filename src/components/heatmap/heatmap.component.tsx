@@ -5,7 +5,6 @@ import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
 import {LandTileData} from "../../interfaces/heatmap.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
-import {ValuationState} from "../../enums/valuation.enum";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {LandBorderTexture, LandColor} from "../../enums/heatmap/land.enum";
 import {Module} from "../../enums/logging.enum";
@@ -48,7 +47,7 @@ interface PreDataHeatmap {
 interface Heatmap2DProps {
   viewportWidth: number | undefined;
   viewportHeight: number | undefined;
-  mapState: ValuationState;
+  // mapState: ValuationState;
   metaverse: Metaverses;
   renderAfter: boolean;
   
@@ -157,6 +156,7 @@ export default function Heatmap2D({
       backgroundAlpha: 0,
       backgroundColor: '#42425d',
       eventMode: "passive",
+      // resizeTo: window,
     });
     _mapApp.view.style.borderRadius = '24px';
 
@@ -429,156 +429,21 @@ export default function Heatmap2D({
     }
   }
   
-  // function onMouseMove(event: FederatedPointerEvent, currentSprite: OtherSprite | undefined, currentTint: string | undefined) {
-  //   if (mapLoadingState) return;
-  //   if (viewport == undefined) return void LogError(Module.Heatmap, "Missing viewport!");
-  //
-  //   let newCurrentSprite = currentSprite == undefined ? undefined : {...currentSprite} as OtherSprite;
-  //   let newCurrentTint = currentTint;
-  //
-  //   let {x, y} = viewport.toLocal(event.global);
-  //   x = Math.floor(x / TILE_SIZE)
-  //   y = Math.floor(y / TILE_SIZE)
-  //
-  //   const chunkX = Math.floor(x / CHUNK_SIZE);
-  //   const chunkY = Math.floor(y / CHUNK_SIZE);
-  //   const chunkKey = `${chunkX}:${chunkY}`;
-  //   const chunkContainer = chunks[chunkKey];
-  //
-  //   if (chunkContainer == undefined)
-  //     return void LogError(Module.Heatmap, `Missing chunk on coords: ${chunkKey}`);
-  //
-  //   x = x * TILE_SIZE - chunkX * BLOCK_SIZE;
-  //   y = y * TILE_SIZE - chunkY * BLOCK_SIZE;
-  //
-  //   const child = chunkContainer.children.find(
-  //     (child) => child.x === x && child.y === y
-  //   ) as OtherSprite;
-  //
-  //   if (child != undefined) {
-  //     if (child.type == 'dead') {
-  //       if (newCurrentSprite != undefined && newCurrentTint != undefined) {
-  //         newCurrentSprite.tint = newCurrentTint;
-  //       }
-  //       return {sprite: newCurrentSprite, tint: newCurrentTint};
-  //     }
-  //
-  //     // eslint-disable-next-line no-console
-  //     console.log("Tint Value: ", child.tint);
-  //     if (newCurrentSprite != undefined && newCurrentTint != undefined) {
-  //       newCurrentSprite.tint = newCurrentTint;
-  //       newCurrentTint = child.tint;
-  //       // newCurrentTint = new Color(child.tint).toHex();
-  //     }
-  //     if (newCurrentTint == undefined) newCurrentTint = child.tint;
-  //     newCurrentSprite = child;
-  //     //! HOVER COLOR
-  //     newCurrentSprite.tint = '#db2777';
-  //   }
-  //
-  //   return {
-  //     sprite: newCurrentSprite,
-  //     tint: newCurrentTint
-  //   }
-  // }
-  //
-  // useEffect(() => {
-  //   console.log('remove listeners');
-  //   if (viewport == undefined) return
-  //
-  //   let currentTint: string | undefined;
-  //   let currentSprite: OtherSprite | undefined;
-  //
-  //   //* remove existing listeners to viewport before add new listeners
-  //   viewport.removeListener('mousemove');
-  //   viewport.removeListener('drag-start');
-  //   viewport.removeListener('drag-end');
-  //   viewport.removeListener('click');
-  //
-  //   //* add new listeners to viewport
-  //   viewport.on('mousemove', (event) => {
-  //     const mouseMoveData = onMouseMove(event, currentSprite, currentTint);
-  //     currentSprite = mouseMoveData?.sprite;
-  //     currentTint = mouseMoveData?.tint;
-  //   });
-  //
-  //   let isDragging = false
-  //
-  //   viewport.on('drag-start', () => {
-  //     isDragging = true
-  //   });
-  //
-  //   viewport.on('drag-end', () => {
-  //     isDragging = false
-  //   });
-  //
-  //   viewport.on('click', () => {
-  //     if (currentSprite && !isDragging) {
-  //       const tokenId = currentSprite.tokenId;
-  //       socketService.getLand(metaverse, tokenId);
-  //       setMapLoadingState(true);
-  //     }
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [viewport, mapLoadingState]);
-  //
-  // // Resize
-  // useEffect(() => {
-  //   console.log('resize')
-  //   if (viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on resize");
-  //   if (map == undefined) return LogError(Module.Heatmap, "Missing map on resize");
-  //
-  //   map.renderer.resize(viewportWidth || 0, viewportHeight || 0);
-  //
-  //   try {
-  //     viewport.resize(viewportWidth, viewportHeight);
-  //   } catch (e) {
-  //     LogError(Module.Heatmap, "Error on viewport resize", e);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [viewportWidth, viewportHeight]);
-  //
-  // async function filterUpdate() {
-  //   const lands = SetColors(_mapData, globalFilter);
-  //   if (lands == undefined)
-  //     return LogError(Module.Heatmap, "Lands couldn't filter!");
-  //
-  //   for (const chunk of Object.values(chunks)) {
-  //     if (chunk == undefined) continue;
-  //
-  //     for (const child of chunk.children) {
-  //       if (!IsOtherSprite(child)) continue;
-  //       if (child.name == null || lands[child.name] == undefined) continue;
-  //
-  //       if (address) {
-  //         /* if (portfolioLands[metaverse as keyof typeof portfolioLands][lands[child.name].tokenId]) lands[child.name].portfolio = true
-  //         else if (lands[child.name].portfolio) delete lands[child.name].portfolio */
-  //         const wMRef = wList[metaverse];
-  //         if (wMRef != undefined && wMRef[lands[child.name].tokenId] != undefined)
-  //           lands[child.name].watchlist = true;
-  //         else if (lands[child.name].watchlist)
-  //           lands[child.name].watchlist = undefined;
-  //       }
-  //
-  //       const tile = await FilteredLayer(
-  //         child.landX,
-  //         child.landY,
-  //         filter,
-  //         percentFilter,
-  //         legendFilter,
-  //         lands[child.name]
-  //       );
-  //       const {color} = tile;
-  //       if (x != undefined && y != undefined && child.name === `${x},${y}`) {
-  //         //! SELECTED COLOR
-  //         child.tint = '#FFFFFF';
-  //       } else {
-  //         child.tint = color;
-  //       }
-  //     }
-  //   }
-  // }
-  //
+  // Resize
+  useEffect(() => {
+    if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on resize");
+    if (_mapApp == undefined) return LogError(Module.Heatmap, "Missing map on resize");
+
+    _mapApp.renderer.resize(viewportWidth || 0, viewportHeight || 0);
+
+    try {
+      _viewport.resize(viewportWidth, viewportHeight);
+    } catch (e) {
+      LogError(Module.Heatmap, "Error on viewport resize", e);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewportWidth, viewportHeight]);
+  
   // useEffect(() => {
   //   console.log('Snap heatmap')
   //   if (x == undefined || y == undefined) return;
@@ -596,15 +461,6 @@ export default function Heatmap2D({
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [x, y]);
-  //
-  // useEffect(() => {
-  //   console.log('setting loading state');
-  //   if (isLoading || mapState === ValuationState.LoadingQuery) {
-  //     setMapLoadingState(true);
-  //   } else {
-  //     setMapLoadingState(false);
-  //   }
-  // }, [mapState, isLoading]);
 
   return (
     <>
