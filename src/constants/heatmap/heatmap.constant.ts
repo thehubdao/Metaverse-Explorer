@@ -27,7 +27,9 @@ export const LOAD_PHRASES_ARRAY = [
 ] as const;
 
 export const LOAD_PHRASES_LENGHT = LOAD_PHRASES_ARRAY.length;
-export const CHUNK_SIZE = 32
-export const TILE_SIZE = 64
-export const BOUND_SIZE = 0
+export const CHUNK_SIZE = 32;
+export const TILE_SIZE = 12;
+export const BOUND_SIZE = 0;
 export const BLOCK_SIZE = CHUNK_SIZE * TILE_SIZE;
+export const SOMNIUM_SCALE = 108;
+export const DECENTRALAND_LANDS = [5, 6, 7, 8, 12] as const;

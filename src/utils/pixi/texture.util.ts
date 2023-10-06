@@ -2,6 +2,7 @@
 import {Module} from "../../enums/logging.enum";
 import {MIPMAP_MODES, Texture} from "pixi.js";
 import {LandBorderTexture} from "../../enums/heatmap/land.enum";
+import {Result} from "../../types/common.type";
 
 class TextureUtil {
   private static _instance: TextureUtil;
@@ -12,6 +13,19 @@ class TextureUtil {
       TextureUtil._instance = new TextureUtil();
 
     return TextureUtil._instance;
+  }
+  
+  public async GetTexture(textureLocation: string): Promise<Result<Texture>> {
+    try {
+      const result = await Texture.fromURL(textureLocation,
+        {mipmap: MIPMAP_MODES.ON});
+      
+      return {success: true, value: result};
+    } catch (err) {
+      const msg = "Error fetching texture!";
+      LogError(Module.TextureUtil, msg, err);
+      return {success: false, errMessage: msg};
+    }
   }
 
   public async GetSetTexture(textureLocation: string) {
@@ -37,4 +51,9 @@ export async function GetBorderTexture(border: LandBorderTexture | undefined) {
 
   const textureLocation = `/resources/land-tile-border/${border}`;
   return TextureUtil.Instance().GetSetTexture(textureLocation);
+}
+
+export async function GetSomniumSpaceMap() {
+  const mapLocation = '/resources/somnium-space-map.jpg';
+  return TextureUtil.Instance().GetTexture(mapLocation);
 }

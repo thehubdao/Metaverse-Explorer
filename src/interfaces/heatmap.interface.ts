@@ -1,4 +1,4 @@
-import {Container, Sprite} from "pixi.js";
+import {Sprite} from "pixi.js";
 import {LandType} from "../types/heatmap/land.type";
 
 export interface HotDealsCard {
@@ -21,8 +21,8 @@ export interface LandTileData {
     landY: number;
     landX: number;
     land: LandType;
+    color: string;
     spriteRef: Sprite;
-    containerRef: Container;    // TODO: check usability
 }
 
 export interface globalData{

@@ -1,6 +1,8 @@
-﻿export interface Coords {
-  x: number | undefined;
-  y: number | undefined;
+﻿import {Metaverses} from "../enums/metaverses.enum";
+
+export interface Coords {
+  x?: number;
+  y?: number;
 }
 
 export interface DecentralandTile {
@@ -31,16 +33,16 @@ export interface LandData {
 }
 
 export interface LandDecentraland extends LandData {
-  isDcl: boolean;
+  metaverse: Metaverses.Decentraland;
   tile: DecentralandTile;
 }
 
 export interface LandSandbox extends LandData {
-  isSandbox: boolean;
+  metaverse: Metaverses.SandBox;
   land_type?: number;
 }
 
 export interface LandSomniumSpace extends LandData {
-  isSSpace: boolean;
-  geometry: Coords[];
+  metaverse: Metaverses.SomniumSpace;
+  geometry: Required<Coords>[];
 }

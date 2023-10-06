@@ -1,17 +1,10 @@
 ﻿import {LandType} from "../../types/heatmap/land.type";
-import {Coords, LandData, LandDecentraland, LandSandbox} from "../../interfaces/land.interface";
+import {Coords, LandData, LandSomniumSpace} from "../../interfaces/land.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
 import {LogWarning} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
-import {CastStringToInteger} from "../common.util";
-
-export function IsLandDecentraland(land: LandType): land is LandDecentraland {
-  return (land as LandDecentraland).isDcl;
-}
-
-export function IsLandSandBox(land: LandType): land is LandSandbox {
-  return (land as LandSandbox).isSandbox;
-}
+import {CastStringToNum} from "../common.util";
+import {SOMNIUM_SCALE, TILE_SIZE} from "../../constants/heatmap/heatmap.constant";
 
 export function FormatLand(landRawData: string | undefined, landKeyIndex: number | undefined, metaverse: Metaverses): LandType | undefined {
   if (landRawData == undefined || landKeyIndex == undefined)
@@ -36,48 +29,69 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
   const land: LandData = {
     keyIndex: landKeyIndex,
     tokenId: tokenId,
-    current_price_eth: CastStringToInteger(current_price_eth) ?? -1,
-    eth_predicted_price: CastStringToInteger(eth_predicted_price) ?? -1,
-    floor_adjusted_predicted_price: CastStringToInteger(floor_adjusted_predicted_price) ?? -1,
-    history_amount: CastStringToInteger(history_amount) ?? -1,
-    max_history_price: CastStringToInteger(max_history_price) ?? -1,
-    coords: { x: CastStringToInteger(x), y: CastStringToInteger(y) }
+    current_price_eth: CastStringToNum(current_price_eth) ?? -1,
+    eth_predicted_price: CastStringToNum(eth_predicted_price) ?? -1,
+    floor_adjusted_predicted_price: CastStringToNum(floor_adjusted_predicted_price) ?? -1,
+    history_amount: CastStringToNum(history_amount) ?? -1,
+    max_history_price: CastStringToNum(max_history_price) ?? -1,
+    coords: { x: CastStringToNum(x), y: CastStringToNum(y) }
   };
 
   if (metaverse === Metaverses.SandBox) {
     land.coords = {
-      x: CastStringToInteger(x),
-      y: CastStringToInteger(y)
+      x: CastStringToNum(x),
+      y: CastStringToNum(y)
     };
     return {
       ...land,
-      land_type: CastStringToInteger(wildcard),
-      isSandbox: true
+      land_type: CastStringToNum(wildcard),
+      metaverse: Metaverses.SandBox,
     };
   }
 
   if (metaverse == Metaverses.SomniumSpace) {
     const geometryRawArray = wildcard.split('/');
-    const geometry: Coords[] = geometryRawArray.map((coords) => {
+    const geometry: Required<Coords>[] = geometryRawArray.map((coords) => {
       const [x, y] = coords.split(':');
-      return { x: CastStringToInteger(x), y: CastStringToInteger(y) } satisfies Coords;
+      return { x: CastStringToNum(x, SOMNIUM_SCALE) ?? -1, y: CastStringToNum(y, SOMNIUM_SCALE) ?? -1 };
     });
-
+    const coords: Coords = { x: CastStringToNum(x, SOMNIUM_SCALE), y: CastStringToNum(y, SOMNIUM_SCALE) };
+    
     return {
       ...land,
+      coords,
       geometry,
-      isSSpace: true,
+      metaverse: Metaverses.SomniumSpace,
     };
   }
 
   return {
     ...land,
     tile: {
-      type: CastStringToInteger(wildcard) ?? -1,
+      type: CastStringToNum(wildcard) ?? -1,
       top: top !== '',
       left: left !== '',
       topLeft: topLeft !== ''
     },
-    isDcl: true,
+    metaverse: Metaverses.Decentraland,
   };
+}
+
+interface SomniumTile {
+  width: number;
+  height: number;
+  rotation: number;
+}
+
+export function SomniumValues(land: LandSomniumSpace): SomniumTile {
+  const [A, B, , D] = land.geometry;
+
+  const sideA = Math.abs(A.x - B.x);
+  const sideB = Math.abs(A.y - B.y);
+
+  const width = Math.sqrt(Math.pow(A.x - B.x, 2) + Math.pow(A.y - B.y, 2)) * TILE_SIZE;
+  const height = Math.sqrt(Math.pow(A.x - D.x, 2) + Math.pow(A.y - D.y, 2)) * TILE_SIZE;
+  const rotation = Math.atan(sideA / sideB) * (180 / Math.PI);
+
+  return {width, height, rotation};
 }
