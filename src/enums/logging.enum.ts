@@ -12,4 +12,5 @@
   CoinGecko = "CoinGeckoUtil",
   ITRMValAnalytics = "ValAnalyticsUtil",
   ITRMLandValuation = "LandValuationUtil",
+  ITRMAuth = "AuthUtil",
 }
