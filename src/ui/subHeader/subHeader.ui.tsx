@@ -7,6 +7,8 @@ import { useAppSelector } from '../../state/hooks';
 interface OptionProps {
   name: string;
   route: string;
+  image: string;
+  darkImage: string;
 }
 
 interface GeneralSectionProps {
@@ -34,7 +36,7 @@ export default function SubHeader({ optionList }: GeneralSectionProps) {
                 optionList.map((option: OptionProps) => {
                   return (
                     <div key={option.name}>
-                      <LinkedButton name={option.name} route={option.route} isActive={pathname == `/${option.route}`} />
+                      <LinkedButton name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage} />
                     </div>
                   )
                 })
@@ -52,7 +54,7 @@ export default function SubHeader({ optionList }: GeneralSectionProps) {
               optionList.map((option: OptionProps) => {
                 return (
                   <div key={option.name}>
-                    <LinkedButton name={option.name} route={option.route} isActive={pathname == `/${option.route}`} />
+                    <LinkedButton name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage}/>
                   </div>
                 )
               })
