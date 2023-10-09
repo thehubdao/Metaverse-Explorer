@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import NavbarUI from '../ui/navbar/navbar.ui';
 import FontIcons from 'next/font/local';
 import ToogleIcons from 'next/font/local';
-import SubHeader from '../ui/subHeader/subHeader.ui';
+import SubHeaderUI from '../ui/subHeader/subHeader.ui';
 import { fetchCurrencyData } from '../utils/api';
 import { setCurrencyValues } from '../state/currencySlice';
 import FooterUI from '../ui/common/footer.ui';
@@ -98,7 +98,7 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
                 </nav>
                 <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
                 <main className='px-4 md:px-10 lg:px-16'>
-                  {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
+                  {pathname !== '/stake' && <SubHeaderUI optionList={subHeaderList} />}
                   {children}
                   {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
                 </main>

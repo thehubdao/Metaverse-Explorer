@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import ConnectButtonUI from "../common/connectButton.ui";
 import DarkModeButtonUI from "../common/darkModeButton.ui";
-import NavButton from "../navbar/navbarButton.ui";
+import NavButtonUI from "../navbar/navbarButton.ui";
 import { useTheme } from "next-themes";
 
 interface ListProps {
@@ -93,7 +93,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                     list.map((option: ListProps) => {
                       return (
                         <div key={option.label} onClick={handleToggleClick}>
-                          <NavButton url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} />
+                          <NavButtonUI url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} />
                         </div>
                       )
                     })

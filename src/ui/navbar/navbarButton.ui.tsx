@@ -9,7 +9,7 @@ interface ButtonProps {
   active?: boolean;
 }
 
-export default function NavButton({ url, label, icon, isExternal, active }: ButtonProps) {
+export default function NavButtonUI({ url, label, icon, isExternal, active }: ButtonProps) {
   return (
     <Link href={url} target={isExternal ? '_blank' : ''}>
       <div className="hidden lg:flex items-center justify-center">

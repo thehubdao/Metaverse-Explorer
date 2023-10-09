@@ -12,7 +12,7 @@ interface OptionProps {
   darkImage: string;
 }
 
-export default function LinkedButton({ name, route, isActive, image, darkImage }: OptionProps) {
+export default function LinkedButtonUI({ name, route, isActive, image, darkImage }: OptionProps) {
   const { resolvedTheme } = useTheme();
   
   return (

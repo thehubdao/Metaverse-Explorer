@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from 'next/navigation';
-import LinkedButton from "./linkedButtons.ui";
+import LinkedButtonUI from "./linkedButtons.ui";
 import { useAppSelector } from '../../state/hooks';
 
 interface OptionProps {
@@ -15,7 +15,7 @@ interface GeneralSectionProps {
   optionList: OptionProps[];
 }
 
-export default function SubHeader({ optionList }: GeneralSectionProps) {
+export default function SubHeaderUI({ optionList }: GeneralSectionProps) {
   const pathname = usePathname();
   const isConnected = useAppSelector(state => state.login.connected);
 
@@ -36,7 +36,7 @@ export default function SubHeader({ optionList }: GeneralSectionProps) {
                 optionList.map((option: OptionProps) => {
                   return (
                     <div key={option.name}>
-                      <LinkedButton name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage} />
+                      <LinkedButtonUI name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage} />
                     </div>
                   )
                 })
@@ -54,7 +54,7 @@ export default function SubHeader({ optionList }: GeneralSectionProps) {
               optionList.map((option: OptionProps) => {
                 return (
                   <div key={option.name}>
-                    <LinkedButton name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage}/>
+                    <LinkedButtonUI name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage}/>
                   </div>
                 )
               })
