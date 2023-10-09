@@ -16,6 +16,7 @@ import TopSellsLandsUI from "./topSellsLands.ui";
 import Heatmap2D from "../../components/heatmap/heatmap.component";
 import {useRef} from "react";
 import {LandTileData} from "../../interfaces/heatmap.interface";
+import MapChooseMetaverse from "./mapChooseMetaverse";
 
 
 const headersPicks = [
@@ -72,10 +73,15 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
             {metaverseSelected &&
               <>
                 <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} globalData={globalData} />
-                <div ref={heatmapDivRef} className="w-full h-[678px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex justify-center items-center">
-                  {/*<h1 className="text-3xl font-bold dark:text-nm-highlight">heatmap</h1>*/}
-                  <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth ?? window.innerWidth} viewportHeight={heatmapDivRef.current?.offsetHeight ?? window.innerHeight}
-                             metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} />
+                <div className="rounded-3xl p-7 shadow-relief-12 dark:shadow-dm-relief-12 h-[80vh]">
+                  <div ref={heatmapDivRef} className="w-full h-full relative">
+                  <div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full m-4">
+                    {/* Metaverse Selection */}
+											<MapChooseMetaverse metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)}/>
+                  </div>
+                    <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth ?? window.innerWidth} viewportHeight={heatmapDivRef.current?.offsetHeight ?? window.innerHeight}
+                              metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} />
+                  </div>
                 </div>
                 <div>
                   <div className="flex items-center justify-center mt-7 text-lm-text dark:text-nm-highlight">
