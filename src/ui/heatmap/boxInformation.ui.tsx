@@ -9,7 +9,7 @@ interface BoxInformationUIProps{
 
 export default function BoxInformationUI({title, prices}:BoxInformationUIProps) {
   return (
-    <div>
+    <div className="my-2">
       <p className="font-semibold text-lg ml-4">{title}</p>
       <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-[315px] h-[205px] flex">
         <PriceListUI prices={prices} form={PriceListForm.Light}/>
