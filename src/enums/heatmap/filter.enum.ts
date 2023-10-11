@@ -12,7 +12,7 @@ export const enum MapFilterEnum {
   basic,
   listed_lands,
   floor_adjusted_predicted_price,
-  last_month_sells,
+  // last_month_sells,
   // Not using this filters for now..will delete if permanent
   // variation_last_week,
   // variation_last_four_weeks,

@@ -1,29 +1,24 @@
 import Image from "next/image";
 import { Metaverses, METAVERSE_LABEL } from "../../enums/metaverses.enum";
-import { useState } from "react";
 
 interface MapChooseMetaverseUIProps {
   metaverse: Metaverses | undefined;
   setMetaverse: (metaverse: Metaverses | undefined) => void;
+  selectMetaverse: boolean;
+  setSelectMetaverse: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectfilter: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectCoord: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function MapChooseMetaverseUI({
-  metaverse,
-  setMetaverse,
-}: MapChooseMetaverseUIProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+export default function MapChooseMetaverseUI({metaverse, setMetaverse, selectMetaverse, setSelectMetaverse, setSelectfilter, setSelectCoord}: MapChooseMetaverseUIProps) {
 
   return (
-    <div className="relative z-50">
-      <button onClick={() => setIsOpen(!isOpen)}>
+    <div className="relative">
+      <button onClick={() => {setSelectMetaverse(!selectMetaverse); setSelectfilter(false); setSelectCoord(false);}}>
         {Object.values(Metaverses).map((iterateMetaverse) => {
           if (iterateMetaverse === metaverse) {
             return (
-              <div
-                key={iterateMetaverse}
-                className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${isOpen ? "rounded-b-none h-15" : ""
-                  }`}
-              >
+              <div key={iterateMetaverse} className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectMetaverse && "rounded-b-none h-15"}`}>
                 {iterateMetaverse === Metaverses.SandBox && (
                   <Image src="/images/the-sandbox-sand-logo.png" width={30} height={30} alt="sandbox" />
                 )}
@@ -38,7 +33,7 @@ export default function MapChooseMetaverseUI({
           }
         })}
       </button>
-      {isOpen && (
+      {selectMetaverse && (
         <>
           <div className="absolute top-[48px] left-[48px] w-3 h-3">
             <Image
@@ -54,7 +49,7 @@ export default function MapChooseMetaverseUI({
               <button
                 key={iterateMetaverse}
                 className="flex gap-2 md:gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark whitespace-nowrap min-w-max rounded-xl"
-                onClick={() => {setMetaverse(iterateMetaverse); setIsOpen(!isOpen);} }
+                onClick={() => {setMetaverse(iterateMetaverse); setSelectMetaverse(false);}}
               >
                 {iterateMetaverse === Metaverses.SandBox && (
                   <Image src="/images/the-sandbox-sand-logo.png" width={25} height={25} alt="sandbox" />

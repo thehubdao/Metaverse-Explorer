@@ -14,9 +14,12 @@ import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interf
 import { TopPickLand, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
 import TopSellsLandsUI from "./topSellsLands.ui";
 import Heatmap2D from "../../components/heatmap/heatmap.component";
-import {useRef} from "react";
-import {LandTileData} from "../../interfaces/heatmap.interface";
-import MapChooseMetaverse from "./mapChooseMetaverse";
+import { useRef, useState } from "react";
+import { LandTileData } from "../../interfaces/heatmap.interface";
+import MapChooseMetaverseUI from "./mapChooseMetaverse.ui";
+import { MapFilter } from "../../types/heatmap/heatmap.type";
+import MapChooseFilterUI from "./mapChooseFilter.ui";
+import MapSearchUI from "./mapSearch.ui";
 
 
 const headersPicks = [
@@ -34,17 +37,24 @@ interface HeatmapUIProps {
   topSellingsLands: TopSellingLand | null;
 }
 
-export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:HeatmapUIProps) {
+export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands }: HeatmapUIProps) {
   const heatmapDivRef = useRef<HTMLDivElement>(null);
-  
+
   const { theme } = useTheme();
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
   const dispatch = useAppDispatch();
+  const [filterBy, setFilterBy] = useState<MapFilter>("basic");
+  const [selectMetaverse, setSelectMetaverse] = useState<boolean>(false);
+  const [selectFilter, setSelectFilter] = useState<boolean>(false);
+  const [selectCoord, setSelectCoord] = useState<boolean>(false);
+  const [landId, setLandId] = useState<number | undefined>(undefined);
+  const [coordinates, setCoordinates] = useState<{ X: number | undefined; Y: number | undefined }>({ X: undefined, Y: undefined });
+
   const filterLands = (metaverse: Metaverses | undefined) => {
     dispatch(setHeatmapMetaverse(metaverse));
   }
-  
+
   function onClickLand(land: LandTileData) {
     console.warn(land);
   }
@@ -75,12 +85,16 @@ export default function HeatmapUI({globalData, topPicksLands, topSellingsLands}:
                 <EstimatorValuesUI metaverseSelected={metaverseSelected} info={`THE HUB LAND price estimator uses AI to calculate the fair value of LANDs and help you find undervalued ones.  Leverage our heatmap to quickly get an overview of ${metaverseSelected} Map and get insights about current price trends. The valuations are updated at a daily basis.`} globalData={globalData} />
                 <div className="rounded-3xl p-7 shadow-relief-12 dark:shadow-dm-relief-12 h-[80vh]">
                   <div ref={heatmapDivRef} className="w-full h-full relative">
-                  <div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full m-4">
-                    {/* Metaverse Selection */}
-											<MapChooseMetaverse metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)}/>
-                  </div>
+                    <div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full m-4">
+                      {/* Metaverse Selection */}
+                      <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={setSelectMetaverse} setSelectfilter={setSelectFilter} setSelectCoord={setSelectCoord} />
+                      {/* Filter Selection */}
+                      <MapChooseFilterUI filterBy={filterBy} setFilterBy={setFilterBy} selectfilter={selectFilter} setSelectfilter={setSelectFilter} setSelectMetaverse={setSelectMetaverse} setSelectCoord={setSelectCoord} />
+                      {/* Search by coords */}
+                      <MapSearchUI selectCoord={selectCoord} setSelectCoord={setSelectCoord} setSelectfilter={setSelectFilter} setSelectMetaverse={setSelectMetaverse} setCoordinates={setCoordinates} coordinates={coordinates} landId={landId} setLandId={setLandId} />
+                    </div>
                     <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth ?? window.innerWidth} viewportHeight={heatmapDivRef.current?.offsetHeight ?? window.innerHeight}
-                              metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} />
+                      metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} />
                   </div>
                 </div>
                 <div>
