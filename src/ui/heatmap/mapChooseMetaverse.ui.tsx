@@ -18,7 +18,7 @@ export default function MapChooseMetaverseUI({metaverse, setMetaverse, selectMet
         {Object.values(Metaverses).map((iterateMetaverse) => {
           if (iterateMetaverse === metaverse) {
             return (
-              <div key={iterateMetaverse} className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectMetaverse && "rounded-b-none h-15"}`}>
+              <div key={iterateMetaverse} className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectMetaverse && "rounded-b-none h-[60px] pb-3"}`}>
                 {iterateMetaverse === Metaverses.SandBox && (
                   <Image src="/images/the-sandbox-sand-logo.png" width={30} height={30} alt="sandbox" />
                 )}

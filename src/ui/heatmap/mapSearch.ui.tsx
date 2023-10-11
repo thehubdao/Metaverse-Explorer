@@ -40,7 +40,7 @@ export default function MapSearchUI({selectCoord, setSelectCoord, setSelectMetav
       >
         {/* Icon */}
         <div
-          className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectCoord && "rounded-b-none h-15"}`}
+          className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectCoord && "rounded-b-none h-[60px] pb-3"}`}
         >
           <AiOutlineSearch className='text-2xl' />
         </div>

@@ -60,7 +60,7 @@ export default function MapChooseFilterUI({ filterBy, setFilterBy, selectfilter,
       {/* Filter Button + Name */}
       <button onClick={() => {setSelectfilter(!selectfilter); setSelectMetaverse(false); setSelectCoord(false);}}>
         {/* Icon */}
-        <div className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectfilter && "rounded-b-none h-15"}`}>
+        <div className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectfilter && "rounded-b-none h-[60px] pb-3"}`}>
           {filterOptions[filterBy].icon}
         </div>
       </button>
