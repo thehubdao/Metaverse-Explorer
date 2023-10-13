@@ -10,11 +10,11 @@ interface MapChooseMetaverseUIProps {
   setSelectCoord: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function MapChooseMetaverseUI({metaverse, setMetaverse, selectMetaverse, setSelectMetaverse, setSelectfilter, setSelectCoord}: MapChooseMetaverseUIProps) {
+export default function MapChooseMetaverseUI({ metaverse, setMetaverse, selectMetaverse, setSelectMetaverse, setSelectfilter, setSelectCoord }: MapChooseMetaverseUIProps) {
 
   return (
     <div className="relative">
-      <button onClick={() => {setSelectMetaverse(!selectMetaverse); setSelectfilter(false); setSelectCoord(false);}}>
+      <button onClick={() => { setSelectMetaverse(!selectMetaverse); setSelectfilter(false); setSelectCoord(false); }}>
         {Object.values(Metaverses).map((iterateMetaverse) => {
           if (iterateMetaverse === metaverse) {
             return (
@@ -34,39 +34,29 @@ export default function MapChooseMetaverseUI({metaverse, setMetaverse, selectMet
         })}
       </button>
       {selectMetaverse && (
-        <>
-          <div className="absolute top-[48px] left-[48px] w-3 h-3">
-            <Image
-              src={"/images/heatmap/curve.svg"}
-              layout="fill"
-              alt="heatmap image"
-            />
-          </div>
-          <div
-            className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}
-          >
-            {Object.values(Metaverses).map((iterateMetaverse) => (
-              <button
-                key={iterateMetaverse}
-                className="flex gap-2 md:gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark whitespace-nowrap min-w-max rounded-xl"
-                onClick={() => {setMetaverse(iterateMetaverse); setSelectMetaverse(false);}}
-              >
-                {iterateMetaverse === Metaverses.SandBox && (
-                  <Image src="/images/the-sandbox-sand-logo.png" width={25} height={25} alt="sandbox" />
-                )}
-                {iterateMetaverse === Metaverses.Decentraland && (
-                  <Image src="/images/decentraland-mana-logo.png" width={25} height={25} alt="decentraland" />
-                )}
-                {iterateMetaverse === Metaverses.SomniumSpace && (
-                  <Image src="/images/somnium-space-cube-logo.webp" width={25} height={25} alt="somnium" />
-                )}
-                <span className="text-sm md:text-base">
-                  {METAVERSE_LABEL[iterateMetaverse]}
-                </span>
-              </button>
-            ))}
-          </div>
-        </>
+        <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
+          {Object.values(Metaverses).map((iterateMetaverse) => (
+            iterateMetaverse !== metaverse &&
+            <button
+              key={iterateMetaverse}
+              className="flex gap-2 md:gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark whitespace-nowrap min-w-max rounded-xl"
+              onClick={() => { setMetaverse(iterateMetaverse); setSelectMetaverse(false); }}
+            >
+              {iterateMetaverse === Metaverses.SandBox && (
+                <Image src="/images/the-sandbox-sand-logo.png" width={25} height={25} alt="sandbox" />
+              )}
+              {iterateMetaverse === Metaverses.Decentraland && (
+                <Image src="/images/decentraland-mana-logo.png" width={25} height={25} alt="decentraland" />
+              )}
+              {iterateMetaverse === Metaverses.SomniumSpace && (
+                <Image src="/images/somnium-space-cube-logo.webp" width={25} height={25} alt="somnium" />
+              )}
+              <span className="text-sm md:text-base">
+                {METAVERSE_LABEL[iterateMetaverse]}
+              </span>
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

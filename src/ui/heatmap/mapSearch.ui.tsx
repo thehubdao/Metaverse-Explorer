@@ -47,9 +47,6 @@ export default function MapSearchUI({selectCoord, setSelectCoord, setSelectMetav
       </button>
       {selectCoord && (
         <>
-          <div className='absolute top-[48px] left-[48px] w-3 h-3'>
-            <Image src={'/images/heatmap/curve.svg'} layout='fill' alt="logo" />
-          </div>
           <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
             <div className='flex flex-col gap-2 mb-4'>
             {typedKeys(searchOptions).map((filter) => (
@@ -100,11 +97,11 @@ export default function MapSearchUI({selectCoord, setSelectCoord, setSelectMetav
                     onChange={(e) => setLandId(parseInt(e.target.value))}
                     value={landId}
                     placeholder='14271'
-                    className='font-light border-gray-300 shadowCoord placeholder-nm-fill block w-[8.5rem] text-lm-text dark:text-nm-highlight p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
+                    className='font-light border-gray-300 placeholder-nm-fill block w-[8.5rem] text-lm-text dark:text-nm-highlight p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                   />
                 )}
               </div>
-              <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in shadow-relief-12 hover:shadow-relief-32 z-10 p-2 rounded-xl bg-nm-dm-icons dark:bg-nm-fill text-nm-highlight dark:text-lm-text">
+              <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in shadow-relief-12 hover:shadow-relief-16 z-10 p-2 rounded-xl bg-nm-dm-icons dark:bg-nm-fill text-nm-highlight dark:text-lm-text">
                 <MdAddLocationAlt className='h-5 w-5 relative bottom-[0.2rem]' />
                 Search
               </button>

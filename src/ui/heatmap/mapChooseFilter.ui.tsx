@@ -2,7 +2,6 @@ import { BiTargetLock, BiTransferAlt, BiBullseye } from 'react-icons/bi';
 import { FiMap } from 'react-icons/fi';
 import { MdAttachMoney } from 'react-icons/md';
 import { VscGraphLine } from 'react-icons/vsc';
-import Image from 'next/image';
 import { Tooltip } from '@mui/material';
 import { AiFillQuestionCircle } from 'react-icons/ai';
 import { MapFilter } from '../../types/heatmap/heatmap.type';
@@ -58,7 +57,7 @@ export default function MapChooseFilterUI({ filterBy, setFilterBy, selectfilter,
   return (
     <div className='relative'>
       {/* Filter Button + Name */}
-      <button onClick={() => {setSelectfilter(!selectfilter); setSelectMetaverse(false); setSelectCoord(false);}}>
+      <button onClick={() => { setSelectfilter(!selectfilter); setSelectMetaverse(false); setSelectCoord(false); }}>
         {/* Icon */}
         <div className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectfilter && "rounded-b-none h-[60px] pb-3"}`}>
           {filterOptions[filterBy].icon}
@@ -67,16 +66,13 @@ export default function MapChooseFilterUI({ filterBy, setFilterBy, selectfilter,
       {/* FilterOptions */}
       {selectfilter && (
         <>
-          <div className='absolute top-[48px] left-[48px] w-3 h-3'>
-            <Image src={'/images/heatmap/curve.svg'} layout='fill' alt='logo' />
-          </div>
           <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
             {Object.keys(filterOptions).map((filter) => (
               filter !== filterBy && (
                 <div key={filter}>
                   <button
                     className='flex gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark min-w-max text-base'
-                    onClick={() => {setFilterBy(filter as MapFilter); setSelectfilter(false)}}
+                    onClick={() => { setFilterBy(filter as MapFilter); setSelectfilter(false) }}
                   >
                     {filterOptions[filter as MapFilter].icon}
                     <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter as MapFilter].description}>
