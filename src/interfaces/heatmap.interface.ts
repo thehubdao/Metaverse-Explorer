@@ -1,5 +1,6 @@
 import {Sprite} from "pixi.js";
 import {LandType} from "../types/heatmap/land.type";
+import { SingleLandAPIResponse } from "../types/valuationTypes";
 
 export interface HotDealsCard {
   images: {
@@ -87,4 +88,17 @@ export interface globalData{
   total_sales: number;
   total_supply: number;
   total_volume: number;
+}
+
+export interface MapCardData{
+  apiData: SingleLandAPIResponse;
+	predictions: IPredictions;
+	landCoords: { x: null | number; y: null | number };
+	name: string | null;
+}
+
+export interface IPredictions {
+  ethPrediction: number | null;
+  usdPrediction: number | null;
+  metaversePrediction?: number | null;
 }
