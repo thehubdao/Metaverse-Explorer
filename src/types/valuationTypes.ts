@@ -16,10 +16,22 @@ export type LandListAPIResponse = Record<string, SingleLandAPIResponse>;
 export interface SingleLandAPIResponse {
   
   current_price?: number;
+  current_price_eth?: number;
   eth_predicted_price: number;
   external_link: string | null;
   floor_adjusted_predicted_price?: number;
-  history: [];
+  history?: [
+    {
+      timestamp: number;
+      time: string;
+      hash: string;
+      action: string;
+      owner: string;
+      chain: string;
+      valuation: number;
+      estateId: string;
+    }
+  ];
   images: {
     image_url: string | null;
     image_preview_url: string | null;
@@ -44,6 +56,15 @@ export interface SingleLandAPIResponse {
   coords: {
     x: number;
     y: number;
+  };
+  prices?: {
+    eth_predicted_price: number;
+    predicted_price: number;
+  }
+  predictions?:{
+    ethPrediction: number;
+    usdPrediction: number;
+    metaversePrediction: number;
   };
   tokenId?: string;
 }
