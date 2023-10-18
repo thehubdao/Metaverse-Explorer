@@ -1,5 +1,5 @@
-import {Sprite} from "pixi.js";
-import {LandType} from "../types/heatmap/land.type";
+import { Sprite } from "pixi.js";
+import { LandType } from "../types/heatmap/land.type";
 import { SingleLandAPIResponse } from "../types/valuationTypes";
 
 export interface HotDealsCard {
@@ -17,16 +17,16 @@ export interface HotDealsCard {
 }
 
 export interface LandTileData {
-    name: string;
-    tokenId: string;
-    landY: number;
-    landX: number;
-    land: LandType;
-    color: string;
-    spriteRef: Sprite;
+  name: string;
+  tokenId: string;
+  landY: number;
+  landX: number;
+  land: LandType;
+  color: string;
+  spriteRef: Sprite;
 }
 
-export interface globalData{
+export interface globalData {
   average_price: number;
   fifteen_minute_average_price: number;
   count: number;
@@ -90,11 +90,14 @@ export interface globalData{
   total_volume: number;
 }
 
-export interface MapCardData{
+export interface MapCardData {
   apiData: SingleLandAPIResponse;
-	predictions: IPredictions;
-	landCoords: { x: null | number; y: null | number };
-	name: string | null;
+  predictions: IPredictions;
+  landCoords: {
+    x: null | number;
+    y: null | number
+  };
+  name: string | null;
 }
 
 export interface IPredictions {
