@@ -12,3 +12,8 @@ export enum Currencies {
   Ethereum = 'eth',
   USDCoin = 'usdc'
 }
+
+export const enum InformationCardForm{
+  MapCard = 'mapCard',
+  NormalCard = 'normalCard'
+}
