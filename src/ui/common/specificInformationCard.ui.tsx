@@ -5,12 +5,14 @@ import SpecificPriceListUI from "./specificPriceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
 import { PriceListForm } from "../../enums/common.enum";
 import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
+import { Metaverses } from "../../enums/metaverses.enum";
 
 interface SpecificInformationCardUIProps {
   land: SingleLandAPIResponse;
   prices: CoinValuesType;
+  metaverse: Metaverses
 }
-export default function SpecificInformationCardUI({ land, prices }: SpecificInformationCardUIProps) {
+export default function SpecificInformationCardUI({ land, prices, metaverse }: SpecificInformationCardUIProps) {
 
   return (
     <div className='h-full px-7 flex flex-col items-center xl:items-start text-center '>
@@ -55,7 +57,8 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
           <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm mb-2">
             Estimated Price:
           </p>
-          <PriceListUI prices={prices} form={PriceListForm.Bold}/>
+          {/* TODO mirar como se esta filtrando prices con getPriceByFilter */}
+          <PriceListUI prices={prices} form={PriceListForm.Bold} metaverse={metaverse}/>
         </div>
         <div className="xl:mt-4 ml-6 xl:ml-20">
           <SpecificPriceListUI prices={prices} />
