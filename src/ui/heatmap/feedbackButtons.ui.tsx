@@ -5,13 +5,12 @@ import { AiFillHeart } from "react-icons/ai";
 export default function FeedbackButtonsUI() {
   const [openAlert, setOpenAlert] = useState(false);
   const handleFeedback = () => {
-    setOpenAlert(true)
-  }
-
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') return;
+    setOpenAlert(true);
+  };
+  const handleClose = () => {
     setOpenAlert(false);
   };
+
   return (
     <>
       <p className="text-center text-lm-text dark:text-nm-highlight mt-2 font-normal text-sm">Do you like this price estimation?</p>
