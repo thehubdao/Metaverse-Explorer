@@ -1,5 +1,4 @@
 import { AiFillQuestionCircle, AiOutlineSearch } from "react-icons/ai";
-import Image from 'next/image';
 import { Tooltip } from '@mui/material';
 import { MdAddLocationAlt } from 'react-icons/md';
 import { useState } from "react";
@@ -7,16 +6,16 @@ import { typedKeys } from "../../utils/common.util";
 
 interface MapSearchUIProps {
   selectCoord: boolean;
-  setSelectCoord: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectfilter: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectMetaverse: React.Dispatch<React.SetStateAction<boolean>>;
-  setCoordinates: React.Dispatch<React.SetStateAction<{ X: number | undefined; Y: number | undefined }>>;
+  setSelectCoord: (coordState: boolean) => void;
+  setSelectFilter: (filterState: boolean) => void;
+  setSelectMetaverse: (metaverseState: boolean) => void;
+  setCoordinates: (newCoordinates: { X: number | undefined; Y: number | undefined }) => void;
   coordinates: { X: number | undefined; Y: number | undefined };
   landId: number | undefined;
-  setLandId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setLandId: (number: number | undefined) => void;
 }
 
-export default function MapSearchUI({selectCoord, setSelectCoord, setSelectMetaverse, setSelectfilter, setCoordinates, coordinates, landId, setLandId}: MapSearchUIProps) {
+export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMetaverse, setSelectFilter, setCoordinates, coordinates, landId, setLandId }: MapSearchUIProps) {
   const [searchBy, setSearchBy] = useState<'coordinates' | 'id'>('coordinates');
   const searchOptions = {
     coordinates: {
@@ -28,16 +27,16 @@ export default function MapSearchUI({selectCoord, setSelectCoord, setSelectMetav
       guide: 'Find LAND on Opensea > Details > Token ID',
     },
   };
-  
+
+  const handleButtonClick = () => {
+    setSelectMetaverse(false);
+    setSelectFilter(false);
+    setSelectCoord(!selectCoord);
+  };
+
   return (
     <div className='relative'>
-      <button
-        onClick={() => {
-          setSelectCoord(!selectCoord);
-          setSelectMetaverse(false);
-          setSelectfilter(false);
-        }}
-      >
+      <button onClick={handleButtonClick}>
         {/* Icon */}
         <div
           className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectCoord && "rounded-b-none h-[60px] pb-3"}`}
@@ -49,7 +48,7 @@ export default function MapSearchUI({selectCoord, setSelectCoord, setSelectMetav
         <>
           <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
             <div className='flex flex-col gap-2 mb-4'>
-            {typedKeys(searchOptions).map((filter) => (
+              {typedKeys(searchOptions).map((filter) => (
                 <div key={filter} className='flex gap-2 items-center relative'>
                   <input
                     type='radio'

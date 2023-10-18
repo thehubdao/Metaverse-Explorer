@@ -1,7 +1,7 @@
 import { BsExclamationCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import LandsMenuUI from "../common/landsMenu.ui";
-import { ButtonForm } from "../../enums/common.enum";
+import { ButtonForm, InformationCardForm } from "../../enums/common.enum";
 import EstimatorValuesUI from "./estimatorValues.ui";
 import BoxInformationUI from "./boxInformation.ui";
 import TopLandsUI from "./topLands.ui";
@@ -24,6 +24,10 @@ import FullScreenButtonUI from "../common/fullScreenButton.ui";
 import { LegendFilter } from "../../enums/heatmap/filter.enum";
 import MapLegendUI from "./mapLegend.ui";
 import MapCardUI from "./mapCard.ui";
+import SpecificMapCardUI from "./specificMapCard";
+import SpecificLandModalUI from "../common/specificLandModal.ui";
+import { BiExitFullscreen, BiFullscreen } from "react-icons/bi";
+
 
 
 const headersPicks = [
@@ -42,12 +46,17 @@ interface HeatmapUIProps {
 }
 
 export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands }: HeatmapUIProps) {
+  const { theme } = useTheme();
+
   const heatmapDivRef = useRef<HTMLDivElement>(null);
 
-  const { theme } = useTheme();
+  const isFullScreen = document.fullscreenElement;
+
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
+
   const dispatch = useAppDispatch();
+
   const [filterBy, setFilterBy] = useState<MapFilter>("basic");
   const [selectMetaverse, setSelectMetaverse] = useState<boolean>(false);
   const [selectFilter, setSelectFilter] = useState<boolean>(false);
@@ -63,9 +72,11 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
   }
 
   function onClickLand(land: LandTileData) {
-    console.warn(land);
+    console.log(land, 'kejesto');
   }
-  
+
+
+
   const data = {
     "apiData": {
       "tokenId": "3062541302288446171170371466885913903138",
@@ -130,6 +141,19 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
     },
     "name": "Parcel 9,34"
   }
+  const toggleFullScreen = () => {
+    if (heatmapDivRef.current) {
+      if (isFullScreen) {
+        document.exitFullscreen().catch((error) => {
+          console.error("Error when exiting full screen mode:", error);
+        });
+      } else {
+        heatmapDivRef.current.requestFullscreen().catch((error) => {
+          console.error("Error entering full screen mode:", error);
+        });
+      }
+    }
+  };
 
   return (
     <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
@@ -160,30 +184,38 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                   <div ref={heatmapDivRef} className="w-full h-full relative">
                     <div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full m-4">
                       {/* Metaverse Selection */}
-                      <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={setSelectMetaverse} setSelectfilter={setSelectFilter} setSelectCoord={setSelectCoord} />
+                      <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectFilter={(filterState: boolean) =>setSelectFilter(filterState)} setSelectCoord={(coordState: boolean) =>setSelectCoord(coordState)} />
                       {/* Filter Selection */}
-                      <MapChooseFilterUI filterBy={filterBy} setFilterBy={setFilterBy} selectfilter={selectFilter} setSelectfilter={setSelectFilter} setSelectMetaverse={setSelectMetaverse} setSelectCoord={setSelectCoord} />
+                      <MapChooseFilterUI filterBy={filterBy} setFilterBy={(mapFilter: MapFilter) =>setFilterBy(mapFilter)} selectFilter={selectFilter} setSelectFilter={(filterState: boolean) =>setSelectFilter(filterState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectCoord={(coordState: boolean) =>setSelectCoord(coordState)} />
                       {/* Search by coords */}
-                      <MapSearchUI selectCoord={selectCoord} setSelectCoord={setSelectCoord} setSelectfilter={setSelectFilter} setSelectMetaverse={setSelectMetaverse} setCoordinates={setCoordinates} coordinates={coordinates} landId={landId} setLandId={setLandId} />
+                      <MapSearchUI selectCoord={selectCoord} setSelectCoord={(coordState: boolean) =>setSelectCoord(coordState)} setSelectFilter={(filterState: boolean) =>setSelectFilter(filterState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setCoordinates={(newCoordinates) =>setCoordinates(newCoordinates)} coordinates={coordinates} landId={landId} setLandId={setLandId} />
                     </div>
                     {
                       isVisible &&
                       <div className="absolute z-20 top-1 right-1 rounded-full bg-nm-fill m-4 p-2 h-9 w-9">
-                        <FullScreenButtonUI
-                          fullScreenRef={heatmapDivRef}
-                        />
+                        <button onClick={toggleFullScreen}>
+                          {isFullScreen ? (
+                            <BiExitFullscreen className="text-xl text-lm-text cursor-pointer hover:scale-120" />
+                          ) : (
+                            <BiFullscreen className="text-xl text-lm-text cursor-pointer hover:scale-120" />
+                          )}
+                        </button>
                       </div>
                     }
-                    {/* <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth ?? window.innerWidth} viewportHeight={heatmapDivRef.current?.offsetHeight ?? window.innerHeight}
-                      metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} /> */}
+                    <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth ?? window.innerWidth} viewportHeight={heatmapDivRef.current?.offsetHeight ?? window.innerHeight}
+                      metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} />
                     {
                       filterBy === "basic" && isVisible &&
                       <MapLegendUI legendFilter={legendFilter} setLegendFilter={setLegendFilter} metaverse={metaverseSelected} />
                     }
-                    {!isVisible &&
+                    {!isVisible && !openSpecificModal &&
                       <div className="absolute bottom-16 right-1 flex flex-col gap-4 m-4">
                         <MapCardUI landData={data} metaverse={metaverseSelected} setIsVisible={setIsVisible} setOpenSpecificModal={setOpenSpecificModal} />
                       </div>
+                    }
+                    {!isVisible && openSpecificModal &&
+                      // <SpecificMapCardUI landData={data} metaverse={metaverseSelected} setIsVisible={setIsVisible} setOpenSpecificModal={setOpenSpecificModal} />
+                      <SpecificLandModalUI onClose={() => setOpenSpecificModal(false)} land={data.apiData} metaverse={metaverseSelected} cardForm={InformationCardForm.MapCard} setOpenSpecificModal={setOpenSpecificModal} />
                     }
                   </div>
                 </div>

@@ -8,14 +8,14 @@ import { MapFilter } from '../../types/heatmap/heatmap.type';
 
 interface MapChooseFilterUIProps {
   filterBy: MapFilter;
-  setFilterBy: React.Dispatch<React.SetStateAction<MapFilter>>;
-  selectfilter: boolean;
-  setSelectfilter: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectMetaverse: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectCoord: React.Dispatch<React.SetStateAction<boolean>>;
+  setFilterBy: (mapFliter: MapFilter) => void;  
+  selectFilter: boolean;
+  setSelectFilter: (filterState: boolean) => void;
+  setSelectMetaverse: (metaverseState: boolean) => void;
+  setSelectCoord: (coordState: boolean) => void;
 }
 
-export default function MapChooseFilterUI({ filterBy, setFilterBy, selectfilter, setSelectfilter, setSelectMetaverse, setSelectCoord }: MapChooseFilterUIProps) {
+export default function MapChooseFilterUI({ filterBy, setFilterBy, selectFilter, setSelectFilter, setSelectMetaverse, setSelectCoord }: MapChooseFilterUIProps) {
 
   const filterOptions = {
     basic: {
@@ -54,17 +54,28 @@ export default function MapChooseFilterUI({ filterBy, setFilterBy, selectfilter,
     },
   };
 
+  const handleButtonClick = () => {
+    setSelectMetaverse(false);
+    setSelectFilter(!selectFilter);
+    setSelectCoord(false);
+  };
+
+  const handleFilterClick = (filter: MapFilter) => {
+    setFilterBy(filter);
+    setSelectFilter(false);
+  };
+
   return (
     <div className='relative'>
       {/* Filter Button + Name */}
-      <button onClick={() => { setSelectfilter(!selectfilter); setSelectMetaverse(false); setSelectCoord(false); }}>
+      <button onClick={handleButtonClick}>
         {/* Icon */}
-        <div className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectfilter && "rounded-b-none h-[60px] pb-3"}`}>
+        <div className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectFilter && "rounded-b-none h-[60px] pb-3"}`}>
           {filterOptions[filterBy].icon}
         </div>
       </button>
       {/* FilterOptions */}
-      {selectfilter && (
+      {selectFilter && (
         <>
           <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
             {Object.keys(filterOptions).map((filter) => (
@@ -72,7 +83,7 @@ export default function MapChooseFilterUI({ filterBy, setFilterBy, selectfilter,
                 <div key={filter}>
                   <button
                     className='flex gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark min-w-max text-base'
-                    onClick={() => { setFilterBy(filter as MapFilter); setSelectfilter(false) }}
+                    onClick={() => handleFilterClick(filter as MapFilter)}
                   >
                     {filterOptions[filter as MapFilter].icon}
                     <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter as MapFilter].description}>

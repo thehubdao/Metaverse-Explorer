@@ -10,10 +10,11 @@ import Tooltip from "@mui/material/Tooltip";
 import PricePredictionsUI from "./pricePredictions.ui";
 import { RiLoader3Fill } from "react-icons/ri";
 import DataComparisonBoxUI from "./dataComparisonBox.ui";
+import Link from "next/link";
 
 interface MapCardUIProps {
   landData: MapCardData;
-  metaverse: Metaverses
+  metaverse: Metaverses;
   setOpenSpecificModal: React.Dispatch<React.SetStateAction<boolean>>;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -23,16 +24,18 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
     <div className="bg-nm-fill dark:bg-nm-dm-fill rounded-3xl p-6 flex w-[650px]">
       <div className="absolute right-6 top-6 flex gap-3">
         {/* Twitter button */}
-        <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12 transition duration-300 ease-in-out cursor-pointer">
-          <BsTwitter title="Share Valuation" onClick={() => window.open("www.twitter.com")} className="text-xl text-lm-text dark:text-nm-highlight hover:text-blue-500 dark:hover:text-blue-500" />
-        </div>
+        <Link href={'www.twitter.com'} target={'_blank'}>
+          <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12 transition duration-300 ease-in-out cursor-pointer text-lm-text dark:text-nm-highlight hover:text-blue-500 dark:hover:text-blue-500">
+            <BsTwitter title="Share Valuation" className="text-xl " />
+          </div>
+        </Link>
         {/* Open specific asset modal button */}
-        <div className="w-9 h-9 rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out flex justify-center items-center hover:text-xl cursor-pointer" onClick={() => { setOpenSpecificModal(true) }}>
-          <AiOutlineExpand className="text-lm-text dark:text-nm-highlight hover:text-yellow-500 dark:hover:text-yellow-500" />
+        <div className="w-9 h-9 rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out flex justify-center items-center hover:text-xl cursor-pointer text-lm-text dark:text-nm-highlight hover:text-yellow-500 dark:hover:text-yellow-500" onClick={() => { setOpenSpecificModal(true) }}>
+          <AiOutlineExpand />
         </div>
         {/* Close button */}
-        <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out cursor-pointer" onClick={() => setIsVisible(true)}>
-          <IoClose className="text-xl text-lm-text dark:text-nm-highlight hover:text-red-500 dark:hover:text-red-500" />
+        <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out cursor-pointer text-xl text-lm-text dark:text-nm-highlight hover:text-red-500 dark:hover:text-red-500" onClick={() => setIsVisible(true)}>
+          <IoClose />
         </div>
       </div>
 
@@ -66,7 +69,7 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
         <div>
           <div className="text-sm mb-3 flex gap-2 items-center text-lm-text dark:text-nm-highlight">
             Our Price Estimation:
-            <Tooltip title={<span className="whitespace-pre-line">
+            <Tooltip title={<p className="whitespace-pre-line">
               {`Stats
 										MAPE:
 										The Mean Absolute Percentage Error is the average forecast absolute error scaled to percentage units, where absolute errors allow to avoid the positive and negative errors cancelling.
@@ -77,7 +80,7 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
 										Minimum:
 										Minimum forecasted value that the trained model returns
 									`}
-            </span>}
+            </p>}
               placement="bottom-start"
               arrow
             >
@@ -89,13 +92,13 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
           {/* Price List Predictions */}
           {landData.predictions ? (
             <div className="w-fit">
-              <PricePredictionsUI metaverse={metaverse} landData={landData} />
+              <PricePredictionsUI metaverse={metaverse} prices={landData.predictions} />
             </div>
           ) : (
-            <span className="flex gap-2 text-lg">
+            <p className="flex gap-2 text-lg">
               Fetching Predictions
               <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
-            </span>
+            </p>
           )}
         </div>
         <div className="flex items-center gap-4">
@@ -105,22 +108,20 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
         <div>
           <p className="text-sm text-lm-text dark:text-nm-highlight">Find land on:</p>
           <div className="flex gap-5 font-bold">
-            <button
-              onClick={() => { window.open(landData.apiData.external_link || "") }}
-              className="flex justify-center gap-1"
-            >
-              {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='sandbox' />}
-              {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='decentraland' />}
-              {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='somniun-space' />}
-              {METAVERSE_LABEL[metaverse]}
-            </button>
-            <button
-              onClick={() => { window.open(landData.apiData.market_links?.opensea || "") }}
-              className="flex justify-center gap-1"
-            >
-              <Image src="/images/icons/markets/opensea.svg" width={20} height={20} alt="opensea logo" />
-              OpenSea
-            </button>
+            <Link href={landData.apiData.external_link || ""} target={'_blank'}>
+              <div className="flex justify-center gap-1">
+                {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='sandbox' />}
+                {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='decentraland' />}
+                {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='somniun-space' />}
+                {METAVERSE_LABEL[metaverse]}
+              </div>
+            </Link>
+            <Link href={landData.apiData.market_links?.opensea || ""} target={'_blank'}>
+              <div className="flex justify-center gap-1">
+                <Image src="/images/icons/markets/opensea.svg" width={20} height={20} alt="opensea logo" />
+                OpenSea
+              </div>
+            </Link>
           </div>
         </div>
       </div>

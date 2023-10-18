@@ -5,16 +5,21 @@ interface MapChooseMetaverseUIProps {
   metaverse: Metaverses | undefined;
   setMetaverse: (metaverse: Metaverses | undefined) => void;
   selectMetaverse: boolean;
-  setSelectMetaverse: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectfilter: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectCoord: React.Dispatch<React.SetStateAction<boolean>>;
+  setSelectMetaverse: (metaverseState: boolean) => void;
+  setSelectFilter: (filterState: boolean) => void;
+  setSelectCoord: (coordState: boolean) => void;
 }
 
-export default function MapChooseMetaverseUI({ metaverse, setMetaverse, selectMetaverse, setSelectMetaverse, setSelectfilter, setSelectCoord }: MapChooseMetaverseUIProps) {
+export default function MapChooseMetaverseUI({ metaverse, setMetaverse, selectMetaverse, setSelectMetaverse, setSelectFilter, setSelectCoord }: MapChooseMetaverseUIProps) {
+  const handleButtonClick = () => {
+    setSelectMetaverse(!selectMetaverse);
+    setSelectFilter(false);
+    setSelectCoord(false);
+  };
 
   return (
     <div className="relative">
-      <button onClick={() => { setSelectMetaverse(!selectMetaverse); setSelectfilter(false); setSelectCoord(false); }}>
+      <button onClick={handleButtonClick}>
         {Object.values(Metaverses).map((iterateMetaverse) => {
           if (iterateMetaverse === metaverse) {
             return (

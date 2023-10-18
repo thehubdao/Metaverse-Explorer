@@ -1,11 +1,11 @@
-import { LegendFilter } from "../../enums/heatmap/filter.enum"
-import { Metaverses } from "../../enums/metaverses.enum"
-import { LegendColors } from "../../enums/valuation.enum"
-import { typedKeys } from "../../utils/common.util"
+import { LegendFilter } from "../../enums/heatmap/filter.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
+import { LegendColors } from "../../enums/valuation.enum";
+import { typedKeys } from "../../utils/common.util";
 
 interface MapLegendUIProps {
   legendFilter: LegendFilter | undefined;
-  setLegendFilter: React.Dispatch<React.SetStateAction<LegendFilter | undefined>>;
+  setLegendFilter: (legend:LegendFilter | undefined) => void;
   metaverse: Metaverses;
 }
 export default function MapLegendUI({legendFilter, setLegendFilter, metaverse}: MapLegendUIProps) {
@@ -23,9 +23,9 @@ export default function MapLegendUI({legendFilter, setLegendFilter, metaverse}: 
           <button
             style={{ background: LegendColors[key] }}
             className={'w-4 h-4 top-[2px] cursor-pointer'}/>
-          <span className='text-lm-text dark:text-nm-highlight text-sm md:text-base font-semibold'>
+          <p className='text-lm-text dark:text-nm-highlight text-sm md:text-base font-semibold'>
             {key}
-          </span>
+          </p>
         </li>
       ))}
     </ul>
