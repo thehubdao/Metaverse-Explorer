@@ -4,12 +4,12 @@ import { BsTwitter } from "react-icons/bs";
 import Image from "next/image";
 import PriceListUI from "./priceList.ui";
 import { useState } from "react";
-import SpecificLandModalUI from "./specificLandModal.ui";
-import { PriceListForm } from "../../enums/common.enum";
+import { InformationCardForm, PriceListForm } from "../../enums/common.enum";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
+import SpecificLandModalUI from "./specificLandModal.ui";
 
 interface InformationCardUIProps {
   land: SingleLandAPIResponse;
@@ -43,7 +43,7 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
               <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm my-2">
                 Price Estimation:
               </p>
-              <PriceListUI prices={prices} form={PriceListForm.Bold} />
+              <PriceListUI prices={prices} form={PriceListForm.Bold}  metaverse={metaverse}/>
             </div>
           </div>
         </button>
@@ -58,7 +58,7 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
           />
         </div>
       </div>
-      {isModalOpen && (<SpecificLandModalUI onClose={() => setModalOpen(false)} land={land} prices={prices} metaverse={metaverse} />)}
+      {isModalOpen && (<SpecificLandModalUI onClose={() => setModalOpen(false)} land={land} prices={prices} metaverse={metaverse} cardForm={InformationCardForm.NormalCard}/>)}
     </>
   )
 }
