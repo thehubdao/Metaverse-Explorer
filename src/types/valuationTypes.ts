@@ -14,31 +14,20 @@ export type LandsKey = 'sandbox' | 'decentraland' | 'axie-infinity' | 'somnium-s
 export type LandListAPIResponse = Record<string, SingleLandAPIResponse>;
 
 export interface SingleLandAPIResponse {
-  
+
   current_price?: number;
   current_price_eth?: number;
   eth_predicted_price: number;
   external_link: string | null;
   floor_adjusted_predicted_price?: number;
-  history?: [
-    {
-      timestamp: number;
-      time: string;
-      hash: string;
-      action: string;
-      owner: string;
-      chain: string;
-      valuation: number;
-      estateId: string;
-    }
-  ];
+  history?: History[];
   images: {
     image_url: string | null;
     image_preview_url: string | null;
     image_thumbnail_url: string | null;
     image_original_url: string | null;
   };
-  market_links?:{
+  market_links?: {
     X2Y2: string | null;
     looksrare: string | null;
     opensea: string | null;
@@ -61,10 +50,21 @@ export interface SingleLandAPIResponse {
     eth_predicted_price: number;
     predicted_price: number;
   }
-  predictions?:{
+  predictions?: {
     ethPrediction: number;
     usdPrediction: number;
     metaversePrediction: number;
   };
   tokenId?: string;
+}
+
+export interface History {
+  timestamp: number;
+  time: string;
+  hash: string;
+  action: string;
+  owner: string;
+  chain: string;
+  valuation: number;
+  estateId: string;
 }
