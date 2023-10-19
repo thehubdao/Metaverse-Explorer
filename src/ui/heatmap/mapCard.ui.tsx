@@ -15,8 +15,8 @@ import Link from "next/link";
 interface MapCardUIProps {
   landData: MapCardData;
   metaverse: Metaverses;
-  setOpenSpecificModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSpecificModal: (isOpenModal: boolean) => void;
+  setIsVisible: (isVisible: boolean) => void;
 }
 
 export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, setIsVisible }: MapCardUIProps) {

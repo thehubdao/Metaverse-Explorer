@@ -15,7 +15,7 @@ interface SpecificLandModalUIProps {
   prices: CoinValuesType;
   metaverse: Metaverses;
   cardForm: InformationCardForm;
-  setOpenSpecificModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSpecificModal?: (isOpenModal: boolean) => void;
 }
 
 export default function SpecificLandModalUI({ onClose, land, prices, metaverse, cardForm, setOpenSpecificModal }: SpecificLandModalUIProps) {

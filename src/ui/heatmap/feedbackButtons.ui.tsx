@@ -27,11 +27,11 @@ export default function FeedbackButtonsUI() {
         <Snackbar
           open={openAlert}
           autoHideDuration={6000}
-          onClose={handleClose}
+          onClose={() => handleClose()}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
           <Alert
-            onClose={handleClose}
+            onClose={() => handleClose()}
             severity="info"
             sx={{ width: '100%' }}
             icon={<AiFillHeart />}
