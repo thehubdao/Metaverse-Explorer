@@ -14,19 +14,18 @@ import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interf
 import { TopPickLand, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
 import TopSellsLandsUI from "./topSellsLands.ui";
 import Heatmap2D from "../../components/heatmap/heatmap.component";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LandTileData } from "../../interfaces/heatmap.interface";
 import MapChooseMetaverseUI from "./mapChooseMetaverse.ui";
 import { MapFilter } from "../../types/heatmap/heatmap.type";
 import MapChooseFilterUI from "./mapChooseFilter.ui";
 import MapSearchUI from "./mapSearch.ui";
-import FullScreenButtonUI from "../common/fullScreenButton.ui";
 import { LegendFilter } from "../../enums/heatmap/filter.enum";
 import MapLegendUI from "./mapLegend.ui";
 import MapCardUI from "./mapCard.ui";
-import SpecificMapCardUI from "./specificMapCard";
 import SpecificLandModalUI from "../common/specificLandModal.ui";
 import { BiExitFullscreen, BiFullscreen } from "react-icons/bi";
+import { SingleLandAPIResponse } from "../../types/valuationTypes";
 
 
 
@@ -50,7 +49,8 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
 
   const heatmapDivRef = useRef<HTMLDivElement>(null);
 
-  const isFullScreen = document.fullscreenElement;
+  // const isFullScreen = document.fullscreenElement;
+  const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
 
   const coinPrices = useAppSelector(state => state.coinGecko.coins);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
@@ -71,11 +71,53 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
     dispatch(setHeatmapMetaverse(metaverse));
   }
 
+  // const [dims, setDims] = useState({
+	// 	height: heatmapDivRef.current?.offsetWidth,
+	// 	width: heatmapDivRef.current?.offsetWidth,
+	// });
+
+  // // Function for resizing heatmap
+	// const resize = () => {
+	// 	if (!heatmapDivRef.current) return;
+	// 	setDims({
+	// 		height: heatmapDivRef.current.offsetHeight,
+	// 		width: heatmapDivRef.current.offsetWidth,
+	// 	});
+	// };
+
+  // const handleMapSection = async (x?: number, y?: number, tokenId?: string, lands?: SingleLandAPIResponse) => {
+  //   try {
+  //     let link = '';
+  //     if (metaverseSelected === Metaverses.SandBox) {
+  //       link = `${process.env.ITRM_SERVICE}/test/${metaverseSelected}/map?`;
+  //     } else {
+  //       link = `${process.env.ITRM_SERVICE}/mgh/v2/${metaverseSelected}/map?`;
+  //     }
+
+  //     const parameters = (x !== undefined && y !== undefined) ? `x=${x}&y=${y}` : tokenId ? `tokenId=${tokenId}` : null;
+  //     const response = await fetch(`${link}${parameters}`, { method: "GET" });
+
+  //     if (!response.ok) {
+  //       console.error("Error in HTTP request:", response.status);
+  //       return setTimeout(() => setIsVisible(true), 1100);
+  //     }
+
+  //     lands = await response.json();
+
+  //     if (metaverseSelected !== Metaverses.SomniumSpace) {
+  //       lands.coords.y = -lands.coords.y;
+  //     }
+  //   } catch (e) {
+  //     console.error("An error occurred:", e);
+  //     setTimeout(() => setIsVisible(true), 1100);
+  //   }
+  // };
+
+
   function onClickLand(land: LandTileData) {
-    console.log(land, 'kejesto');
+    console.log(land, 'land');
+
   }
-
-
 
   const data = {
     "apiData": {
@@ -141,19 +183,35 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
     },
     "name": "Parcel 9,34"
   }
+
   const toggleFullScreen = () => {
     if (heatmapDivRef.current) {
-      if (isFullScreen) {
-        document.exitFullscreen().catch((error) => {
-          console.error("Error when exiting full screen mode:", error);
-        });
-      } else {
+      if (!isFullScreen) {
         heatmapDivRef.current.requestFullscreen().catch((error) => {
           console.error("Error entering full screen mode:", error);
         });
+      } else {
+        document.exitFullscreen().catch((error) => {
+          console.error("Error when exiting full screen mode:", error);
+        });
       }
+      // Actualiza el estado de pantalla completa
+      setIsFullScreen(!isFullScreen);
     }
   };
+
+  const handleClose = () => {
+    setOpenSpecificModal(false);
+    setIsVisible(true);
+  }
+
+  // useEffect(()=>{
+  //   resize();
+	// 	window.addEventListener("resize", resize);
+
+	// 	return () => window.removeEventListener("resize", resize);
+  // },[metaverseSelected])
+
 
   return (
     <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
@@ -184,20 +242,20 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                   <div ref={heatmapDivRef} className="w-full h-full relative">
                     <div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full m-4">
                       {/* Metaverse Selection */}
-                      <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectFilter={(filterState: boolean) =>setSelectFilter(filterState)} setSelectCoord={(coordState: boolean) =>setSelectCoord(coordState)} />
+                      <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectFilter={(filterState: boolean) => setSelectFilter(filterState)} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} />
                       {/* Filter Selection */}
-                      <MapChooseFilterUI filterBy={filterBy} setFilterBy={(mapFilter: MapFilter) =>setFilterBy(mapFilter)} selectFilter={selectFilter} setSelectFilter={(filterState: boolean) =>setSelectFilter(filterState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectCoord={(coordState: boolean) =>setSelectCoord(coordState)} />
+                      <MapChooseFilterUI filterBy={filterBy} setFilterBy={(mapFilter: MapFilter) => setFilterBy(mapFilter)} selectFilter={selectFilter} setSelectFilter={(filterState: boolean) => setSelectFilter(filterState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} />
                       {/* Search by coords */}
-                      <MapSearchUI selectCoord={selectCoord} setSelectCoord={(coordState: boolean) =>setSelectCoord(coordState)} setSelectFilter={(filterState: boolean) =>setSelectFilter(filterState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setCoordinates={(newCoordinates) =>setCoordinates(newCoordinates)} coordinates={coordinates} landId={landId} setLandId={setLandId} />
+                      <MapSearchUI selectCoord={selectCoord} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} setSelectFilter={(filterState: boolean) => setSelectFilter(filterState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setCoordinates={(newCoordinates) => setCoordinates(newCoordinates)} coordinates={coordinates} landId={landId} setLandId={setLandId} />
                     </div>
                     {
                       isVisible &&
-                      <div className="absolute z-20 top-1 right-1 rounded-full bg-nm-fill m-4 p-2 h-9 w-9">
+                      <div className="absolute z-20 top-1 right-1 rounded-full bg-nm-fill dark:bg-nm-dm-fill m-4 p-2 h-9 w-9">
                         <button onClick={toggleFullScreen}>
                           {isFullScreen ? (
-                            <BiExitFullscreen className="text-xl text-lm-text cursor-pointer hover:scale-120" />
+                            <BiExitFullscreen className="text-xl cursor-pointer hover:scale-120" />
                           ) : (
-                            <BiFullscreen className="text-xl text-lm-text cursor-pointer hover:scale-120" />
+                            <BiFullscreen className="text-xl cursor-pointer hover:scale-120" />
                           )}
                         </button>
                       </div>
@@ -206,16 +264,15 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                       metaverse={metaverseSelected} renderAfter={false} onClickLand={onClickLand} initialX={0} initialY={0} />
                     {
                       filterBy === "basic" && isVisible &&
-                      <MapLegendUI legendFilter={legendFilter} setLegendFilter={setLegendFilter} metaverse={metaverseSelected} />
+                      <MapLegendUI legendFilter={legendFilter} setLegendFilter={(legend: LegendFilter | undefined) => setLegendFilter(legend)} metaverse={metaverseSelected} />
                     }
                     {!isVisible && !openSpecificModal &&
                       <div className="absolute bottom-16 right-1 flex flex-col gap-4 m-4">
-                        <MapCardUI landData={data} metaverse={metaverseSelected} setIsVisible={setIsVisible} setOpenSpecificModal={setOpenSpecificModal} />
+                        <MapCardUI landData={data} metaverse={metaverseSelected} setIsVisible={(isVisble: boolean) => setIsVisible(isVisble)} setOpenSpecificModal={(isOpenModal: boolean) => setOpenSpecificModal(isOpenModal)} />
                       </div>
                     }
                     {!isVisible && openSpecificModal &&
-                      // <SpecificMapCardUI landData={data} metaverse={metaverseSelected} setIsVisible={setIsVisible} setOpenSpecificModal={setOpenSpecificModal} />
-                      <SpecificLandModalUI onClose={() => setOpenSpecificModal(false)} land={data.apiData} metaverse={metaverseSelected} cardForm={InformationCardForm.MapCard} setOpenSpecificModal={setOpenSpecificModal} />
+                      <SpecificLandModalUI onClose={() => handleClose()} land={data.apiData} metaverse={metaverseSelected} cardForm={InformationCardForm.MapCard} setOpenSpecificModal={(isOpenModal: boolean) => setOpenSpecificModal(isOpenModal)} />
                     }
                   </div>
                 </div>
@@ -233,9 +290,9 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                 </div>
                 <div className="mt-10 flex flex-wrap justify-center w-full items-end">
                   <div className="flex flex-wrap justify-center gap-x-4">
-                    <BoxInformationUI title={"Daily Volume:"} prices={coinPrices} />
-                    <BoxInformationUI title={"Floor Price:"} prices={coinPrices} />
-                    <BoxInformationUI title={"Estimate Accuracy:"} prices={coinPrices} />
+                    <BoxInformationUI title={"Daily Volume:"} prices={coinPrices} metaverse={metaverseSelected} />
+                    <BoxInformationUI title={"Floor Price:"} prices={coinPrices} metaverse={metaverseSelected} />
+                    <BoxInformationUI title={"Estimate Accuracy:"} prices={coinPrices} metaverse={metaverseSelected} />
                   </div>
                   {/* <div className="w-[580px] h-[205px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl flex flex-col items-center justify-center my-2 2xl:ml-4">
                     <h1>Graph</h1>
