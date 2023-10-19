@@ -44,7 +44,7 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
             {Object.values(Metaverses).map((iterateMetaverse, index) =>
               <div key={index}>
                 <button
-                  key={index}
+                  key={iterateMetaverse}
                   type="button"
                   className={`hidden lg:flex flex-col items-center justify-center rounded-3xl cursor-pointer w-[240px] h-[320px] mx-10 my-3 focus:outline-none transition ease-in-out duration-300 grayscale hover:grayscale-0 shadow-relief-32 hover:shadow-relief-12 dark:shadow-dm-relief-32 dark:hover:shadow-dm-relief-12 ${metaverse === iterateMetaverse ? "grayscale-0" : ""}`}
                   onClick={() => setMetaverse(iterateMetaverse)}
@@ -75,7 +75,6 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                       {METAVERSE_LABEL[iterateMetaverse].toUpperCase()}
                     </p>
                 </button>
-
               </div>
             )}
           </>
