@@ -78,9 +78,9 @@ export default function MapChooseFilterUI({ filterBy, setFilterBy, selectFilter,
       {selectFilter && (
         <>
           <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
-            {Object.keys(filterOptions).map((filter) => (
+            {Object.keys(filterOptions).map((filter, index) => (
               filter !== filterBy && (
-                <div key={filter}>
+                <div key={index}>
                   <button
                     className='flex gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark min-w-max text-base'
                     onClick={() => handleFilterClick(filter as MapFilter)}

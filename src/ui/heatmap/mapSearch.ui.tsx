@@ -48,8 +48,8 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
         <>
           <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
             <div className='flex flex-col gap-2 mb-4'>
-              {typedKeys(searchOptions).map((filter) => (
-                <div key={filter} className='flex gap-2 items-center relative'>
+              {typedKeys(searchOptions).map((filter,index) => (
+                <div key={index} className='flex gap-2 items-center relative'>
                   <input
                     type='radio'
                     name={filter}
@@ -73,9 +73,9 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
             <div className='flex flex-col gap-4 relative'>
               <div className='flex gap-2'>
                 {searchBy === 'coordinates' ? (
-                  typedKeys(coordinates).map((coord) => (
+                  typedKeys(coordinates).map((coord, index) => (
                     <input
-                      key={coord}
+                      key={index}
                       required
                       type='number'
                       onChange={(e) =>

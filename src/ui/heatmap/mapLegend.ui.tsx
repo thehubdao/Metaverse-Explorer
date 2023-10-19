@@ -18,8 +18,8 @@ export default function MapLegendUI({legendFilter, setLegendFilter, metaverse}: 
   return (
     <ul
       className="flex flex-col gap-2 bg-nm-fill dark:bg-nm-dm-fill rounded-xl p-2 w-fit absolute bottom-1 right-1 m-4">
-      {colors.map((key) => (
-        <li className='flex gap-6 items-center' key={key}>
+      {colors.map((key, index) => (
+        <li className='flex gap-6 items-center' key={index}>
           <button
             style={{ background: LegendColors[key] }}
             className={'w-4 h-4 top-[2px] cursor-pointer'}/>

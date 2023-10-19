@@ -73,6 +73,7 @@ export default function TopSellsLandsUI({ tableData, title, headers }: TopSellsL
                           <Image
                             src={item.dataTable?.image ?? ""}
                             fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="rounded-full"
                             alt="land image"
                           />

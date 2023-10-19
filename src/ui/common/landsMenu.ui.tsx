@@ -22,9 +22,9 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
       {
         form == ButtonForm.Horizontal ?
           <>
-            {TypedKeys(METAVERSE_LABEL).map((iterateMetaverse) =>
+            {TypedKeys(METAVERSE_LABEL).map((iterateMetaverse, index) =>
               <button
-                key={iterateMetaverse}
+                key={index}
                 type="button"
                 className={`w-[220px] flex items-center justify-center py-3 text-sm font-bold focus:outline-none rounded-xl mx-3 my-3 transition ease-in-out duration-300 bg-lm-fill dark:bg-nm-dm-fill  ${isAll(iterateMetaverse) ? "shadow-hollow-8 dark:shadow-dm-hollow-8  text-nm-dm-icons dark:text-nm-fill" : " shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 text-nm-dm-remark dark:text-nm-fill"}`}
                 onClick={() => setMetaverse(iterateMetaverse === "All" ? undefined : iterateMetaverse)}
@@ -41,10 +41,10 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
           </>
           :
           <>
-            {Object.values(Metaverses).map((iterateMetaverse) =>
-              <div key={iterateMetaverse}>
+            {Object.values(Metaverses).map((iterateMetaverse, index) =>
+              <div key={index}>
                 <button
-                  key={iterateMetaverse}
+                  key={index}
                   type="button"
                   className={`hidden lg:flex flex-col items-center justify-center rounded-3xl cursor-pointer w-[240px] h-[320px] mx-10 my-3 focus:outline-none transition ease-in-out duration-300 grayscale hover:grayscale-0 shadow-relief-32 hover:shadow-relief-12 dark:shadow-dm-relief-32 dark:hover:shadow-dm-relief-12 ${metaverse === iterateMetaverse ? "grayscale-0" : ""}`}
                   onClick={() => setMetaverse(iterateMetaverse)}
@@ -60,7 +60,7 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                   </p>
                 </button>
                 <button
-                  key={iterateMetaverse}
+                  key={index}
                   type="button"
                   className={`flex justify-center items-center py-3 w-[220px] text-sm font-bold focus:outline-none rounded-xl mx-3 my-4 transition ease-in-out duration-300 bg-lm-fill dark:bg-nm-dm-fill shadow-relief-12 dark:shadow-dm-relief-12 text-nm-dm-remark dark:text-nm-fill ${metaverse === iterateMetaverse ? "grayscale-0" : ""} block lg:hidden`}
                   onClick={() => setMetaverse(iterateMetaverse)}
