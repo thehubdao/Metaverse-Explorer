@@ -48,6 +48,13 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
   return (
     <>
       <header className={`${isConnected ? "bg-[url('/images/banner.png')] dark:bg-[url('/images/dm-banner.png')]" : ""} hidden lg:block`}  >
+        <div className="ml-16 relative float-left">
+          <Link href={"/metaverseexplorer"}>
+            <div className="w-full flex justify-center items-center mt-6">
+              <Image src="/images/mgh_logo/mgh_logo.svg" width={65} height={61} alt="The Hub Dao logo" />
+            </div>
+          </Link>
+        </div>
         <div className='mr-16 mt-6 relative float-right flex items-center justify-center'>
           <ConnectButtonUI />
           <DarkModeButtonUI />
@@ -78,7 +85,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                 <div className="absolute top-0 left-0 pl-7 pt-9 cursor-pointer" onClick={handleToggleClick}>
                   <div className="w-12 h-12 bg-lm-fill dark:bg-nm-black shadow-relief-12 dark:shadow-dm-relief-12 flex justify-center items-center rounded-xl">
                     <Image
-                      src={resolvedTheme === "dark" ? '/images/icons/back-white.svg':'/images/icons/back.svg'}
+                      src={resolvedTheme === "dark" ? '/images/icons/back-white.svg' : '/images/icons/back.svg'}
                       alt={'back logo'}
                       width={31}
                       height={31}
