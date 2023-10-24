@@ -13,15 +13,12 @@ import { setWatchlistMetaverse } from "../../state/watchlistSlice";
 
 interface WatchlistUIProps {
   allLands: Record<Metaverses, LandListAPIResponse> | undefined;
-  landsOwned?: number;
 }
 
-export default function WatchlistUI({allLands, landsOwned}: WatchlistUIProps) {
+export default function WatchlistUI({allLands}: WatchlistUIProps) {
   const [filteredLands, setFilteredLands] = useState<[Metaverses, LandListAPIResponse][]>([]);
   const metaverseSelected = useAppSelector(state => state.watchlist.metaverseSelected); 
   const dispatch = useAppDispatch();
-  const coinPrices = useAppSelector(state => state.coinGecko.coins);
-  const valueWorth = 1.52; //TODO: connect variable from redux watchlist state 
 
   //Filter lands by metaverse selected
   const filterLands = (metaverse: Metaverses | undefined) => {
@@ -50,22 +47,10 @@ export default function WatchlistUI({allLands, landsOwned}: WatchlistUIProps) {
           <div className="max-w-[1125px] pb-10 ">
             <SearchLandFormUI />
           </div>
-          <div >
-            <div className="flex flex-wrap gap-4 w-full items-stretch justify-center lg:justify-end">
-              <div className="flex flex-col w-48 h-24 lg:h-52 items-center justify-center rounded-xl bg-nm-gray dark:bg-nm-black dark:shadow-dm-relief-12">
-                <p className=" font-extrabold text-xl lg:text-3xl">{landsOwned ?? 0}</p>
-                <p className="text-sm font-bold dark:text-lm-text-gray  mt-2 lg:mt-6">Total LANDs owned</p>
-              </div>
-              <div className="flex flex-col w-48 h-24 lg:h-52 items-center justify-center rounded-xl bg-nm-gray dark:bg-nm-black dark:shadow-dm-relief-12">
-                <p className=" font-extrabold text-xl lg:text-3xl">{valueWorth} ETH</p>
-                <p className="text-sm font-bold dark:text-lm-text-gray  mt-2 lg:mt-6">Total Value worth</p>
-              </div>
-            </div>
-          </div>
         </div>
         <div className="border-b border-nm-remark dark:border-nm-dm-fill h-[2px] my-10"></div>
         <div className="pb-20 flex flex-wrap w-full justify-around 2xl:justify-between gap-6">
-          <LandCardListUI lands={filteredLands} prices={coinPrices} />
+          <LandCardListUI lands={filteredLands} />
         </div>
       </div>
     </>
