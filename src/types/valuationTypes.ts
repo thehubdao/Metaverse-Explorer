@@ -4,7 +4,7 @@ export interface ICoinPrices {
   decentraland: { usd: number }
   ethereum: { usd: number }
   'the-sandbox': { usd: number }
-  'axie-infinity': { usd: number }
+  'axie-infinity'?: { usd: number }
   'somnium-space-cubes': { usd: number }
 }
 
@@ -67,4 +67,9 @@ export interface History {
   chain: string;
   valuation: number;
   estateId: string;
+}
+
+export interface TotalWorthData{
+  ethPrediction: number;
+  usdPrediction: number;
 }

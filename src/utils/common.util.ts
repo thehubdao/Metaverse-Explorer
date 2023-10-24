@@ -1,3 +1,6 @@
+import { Metaverses } from "../enums/metaverses.enum";
+import { ICoinPrices } from "../types/valuationTypes";
+
 /**
  * @returns Array of Object keys with their proper types. Use this instead of Object.keys
  */
@@ -84,4 +87,24 @@ export function Delay(ms: number) {
 
 export function Raise(msg: string): never {
   throw new Error(msg);
+}
+
+export const convertETHPrediction = (
+  coinPrices: ICoinPrices,
+  ethPrediction = 0,
+  metaverse: Metaverses
+) => {
+  const ethUSD = coinPrices.ethereum.usd;
+  const usdPrediction = ethPrediction * ethUSD;
+  const formattedMetaverse =
+      metaverse === Metaverses.SandBox
+          ? 'the-sandbox'
+          : metaverse === Metaverses.SomniumSpace
+              ? 'somnium-space-cubes'
+              : metaverse
+
+  const metaverseUSD = coinPrices[formattedMetaverse].usd;
+  const metaversePrediction = usdPrediction / metaverseUSD;
+
+  return { ethPrediction, usdPrediction, metaversePrediction };
 }

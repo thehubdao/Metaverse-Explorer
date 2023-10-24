@@ -40,7 +40,8 @@ export async function AuthConnect(client: WalletClient): Promise<Result<TokenDat
 
 async function GetNonce(address: string): Promise<Result<NonceResponse>> {
   try {
-    const itrmAuthUrl = process.env.NEXT_PUBLIC_AUTH_SERVICE ?? Raise("Missing AuthService env variable!");
+    // const itrmAuthUrl = process.env.NEXT_PUBLIC_AUTH_SERVICE ?? Raise("Missing AuthService env variable!");
+    const itrmAuthUrl = 'https://auth-service.thehubdao.xyz';
     
     const result = await axios.get<NonceResponse>(`${itrmAuthUrl}/authService/getNonce`, {
       params: {
@@ -58,7 +59,8 @@ async function GetNonce(address: string): Promise<Result<NonceResponse>> {
 
 async function SendSignedNonce(address: string, signedNonce: string): Promise<Result<TokenData>> {
   try {
-    const itrmAuthUrl = process.env.NEXT_PUBLIC_AUTH_SERVICE ?? Raise("Missing AuthService env variable!");
+    // const itrmAuthUrl = process.env.NEXT_PUBLIC_AUTH_SERVICE ?? Raise("Missing AuthService env variable!");
+    const itrmAuthUrl = 'https://auth-service.thehubdao.xyz';
     
     const result = await axios.post<TokenData>(`${itrmAuthUrl}/authService/loginWallet?address=${address}&signature=${signedNonce}`,
       {},

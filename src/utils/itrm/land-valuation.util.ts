@@ -4,30 +4,30 @@ import axios from "axios";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {
-  LandValuationDatum,
   MetaverseGlobalData,
   MetaversePerformance
 } from "../../interfaces/itrm/land-valuation.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
+import { SingleLandAPIResponse } from "../../types/valuationTypes";
 
 // type ApiMetaverse = 'sandbox' | 'decentraland' | 'fluf' | 'somnium-space';
 
 interface MapParams {
   from: number;
   size: number;
-  tokenId?: number;
+  tokenId?: string;
   x?: number;
   y?: number;
   reduced?: boolean;
 }
 
-export async function GetMapLandValuation(metaverse: Metaverses, params: MapParams): Promise<Result<Record<string, LandValuationDatum>>> {
+export async function GetMapLandValuation(metaverse: Metaverses, params: MapParams): Promise<Result<Record<string, SingleLandAPIResponse>>> {
   try {
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
     // const requestEnd = metaverse === "fluf" ? "collection" : "map";
     const requestEnd = "map";
 
-    const response = await axios.get<Record<string, LandValuationDatum>>(`${itrmServiceUrl}/mgh/v2/${metaverse}/${requestEnd}`, {
+    const response = await axios.get<Record<string, SingleLandAPIResponse>>(`${itrmServiceUrl}/mgh/v2/${metaverse}/${requestEnd}`, {
       params
     });
 
