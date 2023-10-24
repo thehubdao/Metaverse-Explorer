@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 interface DataComparisonBoxUIProps {
   currentPriceEth: number | undefined;
-  predictions: IPredictions;
+  predictions: IPredictions | undefined;
 }
 export default function DataComparisonBoxUI({ currentPriceEth, predictions }: DataComparisonBoxUIProps) {
   const ethPredictionPrice = predictions?.ethPrediction;
@@ -18,7 +18,7 @@ export default function DataComparisonBoxUI({ currentPriceEth, predictions }: Da
         ?
         <>
           <div className='flex'>
-            <Image src={'/images/eth.svg'} width={20} height={20} className='rounded-full' alt="logo" />
+            <Image src="/images/eth.svg" width={20} height={20} className='rounded-full' alt="logo" />
             <p className={`text-lg`}>
               {`${currentPriceEth?.toFixed(2)} ETH`}
             </p>
@@ -33,7 +33,7 @@ export default function DataComparisonBoxUI({ currentPriceEth, predictions }: Da
             </p>
           </div>
         </>
-        : <p className={`text-lg`}>Not Listed</p>
+        : <p className={`text-lg dark:text-lm-text-gray`}>Not Listed</p>
       }
     </div >
   )
