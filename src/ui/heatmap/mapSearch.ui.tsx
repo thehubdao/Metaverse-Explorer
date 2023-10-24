@@ -7,7 +7,7 @@ import { typedKeys } from "../../utils/common.util";
 interface MapSearchUIProps {
   selectCoord: boolean;
   setSelectCoord: (coordState: boolean) => void;
-  setSelectFilter: (filterState: boolean) => void;
+  setSelectFilter?: (filterState: boolean) => void;
   setSelectMetaverse: (metaverseState: boolean) => void;
   setCoordinates: (newCoordinates: { X: number | undefined; Y: number | undefined }) => void;
   coordinates: { X: number | undefined; Y: number | undefined };
@@ -30,7 +30,7 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
 
   const handleButtonClick = () => {
     setSelectMetaverse(false);
-    setSelectFilter(false);
+    setSelectFilter && setSelectFilter(false);
     setSelectCoord(!selectCoord);
   };
 
