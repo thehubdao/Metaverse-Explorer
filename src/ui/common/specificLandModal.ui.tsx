@@ -3,22 +3,22 @@ import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import SpecificInformationCardUI from "./specificInformationCard.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
-import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
 import { InformationCardForm } from "../../enums/common.enum";
 import Link from "next/link";
 import { BsTwitter } from "react-icons/bs";
 import { AiOutlineCompress } from "react-icons/ai";
+import { IPredictions } from "../../interfaces/heatmap.interface";
 
 interface SpecificLandModalUIProps {
   onClose: () => void;
   land: SingleLandAPIResponse;
-  prices: CoinValuesType;
+  predictions?: IPredictions | undefined;
   metaverse: Metaverses;
   cardForm: InformationCardForm;
   setOpenSpecificModal?: (isOpenModal: boolean) => void;
 }
 
-export default function SpecificLandModalUI({ onClose, land, prices, metaverse, cardForm, setOpenSpecificModal }: SpecificLandModalUIProps) {
+export default function SpecificLandModalUI({ onClose, land, predictions, metaverse, cardForm, setOpenSpecificModal }: SpecificLandModalUIProps) {
 
   return (
     <div className="z-50 fixed w-full h-screen top-0 left-0 flex justify-center items-center bg-black/75" >
@@ -59,7 +59,7 @@ export default function SpecificLandModalUI({ onClose, land, prices, metaverse, 
           </div>
           <div className="w-full xl:w-1/2 flex justify-center items-center">
             <div className="w-auto xl:w-[600px] h-auto xl:h-[650px]">
-              {/* <SpecificInformationCardUI land={land} prices={prices} metaverse={metaverse} /> */}
+              <SpecificInformationCardUI land={land} predictions={predictions} metaverse={metaverse}  cardForm={cardForm}/>
             </div>
           </div>
         </div>

@@ -1,20 +1,20 @@
 import { PriceListForm } from "../../enums/common.enum";
 import { Metaverses } from "../../enums/metaverses.enum";
-import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
+import { IPredictions } from "../../interfaces/heatmap.interface";
 import PriceListUI from "../common/priceList.ui";
 
 interface BoxInformationUIProps{
   title: string;
-  prices: CoinValuesType;
+  predictions: IPredictions | undefined;
   metaverse: Metaverses;
 }
 
-export default function BoxInformationUI({title, prices, metaverse}:BoxInformationUIProps) {
+export default function BoxInformationUI({title, predictions, metaverse}:BoxInformationUIProps) {
   return (
     <div className="my-2">
       <p className="font-semibold text-lg ml-4">{title}</p>
       <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-[315px] h-[205px] flex">
-        <PriceListUI prices={prices} form={PriceListForm.Light} metaverse={metaverse}/>
+        <PriceListUI predictions={predictions} form={PriceListForm.Light} metaverse={metaverse}/>
       </div>
     </div>
   )

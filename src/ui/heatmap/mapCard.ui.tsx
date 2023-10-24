@@ -1,25 +1,28 @@
 import { BsTwitter } from "react-icons/bs";
 import { METAVERSE_LABEL, Metaverses } from "../../enums/metaverses.enum";
-import { MapCardData } from "../../interfaces/heatmap.interface";
 import { AiFillQuestionCircle, AiOutlineExpand } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import FeedbackButtonsUI from "./feedbackButtons.ui";
 import WatchlistButtonUI from "./watchlistButton.ui";
 import Tooltip from "@mui/material/Tooltip";
-import PricePredictionsUI from "./pricePredictions.ui";
 import { RiLoader3Fill } from "react-icons/ri";
 import DataComparisonBoxUI from "./dataComparisonBox.ui";
 import Link from "next/link";
+import { IPredictions } from "../../interfaces/heatmap.interface";
+import { SingleLandAPIResponse } from "../../types/valuationTypes";
+import PriceListUI from "../common/priceList.ui";
+import { PriceListForm } from "../../enums/common.enum";
 
 interface MapCardUIProps {
-  landData: MapCardData;
+  landData: SingleLandAPIResponse;
   metaverse: Metaverses;
+  predictions?: IPredictions | undefined;
   setOpenSpecificModal: (isOpenModal: boolean) => void;
   setIsVisible: (isVisible: boolean) => void;
 }
 
-export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, setIsVisible }: MapCardUIProps) {
+export default function MapCardUI({ landData, metaverse, predictions, setOpenSpecificModal, setIsVisible }: MapCardUIProps) {
   return (
     <div className="bg-nm-fill dark:bg-nm-dm-fill rounded-3xl p-6 flex w-[650px]">
       <div className="absolute right-6 top-6 flex gap-3">
@@ -34,7 +37,7 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
           <AiOutlineExpand />
         </div>
         {/* Close button */}
-        <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out cursor-pointer text-xl text-lm-text dark:text-nm-highlight hover:text-red-500 dark:hover:text-red-500" onClick={() => setIsVisible(true)}>
+        <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out cursor-pointer text-xl text-lm-text dark:text-nm-highlight hover:text-red-500 dark:hover:text-red-500" onClick={() => setIsVisible(false)}>
           <IoClose />
         </div>
       </div>
@@ -45,7 +48,7 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
           <Image
             height={188}
             width={250}
-            src={landData.apiData.images.image_url || ""}
+            src={landData.images.image_url || ""}
             alt="map image"
             className="rounded-xl"
           />
@@ -74,7 +77,7 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
 										MAPE:
 										The Mean Absolute Percentage Error is the average forecast absolute error scaled to percentage units, where absolute errors allow to avoid the positive and negative errors cancelling.
 										R-Squared:
-										The R-Squared also known as coefficient of determination is the proportion of the variation between the forecasted valuations and actual selling prices. It ranges from 0 to 1 where 1 indicates the forcasted values match perfectly with actual values.
+										The R-Squared also known as coefficient of determination is the proportion of the variation between the forecasted valuations and actual selling predictions. It ranges from 0 to 1 where 1 indicates the forcasted values match perfectly with actual values.
 										Maximum:
 										Maximum forecasted value that the trained model returns
 										Minimum:
@@ -90,10 +93,15 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
             </Tooltip>
           </div>
           {/* Price List Predictions */}
-          {landData.predictions ? (
-            <div className="w-fit">
-              <PricePredictionsUI metaverse={metaverse} prices={landData.predictions} />
-            </div>
+          {landData.eth_predicted_price ? (
+            <>
+              {
+                predictions &&
+                <div className="w-fit">
+                  <PriceListUI predictions={predictions} form={PriceListForm.Bold}  metaverse={metaverse}/>
+                </div>
+              }
+            </>
           ) : (
             <p className="flex gap-2 text-lg">
               Fetching Predictions
@@ -103,12 +111,12 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
         </div>
         <div className="flex items-center gap-4">
           <p className="text-sm text-lm-text dark:text-nm-highlight">Listing price: </p>
-          <DataComparisonBoxUI currentPriceEth={landData.apiData.current_price_eth} predictions={landData.predictions} />
+          <DataComparisonBoxUI currentPriceEth={landData.current_price_eth} predictions={predictions} />
         </div>
         <div>
           <p className="text-sm text-lm-text dark:text-nm-highlight">Find land on:</p>
           <div className="flex gap-5 font-bold">
-            <Link href={landData.apiData.external_link || ""} target={'_blank'}>
+            <Link href={landData.external_link || ""} target={'_blank'}>
               <div className="flex justify-center gap-1">
                 {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='sandbox' />}
                 {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='decentraland' />}
@@ -116,7 +124,7 @@ export default function MapCardUI({ landData, metaverse, setOpenSpecificModal, s
                 {METAVERSE_LABEL[metaverse]}
               </div>
             </Link>
-            <Link href={landData.apiData.market_links?.opensea || ""} target={'_blank'}>
+            <Link href={landData.market_links?.opensea || ""} target={'_blank'}>
               <div className="flex justify-center gap-1">
                 <Image src="/images/icons/markets/opensea.svg" width={20} height={20} alt="opensea logo" />
                 OpenSea
