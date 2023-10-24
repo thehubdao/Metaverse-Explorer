@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { LandListAPIResponse } from "../../types/valuationTypes";
+import { LandListAPIResponse, TotalWorthData } from "../../types/valuationTypes";
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
@@ -14,17 +14,16 @@ import { setPortfolioMetaverse } from "../../state/portfolioSlice";
 interface PortfolioUIProps {
   allLands: Record<Metaverses, LandListAPIResponse> | undefined;
   landsOwned: number;
+  totalWorth: TotalWorthData;
 }
 
-export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) {
+export default function PortfolioUI({allLands , landsOwned, totalWorth }: PortfolioUIProps) {
   // const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [filteredLands, setFilteredLands] = useState<[Metaverses, LandListAPIResponse][]>([]);
   const metaverseSelected = useAppSelector(state => state.portfolio.metaverseSelected); 
   const dispatch = useAppDispatch();
-  const coinPrices = useAppSelector(state => state.coinGecko.coins);
-  const valueWorth = 1.52; //TODO: connect variable from redux portfolio state 
-
+  
   //Filter lands by metaverse selected
   const filterLands = (metaverse: Metaverses | undefined) => {
     dispatch(setPortfolioMetaverse(metaverse));
@@ -34,8 +33,7 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
         auxLands = ObjectEntries(allLands).filter((specificLands) => specificLands[0] === metaverse);
       else
         auxLands = ObjectEntries(allLands);
-
-      setFilteredLands(auxLands);
+      setFilteredLands(auxLands);      
       validateEmpty(auxLands);
     }
   }
@@ -66,7 +64,7 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
             <p className="text-sm font-bold dark:text-lm-text-gray mt-2 lg:mt-6">Total LANDs owned</p>
           </div>
           <div className="flex flex-col w-48 h-24 lg:h-52 items-center justify-center rounded-xl bg-nm-fill dark:bg-nm-black dark:shadow-dm-relief-12">
-            <p className=" font-extrabold text-xl lg:text-3xl">{valueWorth} ETH</p>
+            <p className=" font-extrabold text-xl lg:text-3xl">{totalWorth.ethPrediction.toFixed(3)} ETH</p>
             <p className="text-sm font-bold dark:text-lm-text-gray mt-2 lg:mt-6">Total Value worth</p>
           </div>
         </div>
@@ -82,7 +80,7 @@ export default function PortfolioUI({allLands , landsOwned }: PortfolioUIProps) 
             :
             <div>
               <div className=" mb-24 flex flex-wrap w-full justify-around 2xl:justify-between">
-                <LandCardListUI lands={filteredLands} prices={coinPrices} />
+                <LandCardListUI lands={filteredLands}/>
               </div>
             </div>
         }
