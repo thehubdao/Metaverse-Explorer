@@ -30,11 +30,11 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                 onClick={() => setMetaverse(iterateMetaverse === "All" ? undefined : iterateMetaverse)}
               >
                 {iterateMetaverse === Metaverses.SandBox &&
-                  <Image src="/images/mgh_logo/mgh_logo.svg" width={24} height={24} alt="sandbox" className={`mr-4 ${metaverse === Metaverses.SandBox ? 'grayscale-0' : 'grayscale'}`} />}
+                  <Image src="/images/mgh_logo/mgh_logo.svg" width={24} height={24} alt="Sandbox" className={`mr-4 ${metaverse === Metaverses.SandBox ? 'grayscale-0' : 'grayscale'}`} />}
                 {iterateMetaverse === Metaverses.Decentraland &&
-                  <Image src="/images/decentraland-mana-logo.png" width={24} height={24} alt="sandbox" className={`mr-4 ${metaverse === Metaverses.Decentraland ? 'grayscale-0' : 'grayscale'}`} />}
+                  <Image src="/images/decentraland-mana-logo.png" width={24} height={24} alt="Decentraland" className={`mr-4 ${metaverse === Metaverses.Decentraland ? 'grayscale-0' : 'grayscale'}`} />}
                 {iterateMetaverse === Metaverses.SomniumSpace &&
-                  <Image src="/images/somnium-space-cube-logo.webp" width={24} height={24} alt="sandbox" className={`mr-4 ${metaverse === Metaverses.SomniumSpace ? 'grayscale-0' : 'grayscale'}`} />}
+                  <Image src="/images/somnium-space-cube-logo.webp" width={24} height={24} alt="Somniun space" className={`mr-4 ${metaverse === Metaverses.SomniumSpace ? 'grayscale-0' : 'grayscale'}`} />}
                 {METAVERSE_LABEL[iterateMetaverse].toUpperCase()}
               </button>
             )}
@@ -50,11 +50,11 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                   onClick={() => setMetaverse(iterateMetaverse)}
                 >
                   {iterateMetaverse === Metaverses.SandBox &&
-                    <Image src="/images/the-sandbox-sand-logo.png" width={100} height={100} alt="sandbox" />}
+                    <Image src="/images/the-sandbox-sand-logo.png" width={100} height={100} alt="Sandbox" />}
                   {iterateMetaverse === Metaverses.Decentraland &&
-                    <Image src="/images/decentraland-mana-logo.png" width={100} height={100} alt="sandbox" />}
+                    <Image src="/images/decentraland-mana-logo.png" width={100} height={100} alt="Decentraland" />}
                   {iterateMetaverse === Metaverses.SomniumSpace &&
-                    <Image src="/images/somnium-space-cube-logo.webp" width={100} height={100} alt="sandbox" />}
+                    <Image src="/images/somnium-space-cube-logo.webp" width={100} height={100} alt="Somniun space" />}
                   <p className="mt-14 text-lg font-semibold text-lm-text dark:text-nm-fill">
                     {METAVERSE_LABEL[iterateMetaverse].toUpperCase()}
                   </p>
@@ -66,11 +66,11 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                   onClick={() => setMetaverse(iterateMetaverse)}
                 >
                   {iterateMetaverse === Metaverses.SandBox &&
-                    <Image src="/images/the-sandbox-sand-logo.png" width={24} height={24} alt="sandbox"/>}
+                    <Image src="/images/the-sandbox-sand-logo.png" width={24} height={24} alt="Sandbox"/>}
                   {iterateMetaverse === Metaverses.Decentraland &&
-                    <Image src="/images/decentraland-mana-logo.png" width={24} height={24} alt="sandbox"/>}
+                    <Image src="/images/decentraland-mana-logo.png" width={24} height={24} alt="Decentraland"/>}
                   {iterateMetaverse === Metaverses.SomniumSpace &&
-                    <Image src="/images/somnium-space-cube-logo.webp" width={24} height={24} alt="sandbox"/>}
+                    <Image src="/images/somnium-space-cube-logo.webp" width={24} height={24} alt="Somniun space"/>}
                     <p className="pl-2">
                       {METAVERSE_LABEL[iterateMetaverse].toUpperCase()}
                     </p>
