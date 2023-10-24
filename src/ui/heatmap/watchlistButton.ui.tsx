@@ -1,7 +1,7 @@
-import { MapCardData } from "../../interfaces/heatmap.interface";
+import { SingleLandAPIResponse } from "../../types/valuationTypes";
 
 interface WatchlistButtonUIProps{
-  landData: MapCardData;
+  landData: SingleLandAPIResponse;
 }
 
 export default function WatchlistButtonUI({landData}:WatchlistButtonUIProps) {
