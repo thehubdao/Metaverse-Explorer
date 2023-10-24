@@ -12,6 +12,7 @@ import {fetchPortfolio} from '../state/portfolioSlice';
 import {AuthConnect} from "../utils/itrm/auth.util";
 import {LogError} from "../utils/logging.util";
 import {Module} from "../enums/logging.enum";
+import { fetchCoinGecko } from '../state/coin-gecko.slice';
 
 
 let didSignerSet = false;
@@ -88,6 +89,7 @@ export function Login() {
 
     void dispatch(fetchWatchlist({address, accessToken}));
     void dispatch(fetchPortfolio({address}));
+    void dispatch(fetchCoinGecko());
   }, [address, accessToken, dispatch])
 
   return (
