@@ -3,11 +3,11 @@ import { ethers } from "ethers";
 import { getAddress } from 'ethers/lib/utils'
 import { getUserNFTs } from "../lib/nftUtils";
 import { Chains } from "../lib/chains";
-import { convertETHPrediction, fetchLandList } from "../lib/valuation/valuationUtils";
+import { fetchLandList } from "../lib/valuation/valuationUtils";
 import { getCoingeckoPrices } from "../backend/services/ITRMService";
 import { LogError } from "../utils/logging.util";
 import { Module } from "../enums/logging.enum";
-import { typedKeys } from "../utils/common.util";
+import { convertETHPrediction, typedKeys } from "../utils/common.util";
 import { LandListAPIResponse } from "../types/valuationTypes";
 import { Metaverses } from "../enums/metaverses.enum";
 
