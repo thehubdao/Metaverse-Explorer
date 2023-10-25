@@ -47,11 +47,11 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
 
   return (
     <>
-      <header className={`${isConnected ? "bg-[url('/images/banner.png')] dark:bg-[url('/images/dm-banner.png')]" : ""} hidden lg:block`}  >
+      <header className={`${isConnected ? "bg-[url('/images/BANNER.png')] dark:bg-[url('/images/BANNER_DARK.png')]" : ""} hidden lg:block`}  >
         <div className="ml-16 relative float-left">
           <Link href={"/metaverseexplorer"}>
             <div className="w-full flex justify-center items-center mt-6">
-              <Image src="/images/mgh_logo/mgh_logo.svg" width={65} height={61} alt="The Hub Dao logo" />
+              <Image src={ isConnected ? "/images/mgh_logo/THEHUB_LOGO.svg" : "/images/mgh_logo/mgh_logo.svg"} width={65} height={61} alt="The Hub Dao logo" />
             </div>
           </Link>
         </div>
