@@ -52,10 +52,10 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
             alt="map image"
             className="rounded-xl"
           />
-          <div className='absolute bottom-4 left-3 bg-grey-panel rounded-full flex justify-center items-center p-1'>
-            {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={40} height={40} alt='sandbox' className='rounded-full p-1 bg-nm-highlight absolute bottom-3 left-3' />}
-            {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={40} height={40} alt='decentraland' className='rounded-full p-1 bg-nm-highlight absolute bottom-3 left-3' />}
-            {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={40} height={40} alt='somniun-space' className='rounded-full p-1 bg-nm-highlight absolute bottom-3 left-3' />}
+          <div className='absolute bottom-4 left-3 flex justify-center items-center p-1 z-10'>
+            {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={40} height={40} alt='sandbox' className='rounded-full p-1 bg-nm-highlight' />}
+            {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={40} height={40} alt='decentraland' className='rounded-full p-1 bg-nm-highlight' />}
+            {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={40} height={40} alt='somniun-space' className='rounded-full p-1 bg-nm-highlight' />}
           </div>
         </div>
         {/* Feedback Buttons */}
