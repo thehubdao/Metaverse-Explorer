@@ -3,19 +3,13 @@
 import { usePathname } from 'next/navigation';
 import LinkedButtonUI from "./linkedButtons.ui";
 import { useAppSelector } from '../../state/hooks';
+import { OptionProps } from '../../interfaces/common.interface';
 
-interface OptionProps {
-  name: string;
-  route: string;
-  image: string;
-  darkImage: string;
-}
-
-interface GeneralSectionProps {
+interface SubHeaderUIProps {
   optionList: OptionProps[];
 }
 
-export default function SubHeaderUI({ optionList }: GeneralSectionProps) {
+export default function SubHeaderUI({ optionList }: SubHeaderUIProps) {
   const pathname = usePathname();
   const isConnected = useAppSelector(state => state.login.connected);
 
