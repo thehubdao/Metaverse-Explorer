@@ -38,7 +38,7 @@ export default function SpecificLandModalUI({ onClose, land, predictions, metave
                 <AiOutlineCompress/>
               </div>
               {/* Close button */}
-              <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out cursor-pointer text-xl text-lm-text dark:text-nm-highlight hover:text-red-500 dark:hover:text-red-500" onClick={onClose}>
+              <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out cursor-pointer text-xl text-lm-text dark:text-nm-highlight hover:text-red-500 dark:hover:text-red-500" onClick={() => onClose()}>
                 <IoClose />
               </div>
             </div>
@@ -46,7 +46,7 @@ export default function SpecificLandModalUI({ onClose, land, predictions, metave
             <div className="absolute right-6 top-6 flex gap-3 z-10">
               <div
                 className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12 p-2 bg-lm-fill dark:bg-nm-dm-fill text-lm-text dark:text-nm-fill hover:text-red-500 dark:hover:text-red-500 transition duration-300 ease-in-out cursor-pointer"
-                onClick={onClose}
+                onClick={() => onClose()}
               >
                 <IoClose />
               </div>
