@@ -16,7 +16,7 @@ export default function PortfolioComponent() {
         :
         <>
           {
-            portfolio.list !== undefined ? <PortfolioUI allLands={portfolio.list} landsOwned={portfolio.length ?? 0} totalWorth={portfolio.totalWorth || { ethPrediction: 0, usdPrediction: 0 }}/>
+            portfolio.list !== undefined ? <PortfolioUI allLands={portfolio.list} landsOwned={portfolio.length ?? 0} totalWorth={portfolio.totalWorth}/>
               :
               <LoaderUI size={100} text={"Loading lands..."}/>
           }
