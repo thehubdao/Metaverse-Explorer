@@ -38,7 +38,7 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
       </button>
       {selectCoord &&
         <>
-          <form className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
+          <form className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`} onSubmit={event => event.preventDefault()}>
             <div className='flex flex-col gap-2 mb-4'>
               {typedKeys(SEARCH_OPTIONS).map((filter, index) => (
                 <div key={index} className='flex gap-2 items-center relative'>
