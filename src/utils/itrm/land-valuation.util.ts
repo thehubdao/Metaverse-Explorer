@@ -10,8 +10,6 @@ import {
 import {Metaverses} from "../../enums/metaverses.enum";
 import { SingleLandAPIResponse } from "../../types/valuationTypes";
 
-// type ApiMetaverse = 'sandbox' | 'decentraland' | 'fluf' | 'somnium-space';
-
 interface MapParams {
   from: number;
   size: number;
