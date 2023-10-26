@@ -87,3 +87,14 @@ export const SUB_HEADER_LIST = [
   //   route: "metaverseexplorer/analytics",
   // },
 ];
+
+export const SEARCH_OPTIONS = {
+  coordinates: {
+    hasGuide: false,
+    guide: '',
+  },
+  id: {
+    hasGuide: true,
+    guide: 'Find LAND on Opensea > Details > Token ID',
+  },
+};
