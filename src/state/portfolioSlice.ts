@@ -8,20 +8,16 @@ import { getCoingeckoPrices } from "../backend/services/ITRMService";
 import { LogError } from "../utils/logging.util";
 import { Module } from "../enums/logging.enum";
 import { convertETHPrediction, typedKeys } from "../utils/common.util";
-import { LandListAPIResponse } from "../types/valuationTypes";
+import { LandListAPIResponse, TotalWorthData } from "../types/valuationTypes";
 import { Metaverses } from "../enums/metaverses.enum";
-
-interface TotalWorth {
-    ethPrediction: number;
-    usdPrediction: number;
-}
+import { DEFAULT_TOTAL_WORTH } from "../constants/common.constant";
 
 interface IState {
     list: Record<Metaverses, LandListAPIResponse> | undefined,
     isLoading: boolean;
     error: string | undefined;
     length: number | undefined;
-    totalWorth: TotalWorth | undefined;
+    totalWorth: TotalWorthData;
     currentAddress: string | undefined;
     metaverseSelected: Metaverses | undefined;
 }
@@ -31,7 +27,7 @@ const initialState: IState = {
     isLoading: false,
     length: 0,
     error: undefined,
-    totalWorth: undefined,
+    totalWorth: DEFAULT_TOTAL_WORTH,
     currentAddress: undefined,
     metaverseSelected: undefined
 }
@@ -62,7 +58,7 @@ export const fetchPortfolio = createAsyncThunk(
 
         const lands: Record<Metaverses, LandListAPIResponse> = { sandbox: {}, decentraland: {}, "somnium-space": {} };
         let totalLandsCounter = 0;
-        const totalWorth: TotalWorth = { ethPrediction: 0, usdPrediction: 0};
+        const totalWorth: TotalWorthData = { ethPrediction: 0, usdPrediction: 0};
 
         try {
             await Promise.all(
@@ -149,7 +145,7 @@ export const portfolio = createSlice({
             state.isLoading = false;
             state.list = action.payload?.lands;
             state.length = action.payload?.totalLandsCounter;
-            state.totalWorth = action.payload?.totalWorth;
+            state.totalWorth = action.payload?.totalWorth ?? DEFAULT_TOTAL_WORTH;
             state.currentAddress = action.payload?.address;
         });
         builder.addCase(fetchPortfolio.rejected, (state, action) => {
