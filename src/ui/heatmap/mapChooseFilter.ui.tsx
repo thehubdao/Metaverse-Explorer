@@ -8,7 +8,7 @@ import { MapFilter } from '../../types/heatmap/heatmap.type';
 
 interface MapChooseFilterUIProps {
   filterBy: MapFilter;
-  setFilterBy: (mapFliter: MapFilter) => void;  
+  setFilterBy: (mapFliter: MapFilter) => void;
   selectFilter: boolean;
   setSelectFilter: (filterState: boolean) => void;
   setSelectMetaverse: (metaverseState: boolean) => void;
@@ -68,39 +68,38 @@ export default function MapChooseFilterUI({ filterBy, setFilterBy, selectFilter,
   return (
     <div className='relative'>
       {/* Filter Button + Name */}
-      <button onClick={handleButtonClick}>
+      <button onClick={() => handleButtonClick()}>
         {/* Icon */}
         <div className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectFilter && "rounded-b-none h-[60px] pb-3"}`}>
           {filterOptions[filterBy].icon}
         </div>
       </button>
       {/* FilterOptions */}
-      {selectFilter && (
+      {selectFilter &&
         <>
           <div className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`}>
             {Object.keys(filterOptions).map((filter, index) => (
-              filter !== filterBy && (
-                <div key={index}>
-                  <button
-                    className='flex gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark min-w-max text-base'
-                    onClick={() => handleFilterClick(filter as MapFilter)}
-                  >
-                    {filterOptions[filter as MapFilter].icon}
-                    <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter as MapFilter].description}>
-                      {filterOptions[filter as MapFilter].name}
-                    </span>
-                    <Tooltip title={filterOptions[filter as MapFilter].description} placement='right' arrow className='-translate-x-2'>
-                      <div>
-                        <AiFillQuestionCircle className='text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark cursor-pointer transition-all duration-300' />
-                      </div>
-                    </Tooltip>
-                  </button>
-                </div>
-              )
+              filter !== filterBy &&
+              <div key={index}>
+                <button
+                  className='flex gap-4 bg-opacity-100 items-center font-medium text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark min-w-max text-base'
+                  onClick={() => handleFilterClick(filter as MapFilter)}
+                >
+                  {filterOptions[filter as MapFilter].icon}
+                  <span className='whitespace-nowrap tooltip' data-tooltip={filterOptions[filter as MapFilter].description}>
+                    {filterOptions[filter as MapFilter].name}
+                  </span>
+                  <Tooltip title={filterOptions[filter as MapFilter].description} placement='right' arrow className='-translate-x-2'>
+                    <div>
+                      <AiFillQuestionCircle className='text-lm-text dark:text-nm-highlight hover:text-nm-dm-remark dark:hover:text-nm-dm-remark cursor-pointer transition-all duration-300' />
+                    </div>
+                  </Tooltip>
+                </button>
+              </div>
             ))}
           </div>
         </>
-      )}
+      }
     </div>
   );
 }
