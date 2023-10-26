@@ -63,7 +63,7 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
         {/* Feedback Buttons */}
         <FeedbackButtonsUI />
         {/* Add To Watchlist Button */}
-        <WatchlistButtonUI landData={landData} />
+        <WatchlistButtonUI />
       </div>
 
       {/* Right side */}

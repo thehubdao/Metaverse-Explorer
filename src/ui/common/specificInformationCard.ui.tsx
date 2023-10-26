@@ -93,7 +93,7 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
       {
         cardForm == InformationCardForm.MapCard &&
         <div className="w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill flex items-center justify-center xl:mt-3 shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 transition-all duration-300 cursor-pointer mb-4">
-          <WatchlistButtonUI landData={land} />
+          <WatchlistButtonUI />
         </div>
       }
     </div>
