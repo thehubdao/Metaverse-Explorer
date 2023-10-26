@@ -1,4 +1,5 @@
-import { METAVERSE_LABEL, Metaverses } from "../../enums/metaverses.enum";
+import { METAVERSE_LABEL } from "../../constants/common.constant";
+import { Metaverses } from "../../enums/metaverses.enum";
 import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interface";
 
 interface EstimatorValuesUIProps {

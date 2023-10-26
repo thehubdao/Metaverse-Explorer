@@ -1,5 +1,5 @@
 import { BsTwitter } from "react-icons/bs";
-import { METAVERSE_LABEL, Metaverses } from "../../enums/metaverses.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
 import { AiFillQuestionCircle, AiOutlineExpand } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
@@ -13,6 +13,7 @@ import { IPredictions } from "../../interfaces/heatmap.interface";
 import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import PriceListUI from "../common/priceList.ui";
 import { PriceListForm } from "../../enums/ui.enum";
+import { METAVERSE_LABEL } from "../../constants/common.constant";
 
 
 interface MapCardUIProps {

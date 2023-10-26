@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { Metaverses, METAVERSE_LABEL } from "../../enums/metaverses.enum";
+import { Metaverses } from "../../enums/metaverses.enum";
 import { TypedKeys } from "../../utils/common.util";
 import { ButtonForm } from "../../enums/ui.enum";
+import { METAVERSE_LABEL } from "../../constants/common.constant";
 
 interface LandsMenuUIProps {
   metaverse: Metaverses | undefined;
