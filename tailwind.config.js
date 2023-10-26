@@ -35,6 +35,8 @@ module.exports = {
         'lm-text': '#54575C',
         'lm-text-gray': '#9B9B9B',
         'lm-fill': '#F5F7FF',
+        'danger': '#FF4949',
+        'success': '#47E298',
       },
       boxShadow: {
         'relief-12': '-6px -4px 12px #FFFFFF, 6px 4px 12px rgba(9, 20, 36, 0.15)',

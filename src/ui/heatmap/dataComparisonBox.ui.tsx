@@ -24,7 +24,7 @@ export default function DataComparisonBoxUI({ currentPriceEth, predictions }: Da
             </p>
           </div>
           {/* Comparison Percentage  */}
-          <div className={`${isUnderValued ? 'bg-[#47E298]' : 'bg-[#FF4949]'} text-white flex flex-col items-center px-2 py-1 rounded-lg`}>
+          <div className={`${isUnderValued ? 'bg-success' : 'bg-danger'} text-white flex flex-col items-center px-2 py-1 rounded-lg`}>
             <p className='text-base leading-3'>
               {comparedValue ? `${Math.abs(comparedValue).toFixed()}%` : "No data"}
             </p>
