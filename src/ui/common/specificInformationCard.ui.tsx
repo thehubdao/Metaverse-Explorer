@@ -51,8 +51,8 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
               <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal'>Coordinate</p>
               <Tooltip title={`${land.coords?.x}, ${land.coords?.y}`} placement='bottom'>
                 <div className="flex items-center justify-center">
-                <BiTargetLock />
-                <p className="text-base font-bold truncate dark:text-lm-text-gray pl-1">{land.coords?.x}, {land.coords?.y}</p>
+                  <BiTargetLock />
+                  <p className="text-base font-bold truncate dark:text-lm-text-gray pl-1">{land.coords?.x}, {land.coords?.y}</p>
                 </div>
               </Tooltip>
             </div>
@@ -73,6 +73,8 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
           <DataComparisonBoxUI currentPriceEth={land.current_price_eth} predictions={predictions} />
         </div>
       </div>
+
+      {/* TODO: graph to be made */}
       {/* <div className="w-[250px] xl:w-[461px] h-[100px] xl:h-[155px] bg-lm-fill dark:bg-nm-dm-fill rounded-xl shadow-relief-12 dark:shadow-dm-relief-12 hidden xl:flex items-center justify-center mt-4">
         <p>historical estimated price</p>
       </div> */}
