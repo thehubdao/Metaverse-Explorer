@@ -95,7 +95,7 @@ export interface MapCardData {
   predictions: IPredictions;
   landCoords: {
     x: null | number;
-    y: null | number
+    y: null | number;
   };
   name: string | null;
 }
