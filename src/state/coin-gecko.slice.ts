@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { GetCoinGeckoPrices } from "../utils/itrm/coin-gecko.util";
-import { CoinValuesType } from "../types/common.type";
 import { DEFAULT_COIN_VALUES } from "../constants/common.constant";
+import { CoinValuesType } from "../types/common.type";
 
 
 interface CoinGeckoState {

@@ -96,7 +96,7 @@ export const convertETHPrediction = (
 ) => {
   const ethUSD = coinPrices.ethereum.usd;
   const usdPrediction = ethPrediction * ethUSD;
-  const formattedMetaverse =
+  const formattedMetaverse: keyof ICoinPrices =
       metaverse === Metaverses.SandBox
           ? 'the-sandbox'
           : metaverse === Metaverses.SomniumSpace
