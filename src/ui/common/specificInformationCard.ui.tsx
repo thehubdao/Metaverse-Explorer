@@ -2,12 +2,13 @@ import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import PriceListUI from "./priceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
-import { InformationCardForm, PriceListForm } from "../../enums/common.enum";
+
 import { Metaverses } from "../../enums/metaverses.enum";
 import { IPredictions } from "../../interfaces/heatmap.interface";
 import WatchlistButtonUI from "../heatmap/watchlistButton.ui";
 import DataComparisonBoxUI from "../heatmap/dataComparisonBox.ui";
 import { BiTargetLock } from "react-icons/bi";
+import { InformationCardForm, PriceListForm } from "../../enums/ui.enum";
 
 interface SpecificInformationCardUIProps {
   land: SingleLandAPIResponse;

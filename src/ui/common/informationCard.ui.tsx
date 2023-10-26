@@ -4,12 +4,13 @@ import { BsTwitter } from "react-icons/bs";
 import Image from "next/image";
 import PriceListUI from "./priceList.ui";
 import { useState } from "react";
-import { InformationCardForm, PriceListForm } from "../../enums/common.enum";
+
 import { Metaverses } from "../../enums/metaverses.enum";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import SpecificLandModalUI from "./specificLandModal.ui";
 import { IPredictions } from "../../interfaces/heatmap.interface";
+import { InformationCardForm, PriceListForm } from "../../enums/ui.enum";
 
 interface InformationCardUIProps {
   land: SingleLandAPIResponse;

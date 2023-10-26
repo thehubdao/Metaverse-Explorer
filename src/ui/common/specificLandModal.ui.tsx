@@ -3,11 +3,12 @@ import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import SpecificInformationCardUI from "./specificInformationCard.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
-import { InformationCardForm } from "../../enums/common.enum";
+
 import Link from "next/link";
 import { BsTwitter } from "react-icons/bs";
 import { AiOutlineCompress } from "react-icons/ai";
 import { IPredictions } from "../../interfaces/heatmap.interface";
+import { InformationCardForm } from "../../enums/ui.enum";
 
 interface SpecificLandModalUIProps {
   onClose: () => void;
