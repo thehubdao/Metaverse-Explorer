@@ -43,13 +43,13 @@ export default function TopSellsLandsUI({ tableData, title, headers }: TopSellsL
     <>
       <div className="flex flex-wrap lg:hidden justify-between mt-10 mb-4">
         <p className="text-lm-text dark:text-nm-fill text-lg font-semibold mb-4">{title}</p>
-        <TopSellsFilterUI filterBy={filterBy} setFilterBy={setFilterBy} />
+        <TopSellsFilterUI filterBy={filterBy} setFilterBy={(filter: TopSellingFilterBy) => setFilterBy(filter)} />
       </div>
 
       <div className="bg-lm-fill dark:bg-nm-dm-fill rounded-3xl w-full lg:mt-10 lg:py-10 lg:px-12 relative overflow-x-auto">
         <div className="justify-between hidden lg:flex">
           <p className="text-lm-text dark:text-nm-fill text-lg font-semibold mb-9">{title}</p>
-          <TopSellsFilterUI filterBy={filterBy} setFilterBy={setFilterBy} />
+          <TopSellsFilterUI filterBy={filterBy} setFilterBy={(filter: TopSellingFilterBy) => setFilterBy(filter)} />
         </div>
         <table className="w-full min-w-[664px]">
           <thead className="w-full">
