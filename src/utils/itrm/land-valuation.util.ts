@@ -1,5 +1,5 @@
 ﻿import {Result} from "../../types/common.type";
-import {Raise} from "../common.util";
+import {Raise, RemoveUndefinedProperties} from "../common.util";
 import axios from "axios";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
@@ -24,11 +24,9 @@ export async function GetMapLandValuation(metaverse: Metaverses, params: MapPara
     const itrmServiceUrl = process.env.NEXT_PUBLIC_ITRM_SERVICE ?? Raise("Missing ITRMService url on env variables!");
     // const requestEnd = metaverse === "fluf" ? "collection" : "map";
     const requestEnd = "map";
-
     const response = await axios.get<Record<string, SingleLandAPIResponse>>(`${itrmServiceUrl}/mgh/v2/${metaverse}/${requestEnd}`, {
-      params
+      params: RemoveUndefinedProperties(params)
     });
-
     return {success: true, value: response.data};
   } catch (err) {
     const msg = "Error while getting Metaverse land valuation data!";
