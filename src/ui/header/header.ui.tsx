@@ -51,7 +51,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
               className="cursor-pointer flex justify-start items-start ml-4"
             />
           </Link>
-          <div className={`font-toogle text-3xl pr-4 cursor-pointer ${isNavOpen ? 'hidden' : ''}`} onClick={() => { handleToggleClick() }}>
+          <div className={`font-toogle text-3xl pr-4 cursor-pointer ${isNavOpen ? 'hidden' : ''}`} onClick={() => handleToggleClick()}>
             b
           </div>
         </div>
@@ -62,11 +62,11 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                 <div className="absolute top-0 right-0 pr-7 pt-9">
                   <DarkModeButtonUI />
                 </div>
-                <div className="absolute top-0 left-0 pl-7 pt-9 cursor-pointer" onClick={handleToggleClick}>
+                <div className="absolute top-0 left-0 pl-7 pt-9 cursor-pointer" onClick={() => handleToggleClick()}>
                   <div className="w-12 h-12 bg-lm-fill dark:bg-nm-black shadow-relief-12 dark:shadow-dm-relief-12 flex justify-center items-center rounded-xl">
                     <Image
                       src={resolvedTheme === "dark" ? '/images/icons/back-white.svg' : '/images/icons/back.svg'}
-                      alt={'back logo'}
+                      alt={'Header icon'}
                       width={31}
                       height={31}
                     />
@@ -79,7 +79,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                   {
                     LIST.map((option: ListProps) => {
                       return (
-                        <div key={option.label} onClick={handleToggleClick}>
+                        <div key={option.label} onClick={() => handleToggleClick()}>
                           <NavButtonUI url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} />
                         </div>
                       )
