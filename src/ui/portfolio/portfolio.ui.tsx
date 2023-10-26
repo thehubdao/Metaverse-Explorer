@@ -18,7 +18,6 @@ interface PortfolioUIProps {
 }
 
 export default function PortfolioUI({allLands , landsOwned, totalWorth }: PortfolioUIProps) {
-  // const [metaverseSelected, setMetaverseSelected] = useState<Metaverses | undefined>(undefined);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [filteredLands, setFilteredLands] = useState<[Metaverses, LandListAPIResponse][]>([]);
   const metaverseSelected = useAppSelector(state => state.portfolio.metaverseSelected); 
