@@ -35,7 +35,7 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
           </div>
         </Link>
         {/* Open specific asset modal button */}
-        <div className="w-9 h-9 rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out flex justify-center items-center hover:text-xl cursor-pointer text-lm-text dark:text-nm-highlight hover:text-yellow-500 dark:hover:text-yellow-500" onClick={() => { setOpenSpecificModal(true) }}>
+        <div className="w-9 h-9 rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12  transition duration-300 ease-in-out flex justify-center items-center hover:text-xl cursor-pointer text-lm-text dark:text-nm-highlight hover:text-yellow-500 dark:hover:text-yellow-500" onClick={() => setOpenSpecificModal(true)}>
           <AiOutlineExpand />
         </div>
         {/* Close button */}
@@ -55,9 +55,9 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
             className="rounded-xl"
           />
           <div className='absolute bottom-4 left-3 flex justify-center items-center p-1 z-10'>
-            {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={40} height={40} alt='sandbox' className='rounded-full p-1 bg-nm-highlight' />}
-            {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={40} height={40} alt='decentraland' className='rounded-full p-1 bg-nm-highlight' />}
-            {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={40} height={40} alt='somniun-space' className='rounded-full p-1 bg-nm-highlight' />}
+            {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={40} height={40} alt='Sandbox logo' className='rounded-full p-1 bg-nm-highlight' />}
+            {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={40} height={40} alt='Decentraland logo' className='rounded-full p-1 bg-nm-highlight' />}
+            {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={40} height={40} alt='Somniun space logo' className='rounded-full p-1 bg-nm-highlight' />}
           </div>
         </div>
         {/* Feedback Buttons */}
@@ -95,21 +95,21 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
             </Tooltip>
           </div>
           {/* Price List Predictions */}
-          {landData.eth_predicted_price ? (
+          {landData.eth_predicted_price ?
             <>
               {
                 predictions &&
                 <div className="w-fit">
-                  <PriceListUI predictions={predictions} form={PriceListForm.Bold}  metaverse={metaverse}/>
+                  <PriceListUI predictions={predictions} form={PriceListForm.Bold} metaverse={metaverse} />
                 </div>
               }
             </>
-          ) : (
+            :
             <p className="flex gap-2 text-lg">
               Fetching Predictions
               <RiLoader3Fill className="animate-spin-slow h-5 w-5 xs:h-6 xs:w-6" />
             </p>
-          )}
+          }
         </div>
         <div className="flex items-center gap-4">
           <p className="text-sm text-lm-text dark:text-nm-highlight">Listing price: </p>
@@ -118,24 +118,29 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
         <div>
           <p className="text-sm text-lm-text dark:text-nm-highlight">Find land on:</p>
           <div className="flex gap-5 font-bold">
-            <Link href={landData.external_link || ""} target={'_blank'}>
-              <div className="flex justify-center gap-1">
-                {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='Sandbox' />}
-                {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='Decentraland' />}
-                {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='Somniun space' />}
-                {METAVERSE_LABEL[metaverse]}
-              </div>
-            </Link>
-            <Link href={landData.market_links?.opensea || ""} target={'_blank'}>
-              <div className="flex justify-center gap-1">
-                <Image src="/images/icons/markets/opensea.svg" width={20} height={20} alt="opensea logo" />
-                OpenSea
-              </div>
-            </Link>
+            {
+              landData.external_link &&
+              <Link href={landData.external_link} target={'_blank'}>
+                <div className="flex justify-center gap-1">
+                  {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='Sandbox logo' />}
+                  {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='Decentraland logo' />}
+                  {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='Somniun space logo' />}
+                  {METAVERSE_LABEL[metaverse]}
+                </div>
+              </Link>
+            }
+            {
+              landData.market_links?.opensea &&
+              <Link href={landData.market_links?.opensea} target={'_blank'}>
+                <div className="flex justify-center gap-1">
+                  <Image src="/images/icons/markets/opensea.svg" width={20} height={20} alt="Opensea logo" />
+                  OpenSea
+                </div>
+              </Link>
+            }
           </div>
         </div>
       </div>
-
     </div>
   )
 }
