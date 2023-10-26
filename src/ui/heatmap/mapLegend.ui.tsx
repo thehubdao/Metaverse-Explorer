@@ -1,6 +1,6 @@
+import { LEGEND_COLORS } from "../../constants/heatmap/heatmap.constant";
 import { LegendFilter } from "../../enums/heatmap/filter.enum";
 import { Metaverses } from "../../enums/metaverses.enum";
-import { LegendColors } from "../../enums/valuation.enum";
 import { typedKeys } from "../../utils/common.util";
 
 interface MapLegendUIProps {
@@ -8,8 +8,10 @@ interface MapLegendUIProps {
   setLegendFilter: (legend:LegendFilter | undefined) => void;
   metaverse: Metaverses;
 }
-export default function MapLegendUI({legendFilter, setLegendFilter, metaverse}: MapLegendUIProps) {
-  const colors = typedKeys(LegendColors).filter((element) => {
+
+//TODO: add props and filter functionality
+export default function MapLegendUI({ metaverse}: MapLegendUIProps) {
+  const colors = typedKeys(LEGEND_COLORS).filter((element) => {
     if (metaverse === Metaverses.SandBox) return ['OnSale', 'PremiumLands', 'Portfolio', 'Watchlist'].includes(element)
     if (metaverse === Metaverses.Decentraland) return true
     return ['OnSale','Portfolio'].includes(element)
@@ -21,8 +23,8 @@ export default function MapLegendUI({legendFilter, setLegendFilter, metaverse}: 
       {colors.map((key, index) => (
         <li className='flex gap-6 items-center' key={index}>
           <button
-            style={{ background: LegendColors[key] }}
-            className={'w-4 h-4 top-[2px] cursor-pointer'}/>
+            style={{ background: LEGEND_COLORS[key] }}
+            className={'w-4 h-4 top-[2px]'}/>
           <p className='text-lm-text dark:text-nm-highlight text-sm md:text-base font-semibold'>
             {key}
           </p>

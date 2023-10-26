@@ -1,4 +1,4 @@
-﻿export const enum ValuationState {
+﻿export enum ValuationState {
   Loading = "loading",
   Loaded = "loaded",
   Error = "error",
@@ -7,7 +7,7 @@
   ErrorQuery = "errorQuery",
 }
 
-export const enum LegendColor {
+export enum LegendColor {
   OnSale = '#ffe5a3', // On sale
   PremiumLands = '#47e298',
   // Decentraland Only
@@ -17,28 +17,6 @@ export const enum LegendColor {
 
   Watchlist = '#ff597b', // On User's Watchlist
   Portfolio = '#0000ff'//'#4Df0CF', // Owned by User (On their portfolio)
-}
-
-export enum LegendColors {
-  OnSale = '#ffe5a3', // On sale
-  PremiumLands = '#47e298',
-  // Decentraland Only
-  Roads = '#5775a5', // roads
-  Plazas = '#32d2ff', // plazas
-  Districts = '#23334d', // districts
-
-  Watchlist = '#ff597b', // On User's Watchlist
-  Portfolio = '#0000ff'//'#4Df0CF', // Owned by User (On their portfolio)
-}
-
-export const enum FilterColor {
-  DarkBlue = '#282896',
-  Red = '#ff3838',
-  Orange = '#ff8762',
-  Yellow = '#ffdc62',
-  Green = '#26ec75',
-  MinBlue = '#92c4e9',
-  Gray = '#b0b0b0',
 }
 
 export enum DecentralandApiColor {
