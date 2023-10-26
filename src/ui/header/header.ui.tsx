@@ -5,6 +5,7 @@ import ConnectButtonUI from "../common/connectButton.ui";
 import DarkModeButtonUI from "../common/darkModeButton.ui";
 import NavButtonUI from "../navbar/navbarButton.ui";
 import { useTheme } from "next-themes";
+import { LIST } from "../../constants/common.constant";
 
 interface ListProps {
   url: string;
@@ -12,27 +13,6 @@ interface ListProps {
   icon: string;
   isExternal: boolean;
 }
-
-const list = [
-  {
-    url: "/metaverseexplorer",
-    label: "Metaverse explorer",
-    icon: "b",
-    isExternal: false,
-  },
-  {
-    url: "/stake",
-    label: "Stake MGH",
-    icon: "d",
-    isExternal: false,
-  },
-  {
-    url: "https://snapshot.org/#/metagamehub.eth",
-    label: "Governance",
-    icon: "a",
-    isExternal: true,
-  },
-];
 
 interface HeaderUIProp {
   isConnected: boolean;
@@ -97,7 +77,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                 </div>
                 <div className="flex flex-col space-y-8 mt-auto">
                   {
-                    list.map((option: ListProps) => {
+                    LIST.map((option: ListProps) => {
                       return (
                         <div key={option.label} onClick={handleToggleClick}>
                           <NavButtonUI url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} />
