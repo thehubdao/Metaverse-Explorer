@@ -62,3 +62,28 @@ export const METAVERSE_LABEL: Record<Metaverses | "All", string> = {
   [Metaverses.Decentraland]: "Decentraland",
   [Metaverses.SomniumSpace]: "Somnium Space"
 } as const;
+
+export const SUB_HEADER_LIST = [
+  {
+    name: "Heatmap",
+    route: "metaverseexplorer",
+    image: "/images/icons/menu/LANDVALUATION_ON.svg",
+    darkImage: "/images/icons/menu/LANDVALUATION_WHITE.svg"
+  },
+  {
+    name: "Portfolio",
+    route: "metaverseexplorer/portfolio",
+    image: "/images/icons/menu/PORTFOLIO_ON.svg",
+    darkImage: "/images/icons/menu/PORTFOLIO_WHITE.svg"
+  },
+  {
+    name: "Watchlist",
+    route: "metaverseexplorer/watchlist",
+    image: "/images/icons/menu/WATCHLIST_ON.svg",
+    darkImage: "/images/icons/menu/WATCHLIST_WHITE.svg"
+  },
+  // {
+  //   name: "Analytics",
+  //   route: "metaverseexplorer/analytics",
+  // },
+];
