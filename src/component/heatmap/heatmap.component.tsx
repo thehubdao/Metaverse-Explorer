@@ -15,6 +15,8 @@ export default function HeatmapComponent() {
   const [topSellings, setTopSellings] = useState<TopSellingLand | null>(null);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
   const [globalData, setglobalData] = useState<MetaverseGlobalData | null>(null);
+  
+  //TODO: add modal to show error
   const fetch = async () => {
     const globalData = await GetMetaverseGlobalData(metaverseSelected);
     if (globalData.success) {
