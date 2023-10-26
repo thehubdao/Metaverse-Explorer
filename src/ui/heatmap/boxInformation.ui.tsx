@@ -1,5 +1,5 @@
-import { PriceListForm } from "../../enums/common.enum";
 import { Metaverses } from "../../enums/metaverses.enum";
+import { PriceListForm } from "../../enums/ui.enum";
 import { IPredictions } from "../../interfaces/heatmap.interface";
 import PriceListUI from "../common/priceList.ui";
 

@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { LandListAPIResponse } from "../../types/valuationTypes";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
-import { ButtonForm } from "../../enums/common.enum";
 import SearchLandFormUI from "./searchLandForm.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { ObjectEntries } from "../../utils/common.util";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setWatchlistMetaverse } from "../../state/watchlistSlice";
+import { ButtonForm } from "../../enums/ui.enum";
 
 interface WatchlistUIProps {
   allLands: Record<Metaverses, LandListAPIResponse> | undefined;

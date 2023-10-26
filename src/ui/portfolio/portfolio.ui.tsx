@@ -5,11 +5,11 @@ import { LandListAPIResponse, TotalWorthData } from "../../types/valuationTypes"
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
-import { ButtonForm } from "../../enums/common.enum";
 import { TypedKeys, ObjectEntries } from "../../utils/common.util";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPortfolioMetaverse } from "../../state/portfolioSlice";
+import { ButtonForm } from "../../enums/ui.enum";
 
 interface PortfolioUIProps {
   allLands: Record<Metaverses, LandListAPIResponse> | undefined;

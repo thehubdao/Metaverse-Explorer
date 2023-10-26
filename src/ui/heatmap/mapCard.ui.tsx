@@ -12,7 +12,8 @@ import Link from "next/link";
 import { IPredictions } from "../../interfaces/heatmap.interface";
 import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import PriceListUI from "../common/priceList.ui";
-import { PriceListForm } from "../../enums/common.enum";
+import { PriceListForm } from "../../enums/ui.enum";
+
 
 interface MapCardUIProps {
   landData: SingleLandAPIResponse;
@@ -118,9 +119,9 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
           <div className="flex gap-5 font-bold">
             <Link href={landData.external_link || ""} target={'_blank'}>
               <div className="flex justify-center gap-1">
-                {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='sandbox' />}
-                {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='decentraland' />}
-                {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='somniun-space' />}
+                {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='Sandbox' />}
+                {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='Decentraland' />}
+                {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='Somniun space' />}
                 {METAVERSE_LABEL[metaverse]}
               </div>
             </Link>
