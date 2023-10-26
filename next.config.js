@@ -3,7 +3,7 @@ const nextConfig = {
 	eslint: {
 		dirs: ['src']
 	},
-	reactStrictMode: false,
+	reactStrictMode: true,
 	webpack: (config) => {
 		config.externals.push("encoding", "lokijs", "pino-pretty");
 		return config;
