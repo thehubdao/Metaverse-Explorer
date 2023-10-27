@@ -1,15 +1,15 @@
 
 export enum InformationCardForm {
-    MapCard = 'mapCard',
-    NormalCard = 'normalCard'
+    MapCard,
+    NormalCard
 }
 
 export enum ButtonForm {
-    Horizontal = 'horizontal',
-    Vertical = 'vertical'
+    Horizontal,
+    Vertical
 }
 
 export enum PriceListForm {
-    Light = 'light',
-    Bold = 'bold'
+    Light,
+    Bold
 }
