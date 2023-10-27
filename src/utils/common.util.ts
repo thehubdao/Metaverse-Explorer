@@ -1,6 +1,6 @@
 import { Metaverses } from "../enums/metaverses.enum";
 import { IPredictions } from "../interfaces/heatmap.interface";
-import { ICoinPrices } from "../interfaces/land.interface";
+import { CoinValuesType } from "../types/common.type";
 
 export function TypedKeys<TObj extends object>(obj: TObj) {
   return Object.keys(obj) as (keyof TObj)[];
@@ -84,7 +84,7 @@ export function Raise(msg: string): never {
 }
 
 export const convertETHPrediction = (
-  coinPrices: ICoinPrices,
+  coinPrices: CoinValuesType,
   ethPrediction: number,
   metaverse: Metaverses
 ): IPredictions => {
@@ -99,7 +99,7 @@ export const convertETHPrediction = (
   } else usdcPrediction = undefined;
 
   //metaverse prediction
-  const formattedMetaverse: keyof ICoinPrices =
+  const formattedMetaverse: keyof CoinValuesType =
       metaverse === Metaverses.SandBox
           ? 'the-sandbox'
           : metaverse === Metaverses.SomniumSpace

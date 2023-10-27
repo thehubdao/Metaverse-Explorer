@@ -48,13 +48,6 @@ export interface LandSomniumSpace extends LandData {
   geometry: Required<Coords>[];
 }
 
-export interface ICoinPrices {
-  decentraland: { usd: number }
-  ethereum: { usd: number }
-  'the-sandbox': { usd: number }
-  'axie-infinity'?: { usd: number }
-  'somnium-space-cubes': { usd: number }
-}
 export interface SingleLandAPIResponse {
 
   current_price?: number;
