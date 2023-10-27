@@ -31,13 +31,13 @@ export default function MapChooseMetaverseUI({ metaverse, setMetaverse, selectMe
             return (
               <div key={index} className={`flex bg-nm-fill dark:bg-nm-dm-fill items-center justify-center rounded-full w-12 h-12 ${selectMetaverse && "rounded-b-none h-[60px] pb-3"}`}>
                 {iterateMetaverse === Metaverses.SandBox && 
-                  <Image src="/images/the-sandbox-sand-logo.png" width={30} height={30} alt="Sandbox logo" />
+                  <Image src="/images/the-sandbox-sand-logo.png" width={30} height={30} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} />
                 }
                 {iterateMetaverse === Metaverses.Decentraland &&
-                  <Image src="/images/decentraland-mana-logo.png" width={30} height={30} alt="Decentraland ogo" />
+                  <Image src="/images/decentraland-mana-logo.png" width={30} height={30} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} />
                 }
                 {iterateMetaverse === Metaverses.SomniumSpace &&
-                  <Image src="/images/somnium-space-cube-logo.webp" width={30} height={30} alt="Somnium space logo" />
+                  <Image src="/images/somnium-space-cube-logo.webp" width={30} height={30} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} />
                 }
               </div>
             );
@@ -54,13 +54,13 @@ export default function MapChooseMetaverseUI({ metaverse, setMetaverse, selectMe
               onClick={() => handleMetaverse(iterateMetaverse)}
             >
               {iterateMetaverse === Metaverses.SandBox && 
-                <Image src="/images/the-sandbox-sand-logo.png" width={25} height={25} alt="Sandbox logo" />
+                <Image src="/images/the-sandbox-sand-logo.png" width={25} height={25} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} />
               }
               {iterateMetaverse === Metaverses.Decentraland && 
-                <Image src="/images/decentraland-mana-logo.png" width={25} height={25} alt="Decentraland logo" />
+                <Image src="/images/decentraland-mana-logo.png" width={25} height={25} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} />
               }
               {iterateMetaverse === Metaverses.SomniumSpace && 
-                <Image src="/images/somnium-space-cube-logo.webp" width={25} height={25} alt="Somnium space logo" />
+                <Image src="/images/somnium-space-cube-logo.webp" width={25} height={25} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} />
               }
               <span className="text-sm md:text-base">
                 {METAVERSE_LABEL[iterateMetaverse]}

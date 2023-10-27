@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { IPredictions } from "../../interfaces/heatmap.interface";
 import { PriceListForm } from "../../enums/ui.enum";
+import { METAVERSE_LABEL } from "../../constants/common.constant";
 
 interface PriceListUIProps {
   predictions: IPredictions | undefined;
@@ -25,9 +26,9 @@ export default function PriceListUI({ predictions, form, metaverse }: PriceListU
       {
         predictions?.metaversePrediction !== undefined &&
         <div className="flex items-center">
-          {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='Sandbox' />}
-          {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='Decentraland' />}
-          {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='Somniun space' />}
+          {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt={`${METAVERSE_LABEL[metaverse]} logo`} />}
+          {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt={`${METAVERSE_LABEL[metaverse]} logo`} />}
+          {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt={`${METAVERSE_LABEL[metaverse]} logo`} />}
           <p className={`text-sm xl:text-base dark:text-lm-text-gray ${form === PriceListForm.Bold ? "font-bold" : "font-light ml-2"} pt-0.5 px-1`}>
             {predictions.metaversePrediction.toFixed(2)}<span className={`text-sm xl:text-base  ${form === PriceListForm.Bold ? "font-bold" : "font-light"} pt-0.5 pl-1`}>
               {metaverse === Metaverses.SandBox && 'SAND'}
