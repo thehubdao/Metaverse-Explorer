@@ -104,7 +104,9 @@ export const convertETHPrediction = (
               : metaverse
 
   const metaverseUSD = coinPrices[formattedMetaverse].usd;
-  const metaversePrediction = usdPrediction / metaverseUSD;
-
+  let metaversePrediction: number | undefined;
+  if(metaverseUSD !== 0){
+    metaversePrediction = usdPrediction / metaverseUSD;
+  } else metaversePrediction = undefined;
   return { ethPrediction, usdPrediction, metaversePrediction };
 }
