@@ -1,3 +1,5 @@
+import { Metaverses } from "../../enums/metaverses.enum";
+
 /**
  * Percent Filter triggers when a user clicks on a colored squared.
  * Once clicked, only the lands on that percentage/number range will display
@@ -33,3 +35,47 @@ export const BOUND_SIZE = 0;
 export const BLOCK_SIZE = CHUNK_SIZE * TILE_SIZE;
 export const SOMNIUM_SCALE = 108;
 export const DECENTRALAND_LANDS = [5, 6, 7, 8, 12] as const;
+
+export const METAVERSE_LEGENDS: Record<Metaverses, (keyof typeof LEGEND_COLORS)[]> ={
+    [Metaverses.Decentraland]: [
+        "OnSale",
+        "PremiumLands",
+        "Districts",
+        "Plazas",
+        "Portfolio",
+        "Roads",
+        "Watchlist"
+    ],
+    [Metaverses.SandBox]: [
+        'OnSale', 
+        'PremiumLands', 
+        'Portfolio', 
+        'Watchlist'
+    ], 
+    [Metaverses.SomniumSpace]: [
+        'OnSale',
+        'Portfolio'
+    ]
+};
+
+export const LEGEND_COLORS = {
+    OnSale: '#ffe5a3', // On sale
+    PremiumLands: '#47e298',
+    // Decentraland Only
+    Roads: '#5775a5', // roads
+    Plazas: '#32d2ff', // plazas
+    Districts: '#23334d', // districts
+
+    Watchlist: '#ff597b', // On User's Watchlist
+    Portfolio: '#0000ff'//'#4Df0CF', // Owned by User (On their portfolio)
+}
+
+export const FILTER_COLOR = {
+    DarkBlue: '#282896',
+  Red: '#ff3838',
+  Orange: '#ff8762',
+  Yellow: '#ffdc62',
+  Green: '#26ec75',
+  MinBlue: '#92c4e9',
+  Gray: '#b0b0b0',
+}

@@ -1,16 +1,22 @@
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import PriceListUI from "./priceList.ui";
-import SpecificPriceListUI from "./specificPriceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
-import { PriceListForm } from "../../enums/common.enum";
-import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
+
+import { Metaverses } from "../../enums/metaverses.enum";
+import { IPredictions } from "../../interfaces/heatmap.interface";
+import WatchlistButtonUI from "../heatmap/watchlistButton.ui";
+import DataComparisonBoxUI from "../heatmap/dataComparisonBox.ui";
+import { BiTargetLock } from "react-icons/bi";
+import { InformationCardForm, PriceListForm } from "../../enums/ui.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 interface SpecificInformationCardUIProps {
   land: SingleLandAPIResponse;
-  prices: CoinValuesType;
+  predictions?: IPredictions | undefined;
+  metaverse: Metaverses;
+  cardForm: InformationCardForm;
 }
-export default function SpecificInformationCardUI({ land, prices }: SpecificInformationCardUIProps) {
+export default function SpecificInformationCardUI({ land, predictions, metaverse, cardForm }: SpecificInformationCardUIProps) {
 
   return (
     <div className='h-full px-7 flex flex-col items-center xl:items-start text-center '>
@@ -24,7 +30,7 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
         <div className="my-3 flex gap-5">
           {
             land.owner &&
-            <div className="max-w-[200px]">
+            <div className="max-w-[100px]">
               <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal'>Owner</p>
               <Tooltip title={land.owner} placement='bottom'>
                 <p className="text-base font-bold truncate dark:text-lm-text-gray">{land.owner}</p>
@@ -33,7 +39,7 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
           }
           {
             land.tokenId &&
-            <div className="max-w-[200px]">
+            <div className="max-w-[100px]">
               <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal'>Token ID</p>
               <Tooltip title={land.tokenId} placement='bottom'>
                 <p className="text-base font-bold truncate dark:text-lm-text-gray">{land.tokenId}</p>
@@ -44,7 +50,10 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
             <div>
               <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal'>Coordinate</p>
               <Tooltip title={`${land.coords?.x}, ${land.coords?.y}`} placement='bottom'>
-                <p className="text-base font-bold truncate dark:text-lm-text-gray">{land.coords?.x}, {land.coords?.y}</p>
+                <div className="flex items-center justify-center">
+                  <BiTargetLock />
+                  <p className="text-base font-bold truncate dark:text-lm-text-gray pl-1">{land.coords?.x}, {land.coords?.y}</p>
+                </div>
               </Tooltip>
             </div>
           )}
@@ -52,20 +61,25 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
       </div>
       <div className="flex flex-wrap">
         <div className="xl:mt-4 ml-0 xl:ml-4">
-          <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm mb-2">
+          <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm mb-2 text-start">
             Estimated Price:
           </p>
-          <PriceListUI prices={prices} form={PriceListForm.Bold}/>
+          <PriceListUI predictions={predictions} form={PriceListForm.Bold} metaverse={metaverse} />
         </div>
         <div className="xl:mt-4 ml-6 xl:ml-20">
-          <SpecificPriceListUI prices={prices} />
+          <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm mb-2 text-start">
+            Listing price:
+          </p>
+          <DataComparisonBoxUI currentPriceEth={land.current_price_eth} predictions={predictions} />
         </div>
       </div>
-      <div className="w-[250px] xl:w-[461px] h-[100px] xl:h-[155px] bg-lm-fill dark:bg-nm-dm-fill rounded-xl shadow-relief-12 dark:shadow-dm-relief-12 hidden xl:flex items-center justify-center mt-4">
+
+      {/* TODO: graph to be made */}
+      {/* <div className="w-[250px] xl:w-[461px] h-[100px] xl:h-[155px] bg-lm-fill dark:bg-nm-dm-fill rounded-xl shadow-relief-12 dark:shadow-dm-relief-12 hidden xl:flex items-center justify-center mt-4">
         <p>historical estimated price</p>
-      </div>
+      </div> */}
       {/* External Links */}
-      <div className='flex flex-wrap mt-3'>
+      <div className='flex flex-wrap mt-3 xl:mt-20'>
         <div>
           <p className="text-base text-nm-dm-remark dark:text-nm-fill font-normal">Find land on:</p>
           <div className="flex flex-wrap  justify-center xl:grid xl:grid-cols-4 items-center xl:my-2">
@@ -76,9 +90,12 @@ export default function SpecificInformationCardUI({ land, prices }: SpecificInfo
           </div>
         </div>
       </div>
-      <div className="w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill flex items-center justify-center xl:mt-3 shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 transition-all duration-300 cursor-pointer mb-4">
-        <p className="uppercase text-lm-text dark:text-nm-fill font-bold text-sm">Add to Watchlist</p>
-      </div>
+      {
+        cardForm == InformationCardForm.MapCard &&
+        <div className="w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill flex items-center justify-center xl:mt-3 shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 transition-all duration-300 cursor-pointer mb-4">
+          <WatchlistButtonUI />
+        </div>
+      }
     </div>
   )
 }

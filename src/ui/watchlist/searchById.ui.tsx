@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import AddLandButtonUI from "./addLandButton.ui";
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import { Metaverses } from "../../enums/metaverses.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 interface SearchByIdUIProps {
   land?: SingleLandAPIResponse;

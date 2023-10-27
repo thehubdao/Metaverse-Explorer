@@ -3,25 +3,22 @@ import { ethers } from "ethers";
 import { getAddress } from 'ethers/lib/utils'
 import { getUserNFTs } from "../lib/nftUtils";
 import { Chains } from "../lib/chains";
-import { convertETHPrediction, fetchLandList } from "../lib/valuation/valuationUtils";
+import { fetchLandList } from "../lib/valuation/valuationUtils";
 import { getCoingeckoPrices } from "../backend/services/ITRMService";
 import { LogError } from "../utils/logging.util";
 import { Module } from "../enums/logging.enum";
-import { typedKeys } from "../utils/common.util";
-import { LandListAPIResponse } from "../types/valuationTypes";
+import { convertETHPrediction, TypedKeys } from "../utils/common.util";
+import { LandListAPIResponse } from "../types/valuation.type";
 import { Metaverses } from "../enums/metaverses.enum";
-
-interface TotalWorth {
-    ethPrediction: number;
-    usdPrediction: number;
-}
+import { DEFAULT_TOTAL_WORTH } from "../constants/common.constant";
+import { TotalWorthData } from "../interfaces/land.interface";
 
 interface IState {
     list: Record<Metaverses, LandListAPIResponse> | undefined,
     isLoading: boolean;
     error: string | undefined;
     length: number | undefined;
-    totalWorth: TotalWorth | undefined;
+    totalWorth: TotalWorthData;
     currentAddress: string | undefined;
     metaverseSelected: Metaverses | undefined;
 }
@@ -31,7 +28,7 @@ const initialState: IState = {
     isLoading: false,
     length: 0,
     error: undefined,
-    totalWorth: undefined,
+    totalWorth: DEFAULT_TOTAL_WORTH,
     currentAddress: undefined,
     metaverseSelected: undefined
 }
@@ -62,7 +59,7 @@ export const fetchPortfolio = createAsyncThunk(
 
         const lands: Record<Metaverses, LandListAPIResponse> = { sandbox: {}, decentraland: {}, "somnium-space": {} };
         let totalLandsCounter = 0;
-        const totalWorth: TotalWorth = { ethPrediction: 0, usdPrediction: 0};
+        const totalWorth: TotalWorthData = { ethPrediction: 0, usdcPrediction: 0};
 
         try {
             await Promise.all(
@@ -101,12 +98,14 @@ export const fetchPortfolio = createAsyncThunk(
 
                     // Adding Total Worth
                     const totalMvWorth = { usd: 0, eth: 0 };
-                    typedKeys(metaverseLandsObject).forEach((land) => {
-                        totalMvWorth.usd += convertETHPrediction(
+                    TypedKeys(metaverseLandsObject).forEach((land) => {
+                        const usdcPrediction = convertETHPrediction(
                             prices,
                             metaverseLandsObject[land].eth_predicted_price,
                             metaverse
-                        ).usdPrediction
+                        ).usdcPrediction
+                        //TODO: check totalMvWorth use 
+                        if(usdcPrediction) totalMvWorth.usd += usdcPrediction;
                         totalMvWorth.eth +=
                             metaverseLandsObject[land].eth_predicted_price
                     })
@@ -116,12 +115,12 @@ export const fetchPortfolio = createAsyncThunk(
                         lands[metaverse] = metaverseLandsObject;
                     }
                     // Setting Asset Number
-                    totalLandsCounter = totalLandsCounter + typedKeys(metaverseLandsObject).length;
+                    totalLandsCounter = totalLandsCounter + TypedKeys(metaverseLandsObject).length;
 
                     // Adding the worth of each metaverse into the totalWorth
                     if (totalWorth != undefined) {
                         totalWorth.ethPrediction = totalWorth.ethPrediction + totalMvWorth.eth;
-                        totalWorth.usdPrediction = totalWorth.usdPrediction + totalMvWorth.usd;
+                        totalWorth.usdcPrediction = totalWorth.usdcPrediction + totalMvWorth.usd;
                     }
                 })
             )
@@ -149,7 +148,7 @@ export const portfolio = createSlice({
             state.isLoading = false;
             state.list = action.payload?.lands;
             state.length = action.payload?.totalLandsCounter;
-            state.totalWorth = action.payload?.totalWorth;
+            state.totalWorth = action.payload?.totalWorth ?? DEFAULT_TOTAL_WORTH;
             state.currentAddress = action.payload?.address;
         });
         builder.addCase(fetchPortfolio.rejected, (state, action) => {

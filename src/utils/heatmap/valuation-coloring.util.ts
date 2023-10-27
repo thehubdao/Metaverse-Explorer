@@ -1,10 +1,9 @@
 ﻿import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LogError} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
-import {FilterColor} from "../../enums/valuation.enum";
 import {CleanHex, NumBetween} from "../common.util";
 import {FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
-import {PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
+import {FILTER_COLOR, PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
 import {LandTileData} from "../../interfaces/heatmap.interface";
 import {LandType} from "../../types/heatmap/land.type";
@@ -121,7 +120,7 @@ function GetLimits(array: (number | undefined)[]): Limit {
 }
 
 function GenerateColor(percent: number, mapFilter?: MapFilter) {
-  if (percent === 0 || !mapFilter) return FilterColor.DarkBlue;
+  if (percent === 0 || !mapFilter) return FILTER_COLOR.DarkBlue;
 
   let color: string;
   if (NumBetween(percent, 0, 100)) {
@@ -156,7 +155,7 @@ function GenerateColor(percent: number, mapFilter?: MapFilter) {
       )},255,255)`;
     }
   } else {
-    color = FilterColor.Gray;
+    color = FILTER_COLOR.Gray;
   }
 
   return CleanHex(color);

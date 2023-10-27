@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CoinValuesType, GetCoinGeckoPrices, defaultCoinValues } from "../utils/itrm/coin-gecko.util";
+import { GetCoinGeckoPrices } from "../utils/itrm/coin-gecko.util";
+import { DEFAULT_COIN_VALUES } from "../constants/common.constant";
+import { CoinValuesType } from "../types/common.type";
 
 
 interface CoinGeckoState {
@@ -10,7 +12,7 @@ interface CoinGeckoState {
 
 const initialState: CoinGeckoState = {
     isLoading: false,
-    coins: defaultCoinValues,
+    coins: DEFAULT_COIN_VALUES,
 }
 
 export const fetchCoinGecko = createAsyncThunk(
@@ -30,7 +32,7 @@ export const coinGecko = createSlice({
             state.isLoading = true;
         });
         builder.addCase(fetchCoinGecko.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.isLoading = false;     
             state.coins = action.payload;
         });
         builder.addCase(fetchCoinGecko.rejected, (state, action) => {

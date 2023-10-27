@@ -1,6 +1,7 @@
+import { METAVERSE_LABEL } from "../constants/common.constant";
 import { AnalyticsChartRoutes } from "../enums/charts";
 import { Currencies } from "../enums/common.enum";
-import { METAVERSE_LABEL, Metaverses } from "../enums/metaverses.enum";
+import { Metaverses } from "../enums/metaverses.enum";
 import { ApiData, ChartInfo } from "../interfaces/charts";
 
 //* Array of tuples representing chart routes and their corresponding chart information.
