@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Metaverses } from "../enums/metaverses.enum";
-import { LandListAPIResponse } from "../types/valuationTypes";
+import { LandListAPIResponse } from "../types/valuation.type";
 import {TokenData} from "../interfaces/itrm/auth.interface";
 
 interface IState {

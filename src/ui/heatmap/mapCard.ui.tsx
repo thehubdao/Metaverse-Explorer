@@ -10,10 +10,10 @@ import { RiLoader3Fill } from "react-icons/ri";
 import DataComparisonBoxUI from "./dataComparisonBox.ui";
 import Link from "next/link";
 import { IPredictions } from "../../interfaces/heatmap.interface";
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import PriceListUI from "../common/priceList.ui";
 import { PriceListForm } from "../../enums/ui.enum";
 import { METAVERSE_LABEL } from "../../constants/common.constant";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 
 interface MapCardUIProps {

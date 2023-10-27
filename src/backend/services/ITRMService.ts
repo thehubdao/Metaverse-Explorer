@@ -1,5 +1,5 @@
 import { Module } from '../../enums/logging.enum';
-import { ICoinPrices } from '../../types/valuationTypes';
+import { ICoinPrices } from '../../interfaces/land.interface';
 import { LogError } from '../../utils/logging.util';
 interface CoinValue {
   usd: number;

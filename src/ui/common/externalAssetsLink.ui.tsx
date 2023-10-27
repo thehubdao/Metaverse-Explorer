@@ -1,9 +1,9 @@
 import { FiExternalLink } from 'react-icons/fi';
 import Image from "next/image";
 import Link from "next/link";
-import { SingleLandAPIResponse } from '../../types/valuationTypes';
 import {  Metaverses } from '../../enums/metaverses.enum';
 import { METAVERSE_LABEL } from '../../constants/common.constant';
+import { SingleLandAPIResponse } from '../../interfaces/land.interface';
 
 interface ExternalAssetLinkUIProps {
   land: SingleLandAPIResponse;

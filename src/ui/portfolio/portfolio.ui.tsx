@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { LandListAPIResponse, TotalWorthData } from "../../types/valuationTypes";
+import { LandListAPIResponse } from "../../types/valuation.type";
 import LandCardListUI from "../common/landCardList.ui";
 import NolandsUI from "../common/noLands.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
@@ -10,6 +10,7 @@ import { Metaverses } from "../../enums/metaverses.enum";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPortfolioMetaverse } from "../../state/portfolioSlice";
 import { ButtonForm } from "../../enums/ui.enum";
+import { TotalWorthData } from "../../interfaces/land.interface";
 
 interface PortfolioUIProps {
   allLands: Record<Metaverses, LandListAPIResponse> | undefined;

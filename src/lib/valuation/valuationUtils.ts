@@ -1,5 +1,5 @@
 import { Metaverses } from '../../enums/metaverses.enum';
-import { LandListAPIResponse } from '../../types/valuationTypes';
+import { LandListAPIResponse } from '../../types/valuation.type';
     
 export const fetchLandList = async (metaverse: Metaverses, lands: string[]) => {
     let link = '';

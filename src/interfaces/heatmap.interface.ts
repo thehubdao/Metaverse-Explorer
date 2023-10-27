@@ -1,6 +1,6 @@
 import { Sprite } from "pixi.js";
 import { LandType } from "../types/heatmap/land.type";
-import { SingleLandAPIResponse } from "../types/valuationTypes";
+import { SingleLandAPIResponse } from "./land.interface";
 
 export interface HotDealsCard {
   images: {

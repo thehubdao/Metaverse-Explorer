@@ -1,14 +1,13 @@
 import { IoClose } from "react-icons/io5";
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import SpecificInformationCardUI from "./specificInformationCard.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
-
 import Link from "next/link";
 import { BsTwitter } from "react-icons/bs";
 import { AiOutlineCompress } from "react-icons/ai";
 import { IPredictions } from "../../interfaces/heatmap.interface";
 import { InformationCardForm } from "../../enums/ui.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 interface SpecificLandModalUIProps {
   onClose: () => void;

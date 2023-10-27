@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { LandListAPIResponse } from "../../types/valuationTypes";
+import { LandListAPIResponse } from "../../types/valuation.type";
 import LandCardListUI from "../common/landCardList.ui";
 import LandsMenuUI from "../common/landsMenu.ui";
 import SearchLandFormUI from "./searchLandForm.ui";

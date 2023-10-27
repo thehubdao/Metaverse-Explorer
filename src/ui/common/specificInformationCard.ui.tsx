@@ -1,4 +1,3 @@
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import PriceListUI from "./priceList.ui";
 import ExternalLinkUI from "./externalLink.ui";
@@ -9,6 +8,7 @@ import WatchlistButtonUI from "../heatmap/watchlistButton.ui";
 import DataComparisonBoxUI from "../heatmap/dataComparisonBox.ui";
 import { BiTargetLock } from "react-icons/bi";
 import { InformationCardForm, PriceListForm } from "../../enums/ui.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 interface SpecificInformationCardUIProps {
   land: SingleLandAPIResponse;

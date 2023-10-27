@@ -21,12 +21,12 @@ import MapLegendUI from "./mapLegend.ui";
 import MapCardUI from "./mapCard.ui";
 import SpecificLandModalUI from "../common/specificLandModal.ui";
 import { BiExitFullscreen, BiFullscreen } from "react-icons/bi";
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import { GetMapLandValuation } from "../../utils/itrm/land-valuation.util";
 import { LogError } from "../../utils/logging.util";
 import { Module } from "../../enums/logging.enum";
 import { convertETHPrediction } from "../../utils/common.util";
 import { ButtonForm, InformationCardForm } from "../../enums/ui.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 //TODO: component imports in development
 // import BoxInformationUI from "./boxInformation.ui";

@@ -1,4 +1,3 @@
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import { BsTwitter } from "react-icons/bs";
 import Image from "next/image";
@@ -11,6 +10,7 @@ import Link from "next/link";
 import SpecificLandModalUI from "./specificLandModal.ui";
 import { IPredictions } from "../../interfaces/heatmap.interface";
 import { InformationCardForm, PriceListForm } from "../../enums/ui.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 interface InformationCardUIProps {
   land: SingleLandAPIResponse;

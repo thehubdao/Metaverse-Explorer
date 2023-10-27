@@ -1,5 +1,5 @@
 import { Metaverses } from "../../enums/metaverses.enum";
-import { LandListAPIResponse } from "../../types/valuationTypes";
+import { LandListAPIResponse } from "../../types/valuation.type";
 import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import InformationCardUI from "./informationCard.ui";
 import { useAppSelector } from "../../state/hooks";

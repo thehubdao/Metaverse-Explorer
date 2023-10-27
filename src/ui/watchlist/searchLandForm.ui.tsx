@@ -1,5 +1,5 @@
 import { Metaverses } from "../../enums/metaverses.enum";
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 import SearchByCoordsUI from "./searchByCoords.ui";
 import SearchByIdUI from "./searchById.ui";
 

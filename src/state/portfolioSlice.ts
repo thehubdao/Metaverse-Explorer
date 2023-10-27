@@ -8,9 +8,10 @@ import { getCoingeckoPrices } from "../backend/services/ITRMService";
 import { LogError } from "../utils/logging.util";
 import { Module } from "../enums/logging.enum";
 import { convertETHPrediction, typedKeys } from "../utils/common.util";
-import { LandListAPIResponse, TotalWorthData } from "../types/valuationTypes";
+import { LandListAPIResponse } from "../types/valuation.type";
 import { Metaverses } from "../enums/metaverses.enum";
 import { DEFAULT_TOTAL_WORTH } from "../constants/common.constant";
+import { TotalWorthData } from "../interfaces/land.interface";
 
 interface IState {
     list: Record<Metaverses, LandListAPIResponse> | undefined,

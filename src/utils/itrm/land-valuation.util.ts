@@ -8,7 +8,7 @@ import {
   MetaversePerformance
 } from "../../interfaces/itrm/land-valuation.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 interface MapParams {
   from: number;

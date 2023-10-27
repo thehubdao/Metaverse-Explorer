@@ -1,6 +1,6 @@
 import { Metaverses } from "../enums/metaverses.enum";
 import { IPredictions } from "../interfaces/heatmap.interface";
-import { ICoinPrices } from "../types/valuationTypes";
+import { ICoinPrices } from "../interfaces/land.interface";
 
 /**
  * @returns Array of Object keys with their proper types. Use this instead of Object.keys
