@@ -14,7 +14,7 @@ interface MapSearchUIProps {
   coordinates: { X: number | undefined; Y: number | undefined };
   landId: string | undefined;
   setLandId: (tokenId: string | undefined) => void;
-  onClickSearch: () => void;
+  onClickSearch: () => Promise<void>;
 }
 
 export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMetaverse, setSelectFilter, setCoordinates, coordinates, landId, setLandId, onClickSearch }: MapSearchUIProps) {
@@ -84,7 +84,7 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
                         />
                       ))
                     }
-                    <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in z-10 p-2 rounded-xl bg-nm-dm-icons hover:bg-nm-dm-remark dark:bg-nm-fill dark:hover:bg-nm-remark text-nm-highlight dark:text-lm-text" disabled={coordinates.X == undefined || coordinates.Y == undefined} onClick={() => onClickSearch()}>
+                    <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in z-10 p-2 rounded-xl bg-nm-dm-icons hover:bg-nm-dm-remark dark:bg-nm-fill dark:hover:bg-nm-remark text-nm-highlight dark:text-lm-text" disabled={coordinates.X == undefined || coordinates.Y == undefined} onClick={() => void onClickSearch()}>
                       <MdAddLocationAlt className='h-5 w-5 relative bottom-[0.2rem]' />
                       Search
                     </button>
@@ -99,7 +99,7 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
                         className='font-light border-gray-300 placeholder-nm-fill block w-[8.5rem] text-lm-text dark:text-nm-highlight p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                       />
                     }
-                    <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in z-10 p-2 rounded-xl bg-nm-dm-icons hover:bg-nm-dm-remark dark:bg-nm-fill dark:hover:bg-nm-remark text-nm-highlight dark:text-lm-text" disabled={landId == undefined} onClick={() => onClickSearch()}>
+                    <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in z-10 p-2 rounded-xl bg-nm-dm-icons hover:bg-nm-dm-remark dark:bg-nm-fill dark:hover:bg-nm-remark text-nm-highlight dark:text-lm-text" disabled={landId == undefined} onClick={() => void onClickSearch()}>
                       <MdAddLocationAlt className='h-5 w-5 relative bottom-[0.2rem]' />
                       Search
                     </button>

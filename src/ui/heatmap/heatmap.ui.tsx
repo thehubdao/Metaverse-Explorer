@@ -74,7 +74,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
     dispatch(setHeatmapMetaverse(metaverse));
   }
 
-  function onClickLand(land: LandTileData | null) {
+  async function onClickLand(land: LandTileData | null) {
     if (!metaverseSelected) return LogError(Module.Heatmap, "No metaverse selected");
     if (isVisible) setIsVisible(false);
     setIsVisible(true);
@@ -93,21 +93,16 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
         x: coordinates.X,
         y: coordinates.Y
       };
-    GetMapLandValuation(metaverseSelected, params)
-      .then((result) => {
-        if (result.success) {
-          const landValuation = Object.values(result.value)[0];
-          setCardData(landValuation);  
-          const predictions = convertETHPrediction(prices, landValuation.eth_predicted_price, metaverseSelected);
-          setPredictions(predictions);
-        } else {
-          LogError(Module.Heatmap, result.errMessage);
-        }
-      })
-      .catch((error) => {
-        LogError(Module.Heatmap, "Unexpected error", error);
-        return setTimeout(() => handleError(), 1100);
-      });
+    const result = await GetMapLandValuation(metaverseSelected, params);
+      if (result.success) {
+        const landValuation = Object.values(result.value)[0];
+        setCardData(landValuation);  
+        const predictions = convertETHPrediction(prices, landValuation.eth_predicted_price, metaverseSelected);
+        setPredictions(predictions);
+      } else {
+        LogError(Module.Heatmap, result.errMessage);
+        setTimeout(() => handleError(), 1100);
+      }
   }
 
   const toggleFullScreen = () => {
