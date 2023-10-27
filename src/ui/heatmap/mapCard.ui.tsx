@@ -122,9 +122,9 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
               landData.external_link &&
               <Link href={landData.external_link} target={'_blank'}>
                 <div className="flex justify-center gap-1">
-                  {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt='Sandbox logo' />}
-                  {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt='Decentraland logo' />}
-                  {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt='Somniun space logo' />}
+                  {metaverse === Metaverses.SandBox && <Image src='/images/the-sandbox-sand-logo.png' width={20} height={20} alt={`${METAVERSE_LABEL[metaverse]} logo`} />}
+                  {metaverse === Metaverses.Decentraland && <Image src='/images/decentraland-mana-logo.png' width={20} height={20} alt={`${METAVERSE_LABEL[metaverse]} logo`} />}
+                  {metaverse === Metaverses.SomniumSpace && <Image src='/images/somnium-space-logo.png' width={20} height={20} alt={`${METAVERSE_LABEL[metaverse]} logo`} />}
                   {METAVERSE_LABEL[metaverse]}
                 </div>
               </Link>
