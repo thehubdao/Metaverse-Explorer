@@ -4,7 +4,7 @@ import {DecentralandApiColor} from "../../enums/valuation.enum";
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {CleanHex, GetKeyByValue, NumBetween} from "../common.util";
-import {FILTER_COLOR, LEGEND_COLOR, PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
+import {FILTER_COLOR, LEGEND_COLORS, PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {DECENTRALAND_API_COLORS, FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
 import {LandDecentraland} from "../../interfaces/land.interface";
@@ -57,7 +57,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
     case LegendFilter.OnSale:
       if (land.current_price_eth > -1) {
         if (mapFilter === "basic")
-          color = LEGEND_COLOR.OnSale;
+          color = LEGEND_COLORS.OnSale;
         else
           color = GetTileColor(land.percent ?? 0, percentFilter, mapFilter);
       }
@@ -67,7 +67,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
       break;
     case LegendFilter.PremiumLands:
       if (land.metaverse === Metaverses.SandBox && land.land_type === 1)
-        color = LEGEND_COLOR.PremiumLands
+        color = LEGEND_COLORS.PremiumLands
       else
         color = FILTER_COLOR.Gray
       
@@ -75,7 +75,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
     case LegendFilter.Watchlist:
       if (land.watchlist) {
         if (mapFilter === "basic") {
-          color = LEGEND_COLOR.Watchlist;
+          color = LEGEND_COLORS.Watchlist;
           scale = SCALE_OPTIONS.big;
         } else {
           color = GetTileColor(land.percent ?? 0, percentFilter, mapFilter);
@@ -88,7 +88,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
     case LegendFilter.Portfolio:
       if (land.portfolio != undefined) {
         if (mapFilter === "basic") {
-          color = LEGEND_COLOR.Portfolio;
+          color = LEGEND_COLORS.Portfolio;
           scale = SCALE_OPTIONS.big;
         } else {
           color = GetTileColor(land.percent ?? 0, percentFilter, mapFilter);
@@ -102,15 +102,15 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
     default:
       if (mapFilter === "basic") {
         if (land.portfolio != undefined) {
-          color = LEGEND_COLOR.Portfolio;
+          color = LEGEND_COLORS.Portfolio;
           scale = SCALE_OPTIONS.mid;
         } else if (land.watchlist) {
-          color = LEGEND_COLOR.Watchlist;
+          color = LEGEND_COLORS.Watchlist;
           scale = SCALE_OPTIONS.mid;
         } else if (land.current_price_eth > 0) {
-          color = LEGEND_COLOR.OnSale;
+          color = LEGEND_COLORS.OnSale;
         } else if (land.metaverse === Metaverses.SandBox && land.land_type == 1) {
-          color = LEGEND_COLOR.PremiumLands;
+          color = LEGEND_COLORS.PremiumLands;
         } else {
           color = land.metaverse === Metaverses.Decentraland && land.tile.type > -1
             ? '#19202A'
