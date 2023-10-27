@@ -7,7 +7,7 @@ import { fetchLandList } from "../lib/valuation/valuationUtils";
 import { getCoingeckoPrices } from "../backend/services/ITRMService";
 import { LogError } from "../utils/logging.util";
 import { Module } from "../enums/logging.enum";
-import { convertETHPrediction, typedKeys } from "../utils/common.util";
+import { convertETHPrediction, TypedKeys } from "../utils/common.util";
 import { LandListAPIResponse } from "../types/valuation.type";
 import { Metaverses } from "../enums/metaverses.enum";
 import { DEFAULT_TOTAL_WORTH } from "../constants/common.constant";
@@ -98,7 +98,7 @@ export const fetchPortfolio = createAsyncThunk(
 
                     // Adding Total Worth
                     const totalMvWorth = { usd: 0, eth: 0 };
-                    typedKeys(metaverseLandsObject).forEach((land) => {
+                    TypedKeys(metaverseLandsObject).forEach((land) => {
                         const usdcPrediction = convertETHPrediction(
                             prices,
                             metaverseLandsObject[land].eth_predicted_price,
@@ -115,7 +115,7 @@ export const fetchPortfolio = createAsyncThunk(
                         lands[metaverse] = metaverseLandsObject;
                     }
                     // Setting Asset Number
-                    totalLandsCounter = totalLandsCounter + typedKeys(metaverseLandsObject).length;
+                    totalLandsCounter = totalLandsCounter + TypedKeys(metaverseLandsObject).length;
 
                     // Adding the worth of each metaverse into the totalWorth
                     if (totalWorth != undefined) {

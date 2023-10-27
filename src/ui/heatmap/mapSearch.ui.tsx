@@ -2,7 +2,7 @@ import { AiFillQuestionCircle, AiOutlineSearch } from "react-icons/ai";
 import { Tooltip } from '@mui/material';
 import { MdAddLocationAlt } from 'react-icons/md';
 import { useState } from "react";
-import { typedKeys } from "../../utils/common.util";
+import { TypedKeys } from "../../utils/common.util";
 import { SEARCH_OPTIONS } from "../../constants/common.constant";
 
 interface MapSearchUIProps {
@@ -40,7 +40,7 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
         <>
           <form className={`flex flex-col space-y-4 absolute bg-nm-fill dark:bg-nm-dm-fill rounded-xl rounded-tl-none p-3 pt-5`} onSubmit={event => event.preventDefault()}>
             <div className='flex flex-col gap-2 mb-4'>
-              {typedKeys(SEARCH_OPTIONS).map((filter, index) => (
+              {TypedKeys(SEARCH_OPTIONS).map((filter, index) => (
                 <div key={index} className='flex gap-2 items-center relative'>
                   <input
                     type='radio'
@@ -67,7 +67,7 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
                 {searchBy === 'coordinates' ?
                   <>
                     {
-                      typedKeys(coordinates).map((coord, index) => (
+                      TypedKeys(coordinates).map((coord, index) => (
                         <input
                           key={index}
                           required

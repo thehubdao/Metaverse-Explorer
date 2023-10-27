@@ -1,7 +1,7 @@
 import { LEGEND_COLORS } from "../../constants/heatmap/heatmap.constant";
 import { LegendFilter } from "../../enums/heatmap/filter.enum";
 import { Metaverses } from "../../enums/metaverses.enum";
-import { typedKeys } from "../../utils/common.util";
+import { TypedKeys } from "../../utils/common.util";
 
 interface MapLegendUIProps {
   legendFilter: LegendFilter | undefined;
@@ -11,7 +11,7 @@ interface MapLegendUIProps {
 
 //TODO: add props and filter functionality
 export default function MapLegendUI({ metaverse}: MapLegendUIProps) {
-  const colors = typedKeys(LEGEND_COLORS).filter((element) => {
+  const colors = TypedKeys(LEGEND_COLORS).filter((element) => {
     if (metaverse === Metaverses.SandBox) return ['OnSale', 'PremiumLands', 'Portfolio', 'Watchlist'].includes(element)
     if (metaverse === Metaverses.Decentraland) return true
     return ['OnSale','Portfolio'].includes(element)

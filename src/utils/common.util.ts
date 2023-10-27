@@ -2,13 +2,6 @@ import { Metaverses } from "../enums/metaverses.enum";
 import { IPredictions } from "../interfaces/heatmap.interface";
 import { ICoinPrices } from "../interfaces/land.interface";
 
-/**
- * @returns Array of Object keys with their proper types. Use this instead of Object.keys
- */
-export function typedKeys<O extends object, K extends keyof O = keyof O>(obj: O): K[] {
-  return Object.keys(obj) as K[];
-}
-
 export function TypedKeys<TObj extends object>(obj: TObj) {
   return Object.keys(obj) as (keyof TObj)[];
 }
