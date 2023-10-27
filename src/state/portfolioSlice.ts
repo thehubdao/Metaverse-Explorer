@@ -58,7 +58,7 @@ export const fetchPortfolio = createAsyncThunk(
 
         const lands: Record<Metaverses, LandListAPIResponse> = { sandbox: {}, decentraland: {}, "somnium-space": {} };
         let totalLandsCounter = 0;
-        const totalWorth: TotalWorthData = { ethPrediction: 0, usdPrediction: 0};
+        const totalWorth: TotalWorthData = { ethPrediction: 0, usdcPrediction: 0};
 
         try {
             await Promise.all(
@@ -98,11 +98,13 @@ export const fetchPortfolio = createAsyncThunk(
                     // Adding Total Worth
                     const totalMvWorth = { usd: 0, eth: 0 };
                     typedKeys(metaverseLandsObject).forEach((land) => {
-                        totalMvWorth.usd += convertETHPrediction(
+                        const usdcPrediction = convertETHPrediction(
                             prices,
                             metaverseLandsObject[land].eth_predicted_price,
                             metaverse
-                        ).usdPrediction
+                        ).usdcPrediction
+                        //TODO: check totalMvWorth use 
+                        if(usdcPrediction) totalMvWorth.usd += usdcPrediction;
                         totalMvWorth.eth +=
                             metaverseLandsObject[land].eth_predicted_price
                     })
@@ -117,7 +119,7 @@ export const fetchPortfolio = createAsyncThunk(
                     // Adding the worth of each metaverse into the totalWorth
                     if (totalWorth != undefined) {
                         totalWorth.ethPrediction = totalWorth.ethPrediction + totalMvWorth.eth;
-                        totalWorth.usdPrediction = totalWorth.usdPrediction + totalMvWorth.usd;
+                        totalWorth.usdcPrediction = totalWorth.usdcPrediction + totalMvWorth.usd;
                     }
                 })
             )
