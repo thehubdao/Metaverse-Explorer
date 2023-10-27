@@ -8,6 +8,7 @@ import { GetMetaverseGlobalData } from "../../utils/itrm/land-valuation.util";
 import { GetTopLands, GetTopSellingLands } from "../../utils/itrm/val-analytics.util";
 import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interface";
 import { TopPickLand, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
+import LoaderUI from "../../ui/common/loader.ui";
 
 export default function HeatmapComponent() {
   const isConnected = useAppSelector(state => state.login.connected);
@@ -15,7 +16,9 @@ export default function HeatmapComponent() {
   const [topSellings, setTopSellings] = useState<TopSellingLand | null>(null);
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
   const [globalData, setglobalData] = useState<MetaverseGlobalData | null>(null);
-  
+  const token = useAppSelector(state => state.login.accessToken?.token);
+  const address = useAppSelector(state => state.login.address);
+
   //TODO: add modal to show error
   const fetch = async () => {
     const globalData = await GetMetaverseGlobalData(metaverseSelected);
@@ -33,7 +36,7 @@ export default function HeatmapComponent() {
   }
 
   useEffect(() => {
-    if (metaverseSelected != undefined){
+    if (metaverseSelected != undefined) {
       void fetch();
     }
   }, [metaverseSelected]);
@@ -43,7 +46,13 @@ export default function HeatmapComponent() {
       {!isConnected ?
         <IsLoginUI message="Please log in to use the valuation tool" />
         :
-        <HeatmapUI globalData={globalData} topPicksLands={picks} topSellingsLands={topSellings} />
+        <>
+          {address && token ?
+            <HeatmapUI globalData={globalData} topPicksLands={picks} topSellingsLands={topSellings} />
+            :
+            <LoaderUI size={100} text={"waiting for user signature..."} />
+          }
+        </>
       }
     </>
   );
