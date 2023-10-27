@@ -27,7 +27,7 @@ export default function SubHeaderUI({ optionList }: SubHeaderUIProps) {
             <div className="flex gap-5">
               {/* Links */}
               {
-                optionList.map((option: OptionProps) => {
+                optionList.map((option) => {
                   return (
                     <div key={option.name}>
                       <LinkedButtonUI name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage} />
@@ -45,7 +45,7 @@ export default function SubHeaderUI({ optionList }: SubHeaderUIProps) {
           <div className="flex gap-5">
             {/* Links */}
             {
-              optionList.map((option: OptionProps) => {
+              optionList.map((option) => {
                 return (
                   <div key={option.name}>
                     <LinkedButtonUI name={option.name} route={option.route} isActive={pathname == `/${option.route}`} image={option.image} darkImage={option.darkImage}/>
