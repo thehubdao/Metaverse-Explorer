@@ -32,7 +32,7 @@ export const DEFAULT_COIN_VALUES = {
 
 export const DEFAULT_TOTAL_WORTH = {
   ethPrediction: 0,
-  usdPrediction: 0
+  usdcPrediction: 0
 }
 
 export const LIST = [

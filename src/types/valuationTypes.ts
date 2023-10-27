@@ -52,7 +52,7 @@ export interface SingleLandAPIResponse {
   }
   predictions?: {
     ethPrediction: number;
-    usdPrediction: number;
+    usdcPrediction: number;
     metaversePrediction: number;
   };
   tokenId?: string;
@@ -71,5 +71,5 @@ export interface History {
 
 export interface TotalWorthData{
   ethPrediction: number;
-  usdPrediction: number;
+  usdcPrediction: number;
 }

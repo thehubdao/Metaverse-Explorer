@@ -101,7 +101,7 @@ export interface MapCardData {
 }
 
 export interface IPredictions {
-  ethPrediction: number | undefined;
-  usdPrediction: number | undefined;
+  ethPrediction: number;
+  usdcPrediction: number | undefined;
   metaversePrediction: number | undefined;
 }
