@@ -47,18 +47,6 @@ export const LEGEND_COLORS = {
     Portfolio: '#0000ff'//'#4Df0CF', // Owned by User (On their portfolio)
 }
 
-export const LEGEND_COLOR = {
-    OnSale: '#ffe5a3', // On sale
-    PremiumLands: '#47e298',
-    // Decentraland Only
-    Roads: '#5775a5', // roads
-    Plazas: '#32d2ff', // plazas
-    Districts: '#23334d', // districts
-
-    Watchlist: '#ff597b', // On User's Watchlist
-    Portfolio: '#0000ff'//'#4Df0CF', // Owned by User (On their portfolio)
-}
-
 export const FILTER_COLOR = {
     DarkBlue: '#282896',
   Red: '#ff3838',
