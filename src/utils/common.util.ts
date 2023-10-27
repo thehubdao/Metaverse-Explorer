@@ -1,4 +1,5 @@
 import { Metaverses } from "../enums/metaverses.enum";
+import { IPredictions } from "../interfaces/heatmap.interface";
 import { ICoinPrices } from "../types/valuationTypes";
 
 /**
@@ -91,11 +92,20 @@ export function Raise(msg: string): never {
 
 export const convertETHPrediction = (
   coinPrices: ICoinPrices,
-  ethPrediction = 0,
+  ethPrediction: number,
   metaverse: Metaverses
-) => {
+): IPredictions => {
+  //eth usd
   const ethUSD = coinPrices.ethereum.usd;
-  const usdPrediction = ethPrediction * ethUSD;
+  let usdcPrediction: number | undefined;
+  let metaversePrediction: number | undefined;
+
+  //usdc prediction
+  if(ethUSD > 0){
+    usdcPrediction = ethPrediction * ethUSD;
+  } else usdcPrediction = undefined;
+
+  //metaverse prediction
   const formattedMetaverse: keyof ICoinPrices =
       metaverse === Metaverses.SandBox
           ? 'the-sandbox'
@@ -104,9 +114,10 @@ export const convertETHPrediction = (
               : metaverse
 
   const metaverseUSD = coinPrices[formattedMetaverse].usd;
-  let metaversePrediction: number | undefined;
-  if(metaverseUSD !== 0){
-    metaversePrediction = usdPrediction / metaverseUSD;
+  
+  if(metaverseUSD > 0 && usdcPrediction){
+    metaversePrediction = usdcPrediction / metaverseUSD;
   } else metaversePrediction = undefined;
-  return { ethPrediction, usdPrediction, metaversePrediction };
+  
+  return { ethPrediction, usdcPrediction, metaversePrediction };
 }
