@@ -56,6 +56,7 @@ export default function TopLandsUI({ tableData, title, headers }: TopLandsProps)
                           <Image
                             src={item.images.image_url}
                             fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="rounded-full"
                             alt="land image"
                           />

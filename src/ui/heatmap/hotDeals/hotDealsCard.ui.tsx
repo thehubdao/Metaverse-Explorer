@@ -4,6 +4,7 @@ import CartButtonUI from "./cartButton.ui";
 import Link from "next/link";
 import { HotDealsCard } from "../../../interfaces/heatmap.interface";
 import { Metaverses } from "../../../enums/metaverses.enum";
+import { METAVERSE_LABEL } from "../../../constants/common.constant";
 
 interface HotDealsCardUIProps {
   cardData: HotDealsCard;
@@ -56,11 +57,11 @@ export default function HotDealsCardUI({ cardData, name, metaverseSelected }: Ho
           </div>
           <div className="flex justify-center my-3 font-bold text-lm-text dark:text-nm-fill px-4">
             <Link href={cardData.external_link} target={'_blank'} className="flex items-center w-1/2">
-              <Image height={12} width={10} src={metaverseImage} className="rounded-full" alt="land icon" />
+              <Image height={12} width={10} src={metaverseImage} className="rounded-full" alt={`${METAVERSE_LABEL[metaverseSelected]} logo`} />
               <p className="text-[10px] pl-1 truncate">{metaverseSelected}</p>
             </Link>
             <Link href={cardData.market_links.opensea} target={'_blank'} className="flex items-center w-1/2">
-              <Image height={12} width={10} src="/images/icons/markets/opensea.svg" className="rounded-full" alt="land icon" />
+              <Image height={12} width={10} src="/images/icons/markets/opensea.svg" className="rounded-full" alt="Opensea icon" />
               <p className="text-[10px] pl-1 truncate">OpenSea</p>
             </Link>
           </div>

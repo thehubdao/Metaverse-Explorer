@@ -1,22 +1,23 @@
-import { SingleLandAPIResponse } from "../../types/valuationTypes";
 import Tooltip from "@mui/material/Tooltip";
 import { BsTwitter } from "react-icons/bs";
 import Image from "next/image";
 import PriceListUI from "./priceList.ui";
 import { useState } from "react";
-import SpecificLandModalUI from "./specificLandModal.ui";
-import { PriceListForm } from "../../enums/common.enum";
+
 import { Metaverses } from "../../enums/metaverses.enum";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { CoinValuesType } from "../../utils/itrm/coin-gecko.util";
+import SpecificLandModalUI from "./specificLandModal.ui";
+import { IPredictions } from "../../interfaces/heatmap.interface";
+import { InformationCardForm, PriceListForm } from "../../enums/ui.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
 interface InformationCardUIProps {
   land: SingleLandAPIResponse;
-  prices: CoinValuesType;
+  predictions: IPredictions | undefined;
   metaverse: Metaverses;
 }
-export default function InformationCardUI({ land, prices, metaverse }: InformationCardUIProps) {
+export default function InformationCardUI({ land, predictions, metaverse }: InformationCardUIProps) {
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const { theme } = useTheme();
 
@@ -43,7 +44,7 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
               <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm my-2">
                 Price Estimation:
               </p>
-              <PriceListUI prices={prices} form={PriceListForm.Bold} />
+              <PriceListUI predictions={predictions} form={PriceListForm.Bold}  metaverse={metaverse}/>
             </div>
           </div>
         </button>
@@ -58,7 +59,7 @@ export default function InformationCardUI({ land, prices, metaverse }: Informati
           />
         </div>
       </div>
-      {isModalOpen && (<SpecificLandModalUI onClose={() => setModalOpen(false)} land={land} prices={prices} metaverse={metaverse} />)}
+      {isModalOpen && (<SpecificLandModalUI onClose={() => setModalOpen(false)} land={land} predictions={predictions} metaverse={metaverse} cardForm={InformationCardForm.NormalCard}/>)}
     </>
   )
 }

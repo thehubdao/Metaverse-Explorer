@@ -5,6 +5,7 @@ import ConnectButtonUI from "../common/connectButton.ui";
 import DarkModeButtonUI from "../common/darkModeButton.ui";
 import NavButtonUI from "../navbar/navbarButton.ui";
 import { useTheme } from "next-themes";
+import { LIST } from "../../constants/common.constant";
 
 interface ListProps {
   url: string;
@@ -12,27 +13,6 @@ interface ListProps {
   icon: string;
   isExternal: boolean;
 }
-
-const list = [
-  {
-    url: "/metaverseexplorer",
-    label: "Metaverse explorer",
-    icon: "b",
-    isExternal: false,
-  },
-  {
-    url: "/stake",
-    label: "Stake MGH",
-    icon: "d",
-    isExternal: false,
-  },
-  {
-    url: "https://snapshot.org/#/metagamehub.eth",
-    label: "Governance",
-    icon: "a",
-    isExternal: true,
-  },
-];
 
 interface HeaderUIProp {
   isConnected: boolean;
@@ -47,7 +27,14 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
 
   return (
     <>
-      <header className={`${isConnected ? "bg-[url('/images/banner.png')] dark:bg-[url('/images/dm-banner.png')]" : ""} hidden lg:block`}  >
+      <header className={`${isConnected ? "bg-[url('/images/BANNER.png')] dark:bg-[url('/images/BANNER_DARK.png')]" : ""} hidden lg:block`}  >
+        <div className="ml-16 relative float-left">
+          <Link href={"/metaverseexplorer"}>
+            <div className="w-full flex justify-center items-center mt-6">
+              <Image src={ isConnected ? "/images/mgh_logo/THEHUB_LOGO.svg" : "/images/mgh_logo/mgh_logo.svg"} width={65} height={61} alt="The Hub Dao logo" />
+            </div>
+          </Link>
+        </div>
         <div className='mr-16 mt-6 relative float-right flex items-center justify-center'>
           <ConnectButtonUI />
           <DarkModeButtonUI />
@@ -64,7 +51,7 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
               className="cursor-pointer flex justify-start items-start ml-4"
             />
           </Link>
-          <div className={`font-toogle text-3xl pr-4 cursor-pointer ${isNavOpen ? 'hidden' : ''}`} onClick={() => { handleToggleClick() }}>
+          <div className={`font-toogle text-3xl pr-4 cursor-pointer ${isNavOpen ? 'hidden' : ''}`} onClick={() => handleToggleClick()}>
             b
           </div>
         </div>
@@ -75,11 +62,11 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                 <div className="absolute top-0 right-0 pr-7 pt-9">
                   <DarkModeButtonUI />
                 </div>
-                <div className="absolute top-0 left-0 pl-7 pt-9 cursor-pointer" onClick={handleToggleClick}>
+                <div className="absolute top-0 left-0 pl-7 pt-9 cursor-pointer" onClick={() => handleToggleClick()}>
                   <div className="w-12 h-12 bg-lm-fill dark:bg-nm-black shadow-relief-12 dark:shadow-dm-relief-12 flex justify-center items-center rounded-xl">
                     <Image
-                      src={resolvedTheme === "dark" ? '/images/icons/back-white.svg':'/images/icons/back.svg'}
-                      alt={'back logo'}
+                      src={resolvedTheme === "dark" ? '/images/icons/back-white.svg' : '/images/icons/back.svg'}
+                      alt={'Header icon'}
                       width={31}
                       height={31}
                     />
@@ -90,9 +77,9 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                 </div>
                 <div className="flex flex-col space-y-8 mt-auto">
                   {
-                    list.map((option: ListProps) => {
+                    LIST.map((option: ListProps) => {
                       return (
-                        <div key={option.label} onClick={handleToggleClick}>
+                        <div key={option.label} onClick={() => handleToggleClick()}>
                           <NavButtonUI url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} />
                         </div>
                       )

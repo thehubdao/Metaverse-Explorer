@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
-interface OptionProps {
+interface LinkedButtonUIProps {
   name: string;
   route: string;
   isActive: boolean;
@@ -12,7 +12,7 @@ interface OptionProps {
   darkImage: string;
 }
 
-export default function LinkedButtonUI({ name, route, isActive, image, darkImage }: OptionProps) {
+export default function LinkedButtonUI({ name, route, isActive, image, darkImage }: LinkedButtonUIProps) {
   const { resolvedTheme } = useTheme();
   
   return (

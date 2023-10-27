@@ -58,7 +58,7 @@ interface Heatmap2DProps {
   legendFilter?: LegendFilter;
   percentFilter?: PercentFilter;
   
-  onClickLand: (landRawData: LandTileData) => void;
+  onClickLand: (landRawData: LandTileData) => Promise<void>;
   initialX: number;
   initialY: number;
 }
@@ -291,7 +291,7 @@ export default function Heatmap2D({
 
     rectangle.on("click", () => {
       rectangle.tint = LandColor.Clicked;
-      onClickLand(landRectangle);
+      void onClickLand(landRectangle);
     });
     
     rectangle.on("mouseenter", () => {

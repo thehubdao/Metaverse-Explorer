@@ -1,4 +1,5 @@
-import { METAVERSE_LABEL, Metaverses } from "../../enums/metaverses.enum";
+import { METAVERSE_LABEL } from "../../constants/common.constant";
+import { Metaverses } from "../../enums/metaverses.enum";
 import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interface";
 
 interface EstimatorValuesUIProps {
@@ -19,28 +20,28 @@ export default function EstimatorValuesUI({ metaverseSelected, info, globalData 
       <div className="flex flex-wrap gap-x-8 items-center justify-evenly w-full lg:w-1/2 lg:max-w-2xl">
         <div className="flex flex-col gap-y-1 items-center my-2">
           <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
-            {globalData?.floor_price !== undefined ? globalData.floor_price.toLocaleString() : ''}
-            {' ETH'}
+            {globalData?.floor_price !== undefined ? globalData.floor_price.toLocaleString() : 'No data'}
+            {globalData?.floor_price !== undefined ? ' ETH' : ''}
           </p>
           <p className="text-xs lg:text-sm font-bold text-lm-text-gray">FLOOR</p>
         </div>
         <div className="flex flex-col gap-y-1 items-center my-2">
           <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
-            {globalData?.total_volume !== undefined ? Math.round(globalData.total_volume).toLocaleString() : ''}
-            {' ETH'}
+            {globalData?.total_volume !== undefined ? Math.round(globalData.total_volume).toLocaleString() : 'No data'}
+            {globalData?.total_volume !== undefined ? ' ETH': ''}
           </p>
           <p className="text-xs lg:text-sm font-bold text-lm-text-gray">TRADING VOLUME</p>
         </div>
         <div className="flex flex-col gap-y-1 items-center my-2">
           <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
-            {globalData?.market_cap !== undefined ? Math.round(globalData.market_cap).toLocaleString() : ''}
-            {' ETH'}
+            {globalData?.market_cap !== undefined ? Math.round(globalData.market_cap).toLocaleString() : 'No data'}
+            {globalData?.market_cap !== undefined ? ' ETH' : ""}
           </p>
           <p className="text-xs lg:text-sm font-bold text-lm-text-gray">MCAP</p>
         </div>
         <div className="flex flex-col gap-y-1 items-center my-2">
           <p className="font-bold text-xl lg:text-3xl whitespace-nowrap text-lm-text dark:text-nm-highlight">
-            {globalData?.num_owners !== undefined ? globalData.num_owners.toLocaleString() : ''}
+            {globalData?.num_owners !== undefined ? globalData.num_owners.toLocaleString() : 'No data'}
           </p>
           <p className="text-xs lg:text-sm font-bold text-lm-text-gray">OWNERS</p>
         </div>

@@ -1,5 +1,5 @@
 import { Module } from '../../enums/logging.enum';
-import { ICoinPrices } from '../../types/valuationTypes';
+import { CoinValuesType } from "../../types/common.type";
 import { LogError } from '../../utils/logging.util';
 interface CoinValue {
   usd: number;
@@ -13,7 +13,7 @@ interface CoinITRMResponse {
   success: CoinValues;
 }
 
-export async function getCoingeckoPrices(): Promise<ICoinPrices> {
+export async function getCoingeckoPrices(): Promise<CoinValuesType> {
   let coinValues: CoinValues = {
     "decentraland": {
       "usd": 0
@@ -54,5 +54,5 @@ export async function getCoingeckoPrices(): Promise<ICoinPrices> {
   } catch (error) {
     LogError(Module.ITRMService, "fetch has failed", error);
   }
-  return coinValues as unknown as ICoinPrices;
+  return coinValues as unknown as CoinValuesType;
 }

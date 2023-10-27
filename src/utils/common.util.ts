@@ -1,9 +1,6 @@
-/**
- * @returns Array of Object keys with their proper types. Use this instead of Object.keys
- */
-export function typedKeys<O extends object, K extends keyof O = keyof O>(obj: O): K[] {
-  return Object.keys(obj) as K[];
-}
+import { Metaverses } from "../enums/metaverses.enum";
+import { IPredictions } from "../interfaces/heatmap.interface";
+import { CoinValuesType } from "../types/common.type";
 
 export function TypedKeys<TObj extends object>(obj: TObj) {
   return Object.keys(obj) as (keyof TObj)[];
@@ -84,4 +81,36 @@ export function Delay(ms: number) {
 
 export function Raise(msg: string): never {
   throw new Error(msg);
+}
+
+export const convertETHPrediction = (
+  coinPrices: CoinValuesType,
+  ethPrediction: number,
+  metaverse: Metaverses
+): IPredictions => {
+  //eth usd
+  const ethUSD = coinPrices.ethereum.usd;
+  let usdcPrediction: number | undefined;
+  let metaversePrediction: number | undefined;
+
+  //usdc prediction
+  if(ethUSD > 0){
+    usdcPrediction = ethPrediction * ethUSD;
+  } else usdcPrediction = undefined;
+
+  //metaverse prediction
+  const formattedMetaverse: keyof CoinValuesType =
+      metaverse === Metaverses.SandBox
+          ? 'the-sandbox'
+          : metaverse === Metaverses.SomniumSpace
+              ? 'somnium-space-cubes'
+              : metaverse
+
+  const metaverseUSD = coinPrices[formattedMetaverse].usd;
+  
+  if(metaverseUSD > 0 && usdcPrediction){
+    metaversePrediction = usdcPrediction / metaverseUSD;
+  } else metaversePrediction = undefined;
+  
+  return { ethPrediction, usdcPrediction, metaversePrediction };
 }
