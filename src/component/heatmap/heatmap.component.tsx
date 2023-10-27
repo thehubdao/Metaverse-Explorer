@@ -16,33 +16,31 @@ export default function HeatmapComponent() {
   const metaverseSelected = useAppSelector(state => state.heatmap.metaverseSelected);
   const [globalData, setglobalData] = useState<MetaverseGlobalData | null>(null);
   const fetch = async () => {
-    try{
-      const globalData = await GetMetaverseGlobalData(metaverseSelected);
-      if (globalData.success) {
-        setglobalData(globalData.value);
-      }
-      const topLands = await GetTopLands(metaverseSelected);
-      if (topLands.success) {
-        setPicks(topLands.value);
-      }
-      const topSellings = await GetTopSellingLands(metaverseSelected);
-      if (topSellings.success) {
-        setTopSellings(topSellings.value)
-      }
-    }catch (err) {
-      console.error(err);
+    const globalData = await GetMetaverseGlobalData(metaverseSelected);
+    if (globalData.success) {
+      setglobalData(globalData.value);
+    }
+    const topLands = await GetTopLands(metaverseSelected);
+    if (topLands.success) {
+      setPicks(topLands.value);
+    }
+    const topSellings = await GetTopSellingLands(metaverseSelected);
+    if (topSellings.success) {
+      setTopSellings(topSellings.value)
     }
   }
-  
+
   useEffect(() => {
-    void fetch();
+    if (metaverseSelected != undefined){
+      void fetch();
+    }
   }, [metaverseSelected]);
 
   return (
     <>
-      {!isConnected ? 
+      {!isConnected ?
         <IsLoginUI message="Please log in to use the valuation tool" />
-      : 
+        :
         <HeatmapUI globalData={globalData} topPicksLands={picks} topSellingsLands={topSellings} />
       }
     </>

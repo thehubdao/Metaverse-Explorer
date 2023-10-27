@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import NavButton from "./navbarButton.ui";
+import NavButtonUI from "./navbarButton.ui";
 
 interface ListProps {
   url: string;
@@ -30,7 +30,7 @@ export default function NavbarUI({ list, route }: SidebarProps){
               list.map((option: ListProps) => {
                 return(
                   <div key={option.label}>
-                    <NavButton url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} active={route.includes(option.url)}/>
+                    <NavButtonUI url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} active={route.includes(option.url)}/>
                   </div>
                 )
               })

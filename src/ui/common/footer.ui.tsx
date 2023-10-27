@@ -1,6 +1,6 @@
 export default function FooterUI() {
   return (
-    <div className="px-20 xl:px-36 mt-40 mb-20">
+    <div className="lg:px-20 xl:px-36 mt-20 lg:mt-40 pb-32 lg:pb-20">
       <p className="text-nm-dm-remark dark:text-lm-text-gray text-center text-xs">
         THE HUB DAO does not provide, personalized investment
         recommendations or advisory services. Any information provided

@@ -9,16 +9,17 @@ import store from '../state/store';
 import { Provider } from 'react-redux';
 import NavbarUI from '../ui/navbar/navbar.ui';
 import FontIcons from 'next/font/local';
-import SubHeader from '../ui/subHeader/subHeader.ui';
+import ToogleIcons from 'next/font/local';
+import SubHeaderUI from '../ui/subHeader/subHeader.ui';
 import { fetchCurrencyData } from '../utils/api';
 import { setCurrencyValues } from '../state/currencySlice';
 import FooterUI from '../ui/common/footer.ui';
-import MobileUI from '../ui/mobile/mobile.ui';
 import WagmiProvider from "../providers/wagmi.provider";
 import { ThemeProvider } from 'next-themes';
 
 const plusJakarta = Plus_Jakarta_Sans({ subsets: ['latin'], display: 'block', variable: '--jakarta-font' });
 const fontIcons = FontIcons({ src: '../../public/fonts/fonts-icons/iconSet01.ttf', display: 'block', variable: '--icons-font' });
+const toogleIcons = ToogleIcons({src: '../../public/fonts/fonts-icons/icomoon-toogle-x.ttf', display: 'block', variable: '--toogle-font'});
 
 // export const metadata = {
 //   title: 'Next.js',
@@ -50,14 +51,20 @@ const subHeaderList = [
   {
     name: "Heatmap",
     route: "metaverseexplorer",
+    image: "/images/icons/menu/LANDVALUATION_ON.svg",
+    darkImage: "/images/icons/menu/LANDVALUATION_WHITE.svg"
   },
   {
     name: "Portfolio",
     route: "metaverseexplorer/portfolio",
+    image: "/images/icons/menu/PORTFOLIO_ON.svg",
+    darkImage: "/images/icons/menu/PORTFOLIO_WHITE.svg"
   },
   {
     name: "Watchlist",
     route: "metaverseexplorer/watchlist",
+    image: "/images/icons/menu/WATCHLIST_ON.svg",
+    darkImage: "/images/icons/menu/WATCHLIST_WHITE.svg"
   },
   // {
   //   name: "Analytics",
@@ -81,27 +88,22 @@ export default function RootLayout({ children, }: { children: React.ReactNode })
 
   return (
     <Provider store={store}>
-      <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable}`}>
+      <html lang="en" className={`${plusJakarta.variable} ${fontIcons.variable} ${toogleIcons.variable}`}>
         <body className="font-plus text-nm-dm-highlight dark:text-nm-fill">
-          <ThemeProvider attribute="class">
-            <div className='hidden xl:block'>
-              <WagmiProvider>
-                <div className={`w-full h-screen grid grid-cols-[137px_calc(100%-137px)] ${isConnected ? 'grid-rows-[226px_1fr]' : 'grid-rows-[70px_1fr]'} `}>
-                  <nav className="row-span-2">
-                    <NavbarUI list={list} route={pathname} />
-                  </nav>
-                  <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
-                  <main className='px-16'>
-                    {pathname !== '/stake' && <SubHeader optionList={subHeaderList} />}
-                    {children}
-                    {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
-                  </main>
-                </div>
-              </WagmiProvider>
-            </div>
-            <div className="xl:hidden h-screen w-screen bg-white fixed inset-0 z-[99]">
-              <MobileUI />
-            </div>
+          <ThemeProvider attribute="class" disableTransitionOnChange>
+            <WagmiProvider>
+              <div className={`w-full h-screen block lg:grid lg:grid-cols-[137px_calc(100%-137px)] ${isConnected ? 'lg:grid-rows-[226px_1fr]' : 'lg:grid-rows-[70px_1fr]'} `}>
+                <nav className="row-span-2 hidden lg:block">
+                  <NavbarUI list={list} route={pathname} />
+                </nav>
+                <HeaderComponent setIsConnected={(isConnectedChild: boolean) => setIsConnected(isConnectedChild)} />
+                <main className='px-4 md:px-10 lg:px-16'>
+                  {pathname !== '/stake' && <SubHeaderUI optionList={subHeaderList} />}
+                  {children}
+                  {isConnected && pathname !== '/metaverseexplorer/analytics' && <FooterUI />}
+                </main>
+              </div>
+            </WagmiProvider>
           </ThemeProvider>
         </body>
       </html>

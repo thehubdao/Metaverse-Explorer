@@ -116,10 +116,12 @@ export default function Heatmap2D({
     preLoad();
     
     // Init pixi variables
-    initPixiViews();
-    
-    // Start and work with the socket
-    socketWork();
+    initPixiViews()
+      .then(() => {
+        // Start and work with the socket
+        socketWork();
+      })
+      .catch(err => console.error(err));
 
     // free socket
     return () => {
@@ -144,10 +146,12 @@ export default function Heatmap2D({
     }
   }
   
-  function initPixiViews() {
+  async function initPixiViews() {
     const mapDivRefCurrent = mapDivRef.current;
     if (mapDivRefCurrent == null)
       return void LogWarning(Module.Heatmap, "Missing PixiDiv please checkout!");
+
+    const {Viewport} = await import('pixi-viewport');
     
     _mapApp = new Application<HTMLCanvasElement>({
       width: viewportWidth,
