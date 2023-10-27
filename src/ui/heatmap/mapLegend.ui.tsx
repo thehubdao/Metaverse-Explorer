@@ -1,7 +1,6 @@
-import { LEGEND_COLORS } from "../../constants/heatmap/heatmap.constant";
+import { LEGEND_COLORS, METAVERSE_LEGENDS } from "../../constants/heatmap/heatmap.constant";
 import { LegendFilter } from "../../enums/heatmap/filter.enum";
 import { Metaverses } from "../../enums/metaverses.enum";
-import { TypedKeys } from "../../utils/common.util";
 
 interface MapLegendUIProps {
   legendFilter: LegendFilter | undefined;
@@ -11,16 +10,12 @@ interface MapLegendUIProps {
 
 //TODO: add props and filter functionality
 export default function MapLegendUI({ metaverse}: MapLegendUIProps) {
-  const colors = TypedKeys(LEGEND_COLORS).filter((element) => {
-    if (metaverse === Metaverses.SandBox) return ['OnSale', 'PremiumLands', 'Portfolio', 'Watchlist'].includes(element)
-    if (metaverse === Metaverses.Decentraland) return true
-    return ['OnSale','Portfolio'].includes(element)
-  })
-
+  const legends = METAVERSE_LEGENDS[metaverse];
+  
   return (
     <ul
       className="flex flex-col gap-2 bg-nm-fill dark:bg-nm-dm-fill rounded-xl p-2 w-fit absolute bottom-1 right-1 m-4">
-      {colors.map((key, index) => (
+      {legends.map((key, index) => (
         <li className='flex gap-6 items-center' key={index}>
           <button
             style={{ background: LEGEND_COLORS[key] }}
