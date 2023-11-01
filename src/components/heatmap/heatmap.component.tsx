@@ -45,14 +45,12 @@ interface PreDataHeatmap {
 }
 
 interface Heatmap2DProps {
-  viewportWidth: number | undefined;
-  viewportHeight: number | undefined;
   // mapState: ValuationState;
   metaverse: Metaverses;
   renderAfter: boolean;
   
-  // x: number | undefined;
-  // y: number | undefined;
+  x: number | undefined;
+  y: number | undefined;
   
   filter?: MapFilter;
   legendFilter?: LegendFilter;
@@ -64,10 +62,7 @@ interface Heatmap2DProps {
 }
 
 export default function Heatmap2D({
-                                    metaverse,
-                                    viewportWidth,
-                                    viewportHeight,
-                                    
+                                    metaverse,                                    
                                     filter,
                                     percentFilter,
                                     legendFilter,
@@ -79,8 +74,8 @@ export default function Heatmap2D({
   
                                     // TODO: Check if needed
                                     // mapState,
-                                    // x,
-                                    // y,
+                                    x,
+                                    y,
                                   }: Heatmap2DProps) {
   const mapDivRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -152,10 +147,9 @@ export default function Heatmap2D({
       return void LogWarning(Module.Heatmap, "Missing PixiDiv please checkout!");
 
     const {Viewport} = await import('pixi-viewport');
-    
     _mapApp = new Application<HTMLCanvasElement>({
-      width: viewportWidth,
-      height: viewportHeight,
+      width: mapDivRefCurrent.offsetWidth, 
+      height: mapDivRefCurrent.offsetHeight,
       resolution: 1,
       backgroundAlpha: 0,
       backgroundColor: '#42425d',
@@ -168,8 +162,8 @@ export default function Heatmap2D({
     // (globalThis as any).__PIXI_APP__ = _mapApp;
 
     _viewport = new Viewport({
-      screenWidth: viewportWidth,
-      screenHeight: viewportHeight,
+      screenWidth: mapDivRefCurrent.offsetWidth,
+      screenHeight: mapDivRefCurrent.offsetHeight,
       passiveWheel: false,
       events: _mapApp.renderer.events,
       // interaction: map.renderer.plugins.interaction,
@@ -189,6 +183,11 @@ export default function Heatmap2D({
     mapDivRefCurrent.appendChild(_mapApp.view);
     
     _viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE);
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    return () => window.removeEventListener("resize", resize);
   }
   
   function cleanPixiViews() {
@@ -434,44 +433,40 @@ export default function Heatmap2D({
   }
   
   // Resize
-  useEffect(() => {
+  function resize() {
     if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on resize");
     if (_mapApp == undefined) return LogError(Module.Heatmap, "Missing map on resize");
-
-    _mapApp.renderer.resize(viewportWidth || 0, viewportHeight || 0);
-
+    if(mapDivRef.current == null) return LogError(Module.Heatmap, "Missing parent div on resize");
+    
+    _mapApp.renderer.resize(mapDivRef.current.offsetWidth, mapDivRef.current.offsetHeight);
     try {
-      _viewport.resize(viewportWidth, viewportHeight);
+      _viewport.resize(mapDivRef.current.offsetWidth, mapDivRef.current.offsetHeight);
     } catch (e) {
       LogError(Module.Heatmap, "Error on viewport resize", e);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [viewportWidth, viewportHeight]);
+  }
   
-  // useEffect(() => {
-  //   console.log('Snap heatmap')
-  //   if (x == undefined || y == undefined) return;
-  //   if (viewport == undefined)
-  //     return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
-  //
-  //   try {
-  //     viewport.snap(x * TILE_SIZE, y * TILE_SIZE, {
-  //       time: 2000,
-  //       ease: 'easeOutCubic',
-  //       removeOnComplete: true
-  //     });
-  //   } catch (e) {
-  //     return LogError(Module.Heatmap, "Error snapping coordinates", e);
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [x, y]);
+  useEffect(() => {
+    if (x == undefined) return LogError(Module.Heatmap, "missing X coordinate on snap heatmap");
+    if (y == undefined) return LogError(Module.Heatmap, "missing Y coordinate on snap heatmap");
+    if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
+  
+    try {
+      _viewport.snap(x * TILE_SIZE, y * TILE_SIZE, {
+        time: 2000,
+        ease: 'easeOutCubic',
+        removeOnComplete: true
+      });
+    } catch (e) {
+      return LogError(Module.Heatmap, "Error snapping coordinates", e);
+    }
+  }, [x, y]);
 
   return (
     <>
       <>{/* HEATMAP VIEWPORT */}
         <div ref={mapDivRef} id="map"
-             className={`bg-[#3C3E42] ${isLoading ? 'hidden' : 'block rounded-[25px]'}`}
-             style={{width: viewportWidth, height: viewportHeight, border: 16}}
+             className={`bg-[#3C3E42] w-full h-full ${isLoading ? 'hidden' : 'block rounded-[25px]'}`} 
         />
       </>
       {/* HEATMAP VIEWPORT */}
