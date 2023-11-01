@@ -13,7 +13,7 @@ import { TopPickLand, TopSellingLand } from "../../interfaces/itrm/val-analytics
 import TopSellsLandsUI from "./topSellsLands.ui";
 import Heatmap2D from "../../components/heatmap/heatmap.component";
 import { useRef, useState } from "react";
-import { IPredictions, LandTileData } from "../../interfaces/heatmap.interface";
+import { IPredictions, LandTileData, MapCoordinates } from "../../interfaces/heatmap.interface";
 import MapChooseMetaverseUI from "./mapChooseMetaverse.ui";
 import MapSearchUI from "./mapSearch.ui";
 import { LegendFilter } from "../../enums/heatmap/filter.enum";
@@ -56,25 +56,23 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
   const prices = useAppSelector(state => state.coinGecko.coins);
   
   const dispatch = useAppDispatch();
-  //TODO: const of functionalities in development
-  // const isFullScreen = document.fullscreenElement;
 
   const [selectMetaverse, setSelectMetaverse] = useState<boolean>(false);
   const [selectCoord, setSelectCoord] = useState<boolean>(false);
   const [landId, setLandId] = useState<string | undefined>(undefined);
-  const [coordinates, setCoordinates] = useState<{ X: number | undefined; Y: number | undefined }>({ X: undefined, Y: undefined });
+  const [coordinates, setCoordinates] = useState<MapCoordinates>({ x: undefined, y: undefined });
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false);
   const [legendFilter, setLegendFilter] = useState<LegendFilter | undefined>();
   const [cardData, setCardData] = useState<SingleLandAPIResponse | undefined>();
   const [predictions, setPredictions] = useState<IPredictions>();
   const [error, setError] = useState<boolean>(false);
-
+  
   const filterLands = (metaverse: Metaverses | undefined) => {
     dispatch(setHeatmapMetaverse(metaverse));
   }
 
-  async function onClickLand(land: LandTileData | null) {
+  async function onClickLand(land?: LandTileData, coords?: MapCoordinates ) {
     if (!metaverseSelected) return LogError(Module.Heatmap, "No metaverse selected");
     if (isVisible) setIsVisible(false);
     setIsVisible(true);
@@ -90,12 +88,13 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
         from: 0,
         size: 1,
         tokenId: landId,
-        x: coordinates.X,
-        y: coordinates.Y
+        x: coords?.x ?? coordinates.x,
+        y: coords?.y ?? coordinates.y
       };
     const result = await GetMapLandValuation(metaverseSelected, params);
       if (result.success) {
         const landValuation = Object.values(result.value)[0];
+        setCoordinates({x:landValuation.coords.x, y:landValuation.coords.y});
         setCardData(landValuation);  
         const predictions = convertETHPrediction(prices, landValuation.eth_predicted_price, metaverseSelected);
         setPredictions(predictions);
@@ -130,29 +129,6 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
     setIsVisible(false);
   }
 
-  
-  //TODO: fix rezise
-  // const [dims, setDims] = useState({
-  // 	height: heatmapDivRef.current?.offsetWidth,
-  // 	width: heatmapDivRef.current?.offsetWidth,
-  // });
-
-  // Function for resizing heatmap
-  // const resize = () => {
-  // 	if (!heatmapDivRef.current) return;
-  // 	setDims({
-  // 		height: heatmapDivRef.current.offsetHeight,
-  // 		width: heatmapDivRef.current.offsetWidth,
-  // 	});
-  // };
-  
-  // useEffect(()=>{
-  //   resize();
-  // 	window.addEventListener("resize", resize);
-
-  // 	return () => window.removeEventListener("resize", resize);
-  // },[metaverseSelected])
-  
   return (
     <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
       {
@@ -184,12 +160,12 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                       <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} />
 
                       {/* Search by coords */}
-                      <MapSearchUI selectCoord={selectCoord} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setCoordinates={(newCoordinates) => setCoordinates(newCoordinates)} coordinates={coordinates} landId={landId} setLandId={(tokenId) => setLandId(tokenId)} onClickSearch={() => onClickLand(null)} />
+                      <MapSearchUI selectCoord={selectCoord} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} landId={landId} setLandId={(tokenId) => setLandId(tokenId)} onClickSearch={(land?: LandTileData, coords?: MapCoordinates) => onClickLand(land, coords)} />
                     </div>
                     {
                       !isVisible &&
                       <div className="absolute z-20 top-1 right-1 rounded-full bg-nm-fill dark:bg-nm-dm-fill m-4 p-2 h-9 w-9">
-                        <button onClick={toggleFullScreen}>
+                        <button onClick={() => toggleFullScreen()}>
                           {isFullScreen ? (
                             <BiExitFullscreen className="text-xl cursor-pointer hover:scale-120" />
                           ) : (
@@ -198,8 +174,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                         </button>
                       </div>
                     }
-                    <Heatmap2D viewportWidth={heatmapDivRef.current?.offsetWidth ?? window.innerWidth} viewportHeight={heatmapDivRef.current?.offsetHeight ?? window.innerHeight}
-                      metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} />
+                  <Heatmap2D metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y}/>
                     {
                       !isVisible &&
                       <MapLegendUI legendFilter={legendFilter} setLegendFilter={(legend: LegendFilter | undefined) => setLegendFilter(legend)} metaverse={metaverseSelected} />
