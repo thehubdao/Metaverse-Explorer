@@ -4,15 +4,17 @@ import ExternalAssetLinkUI from "./externalAssetsLink.ui";
 import InformationCardUI from "./informationCard.ui";
 import { useAppSelector } from "../../state/hooks";
 import { convertETHPrediction } from "../../utils/common.util";
+import { LandCardListForm } from "../../enums/ui.enum";
 
 
 interface LandCardListUIProps {
   lands: [Metaverses, LandListAPIResponse][];
+  landCardForm: LandCardListForm;
 }
 
-export default function LandCardListUI({ lands }: LandCardListUIProps) {
+export default function LandCardListUI({ lands, landCardForm }: LandCardListUIProps) {
   const prices = useAppSelector(state => state.coinGecko.coins);
-  
+    
   return (
     <>
       {
@@ -25,7 +27,7 @@ export default function LandCardListUI({ lands }: LandCardListUIProps) {
                     <ExternalAssetLinkUI land={land} isOpen={false} metaverse={metaverse} />
                   </div>
                   <div className="w-full md:w-1/2 pb-3">
-                    <InformationCardUI land={land} metaverse={metaverse} predictions={convertETHPrediction(prices, land.eth_predicted_price, metaverse)}/>
+                    <InformationCardUI land={land} metaverse={metaverse} predictions={convertETHPrediction(prices, land.eth_predicted_price, metaverse)} landCardForm={landCardForm}/>
                   </div>
                 </div>
               </div>
