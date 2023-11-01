@@ -4,22 +4,22 @@ import { MdAddLocationAlt } from 'react-icons/md';
 import { useState } from "react";
 import { TypedKeys } from "../../utils/common.util";
 import { SEARCH_OPTIONS } from "../../constants/common.constant";
+import { MapCoordinates, LandTileData } from "../../interfaces/heatmap.interface";
 
 interface MapSearchUIProps {
   selectCoord: boolean;
   setSelectCoord: (coordState: boolean) => void;
   setSelectFilter?: (filterState: boolean) => void;
   setSelectMetaverse: (metaverseState: boolean) => void;
-  setCoordinates: (newCoordinates: { X: number | undefined; Y: number | undefined }) => void;
-  coordinates: { X: number | undefined; Y: number | undefined };
   landId: string | undefined;
   setLandId: (tokenId: string | undefined) => void;
-  onClickSearch: () => Promise<void>;
+  onClickSearch: (land?: LandTileData, coords?: MapCoordinates) => Promise<void>;
 }
 
-export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMetaverse, setSelectFilter, setCoordinates, coordinates, landId, setLandId, onClickSearch }: MapSearchUIProps) {
+export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMetaverse, setSelectFilter, landId, setLandId, onClickSearch }: MapSearchUIProps) {
   const [searchBy, setSearchBy] = useState<'coordinates' | 'id'>('coordinates');
-
+  const [coordX, setCoordX] = useState<number | undefined>(undefined);
+  const [coordY, setCoordY] = useState<number | undefined>(undefined);
   const handleButtonClick = () => {
     setSelectMetaverse(false);
     setSelectFilter && setSelectFilter(false);
@@ -65,26 +65,24 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
             <div className='flex flex-col gap-4 relative'>
               <div className='flex gap-2'>
                 {searchBy === 'coordinates' ?
-                  <>
-                    {
-                      TypedKeys(coordinates).map((coord, index) => (
-                        <input
-                          key={index}
-                          required
-                          type='number'
-                          onChange={(e) =>
-                            setCoordinates({
-                              ...coordinates,
-                              [coord]: e.target.value,
-                            })
-                          }
-                          value={coordinates[coord]}
-                          placeholder={coord}
-                          className='font-light border-gray-300 shadow-hollow-2 placeholder-nm-fill block w-16 text-lm-text dark:text-nm-highlight p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
-                        />
-                      ))
-                    }
-                    <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in z-10 p-2 rounded-xl bg-nm-dm-icons hover:bg-nm-dm-remark dark:bg-nm-fill dark:hover:bg-nm-remark text-nm-highlight dark:text-lm-text" disabled={coordinates.X == undefined || coordinates.Y == undefined} onClick={() => void onClickSearch()}>
+                <>
+                  <input
+                    required
+                    type='number'
+                    onChange={(e) => {
+                      setCoordX(e.target.valueAsNumber);
+                    }}
+                    className='font-light border-gray-300 shadow-hollow-2 placeholder-nm-fill block w-16 text-lm-text dark:text-nm-highlight p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
+                  />
+                  <input
+                    required
+                    type='number'
+                    onChange={(e) => {
+                      setCoordY(e.target.valueAsNumber);
+                    }}
+                    className='font-light border-gray-300 shadow-hollow-2 placeholder-nm-fill block w-16 text-lm-text dark:text-nm-highlight p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
+                  />
+                  <button className="items-center justify-center font-medium text-center transition-all flex grow gap-2 ease-in z-10 p-2 rounded-xl bg-nm-dm-icons hover:bg-nm-dm-remark dark:bg-nm-fill dark:hover:bg-nm-remark text-nm-highlight dark:text-lm-text" disabled={coordX == undefined || coordY == undefined} onClick={() => void onClickSearch(undefined, { x: coordX, y: coordY })}>
                       <MdAddLocationAlt className='h-5 w-5 relative bottom-[0.2rem]' />
                       Search
                     </button>
@@ -94,8 +92,6 @@ export default function MapSearchUI({ selectCoord, setSelectCoord, setSelectMeta
                         required
                         type='number'
                         onChange={(e) => setLandId(e.target.value)}
-                        value={landId}
-                        placeholder='14271'
                         className='font-light border-gray-300 placeholder-nm-fill block w-[8.5rem] text-lm-text dark:text-nm-highlight p-3 focus:outline-none border border-opacity-40 hover:border-opacity-100 focus:border-opacity-100 transition duration-300 ease-in-out rounded-xl'
                       />
                     }
