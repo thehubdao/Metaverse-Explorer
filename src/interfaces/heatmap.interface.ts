@@ -93,10 +93,7 @@ export interface globalData {
 export interface MapCardData {
   apiData: SingleLandAPIResponse;
   predictions: IPredictions;
-  landCoords: {
-    x: null | number;
-    y: null | number;
-  };
+  landCoords: MapCoordinates;
   name: string | null;
 }
 
@@ -104,4 +101,9 @@ export interface IPredictions {
   ethPrediction: number;
   usdcPrediction: number | undefined;
   metaversePrediction: number | undefined;
+}
+
+export interface MapCoordinates {
+  x: number | undefined;
+  y: number | undefined;
 }
