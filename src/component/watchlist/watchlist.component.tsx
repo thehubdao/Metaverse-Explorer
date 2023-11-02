@@ -8,6 +8,9 @@ import WatchlistUI from "../../ui/watchlist/watchlist.ui";
 export default function WatchlistComponent() {
   const isConnected = useAppSelector(state => state.login.connected);
   const watchlist = useAppSelector(state => state.watchlist);
+  const token = useAppSelector(state => state.login.accessToken?.token);
+  const address = useAppSelector(state => state.login.address);
+
   return (
     <>
       {!isConnected ?
@@ -15,9 +18,16 @@ export default function WatchlistComponent() {
         :
         <>
           {
-            watchlist.list !== undefined ? <WatchlistUI allLands={watchlist.list} />
+            address && token ?
+              <>
+                {
+                  watchlist.list !== undefined ? <WatchlistUI allLands={watchlist.list} />
+                    :
+                    <LoaderUI size={100} text={"Loading lands..."} />
+                }
+              </>
               :
-              <LoaderUI size={100} text={"Loading lands..."}/>
+              <LoaderUI size={100} text={"waiting for user signature..."} />
           }
         </>
       }
