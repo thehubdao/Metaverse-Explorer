@@ -3,12 +3,12 @@ import AddLandButtonUI from "./addLandButton.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
-interface SearchByCoordsUIProps {
+interface AddByCoordsUIProps {
   land?: SingleLandAPIResponse;
   metaverse?: Metaverses;
 }
 
-export default function SearchByCoordsUI(props: SearchByCoordsUIProps) {
+export default function AddByCoordsUI(props: AddByCoordsUIProps) {
   const [x, setX] = useState<number>(0);
   const [y, setY] = useState<number>(0);
   

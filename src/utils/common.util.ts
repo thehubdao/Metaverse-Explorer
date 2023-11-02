@@ -104,7 +104,7 @@ export const convertETHPrediction = (
           ? 'the-sandbox'
           : metaverse === Metaverses.SomniumSpace
               ? 'somnium-space-cubes'
-              : metaverse
+              : 'decentraland'
 
   const metaverseUSD = coinPrices[formattedMetaverse].usd;
   

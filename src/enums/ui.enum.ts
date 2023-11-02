@@ -13,3 +13,8 @@ export enum PriceListForm {
     Light,
     Bold
 }
+
+export enum LandCardListForm {
+    Portfolio,
+    WatchList
+}
