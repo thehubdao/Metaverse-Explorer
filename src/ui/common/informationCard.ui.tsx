@@ -32,16 +32,14 @@ export default function InformationCardUI({ land, predictions, metaverse, landCa
   const [message, setMessage] = useState<string>('');
   const [severity, setSeverity] = useState<AlertColor | undefined>(undefined);
 
-  const removeFromWatchlist = async (action: string) => {
-    if (action === 'remove') {
-      if (accessToken?.token) {
-        const response = await removeLandFromWatchList(land, address!, metaverse, accessToken.token);
-        if (response.success) {
-          if (address) void dispatch(fetchWatchlist({ address, accessToken }));
-          handleFeedback(`The Land ${land.name} was removed from your watchlist`, "warning")
-        } else {
-          handleFeedback(`Error while removing Land from Watchlist!`, "error");
-        }
+  const removeFromWatchlist = async () => {
+    if (accessToken?.token) {
+      const response = await removeLandFromWatchList(land, address!, metaverse, accessToken.token);
+      if (response.success) {
+        if (address) void dispatch(fetchWatchlist({ address, accessToken }));
+        handleFeedback(`The Land ${land.name} was removed from your watchlist`, "warning")
+      } else {
+        handleFeedback(`Error while removing Land from Watchlist!`, "error");
       }
     }
   }
@@ -55,7 +53,7 @@ export default function InformationCardUI({ land, predictions, metaverse, landCa
   const handleClose = () => {
     setOpenAlert(false);
   };
-  
+
   return (
     <>
       <div className='h-full px-7 pb-2 md:pb-0'>
@@ -79,25 +77,25 @@ export default function InformationCardUI({ land, predictions, metaverse, landCa
               <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm my-2">
                 Price Estimation:
               </p>
-              <PriceListUI predictions={predictions} form={PriceListForm.Bold}  metaverse={metaverse}/>
+              <PriceListUI predictions={predictions} form={PriceListForm.Bold} metaverse={metaverse} />
             </div>
           </div>
         </button>
         {/* External Links */}
         <div className='flex flex-row lg:items-center justify-between pt-4'>
           <div className="flex gap-5">
-          <Link href={land.market_links?.opensea ?? ''} target='blank'>
-            <Image src={`${theme !== 'dark' ? "/images/opensea-logo.png" : "/images/dm-opensea-logo.png"}`} width={20} height={20} alt='openSea' className='grayscale hover:grayscale-0 cursor-pointer' />
-          </Link>
-          <BsTwitter
-            title='Share Valuation'
-            className='h-5 w-5 text-nm-dm-icons dark:text-nm-fill hover:text-blue-400 dark:hover:text-blue-400 transition ease-in-out duration-300 cursor-pointer'
-          />
+            <Link href={land.market_links?.opensea ?? ''} target='blank'>
+              <Image src={`${theme !== 'dark' ? "/images/opensea-logo.png" : "/images/dm-opensea-logo.png"}`} width={20} height={20} alt='openSea' className='grayscale hover:grayscale-0 cursor-pointer' />
+            </Link>
+            <BsTwitter
+              title='Share Valuation'
+              className='h-5 w-5 text-nm-dm-icons dark:text-nm-fill hover:text-blue-400 dark:hover:text-blue-400 transition ease-in-out duration-300 cursor-pointer'
+            />
           </div>
           {
             landCardForm === LandCardListForm.WatchList &&
             <button
-              onClick={() => void removeFromWatchlist('remove')}
+              onClick={() => void removeFromWatchlist()}
               className="relative transition font-medium  ease-in-out flex gap-1 text-sm hover:text-red-400 text-red-800"
             >
               <FaTrash className="relative -bottom-005" />
@@ -117,7 +115,7 @@ export default function InformationCardUI({ land, predictions, metaverse, landCa
           </Alert>
         </Snackbar>
       </div>
-      {isModalOpen && (<SpecificLandModalUI onClose={() => setModalOpen(false)} land={land} predictions={predictions} metaverse={metaverse} cardForm={InformationCardForm.NormalCard}/>)}
+      {isModalOpen && (<SpecificLandModalUI onClose={() => setModalOpen(false)} land={land} predictions={predictions} metaverse={metaverse} cardForm={InformationCardForm.NormalCard} />)}
     </>
   )
 }
