@@ -1,12 +1,12 @@
 import axios from "axios";
 import { Module } from "../../enums/logging.enum";
-import { Metaverses } from "../../enums/metaverses.enum"
-import { SingleLandAPIResponse } from "../../interfaces/land.interface"
+import { Metaverses } from "../../enums/metaverses.enum";
+import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 import { Result } from "../../types/common.type";
 import { LogError } from "../logging.util";
 
 // Add Land to User's WatchList
-export async function addLandToWatchList(land: SingleLandAPIResponse, address: string, metaverse: Metaverses, token: string): Promise<Result<string>> {
+export async function AddLandToWatchList(land: SingleLandAPIResponse, address: string, metaverse: Metaverses, token: string): Promise<Result<string>> {
   try {
     const addToWatchListRequest = await axios.post<string>(`${process.env.NEXT_PUBLIC_AUTH_SERVICE}/watchlistService/addToWatchlist?address=${address}&metaverse=${metaverse}`, land, {
       headers: {
@@ -24,7 +24,7 @@ export async function addLandToWatchList(land: SingleLandAPIResponse, address: s
 }
 
 // Remove Land from User's WatchList
-export async function removeLandFromWatchList(land: SingleLandAPIResponse, address: string, metaverse: Metaverses, token: string): Promise<Result<string>> {
+export async function RemoveLandFromWatchList(land: SingleLandAPIResponse, address: string, metaverse: Metaverses, token: string): Promise<Result<string>> {
   try {
     const removeFromWatchListRequest = await axios.post<string>(`${process.env.NEXT_PUBLIC_AUTH_SERVICE}/watchlistService/removeFromWatchList?address=${address}&metaverse=${metaverse}`, land, {
       headers: {

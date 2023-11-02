@@ -13,7 +13,7 @@ import { InformationCardForm, LandCardListForm, PriceListForm } from "../../enum
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-import { removeLandFromWatchList } from "../../utils/watchlist/watchlist.util";
+import { RemoveLandFromWatchList } from "../../utils/watchlist/watchlist.util";
 import { fetchWatchlist } from "../../state/watchlistSlice";
 
 interface InformationCardUIProps {
@@ -34,7 +34,7 @@ export default function InformationCardUI({ land, predictions, metaverse, landCa
 
   const removeFromWatchlist = async () => {
     if (accessToken?.token) {
-      const response = await removeLandFromWatchList(land, address!, metaverse, accessToken.token);
+      const response = await RemoveLandFromWatchList(land, address!, metaverse, accessToken.token);
       if (response.success) {
         if (address) void dispatch(fetchWatchlist({ address, accessToken }));
         handleFeedback(`The Land ${land.name} was removed from your watchlist`, "warning")

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-import { addLandToWatchList, removeLandFromWatchList } from "../../utils/watchlist/watchlist.util";
+import { AddLandToWatchList, RemoveLandFromWatchList } from "../../utils/watchlist/watchlist.util";
 import { fetchWatchlist } from "../../state/watchlistSlice";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 
@@ -24,7 +24,7 @@ export default function WatchlistButtonUI({ landData, metaverse }: WatchlistButt
   const handleWatchslist = async (action: string) => {
     if (action === 'add') {
       if (accessToken?.token) {
-        const response = await addLandToWatchList(landData, address!, metaverse, accessToken.token);
+        const response = await AddLandToWatchList(landData, address!, metaverse, accessToken.token);
         if (response.success) {         
           if (address) void dispatch(fetchWatchlist({ address, accessToken }));
           handleFeedback(`The Land ${landData && landData.name} was added to your watchlist`, "success");
@@ -34,7 +34,7 @@ export default function WatchlistButtonUI({ landData, metaverse }: WatchlistButt
       }
     } else if (action === 'remove') {
       if (accessToken?.token) {
-        const response = await removeLandFromWatchList(landData, address!, metaverse, accessToken.token);
+        const response = await RemoveLandFromWatchList(landData, address!, metaverse, accessToken.token);
         if (response.success) {
           if (address) void dispatch(fetchWatchlist({ address, accessToken }));
           handleFeedback(`The Land ${landData && landData.name} was removed from your watchlist`, "warning")
