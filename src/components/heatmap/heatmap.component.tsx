@@ -450,9 +450,10 @@ export default function Heatmap2D({
     if (x == undefined) return LogError(Module.Heatmap, "missing X coordinate on snap heatmap");
     if (y == undefined) return LogError(Module.Heatmap, "missing Y coordinate on snap heatmap");
     if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
-  
+    
     try {
-      _viewport.snap(x * TILE_SIZE, y * TILE_SIZE, {
+      // Y axis is inverted on snap
+      _viewport.snap(x * TILE_SIZE, -y * TILE_SIZE, {
         time: 2000,
         ease: 'easeOutCubic',
         removeOnComplete: true
