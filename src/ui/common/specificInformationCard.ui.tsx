@@ -19,19 +19,19 @@ interface SpecificInformationCardUIProps {
 export default function SpecificInformationCardUI({ land, predictions, metaverse, cardForm }: SpecificInformationCardUIProps) {
 
   return (
-    <div className='h-full px-7 flex flex-col items-center xl:items-start text-center '>
-      <div className=' mt-2 xl:mt-5'>
+    <div className='h-full px-7 flex flex-col items-center xl:items-start justify-between '>
+      <div className=' mt-3 xl:mt-5'>
         {/* Asset Name */}
         <Tooltip title={land.name} placement='top' arrow>
-          <p className='text-xl xl:text-3xl text-lm-text dark:text-nm-fill font-semibold'>
+          <p className='text-xl xl:text-3xl text-lm-text dark:text-nm-fill font-semibold text-center xl:text-start'>
             {land.name}
           </p>
         </Tooltip>
-        <div className="my-3 flex gap-5">
+        <div className="pt-3 flex gap-6">
           {
             land.owner &&
-            <div className="max-w-[100px]">
-              <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal'>Owner</p>
+            <div className="w-[100px]">
+              <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal pb-2'>Owner</p>
               <Tooltip title={land.owner} placement='bottom'>
                 <p className="text-base font-bold truncate dark:text-lm-text-gray">{land.owner}</p>
               </Tooltip>
@@ -39,18 +39,18 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
           }
           {
             land.tokenId &&
-            <div className="max-w-[100px]">
-              <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal'>Token ID</p>
+            <div className="w-[100px]">
+              <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal pb-2'>Token ID</p>
               <Tooltip title={land.tokenId} placement='bottom'>
                 <p className="text-base font-bold truncate dark:text-lm-text-gray">{land.tokenId}</p>
               </Tooltip>
             </div>
           }
           {land.coords && Object.keys(land.coords).length > 0 && (
-            <div>
-              <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal'>Coordinate</p>
+            <div className="w-[100px]">
+              <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal pb-2'>Coordinate</p>
               <Tooltip title={`${land.coords?.x}, ${land.coords?.y}`} placement='bottom'>
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-start">
                   <BiTargetLock />
                   <p className="text-base font-bold truncate dark:text-lm-text-gray pl-1">{land.coords?.x}, {land.coords?.y}</p>
                 </div>
@@ -59,7 +59,7 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
           )}
         </div>
       </div>
-      <div className="flex flex-wrap">
+      <div className="flex pt-2">
         <div className="xl:mt-4 ml-0 xl:ml-4">
           <p className="text-nm-dm-remark dark:text-nm-fill font-normal text-sm mb-2 text-start">
             Estimated Price:
@@ -82,7 +82,7 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
       <div className='flex flex-wrap mt-3 xl:mt-20'>
         <div>
           <p className="text-base text-nm-dm-remark dark:text-nm-fill font-normal">Find land on:</p>
-          <div className="flex flex-wrap  justify-center xl:grid xl:grid-cols-4 items-center xl:my-2">
+          <div className="flex flex-wrap justify-center xl:grid xl:grid-cols-4 items-center pb-4 xl:pb-0 xl:my-2">
             <ExternalLinkUI text="Sandbox" icon='/images/somnium-space-logo.png' externalLink={''} />
             <ExternalLinkUI text="OpenSea" icon="/images/icons/markets/opensea.svg" externalLink={land.market_links?.opensea ?? ''} />
             <ExternalLinkUI text="X2y2" icon="/images/icons/markets/x2y2.svg" externalLink={land.market_links?.X2Y2 ?? ''} />

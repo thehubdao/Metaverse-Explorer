@@ -25,7 +25,7 @@ export default function SpecificLandModalUI({ onClose, land, predictions, metave
       <div className="w-auto 2xl:w-[1440px] h-auto 2xl:h-[728px] bg-lm-fill dark:bg-nm-dm-fill rounded-3xl relative px-3 mx-2" >
         {
           cardForm == InformationCardForm.MapCard ?
-            <div className="absolute right-6 top-6 flex gap-3 z-10">
+            <div className="absolute right-4 top-4 flex gap-3 z-10">
               {/* Twitter button */}
               <Link href={'www.twitter.com'} target={'_blank'}>
                 <div className="rounded-lg shadow-relief-16 dark:shadow-dm-relief-16 p-2 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12 transition duration-300 ease-in-out cursor-pointer text-lm-text dark:text-nm-highlight hover:text-blue-500 dark:hover:text-blue-500">
@@ -52,8 +52,8 @@ export default function SpecificLandModalUI({ onClose, land, predictions, metave
             </div>
         }
         <div className="flex flex-col xl:flex-row relative h-full w-full">
-          <div className="w-full xl:w-1/2 flex justify-center items-center mt-16 xl:mt-0 px-3">
-            <div className="w-[300px] xl:w-[600px] h-[180px] xl:h-[600px] rounded-3xl p-2 xl:p-5 bg-lm-fill dark:bg-nm-dm-fill shadow-relief-12 dark:shadow-dm-relief-12">
+          <div className="w-full xl:w-1/2 flex justify-center items-center mt-[72px] xl:mt-0 px-3">
+            <div className="w-full xl:w-[600px] h-[180px] xl:h-[600px] rounded-3xl p-0 xl:p-5 bg-lm-fill dark:bg-nm-dm-fill xl:shadow-relief-12 xl:dark:shadow-dm-relief-12">
               <ExternalAssetLinkUI land={land} isOpen={true} metaverse={metaverse} />
             </div>
           </div>
