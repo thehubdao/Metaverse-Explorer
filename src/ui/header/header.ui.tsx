@@ -3,16 +3,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import ConnectButtonUI from "../common/connectButton.ui";
 import DarkModeButtonUI from "../common/darkModeButton.ui";
-import NavButtonUI from "../navbar/navbarButton.ui";
 import { useTheme } from "next-themes";
-import { LIST } from "../../constants/common.constant";
-
-interface ListProps {
-  url: string;
-  label: string;
-  icon: string;
-  isExternal: boolean;
-}
 
 interface HeaderUIProp {
   isConnected: boolean;
@@ -74,17 +65,6 @@ export default function HeaderUI({ isConnected }: HeaderUIProp) {
                 </div>
                 <div className="flex flex-wrap mt-20">
                   <ConnectButtonUI />
-                </div>
-                <div className="flex flex-col space-y-8 mt-auto">
-                  {
-                    LIST.map((option: ListProps) => {
-                      return (
-                        <div key={option.label} onClick={() => handleToggleClick()}>
-                          <NavButtonUI url={option.url} label={option.label} icon={option.icon} isExternal={option.isExternal} />
-                        </div>
-                      )
-                    })
-                  }
                 </div>
               </div>
             </div>
