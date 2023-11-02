@@ -3,12 +3,12 @@ import AddLandButtonUI from "./addLandButton.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 
-interface SearchByIdUIProps {
+interface AddByIdUIProps {
   land?: SingleLandAPIResponse;
   metaverse?: Metaverses;
 }
 
-export default function SearchByIdUI(props: SearchByIdUIProps) {
+export default function AddByIdUI(props: AddByIdUIProps) {
   const [tokenId, setTokenId] = useState<string>('');
 
   // TODO: Remove

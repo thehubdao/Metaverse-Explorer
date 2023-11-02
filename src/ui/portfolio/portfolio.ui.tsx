@@ -9,7 +9,7 @@ import { TypedKeys, ObjectEntries } from "../../utils/common.util";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setPortfolioMetaverse } from "../../state/portfolioSlice";
-import { ButtonForm } from "../../enums/ui.enum";
+import { ButtonForm, LandCardListForm } from "../../enums/ui.enum";
 import { TotalWorthData } from "../../interfaces/land.interface";
 
 interface PortfolioUIProps {
@@ -80,7 +80,7 @@ export default function PortfolioUI({allLands , landsOwned, totalWorth }: Portfo
             :
             <div>
               <div className=" mb-24 flex flex-wrap w-full justify-around 2xl:justify-between">
-                <LandCardListUI lands={filteredLands}/>
+                <LandCardListUI lands={filteredLands} landCardForm={LandCardListForm.Portfolio}/>
               </div>
             </div>
         }

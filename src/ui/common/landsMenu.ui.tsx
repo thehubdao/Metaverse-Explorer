@@ -30,13 +30,17 @@ export default function LandsMenuUI({ metaverse, setMetaverse, form, isBorder }:
                 className={`w-[220px] flex items-center justify-center py-3 text-sm font-bold focus:outline-none rounded-xl mx-3 my-3 transition ease-in-out duration-300 bg-lm-fill dark:bg-nm-dm-fill  ${isAll(iterateMetaverse) ? "shadow-hollow-8 dark:shadow-dm-hollow-8  text-nm-dm-icons dark:text-nm-fill" : " shadow-relief-12 dark:shadow-dm-relief-12 hover:shadow-relief-32 dark:hover:shadow-dm-relief-32 text-nm-dm-remark dark:text-nm-fill"}`}
                 onClick={() => setMetaverse(iterateMetaverse === "All" ? undefined : iterateMetaverse)}
               >
+                <div>
                 {iterateMetaverse === Metaverses.SandBox &&
                   <Image src="/images/mgh_logo/mgh_logo.svg" width={24} height={24} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} className={`mr-4 ${metaverse === Metaverses.SandBox ? 'grayscale-0' : 'grayscale'}`} />}
                 {iterateMetaverse === Metaverses.Decentraland &&
                   <Image src="/images/decentraland-mana-logo.png" width={24} height={24} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} className={`mr-4 ${metaverse === Metaverses.Decentraland ? 'grayscale-0' : 'grayscale'}`} />}
                 {iterateMetaverse === Metaverses.SomniumSpace &&
                   <Image src="/images/somnium-space-cube-logo.webp" width={24} height={24} alt={`${METAVERSE_LABEL[iterateMetaverse]} logo`} className={`mr-4 ${metaverse === Metaverses.SomniumSpace ? 'grayscale-0' : 'grayscale'}`} />}
-                {METAVERSE_LABEL[iterateMetaverse].toUpperCase()}
+                </div>
+                <p className="text-[15px]">
+                  {METAVERSE_LABEL[iterateMetaverse]}
+                </p>
               </button>
             )}
           </>

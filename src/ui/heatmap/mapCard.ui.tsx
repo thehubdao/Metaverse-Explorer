@@ -50,7 +50,7 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
           <Image
             height={188}
             width={250}
-            src={landData.images.image_url || ""}
+            src={landData.images?.image_url || '/images/noimage.png'}
             alt="map image"
             className="rounded-xl"
           />
@@ -63,7 +63,7 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
         {/* Feedback Buttons */}
         <FeedbackButtonsUI />
         {/* Add To Watchlist Button */}
-        <WatchlistButtonUI />
+        <WatchlistButtonUI landData={landData} metaverse={metaverse}/>
       </div>
 
       {/* Right side */}

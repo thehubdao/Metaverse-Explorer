@@ -53,25 +53,25 @@ export interface SingleLandAPIResponse {
   current_price?: number;
   current_price_eth?: number;
   eth_predicted_price: number;
-  external_link: string | null;
+  external_link?: string;
   floor_adjusted_predicted_price?: number;
   history?: History[];
-  images: {
-    image_url: string | null;
-    image_preview_url: string | null;
-    image_thumbnail_url: string | null;
-    image_original_url: string | null;
+  images?: {
+    image_url?: string ;
+    image_preview_url?: string;
+    image_thumbnail_url?: string;
+    image_original_url?: string;
   };
   market_links?: {
-    X2Y2: string | null;
-    looksrare: string | null;
-    opensea: string | null;
+    X2Y2?: string;
+    looksrare?: string;
+    opensea?: string;
   };
   metaverse?: Metaverse;
   name?: string;
   owner?: string;
   predicted_price: number;
-  token_metadata?: string | null;
+  token_metadata?: string;
   variation_last_week: number;
   variation_last_four_weeks: number;
   variation_last_six_months: number;
