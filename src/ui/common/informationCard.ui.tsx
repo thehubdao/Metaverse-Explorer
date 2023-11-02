@@ -84,9 +84,12 @@ export default function InformationCardUI({ land, predictions, metaverse, landCa
         {/* External Links */}
         <div className='flex flex-row lg:items-center justify-between pt-4'>
           <div className="flex gap-5">
-            <Link href={land.market_links?.opensea ?? ''} target='blank'>
-              <Image src={`${theme !== 'dark' ? "/images/opensea-logo.png" : "/images/dm-opensea-logo.png"}`} width={20} height={20} alt='openSea' className='grayscale hover:grayscale-0 cursor-pointer' />
-            </Link>
+            {
+              land.market_links?.opensea &&
+              <Link href={land.market_links?.opensea} target='blank'>
+                <Image src={`${theme !== 'dark' ? "/images/opensea-logo.png" : "/images/dm-opensea-logo.png"}`} width={20} height={20} alt='openSea' className='grayscale hover:grayscale-0 cursor-pointer' />
+              </Link>
+            }
             <BsTwitter
               title='Share Valuation'
               className='h-5 w-5 text-nm-dm-icons dark:text-nm-fill hover:text-blue-400 dark:hover:text-blue-400 transition ease-in-out duration-300 cursor-pointer'
