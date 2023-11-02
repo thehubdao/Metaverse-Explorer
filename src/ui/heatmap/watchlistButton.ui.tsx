@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-import { addLandToWatchList, removeLandFromWatchList } from "../../utils/watchlist/watchlist.uitl";
+import { addLandToWatchList, removeLandFromWatchList } from "../../utils/watchlist/watchlist.util";
 import { fetchWatchlist } from "../../state/watchlistSlice";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 

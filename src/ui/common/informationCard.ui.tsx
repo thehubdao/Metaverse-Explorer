@@ -13,7 +13,7 @@ import { InformationCardForm, LandCardListForm, PriceListForm } from "../../enum
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
-import { removeLandFromWatchList } from "../../utils/watchlist/watchlist.uitl";
+import { removeLandFromWatchList } from "../../utils/watchlist/watchlist.util";
 import { fetchWatchlist } from "../../state/watchlistSlice";
 
 interface InformationCardUIProps {
