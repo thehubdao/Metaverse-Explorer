@@ -55,7 +55,12 @@ export const fetchPortfolio = createAsyncThunk(
             '03bfd7b76f3749c8bb9f2c91bdba37f3'
         );
 
-        if (!address) return null;
+        if (!address) {
+            const msg = "Address undefined";
+            LogError(Module.PortfolioSlice, msg);
+            return { error: msg }
+        }
+
 
         const lands: Record<Metaverses, LandListAPIResponse> = { sandbox: {}, decentraland: {}, "somnium-space": {} };
         let totalLandsCounter = 0;
@@ -78,7 +83,11 @@ export const fetchPortfolio = createAsyncThunk(
                         metaverse
                     );
 
-                    if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) return;
+                    if ((!rawIdsEthereum || rawIdsEthereum.length <= 0) && (!rawIdsMatic || rawIdsMatic.length <= 0)) {
+                        const msg = "rawIds is undefined or their length is <= 0";
+                        LogError(Module.PortfolioSlice, msg);
+                        return { error: msg }
+                    }
 
                     // LandList Call
                     let metaverseLandsObjectEthereum: LandListAPIResponse = {};
@@ -94,6 +103,7 @@ export const fetchPortfolio = createAsyncThunk(
 
                     const metaverseLandsObject = { ...metaverseLandsObjectEthereum, ...metaverseLandsObjectMatic };
 
+                    //TODO: replace for coinGecko redux state
                     const prices = await getCoingeckoPrices();
 
                     // Adding Total Worth
@@ -125,7 +135,9 @@ export const fetchPortfolio = createAsyncThunk(
                 })
             )
         } catch (err) {
-            LogError(Module.PortfolioSlice, "A promise has failed", err);
+            const msg = "A promise has failed";
+            LogError(Module.PortfolioSlice, msg, err);
+            return {error: msg}
         }
         return { lands, totalLandsCounter, totalWorth, address };
     }
@@ -150,6 +162,7 @@ export const portfolio = createSlice({
             state.length = action.payload?.totalLandsCounter;
             state.totalWorth = action.payload?.totalWorth ?? DEFAULT_TOTAL_WORTH;
             state.currentAddress = action.payload?.address;
+            state.error = action.payload.error ?? undefined;
         });
         builder.addCase(fetchPortfolio.rejected, (state, action) => {
             state.isLoading = false;
