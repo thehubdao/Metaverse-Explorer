@@ -106,6 +106,8 @@ export default function Heatmap2D({
   }, [isLoading]);
   
   useEffect(() => {
+    window.addEventListener("resize", resize);
+
     setIsLoading(renderAfter);
     
     preLoad();
@@ -120,6 +122,7 @@ export default function Heatmap2D({
 
     // free socket
     return () => {
+      window.removeEventListener("resize", resize);
       FreeSocket();
       cleanPixiViews();
       _mapData = {};
@@ -185,9 +188,6 @@ export default function Heatmap2D({
     _viewport.moveCenter(initialX * TILE_SIZE, initialY * TILE_SIZE);
 
     resize();
-    window.addEventListener("resize", resize);
-
-    return () => window.removeEventListener("resize", resize);
   }
   
   function cleanPixiViews() {
