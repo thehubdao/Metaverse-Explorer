@@ -26,6 +26,8 @@ import {
 import LoaderUI from '../../ui/common/loader.ui';
 import {Result} from "../../types/common.type";
 import {LandSomniumSpace} from "../../interfaces/land.interface";
+import { useAppSelector } from '../../state/hooks';
+import { useAccount } from 'wagmi';
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
 // import {useAccount} from "wagmi";
 
@@ -83,13 +85,11 @@ export default function Heatmap2D({
 
   const preDataPromise = useRef<PreDataHeatmap>({});
   // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
-
+  
   const isSomniumSpace = metaverse === Metaverses.SomniumSpace;
   
-  // TODO: add
-  // const {address} = useAccount();
-  // const wList = useAppSelector((state) => state.watchlist.list);
-  // const portfolioLands = useAppSelector((state) => state.portfolio.list)
+  const watchlist = useAppSelector(state => state.watchlist.list);
+  const { address } = useAccount();
   
   // Interval function (changes the loading message)
   useEffect(() => {
@@ -113,6 +113,7 @@ export default function Heatmap2D({
     preLoad();
     
     // Init pixi variables
+    //TODO: replace then use for response async/await
     initPixiViews()
       .then(() => {
         // Start and work with the socket
@@ -218,12 +219,13 @@ export default function Heatmap2D({
 
     land.coords.y *= -1;
 
-    // TODO: Some address watchlist
-    // if (address != undefined) {
-    //   //if (portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
-    //   const wMRef = wList[metaverse];
-    //   if (wMRef == undefined || wMRef[land.tokenId] == undefined) land.watchlist = true;
-    // }
+    if (address != undefined) {
+      const wMRef = watchlist && watchlist[metaverse];
+      if (wMRef) {
+        const landInWatchlist = wMRef[land.tokenId];
+        if (landInWatchlist) land.watchlist = true;
+      }
+    }
 
     const tile = GetTileColorByFilter(
       filter,
@@ -350,7 +352,7 @@ export default function Heatmap2D({
     const formattedLand = FormatLand(landData, landKeyIndex, metaverse);
     // console.log({ formattedLand, landData, landKeyIndex });
 
-    if (formattedLand == undefined) return;
+    if (formattedLand == undefined) return LogError(Module.Heatmap, "Missing formattedLand on processLand");
     const land = await generateLandRectangle(formattedLand);
 
     if (land != undefined)
@@ -359,11 +361,11 @@ export default function Heatmap2D({
   
   function socketWork() {
     if (_viewport == undefined)
-      return LogError(Module.Heatmap, "Missing viewport!");
+      return LogError(Module.Heatmap, "Missing viewport on socketWork!");
 
     SetOnNewLand(async (landData, landKeyIndex) => {      
       if (landKeyIndex == undefined || landData == undefined)
-        return;
+        return LogError(Module.Heatmap, "Missing LanKeyIndex or LandData on socketWork");
       
       if (renderAfter)
         _landRawData.push({landKeyIndex, landData});
