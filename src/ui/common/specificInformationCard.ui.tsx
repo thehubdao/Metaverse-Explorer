@@ -20,7 +20,7 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
 
   return (
     <div className='h-full px-7 flex flex-col items-center xl:items-start justify-between '>
-      <div className=' mt-3 xl:mt-5'>
+      <div className=' mt-3 xl:mt-14'>
         {/* Asset Name */}
         <Tooltip title={land.name} placement='top' arrow>
           <p className='text-xl xl:text-3xl text-lm-text dark:text-nm-fill font-semibold text-center xl:text-start'>
@@ -46,7 +46,7 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
               </Tooltip>
             </div>
           }
-          {land.coords && Object.keys(land.coords).length > 0 && (
+          {metaverse !== Metaverses.SomniumSpace ? land.coords && Object.keys(land.coords).length > 0 && (
             <div className="w-[100px]">
               <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal pb-2'>Coordinate</p>
               <Tooltip title={`${land.coords?.x}, ${land.coords?.y}`} placement='bottom'>
@@ -56,7 +56,19 @@ export default function SpecificInformationCardUI({ land, predictions, metaverse
                 </div>
               </Tooltip>
             </div>
-          )}
+          )
+            : land.center && Object.keys(land.center).length > 0 && (
+              <div className="w-[100px]">
+                <p className='text-sm text-nm-dm-remark dark:text-nm-fill font-normal pb-2'>Coordinate</p>
+                <Tooltip title={`${land.center?.x}, ${land.center?.y}`} placement='bottom'>
+                  <div className="flex items-center justify-start">
+                    <BiTargetLock />
+                    <p className="text-base font-bold truncate dark:text-lm-text-gray pl-1">{land.center?.x}, {land.center?.y}</p>
+                  </div>
+                </Tooltip>
+              </div>
+            )
+          }
         </div>
       </div>
       <div className="flex pt-2">
