@@ -59,11 +59,11 @@ export default function WatchlistButtonUI({ landData, metaverse }: WatchlistButt
     <>
       {
         watchlist && landData && landData.tokenId && watchlist[metaverse][landData.tokenId] ?
-          <button className={`w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill py-3 transition duration-300 ease-in-out text-sm font-bold shadow-relief-16 dark:shadow-dm-relief-16 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12`} onClick={() => void handleWatchslist('remove')}>
+          <button className={`w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill py-3 transition duration-300 ease-in-out text-sm font-bold shadow-relief-16 dark:shadow-dm-relief-16 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12 mb-3`} onClick={() => void handleWatchslist('remove')}>
             REMOVE FROM WATCHLIST
           </button>
           :
-          <button className={`w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill  py-3 transition duration-300 ease-in-out text-sm font-bold shadow-relief-16 dark:shadow-dm-relief-16 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12`} onClick={() => void handleWatchslist('add')}>
+          <button className={`w-[234px] h-12 rounded-2xl bg-lm-fill dark:bg-nm-dm-fill  py-3 transition duration-300 ease-in-out text-sm font-bold shadow-relief-16 dark:shadow-dm-relief-16 hover:shadow-relief-12 dark:hover:shadow-dm-relief-12 mb-3`} onClick={() => void handleWatchslist('add')}>
             ADD TO WATCHLIST
           </button>
       }
