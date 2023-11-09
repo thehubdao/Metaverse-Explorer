@@ -91,6 +91,15 @@ export interface SingleLandAPIResponse {
     metaversePrediction: number;
   };
   tokenId?: string;
+  // only somnium-space
+  center?: {
+    x: number;
+    y: number;
+  };
+  geometry?: {
+    x: number;
+    y: number;
+  }[];
 }
 
 export interface History {
