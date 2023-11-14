@@ -16,7 +16,7 @@ const initialState: CoinGeckoState = {
 }
 
 export const fetchCoinGecko = createAsyncThunk(
-    'portfolio/fetchCoinGecko',
+    'coinGecko/fetchCoinGecko',
     async () => {
         const result = await GetCoinGeckoPrices();
         return result;
