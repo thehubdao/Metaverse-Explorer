@@ -94,7 +94,9 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
     const result = await GetMapLandValuation(metaverseSelected, params);
       if (result.success) {
         const landValuation = Object.values(result.value)[0];
-        setCoordinates({x:landValuation.coords.x, y:landValuation.coords.y});
+        if (metaverseSelected === Metaverses.SomniumSpace) {
+          setCoordinates({ x: landValuation.center?.x, y: landValuation.center?.y });
+        } else setCoordinates({ x: landValuation.coords.x, y: landValuation.coords.y }); 
         setCardData(landValuation);  
         const predictions = convertETHPrediction(prices, landValuation.eth_predicted_price, metaverseSelected);
         setPredictions(predictions);
