@@ -25,7 +25,7 @@ import {
 } from "../../constants/heatmap/heatmap.constant";
 import LoaderUI from '../../ui/common/loader.ui';
 import {Result} from "../../types/common.type";
-import {LandSomniumSpace} from "../../interfaces/land.interface";
+import { Coords, LandSomniumSpace } from "../../interfaces/land.interface";
 import { useAppSelector } from '../../state/hooks';
 import { useAccount } from 'wagmi';
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
@@ -57,7 +57,6 @@ interface Heatmap2DProps {
   filter?: MapFilter;
   legendFilter?: LegendFilter;
   percentFilter?: PercentFilter;
-  
   onClickLand: (landRawData: LandTileData) => Promise<void>;
   initialX: number;
   initialY: number;
@@ -73,7 +72,6 @@ export default function Heatmap2D({
                                     initialY, 
                                     renderAfter,
                                     onClickLand,
-  
                                     // TODO: Check if needed
                                     // mapState,
                                     x,
@@ -82,6 +80,12 @@ export default function Heatmap2D({
   const mapDivRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
+
+  //useref for rectangle functions
+  const coordinatesRef = useRef<Coords>({ x: 0, y: 0 });
+  const selectedLand = useRef<LandTileData | undefined>(undefined);
+  const auxColor = useRef<string | undefined>(undefined);
+  const isDragging = useRef<boolean>(false);
 
   const preDataPromise = useRef<PreDataHeatmap>({});
   // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
@@ -182,6 +186,15 @@ export default function Heatmap2D({
         maxHeight: TILE_SIZE * 400,
       })
       .zoom(TILE_SIZE * 200);
+
+    _viewport.on("drag-start", () => {
+      isDragging.current = true;   
+    })
+    _viewport.on("drag-end", () => {
+      setTimeout(() => {
+        isDragging.current = false;
+      },500)
+    });
 
     _mapApp.stage.addChild(_viewport);
     mapDivRefCurrent.appendChild(_mapApp.view);
@@ -290,17 +303,32 @@ export default function Heatmap2D({
       spriteRef: rectangle,
     };
 
-    rectangle.on("click", () => {
-      rectangle.tint = LandColor.Clicked;
-      void onClickLand(landRectangle);
+    rectangle.on("mouseup", (e) => {
+      e.preventDefault();
+      if (!isDragging.current) {
+        if (landRectangle.tokenId === selectedLand.current?.tokenId) return;
+        if (landRectangle && selectedLand.current) {
+          selectedLand.current.spriteRef.tint = auxColor.current ?? '#FF00FF'
+        }
+        selectedLand.current = landRectangle;
+        auxColor.current = landRectangle.color;
+        rectangle.tint = LandColor.Clicked;
+        void onClickLand(landRectangle);
+      }
     });
-    
+
     rectangle.on("mouseenter", () => {
-      rectangle.tint = LandColor.Highlight;
+      const clickedCoordinates = coordinatesRef.current;
+      if (landRectangle.landX !== clickedCoordinates.x && landRectangle.landY !== clickedCoordinates.y) {
+        rectangle.tint = LandColor.Highlight;
+      }
     });
     
     rectangle.on("mouseout", () => {
-      rectangle.tint = landRectangle.color;
+      const clickedCoordinates = coordinatesRef.current;
+      if (landRectangle.landX !== clickedCoordinates.x && landRectangle.landY !== clickedCoordinates.y) {
+        rectangle.tint = landRectangle.color;
+      }
     });
 
     chunkContainer.addChild(rectangle);
@@ -452,7 +480,7 @@ export default function Heatmap2D({
     if (x == undefined) return LogError(Module.Heatmap, "missing X coordinate on snap heatmap");
     if (y == undefined) return LogError(Module.Heatmap, "missing Y coordinate on snap heatmap");
     if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
-    
+    coordinatesRef.current = { x, y };
     try {
       // Y axis is inverted on snap
       _viewport.snap(x * TILE_SIZE, -y * TILE_SIZE, {
