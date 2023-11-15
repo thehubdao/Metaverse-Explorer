@@ -14,18 +14,20 @@ import PriceListUI from "../common/priceList.ui";
 import { PriceListForm } from "../../enums/ui.enum";
 import { METAVERSE_LABEL } from "../../constants/common.constant";
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
+import { LandType } from "../../types/heatmap/land.type";
 
 
 interface MapCardUIProps {
   landData: SingleLandAPIResponse;
+  landData2?: LandType;
   metaverse: Metaverses;
   predictions?: IPredictions | undefined;
   setOpenSpecificModal: (isOpenModal: boolean) => void;
   setIsVisible: (isVisible: boolean) => void;
 }
 
-export default function MapCardUI({ landData, metaverse, predictions, setOpenSpecificModal, setIsVisible }: MapCardUIProps) {
-  return (
+export default function MapCardUI({ landData, landData2, metaverse, predictions, setOpenSpecificModal, setIsVisible }: MapCardUIProps) {
+    return (
     <div className="bg-nm-fill dark:bg-nm-dm-fill rounded-3xl p-6 flex w-[650px]">
       <div className="absolute right-6 top-6 flex gap-3">
         {/* Twitter button */}
@@ -113,7 +115,7 @@ export default function MapCardUI({ landData, metaverse, predictions, setOpenSpe
         </div>
         <div className="flex items-center gap-4">
           <p className="text-sm text-lm-text dark:text-nm-highlight">Listing price: </p>
-          <DataComparisonBoxUI currentPriceEth={landData.current_price_eth} predictions={predictions} />
+          <DataComparisonBoxUI currentPriceEth={landData2 && landData2.current_price_eth} predictions={predictions} />
         </div>
         <div>
           <p className="text-sm text-lm-text dark:text-nm-highlight">Find land on:</p>

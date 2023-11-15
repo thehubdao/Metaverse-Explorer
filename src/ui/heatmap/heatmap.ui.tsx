@@ -27,6 +27,7 @@ import { Module } from "../../enums/logging.enum";
 import { convertETHPrediction } from "../../utils/common.util";
 import { ButtonForm, InformationCardForm } from "../../enums/ui.enum";
 import { SingleLandAPIResponse } from "../../interfaces/land.interface";
+import { LandType } from "../../types/heatmap/land.type";
 
 //TODO: component imports in development
 // import BoxInformationUI from "./boxInformation.ui";
@@ -65,6 +66,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
   const [openSpecificModal, setOpenSpecificModal] = useState<boolean>(false);
   const [legendFilter, setLegendFilter] = useState<LegendFilter | undefined>();
   const [cardData, setCardData] = useState<SingleLandAPIResponse | undefined>();
+  const [cardData2, setCardData2] = useState<LandType | undefined>();
   const [predictions, setPredictions] = useState<IPredictions>();
   const [error, setError] = useState<boolean>(false);
   
@@ -73,6 +75,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
   }
 
   async function onClickLand(land?: LandTileData, coords?: MapCoordinates ) {
+    setCardData2(land?.land);
     if (!metaverseSelected) return LogError(Module.Heatmap, "No metaverse selected");
     if (isVisible) setIsVisible(false);
     setIsVisible(true);
@@ -130,7 +133,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
     setOpenSpecificModal(false);
     setIsVisible(false);
   }
-
+  
   return (
     <div className={`mb-24 mt-10 rounded-2xl ${metaverseSelected == undefined ? 'bg-lm-fill dark:bg-nm-dm-fill' : ''}`}>
       {
@@ -176,7 +179,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                         </button>
                       </div>
                     }
-                  <Heatmap2D metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y}/>
+                  <Heatmap2D metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y} filter="basic"/>
                     {
                       !isVisible &&
                       <MapLegendUI legendFilter={legendFilter} setLegendFilter={(legend: LegendFilter | undefined) => setLegendFilter(legend)} metaverse={metaverseSelected} />
@@ -193,7 +196,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                       <div className="absolute bottom-16 right-1 flex flex-col gap-4 m-4">
                         {
                           cardData &&
-                          <MapCardUI landData={cardData} metaverse={metaverseSelected} setIsVisible={(isVisble: boolean) => setIsVisible(isVisble)} setOpenSpecificModal={(isOpenModal: boolean) => setOpenSpecificModal(isOpenModal)} predictions={predictions} />
+                          <MapCardUI landData={cardData} metaverse={metaverseSelected} setIsVisible={(isVisble: boolean) => setIsVisible(isVisble)} setOpenSpecificModal={(isOpenModal: boolean) => setOpenSpecificModal(isOpenModal)} predictions={predictions} landData2={cardData2}/>
                         }
                       </div>
                     }
