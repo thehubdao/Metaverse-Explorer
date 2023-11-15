@@ -21,6 +21,7 @@ import {
   DECENTRALAND_LANDS,
   LOAD_PHRASES_ARRAY,
   LOAD_PHRASES_LENGHT,
+  SOMNIUM_SCALE,
   TILE_SIZE
 } from "../../constants/heatmap/heatmap.constant";
 import LoaderUI from '../../ui/common/loader.ui';
@@ -137,7 +138,7 @@ export default function Heatmap2D({
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaverse]);
-
+  
   // Filtering
   useEffect(() => {
     doFilter();
@@ -480,10 +481,12 @@ export default function Heatmap2D({
     if (x == undefined) return LogError(Module.Heatmap, "missing X coordinate on snap heatmap");
     if (y == undefined) return LogError(Module.Heatmap, "missing Y coordinate on snap heatmap");
     if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
-    coordinatesRef.current = { x, y };
+    const realX = metaverse === Metaverses.SomniumSpace ? x * SOMNIUM_SCALE : x;
+    const realY = metaverse === Metaverses.SomniumSpace ? y * SOMNIUM_SCALE : y;
+    coordinatesRef.current = {x: realX, y: realY };
     try {
       // Y axis is inverted on snap
-      _viewport.snap(x * TILE_SIZE, -y * TILE_SIZE, {
+      _viewport.snap(realX * TILE_SIZE, -realY * TILE_SIZE, {
         time: 2000,
         ease: 'easeOutCubic',
         removeOnComplete: true
