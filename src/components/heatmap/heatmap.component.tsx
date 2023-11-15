@@ -190,11 +190,11 @@ export default function Heatmap2D({
 
     _viewport.on("drag-start", () => {
       isDragging.current = true;   
-    })
+    });
     _viewport.on("drag-end", () => {
       setTimeout(() => {
         isDragging.current = false;
-      },500)
+      },500);
     });
 
     _mapApp.stage.addChild(_viewport);
