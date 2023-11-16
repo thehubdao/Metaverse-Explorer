@@ -115,7 +115,7 @@ export default function MapCardUI({ landData, landData2, metaverse, predictions,
         </div>
         <div className="flex items-center gap-4">
           <p className="text-sm text-lm-text dark:text-nm-highlight">Listing price: </p>
-          <DataComparisonBoxUI currentPriceEth={landData2 && landData2.current_price_eth} predictions={predictions} />
+          <DataComparisonBoxUI currentPriceEth={landData2?.current_price_eth ?? landData.current_price_eth} predictions={predictions} />
         </div>
         <div>
           <p className="text-sm text-lm-text dark:text-nm-highlight">Find land on:</p>
