@@ -21,11 +21,14 @@ import {
   DECENTRALAND_LANDS,
   LOAD_PHRASES_ARRAY,
   LOAD_PHRASES_LENGHT,
+  SOMNIUM_SCALE,
   TILE_SIZE
 } from "../../constants/heatmap/heatmap.constant";
 import LoaderUI from '../../ui/common/loader.ui';
 import {Result} from "../../types/common.type";
-import {LandSomniumSpace} from "../../interfaces/land.interface";
+import { Coords, LandSomniumSpace } from "../../interfaces/land.interface";
+import { useAppSelector } from '../../state/hooks';
+import { useAccount } from 'wagmi';
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
 // import {useAccount} from "wagmi";
 
@@ -55,7 +58,6 @@ interface Heatmap2DProps {
   filter?: MapFilter;
   legendFilter?: LegendFilter;
   percentFilter?: PercentFilter;
-  
   onClickLand: (landRawData: LandTileData) => Promise<void>;
   initialX: number;
   initialY: number;
@@ -71,7 +73,6 @@ export default function Heatmap2D({
                                     initialY, 
                                     renderAfter,
                                     onClickLand,
-  
                                     // TODO: Check if needed
                                     // mapState,
                                     x,
@@ -81,15 +82,19 @@ export default function Heatmap2D({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
 
+  //useref for rectangle functions
+  const coordinatesRef = useRef<Coords>({ x: 0, y: 0 });
+  const selectedLand = useRef<LandTileData | undefined>(undefined);
+  const auxColor = useRef<string | undefined>(undefined);
+  const isDragging = useRef<boolean>(false);
+
   const preDataPromise = useRef<PreDataHeatmap>({});
   // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
-
+  
   const isSomniumSpace = metaverse === Metaverses.SomniumSpace;
   
-  // TODO: add
-  // const {address} = useAccount();
-  // const wList = useAppSelector((state) => state.watchlist.list);
-  // const portfolioLands = useAppSelector((state) => state.portfolio.list)
+  const watchlist = useAppSelector(state => state.watchlist.list);
+  const { address } = useAccount();
   
   // Interval function (changes the loading message)
   useEffect(() => {
@@ -113,6 +118,7 @@ export default function Heatmap2D({
     preLoad();
     
     // Init pixi variables
+    //TODO: replace then use for response async/await
     initPixiViews()
       .then(() => {
         // Start and work with the socket
@@ -132,7 +138,7 @@ export default function Heatmap2D({
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metaverse]);
-
+  
   // Filtering
   useEffect(() => {
     doFilter();
@@ -182,6 +188,15 @@ export default function Heatmap2D({
       })
       .zoom(TILE_SIZE * 200);
 
+    _viewport.on("drag-start", () => {
+      isDragging.current = true;   
+    });
+    _viewport.on("drag-end", () => {
+      setTimeout(() => {
+        isDragging.current = false;
+      },500);
+    });
+
     _mapApp.stage.addChild(_viewport);
     mapDivRefCurrent.appendChild(_mapApp.view);
     
@@ -218,12 +233,13 @@ export default function Heatmap2D({
 
     land.coords.y *= -1;
 
-    // TODO: Some address watchlist
-    // if (address != undefined) {
-    //   //if (portfolioLands[metaverse as keyof typeof portfolioLands][land.tokenId]) land.portfolio = true
-    //   const wMRef = wList[metaverse];
-    //   if (wMRef == undefined || wMRef[land.tokenId] == undefined) land.watchlist = true;
-    // }
+    if (address != undefined) {
+      const wMRef = watchlist && watchlist[metaverse];
+      if (wMRef) {
+        const landInWatchlist = wMRef[land.tokenId];
+        if (landInWatchlist) land.watchlist = true;
+      }
+    }
 
     const tile = GetTileColorByFilter(
       filter,
@@ -288,17 +304,33 @@ export default function Heatmap2D({
       spriteRef: rectangle,
     };
 
-    rectangle.on("click", () => {
-      rectangle.tint = LandColor.Clicked;
-      void onClickLand(landRectangle);
+    rectangle.on("mouseup", (e) => {
+      e.preventDefault();
+      if (!isDragging.current) {
+        if (landRectangle.tokenId === selectedLand.current?.tokenId) return;
+        coordinatesRef.current = {x: landRectangle.landX, y: landRectangle.landY};
+        if (landRectangle && selectedLand.current && auxColor.current) {
+          selectedLand.current.spriteRef.tint = auxColor.current;
+        }
+        selectedLand.current = landRectangle;
+        auxColor.current = landRectangle.color;
+        rectangle.tint = LandColor.Clicked;
+        void onClickLand(landRectangle);
+      }
     });
-    
+
     rectangle.on("mouseenter", () => {
-      rectangle.tint = LandColor.Highlight;
+      const clickedCoordinates = coordinatesRef.current;
+      if (landRectangle.landX !== clickedCoordinates.x && landRectangle.landY !== clickedCoordinates.y) {
+        rectangle.tint = LandColor.Highlight;
+      }
     });
     
     rectangle.on("mouseout", () => {
-      rectangle.tint = landRectangle.color;
+      const clickedCoordinates = coordinatesRef.current;
+      if (landRectangle.landX !== clickedCoordinates.x && landRectangle.landY !== clickedCoordinates.y) {
+        rectangle.tint = landRectangle.color;
+      }
     });
 
     chunkContainer.addChild(rectangle);
@@ -350,7 +382,7 @@ export default function Heatmap2D({
     const formattedLand = FormatLand(landData, landKeyIndex, metaverse);
     // console.log({ formattedLand, landData, landKeyIndex });
 
-    if (formattedLand == undefined) return;
+    if (formattedLand == undefined) return LogError(Module.Heatmap, "Missing formattedLand on processLand");
     const land = await generateLandRectangle(formattedLand);
 
     if (land != undefined)
@@ -359,11 +391,11 @@ export default function Heatmap2D({
   
   function socketWork() {
     if (_viewport == undefined)
-      return LogError(Module.Heatmap, "Missing viewport!");
+      return LogError(Module.Heatmap, "Missing viewport on socketWork!");
 
     SetOnNewLand(async (landData, landKeyIndex) => {      
       if (landKeyIndex == undefined || landData == undefined)
-        return;
+        return LogError(Module.Heatmap, "Missing LanKeyIndex or LandData on socketWork");
       
       if (renderAfter)
         _landRawData.push({landKeyIndex, landData});
@@ -450,10 +482,12 @@ export default function Heatmap2D({
     if (x == undefined) return LogError(Module.Heatmap, "missing X coordinate on snap heatmap");
     if (y == undefined) return LogError(Module.Heatmap, "missing Y coordinate on snap heatmap");
     if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
-    
+    const realX = metaverse === Metaverses.SomniumSpace ? x * SOMNIUM_SCALE : x;
+    const realY = metaverse === Metaverses.SomniumSpace ? y * SOMNIUM_SCALE : y;
+    // coordinatesRef.current = {x: realX, y: realY };
     try {
       // Y axis is inverted on snap
-      _viewport.snap(x * TILE_SIZE, -y * TILE_SIZE, {
+      _viewport.snap(realX * TILE_SIZE, -realY * TILE_SIZE, {
         time: 2000,
         ease: 'easeOutCubic',
         removeOnComplete: true
