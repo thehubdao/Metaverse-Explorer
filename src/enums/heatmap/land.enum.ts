@@ -9,6 +9,6 @@
 
 export const enum LandColor {
   SandboxDeadLand = '#2d4162',
-  Highlight = '#db2777',
-  Clicked = '0xFFFFFF',
+  Highlight = '#BBBBBB',
+  Clicked = '#FFFFFF',
 }
