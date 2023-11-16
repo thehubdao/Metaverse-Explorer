@@ -308,8 +308,9 @@ export default function Heatmap2D({
       e.preventDefault();
       if (!isDragging.current) {
         if (landRectangle.tokenId === selectedLand.current?.tokenId) return;
-        if (landRectangle && selectedLand.current) {
-          selectedLand.current.spriteRef.tint = auxColor.current ?? '#FF00FF'
+        coordinatesRef.current = {x: landRectangle.landX, y: landRectangle.landY};
+        if (landRectangle && selectedLand.current && auxColor.current) {
+          selectedLand.current.spriteRef.tint = auxColor.current;
         }
         selectedLand.current = landRectangle;
         auxColor.current = landRectangle.color;
@@ -483,7 +484,7 @@ export default function Heatmap2D({
     if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
     const realX = metaverse === Metaverses.SomniumSpace ? x * SOMNIUM_SCALE : x;
     const realY = metaverse === Metaverses.SomniumSpace ? y * SOMNIUM_SCALE : y;
-    coordinatesRef.current = {x: realX, y: realY };
+    // coordinatesRef.current = {x: realX, y: realY };
     try {
       // Y axis is inverted on snap
       _viewport.snap(realX * TILE_SIZE, -realY * TILE_SIZE, {
