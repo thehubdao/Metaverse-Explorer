@@ -94,6 +94,7 @@ export default function Heatmap2D({
   const isSomniumSpace = metaverse === Metaverses.SomniumSpace;
   
   const watchlist = useAppSelector(state => state.watchlist.list);
+  const portfolio = useAppSelector((state) => state.portfolio.list);
   const { address } = useAccount();
   
   // Interval function (changes the loading message)
@@ -239,8 +240,13 @@ export default function Heatmap2D({
         const landInWatchlist = wMRef[land.tokenId];
         if (landInWatchlist) land.watchlist = true;
       }
+      const pMRef = portfolio && portfolio[metaverse];
+      if (pMRef) {
+        const landInPortfolio = pMRef[land.tokenId];
+        if (landInPortfolio) land.portfolio = true;
+      }
     }
-
+    
     const tile = GetTileColorByFilter(
       filter,
       percentFilter,
@@ -305,7 +311,7 @@ export default function Heatmap2D({
     };
 
     rectangle.on("mouseup", (e) => {
-      e.preventDefault();
+            e.preventDefault();
       if (!isDragging.current) {
         if (landRectangle.tokenId === selectedLand.current?.tokenId) return;
         coordinatesRef.current = {x: landRectangle.landX, y: landRectangle.landY};
