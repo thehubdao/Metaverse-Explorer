@@ -9,16 +9,18 @@ interface MapChooseMetaverseUIProps {
   setSelectMetaverse: (metaverseState: boolean) => void;
   setSelectFilter?: (filterState: boolean) => void;
   setSelectCoord: (coordState: boolean) => void;
+  onClose: () => void;
 }
 
-export default function MapChooseMetaverseUI({ metaverse, setMetaverse, selectMetaverse, setSelectMetaverse, setSelectFilter, setSelectCoord }: MapChooseMetaverseUIProps) {
+export default function MapChooseMetaverseUI({ metaverse, setMetaverse, selectMetaverse, setSelectMetaverse, setSelectFilter, setSelectCoord, onClose }: MapChooseMetaverseUIProps) {
   const handleButtonClick = () => {
     setSelectMetaverse(!selectMetaverse);
     if (setSelectFilter) setSelectFilter(false);
     setSelectCoord(false);
   };
-
+  
   const handleMetaverse = (newMetaverse: Metaverses) => {
+    onClose();
     setMetaverse(newMetaverse);
     setSelectMetaverse(false);
   };

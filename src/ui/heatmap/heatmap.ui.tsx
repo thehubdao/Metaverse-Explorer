@@ -162,7 +162,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                   <div ref={heatmapDivRef} className="w-full h-full relative">
                     <div className="absolute top-1 left-1 z-20 flex gap-4 md:w-fit w-full m-4">
                       {/* Metaverse Selection */}
-                      <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} />
+                      <MapChooseMetaverseUI metaverse={metaverseSelected} setMetaverse={(metaverse: Metaverses | undefined) => filterLands(metaverse)} selectMetaverse={selectMetaverse} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)}  onClose={() => handleClose()}/>
 
                       {/* Search by coords */}
                       <MapSearchUI selectCoord={selectCoord} setSelectCoord={(coordState: boolean) => setSelectCoord(coordState)} setSelectMetaverse={(metaveseState: boolean) => setSelectMetaverse(metaveseState)} landId={landId} setLandId={(tokenId) => setLandId(tokenId)} onClickSearch={(land?: LandTileData, coords?: MapCoordinates) => onClickLand(land, coords)} />
