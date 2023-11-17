@@ -6,13 +6,13 @@
 }
 
 export const enum MapFilterEnum {
-  eth_predicted_price,
-  price_difference,
-  transfers,
-  basic,
-  listed_lands,
-  floor_adjusted_predicted_price,
-  last_month_sells,
+  eth_predicted_price = "eth_predicted_price",
+  price_difference = "price_difference",
+  transfers = "transfers",
+  basic = "basic",
+  listed_lands = "listed_lands",
+  floor_adjusted_predicted_price = "floor_adjusted_predicted_price",
+  last_month_sells = "last_month_sells",
   // Not using this filters for now..will delete if permanent
   // variation_last_week,
   // variation_last_four_weeks,

@@ -16,7 +16,7 @@ import { useRef, useState } from "react";
 import { IPredictions, LandTileData, MapCoordinates } from "../../interfaces/heatmap.interface";
 import MapChooseMetaverseUI from "./mapChooseMetaverse.ui";
 import MapSearchUI from "./mapSearch.ui";
-import { LegendFilter } from "../../enums/heatmap/filter.enum";
+import { LegendFilter, MapFilterEnum } from "../../enums/heatmap/filter.enum";
 import MapLegendUI from "./mapLegend.ui";
 import MapCardUI from "./mapCard.ui";
 import SpecificLandModalUI from "../common/specificLandModal.ui";
@@ -179,7 +179,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                         </button>
                       </div>
                     }
-                  <Heatmap2D metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y} filter="basic"/>
+                  <Heatmap2D metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y} filter={MapFilterEnum.basic}/>
                     {
                       !isVisible &&
                       <MapLegendUI legendFilter={legendFilter} setLegendFilter={(legend: LegendFilter | undefined) => setLegendFilter(legend)} metaverse={metaverseSelected} />
