@@ -101,7 +101,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
       break;
     default:
       if (mapFilter === "basic") {
-        if (land.portfolio != undefined) {
+        if (land.portfolio) {
           color = LEGEND_COLORS.Portfolio;
           scale = SCALE_OPTIONS.mid;
         } else if (land.watchlist) {
