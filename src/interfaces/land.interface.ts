@@ -1,10 +1,6 @@
 ﻿import {Metaverses} from "../enums/metaverses.enum";
 import { Metaverse } from "../utils/metaverse";
-
-export interface Coords {
-  x?: number;
-  y?: number;
-}
+import { MapCoordinates } from "./heatmap.interface";
 
 export interface DecentralandTile {
   type: number;
@@ -21,7 +17,7 @@ export interface LandData {
   floor_adjusted_predicted_price: number;
   history_amount: number;
   max_history_price: number;
-  coords: Coords;
+  coords: MapCoordinates;
   
   watchlist?: boolean;
   percent?: number;
@@ -45,7 +41,7 @@ export interface LandSandbox extends LandData {
 
 export interface LandSomniumSpace extends LandData {
   metaverse: Metaverses.SomniumSpace;
-  geometry: Required<Coords>[];
+  geometry: Required<MapCoordinates>[];
 }
 
 export interface SingleLandAPIResponse {
