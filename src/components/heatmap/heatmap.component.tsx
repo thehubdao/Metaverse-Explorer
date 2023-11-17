@@ -93,6 +93,7 @@ export default function Heatmap2D({
   
   const isSomniumSpace = metaverse === Metaverses.SomniumSpace;
   
+  const portfolio = useAppSelector((state) => state.portfolio.list);
   const watchlist = useAppSelector(state => state.watchlist.list);
   const { address } = useAccount();
   
@@ -238,6 +239,11 @@ export default function Heatmap2D({
       if (wMRef) {
         const landInWatchlist = wMRef[land.tokenId];
         if (landInWatchlist) land.watchlist = true;
+      }
+      const pMRef = portfolio && portfolio[metaverse];
+      if (pMRef) {
+        const landInPortfolio = pMRef[land.tokenId];
+        if (landInPortfolio) land.portfolio = true;
       }
     }
 
@@ -484,7 +490,6 @@ export default function Heatmap2D({
     if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
     const realX = metaverse === Metaverses.SomniumSpace ? x * SOMNIUM_SCALE : x;
     const realY = metaverse === Metaverses.SomniumSpace ? y * SOMNIUM_SCALE : y;
-    // coordinatesRef.current = {x: realX, y: realY };
     try {
       // Y axis is inverted on snap
       _viewport.snap(realX * TILE_SIZE, -realY * TILE_SIZE, {
