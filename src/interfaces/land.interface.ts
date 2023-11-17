@@ -30,7 +30,7 @@ export interface LandData {
   basic?: number;
   listed_lands?: number;
   last_month_sells?: number;
-  portfolio?: number;
+  portfolio?: boolean;
 }
 
 export interface LandDecentraland extends LandData {
