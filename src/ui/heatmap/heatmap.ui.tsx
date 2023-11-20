@@ -230,8 +230,8 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                     <p>coming soon</p>
                   </div>
                 </div> */}
-                <TopLandsUI tableData={topPicksLands} title="Our Top Picks" headers={headersPicks} />
-                <TopSellsLandsUI tableData={topSellingsLands} title="Our Top Sells" headers={headersSells} />
+                {/* <TopLandsUI tableData={topPicksLands} title="Our Top Picks" headers={headersPicks} />
+                <TopSellsLandsUI tableData={topSellingsLands} title="Our Top Sells" headers={headersSells} /> */}
               </>
             }
           </div>
