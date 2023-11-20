@@ -192,8 +192,10 @@ export default function Heatmap2D({
 
     _viewport.on("drag-start", () => {
       isDragging.current = true;   
+      document.body.style.cursor = "grabbing";
     });
     _viewport.on("drag-end", () => {
+      document.body.style.cursor = "auto";
       setTimeout(() => {
         isDragging.current = false;
       },500);
