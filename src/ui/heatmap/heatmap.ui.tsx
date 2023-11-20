@@ -177,7 +177,7 @@ export default function HeatmapUI({ globalData }: HeatmapUIProps) {
                         </button>
                       </div>
                     }
-                  <Heatmap2D metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y} filter={MapFilterEnum.basic}/>
+                    <Heatmap2D metaverse={metaverseSelected} renderAfter={true} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y} filter={MapFilterEnum.basic}/>
                     {
                       !isVisible &&
                       <MapLegendUI legendFilter={legendFilter} setLegendFilter={(legend: LegendFilter | undefined) => setLegendFilter(legend)} metaverse={metaverseSelected} />
