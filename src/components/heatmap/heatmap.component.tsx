@@ -114,7 +114,7 @@ export default function Heatmap2D({
   useEffect(() => {
     window.addEventListener("resize", resize);
 
-    setIsLoading(renderAfter);
+    setIsLoading(true);
     
     preLoad();
     
