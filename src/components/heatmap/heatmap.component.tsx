@@ -87,6 +87,7 @@ export default function Heatmap2D({
   const selectedLand = useRef<LandTileData | undefined>(undefined);
   const auxColor = useRef<string | undefined>(undefined);
   const isDragging = useRef<boolean>(false);
+  const isSnapping = useRef<boolean>(false);
 
   const preDataPromise = useRef<PreDataHeatmap>({});
   // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
@@ -191,11 +192,21 @@ export default function Heatmap2D({
 
     _viewport.on("drag-start", () => {
       isDragging.current = true;   
+      document.body.style.cursor = "grabbing";
     });
     _viewport.on("drag-end", () => {
+      document.body.style.cursor = "auto";
       setTimeout(() => {
         isDragging.current = false;
       },500);
+    });
+    _viewport.on("snap-start", () => {
+      _viewport?.drag({pressDrag: false});
+      isSnapping.current = true;   
+    });
+    _viewport.on("snap-end", () => {
+      _viewport?.drag({pressDrag: true});
+      isSnapping.current = false;
     });
 
     _mapApp.stage.addChild(_viewport);
@@ -312,7 +323,7 @@ export default function Heatmap2D({
 
     rectangle.on("mouseup", (e) => {
       e.preventDefault();
-      if (!isDragging.current) {
+      if (!isDragging.current && !isSnapping.current) {
         if (landRectangle.tokenId === selectedLand.current?.tokenId) return;
         coordinatesRef.current = {x: landRectangle.landX, y: landRectangle.landY};
         if (landRectangle && selectedLand.current && auxColor.current) {
