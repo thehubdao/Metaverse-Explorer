@@ -6,6 +6,7 @@ import {Module} from "../../enums/logging.enum";
 import {CastStringToNum} from "../common.util";
 import {SOMNIUM_SCALE, TILE_SIZE} from "../../constants/heatmap/heatmap.constant";
 import { MapCoordinates } from "../../interfaces/heatmap.interface";
+import {Result} from "../../types/common.type";
 
 export function FormatLand(landRawData: string | undefined, landKeyIndex: number | undefined, metaverse: Metaverses): LandType | undefined {
   if (landRawData == undefined || landKeyIndex == undefined)
@@ -38,18 +39,6 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
     coords: { x: CastStringToNum(x), y: CastStringToNum(y) }
   };
 
-  if (metaverse === Metaverses.SandBox) {
-    land.coords = {
-      x: CastStringToNum(x),
-      y: CastStringToNum(y)
-    };
-    return {
-      ...land,
-      land_type: CastStringToNum(wildcard),
-      metaverse: Metaverses.SandBox,
-    };
-  }
-
   if (metaverse == Metaverses.SomniumSpace) {
     const geometryRawArray = wildcard.split('/');
     const geometry: Required<MapCoordinates>[] = geometryRawArray.map((coords) => {
@@ -57,12 +46,22 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
       return { x: CastStringToNum(x, SOMNIUM_SCALE) ?? -1, y: CastStringToNum(y, SOMNIUM_SCALE) ?? -1 };
     });
     const coords: MapCoordinates = { x: CastStringToNum(x, SOMNIUM_SCALE), y: CastStringToNum(y, SOMNIUM_SCALE) };
-    
+
     return {
       ...land,
       coords,
       geometry,
       metaverse: Metaverses.SomniumSpace,
+    };
+  }
+
+  if (!CheckCoords(land.coords.x, land.coords.y).success) return undefined;
+  
+  if (metaverse === Metaverses.SandBox) {
+    return {
+      ...land,
+      land_type: CastStringToNum(wildcard),
+      metaverse: Metaverses.SandBox,
     };
   }
 
@@ -95,4 +94,17 @@ export function SomniumValues(land: LandSomniumSpace): SomniumTile {
   const rotation = Math.atan(sideA / sideB) * (180 / Math.PI);
 
   return {width, height, rotation};
+}
+
+function CheckCoords(x: number | undefined, y: number | undefined): Result<boolean> {
+  if (x == undefined || y == undefined)
+    return {success: false, errMessage: "Missing coords!"};
+  
+  const coordX = Math.abs(x);
+  const coordY = Math.abs(y);
+  
+  if (coordX > 0 && coordX < 1 && coordY > 0 && coordY < 1)
+    return {success: false, errMessage: "Coords out of bounds!"};
+  
+  return {success: true, value: true};
 }
