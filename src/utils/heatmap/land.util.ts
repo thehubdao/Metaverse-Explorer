@@ -6,6 +6,7 @@ import {Module} from "../../enums/logging.enum";
 import {CastStringToNum} from "../common.util";
 import {SOMNIUM_SCALE, TILE_SIZE} from "../../constants/heatmap/heatmap.constant";
 import { MapCoordinates } from "../../interfaces/heatmap.interface";
+import {Result} from "../../types/common.type";
 
 export function FormatLand(landRawData: string | undefined, landKeyIndex: number | undefined, metaverse: Metaverses): LandType | undefined {
   if (landRawData == undefined || landKeyIndex == undefined)
@@ -39,10 +40,8 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
   };
 
   if (metaverse === Metaverses.SandBox) {
-    land.coords = {
-      x: CastStringToNum(x),
-      y: CastStringToNum(y)
-    };
+    if (!CheckSandboxCoords(land.coords.x, land.coords.y).success) return undefined;
+    
     return {
       ...land,
       land_type: CastStringToNum(wildcard),
@@ -95,4 +94,17 @@ export function SomniumValues(land: LandSomniumSpace): SomniumTile {
   const rotation = Math.atan(sideA / sideB) * (180 / Math.PI);
 
   return {width, height, rotation};
+}
+
+function CheckSandboxCoords(x: number | undefined, y: number | undefined): Result<boolean> {
+  if (x == undefined || y == undefined)
+    return {success: false, errMessage: "Missing coords!"};
+  
+  const coordX = Math.abs(x);
+  const coordY = Math.abs(y);
+  
+  if (coordX > 0 && coordX < 1 && coordY > 0 && coordY < 1)
+    return {success: false, errMessage: "Coords out of bounds!"};
+  
+  return {success: true, value: true};
 }
