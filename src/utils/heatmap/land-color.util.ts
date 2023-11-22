@@ -2,7 +2,7 @@
 import {LandBorderTexture} from "../../enums/heatmap/land.enum";
 import {DecentralandApiColor} from "../../enums/valuation.enum";
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
-import {LegendFilter} from "../../enums/heatmap/filter.enum";
+import {LegendFilter, MapFilterEnum} from "../../enums/heatmap/filter.enum";
 import {CleanHex, GetKeyByValue, NumBetween} from "../common.util";
 import {FILTER_COLOR, LEGEND_COLORS, PERCENT_FILTER} from "../../constants/heatmap/heatmap.constant";
 import {DECENTRALAND_API_COLORS, FILTER_PERCENTAGES} from "../../constants/heatmap/valuation.constant";
@@ -56,7 +56,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
   switch (legendFilter) {
     case LegendFilter.OnSale:
       if (land.current_price_eth > -1) {
-        if (mapFilter === "basic")
+        if (mapFilter === MapFilterEnum.basic)
           color = LEGEND_COLORS.OnSale;
         else
           color = GetTileColor(land.percent ?? 0, percentFilter, mapFilter);
@@ -74,7 +74,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
       break;
     case LegendFilter.Watchlist:
       if (land.watchlist) {
-        if (mapFilter === "basic") {
+        if (mapFilter === MapFilterEnum.basic) {
           color = LEGEND_COLORS.Watchlist;
           scale = SCALE_OPTIONS.big;
         } else {
@@ -87,7 +87,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
       break;
     case LegendFilter.Portfolio:
       if (land.portfolio != undefined) {
-        if (mapFilter === "basic") {
+        if (mapFilter === MapFilterEnum.basic) {
           color = LEGEND_COLORS.Portfolio;
           scale = SCALE_OPTIONS.big;
         } else {
@@ -100,7 +100,7 @@ export function GetTileColorByFilter(mapFilter: MapFilter | undefined,
     
       break;
     default:
-      if (mapFilter === "basic") {
+      if (mapFilter === MapFilterEnum.basic) {
         if (land.portfolio) {
           color = LEGEND_COLORS.Portfolio;
           scale = SCALE_OPTIONS.mid;
@@ -187,10 +187,10 @@ function GenerateColor(percent: number, mapFilter?: MapFilter) {
 
 function FilterKey(mapFilter: MapFilter | undefined): FilterPercentageStringKey {
   const filterArray: MapFilter[] = [
-    "eth_predicted_price",
-    "listed_lands",
-    "floor_adjusted_predicted_price",
-    "last_month_sells"
+    MapFilterEnum.eth_predicted_price,
+    MapFilterEnum.listed_lands,
+    MapFilterEnum.floor_adjusted_predicted_price,
+    MapFilterEnum.last_month_sells
   ];
   
   return mapFilter != undefined && filterArray.includes(mapFilter)

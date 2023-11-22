@@ -3,7 +3,7 @@ import {Application, Container, Sprite, Texture} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
-import {LandTileData} from "../../interfaces/heatmap.interface";
+import {LandTileData, MapCoordinates} from "../../interfaces/heatmap.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {LandBorderTexture, LandColor} from "../../enums/heatmap/land.enum";
@@ -26,7 +26,7 @@ import {
 } from "../../constants/heatmap/heatmap.constant";
 import LoaderUI from '../../ui/common/loader.ui';
 import {Result} from "../../types/common.type";
-import { Coords, LandSomniumSpace } from "../../interfaces/land.interface";
+import { LandSomniumSpace } from "../../interfaces/land.interface";
 import { useAppSelector } from '../../state/hooks';
 import { useAccount } from 'wagmi';
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
@@ -83,7 +83,7 @@ export default function Heatmap2D({
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
 
   //useref for rectangle functions
-  const coordinatesRef = useRef<Coords>({ x: 0, y: 0 });
+  const coordinatesRef = useRef<MapCoordinates>({ x: 0, y: 0 });
   const selectedLand = useRef<LandTileData | undefined>(undefined);
   const auxColor = useRef<string | undefined>(undefined);
   const isDragging = useRef<boolean>(false);

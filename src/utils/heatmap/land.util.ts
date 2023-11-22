@@ -1,10 +1,11 @@
 ﻿import {LandType} from "../../types/heatmap/land.type";
-import {Coords, LandData, LandSomniumSpace} from "../../interfaces/land.interface";
+import {LandData, LandSomniumSpace} from "../../interfaces/land.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
 import {LogWarning} from "../logging.util";
 import {Module} from "../../enums/logging.enum";
 import {CastStringToNum} from "../common.util";
 import {SOMNIUM_SCALE, TILE_SIZE} from "../../constants/heatmap/heatmap.constant";
+import { MapCoordinates } from "../../interfaces/heatmap.interface";
 
 export function FormatLand(landRawData: string | undefined, landKeyIndex: number | undefined, metaverse: Metaverses): LandType | undefined {
   if (landRawData == undefined || landKeyIndex == undefined)
@@ -51,11 +52,11 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
 
   if (metaverse == Metaverses.SomniumSpace) {
     const geometryRawArray = wildcard.split('/');
-    const geometry: Required<Coords>[] = geometryRawArray.map((coords) => {
+    const geometry: Required<MapCoordinates>[] = geometryRawArray.map((coords) => {
       const [x, y] = coords.split(':');
       return { x: CastStringToNum(x, SOMNIUM_SCALE) ?? -1, y: CastStringToNum(y, SOMNIUM_SCALE) ?? -1 };
     });
-    const coords: Coords = { x: CastStringToNum(x, SOMNIUM_SCALE), y: CastStringToNum(y, SOMNIUM_SCALE) };
+    const coords: MapCoordinates = { x: CastStringToNum(x, SOMNIUM_SCALE), y: CastStringToNum(y, SOMNIUM_SCALE) };
     
     return {
       ...land,
