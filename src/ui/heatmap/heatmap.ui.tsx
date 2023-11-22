@@ -83,9 +83,9 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
       ? {
         from: 0,
         size: 1,
-        tokenId: land.tokenId,
+        tokenId: metaverseSelected === Metaverses.SomniumSpace ? land.tokenId : undefined,
         x: land.landX,
-        y: land.landY
+        y: land.landY * -1
       }
       : {
         from: 0,
