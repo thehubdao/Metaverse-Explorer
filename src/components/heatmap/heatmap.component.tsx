@@ -403,7 +403,7 @@ export default function Heatmap2D({
       if (landKeyIndex == undefined || landData == undefined)
         return LogError(Module.Heatmap, "Missing LanKeyIndex or LandData on socketWork");
       
-      if (renderAfter)
+      if (renderAfter && metaverse !== Metaverses.SomniumSpace)
         _landRawData.push({landKeyIndex, landData});
       else 
         await processLand(landKeyIndex, landData);
@@ -419,7 +419,7 @@ export default function Heatmap2D({
       // If sandbox fill the empty spaces
       if (metaverse === Metaverses.SandBox)
         await fillSandboxDeadSpaces();
-      
+
       setIsLoading(false);
       // TODO: check
       // setMapLoadingState(false);
@@ -433,7 +433,7 @@ export default function Heatmap2D({
           const mapSprite = new Sprite(somniumMap.value);
           const sideValue = (mapSprite.width / 2) * -1;
           mapSprite.position.set(sideValue, sideValue);
-          
+          setIsLoading(false);
           _viewport?.addChild(mapSprite);
         }
       }
@@ -504,14 +504,14 @@ export default function Heatmap2D({
 
   return (
     <>
-      <>{/* HEATMAP VIEWPORT */}
+          <>{/* HEATMAP VIEWPORT */}
         <div ref={mapDivRef} id="map"
-             className={`bg-[#3C3E42] w-full h-full ${isLoading ? 'hidden' : 'block rounded-[25px]'}`} 
+             className={`bg-[#3C3E42] w-full h-full block rounded-[25px]`} 
         />
       </>
       {/* HEATMAP VIEWPORT */}
       <>{/* LOADER */}
-        <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
+        <div className={`h-[102%] w-full justify-center items-center absolute inset-0 z-10 bg-nm-highlight ${isLoading ? 'flex' : 'hidden'}`}>
           <LoaderUI size={100}/>
           <p className='absolute bottom-20 max-w-lg text-center'>{LOAD_PHRASES_ARRAY[indexLoading]}</p>
         </div>

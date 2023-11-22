@@ -3,14 +3,12 @@ import Image from "next/image";
 import LandsMenuUI from "../common/landsMenu.ui";
 
 import EstimatorValuesUI from "./estimatorValues.ui";
-import TopLandsUI from "./topLands.ui";
 import { Metaverses } from "../../enums/metaverses.enum";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { setHeatmapMetaverse } from "../../state/heatmapSlice";
 import { MetaverseGlobalData } from "../../interfaces/itrm/land-valuation.interface";
 import { TopPickLand, TopSellingLand } from "../../interfaces/itrm/val-analytics.interface";
-import TopSellsLandsUI from "./topSellsLands.ui";
 import Heatmap2D from "../../components/heatmap/heatmap.component";
 import { useRef, useState } from "react";
 import { IPredictions, LandTileData, MapCoordinates } from "../../interfaces/heatmap.interface";
@@ -33,13 +31,13 @@ import { LandType } from "../../types/heatmap/land.type";
 // import BoxInformationUI from "./boxInformation.ui";
 // import HotDealsUI from "./hotDeals/hotDeals.ui";
 
-const headersPicks = [
-  "Land", "Coords", "Current price", "Predicted price", "Gap"
-];
+// const headersPicks = [
+//   "Land", "Coords", "Current price", "Predicted price", "Gap"
+// ];
 
-const headersSells = [
-  "Rank", "Asset", "Price", "Buyer", "Purchased"
-];
+// const headersSells = [
+//   "Rank", "Asset", "Price", "Buyer", "Purchased"
+// ];
 
 
 interface HeatmapUIProps {
@@ -48,7 +46,7 @@ interface HeatmapUIProps {
   topSellingsLands: TopSellingLand | null;
 }
 
-export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands }: HeatmapUIProps) {
+export default function HeatmapUI({ globalData }: HeatmapUIProps) {
   const { theme } = useTheme();
 
   const heatmapDivRef = useRef<HTMLDivElement>(null);
@@ -179,7 +177,7 @@ export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands 
                         </button>
                       </div>
                     }
-                  <Heatmap2D metaverse={metaverseSelected} renderAfter={false} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y} filter={MapFilterEnum.basic}/>
+                    <Heatmap2D metaverse={metaverseSelected} renderAfter={true} onClickLand={(land: LandTileData) => onClickLand(land)} initialX={0} initialY={0} x={coordinates.x} y={coordinates.y} filter={MapFilterEnum.basic}/>
                     {
                       !isVisible &&
                       <MapLegendUI legendFilter={legendFilter} setLegendFilter={(legend: LegendFilter | undefined) => setLegendFilter(legend)} metaverse={metaverseSelected} />
