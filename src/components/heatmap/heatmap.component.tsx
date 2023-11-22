@@ -3,7 +3,7 @@ import {Application, Container, Sprite, Texture} from 'pixi.js';
 import {Viewport} from 'pixi-viewport';
 import {MapFilter, PercentFilter} from "../../types/heatmap/heatmap.type";
 import {LandType} from "../../types/heatmap/land.type";
-import {LandTileData} from "../../interfaces/heatmap.interface";
+import {LandTileData, MapCoordinates} from "../../interfaces/heatmap.interface";
 import {Metaverses} from "../../enums/metaverses.enum";
 import {LegendFilter} from "../../enums/heatmap/filter.enum";
 import {LandBorderTexture, LandColor} from "../../enums/heatmap/land.enum";
@@ -26,7 +26,7 @@ import {
 } from "../../constants/heatmap/heatmap.constant";
 import LoaderUI from '../../ui/common/loader.ui';
 import {Result} from "../../types/common.type";
-import { Coords, LandSomniumSpace } from "../../interfaces/land.interface";
+import { LandSomniumSpace } from "../../interfaces/land.interface";
 import { useAppSelector } from '../../state/hooks';
 import { useAccount } from 'wagmi';
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
@@ -83,10 +83,11 @@ export default function Heatmap2D({
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
 
   //useref for rectangle functions
-  const coordinatesRef = useRef<Coords>({ x: 0, y: 0 });
+  const coordinatesRef = useRef<MapCoordinates>({ x: 0, y: 0 });
   const selectedLand = useRef<LandTileData | undefined>(undefined);
   const auxColor = useRef<string | undefined>(undefined);
   const isDragging = useRef<boolean>(false);
+  const isSnapping = useRef<boolean>(false);
 
   const preDataPromise = useRef<PreDataHeatmap>({});
   // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
@@ -191,11 +192,21 @@ export default function Heatmap2D({
 
     _viewport.on("drag-start", () => {
       isDragging.current = true;   
+      document.body.style.cursor = "grabbing";
     });
     _viewport.on("drag-end", () => {
+      document.body.style.cursor = "auto";
       setTimeout(() => {
         isDragging.current = false;
       },500);
+    });
+    _viewport.on("snap-start", () => {
+      _viewport?.drag({pressDrag: false});
+      isSnapping.current = true;   
+    });
+    _viewport.on("snap-end", () => {
+      _viewport?.drag({pressDrag: true});
+      isSnapping.current = false;
     });
 
     _mapApp.stage.addChild(_viewport);
@@ -312,7 +323,7 @@ export default function Heatmap2D({
 
     rectangle.on("mouseup", (e) => {
       e.preventDefault();
-      if (!isDragging.current) {
+      if (!isDragging.current && !isSnapping.current) {
         if (landRectangle.tokenId === selectedLand.current?.tokenId) return;
         coordinatesRef.current = {x: landRectangle.landX, y: landRectangle.landY};
         if (landRectangle && selectedLand.current && auxColor.current) {
@@ -403,7 +414,7 @@ export default function Heatmap2D({
       if (landKeyIndex == undefined || landData == undefined)
         return LogError(Module.Heatmap, "Missing LanKeyIndex or LandData on socketWork");
       
-      if (renderAfter)
+      if (renderAfter && metaverse !== Metaverses.SomniumSpace)
         _landRawData.push({landKeyIndex, landData});
       else 
         await processLand(landKeyIndex, landData);
@@ -419,7 +430,7 @@ export default function Heatmap2D({
       // If sandbox fill the empty spaces
       if (metaverse === Metaverses.SandBox)
         await fillSandboxDeadSpaces();
-      
+
       setIsLoading(false);
       // TODO: check
       // setMapLoadingState(false);
@@ -433,7 +444,7 @@ export default function Heatmap2D({
           const mapSprite = new Sprite(somniumMap.value);
           const sideValue = (mapSprite.width / 2) * -1;
           mapSprite.position.set(sideValue, sideValue);
-          
+          setIsLoading(false);
           _viewport?.addChild(mapSprite);
         }
       }
@@ -504,14 +515,14 @@ export default function Heatmap2D({
 
   return (
     <>
-      <>{/* HEATMAP VIEWPORT */}
+          <>{/* HEATMAP VIEWPORT */}
         <div ref={mapDivRef} id="map"
-             className={`bg-[#3C3E42] w-full h-full ${isLoading ? 'hidden' : 'block rounded-[25px]'}`} 
+             className={`bg-[#3C3E42] w-full h-full block rounded-[25px]`} 
         />
       </>
       {/* HEATMAP VIEWPORT */}
       <>{/* LOADER */}
-        <div className={`h-full w-full justify-center items-center relative ${isLoading ? 'flex' : 'hidden'}`}>
+        <div className={`h-[102%] w-full justify-center items-center absolute inset-0 z-10 bg-nm-highlight ${isLoading ? 'flex' : 'hidden'}`}>
           <LoaderUI size={100}/>
           <p className='absolute bottom-20 max-w-lg text-center'>{LOAD_PHRASES_ARRAY[indexLoading]}</p>
         </div>

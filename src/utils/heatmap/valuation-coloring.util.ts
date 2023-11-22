@@ -7,6 +7,7 @@ import {FILTER_COLOR, PERCENT_FILTER} from "../../constants/heatmap/heatmap.cons
 import {FilterPercentageStringKey} from "../../types/heatmap/valuation.type";
 import {LandTileData} from "../../interfaces/heatmap.interface";
 import {LandType} from "../../types/heatmap/land.type";
+import { MapFilterEnum } from "../../enums/heatmap/filter.enum";
 
 interface Limit {
   minimum: number;
@@ -55,14 +56,14 @@ export function GetGeneralData(landData: Record<string, LandTileData | undefined
     switch(filter) {
       case "price_difference":
         return (land.current_price_eth / land.eth_predicted_price) - 1;
-      case "eth_predicted_price":
-      case "listed_lands":
+      case MapFilterEnum.eth_predicted_price:
+      case MapFilterEnum.listed_lands:
         return land.eth_predicted_price;
-      case "floor_adjusted_predicted_price":
+      case MapFilterEnum.floor_adjusted_predicted_price:
         return land.floor_adjusted_predicted_price;
-      case "transfers":
+      case MapFilterEnum.transfers:
         return land.history_amount;
-      case "last_month_sells":
+      case MapFilterEnum.last_month_sells:
         return land.max_history_price;
       default: // basic
         return;

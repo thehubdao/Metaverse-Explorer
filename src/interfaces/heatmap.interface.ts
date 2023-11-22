@@ -104,6 +104,6 @@ export interface IPredictions {
 }
 
 export interface MapCoordinates {
-  x: number | undefined;
-  y: number | undefined;
+  x?: number;
+  y?: number;
 }
