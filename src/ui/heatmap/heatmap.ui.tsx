@@ -46,7 +46,7 @@ interface HeatmapUIProps {
   topSellingsLands: TopSellingLand | null;
 }
 
-export default function HeatmapUI({ globalData, topPicksLands, topSellingsLands }: HeatmapUIProps) {
+export default function HeatmapUI({ globalData }: HeatmapUIProps) {
   const { theme } = useTheme();
 
   const heatmapDivRef = useRef<HTMLDivElement>(null);
