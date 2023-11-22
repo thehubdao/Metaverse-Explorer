@@ -524,7 +524,7 @@ export default function Heatmap2D({
       <>{/* LOADER */}
         <div className={`h-[102%] w-full justify-center items-center absolute inset-0 z-10 bg-nm-highlight ${isLoading ? 'flex' : 'hidden'}`}>
           <LoaderUI size={100}/>
-          <p className='absolute bottom-20 max-w-lg text-center'>{LOAD_PHRASES_ARRAY[indexLoading]}</p>
+          <p className='absolute bottom-20 max-w-lg text-center dark:text-nm-dm-fill'>{LOAD_PHRASES_ARRAY[indexLoading]}</p>
         </div>
       </>
       {/* LOADER */}
