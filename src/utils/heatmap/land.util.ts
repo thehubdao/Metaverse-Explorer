@@ -39,16 +39,6 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
     coords: { x: CastStringToNum(x), y: CastStringToNum(y) }
   };
 
-  if (metaverse === Metaverses.SandBox) {
-    if (!CheckSandboxCoords(land.coords.x, land.coords.y).success) return undefined;
-    
-    return {
-      ...land,
-      land_type: CastStringToNum(wildcard),
-      metaverse: Metaverses.SandBox,
-    };
-  }
-
   if (metaverse == Metaverses.SomniumSpace) {
     const geometryRawArray = wildcard.split('/');
     const geometry: Required<MapCoordinates>[] = geometryRawArray.map((coords) => {
@@ -56,12 +46,22 @@ export function FormatLand(landRawData: string | undefined, landKeyIndex: number
       return { x: CastStringToNum(x, SOMNIUM_SCALE) ?? -1, y: CastStringToNum(y, SOMNIUM_SCALE) ?? -1 };
     });
     const coords: MapCoordinates = { x: CastStringToNum(x, SOMNIUM_SCALE), y: CastStringToNum(y, SOMNIUM_SCALE) };
-    
+
     return {
       ...land,
       coords,
       geometry,
       metaverse: Metaverses.SomniumSpace,
+    };
+  }
+
+  if (!CheckCoords(land.coords.x, land.coords.y).success) return undefined;
+  
+  if (metaverse === Metaverses.SandBox) {
+    return {
+      ...land,
+      land_type: CastStringToNum(wildcard),
+      metaverse: Metaverses.SandBox,
     };
   }
 
@@ -96,7 +96,7 @@ export function SomniumValues(land: LandSomniumSpace): SomniumTile {
   return {width, height, rotation};
 }
 
-function CheckSandboxCoords(x: number | undefined, y: number | undefined): Result<boolean> {
+function CheckCoords(x: number | undefined, y: number | undefined): Result<boolean> {
   if (x == undefined || y == undefined)
     return {success: false, errMessage: "Missing coords!"};
   
