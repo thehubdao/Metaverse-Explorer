@@ -19,6 +19,7 @@ import {
   BOUND_SIZE,
   CHUNK_SIZE,
   DECENTRALAND_LANDS,
+  LEGEND_COLORS,
   LOAD_PHRASES_ARRAY,
   LOAD_PHRASES_LENGHT,
   SOMNIUM_SCALE,
@@ -29,6 +30,7 @@ import {Result} from "../../types/common.type";
 import { LandSomniumSpace } from "../../interfaces/land.interface";
 import { useAppSelector } from '../../state/hooks';
 import { useAccount } from 'wagmi';
+import { LandListAPIResponse } from '../../types/valuation.type';
 // import {SetColors} from "../../utils/heatmap/valuation-coloring.util";
 // import {useAccount} from "wagmi";
 
@@ -82,21 +84,23 @@ export default function Heatmap2D({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [indexLoading, setIndexLoading] = useState<number>(RandomIntMax(LOAD_PHRASES_LENGHT));
 
+  const isSomniumSpace = metaverse === Metaverses.SomniumSpace;
+  
+  const portfolio = useAppSelector((state) => state.portfolio.list);
+  const watchlist = useAppSelector(state => state.watchlist.list);
+  const { address } = useAccount();
+
   //useref for rectangle functions
   const coordinatesRef = useRef<MapCoordinates>({ x: 0, y: 0 });
   const selectedLand = useRef<LandTileData | undefined>(undefined);
   const auxColor = useRef<string | undefined>(undefined);
+  const auxWatchlist = useRef <Record<Metaverses, LandListAPIResponse> | undefined>(watchlist);
   const isDragging = useRef<boolean>(false);
   const isSnapping = useRef<boolean>(false);
 
   const preDataPromise = useRef<PreDataHeatmap>({});
   // const [mapLoadingState, setMapLoadingState] = useState<boolean>(false);
   
-  const isSomniumSpace = metaverse === Metaverses.SomniumSpace;
-  
-  const portfolio = useAppSelector((state) => state.portfolio.list);
-  const watchlist = useAppSelector(state => state.watchlist.list);
-  const { address } = useAccount();
   
   // Interval function (changes the loading message)
   useEffect(() => {
@@ -145,6 +149,28 @@ export default function Heatmap2D({
   useEffect(() => {
     doFilter();
   }, [filter, percentFilter, legendFilter]);
+
+  useEffect(() => {
+    if (x == undefined) return LogError(Module.Heatmap, "missing X coordinate on snap heatmap");
+    if (y == undefined) return LogError(Module.Heatmap, "missing Y coordinate on snap heatmap");
+    if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
+    const realX = metaverse === Metaverses.SomniumSpace ? x * SOMNIUM_SCALE : x;
+    const realY = metaverse === Metaverses.SomniumSpace ? y * SOMNIUM_SCALE : y;
+    try {
+      // Y axis is inverted on snap
+      _viewport.snap(realX * TILE_SIZE, -realY * TILE_SIZE, {
+        time: 2000,
+        ease: 'easeOutCubic',
+        removeOnComplete: true
+      });
+    } catch (e) {
+      return LogError(Module.Heatmap, "Error snapping coordinates", e);
+    }
+  }, [x, y]);
+
+  useEffect(() => {
+    auxWatchlist.current = watchlist;
+  },[watchlist])
   
   function preLoad() {
     if (isSomniumSpace) {
@@ -198,7 +224,7 @@ export default function Heatmap2D({
       document.body.style.cursor = "auto";
       setTimeout(() => {
         isDragging.current = false;
-      },500);
+      },100);
     });
     _viewport.on("snap-start", () => {
       _viewport?.drag({pressDrag: false});
@@ -327,7 +353,12 @@ export default function Heatmap2D({
         if (landRectangle.tokenId === selectedLand.current?.tokenId) return;
         coordinatesRef.current = {x: landRectangle.landX, y: landRectangle.landY};
         if (landRectangle && selectedLand.current && auxColor.current) {
-          selectedLand.current.spriteRef.tint = auxColor.current;
+          const wMRef = auxWatchlist.current && auxWatchlist.current[metaverse];  
+          if (wMRef) {
+            const landInWatchlist = wMRef[selectedLand.current.tokenId];
+            if (landInWatchlist) selectedLand.current.spriteRef.tint = LEGEND_COLORS.Watchlist;
+            else selectedLand.current.spriteRef.tint = auxColor.current;
+          }else selectedLand.current.spriteRef.tint = auxColor.current;
         }
         selectedLand.current = landRectangle;
         auxColor.current = landRectangle.color;
@@ -495,24 +526,6 @@ export default function Heatmap2D({
     }
   }
   
-  useEffect(() => {
-    if (x == undefined) return LogError(Module.Heatmap, "missing X coordinate on snap heatmap");
-    if (y == undefined) return LogError(Module.Heatmap, "missing Y coordinate on snap heatmap");
-    if (_viewport == undefined) return LogError(Module.Heatmap, "Missing viewport on snap heatmap");
-    const realX = metaverse === Metaverses.SomniumSpace ? x * SOMNIUM_SCALE : x;
-    const realY = metaverse === Metaverses.SomniumSpace ? y * SOMNIUM_SCALE : y;
-    try {
-      // Y axis is inverted on snap
-      _viewport.snap(realX * TILE_SIZE, -realY * TILE_SIZE, {
-        time: 2000,
-        ease: 'easeOutCubic',
-        removeOnComplete: true
-      });
-    } catch (e) {
-      return LogError(Module.Heatmap, "Error snapping coordinates", e);
-    }
-  }, [x, y]);
-
   return (
     <>
           <>{/* HEATMAP VIEWPORT */}
