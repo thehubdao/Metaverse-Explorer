@@ -54,7 +54,8 @@ export const METAVERSE_LEGENDS: Record<Metaverses, (keyof typeof LEGEND_COLORS)[
     ], 
     [Metaverses.SomniumSpace]: [
         'OnSale',
-        'Portfolio'
+        'Portfolio',
+        'Watchlist'
     ]
 };
 
