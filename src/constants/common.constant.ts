@@ -42,12 +42,12 @@ export const LIST = [
     icon: "b",
     isExternal: false,
   },
-  {
+/*   {
     url: "/stake",
     label: "Stake MGH",
     icon: "d",
     isExternal: false,
-  },
+  }, */
   {
     url: "https://snapshot.org/#/metagamehub.eth",
     label: "Governance",
