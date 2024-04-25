@@ -47,14 +47,14 @@ const list = [
 		label: "Provide Liquidity",
 		icon: "f",
 	}, */
-	{
+/* 	{
 		url: {
 			ref: "/stake",
 			isExternal: false,
 		},
 		label: "Stake MGH",
 		icon: "d",
-	},
+	}, */
 	{
 		url: {
 			ref: "https://snapshot.org/#/metagamehub.eth",
