@@ -17,7 +17,7 @@ export const fetchWatchlist = createAsyncThunk(
   'watchlist/fetchWatchlist',
   async ({address, accessToken}: {address: unknown, accessToken: any}) => {
     const watchlistRequest = await axios.get(
-      `${process.env.AUTH_SERVICE}/watchlistService/getWatchlist?address=${address}`,
+      `/api/watchlistService/getWatchlist?address=${address}`,
       {
         headers: {
           'Content-Type': 'application/json',

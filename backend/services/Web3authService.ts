@@ -110,7 +110,7 @@ class Web3authService {
 
     updateToken = async (token: string) => {
         const updateRes = await axios.get(
-            `${process.env.AUTH_SERVICE}/authService/updateToken`,
+            `/api/authService/updateToken`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -124,14 +124,14 @@ class Web3authService {
     }
 
     refreshToken = async () => {
-        const refreshRes = await axios.get(`${process.env.AUTH_SERVICE}/authService/refreshToken`, { withCredentials: true, })
+        const refreshRes = await axios.get(`/api/authService/refreshToken`, { withCredentials: true, })
         const { data: accesToken } = refreshRes
         return accesToken
     }
 
     disconnectWeb3Auth = async () => {
         if (!this.web3auth) return
-        axios.get(`${process.env.AUTH_SERVICE}/authService/logout`, { withCredentials: true })
+        axios.get(`/api/authService/logout`, { withCredentials: true })
     }
 }
 
