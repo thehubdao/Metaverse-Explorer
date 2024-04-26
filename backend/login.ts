@@ -1,16 +1,15 @@
 import axios from "axios"
 
 export const fetchNonce = async (address: string) => {
-  const nonceRes = await fetch(
+  const nonceRes = await axios.get(
     `${process.env.AUTH_SERVICE}/authService/getNonce?address=${address}`,
     {
-      mode: 'no-cors',
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     }
   )
-  console.log(nonceRes, await nonceRes.json())
-  return await nonceRes.json()
+  console.log(nonceRes,  nonceRes.data)
+  return await nonceRes.data
 }
 
 export const sendSignedNonce = async (signedNonce: string, address: string) => {
