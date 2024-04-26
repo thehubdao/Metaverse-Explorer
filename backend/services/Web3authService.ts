@@ -68,7 +68,7 @@ class Web3authService {
 
     decodeToken = async (token: string) => {
         const decodeRes = await axios.get(
-            `${process.env.AUTH_SERVICE}/authService/decodeToken`,
+            `/api/authService/decodeToken`,
             {
                 headers: {
                     'Content-Type': 'application/json',
