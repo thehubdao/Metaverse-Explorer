@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
 	reactStrictMode: true,
+	async rewrites() {
+		return [
+			{
+				source: '/api/:path*',
+				destination: 'https://auth-service.thehubdao.xyz/:path*'
+			}
+		]
+	},
 	async redirects() {
 		return [
 			{
@@ -31,7 +39,7 @@ module.exports = {
 			"fluf-compressed.s3.eu-west-1.amazonaws.com",
 			"openseauserdata.com",
 			'ipfs.io'
-			
+
 		],
 	},
 	env: {
@@ -44,8 +52,8 @@ module.exports = {
 		BADGES_CONTRACT_ADDRESS: process.env.BADGES_CONTRACT_ADDRESS,
 		CHANNEL_PUSH_ADDRESS: process.env.CHANNEL_PUSH_ADDRESS,
 		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
-		ROLE_CONTRACT_ADDRESS:process.env.ROLE_CONTRACT_ADDRESS,
-		AUTH_SERVICE:process.env.AUTH_SERVICE,
+		ROLE_CONTRACT_ADDRESS: process.env.ROLE_CONTRACT_ADDRESS,
+		AUTH_SERVICE: process.env.AUTH_SERVICE,
 		ARCANA_CLIENT_ID: process.env.ARCANA_CLIENT_ID
 	},
 	typescript: {

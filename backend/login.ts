@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const fetchNonce = async (address: string) => {
   const nonceRes = await axios.get(
-    `${process.env.AUTH_SERVICE}/authService/getNonce?address=${address}`,
+    `/api/authService/getNonce?address=${address}`,
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -14,7 +14,7 @@ export const fetchNonce = async (address: string) => {
 
 export const sendSignedNonce = async (signedNonce: string, address: string) => {
   const loginRes = await axios.post(
-    `${process.env.AUTH_SERVICE}/authService/loginWallet?address=${address}&signature=${signedNonce}`, {},
+    `/api/authService/loginWallet?address=${address}&signature=${signedNonce}`, {},
     {
       headers: { 'Content-Type': 'application/json',
       
