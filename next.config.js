@@ -31,6 +31,7 @@ module.exports = {
 			"fluf-compressed.s3.eu-west-1.amazonaws.com",
 			"openseauserdata.com",
 			'ipfs.io'
+			
 		],
 	},
 	env: {
