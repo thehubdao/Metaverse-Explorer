@@ -9,6 +9,7 @@ export const fetchNonce = async (address: string) => {
       headers: { 'Content-Type': 'application/json' },
     }
   )
+  console.log(nonceRes, await nonceRes.json())
   return await nonceRes.json()
 }
 
